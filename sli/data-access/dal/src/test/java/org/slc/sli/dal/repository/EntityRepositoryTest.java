@@ -139,12 +139,12 @@ public class EntityRepositoryTest {
         body2.put("performanceLevels", new String[] { "2" });
         body3.put("performanceLevels", new String[] { "3" });
         body4.put("performanceLevels", new String[] { "4" });
-
+        
         // save entities
-        Entity student1 = repository.create("student", body1);
-        Entity student2 = repository.create("student", body2);
-        Entity student3 = repository.create("student", body3);
-        Entity student4 = repository.create("student", body4);
+        repository.create("student", body1);
+        repository.create("student", body2);
+        repository.create("student", body3);
+        repository.create("student", body4);
         
         // sort entities by firstName with ascending order
         Query query = new Query();
@@ -190,7 +190,7 @@ public class EntityRepositoryTest {
         assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
     }
-
+    
     // @Test
     // public void testValidation() {
     // Map<String, Object> badBody = buildTestStudentEntity();
@@ -266,7 +266,7 @@ public class EntityRepositoryTest {
         assertEquals(created, updated);
         
         saved.getBody().put("cityOfBirth", "Evanston");
-
+        
         // Needs to be here to prevent cases where code execution is so fast, there
         // is no difference between create/update times
         Thread.sleep(2);

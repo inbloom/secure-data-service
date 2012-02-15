@@ -10,7 +10,6 @@ import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.util.Constants;
 
 
-//Hopefully there will be one for each of dataSet types
 
 /**
  * A utility class for views in SLI dashboard. As a wrapper around student data passed onto
@@ -38,6 +37,7 @@ public class StudentResolver {
 
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
+     * We pass in Map here because freemarker doesn't seem to like GenericEntity
      */
     //public String get(Field field, GenericEntity student) {
     public String get(Field field, Map student) {
@@ -45,8 +45,7 @@ public class StudentResolver {
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals(Constants.ATTR_NAME)) {
-            // formatting class and logic should be added here later. Or maybe in the view. Don't know... 
-            //return student.getFirstName() + " " + student.getLastName();
+            
             return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
                  + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
         } 

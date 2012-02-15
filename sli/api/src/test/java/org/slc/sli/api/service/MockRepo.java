@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mongodb.DBObject;
 
@@ -29,8 +28,6 @@ public class MockRepo implements EntityRepository {
 
     private Map<String, Map<String, Entity>> repo              = new HashMap<String, Map<String, Entity>>();
     private static String[]                  reservedQueryKeys = { "start-index", "max-results", "query" };
-
-    private AtomicInteger                    counter           = new AtomicInteger();
 
     public MockRepo() {
         repo.put("course", new LinkedHashMap<String, Entity>());
@@ -187,30 +184,36 @@ public class MockRepo implements EntityRepository {
                 if (!isReservedQueryKey(query)) {
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, ">=");
+                        }
                     } else if (query.contains("<=")) {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, "<=");
+                        }
                     } else if (query.contains("<>")) {
                         String[] keyAndValue = getKeyAndValue(query, "<>");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, "<>");
+                        }
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, "=");
+                        }
 
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, "<");
+                        }
 
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
-                        if (keyAndValue != null)
+                        if (keyAndValue != null) {
                             queryMap.put(keyAndValue, ">");
+                        }
                     }
                 }
             }
@@ -221,18 +224,20 @@ public class MockRepo implements EntityRepository {
     private boolean isReservedQueryKey(String queryString) {
         boolean found = false;
         for (String key : reservedQueryKeys) {
-            if (queryString.indexOf(key) >= 0)
+            if (queryString.indexOf(key) >= 0) {
                 found = true;
+            }
         }
         return found;
     }
 
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator, 2);
-        if (keyAndValue.length != 2)
+        if (keyAndValue.length != 2) {
             return null;
-        else
+        } else {
             return keyAndValue;
+        }
     }
 
     private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
@@ -243,23 +248,29 @@ public class MockRepo implements EntityRepository {
             String value = keyAndValue[1];
             String operator = keyAndValueEntries.getValue();
             if (operator.equals(">=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0))) {
                     match = false;
+                }
             } else if (operator.equals("<=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0))) {
                     match = false;
+                }
             } else if (operator.equals("!=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0))) {
                     match = false;
+                }
             } else if (operator.equals("=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0))) {
                     match = false;
+                }
             } else if (operator.equals("<")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) < 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) < 0))) {
                     match = false;
+                }
             } else if (operator.equals(">")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0)))
+                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0))) {
                     match = false;
+                }
             }
         }
         return match;
@@ -269,8 +280,9 @@ public class MockRepo implements EntityRepository {
         int compare = 0;
         if (entityValue instanceof String) {
             compare = ((String) entityValue).compareTo(value);
-        } else if (entityValue instanceof Integer)
+        } else if (entityValue instanceof Integer) {
             compare = (Integer) entityValue - Integer.parseInt(value);
+        }
         return compare;
     }
 
@@ -291,8 +303,9 @@ public class MockRepo implements EntityRepository {
             }
         }
         for (Entity entity : toReturn) {
-            if (entity.getEntityId().equals(id))
+            if (entity.getEntityId().equals(id)) {
                 match = true;
+            }
         }
         return match;
     }
@@ -337,35 +350,40 @@ public class MockRepo implements EntityRepository {
 
     private String addQueryToString(String queryString, DBObject dbObject, String key) {
         if (dbObject.containsField("$gt")) {
-            if (queryString.equals(""))
+            if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
-            else
+            } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
+            }
 
         } else if (dbObject.containsField("$lt")) {
 
-            if (queryString.equals(""))
+            if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-            else
+            } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
+            }
 
         } else if (dbObject.containsField("$gte")) {
-            if (queryString.equals(""))
+            if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
-            else
+            } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
+            }
 
         } else if (dbObject.containsField("lte")) {
-            if (queryString.equals(""))
+            if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
-            else
+            } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
+            }
 
         } else if (dbObject.containsField("$ne")) {
-            if (queryString.equals(""))
+            if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
-            else
+            } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
+            }
 
         }
         return queryString;

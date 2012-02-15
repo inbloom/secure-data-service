@@ -47,7 +47,6 @@ class EntityTest < ActiveSupport::TestCase
     v = Entity.build_simple_hash(VIEW_CONFIG['teacher'], @teacher_fixtures['one'])
     assert_not_nil(v)
     assert(v.has_key?("firstName"), "Should have 'firstName'")
-    assert(v.has_key?("sex"), "Should have 'sex'")
   end
   
   test "getting basic keys" do

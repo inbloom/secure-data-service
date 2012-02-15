@@ -1,52 +1,37 @@
-package org.slc.sli.api.resources;
+package org.slc.sli.api.resources.v1;
+
+import java.util.List;
+
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.Associations;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 /**
- * Jersey resource for all entities and associations.
- *
- * @author Ryan Farris <rfarris@wgen.net>
+ * Prototype new api end points and versioning base class
+ * @author srupasinghe
  *
  */
-@Path("{type}")
-@Component
-@Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-        Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
-public class Resource {
-
-    private static final String FULL_ENTITIES_PARAM = "full-entities";
+public abstract class BaseResource {
+    private String typePath = "";
+    
+    protected static final String FULL_ENTITIES_PARAM = "full-entities";
     public static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML;
     public static final String JSON_MEDIA_TYPE = MediaType.APPLICATION_JSON;
     public static final String SLC_XML_MEDIA_TYPE = "application/vnd.slc+xml";
@@ -56,22 +41,22 @@ public class Resource {
 
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     private final EntityDefinitionStore entityDefs;
-
+    
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception
      * handling code.
      */
-    private static interface ResourceLogic {
+    protected static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
     }
-
+    
     @Autowired
-    Resource(EntityDefinitionStore entityDefs) {
+    public BaseResource(EntityDefinitionStore entityDefs, String typePath) {
         this.entityDefs = entityDefs;
+        this.typePath = typePath;
     }
 
-    /* REST methods */
 
     /**
      * Create a new entity or association.
@@ -86,8 +71,7 @@ public class Resource {
      * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
      *                                        value.
      */
-    @POST
-    public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody,
+    public Response createEntity(final EntityBody newEntityBody,
             @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
@@ -119,14 +103,11 @@ public class Resource {
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-    @GET
-    @Path("{id}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
-            @Context final UriInfo uriInfo) {
+    public Response getEntity(final String id,
+            final int skip,
+            final int max,
+            final boolean fullEntities,
+            final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -155,7 +136,7 @@ public class Resource {
                     }
 
                     if (fullEntities) {
-                        return Response.ok(getFullEntities(associationIds, entityDef, uriInfo)).build();
+                        return Response.ok(getFullEntities(associationIds, entityDef)).build();
                     } else {
                         CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
                         return Response.ok(collection).build();
@@ -179,10 +160,8 @@ public class Resource {
         return collection;
     }
 
-    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef, UriInfo uriInfo) {
-        Iterable<EntityBody> entityBodies = entityDef.getService().get(associationIds);
-        addLinksToEntities(entityBodies, entityDef, uriInfo);
-        return entityBodies;
+    private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef) {
+        return entityDef.getService().get(associationIds);
     }
 
     /**
@@ -201,77 +180,13 @@ public class Resource {
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-    @GET
-    @Path("{id}")
-    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
-    public Response getFullEntities(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return getEntity(typePath, id, skip, max, true, uriInfo);
+   
+    public Response getFullEntities(final String id,
+            final int skip,
+            final int max, final UriInfo uriInfo) {
+        return getEntity(id, skip, max, true, uriInfo);
     }
-
-    /**
-     * Get a single entity or association unless the URI represents an association and the id
-     * represents a
-     * source entity for that association.
-     *
-     * @param typePath
-     *            resrouceUri for the entity/association
-     * @param id
-     *            either the association id or the association's source entity id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
-     * @param uriInfo
-     * @return A single entity or association, unless the type references an association and the id
-     *         represents the source entity. In that case a collection of associations.
-     * @response.representation.200.mediaType application/xml
-     */
-    @GET
-    @Path("{id}")
-    @Produces({ Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
-    @Deprecated
-    public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
-            @Override
-            public Response run(EntityDefinition entityDef) {
-                if (entityDef.isOfType(id)) {
-                    EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    Entities entities = new Entities(entityDef.getStoredCollectionName(), entityBody);
-                    return Response.ok(entities).build();
-                } else if (entityDef instanceof AssociationDefinition) {
-                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    Iterable<String> associationIds = null;
-                    if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                uriInfo.getRequestUri().getQuery());
-                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                uriInfo.getRequestUri().getQuery());
-                    } else {
-                        return Response.status(Status.NOT_FOUND).build();
-                    }
-
-                    // TODO: refactor common code for both Get methods
-                    CollectionResponse collection = new CollectionResponse();
-                    if (associationIds != null) {
-                        for (String id : associationIds) {
-                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                            collection.add(id, ResourceConstants.SELF, entityDef.getType(), href);
-                        }
-                    }
-                    Associations associations = new Associations(collection);
-                    return Response.ok(associations).build();
-                }
-                return Response.status(Status.NOT_FOUND).build();
-            }
-        });
-    }
-
+    
     /**
      * Gets the target entities from an association when the source entity is specified for the
      * association.
@@ -291,14 +206,12 @@ public class Resource {
      *         association
      * @response.representation.200.mediaType application/json
      */
-    @GET
-    @Path("{id}/targets")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max,
-            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
-            @Context final UriInfo uriInfo) {
+
+    public Response getHoppedRelatives(final String id,
+            final int skip,
+            final int max,
+            final boolean fullEntities,
+            final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -319,7 +232,7 @@ public class Resource {
                     }
 
                     if (fullEntities) {
-                        return Response.ok(getHoppedEntities(relatives, relative, uriInfo)).build();
+                        return Response.ok(getHoppedEntities(relatives, relative)).build();
                     } else {
                         CollectionResponse collection = getHoppedLinks(uriInfo, relatives, relative);
                         return Response.ok(collection).build();
@@ -344,18 +257,8 @@ public class Resource {
         return collection;
     }
 
-    private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef,
-                                                   UriInfo uriInfo) {
-        Iterable<EntityBody> entityBodies = relativeDef.getService().get(relatives);
-        addLinksToEntities(entityBodies, relativeDef, uriInfo);
-        return entityBodies;
-    }
-
-    private void addLinksToEntities(Iterable<EntityBody> entityBodies, EntityDefinition relativeDef, UriInfo uriInfo) {
-        for (EntityBody entityBody : entityBodies) {
-            entityBody.put(ResourceConstants.LINKS,
-                    getLinks(uriInfo, relativeDef, (String) entityBody.get("id"), entityBody));
-        }
+    private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef) {
+        return relativeDef.getService().get(relatives);
     }
 
     /**
@@ -374,13 +277,11 @@ public class Resource {
      *         association
      * @response.representation.200.mediaType application/json
      */
-    @GET
-    @Path("{id}/targets")
-    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
-    public Response getFullHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return getHoppedRelatives(typePath, id, skip, max, true, uriInfo);
+
+    public Response getFullHoppedRelatives(final String id,
+            final int skip,
+            final int max, final UriInfo uriInfo) {
+        return getHoppedRelatives(id, skip, max, true, uriInfo);
     }
 
     /**
@@ -393,9 +294,8 @@ public class Resource {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
-    @DELETE
-    @Path("{id}")
-    public Response deleteEntity(@PathParam("type") final String typePath, @PathParam("id") final String id) {
+
+    public Response deleteEntity(final String id) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -417,9 +317,8 @@ public class Resource {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
-    @PUT
-    @Path("{id}")
-    public Response updateEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
+
+    public Response updateEntity(final String id,
             final EntityBody newEntityBody) {
         return handle(typePath, new ResourceLogic() {
             @Override
