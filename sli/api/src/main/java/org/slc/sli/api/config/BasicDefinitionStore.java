@@ -60,7 +60,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         this.makeExposeAndAddEntityDefinition("assessmentFamily", "assessmentFamilies");
         EntityDefinition course = this.makeExposeAndAddEntityDefinition("course");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
-        EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
+        EntityDefinition section = factory.makeEntity("section").exposeAs("sections").buildAndRegister(this);
         EntityDefinition session = this.makeExposeAndAddEntityDefinition("session");
         EntityDefinition staff = this.makeExposeAndAddEntityDefinition("staff", "staff");
         EntityDefinition student = this.makeExposeAndAddEntityDefinition("student");
@@ -200,7 +200,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // create the entity definition and expose it under the pluralized name ("teacher" exposed
         // as "teachers")
         EntityDefinition definition = factory.makeEntity(entityName).exposeAs(exposeName).build();
-        entityResourceNameMapping.put(entityName, exposeName);
 
         // add and return the newly created definition
         this.addDefinition(definition);
@@ -209,16 +208,17 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     private void add(EntityDefinition defn) {
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
+        entityResourceNameMapping.put(defn.getType(), defn.getResourceName());
         this.mapping.put(defn.getResourceName(), defn);
     }
 
-    private void addDefinition(EntityDefinition defn) {
+    public void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
         add(defn);
         links.put(defn, new LinkedHashSet<AssociationDefinition>());
     }
 
-    private void addAssocDefinition(AssociationDefinition defn) {
+    public void addAssocDefinition(AssociationDefinition defn) {
         LOG.debug("adding assoc for {}", defn.getResourceName());
         add(defn);
         EntityDefinition sourceEntity = defn.getSourceEntity();

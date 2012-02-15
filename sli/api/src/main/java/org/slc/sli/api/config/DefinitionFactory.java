@@ -140,6 +140,18 @@ public class DefinitionFactory {
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
+        
+        /**
+         * Create the actual entity definition
+         *
+         * @return the entity definition
+         */
+        public EntityDefinition buildAndRegister(BasicDefinitionStore store) {
+
+            EntityDefinition entityDefinition = this.build();
+            store.addDefinition(entityDefinition);
+            return entityDefinition;
+        }
     }
 
     /**
