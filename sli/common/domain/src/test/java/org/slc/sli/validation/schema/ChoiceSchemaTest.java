@@ -1,5 +1,6 @@
 package org.slc.sli.validation.schema;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,6 +12,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * JUnit for choice schemas
@@ -83,6 +87,23 @@ public class ChoiceSchemaTest {
     }
     
     @Test
+    public void testOptionValue() {
+        ChoiceSchema choice = new ChoiceSchema(0, 1);
+        choice.addField("aString", new StringSchema());
+        choice.addField("aLong", new LongSchema());
+        choice.addField("aDouble", new DoubleSchema());
+        
+        assertTrue(choice.validate(null));
+        
+        choice.setMaxOccurs(5);
+        List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+        assertTrue(choice.validate(data));
+        
+        choice.setMinOccurs(1);
+        assertFalse(choice.validate(data));
+    }
+    
+    @Test
     public void testUnhappyPath() {
         ChoiceSchema choice = new ChoiceSchema(0, 1);
         choice.addField("aString", new StringSchema());
@@ -138,6 +159,62 @@ public class ChoiceSchemaTest {
         assertFalse(choice.validate(createMap("c2", "abc")));
         assertFalse(choice.validate(createMap("s3", c1data)));
         assertFalse(choice.validate(createMap("c1", c2data)));
+    }
+    
+    @Test
+    public void testErrorMessages() {
+        ChoiceSchema choice = new ChoiceSchema(0, 1);
+        choice.addField("aString", new StringSchema());
+        choice.addField("aLong", new LongSchema());
+        choice.addField("aDouble", new DoubleSchema());
+        
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+        ArrayList<String> emptyList = new ArrayList<String>();
+        assertTrue(!choice.validate("testField", emptyList, errors, null));
+        checkError(errors, "testField", emptyList, ErrorType.INVALID_DATATYPE, "Map");
+        
+        errors.clear();
+        Map<String, Object> bogusMap = createMap("aString", "abc");
+        bogusMap.put("aLong", 1L);
+        assertTrue(!choice.validate("testField", bogusMap, errors, null));
+        checkError(errors, "testField", bogusMap, ErrorType.INVALID_DATATYPE, "Single Entry");
+        
+        errors.clear();
+        Map<String, Object> bogusData = createMap("nonexistent", "abc");
+        assertTrue(!choice.validate("testField", bogusData, errors, null));
+        checkError(errors, "testField", bogusData, ErrorType.INVALID_CHOICE_TYPE, "aString", "aLong", "aDouble");
+        
+        // same thing, but for list elements
+        choice.setMaxOccurs(2);
+        errors.clear();
+        ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        list.add(bogusMap);
+        assertTrue(!choice.validate("testField", list, errors, null));
+        checkError(errors, "testField", list, ErrorType.INVALID_DATATYPE, "Single Entry");
+        
+        errors.clear();
+        Map<String, Object> aDatum = createMap("aString", "abc");
+        assertTrue(!choice.validate("testField", aDatum, errors, null));
+        checkError(errors, "testField", aDatum, ErrorType.INVALID_DATATYPE, "List");
+        
+        errors.clear();
+        list.clear();
+        list.add(bogusData);
+        assertTrue(!choice.validate("testField", list, errors, null));
+        checkError(errors, "testField", list, ErrorType.INVALID_CHOICE_TYPE, "aString", "aLong", "aDouble");
+        
+        errors.clear();
+        
+    }
+    
+    private void checkError(List<ValidationError> errors, String fieldName, Object entity, ErrorType errorType,
+            String... expectedTypes) {
+        assertEquals(1, errors.size());
+        ValidationError err = errors.get(0);
+        assertEquals(fieldName, err.getFieldName());
+        assertEquals(entity, err.getFieldValue());
+        assertEquals(expectedTypes, err.getExpectedTypes());
+        assertEquals(errorType, err.getType());
     }
     
     private static Map<String, Object> createMap(String name, Object value) {
