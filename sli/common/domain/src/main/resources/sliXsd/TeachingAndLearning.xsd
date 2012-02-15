@@ -4,7 +4,6 @@
 	attributeFormDefault="qualified">
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
-<!-- 
 	<xs:element name="teacherSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the class sections to which a teacher is
@@ -53,5 +52,4 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
 </xs:schema>
