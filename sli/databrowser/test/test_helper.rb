@@ -26,6 +26,7 @@ class ActiveSupport::TestCase
   setup do
     @student_fixtures = load_fixture("entities")
     @teacher_fixtures = load_fixture("teachers")
+    @school_fixtures = load_fixture("schools")
     # @realm_fixtures = load_fixture("realms")
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/students", {"Accept" => "application/json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
