@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.oauth;
+package org.slc.sli.api.resources.security;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -13,6 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.oauth.SLIClientDetailService;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -22,10 +26,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * 
@@ -38,10 +38,13 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
     DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class })
 @DirtiesContext
-public class ApplicationServiceTest {
+public class ApplicationResourceTest {
     
     @Autowired
-    private ApplicationService resource;
+    private ApplicationResource resource;
+    
+    @Autowired
+    private SLIClientDetailService detailsService;
     
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
@@ -155,7 +158,8 @@ public class ApplicationServiceTest {
         String clientId = "1234567890";
         String uuid = "123";
         EntityService service = mock(EntityService.class);
-        resource.setService(service);
+        detailsService.setService(service);
+        
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         existingEntitiesIds.add(uuid);
         Mockito.when(
@@ -168,9 +172,7 @@ public class ApplicationServiceTest {
         mockApp.put("client_secret", "ldkafjladsfjdsalfadsl");
         Mockito.when(service.get(uuid)).thenReturn(mockApp);
         
-        SLIClientDetailService detailService = new SLIClientDetailService();
-        detailService.setApplicationServer(resource);
-        ClientDetails details = detailService.loadClientByClientId(clientId);
+        ClientDetails details = detailsService.loadClientByClientId(clientId);
         assertNotNull(details);
         assertNotNull("Checking for client id", details.getClientId());
         assertNotNull("Checking for client secret", details.getClientSecret());
@@ -182,16 +184,14 @@ public class ApplicationServiceTest {
     public void testBadClientLookup() {
         String clientId = "1234567890";
         EntityService service = mock(EntityService.class);
-        resource.setService(service);
-        
+
+        detailsService.setService(service);
         //return empty list
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
-        
-        SLIClientDetailService detailService = new SLIClientDetailService();
-        detailService.setApplicationServer(resource);
-        detailService.loadClientByClientId(clientId);
+        System.out.println("Detail service is " + detailsService);
+        detailsService.loadClientByClientId(clientId);
     }
     
 }
