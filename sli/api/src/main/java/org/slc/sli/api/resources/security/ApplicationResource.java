@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.oauth;
+package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,25 +36,21 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Path("/apps")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ApplicationService {
+public class ApplicationResource {
 
     @Autowired
     private EntityDefinitionStore store;
 
     private EntityService service;
 
-
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
+    public static final String CLIENT_ID = "client_id";
 
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("application");
-        setService(def.getService());
-    }
-
-    public void setService(EntityService service) {
-        this.service = service;
+        this.service = def.getService();
     }
 
     @POST
@@ -63,7 +60,7 @@ public class ApplicationService {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
 
-        newApp.put("client_id", clientId);
+        newApp.put(CLIENT_ID, clientId);
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put("client_secret", clientSecret);
@@ -71,13 +68,13 @@ public class ApplicationService {
         
         EntityBody resObj = new EntityBody();
         resObj.put(id, id);
-        resObj.put("client_id", clientId);
+        resObj.put(CLIENT_ID, clientId);
         resObj.put("client_secret", clientSecret);
         return Response.status(Status.CREATED).entity(resObj).build();
     }
 
     private boolean isDuplicateToken(String token) {
-        return (service.list(0, 1, "client_id=" + token)).iterator().hasNext();
+        return (service.list(0, 1, CLIENT_ID + "=" + token)).iterator().hasNext();
     }
 
     @GET
@@ -89,7 +86,7 @@ public class ApplicationService {
 
             result.put("link",
                     info.getBaseUri() + info.getPath().replaceAll("/$", "")
-                            + "/" + result.get("client_id"));
+                            + "/" + result.get(CLIENT_ID));
             results.add(result);
         }
         return results;
@@ -104,8 +101,8 @@ public class ApplicationService {
      * @return the JSON data of the application, otherwise 404 if not found
      */
     @GET
-    @Path("{client_id}")
-    public Response getApplication(@PathParam("client_id") String clientId) {
+    @Path("{" + CLIENT_ID + "}")
+    public Response getApplication(@PathParam(CLIENT_ID) String clientId) {
         String uuid = lookupIdFromClientId(clientId);
 
         if (uuid != null) {
@@ -117,8 +114,8 @@ public class ApplicationService {
     }
 
     @DELETE
-    @Path("{client_id}")
-    public Response deleteApplication(@PathParam("client_id") String clientId) {
+    @Path("{" + CLIENT_ID + "}")
+    public Response deleteApplication(@PathParam(CLIENT_ID) String clientId) {
         
         String uuid = lookupIdFromClientId(clientId);
         if (uuid != null) {
@@ -137,7 +134,7 @@ public class ApplicationService {
      * @return a uuid, or null if not found
      */
     private String lookupIdFromClientId(String clientId) {
-        Iterable<String> results = service.list(0, 1, "client_id=" + clientId);
+        Iterable<String> results = service.list(0, 1, CLIENT_ID + "=" + clientId);
         if (results.iterator().hasNext()) {
             return results.iterator().next();
         }
