@@ -48,9 +48,6 @@ public class StudentSectionAssociationTest {
         goodSection.put("endDate", "1995-12-31");
         goodSection.put("homeroomIndicator", true);
         goodSection.put("repeatIdentifier", "Repeated, not counted in grade point average");
-        List<Map<String, Object>> gradeBookEntries = new ArrayList<Map<String, Object>>();
-        // TODO add actual gradebook entries
-        goodSection.put("studentGradebookEntries", gradeBookEntries);
         List<Map<String, Object>> attendance = new ArrayList<Map<String, Object>>();
         Map<String, Object> tardyEvent = new HashMap<String, Object>();
         tardyEvent.put("eventDate", "1987-08-08");
