@@ -21,7 +21,8 @@ class ApplicationController < ActionController::Base
     logger.error {"Exception on server, clearing your session."}
     reset_session
     SessionResource.auth_id = nil
-    raise exception
+    flash[:error] = "There was a problem in the API."
+    redirect_to :back
   end
 
 
