@@ -50,11 +50,7 @@ public class ApplicationResource {
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("application");
-        setService(def.getService());
-    }
-
-    protected void setService(EntityService service) {
-        this.service = service;
+        this.service = def.getService();
     }
 
     @POST
