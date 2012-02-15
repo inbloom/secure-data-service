@@ -12,13 +12,17 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
-    raise exception
+    flash[:error] = "You do not have access to view this."
+    redirect_to :back
+    # raise exception
   end
   
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server, clearing your session."}
     reset_session
     SessionResource.auth_id = nil
+    flash[:error] = "There was a problem in the API."
+    redirect_to :back
   end
 
 

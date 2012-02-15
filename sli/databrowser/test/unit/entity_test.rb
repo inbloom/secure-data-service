@@ -49,6 +49,11 @@ class EntityTest < ActiveSupport::TestCase
     assert(v.has_key?("firstName"), "Should have 'firstName'")
   end
   
+  test "try to get values for invalid entity" do
+    v = Entity.value_for_simple_view('address/city', @school_fixtures['one'])
+    assert_nil(v)
+  end
+  
   test "getting basic keys" do
      v = Entity.get_basic_types(@teacher_fixtures['one'])
      assert_not_nil(v)
