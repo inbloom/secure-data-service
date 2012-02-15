@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
@@ -89,7 +90,6 @@ public class TeacherSectionAssociationEntityTest {
           + "</TeacherSectionAssociation>"
           + "</InterchangeStaffAssociation>";
 
-    @Ignore
     @Test
     public void testValidatorTeacherSectionAssociation() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";

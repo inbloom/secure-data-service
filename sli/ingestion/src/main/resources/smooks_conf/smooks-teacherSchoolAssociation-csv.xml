@@ -39,7 +39,7 @@
     <jb:value property="teacherId" data="TeacherReference_StaffIdentity_StaffUniqueStateId" />
 
     <!-- SchoolReference -->
-    <jb:value property="schoolId" data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
+    <jb:wiring property="schoolId" beanIdRef="SchoolReferenceTypeArray" />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="ProgramAssignment" />
@@ -49,6 +49,11 @@
 
     <!-- AcademicSubjects -->
     <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
+  </jb:bean>
+
+  <!--School Reference -->
+  <jb:bean beanId="SchoolReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
   </jb:bean>
 
   <!--Gradelevels -->
