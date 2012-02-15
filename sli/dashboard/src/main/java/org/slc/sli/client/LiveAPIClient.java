@@ -80,7 +80,6 @@ public class LiveAPIClient implements APIClient {
         
         List<GenericEntity> students = new ArrayList<GenericEntity>();
         
-        int i = 0;
         for (String id: ids) {
             students.add(getStudent(id, token));
         }
@@ -129,7 +128,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> responses = createEntitiesFromAPI(url, token);
         List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
         for (GenericEntity response : responses) {
-            edOrgs.add(getEducationalOrganization(parseId((Map) (response.get(Constants.ATTR_LINK))), token));
+            edOrgs.add(getEducationalOrganization(parseId(response.getMap(Constants.ATTR_LINK)), token));
         }
         return edOrgs;
     }
@@ -146,12 +145,12 @@ public class LiveAPIClient implements APIClient {
         // For every association, find the ones that this ed org is a child, and get the parent 
         for (GenericEntity response : responses) {
             try {
-                String assLink = (String) (((Map) (response.get(Constants.ATTR_LINK))).get(Constants.ATTR_HREF));
+                String assLink = (String) ((response.getMap(Constants.ATTR_LINK)).get(Constants.ATTR_HREF));
                 
                 GenericEntity assResponse = createEntityFromAPI(assLink, token);
                 String childId = (String) (assResponse.get(Constants.ATTR_ED_ORG_CHILD_ID));
                 if (childId != null && childId.equals(edOrg.get(Constants.ATTR_ID))) {
-                    String parentId = (String) (assResponse.get(Constants.ATTR_ED_ORG_PARENT_ID));
+                    String parentId = assResponse.getString(Constants.ATTR_ED_ORG_PARENT_ID);
                     if (parentId != null) {
                         edOrgs.add(getEducationalOrganization(parentId, token));
                     }
@@ -173,9 +172,8 @@ public class LiveAPIClient implements APIClient {
         
         List<String> studentIds = new ArrayList<String>();
 
-        int i = 0;
         for (GenericEntity response : responses) {
-            studentIds.add((String) (response.get(Constants.ATTR_ID)));
+            studentIds.add(response.getString(Constants.ATTR_ID));
         }
         return studentIds;
     }
@@ -266,7 +264,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
         for (GenericEntity response : responses) {
-            sections.add(getSection(parseId(((Map) (response.get(Constants.ATTR_LINK)))), token));
+            sections.add(getSection(parseId((response.getMap(Constants.ATTR_LINK))), token));
         }
 
         return sections;
@@ -312,7 +310,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> responses = createEntitiesFromAPI(url, token);
         for (int i = 0; i < responses.size(); i++) {
             GenericEntity response = responses.get(i);
-            String schoolId = parseId((Map) (response.get(Constants.ATTR_LINK)));
+            String schoolId = parseId(response.getMap(Constants.ATTR_LINK));
             GenericEntity school = getSchool(schoolId, token); 
             schoolMap.put(schoolId, school);
             if (i == 0) {
@@ -375,13 +373,13 @@ public class LiveAPIClient implements APIClient {
             List<GenericEntity> responses = createEntitiesFromAPI(url, token);
             if (responses.size() > 0) {
                 GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity course = getCourse(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                GenericEntity course = getCourse(parseId(response.getMap(Constants.ATTR_LINK)), token);
                 if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
-                    courseMap.put((String) (course.get(Constants.ATTR_ID)), course);
+                    courseMap.put(course.getString(Constants.ATTR_ID), course);
                 }
                 course = courseMap.get(course.get(Constants.ATTR_ID));
                 course.appendToList(Constants.ATTR_SECTIONS, section);
-                sectionIDToCourseIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (course.get(Constants.ATTR_ID)));
+                sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
             }
         }
     }
@@ -403,11 +401,11 @@ public class LiveAPIClient implements APIClient {
             List<GenericEntity> responses = createEntitiesFromAPI(url, token);
             if (responses.size() > 0) {
                 GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity school = getSchool(parseId((Map) (response.get(Constants.ATTR_LINK))), token);
+                GenericEntity school = getSchool(parseId(response.getMap(Constants.ATTR_LINK)), token);
                 if (!schoolMap.containsKey(school.get(Constants.ATTR_ID))) {
-                    schoolMap.put((String) (school.get(Constants.ATTR_ID)), school);
+                    schoolMap.put(school.getString(Constants.ATTR_ID), school);
                 }
-                sectionIDToSchoolIDMap.put((String) (section.get(Constants.ATTR_ID)), (String) (school.get(Constants.ATTR_ID)));
+                sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), school.getString(Constants.ATTR_ID));
             }
         }
     }

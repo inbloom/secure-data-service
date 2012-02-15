@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -195,13 +196,13 @@ public class BasicService implements EntityService {
             query = new Query(Criteria.where("_id").in(binIds));
         }
         
-        List<String> results = new ArrayList<String>();      
+        List<String> results = new ArrayList<String>();
         
         Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
         
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
-        }   
+        }
         
         return results;
     }
@@ -284,7 +285,7 @@ public class BasicService implements EntityService {
      *             if actor doesn't have association path to given entity
      */
     private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
-            EntityNotFoundException, AccessDeniedException {
+    EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
@@ -304,7 +305,7 @@ public class BasicService implements EntityService {
     
     private void checkRights(Right neededRight) {
         
-        if (ADMIN_SPHERE.equals(this.provider.getDataSphere(this.defn.getType()))) {
+        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
         
@@ -345,11 +346,11 @@ public class BasicService implements EntityService {
         Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         
         if (!auths.contains(Right.FULL_ACCESS)) {
-            Iterator<String> keyIter = eb.keySet().iterator();
             
-            while (keyIter.hasNext()) {
-                String fieldName = keyIter.next();
-                Object value = eb.get(fieldName);
+            List<String> toRemove = new LinkedList<String>();
+            for (Map.Entry<String, Object> entry : eb.entrySet()) {
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
                 
                 if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
@@ -359,9 +360,13 @@ public class BasicService implements EntityService {
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     
                     if (!auths.contains(neededRight)) {
-                        keyIter.remove();
+                        toRemove.add(fieldName);
                     }
                 }
+            }
+            
+            for (String fieldName : toRemove) {
+                eb.remove(fieldName);
             }
         }
     }
@@ -376,15 +381,13 @@ public class BasicService implements EntityService {
     @SuppressWarnings("unchecked")
     private Right determineWriteAccess(Map<String, Object> eb, String prefix) {
         Right toReturn = Right.WRITE_GENERAL;
-        if (ADMIN_SPHERE.equals(this.provider.getDataSphere(this.defn.getType()))) {
+        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             toReturn = Right.ADMIN_ACCESS;
         } else {
             
-            Iterator<String> keyIter = eb.keySet().iterator();
-            
-            while (keyIter.hasNext()) {
-                String fieldName = keyIter.next();
-                Object value = eb.get(fieldName);
+            for (Map.Entry<String, Object> entry : eb.entrySet()) {
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
                 
                 if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");

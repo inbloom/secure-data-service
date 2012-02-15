@@ -18,21 +18,15 @@ import org.junit.Test;
  */
 public class ChoiceSchemaTest {
     
-    NeutralSchema choiceSchema;
     NeutralSchema stringChoice = new StringSchema();
     NeutralSchema intChoice = new IntegerSchema();
     List<NeutralSchema> choiceTypes;
-    List<Object> choices;
     
     @Before
     public void init() {
-        choiceSchema = null;
-        
         choiceTypes = new LinkedList<NeutralSchema>();
         choiceTypes.add(stringChoice);
         choiceTypes.add(intChoice);
-        
-        choices = new LinkedList<Object>();
     }
     
     @Test

@@ -54,7 +54,8 @@ public class SchoolIngestionTest {
 
     private static String schoolEntityType = "school";
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolIngestionPersistence() throws IOException, SAXException {
 
@@ -71,7 +72,8 @@ public class SchoolIngestionTest {
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeXmlParsing() throws IOException, SAXException {
 
@@ -95,7 +97,8 @@ public class SchoolIngestionTest {
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeCsvParsing() throws IOException, SAXException {
 
@@ -120,7 +123,8 @@ public class SchoolIngestionTest {
 
     }
 
-    @Ignore// TODO integration tests will be moved out of this module soon
+    @Ignore
+    // TODO integration tests will be moved out of this module soon
     @Test
     public void testSchoolInterchangeCsvFileParsing() throws IOException, SAXException {
 
@@ -151,18 +155,6 @@ public class SchoolIngestionTest {
             builder.append(createSchoolXml(school));
         }
         builder.append(createSchoolInterchangeXmlFooter());
-
-        return builder.toString();
-    }
-
-    public static String createSchoolIngestionJson(int numberOfSchools) throws IOException, SAXException {
-        StringBuilder builder = new StringBuilder();
-
-        for (int index = 1; index <= numberOfSchools; index++) {
-            Entity school = createSchool(index);
-            builder.append(Translator.mapToJson(school, "create"));
-            builder.append(System.getProperty("line.separator"));
-        }
 
         return builder.toString();
     }

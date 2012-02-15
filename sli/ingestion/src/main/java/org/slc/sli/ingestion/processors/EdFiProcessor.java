@@ -48,8 +48,8 @@ public class EdFiProcessor implements Processor {
             if (job.getErrorReport().hasErrors()) {
                 exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
             }
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
-            
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.MERGE_REQUEST.name());
+
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

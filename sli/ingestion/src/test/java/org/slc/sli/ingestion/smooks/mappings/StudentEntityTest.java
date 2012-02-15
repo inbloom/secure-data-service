@@ -182,7 +182,6 @@ public class StudentEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidStudentNeutralRecord(NeutralRecord studentNeutralRecord) {
 
-//        assertEquals("231101422", studentNeutralRecord.getLocalId());
         assertEquals("231101422", studentNeutralRecord.getAttributes().get("studentUniqueStateId"));
 
         List studentIdentificationCodeList = (List) studentNeutralRecord.getAttributes().get("studentIdentificationCode");

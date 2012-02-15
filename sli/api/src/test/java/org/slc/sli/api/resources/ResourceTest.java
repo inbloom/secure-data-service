@@ -668,7 +668,6 @@ public class ResourceTest {
 
         assertTrue(ssa1FromApi.containsKey("links"));
         assertTrue(ssa2FromApi.containsKey("links"));
-        assertTrue(collection.size() == 2);
         assertTrue(collection.contains(ssa1FromApi));
         assertTrue(collection.contains(ssa2FromApi));
 
@@ -683,7 +682,6 @@ public class ResourceTest {
 
         assertTrue(student1FromApi.containsKey("links"));
         assertTrue(student2FromApi.containsKey("links"));
-        assertTrue(hoppedCollection.size() == 2);
         assertTrue(hoppedCollection.contains(student1FromApi));
         assertTrue(hoppedCollection.contains(student2FromApi));
 
