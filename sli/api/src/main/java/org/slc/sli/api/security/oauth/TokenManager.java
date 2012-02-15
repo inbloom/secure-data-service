@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,10 +150,10 @@ public class TokenManager implements TokenStore {
             
             Map<String, Object> refreshToken = (Map<String, Object>) accessToken.get("refresh_token");
             
-            ExpiringOAuth2RefreshToken rt = new ExpiringOAuth2RefreshToken((String) refreshToken.get("value"), (Date) refreshToken.get("expiration"));
+            ExpiringOAuth2RefreshToken rt = new ExpiringOAuth2RefreshToken((String) refreshToken.get("value"), 
+                    (Date) refreshToken.get("expiration"));
         }
         return result;
-
     }
 
     @Override
@@ -166,8 +167,17 @@ public class TokenManager implements TokenStore {
 
     @Override
     public void storeRefreshToken(ExpiringOAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
-        // TODO Auto-generated method stub
-        // - ?
+        SLIPrincipal principal = (SLIPrincipal) authentication.getClientAuthentication().getPrincipal();
+        Iterable<Entity> results = repo.findByQuery("authorizedSessions", new Query(Criteria.where("body.user_id").is(principal.getId())), 0, 1);
+        for (Entity cur : results) {
+            Map<String, Object> body = cur.getBody();
+            Map<String, Object> rt = new HashMap<String, Object>();
+            rt.put("expiration", refreshToken.getExpiration());
+            rt.put("value", refreshToken.getValue());
+            Map<String, Object> accessToken = (Map<String, Object>) body.get("access_token");
+            accessToken.put("refresh_token", rt);
+            service.update(cur.getEntityId(), (EntityBody) body);
+        }
     }
 
     @Override
