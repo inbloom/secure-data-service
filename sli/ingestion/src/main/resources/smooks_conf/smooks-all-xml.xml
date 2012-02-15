@@ -973,11 +973,11 @@
     <jb:value property="creditConversion" data="Course/MaximumAvailableCredit/@CreditConversion" />
   </jb:bean>
 
+  <!-- Assessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:expression property="recordType">'assessment'</jb:expression>
     <jb:value property="localId" data="Assessment/@id" />
     <jb:wiring property="attributes" beanIdRef="assessmentAttributes" />
-
   </jb:bean>
 
   <jb:bean beanId="assessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1082,12 +1082,10 @@
     <jb:value property="assigningOrganizationCode" data="AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
     <jb:value property="ID" data="AssessmentFamilyIdentificationCode/ID" />
   </jb:bean>
+  <!-- End Assessment -->
 
   <!-- Session mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Session">
-
-    <!-- jb:value property="sourceId" data="" / -->
-    <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'session'</jb:expression>
     <jb:value property="localId" data="Session/SessionName" />
     <jb:wiring property="attributes" beanIdRef="sessionAttributes" />
