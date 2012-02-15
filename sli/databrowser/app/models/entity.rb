@@ -2,7 +2,9 @@ class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
   
   def self.get_simple_and_complex(parameters)
+
     base = get(parameters)
+    logger.debug {"#{base}"}
     entity = []
     if base.is_a?(Array) and !base.empty?
       type = nil
@@ -34,13 +36,15 @@ class Entity < SessionResource
   def self.value_for_simple_view (type, hash)
     return nil if hash.nil? or type.nil?
     return hash[type] unless type.include? '/'
-    type_split = type.split '/'
     temp_hash = hash
+    type_split = type.split '/'
     type_split.each do |split|
       if temp_hash.is_a?(Array)
         temp_hash = temp_hash.first[split]
-      else
+      elsif temp_hash.has_key? split
         temp_hash = temp_hash[split]
+      else
+        return nil
       end
     end
     temp_hash

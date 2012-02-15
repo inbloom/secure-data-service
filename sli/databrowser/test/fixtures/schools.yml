@@ -1,11 +1,30 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 # This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
+# model remove the '' from the fixture names and add the columns immediately
+# below each fixture per the syntax in the comments below
 #
-one: {}
+one: 
+    entityType: school 
+    gradesOffered: 
+        - Ninth grade 
+        - Tenth grade 
+        - Eleventh grade 
+        - Twelfth grade
+
+    id: eb4d7e1b-7bed-890a-d574-8da22127fd2d 
+    links: 
+        -
+            href: https://testapi1.slidev.org/api/rest/schools/eb4d7e1b-7bed-890a-d574-8da22127fd2d 
+            rel: self
+        - 
+            href: https://testapi1.slidev.org/api/rest/student-school-associations/eb4d7e1b-7bed-890a-d574-8da22127fd2d 
+            rel: getStudentSchoolAssociations
+        -
+            href: https://testapi1.slidev.org/api/rest/student-school-associations/eb4d7e1b-7bed-890a-d574-8da22127fd2d/targets 
+            rel: getStudents 
+
+    nameOfInstitution: Fry High School 
+    stateOrganizationId: 152942001
 # column: value
 #
-two: {}
-#  column: value
