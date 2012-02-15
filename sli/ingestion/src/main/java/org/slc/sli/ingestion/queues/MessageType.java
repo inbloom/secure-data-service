@@ -1,6 +1,6 @@
 package org.slc.sli.ingestion.queues;
 
-/** 
+/**
  * @author jtully
  * Message type enumerator.
  */
@@ -9,5 +9,6 @@ public enum MessageType {
     BULK_TRANSFORM_REQUEST,
     PERSIST_REQUEST,
     ERROR,
-    DONE;
+    DONE,
+    MERGE_REQUEST;
 }

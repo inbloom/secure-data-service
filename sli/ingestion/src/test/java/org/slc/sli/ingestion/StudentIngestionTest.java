@@ -185,18 +185,6 @@ public class StudentIngestionTest {
         return list;
     }
 
-    public static String createStudentIngestionJson(int numberOfStudents) throws IOException, SAXException {
-        StringBuilder builder = new StringBuilder();
-
-        for (int index = 1; index <= numberOfStudents; index++) {
-            Entity student = createStudent(index);
-            builder.append(Translator.mapToJson(student, "create"));
-            builder.append(System.getProperty("line.separator"));
-        }
-
-        return builder.toString();
-    }
-
     public static String createStudentInterchangeXmlHeader() {
 
         String interchangeXmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";

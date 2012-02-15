@@ -22,6 +22,7 @@ public enum FileType {
     CSV_COURSE("Course", FileFormat.CSV),
     CSV_STAFF("Staff", FileFormat.CSV),
     CSV_SECTION("Section", FileFormat.CSV),
+    CSV_SESSION("Session", FileFormat.CSV),
     CSV_TEACHER("Teacher", FileFormat.CSV),
     CSV_STUDENT_SCHOOL_ASSOCIATION("StudentSchoolAssociation", FileFormat.CSV),
     CSV_STUDENT_SECTION_ASSOCIATION("StudentSectionAssociation", FileFormat.CSV),
