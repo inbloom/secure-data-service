@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,6 @@ public class TeacherSchoolAssociationEntityTest {
             + "</TeacherSchoolAssociation>"
             + "</InterchangeStaffAssociation>";
 
-    @Ignore
     @Test
     public void testValidTeacherSectionAssociation() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -76,7 +75,6 @@ public class TeacherSchoolAssociationEntityTest {
         Assert.assertTrue(validator.validate(e));
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationMissingTeacherReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -109,7 +107,6 @@ public class TeacherSchoolAssociationEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationMissingSchoolReference() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -143,7 +140,6 @@ public class TeacherSchoolAssociationEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationMissingProgramAssignment() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -179,7 +175,6 @@ public class TeacherSchoolAssociationEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationMissingInstructionalGradeLevels() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -214,7 +209,6 @@ public class TeacherSchoolAssociationEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationMissingAcademicSubjects() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -249,7 +243,6 @@ public class TeacherSchoolAssociationEntityTest {
 
     }
 
-    @Ignore
     @Test(expected = EntityValidationException.class)
     public void testInvalidTeacherSchoolAssociationIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
