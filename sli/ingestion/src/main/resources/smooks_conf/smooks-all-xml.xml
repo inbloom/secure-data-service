@@ -768,7 +768,7 @@
     <jb:value property="sectionId" data="StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
-    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" />
+    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" decoder="Boolean"/>
     <jb:value property="repeatIdentifier" data="StudentSectionAssociation/RepeatIdentifier" />
   </jb:bean>
 
