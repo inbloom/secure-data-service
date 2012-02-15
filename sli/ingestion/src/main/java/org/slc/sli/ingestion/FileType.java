@@ -13,6 +13,7 @@ public enum FileType {
     XML_STUDENT("Student", FileFormat.EDFI_XML),
     XML_STUDENT_ENROLLMENT("StudentEnrollment", FileFormat.EDFI_XML),
     XML_MASTER_SCHEDULE("MasterSchedule", FileFormat.EDFI_XML),
+    XML_ASSESSMENT_METADATA("AssessmentMetadata", FileFormat.EDFI_XML),
 
     CSV_STUDENT("Student", FileFormat.CSV),
     CSV_SCHOOL("School", FileFormat.CSV),
@@ -27,7 +28,8 @@ public enum FileType {
     CSV_STUDENT_SECTION_ASSOCIATION("StudentSectionAssociation", FileFormat.CSV),
     CSV_TEACHER_SCHOOL_ASSOCIATION("TeacherSchoolAssociation", FileFormat.CSV),
     CSV_TEACHER_SECTION_ASSOCIATION("TeacherSectionAssociation", FileFormat.CSV),
-    CSV_LOCATION("Location", FileFormat.CSV);
+    CSV_LOCATION("Location", FileFormat.CSV),
+    CSV_OBJECTIVE_ASSESSMENT("ObjectiveAssessment", FileFormat.CSV);
 
     private final String name;
     private final FileFormat fileFormat;

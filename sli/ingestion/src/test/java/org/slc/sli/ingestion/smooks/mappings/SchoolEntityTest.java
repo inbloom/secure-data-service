@@ -1,16 +1,25 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidator;
 
 /**
  * Test the smooks mappings for School entity
@@ -18,7 +27,80 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  * @author dduran
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SchoolEntityTest {
+
+    @Autowired
+    EntityValidator validator;
+
+    @Test
+    public void testValidSchool() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeEducationOrganization/School";
+
+        String testData = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+                + "<School>"
+                + "    <StateOrganizationId>152901001</StateOrganizationId>"
+                + "    <EducationOrgIdentificationCode IdentificationSystem=\"identification system\">"
+                + "        <Id>9777</Id>"
+                + "    </EducationOrgIdentificationCode>"
+                + "    <NameOfInstitution>Apple Alternative Elementary School</NameOfInstitution>"
+                + "    <ShortNameOfInstitution>Apple</ShortNameOfInstitution>"
+                + "    <OrganizationCategories>"
+                + "        <OrganizationCategory>School</OrganizationCategory>"
+                + "    </OrganizationCategories>"
+                + "    <Address AddressType=\"Physical\">"
+                + "        <StreetNumberName>123 Main Street</StreetNumberName>"
+                + "        <ApartmentRoomSuiteNumber>1A</ApartmentRoomSuiteNumber>"
+                + "        <BuildingSiteNumber>building site number</BuildingSiteNumber>"
+                + "        <City>Lebanon</City>"
+                + "        <StateAbbreviation>KS</StateAbbreviation>"
+                + "        <PostalCode>66952</PostalCode>"
+                + "        <NameOfCounty>Smith County</NameOfCounty>"
+                + "        <CountyFIPSCode>USA123</CountyFIPSCode>"
+                + "        <CountryCode>USA</CountryCode>"
+                + "        <Latitude>245</Latitude>"
+                + "        <Longitude>432</Longitude>"
+                + "        <BeginDate>01-01-1969</BeginDate>"
+                + "        <EndDate>12-12-2012</EndDate>"
+                + "    </Address>"
+                + "    <Telephone InstitutionTelephoneNumberType=\"Main\">"
+                + "        <TelephoneNumber>(785) 667-6006</TelephoneNumber>"
+                + "    </Telephone>"
+                + "    <WebSite>www.a.com</WebSite>"
+                + "    <OperationalStatus>running</OperationalStatus>"
+                + "    <AccountabilityRatings>"
+                + "        <RatingTitle>first rating</RatingTitle>"
+                + "        <Rating>A</Rating>"
+                + "        <RatingDate>01-01-2012</RatingDate>"
+                + "        <RatingOrganization>rating org</RatingOrganization>"
+                + "        <RatingProgram>rating program</RatingProgram>"
+                + "    </AccountabilityRatings>"
+                + "    <ProgramReference>program reference</ProgramReference>"
+                + "    <GradesOffered>"
+                + "        <GradeLevel>Third grade</GradeLevel>"
+                + "        <GradeLevel>Fourth grade</GradeLevel>"
+                + "    </GradesOffered>"
+                + "    <SchoolCategories>"
+                + "        <SchoolCategory>Elementary School</SchoolCategory>"
+                + "    </SchoolCategories>"
+                + "    <SchoolType>school type</SchoolType>"
+                + "    <CharterStatus>charter status</CharterStatus>"
+                + "    <TitleIPartASchoolDesignation>title i</TitleIPartASchoolDesignation>"
+                + "    <MagnetSpecialProgramEmphasisSchool>magnet</MagnetSpecialProgramEmphasisSchool>"
+                + "    <AdministrativeFundingControl>admin funding</AdministrativeFundingControl>"
+                + "</School>"
+                + "</InterchangeEducationOrganization>";
+
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, testData);
+
+        Entity e = mock(Entity.class);
+        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
+        when(e.getType()).thenReturn("school");
+
+        Assert.assertTrue(validator.validate(e));
+    }
 
     @Test
     public void csvSchoolTest() throws Exception {
