@@ -121,8 +121,8 @@
 		<!-- OAuth 2.0 Provider Dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth</artifactId>
-			<version>1.0.0.M3</version>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>1.0.0.M5</version>
 		</dependency>
 	</dependencies>
 
@@ -211,7 +211,7 @@
 							<verbose>false</verbose>
 							<show>public</show>
 
-							<subpackages>org.slc.sli.api.resources</subpackages>
+							<subpackages>org.slc.sli.api.resources.v1</subpackages>
 							<doclet>com.sun.jersey.wadl.resourcedoc.ResourceDoclet</doclet>
 							<docletArtifacts>
 								<docletArtifact>
@@ -251,9 +251,9 @@
 						<configuration>
 							<wadlFile>${project.build.outputDirectory}/application.wadl</wadlFile>
 							<formatWadlFile>true</formatWadlFile>
-							<baseUri>http://www.example.com/api/rest</baseUri>
+							<baseUri>http://www.sli.slc.org/api/rest</baseUri>
 							<packagesResourceConfig>
-								<param>org.slc.sli.api.resources</param>
+								<param>org.slc.sli.api.resources.v1</param>
 							</packagesResourceConfig>
 							<wadlGenerators>
 								<wadlGeneratorDescription>

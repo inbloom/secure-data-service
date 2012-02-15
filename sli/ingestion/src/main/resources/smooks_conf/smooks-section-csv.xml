@@ -29,10 +29,10 @@
 
     <jb:expression property="recordType">'section'</jb:expression>
     <jb:value property="localId" data="csv-record/UniqueSectionCode" />
-    <jb:wiring property="attributes" beanIdRef="studentAttributes" />
+    <jb:wiring property="attributes" beanIdRef="sectionAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="studentAttributes" class="java.util.HashMap" createOnElement="csv-record">
+  <jb:bean beanId="sectionAttributes" class="java.util.HashMap" createOnElement="csv-record">
 
    <!-- UniqueSectionCode -->
    <jb:value property="uniqueSectionCode" data="csv-record/UniqueSectionCode" />

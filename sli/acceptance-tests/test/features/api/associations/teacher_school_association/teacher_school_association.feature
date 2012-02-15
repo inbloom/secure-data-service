@@ -15,16 +15,16 @@ Scenario: Create a teacher-school-association
    Given format "application/json"
      And  "teacherId" is "<'Mr. Smith' ID>"
      And  "schoolId" is "<'Algebra Alternative' ID>"
-     And  "programAssignment" is "Regular_Education"
-     And  "instructionalGradeLevels" is "Tenth_grade"
+     And  "programAssignment" is "Regular Education"
+     And  "instructionalGradeLevels" is "Tenth grade"
     When I navigate to POST "/teacher-school-associations"
     Then I should receive a return code of 201
      And I should receive an ID for the newly created teacher-school-association
     When I navigate to GET "/teacher-school-associations/<'newly created teacher-school-association' ID>"
     Then "teacherId" should be "<'Mr. Smith' ID>"
      And "schoolId" should be "<'Algebra Alternative' ID>"
-     And "programAssignment" should be "Regular_Education"
-     And "instructionalGradeLevels" should be "Tenth_grade"
+     And "programAssignment" should be "Regular Education"
+     And "instructionalGradeLevels" should be "Tenth grade"
      
 Scenario: Reading a teacher-school-association
    Given format "application/json"
@@ -59,12 +59,12 @@ Scenario: Reading a teacher-school-association for a school
 Scenario: Update a teacher-school-association
    Given format "application/json"
     When I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
-    Then "programAssignment" should be "Regular_Education"
-    When I set the "programAssignment" to "Special_Education"
+    Then "programAssignment" should be "Regular Education"
+    When I set the "programAssignment" to "Special Education"
      And I navigate to PUT "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
     Then I should receive a return code of 204
      And I navigate to GET "/teacher-school-associations/<'Teacher Ms. Jones and School Algebra Alternative' ID>"
-     And "programAssignment" should be "Special_Education"
+     And "programAssignment" should be "Special Education"
 
 
 Scenario: Delete a teacher-school-association
