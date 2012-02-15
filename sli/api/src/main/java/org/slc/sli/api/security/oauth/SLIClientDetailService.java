@@ -34,16 +34,10 @@ public class SLIClientDetailService implements ClientDetailsService {
         EntityDefinition def = store.lookupByResourceName("application");
         service = def.getService();
     }
-    
-    public void setService(EntityService service) {
-        this.service = service;
-    }
 
-    
     @Override
     public ClientDetails loadClientByClientId(String clientId)
             throws OAuth2Exception {
-        
         String uuid = lookupIdFromClientId(clientId);
         
         if (uuid != null) {

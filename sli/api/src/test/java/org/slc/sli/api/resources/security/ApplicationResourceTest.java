@@ -3,7 +3,6 @@ package org.slc.sli.api.resources.security;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,10 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.oauth.SLIClientDetailService;
 import org.slc.sli.api.service.EntityService;
@@ -41,10 +43,12 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class ApplicationResourceTest {
     
     @Autowired
-    private ApplicationResource resource;
+    @InjectMocks private ApplicationResource resource;
     
     @Autowired
-    private SLIClientDetailService detailsService;
+    @InjectMocks private SLIClientDetailService detailsService;
+    
+    @Mock EntityService service;
     
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
@@ -53,13 +57,11 @@ public class ApplicationResourceTest {
     
     @Before
     public void setUp() throws Exception {
-        
+        MockitoAnnotations.initMocks(this);
     }
     
     @Test
     public void testGoodCreate() {
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody app = getNewApp();
         
@@ -93,8 +95,6 @@ public class ApplicationResourceTest {
     public void testGoodDelete() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody toDelete = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
@@ -112,8 +112,7 @@ public class ApplicationResourceTest {
     @Test
     public void testBadDelete() {
         String clientId = "9999999999";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
+
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
@@ -125,8 +124,6 @@ public class ApplicationResourceTest {
     public void testGoodGet() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody toGet = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
@@ -144,8 +141,7 @@ public class ApplicationResourceTest {
     @Test
     public void testBadGet() {
         String clientId = "9999999999";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
+
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
@@ -157,8 +153,6 @@ public class ApplicationResourceTest {
     public void testClientLookup() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        detailsService.setService(service);
         
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         existingEntitiesIds.add(uuid);
@@ -183,9 +177,7 @@ public class ApplicationResourceTest {
     @Test(expected = OAuth2Exception.class)
     public void testBadClientLookup() {
         String clientId = "1234567890";
-        EntityService service = mock(EntityService.class);
 
-        detailsService.setService(service);
         //return empty list
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
