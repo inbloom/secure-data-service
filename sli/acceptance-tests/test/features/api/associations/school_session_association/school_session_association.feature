@@ -12,7 +12,7 @@ Scenario: Create a school-session-association
    Given format "application/json"
      And  "sessionId" is "<'Fall 2011 Session' ID>"
      And  "schoolId" is "<'Algebra Alternative' ID>"
-     And  grading period "name" is "First Quarter"
+     And  grading period "gradingPeriod" is "Second Semester"
      And  grading period "beginDate" is "2011-09-01"
      And  grading period "endDate" is "2011-10-31"
      And  grading period "totalInstructionalDays" is 45
@@ -23,7 +23,7 @@ Scenario: Create a school-session-association
     Then I should receive a return code of 200
      And  "sessionId" should be "<'Fall 2011 Session' ID>"
      And  "schoolId" should be "<'Algebra Alternative' ID>"
-     And  grading period "name" should be "First Quarter"
+     And  grading period "gradingPeriod" should be "Second Semester"
      And  grading period "beginDate" should be "2011-09-01"
      And  grading period "endDate" should be "2011-10-31"
      And  grading period "totalInstructionalDays" should be 45
