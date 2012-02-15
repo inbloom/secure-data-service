@@ -1,9 +1,8 @@
-package org.slc.sli.api.security.oauth;
+package org.slc.sli.api.resources.security;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,14 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.oauth.SLIClientDetailService;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -22,10 +28,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * 
@@ -38,10 +40,15 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
     DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class })
 @DirtiesContext
-public class ApplicationServiceTest {
+public class ApplicationResourceTest {
     
     @Autowired
-    private ApplicationService resource;
+    @InjectMocks private ApplicationResource resource;
+    
+    @Autowired
+    @InjectMocks private SLIClientDetailService detailsService;
+    
+    @Mock EntityService service;
     
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
@@ -50,13 +57,11 @@ public class ApplicationServiceTest {
     
     @Before
     public void setUp() throws Exception {
-        
+        MockitoAnnotations.initMocks(this);
     }
     
     @Test
     public void testGoodCreate() {
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody app = getNewApp();
         
@@ -90,8 +95,6 @@ public class ApplicationServiceTest {
     public void testGoodDelete() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody toDelete = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
@@ -109,8 +112,7 @@ public class ApplicationServiceTest {
     @Test
     public void testBadDelete() {
         String clientId = "9999999999";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
+
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
@@ -122,8 +124,6 @@ public class ApplicationServiceTest {
     public void testGoodGet() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
         
         EntityBody toGet = getNewApp();
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
@@ -141,8 +141,7 @@ public class ApplicationServiceTest {
     @Test
     public void testBadGet() {
         String clientId = "9999999999";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
+
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
@@ -154,8 +153,7 @@ public class ApplicationServiceTest {
     public void testClientLookup() {
         String clientId = "1234567890";
         String uuid = "123";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
+        
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         existingEntitiesIds.add(uuid);
         Mockito.when(
@@ -168,9 +166,7 @@ public class ApplicationServiceTest {
         mockApp.put("client_secret", "ldkafjladsfjdsalfadsl");
         Mockito.when(service.get(uuid)).thenReturn(mockApp);
         
-        SLIClientDetailService detailService = new SLIClientDetailService();
-        detailService.setApplicationServer(resource);
-        ClientDetails details = detailService.loadClientByClientId(clientId);
+        ClientDetails details = detailsService.loadClientByClientId(clientId);
         assertNotNull(details);
         assertNotNull("Checking for client id", details.getClientId());
         assertNotNull("Checking for client secret", details.getClientSecret());
@@ -181,17 +177,12 @@ public class ApplicationServiceTest {
     @Test(expected = OAuth2Exception.class)
     public void testBadClientLookup() {
         String clientId = "1234567890";
-        EntityService service = mock(EntityService.class);
-        resource.setService(service);
-        
+
         //return empty list
         Mockito.when(
                 service.list(0, 1, "client_id=" + clientId))
                 .thenReturn(new ArrayList<String>());
-        
-        SLIClientDetailService detailService = new SLIClientDetailService();
-        detailService.setApplicationServer(resource);
-        detailService.loadClientByClientId(clientId);
+        detailsService.loadClientByClientId(clientId);
     }
     
 }
