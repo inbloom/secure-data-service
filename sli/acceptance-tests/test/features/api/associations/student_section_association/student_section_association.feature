@@ -49,11 +49,11 @@ Scenario Outline: Update a student-section-association
 	Given format <format>
 	When I navigate to GET "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
       Then  "repeatIdentifier" should be "Repeated_counted_in_grade_point_average"
-	When I set "repeatIdentifier" to "Not_repeated"
+	When I set "repeatIdentifier" to "Not repeated"
 		And I navigate to PUT "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
-	Then "repeatIdentifier" should be "Not_repeated"
+	Then "repeatIdentifier" should be "Not repeated"
 	Examples:
 	    	| format                     |
     		| "application/json"         |
