@@ -61,6 +61,7 @@ public class MockRepo implements EntityRepository {
         repo.put("sessionCourseAssociation", new LinkedHashMap<String, Entity>());
         repo.put("courseSectionAssociation", new LinkedHashMap<String, Entity>()); //known technical-debt.
         repo.put("authSession", new LinkedHashMap<String, Entity>());
+        repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
 
     }
 
