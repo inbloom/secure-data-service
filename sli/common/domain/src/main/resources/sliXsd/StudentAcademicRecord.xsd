@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1"
+	attributeFormDefault="qualified">
+
+	<xs:include schemaLocation="ComplexTypes.xsd" />
+	<xs:include schemaLocation="Attendance.xsd"></xs:include>
+<!-- 
+	<xs:element name="course">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents the organization
+				of subject matter and related learning experiences provided for the
+				instruction of students on a regular or systematic basis.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="courseTitle" type="courseTitle">
+					<xs:annotation>
+						<xs:documentation>The descriptive name given to a course of study
+							offered in a school or other institution or organization. In
+							departmentalized classes at the elementary, secondary, and
+							postsecondary levels (and for staff development activities), this
+							refers to the name by which a course is identified (e.g.,
+							American History, English III). For elementary and other
+							non-departmentalized classes, it refers to any portion of the
+							instruction for which a grade or report is assigned (e.g.,
+							reading, composition, spelling, and language arts).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="numberOfParts">
+					<xs:annotation>
+						<xs:documentation>The number of parts identified for a course.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="1" />
+							<xs:maxInclusive value="8" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="courseCode" type="courseCode"
+					maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The code that identifies the organization of
+							subject matter and related learning experiences provided for the
+							instruction of students.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseLevel" type="courseLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The course's level of rigor.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseLevelCharacteristics" type="courseLevelCharacteristicsType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specification of the specific program or
+							designation associated with the course. For example: Ap, IB, Dual
+							Credit, CTE. etc.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="gradesOffered" type="gradeLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The grade levels in which the course is offered.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="subjectArea" type="academicSubjectType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The intended major subject area of the course.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseDescription" type="description"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A description of the content standards and goals
+							covered in the course. Reference may be made to state or national
+							content standards.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dateCourseAdopted" type="xs:date"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Date the course was adopted by the education
+							agency.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="highSchoolCourseRequirement" type="xs:boolean"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An indication that this course may satisfy high
+							school graduation requirements in the course's subject area.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseGPAApplicability" type="courseGPAApplicabilityType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An indicator of whether or not this course being
+							described is included in the computation of the student’s Grade
+							Point Average, and if so, if it weighted differently from regular
+							courses.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseDefinedBy" type="courseDefinedByType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specifies whether the course was defined by the
+							SEA, LEA, School, or national organization.  </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="minimumAvailableCredit" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The minimum amount of credit available to a
+							student who successfully completes the course</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="maximumAvailableCredit" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The maximum amount of credit available to a
+							student who successfully completes the course</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="careerPathway" type="careerPathwayType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Indicates the career cluster or pathway the
+							course is associated with as part of a CTE curriculum.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ 
+	<xs:element name="courseSessionAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the association of a course
+				with a session during which the course is offered.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="localCourseCode" type="localCourseCode">
+					<xs:annotation>
+						<xs:documentation>The local code assigned by the School that
+							identifies the course offering provided for the instruction of
+							students.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="localCourseTitle" type="courseTitle"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The descriptive name given to a course of study
+							offered in the school, if different from the CourseTitle.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the course that is offered.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sessionId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the session the course is offered.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ -->
+	<xs:complexType name="additionalCredits">
+		<xs:annotation>
+			<xs:documentation>Additional credits or units of value awarded for
+				the completion of a course (e.g., AP, IB, Dual credits)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="credit">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the completion of a course</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:double">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="additionalCreditType" type="additionalCreditType">
+				<xs:annotation>
+					<xs:documentation>The type of credits or units of value awarded for
+						the completion of a course</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+<!-- 
+	<xs:element name="studentTranscriptsAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity is the final record of a student's
+				performance in their courses at the end of semester or school year.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="courseAttemptResult" type="courseAttemptResultType">
+					<xs:annotation>
+						<xs:documentation>The result from the student's attempt to take
+							the course, for example:
+							Pass
+							Fail
+							Incomplete
+							Withdrawn
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="creditsAttempted" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>'The number of credits a student attempted and
+							could earn for successfully completing a given course.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="creditsEarned" type="credits">
+					<xs:annotation>
+						<xs:documentation>'The number of credits a student earned for
+							completing a given course.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="additionalCreditsEarned" type="additionalCredits"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>'The number of additional credits a student
+							attempted and could earn for successfully completing a given
+							course (e.g., dual credit, AP, IB)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="gradeLevelWhenTaken" type="gradeLevelType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Student's grade level at time of course.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="methodCreditEarned" type="methodCreditEarnedType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The method the credits were earned, for example:
+							Classroom, Examination, Transfer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="finalLetterGradeEarned" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The final indicator of student performance in a
+							class as submitted by the instructor.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="gradeEarned">
+							<xs:maxLength value="20" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="finalNumericGradeEarned" type="xs:integer"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The final indicator of student performance in a
+							class as submitted by the instructor.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseRepeatCode" type="courseRepeatCodeType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Indicates that an academic course has been
+							repeated by a student and how that repeat is to be computed in
+							the student's academic grade average.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="diagnosticStatement" type="text"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A statement provided by the teacher that
+							provides information in addition to the grade or assessment
+							score.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="gradeType" type="gradeType">
+					<xs:annotation>
+						<xs:documentation>The type of grade reported (e.g., Exam, Final,
+							Grading Period). </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="performanceBaseConversion" type="performanceBaseType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A conversion of the level to a standard set of
+							performance levels.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="courseId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The course recorded in the Course transcript
+							entry,</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The Student that took the reported instruction.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ -->
+	<xs:element name="gradebookEntry">
+		<xs:annotation>
+			<xs:documentation>This entity represents a teacher’s assignment,
+				homework, or classroom assessment to be recorded in a gradebook.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gradebookEntryType" type="gradebookEntryType">
+					<xs:annotation>
+						<xs:documentation>The type of the gradebook entry; for example,
+							homework, assignment, quiz, unit test, oral presentation, etc.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dateAssigned" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>The date the assignment, homework, or assessment
+							was assigned or executed.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="description" type="description"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A description of the assignment, homework, or
+							classroom assessment.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="studentGradebookEntry">
+		<xs:annotation>
+			<xs:documentation>This entity holds a student’s grade or competency
+				level for a GradeBookEntry.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="gradebookEntryReference" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The GradebookEntry for which the performance is
+								recorded.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dateFulfilled" type="xs:date"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The date an assignment was turned in or the
+								date of an assessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="letterGradeEarned" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A final or interim (grading period) indicator
+								of student performance in a class as submitted by the
+								instructor.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="gradeEarned">
+								<xs:maxLength value="20" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="numericGradeEarned" type="xs:integer"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A final or interim (grading period) indicator
+								of student performance in a class as submitted by the
+								instructor.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="diagnosticStatement" type="text"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A statement provided by the teacher that
+								provides information in addition to the grade or assessment
+								score.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+<!-- 
+	<xs:element name="studentSectionAssociation">
+		<xs:annotation>
+			<xs:documentation>This association indicates the course sections a
+				student is assigned to.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="studentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The student enrolled in the section.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sectionId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The section the student is enrolled in.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="beginDate" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Month, day and year of the student's entry or
+							assignment to the section. If blank, default is the start date of
+							the first grading period.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="endDate" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Month, day, and year of the withdrawal or exit
+							of the student from the section.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="homeroomIndicator" type="xs:boolean"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Indicates the section is the student's homeroom.
+							Homeroom period may the convention for taking daily attendance.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="repeatIdentifier" type="repeatIdentifierType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An indication as to whether a student has
+							previously taken a given course.
+							Repeated, counted in grade point average
+							Repeated, not counted in grade point average
+							Not repeated
+							Other
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentGradebookEntries" type="studentGradebookEntry"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of student’s grade or competency
+							levels for all the GradeBookEntries.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentAttendance" type="attendanceEvent"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>This list of student attendance irregularities
+							for the section.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ -->
+<!-- 	<xs:element name="studentAcademicRecordsAssociation">
+		<xs:annotation>
+			<xs:documentation>This association contains the cumulative record of
+				academic achievements and the collection of student grades for
+				the student at the end of a semester or school year.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="studentId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The student who was enrolled for the session.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sessionId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The session the student was enrolled in.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentTranscriptAssociationId" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Grades for the classes attended by the student
+							for this grading period.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GPAGivenGradingPeriod" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>A measure of average performance in all courses
+							taken by an individual for the current grading period.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GPACumulative" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>A measure of cumulative average performance in
+							all courses taken by an individual from the beginning of the
+							school year through the current grading period.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="numberOfDaysAbsent" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of days an individual is absent when
+							school is in session during a given reporting period.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:double">
+							<xs:minInclusive value="0" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="numberOfDaysInAttendance" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of days an individual is present when
+							school is in session during a given reporting period.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:double">
+							<xs:minInclusive value="0" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="numberOfDaysTardy" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of days an individual is tardy during
+							a given reporting period.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:minInclusive value="0" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="cumulativeCreditsEarned" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The cumulative number of credits an individual
+							earns by completing courses or examinations during his or her
+							enrollment in the current school as well as those credits
+							transferred from schools in which the individual had been
+							previously enrolled.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="cumulativeCreditsAttempted" type="credits"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The cumulative number of credits an individual
+							attempts to earn by taking courses during his or her enrollment
+							in the current school as well as those credits transferred from
+							schools in which the individual had been previously enrolled.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="cumulativeGradePointsEarned" type="xs:double"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The cumulative number of grade points an
+							individual earns by successfully completing courses or
+							examinations during his or her enrollment in the current school
+							as well as those transferred from schools in which the individual
+							had been previously enrolled.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="cumulativeGradePointAverage" type="xs:double"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A measure of average performance in all courses
+							taken by an individual during his or her school career as
+							determined for record-keeping purposes. This is obtained by
+							dividing the total grade points received by the total number of
+							credits attempted. This usually includes grade points received
+							and credits attempted in his or her current school as well as
+							those transferred from schools in which the individual was
+							previously enrolled.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="gradeValueQualifier" type="gradeValueQualifier"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The scale of equivalents, if applicable, for
+							grades awarded as indicators of performance in schoolwork. For
+							example, numerical equivalents for letter grades used in
+							determining a student's Grade Point Average (A=4, B=3, C=2, D=1
+							in a four-point system) or letter equivalents for percentage
+							grades (90-100%=A, 80-90%=B, etc.).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="classRanking" type="classRanking"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The academic rank information of a student in
+							relation to his or her graduating class.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="academicHonors" type="academicHonor"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Academic distinctions earned by or awarded to
+							the student.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="recognitions" type="recognition"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Recognitions given to the student for
+							accomplishments in a co-curricular, or extra-curricular activity.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="projectedGraduationDate" type="xs:date"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The month and year the student is projected to
+							graduate.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element> -->
+
+</xs:schema>
