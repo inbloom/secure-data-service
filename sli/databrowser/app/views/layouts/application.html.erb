@@ -22,6 +22,13 @@
 	</div>
 	<hr>
 	<div id="content">
+		<%- flash.each do |key, msg| -%>
+		  <div id="<%= key %>">
+		    <p style="float:right;"><%= link_to_function 'X', "jQuery('##{key}').fadeToggle()" %></p>
+		    <p><%= msg %></p>
+		    <div class="clear"></div>
+		  </div>
+		<%- end -%>
 		<%= yield %>
 	</div>
 	<div id="left-bar">
