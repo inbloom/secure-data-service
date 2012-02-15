@@ -880,10 +880,10 @@
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
     <!-- TeacherReference -->
-    <jb:value property="teacherReference" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="teacherId" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
 
     <!-- SchoolReference -->
-    <jb:wiring property="schoolReference" beanIdRef="SchoolReferenceTypeArray" />
+    <jb:wiring property="schoolId" beanIdRef="SchoolReferenceTypeArray" />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="TeacherSchoolAssociation/ProgramAssignment" />
