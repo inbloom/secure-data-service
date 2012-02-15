@@ -153,7 +153,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
     
-    //@Test
+    @Test
     public void testClientLookup() {
         String clientId = "1234567890";
         String uuid = "123";
@@ -180,7 +180,7 @@ public class ApplicationResourceTest {
         assertNotNull("Checking for scope", details.getScope());
     }
     
-    //@Test(expected = OAuth2Exception.class)
+    @Test(expected = OAuth2Exception.class)
     public void testBadClientLookup() {
         String clientId = "1234567890";
         EntityService service = mock(EntityService.class);
