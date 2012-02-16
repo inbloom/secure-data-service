@@ -96,7 +96,28 @@ public class AssessmentEntityTest {
                 + "      <AssessmentFamilyTitle>family title</AssessmentFamilyTitle>"
                 + "      <Version>first</Version>"
                 + "    </AssessmentFamilyIdentity>"
-                + "  </AssessmentFamilyReference>" + "</Assessment></InterchangeAssessmentMetadata>";
+                + "  </AssessmentFamilyReference>"
+                + "  <SectionReference id=\"myid\" ref=\"myref\">"
+                + "    <SectionIdentity>"
+                + "      <StateOrganizationId>6789</StateOrganizationId>"
+                + "      <EducationOrgIdentificationCode IdentificationSystem=\"edorgsystem\">"
+                + "        <ID>edorgid</ID>"
+                + "      </EducationOrgIdentificationCode>"
+                + "      <EducationOrgIdentificationCode IdentificationSystem=\"edorgsystem2\">"
+                + "        <ID>edorgid2</ID>"
+                + "      </EducationOrgIdentificationCode>"
+                + "      <UniqueSectionCode>uniquesectioncode</UniqueSectionCode>"
+                + "      <CourseCode IdentificationSystem=\"courseIdentificationSystem\" AssigningOrganizationCode=\"assigncode\">"
+                + "        <ID>courseId</ID>"
+                + "      </CourseCode>"
+                + "      <LocalCourseCode>localcoursecode</LocalCourseCode>"
+                + "      <SchoolYear>2012</SchoolYear>"
+                + "      <Term>myterm</Term>"
+                + "      <ClassPeriodName>classperiodname</ClassPeriodName>"
+                + "      <Location>here</Location>"
+                + "    </SectionIdentity>"
+                + "  </SectionReference>"
+                + "</Assessment></InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                 targetSelector, edfiAssessmentXml);
@@ -217,8 +238,37 @@ public class AssessmentEntityTest {
             EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "ID", "1235");
         }
 
-        // TODO: SectionReference
+        List sectionReferenceTypeList = (List) assessmentNeutralRecord.getAttributes().get("sectionReferences");
+        Map sectionReferenceTypeMap = (Map) sectionReferenceTypeList.get(0);
+        EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "id", "myid");
+        EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "ref", "myref");
 
+        Map sectionIdentityTypeMap = (Map) sectionReferenceTypeMap.get("sectionIdentity");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "stateOrganizationId", "6789");
+
+        List educationOrgIdentificationCodeList = (List) sectionIdentityTypeMap.get("educationOrgIdentificationCodes");
+        Map educationOrgIdentificationCodeMap = (Map) educationOrgIdentificationCodeList.get(0);
+        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap, "identificationSystem",
+                "edorgsystem");
+        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap, "id", "edorgid");
+        if (educationOrgIdentificationCodeList.size() > 1) {
+            // TODO: remove once we support csv lists
+            Map educationOrgIdentificationCodeMap2 = (Map) educationOrgIdentificationCodeList.get(1);
+            EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap2, "identificationSystem",
+                    "edorgsystem2");
+            EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap2, "id", "edorgid2");
+        }
+
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "uniqueSectionCode", "uniquesectioncode");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "localCourseCode", "localcoursecode");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "schoolYear", "2012");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "term", "myterm");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "classPeriodName", "classperiodname");
+        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "location", "here");
+
+        Map courseCodeMap = (Map) sectionIdentityTypeMap.get("courseCode");
+        EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "identificationSystem", "courseIdentificationSystem");
+        EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "id", "courseId");
     }
 
 }
