@@ -218,7 +218,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="weapons" type="weaponsType" minOccurs="0">
+				<xs:element name="weapons" type="weaponItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Identifies the type of weapon used during an
 							incident.

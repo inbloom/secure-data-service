@@ -85,7 +85,7 @@ public class RealmsControllerTest {
 
         });
 
-        controller.listRealms(RELAY_STATE, model);
+        controller.listRealms(RELAY_STATE, "", model);
 
         Assert.assertEquals("Realy State must match", RELAY_STATE, values.get("relayState"));
 

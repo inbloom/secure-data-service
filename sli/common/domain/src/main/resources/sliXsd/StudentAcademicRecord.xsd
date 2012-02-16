@@ -55,8 +55,8 @@
 						<xs:documentation>The course's level of rigor.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseLevelCharacteristics" type="courseLevelCharacteristicsType"
-					minOccurs="0">
+				<xs:element name="courseLevelCharacteristics" type="courseLevelCharacteristicItemType"
+					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Specification of the specific program or
 							designation associated with the course. For example: Ap, IB, Dual
@@ -329,7 +329,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
 	<xs:element name="gradebookEntry">
 		<xs:annotation>
 			<xs:documentation>This entity represents a teacher’s assignment,
@@ -417,7 +416,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-<!-- 
+ -->
+
 	<xs:element name="studentSectionAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the course sections a
@@ -473,13 +473,15 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<!--
+				TODO this probably needs to exist as its own entity  
 				<xs:element name="studentGradebookEntries" type="studentGradebookEntry"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A collection of student’s grade or competency
 							levels for all the GradeBookEntries.</xs:documentation>
 					</xs:annotation>
-				</xs:element>
+				</xs:element>  -->
 				<xs:element name="studentAttendance" type="attendanceEvent"
 					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
@@ -490,7 +492,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
 <!-- 	<xs:element name="studentAcademicRecordsAssociation">
 		<xs:annotation>
 			<xs:documentation>This association contains the cumulative record of
