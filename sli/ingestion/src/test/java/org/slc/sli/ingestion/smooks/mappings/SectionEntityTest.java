@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class SectionEntityTest {
             + "<Section> "
             + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
             + "<SequenceOfCourse>1</SequenceOfCourse>"
-            + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
+            + "<EducationalEnvironment>Mainstream (Special Education) </EducationalEnvironment>"
             + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
             + "<PopulationServed>Regular Students</PopulationServed>"
             + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
@@ -94,7 +95,11 @@ public class SectionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("section");
 
-        Assert.assertTrue(validator.validate(e));
+        neutralRecord.getAttributes().put("courseId", UUID.randomUUID().toString());
+        neutralRecord.getAttributes().put("schoolId", UUID.randomUUID().toString());
+        neutralRecord.getAttributes().put("sessionId", UUID.randomUUID().toString());
+
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "section", validator);
     }
 
     @Test(expected = EntityValidationException.class)
@@ -274,7 +279,7 @@ public class SectionEntityTest {
                 + "<Section> "
                 + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
                 + "<SequenceOfCourse>1</SequenceOfCourse>"
-                + "<EducationalEnvironment>Mainstrean (Special Education)</EducationalEnvironment>"
+                + "<EducationalEnvironment>Mainstrean (Special Education) </EducationalEnvironment>"
                 + "<CourseOfferingReference>"
                 +    "<CourseOfferingIdentity>"
                 +       "<LocalCourseCode>ELA4</LocalCourseCode>"
@@ -309,7 +314,7 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+        String csvTestData = "A-ELA4,1,Mainstream (Special Education) ,Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 csvTestData);
@@ -336,7 +341,7 @@ public class SectionEntityTest {
         Assert.assertEquals("A-ELA4", entity.get("uniqueSectionCode"));
         Assert.assertEquals("1", entity.get("sequenceOfCourse").toString());
 
-        Assert.assertEquals("Mainstream (Special Education)", entity.get("educationalEnvironment"));
+        Assert.assertEquals("Mainstream (Special Education) ", entity.get("educationalEnvironment"));
         Assert.assertEquals("Face-to-face instruction", entity.get("mediumOfInstruction"));
         Assert.assertEquals("Regular Students", entity.get("populationServed"));
 
@@ -346,15 +351,18 @@ public class SectionEntityTest {
         Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
         Assert.assertEquals("0.05", availableCredit.get("credit").toString());
 
-        Assert.assertEquals("ELA4", entity.get("courseOfferingReference"));
+        Assert.assertEquals("ELA4", entity.get("courseId"));
 
-        Assert.assertEquals("152901001", entity.get("schoolReference"));
+        Assert.assertEquals("152901001", entity.get("schoolId"));
 
-        Assert.assertEquals("223", entity.get("sessionReference"));
+        Assert.assertEquals("223", entity.get("sessionId"));
 
         List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("223", programReferenceList.get(0));
 
+        entity.put("courseId", UUID.randomUUID().toString());
+        entity.put("schoolId", UUID.randomUUID().toString());
+        entity.put("sessionId", UUID.randomUUID().toString());
     }
 }
