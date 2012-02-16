@@ -35,36 +35,11 @@ public class SectionValidationTest {
     
     @Before
     public void init() {
-        repo.addEntity("school", "42", makeDummyEntity("school", "42"));
-        repo.addEntity("session", "MySessionId", makeDummyEntity("session", "MySessionId"));
-        repo.addEntity("course", "MyCourseId", makeDummyEntity("course", "MyCourseId"));
+        repo.addEntity("school", "42", ValidationTestUtils.makeDummyEntity("school", "42"));
+        repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
+        repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
     }
 
-    private Entity makeDummyEntity(final String type, final String id) {
-        return new Entity() {
-            
-            @Override
-            public String getType() {
-                return type;
-            }
-            
-            @Override
-            public Map<String, Object> getMetaData() {
-                return new HashMap<String, Object>();
-            }
-            
-            @Override
-            public String getEntityId() {
-                return id;
-            }
-            
-            @Override
-            public Map<String, Object> getBody() {
-                return new HashMap<String, Object>();
-            }
-        };
-    }
-    
     private Entity goodSection() {
         final Map<String, Object> goodSection = new HashMap<String, Object>();
         goodSection.put("uniqueSectionCode", "Math101");

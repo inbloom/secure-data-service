@@ -39,7 +39,7 @@
     <jb:value property="teacherId" data="TeacherReference_StaffIdentity_StaffUniqueStateId" />
 
     <!-- SchoolReference -->
-    <jb:wiring property="schoolId" beanIdRef="SchoolReferenceTypeArray" />
+    <jb:value property="schoolId" data="SchoolReference_EducationalOrgIdentity_StateOrganizationId"  />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="ProgramAssignment" />
