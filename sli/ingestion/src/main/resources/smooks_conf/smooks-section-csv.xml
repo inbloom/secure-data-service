@@ -53,13 +53,13 @@
    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
 	<!-- CourseOfferingReference -->
-	<jb:value property="courseOfferingReference" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
+	<jb:value property="courseId" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
 
     <!-- SchoolReference -->
-	<jb:value property="schoolReference" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
+	<jb:value property="schoolId" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
 
 	<!-- SessionReference -->
-	<jb:value property="sessionReference" data="csv-record/SessionReference_SessionIdentity_SessionName" />
+	<jb:value property="sessionId" data="csv-record/SessionReference_SessionIdentity_SessionName" />
 
 	<!-- ProgramReference -->
 	<jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />

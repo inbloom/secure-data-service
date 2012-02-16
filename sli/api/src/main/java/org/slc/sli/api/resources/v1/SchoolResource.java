@@ -1,5 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
-
+package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -11,10 +10,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,39 +24,41 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.v1.BaseResource;
 
 /**
  * Prototype new api end points and versioning
+ * 
  * @author srupasinghe
- *
+ * 
  */
-@Path("v1/schools")
+@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class SchoolResource extends BaseResource {
-
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+public class SchoolResource implements CrudEndpoint {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     private static final String TYPE_PATH = "schools";
+    private final CrudEndpoint crudDelegate;
 
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, TYPE_PATH);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
     }
 
     /**
      * Returns all School entities for which the logged in User has permission and context.
      * 
      * @param uriInfo
-     * @param offset starting position in results to return to user
-     * @param limit maximum number of results to return to user (starting from offset)
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
      * @return
      */
     @GET
-    public Response getEntityCollection(@Context final UriInfo uriInfo,
-            @QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("limit") @DefaultValue("50") final int limit) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
+        return crudDelegate.readAll(offset, limit, uriInfo);
     }
 
     /**
@@ -63,15 +67,15 @@ public class SchoolResource extends BaseResource {
      * @param newEntityBody
      *            entity data
      * @param uriInfo
-     * @return Response with a status of CREATED and a Location header set pointing to where the new
-     *         entity lives
-     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
-     *                                        value.
+     * @return (This is the !return place)
+     * @request.representation.mediaType application/json
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
      */
     @POST
-    public Response createEntity(final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
-        return super.createEntity(newEntityBody, uriInfo);
+    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return crudDelegate.create(newEntityBody, uriInfo);
     }
 
     /**
@@ -79,9 +83,18 @@ public class SchoolResource extends BaseResource {
      * 
      * @param id
      *            The Id of the School.
-     * @param fullEntities
+<<<<<<< Updated upstream
+     * @param expandDepth
      *            whether or not the full entity should be returned or just the link. Defaults to
      *            false
+=======
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+>>>>>>> Stashed changes
      * @param uriInfo
      * @return A single school entity
      * @response.representation.200.mediaType application/json
@@ -90,10 +103,10 @@ public class SchoolResource extends BaseResource {
     @GET
     @Path("{schoolId}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("schoolId") final String schoolId,
-            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
+    public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {
-        return super.getEntity(schoolId, fullEntities, uriInfo);
+        return crudDelegate.read(schoolId, expandDepth, uriInfo);
     }
 
     /**
@@ -106,8 +119,8 @@ public class SchoolResource extends BaseResource {
      */
     @DELETE
     @Path("{schoolId}")
-    public Response deleteEntity(@PathParam("schoolId") final String schoolId) {
-        return super.deleteEntity(schoolId);
+    public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId) {
+        return crudDelegate.delete(schoolId);
     }
 
     /**
@@ -122,9 +135,9 @@ public class SchoolResource extends BaseResource {
      */
     @PUT
     @Path("{schoolId}")
-    public Response updateEntity(@PathParam("schoolId") final String schoolId,
+    public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             final EntityBody newEntityBody) {
-        return super.updateEntity(schoolId, newEntityBody);
+        return crudDelegate.update(schoolId, newEntityBody);
     }
 
     /**
@@ -133,11 +146,21 @@ public class SchoolResource extends BaseResource {
      * 
      * @param schoolId
      *            The Id of the School.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * 
      * @return
      */
     @GET
     @Path("{schoolId}/student-school-associations")
-    public Response getStudentSchoolAssociations(@PathParam("schoolId") final String schoolId) {
+    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+            @QueryParam("start-index") @DefaultValue("0") final int offset,
+            @QueryParam("max-results") @DefaultValue("50") final int limit,
+            @QueryParam("expandDepth") @DefaultValue("0") final int expandDepth) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
