@@ -7,7 +7,7 @@ import org.slc.sli.api.representation.EntityBody;
 
 public interface CrudEndpoint {
     
-    Response readAll(UriInfo uriInfo);
+    Response readAll(int offset, int limit, UriInfo uriInfo);
     
     Response read(String idList, boolean fullEntities, UriInfo uriInfo);
     

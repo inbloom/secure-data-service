@@ -23,22 +23,19 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
-@Path("v1/students")
+@Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class StudentResource implements CrudEndpoint {
-    
-    // FIXME: Pass the Logger into the CRUD delegate.
-    @SuppressWarnings("unused")
-    private static final Logger LOG = LoggerFactory.getLogger(StudentResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentResource.class);
     
     private static final String RESOURCE_NAME_STUDENTS = "students";
     private final CrudEndpoint crudDelegate;
     
     @Autowired
     public StudentResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new BaseResource(entityDefs, RESOURCE_NAME_STUDENTS);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, RESOURCE_NAME_STUDENTS, LOGGER);
     }
     
     /**
@@ -48,8 +45,9 @@ public class StudentResource implements CrudEndpoint {
      *            The URI context.
      */
     @GET
-    public Response readAll(@Context final UriInfo uriInfo) {
-        return crudDelegate.readAll(uriInfo);
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
+        return crudDelegate.readAll(offset, limit, uriInfo);
     }
     
     /**
@@ -84,7 +82,7 @@ public class StudentResource implements CrudEndpoint {
      * @param id
      */
     @GET
-    @Path("{" + ParameterConstants.STUDENT_ID + "}/student-school-associations")
+    @Path("{" + ParameterConstants.STUDENT_ID + "}/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String id,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int skip,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int max,
@@ -168,7 +166,7 @@ public class StudentResource implements CrudEndpoint {
     }
     
     /**
-     * Update an existing school entity.
+     * Update an existing student resource.
      * 
      * @param typePath
      *            resourceUri for the entity
