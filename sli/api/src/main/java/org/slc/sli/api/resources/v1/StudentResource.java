@@ -23,21 +23,24 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
+/**
+ * 
+ */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class StudentResource implements CrudEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentResource.class);
-    
+
     private static final String RESOURCE_NAME_STUDENTS = "students";
     private final CrudEndpoint crudDelegate;
-    
+
     @Autowired
     public StudentResource(final EntityDefinitionStore entityDefs) {
         crudDelegate = new DefaultCrudEndpoint(entityDefs, RESOURCE_NAME_STUDENTS, LOGGER);
     }
-    
+
     /**
      * Returns all Student entities.
      * 
@@ -49,7 +52,7 @@ public class StudentResource implements CrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
         return crudDelegate.readAll(offset, limit, uriInfo);
     }
-    
+
     /**
      * Get a single student entity
      * 
@@ -75,7 +78,7 @@ public class StudentResource implements CrudEndpoint {
             @Context final UriInfo uriInfo) {
         return crudDelegate.read(idList, fullEntities, uriInfo);
     }
-    
+
     /**
      * Returns all the student-school-associations in the context of the specified student.
      * 
@@ -132,7 +135,7 @@ public class StudentResource implements CrudEndpoint {
          * });
          */
     }
-    
+
     /**
      * Create a new student resource.
      * 
@@ -148,7 +151,7 @@ public class StudentResource implements CrudEndpoint {
     public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
         return crudDelegate.create(newEntityBody, uriInfo);
     }
-    
+
     /**
      * Delete a student resource.
      * 
@@ -164,7 +167,7 @@ public class StudentResource implements CrudEndpoint {
     public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String id) {
         return crudDelegate.delete(id);
     }
-    
+
     /**
      * Update an existing student resource.
      * 
