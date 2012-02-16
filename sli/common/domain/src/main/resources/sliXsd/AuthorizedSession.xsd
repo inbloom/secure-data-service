@@ -3,7 +3,7 @@
 	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
 	attributeFormDefault="qualified">
 
-	<xs:complexType name="authorizedSession">
+	<xs:element name="authorizedSession">
 		<xs:annotation>
 			<xs:documentation>
 				Authorized sessions represent a client
@@ -21,19 +21,21 @@
 				the API to access protected resources.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="clientAuthn" type="clientAuthentication"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="userAuthn" type="userAuthentication"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="samlRequestId" type="xs:string"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="requestToken" type="requestToken"
-				minOccurs="1" maxOccurs="1" />
-			<xs:element name="accessToken" type="accessToken"
-				minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="clientAuthn" type="clientAuthentication"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="userAuthn" type="userAuthentication"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="samlRequestId" type="xs:string"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="requestToken" type="requestToken"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="accessToken" type="accessToken"
+					minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:complexType name="clientAuthentication">
 		<xs:annotation>
