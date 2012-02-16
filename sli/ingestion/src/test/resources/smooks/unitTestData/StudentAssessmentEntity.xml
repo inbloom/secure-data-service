@@ -1,5 +1,5 @@
 <InterchangeStudentAssessment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAssessment.xsd">
-    <StudentAssessment>
+    <StudentAssessment id="SaId">
         <AdministrationDate>1999-07-12</AdministrationDate>
         <AdministrationEndDate>2010-06-14</AdministrationEndDate>
         <SerialNumber>231101422</SerialNumber>

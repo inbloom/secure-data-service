@@ -1100,4 +1100,51 @@
     <jb:value property="totalInstructionalDays" data="Session/TotalInstructionalDays" decoder="Integer" />
   </jb:bean>
 
+  <!-- StudentAssessment mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:expression property="recordType">'studentAssessment'</jb:expression>
+    <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
+    <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:value property="AdministrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
+    <jb:value property="AdministrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
+    <jb:value property="SerialNumber" data="InterchangeStudentAssessment/StudentAssessment/SerialNumber" />
+    <jb:value property="AdministrationLanguage" data="InterchangeStudentAssessment/StudentAssessment/AdministrationLanguage" />
+    <jb:value property="AdministrationEnvironment" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEnvironment" />
+    <jb:wiring property="SpecialAccommodations" beanIdRef="specialAccommodationsTypeArray" />
+    <jb:wiring property="LinguisticAccommodations" beanIdRef="linguisticAccommodationsTypeArray" />
+    <jb:value property="RetestIndicator" data="InterchangeStudentAssessment/StudentAssessment/RetestIndicator" />
+    <jb:value property="ReasonNotTested" data="InterchangeStudentAssessment/StudentAssessment/ReasonNotTested" />
+    <jb:wiring property="ScoreResults" beanIdRef="scoreResultsArray" />
+  </jb:bean>
+
+  <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" 
+      createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:wiring beanIdRef="specialAccommodationsType" />
+  </jb:bean>
+  <jb:bean beanId="specialAccommodationsType" class="java.util.ArrayList" 
+      createOnElement="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations">
+    <jb:value data="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations/SpecialAccommodation" />
+  </jb:bean> 
+
+  <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList"
+      createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:wiring beanIdRef="linguisticAccommodationsType" />
+  </jb:bean>
+  <jb:bean beanId="linguisticAccommodationsType" class="java.util.ArrayList" 
+      createOnElement="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations">
+    <jb:value data="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations/LinguisticAccommodation" />
+  </jb:bean> 
+
+  <jb:bean beanId="scoreResultsArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:wiring beanIdRef="scoreResultMap" />
+  </jb:bean>
+  <jb:bean beanId="scoreResultMap" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/ScoreResults">
+    <jb:value property="AssessmentReportingMethod" data="InterchangeStudentAssessment/StudentAssessment/ScoreResults/@AssessmentReportingMethod" />
+    <jb:value property="Result" data="InterchangeStudentAssessment/StudentAssessment/ScoreResults/Result" />
+  </jb:bean>
+
 </smooks-resource-list>
