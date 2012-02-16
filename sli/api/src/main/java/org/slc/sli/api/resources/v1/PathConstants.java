@@ -1,5 +1,8 @@
 package org.slc.sli.api.resources.v1;
 
+/**
+ * Constants for REST URIs
+ */
 class PathConstants {
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "students";

@@ -382,7 +382,8 @@ public class SectionEntityTest {
         Assert.assertEquals("Face-to-face instruction", entity.get("mediumOfInstruction"));
         Assert.assertEquals("Regular Students", entity.get("populationServed"));
 
-        Map<String, Object> availableCredit = (Map<String, Object>) entity.get("availableCredit");
+        @SuppressWarnings("unchecked")
+		Map<String, Object> availableCredit = (Map<String, Object>) entity.get("availableCredit");
         Assert.assertTrue(availableCredit != null);
         Assert.assertEquals("Semester hour credit", availableCredit.get("creditType"));
         Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
@@ -394,7 +395,8 @@ public class SectionEntityTest {
 
         Assert.assertEquals("223", entity.get("sessionId"));
 
-        List<String> programReferenceList = (List<String>) entity.get("programReference");
+        @SuppressWarnings("unchecked")
+		List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("223", programReferenceList.get(0));
     }

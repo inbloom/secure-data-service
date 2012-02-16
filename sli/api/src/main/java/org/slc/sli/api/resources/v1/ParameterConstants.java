@@ -1,5 +1,8 @@
 package org.slc.sli.api.resources.v1;
 
+/**
+ * Constants for REST parameters
+ */
 class ParameterConstants {
     public static final String OFFSET = "offset";
     public static final String LIMIT = "limit";
