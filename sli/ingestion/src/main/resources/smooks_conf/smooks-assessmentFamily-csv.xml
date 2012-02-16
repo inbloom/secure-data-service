@@ -8,7 +8,7 @@
   </params>
 
   <csv:reader
-    fields="AssessmentFamilyTitle,
+    fields="id,AssessmentFamilyTitle,
         AssessmentFamilyIdentificationCode_IdentificationSystem,AssessmentFamilyIdentificationCode_AssigningOrganizationCode,AssessmentFamilyIdentificationCode_ID,
         AssessmentCategory,AcademicSubject,GradeLevelAssessed,LowestGradeLevelAssessed,ContentStandard,Version,RevisionDate,Nomenclature,
         AssessmentPeriods_id,AssessmentPeriods_ref,AssessmentPeriods_CodeValue,AssessmentPeriods_ShortDescription,AssessmentPeriods_Description,
@@ -28,6 +28,7 @@
   </jb:bean>
 
   <jb:bean beanId="AssessmentFamilyAttributes" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="id" data="csv-record/id" />
     <jb:value property="AssessmentFamilyTitle" data="csv-record/AssessmentFamilyTitle" />
 
     <jb:wiring property="AssessmentFamilyIdentificationCode" beanIdRef="AssessmentFamily_AssessmentIdentificationCodeArray" />

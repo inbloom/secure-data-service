@@ -29,7 +29,7 @@ public class AssessmentFamilyTest {
         String targetSelector = "InterchangeAssessmentMetadata/AssessmentFamily";
 
         String edfiAssessmentFamilyXml = "<InterchangeAssessmentMetadata xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<AssessmentFamily>"
+                + "<AssessmentFamily id=\"familyid\">"
                 + "<AssessmentFamilyTitle>familyTitle</AssessmentFamilyTitle>"
                 + "<AssessmentFamilyIdentificationCode IdentificationSystem=\"firstIdentificationSystem\" AssigningOrganizationCode=\"firstAssigningOrganizationCode\" >"
                 + "  <ID>firstId</ID>"
@@ -82,7 +82,7 @@ public class AssessmentFamilyTest {
         String smooksConfig = "smooks_conf/smooks-assessmentFamily-csv.xml";
         String targetSelector = "csv-record";
 
-        String assessmentFamilyCsv = "familyTitle,firstIdentificationSystem,firstAssigningOrganizationCode,firstId,State summative assessment 3-8 general,"
+        String assessmentFamilyCsv = "familyid,familyTitle,firstIdentificationSystem,firstAssigningOrganizationCode,firstId,State summative assessment 3-8 general,"
                 + "Reading,Third grade,Fourth grade,State Standard,2002,2002-09-01,the nomenclature,theid,theref,code value,short desc,descript,"
                 + "tk31,TAKSReading3-1,firstRefIdentificationSystem,firstRefAssigningOrganizationCode,firstRefId,refFamilyTitle,1";
 
@@ -97,6 +97,8 @@ public class AssessmentFamilyTest {
         assertEquals("record type was not AssessmentFamily", "AssessmentFamily", neutralRecord.getRecordType());
         
         assertEquals("record localId does not match", "familyTitle", neutralRecord.getLocalId());
+        
+        assertEquals("id does not match", "familyid", neutralRecord.getAttributes().get("id"));
         
         assertEquals("AssessmentFamilyTitle does not match", "familyTitle", neutralRecord.getAttributes().get("AssessmentFamilyTitle"));
         
