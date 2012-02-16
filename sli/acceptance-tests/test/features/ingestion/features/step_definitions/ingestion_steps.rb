@@ -132,36 +132,9 @@ end
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   if (INGESTION_MODE == 'remote')
     #remote check of file
-    @COMMAND = "
-      #!/bin/bash
+    @job_status_filename_component = "job-" + @source_file_name + "-"
     
-      externalDirectoryListing()
-      {
-      sftp ingestion@testing1.slidev.org << EOF
-      cd lz/inbound/
-      ls -tr
-      exit
-      EOF
-      }
-      
-      externalFileView()
-      {
-      PARAM=$1
-      ssh ingestion@testing1.slidev.org << EOF
-      cd lz/inbound/
-      cat $PARAM
-      exit
-      EOF
-      }
-      JOB_STRING=$1
-      VERIFICATION_RECORDS=$2
-
-      OUT=`externalDirectoryListing | grep $JOB_STRING | tail -1`
-      OUT=`externalFileView $OUT | grep 'Processed $VERIFICATION_RECORDS Records'`
-      
-      echo $OUT
-      exit 0
-    ";
+    @COMMAND = "../../util/ingestionStatus.sh " + @job_status_filename_component;
     @resultOfIngestion = runShellCommand(@COMMAND)
     
     @messageString = "Processed " + message + " Records."
