@@ -1,125 +1,63 @@
 package org.slc.sli.scaffold.semantics;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.Documentation;
-import org.slc.sli.validation.schema.ListSchema;
-import org.slc.sli.validation.schema.NeutralSchema;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javax.xml.xpath.XPathException;
+
+import org.slc.sli.scaffold.DocumentManipulator;
+import org.slc.sli.scaffold.DocumentManipulatorException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
- * Creates a resource documentation object that holds a list of all top level resources, the
- * semantic documentation for each resource, and the semantic documentation for each 
- * field on that resource.
+ * Adds elements to the existing wadl to include links to the generated 
+ * database schema documents.
  * 
  * @author jstokes
  *
  */
-public class ResourceDocumenter {
+public abstract class ResourceDocumenter {
     
-    private static ApplicationContext ctx;
-    private List<ResourceDocumentation> documentation;
-    private SchemaRepository schemaRepo;
+    private static final String XPATH = 
+            "//ns2:application/ns2:resources/ns2:resource[@path='$RESOURCE_NAME']/ns2:method[@name='GET']/ns2:response/ns2:representation";
+    private static final String BASE_URL = 
+            "http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/view/API/job/domain/ws/sli/common/domain/Documentation/html/";
     
-    public static void main(String[] args) {
-        ResourceDocumenter rd = new ResourceDocumenter();
-        List<NeutralSchema> topLevelResources = rd.getResourceSchemas();
-        rd.generate(topLevelResources);
-    }
-    
-    /**
-     * Constructor for resource documenter
-     * Initializes the application context and resolves the Schema Repository 
-     */
-    public ResourceDocumenter() {
-        ctx = new ClassPathXmlApplicationContext(new String[] {"spring/application-context.xml"});
-        documentation = new ArrayList<ResourceDocumentation>();
-        schemaRepo = (SchemaRepository) ctx.getBean("xsdToNeutralSchemaRepo");
-    }
+    @SuppressWarnings("serial")
+    private static final Map<String, String> RESOURCE_MAP = new HashMap<String, String>() {
+        {
+            put("v1/schools", "EducationalOrganization_xsd.html#school");
+            put("v1/students", "StudentAcademicRecord_xsd.html");
+        } 
+    };
     
     /**
-     * Generates the resource documentation for a list of resource schemas
-     * @param resources The list of top level resources
-     * @return ResourceDocumentation list object containing each of the top level resources and their fields documentation
+     * Adds links for each resource to the generated wadl 
+     * @param wadlDoc The wadl document to add schema links to
+     * @throws XPathException 
+     * @throws DocumentManipulatorException
      */
-    public List<ResourceDocumentation> generate(List<NeutralSchema> resources) {
-        generateDocumentation(resources);
-        debugOuput();
-        return documentation;
-    }
-    
-    private void debugOuput() {
-        for (ResourceDocumentation doc : documentation) {
-            System.out.println(" --- ");
-            System.out.println(doc);
-            System.out.println(" --- ");
+    public static void addResourceMerge(Document wadlDoc) throws XPathException, DocumentManipulatorException {
+        for (Map.Entry<String, String> entry : RESOURCE_MAP.entrySet()) {
+            addResource(wadlDoc, entry);
         }
     }
 
-    private void generateDocumentation(List<NeutralSchema> resources) {
-        //Top level resource
-        for (NeutralSchema resource : resources) {
-            ResourceDocumentation rDoc = new ResourceDocumentation();
-            rDoc.setResourceName(resource.getType());
-            rDoc.setResourceDocumentation(getDocumentation(resource));
-            
-            generateFieldDocumentation(resource, rDoc);
-            
-            documentation.add(rDoc);
-        }
-    }
-
-    private void generateFieldDocumentation(NeutralSchema resource, ResourceDocumentation rDoc) {
-        Map<String, NeutralSchema> resourceMap = resource.getFields();
-        //Fields on resource
-        for (Map.Entry<String, NeutralSchema> entry : resourceMap.entrySet()) {
-            String key = entry.getKey();
-            NeutralSchema schema = entry.getValue();
-            
-            rDoc.addFieldDocumentation(key, getDocumentation(schema));
+    private static void addResource(Document wadlDoc, Map.Entry<String, String> entry) throws XPathException {
+        DocumentManipulator docMan = new DocumentManipulator();
+        docMan.init();
+        NodeList nodeList = docMan.getNodeList(wadlDoc, getXpathForResource(entry.getKey()));
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element elem = (Element) nodeList.item(i);
+            elem.setAttribute("element", "Schema");
+            elem.setAttribute("href", BASE_URL + entry.getValue());
         }
     }
     
-    /**
-     * Gets the documentation annotation for a given Neutral schema
-     * @param neutralSchema Schema to retrieve documentation for
-     * @return Documentation associated with the given Neutral schema
-     */
-    private String getDocumentation(NeutralSchema neutralSchema) {
-        String ret = "";
-        Documentation doc = neutralSchema.getDocumentation();
-        
-        if (doc != null) {
-            ret = doc.toString();
-        } else if (neutralSchema instanceof ListSchema)  {
-            ListSchema lSchema = (ListSchema) neutralSchema;
-            NeutralSchema first = lSchema.getList().get(0);
-            ret = first.getDocumentation().toString();
-        } else {
-            ret = "No documentation found";
-        }
-        
-        ret = ret.replaceAll("\\s+", " ");
-        return ret;
+    private static String getXpathForResource(String resourceName) {
+        return XPATH.replace("$RESOURCE_NAME", resourceName);
     }
     
-    /**
-     * Gets a list of all top level resource Neutral schemas
-     * @return a list of all top level resource Neutral schemas
-     */
-    private List<NeutralSchema> getResourceSchemas() {
-        ArrayList<NeutralSchema> resources = new ArrayList<NeutralSchema>();
-        //TODO: get from wadl via xpath
-        resources.add(schemaRepo.getSchema("school"));
-        resources.add(schemaRepo.getSchema("student"));
-        return resources;
-    }
-    
-    public List<ResourceDocumentation> getDocumentation() {
-        return documentation;
-    }
 }
