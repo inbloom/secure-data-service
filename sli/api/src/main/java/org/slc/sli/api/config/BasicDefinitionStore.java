@@ -57,6 +57,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         this.makeExposeAndAddEntityDefinition("aggregation");
         this.makeExposeAndAddEntityDefinition("aggregationDefinition");
         EntityDefinition assessment = this.makeExposeAndAddEntityDefinition("assessment");
+        this.makeExposeAndAddEntityDefinition("assessmentFamily", "assessmentFamilies");
         EntityDefinition course = this.makeExposeAndAddEntityDefinition("course");
         EntityDefinition school = this.makeExposeAndAddEntityDefinition("school");
         EntityDefinition section = this.makeExposeAndAddEntityDefinition("section");
@@ -167,6 +168,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
         addDefinition(factory.makeEntity("realm").storeAs("realm").build());
+        addDefinition(factory.makeEntity("authSession").build());
         
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
