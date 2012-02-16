@@ -1,5 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
-
+package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -12,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,44 +20,48 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.v1.BaseResource;
 
 /**
- * Prototype new api end points and versioning 
+ * Prototype new api end points and versioning
+ * 
  * @author srupasinghe
- *
+ * 
  */
 @Path("v1/teacher-school-associations")
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class TeacherSchoolAssociationResource extends BaseResource {
+public class TeacherSchoolAssociationResource {
     
     private static final String TYPE_PATH = "teacher-school-associations";
-
+    private final CrudEndpoint crudDelegate;
+    
     @Autowired
-    public TeacherSchoolAssociationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, TYPE_PATH);
+    public TeacherSchoolAssociationResource(final EntityDefinitionStore entityDefs) {
+        crudDelegate = new BaseResource(entityDefs, TYPE_PATH);
     }
     
     /**
-     * Returns all teacher-school-association entities for which the logged in User has permission and context.
+     * Returns all teacher-school-association entities for which the logged in User has permission
+     * and context.
      * 
      * @param uriInfo
-     * @param offset starting position in results to return to user
-     * @param limit maximum number of results to return to user (starting from offset)
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
      * @return
      */
     @GET
     public Response getEntityCollection(@Context final UriInfo uriInfo,
             @QueryParam("offset") @DefaultValue("0") final int offset,
             @QueryParam("limit") @DefaultValue("50") final int limit) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return crudDelegate.readAll(uriInfo);
     }
-
+    
     /**
      * Create a new teacher-school-association entity.
-     *
+     * 
      * @param newEntityBody
      *            entity data
      * @param uriInfo
@@ -69,18 +71,18 @@ public class TeacherSchoolAssociationResource extends BaseResource {
      *                                        value.
      */
     @POST
-    public Response createEntity(final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
-        return super.createEntity(newEntityBody, uriInfo);
+    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return crudDelegate.create(newEntityBody, uriInfo);
     }
-
+    
     /**
-     * Get a single teacher-school-association entity 
-     *
+     * Get a single teacher-school-association entity
+     * 
      * @param id
      *            teacher-school-association id
-     * @param fullEntities
-     *            whether or not the full entity should be returned or just the link.  Defaults to false
+     * @param expandDepth
+     *            whether or not the full entity should be returned or just the link. Defaults to
+     *            false
      * @param uriInfo
      * @return A single student entity
      * @response.representation.200.mediaType application/json
@@ -89,15 +91,15 @@ public class TeacherSchoolAssociationResource extends BaseResource {
     @GET
     @Path("{id}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("id") final String id,
-            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
+    public Response read(@PathParam("id") final String id,
+            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {
-        return super.getEntity(id, fullEntities, uriInfo);
+        return crudDelegate.read(id, expandDepth, uriInfo);
     }
-
+    
     /**
      * Delete a teacher-school-association entity
-     *
+     * 
      * @param typePath
      *            resourceUri of the entity
      * @param id
@@ -107,13 +109,13 @@ public class TeacherSchoolAssociationResource extends BaseResource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteEntity(@PathParam("id") final String id) {
-        return super.deleteEntity(id);
+    public Response delete(@PathParam("id") final String id) {
+        return crudDelegate.delete(id);
     }
-
+    
     /**
      * Update an existing teacher-school-association entity.
-     *
+     * 
      * @param typePath
      *            resourceUri for the entity
      * @param id
@@ -125,8 +127,7 @@ public class TeacherSchoolAssociationResource extends BaseResource {
      */
     @PUT
     @Path("{id}")
-    public Response updateEntity(@PathParam("id") final String id,
-            final EntityBody newEntityBody) {
-        return super.updateEntity(id, newEntityBody);
+    public Response update(@PathParam("id") final String id, final EntityBody newEntityBody) {
+        return crudDelegate.update(id, newEntityBody);
     }
 }

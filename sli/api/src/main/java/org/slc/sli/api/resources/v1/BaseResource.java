@@ -6,8 +6,8 @@ import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +25,11 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
  * Prototype new api end points and versioning base class
+ * 
  * @author srupasinghe
- *
+ * 
  */
-public abstract class BaseResource {
+public class BaseResource implements CrudEndpoint {
     private String typePath = "";
     
     protected static final String FULL_ENTITIES_PARAM = "full-entities";
@@ -40,14 +41,13 @@ public abstract class BaseResource {
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
     
     public static final int MAX_MULTIPLE_UUIDS = 100;
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(BaseResource.class);
     private final EntityDefinitionStore entityDefs;
     
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
-     * exception
-     * handling code.
+     * exception handling code.
      */
     protected static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
@@ -55,14 +55,21 @@ public abstract class BaseResource {
     
     @Autowired
     public BaseResource(EntityDefinitionStore entityDefs, String typePath) {
+        if (entityDefs == null) {
+            throw new NullPointerException("entityDefs");
+        }
         this.entityDefs = entityDefs;
         this.typePath = typePath;
     }
-
-
+    
+    @Override
+    public Response readAll(final UriInfo uriInfo) {
+        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+    }
+    
     /**
      * Create a new entity or association.
-     *
+     * 
      * @param typePath
      *            resourceUri for the entity
      * @param newEntityBody
@@ -73,8 +80,7 @@ public abstract class BaseResource {
      * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
      *                                        value.
      */
-    public Response createEntity(final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
+    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -84,63 +90,71 @@ public abstract class BaseResource {
             }
         });
     }
-
+    
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
      * source entity for that association.
-     *
+     * 
      * @param idList
-     *            comma separated list of the association id(s) or the association's source entity id(s)
+     *            comma separated list of the association id(s) or the association's source entity
+     *            id(s)
      * @param fullEntities
-     *            whether or not the full entity should be returned or just the link.  Defaults to false
+     *            whether or not the full entity should be returned or just the link. Defaults to
+     *            false
      * @param uriInfo
      * @return A single entity or association, unless the type references an association and the id
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-    public Response getEntity(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
+    public Response read(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
         return handle(this.typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                //split list of IDs into individual ID(s)
-                String[]ids = idList.split(",");
+                // split list of IDs into individual ID(s)
+                String[] ids = idList.split(",");
                 boolean multipleIds = (ids.length > 1);
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 
-                //validate the number of input IDs is lower than the max acceptable amount
+                // validate the number of input IDs is lower than the max acceptable amount
                 if (ids.length > BaseResource.MAX_MULTIPLE_UUIDS) {
                     Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + BaseResource.MAX_MULTIPLE_UUIDS + " (allowed)";
-                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
+                            + BaseResource.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                                    errorMessage)).build();
                 }
                 
-                //loop through all input ID(s)
+                // loop through all input ID(s)
                 for (String id : ids) {
-                    //ID is a valid entity from the collection
+                    // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
                         EntityBody entityBody = entityDef.getService().get(id);
                         entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
                         results.add(entityBody);
-                    } else if (multipleIds) { //ID not found but multiple IDs are being searched for
+                    } else if (multipleIds) { // ID not found but multiple IDs are being searched
+                                              // for
                         results.add(null);
-                    } else { //ID not found and only one ID being searched for
+                    } else { // ID not found and only one ID being searched for
                         return Response.status(Status.NOT_FOUND).build();
                     }
                 }
                 
-                //get a response appropriate for the GET request
+                // get a response appropriate for the GET request
                 Object responseBodyEntity = multipleIds ? results : results.get(0);
                 
-                //Return results as an array if multiple IDs were requested (comma separated list), single entity otherwise
+                // Return results as an array if multiple IDs were requested (comma separated list),
+                // single entity otherwise
                 return Response.ok(responseBodyEntity).build();
             }
         });
     }
-
+    
     /**
      * Get the full entities, not just links
-     *
+     * 
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -150,15 +164,15 @@ public abstract class BaseResource {
      *         represents the source entity. In that case a collection of associations.
      * @response.representation.200.mediaType application/json
      */
-   
+    
     public Response getFullEntities(final String id, final UriInfo uriInfo) {
-        return getEntity(id, true, uriInfo);
+        return read(id, true, uriInfo);
     }
     
     /**
      * Gets the target entities from an association when the source entity is specified for the
      * association.
-     *
+     * 
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -168,17 +182,15 @@ public abstract class BaseResource {
      * @param limit
      *            maximum number of results to return
      * @param fullEntities
-     *            whether or not the full entity should be returned or just the link.  Defaults to false
+     *            whether or not the full entity should be returned or just the link. Defaults to
+     *            false
      * @param uriInfo
      * @return A collection of entities that are the targets of the specified source in an
      *         association
      * @response.representation.200.mediaType application/json
      */
-
-    public Response getHoppedRelatives(final String id,
-            final int offset,
-            final int limit,
-            final boolean fullEntities,
+    
+    public Response getHoppedRelatives(final String id, final int offset, final int limit, final boolean fullEntities,
             final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
@@ -198,7 +210,7 @@ public abstract class BaseResource {
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-
+                    
                     if (fullEntities) {
                         return Response.ok(getHoppedEntities(relatives, relative)).build();
                     } else {
@@ -209,10 +221,10 @@ public abstract class BaseResource {
                     return Response.status(Status.NOT_FOUND).build();
                 }
             }
-
+            
         });
     }
-
+    
     private CollectionResponse getHoppedLinks(final UriInfo uriInfo, Iterable<String> relatives,
             EntityDefinition relative) {
         CollectionResponse collection = new CollectionResponse();
@@ -224,14 +236,14 @@ public abstract class BaseResource {
         }
         return collection;
     }
-
+    
     private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef) {
         return relativeDef.getService().get(relatives);
     }
-
+    
     /**
      * Get the full entities, not just links
-     *
+     * 
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -245,16 +257,14 @@ public abstract class BaseResource {
      *         association
      * @response.representation.200.mediaType application/json
      */
-
-    public Response getFullHoppedRelatives(final String id,
-            final int offset,
-            final int limit, final UriInfo uriInfo) {
+    
+    public Response getFullHoppedRelatives(final String id, final int offset, final int limit, final UriInfo uriInfo) {
         return getHoppedRelatives(id, offset, limit, true, uriInfo);
     }
-
+    
     /**
      * Delete an entity or association
-     *
+     * 
      * @param typePath
      *            resourceUri of the entity
      * @param id
@@ -262,8 +272,8 @@ public abstract class BaseResource {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
-
-    public Response deleteEntity(final String id) {
+    
+    public Response delete(final String id) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -272,10 +282,10 @@ public abstract class BaseResource {
             }
         });
     }
-
+    
     /**
      * Update an existing entity or association.
-     *
+     * 
      * @param typePath
      *            resourceUri for the entity
      * @param id
@@ -285,9 +295,8 @@ public abstract class BaseResource {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
-
-    public Response updateEntity(final String id,
-            final EntityBody newEntityBody) {
+    
+    public Response update(final String id, final EntityBody newEntityBody) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -300,9 +309,9 @@ public abstract class BaseResource {
             }
         });
     }
-
+    
     /* Utility methods */
-
+    
     /**
      * Handle preconditions and exceptions.
      */
@@ -316,10 +325,10 @@ public abstract class BaseResource {
         }
         return logic.run(entityDef);
     }
-
+    
     /**
      * Gets the links that should be included for the given resource
-     *
+     * 
      * @param uriInfo
      *            the uri info for the request
      * @param defn

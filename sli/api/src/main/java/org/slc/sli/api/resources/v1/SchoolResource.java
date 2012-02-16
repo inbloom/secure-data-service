@@ -1,5 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
-
+package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -22,32 +21,35 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.v1.BaseResource;
 
 /**
  * Prototype new api end points and versioning
+ * 
  * @author srupasinghe
- *
+ * 
  */
 @Path("v1/schools")
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class SchoolResource extends BaseResource {
-
+public class SchoolResource {
+    
     private static final String TYPE_PATH = "schools";
-
+    private final CrudEndpoint crudDelegate;
+    
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, TYPE_PATH);
+        crudDelegate = new BaseResource(entityDefs, TYPE_PATH);
     }
-
+    
     /**
      * Returns all School entities for which the logged in User has permission and context.
      * 
      * @param uriInfo
-     * @param offset starting position in results to return to user
-     * @param limit maximum number of results to return to user (starting from offset)
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
      * @return
      */
     @GET
@@ -56,7 +58,7 @@ public class SchoolResource extends BaseResource {
             @QueryParam("limit") @DefaultValue("50") final int limit) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
-
+    
     /**
      * Create a new school entity.
      * 
@@ -69,17 +71,16 @@ public class SchoolResource extends BaseResource {
      *                                        value.
      */
     @POST
-    public Response createEntity(final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
-        return super.createEntity(newEntityBody, uriInfo);
+    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return crudDelegate.create(newEntityBody, uriInfo);
     }
-
+    
     /**
      * Get a single school entity
      * 
      * @param id
      *            The Id of the School.
-     * @param fullEntities
+     * @param expandDepth
      *            whether or not the full entity should be returned or just the link. Defaults to
      *            false
      * @param uriInfo
@@ -90,12 +91,12 @@ public class SchoolResource extends BaseResource {
     @GET
     @Path("{schoolId}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("schoolId") final String schoolId,
-            @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
+    public Response read(@PathParam("schoolId") final String schoolId,
+            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {
-        return super.getEntity(schoolId, fullEntities, uriInfo);
+        return crudDelegate.read(schoolId, expandDepth, uriInfo);
     }
-
+    
     /**
      * Delete a school entity
      * 
@@ -106,10 +107,10 @@ public class SchoolResource extends BaseResource {
      */
     @DELETE
     @Path("{schoolId}")
-    public Response deleteEntity(@PathParam("schoolId") final String schoolId) {
-        return super.deleteEntity(schoolId);
+    public Response delete(@PathParam("schoolId") final String schoolId) {
+        return crudDelegate.delete(schoolId);
     }
-
+    
     /**
      * Update an existing school entity.
      * 
@@ -122,11 +123,10 @@ public class SchoolResource extends BaseResource {
      */
     @PUT
     @Path("{schoolId}")
-    public Response updateEntity(@PathParam("schoolId") final String schoolId,
-            final EntityBody newEntityBody) {
-        return super.updateEntity(schoolId, newEntityBody);
+    public Response update(@PathParam("schoolId") final String schoolId, final EntityBody newEntityBody) {
+        return crudDelegate.update(schoolId, newEntityBody);
     }
-
+    
     /**
      * Returns all the student-school-associations that
      * reference the given school
