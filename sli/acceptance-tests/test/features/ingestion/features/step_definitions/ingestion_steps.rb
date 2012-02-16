@@ -134,7 +134,8 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
     #remote check of file
     @job_status_filename_component = "job-" + @source_file_name + "-"
     
-    @resultOfIngestion = runShellCommand("../../util/ingestionStatus.sh " + @job_status_filename_component + " " + message)
+    
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component + " " + message)
     
     @messageString = "Processed " + message + " Records."
     if @resultOfIngestion.include? @messageString
