@@ -19,7 +19,6 @@
     <jb:wiring beanIdRef="record" />
   </jb:bean>
 
-
   <!-- Student mapping -->
 
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudent/Student">
@@ -766,7 +765,7 @@
     <jb:value property="sectionId" data="StudentSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
     <jb:value property="beginDate" data="StudentSectionAssociation/BeginDate" />
     <jb:value property="endDate" data="StudentSectionAssociation/EndDate" />
-    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" />
+    <jb:value property="homeroomIndicator" data="StudentSectionAssociation/HomeroomIndicator" decoder="Boolean"/>
     <jb:value property="repeatIdentifier" data="StudentSectionAssociation/RepeatIdentifier" />
   </jb:bean>
 
@@ -1264,6 +1263,88 @@
     <jb:value property="beginDate" data="Session/BeginDate" />
     <jb:value property="endDate" data="Session/EndDate" />
     <jb:value property="totalInstructionalDays" data="Session/TotalInstructionalDays" decoder="Integer" />
+  </jb:bean>
+
+  <!-- Assessment family mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+
+    <!-- jb:value property="sourceId" data="" / -->
+    <!-- jb:value property="jobId" data="" / -->
+    <jb:expression property="recordType">'AssessmentFamily'</jb:expression>
+
+    <jb:value property="localId" data="AssessmentFamily/AssessmentFamilyTitle" />
+    <jb:wiring property="attributes" beanIdRef="AssessmentFamilyAttributes" />
+
+  </jb:bean>
+
+  <jb:bean beanId="AssessmentFamilyAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+  
+    <jb:value property="id" data="AssessmentFamily/@id" />
+    <jb:value property="AssessmentFamilyTitle" data="AssessmentFamily/AssessmentFamilyTitle" />
+    
+    <jb:wiring property="AssessmentFamilyIdentificationCode" beanIdRef="AssessmentFamily_AssessmentIdentificationCodeArray" />
+    
+    <jb:value property="AssessmentCategory" data="AssessmentFamily/AssessmentCategory" />
+    <jb:value property="AcademicSubject" data="AssessmentFamily/AcademicSubject" />
+    <jb:value property="GradeLevelAssessed" data="AssessmentFamily/GradeLevelAssessed" />
+    <jb:value property="LowestGradeLevelAssessed" data="AssessmentFamily/LowestGradeLevelAssessed" />
+    <jb:value property="ContentStandard" data="AssessmentFamily/ContentStandard" />
+    <jb:value property="Version" data="AssessmentFamily/Version" />
+    <jb:value property="RevisionDate" data="AssessmentFamily/RevisionDate" />
+    <jb:value property="Nomenclature" data="AssessmentFamily/Nomenclature" />
+    <jb:wiring property="AssessmentPeriods" beanIdRef="AssessmentFamily_AssessmentPeriodArray" />
+    
+    <jb:wiring property="AssessmentFamilyReference" beanIdRef="AssessmentFamilyReferenceType" />
+    
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamily_AssessmentIdentificationCodeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+    <jb:wiring beanIdRef="AssessmentFamily_AssessmentIdentificationCode" />
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamily_AssessmentIdentificationCode" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyIdentificationCode">
+    <jb:value property="ID" data="AssessmentFamily/AssessmentFamilyIdentificationCode/ID" />
+    <jb:value property="IdentificationSystem" data="AssessmentFamily/AssessmentFamilyIdentificationCode/@IdentificationSystem" />
+    <jb:value property="AssigningOrganizationCode" data="AssessmentFamily/AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
+  </jb:bean>
+  
+  
+  <jb:bean beanId="AssessmentFamily_AssessmentPeriodArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+    <jb:wiring beanIdRef="AssessmentFamily_AssessmentPeriodType" />
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamily_AssessmentPeriodType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
+    <jb:value property="id" data="AssessmentFamily/AssessmentPeriods/@id" />
+    <jb:value property="ref" data="AssessmentFamily/AssessmentPeriods/@ref" />
+    <jb:value property="CodeValue" data="AssessmentFamily/AssessmentPeriods/CodeValue" />
+    <jb:value property="ShortDescription" data="AssessmentFamily/AssessmentPeriods/ShortDescription" />
+    <jb:value property="Description" data="AssessmentFamily/AssessmentPeriods/Description" />
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamilyReferenceType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+    <jb:wiring property="AssessmentFamilyIdentity" beanIdRef="AssessmentFamilyIdentityType" />
+    <jb:value property="id" data="AssessmentFamily/AssessmentFamilyReference/@id" />
+    <jb:value property="ref" data="AssessmentFamily/AssessmentFamilyReference/@ref" />
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamilyIdentityType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+    
+    <jb:wiring property="AssessmentFamilyIdentificationCode" beanIdRef="AssessmentFamily_Reference_AssessmentIdentificationCodeArray" />
+    
+    <jb:value property="AssessmentFamilyTitle" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyTitle" />
+    
+    <jb:value property="Version" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/Version" />
+    
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamily_Reference_AssessmentIdentificationCodeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
+    <jb:wiring beanIdRef="AssessmentFamily_Reference_AssessmentIdentificationCode" />
+  </jb:bean>
+  
+  <jb:bean beanId="AssessmentFamily_Reference_AssessmentIdentificationCode" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode">
+    <jb:value property="ID" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID" />
+    <jb:value property="IdentificationSystem" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/@IdentificationSystem" />
+    <jb:value property="AssigningOrganizationCode" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
   </jb:bean>
 
 </smooks-resource-list>

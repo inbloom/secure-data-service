@@ -41,14 +41,14 @@ public class MergeDocuments {
 
     public void merge(File baseFile, File mergeFile, String outputFileName) {
         try {
+
             handler.init();
 
             Document wadlDoc = handler.parseDocument(baseFile);
             Document mergeDoc = handler.parseDocument(mergeFile);
 
             applyMerge(wadlDoc, mergeDoc);
-
-            // System.out.println(handler.serializeDocumentToString(wadlDoc));
+            
             handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath()
                     + File.separator + outputFileName));
         } catch (DocumentManipulatorException e) {
