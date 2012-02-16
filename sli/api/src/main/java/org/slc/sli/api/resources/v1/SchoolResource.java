@@ -42,7 +42,7 @@ public class SchoolResource implements CrudEndpoint {
     
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
-        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH);
     }
     
     /**

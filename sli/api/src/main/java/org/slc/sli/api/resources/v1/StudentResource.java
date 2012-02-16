@@ -23,6 +23,14 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
+/**
+ * Responds to URI requests involving student info/path.
+ * 
+ * 
+ * 
+ * @author kmyers
+ *
+ */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
@@ -35,7 +43,7 @@ public class StudentResource implements CrudEndpoint {
     
     @Autowired
     public StudentResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new DefaultCrudEndpoint(entityDefs, RESOURCE_NAME_STUDENTS, LOGGER);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, RESOURCE_NAME_STUDENTS);
     }
     
     /**
