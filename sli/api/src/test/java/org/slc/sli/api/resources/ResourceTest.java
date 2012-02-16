@@ -446,6 +446,17 @@ public class ResourceTest {
     public void testStudentAssessment() {
 
     }
+    
+    @Test
+    public void testAssessmentFamily() {
+        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
+
+        Response createResponse = api.createEntity("assessmentFamilies", new EntityBody(createTestEntity()), uriInfo);
+        assertNotNull(createResponse);
+        assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
+        String studentId1 = parseIdFromLocation(createResponse);
+        ids.put(new TypeIdPair("assessmentFamilies", studentId1), (String) createResponse.getMetadata().get("Location").get(0));
+    }
 
     @Test
     public void testAggregations() throws Exception {

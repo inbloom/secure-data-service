@@ -15,17 +15,17 @@ Scenario: Create a teacher-section-association
 Given format "application/json"
   And "teacherId" is "<'Ms. Smith' ID>"
   And "sectionId" is "<'Algebra II' ID>"
-  And "beginDate" is "2011-8-15"
+  And "beginDate" is "2011-08-15"
   And "endDate" is "2011-12-15"
-  And "classroomPosition" is "TEACHER_OF_RECORD"
+  And "classroomPosition" is "Teacher of Record"
 When I navigate to POST "/teacher-section-associations"
 Then I should receive a return code of 201
   And I should receive an ID for the newly created teacher-section-association
 When I navigate to GET "/teacher-section-associations/<'newly created teacher-section-association' ID>"
 Then I should receive a return code of 200
-Then "beginDate" should be "2011-8-15"
+Then "beginDate" should be "2011-08-15"
     And "endDate" should be "2011-12-15"
-    And "classroomPosition" should be "TEACHER_OF_RECORD"
+    And "classroomPosition" should be "Teacher of Record"
 
 Scenario: Read a teacher-section-association
 Given format "application/json"
@@ -34,10 +34,10 @@ Then I should receive a return code of 200
   And I should receive a link named "getTeacher" with URI "/teachers/<'Ms. Jones' ID>"
   And I should receive a link named "getSection" with URI "/sections/<'Algebra II' ID>"
   And I should receive a link named "self" with URI "/teacher-section-associations/<'Teacher Ms. Jones and Section Algebra II' ID>"
-  And "beginDate" should be "2011-9-1"
+  And "beginDate" should be "2011-09-01"
   And "endDate" should be "2011-12-16"
   And "highlyQualifiedTeacher" should be "true"
-  And "classroomPosition" should be "TEACHER_OF_RECORD"
+  And "classroomPosition" should be "Teacher of Record"
 
 Scenario: Reading a teacher-section-association for a teacher
 Given format "application/json"
@@ -61,12 +61,12 @@ Then I should receive a return code of 200
 Scenario: Update a teacher-section-association
 Given format "application/json"
   And I navigate to GET "/teacher-section-associations/<'Teacher Ms. Smith and Section Chem I' ID>"
-  And "classroomPosition" is "TEACHER_OF_RECORD"
-When I set "classroomPosition" to "ASSISTANT_TEACHER"
+  And "classroomPosition" is "Teacher of Record"
+When I set "classroomPosition" to "Assistant Teacher"
   And I navigate to PUT "/teacher-section-associations/<'Teacher Ms. Smith and Section Chem I' ID>"
 Then I should receive a return code of 204
   And I navigate to GET "/teacher-section-associations/<'Teacher Ms. Smith and Section Chem I' ID>"
-  And "classroomPosition" should be "ASSISTANT_TEACHER"
+  And "classroomPosition" should be "Assistant Teacher"
 
 
 Scenario: Delete a teacher-section-association
