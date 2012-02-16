@@ -309,6 +309,21 @@
 									<commandlineArgs>-o ${project.build.outputDirectory}/doc/application.html ${project.build.outputDirectory}/doc/xsl/wadl.xsl ${project.build.outputDirectory}/doc/eapplication.wadl</commandlineArgs>
 								</configuration>
 							</execution>
+							
+							<execution>
+								<id>resource documenter</id>
+								<phase>package</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>org.slc.sli.scaffold.semantics.ResourceDocumenter</mainClass>
+									<arguments>
+										<argument>${project.build.outputDirectory}/doc/application.html</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							
 						</executions>
 					</plugin>
 
