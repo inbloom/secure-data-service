@@ -99,8 +99,6 @@ public class BatchJobTest {
 
         System.out.println(System.getProperty("java.class.path"));
 
-        String id = job.getId();
-
         //batch job id's are now dynamic - they depend on incoming file size
         //assertEquals(id.length(), 36);
 

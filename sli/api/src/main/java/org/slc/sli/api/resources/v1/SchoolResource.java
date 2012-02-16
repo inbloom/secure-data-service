@@ -39,12 +39,12 @@ public class SchoolResource implements CrudEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     private static final String TYPE_PATH = "schools";
     private final CrudEndpoint crudDelegate;
-    
+
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
         crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
     }
-    
+
     /**
      * Returns all School entities for which the logged in User has permission and context.
      * 
@@ -60,31 +60,41 @@ public class SchoolResource implements CrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
         return crudDelegate.readAll(offset, limit, uriInfo);
     }
-    
+
     /**
      * Create a new school entity.
      * 
      * @param newEntityBody
      *            entity data
      * @param uriInfo
-     * @return Response with a status of CREATED and a Location header set pointing to where the new
-     *         entity lives
-     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
-     *                                        value.
+     * @return (This is the !return place)
+     * @request.representation.mediaType application/json
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
      */
     @POST
     public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
         return crudDelegate.create(newEntityBody, uriInfo);
     }
-    
+
     /**
      * Get a single school entity
      * 
      * @param id
      *            The Id of the School.
+<<<<<<< Updated upstream
      * @param expandDepth
      *            whether or not the full entity should be returned or just the link. Defaults to
      *            false
+=======
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+>>>>>>> Stashed changes
      * @param uriInfo
      * @return A single school entity
      * @response.representation.200.mediaType application/json
@@ -98,7 +108,7 @@ public class SchoolResource implements CrudEndpoint {
             @Context final UriInfo uriInfo) {
         return crudDelegate.read(schoolId, expandDepth, uriInfo);
     }
-    
+
     /**
      * Delete a school entity
      * 
@@ -112,7 +122,7 @@ public class SchoolResource implements CrudEndpoint {
     public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId) {
         return crudDelegate.delete(schoolId);
     }
-    
+
     /**
      * Update an existing school entity.
      * 
@@ -129,18 +139,28 @@ public class SchoolResource implements CrudEndpoint {
             final EntityBody newEntityBody) {
         return crudDelegate.update(schoolId, newEntityBody);
     }
-    
+
     /**
      * Returns all the student-school-associations that
      * reference the given school
      * 
      * @param schoolId
      *            The Id of the School.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * 
      * @return
      */
     @GET
     @Path("{schoolId}/student-school-associations")
-    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId) {
+    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+            @QueryParam("start-index") @DefaultValue("0") final int offset,
+            @QueryParam("max-results") @DefaultValue("50") final int limit,
+            @QueryParam("expandDepth") @DefaultValue("0") final int expandDepth) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
