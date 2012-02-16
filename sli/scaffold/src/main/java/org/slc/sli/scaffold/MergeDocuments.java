@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.xml.xpath.XPathException;
 
-import org.slc.sli.scaffold.semantics.ResourceDocumenter;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -49,7 +48,6 @@ public class MergeDocuments {
             Document mergeDoc = handler.parseDocument(mergeFile);
 
             applyMerge(wadlDoc, mergeDoc);
-            ResourceDocumenter.addResourceMerge(wadlDoc);
             
             handler.serializeDocumentToXml(wadlDoc, new File(baseFile.getParentFile().getAbsolutePath()
                     + File.separator + outputFileName));
