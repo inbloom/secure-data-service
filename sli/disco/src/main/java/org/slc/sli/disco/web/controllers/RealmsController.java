@@ -54,7 +54,7 @@ public class RealmsController {
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState, 
-            @RequestParam(value = "realmName", required = false) String realmName, Model model) throws IOException {
+            @RequestParam(value = "RealmName", required = false) String realmName, Model model) throws IOException {
 
         ResponseEntity<String> resp = rest.getForEntity(this.listUrl, String.class);
 
@@ -72,8 +72,7 @@ public class RealmsController {
             
             if (realmName != null && realmName.length() > 0) {
                 if (realmName.equals(node.get("state").getTextValue())) {
-                    String idpUrl = node.get("idp").getTextValue();
-                    return "redirect:" + idpUrl;
+                    return ssoInit(node.get("id").getTextValue(), relayState, model);
                 }
             }
         }

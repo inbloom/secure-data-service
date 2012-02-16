@@ -47,7 +47,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Returns all School entities for which the logged in User has permission and context.
+     * Returns all $$school$$ entities for which the logged in User has permission and context.
      * 
      * @param uriInfo
      * @param offset
@@ -63,7 +63,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Create a new school entity.
+     * Create a new $$school$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -80,7 +80,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Get a single school entity
+     * Get a single $$school$$ entity
      * 
      * @param id
      *            The Id of the School.
@@ -108,7 +108,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Delete a school entity
+     * Delete a $$school$$ entity
      * 
      * @param id
      *            The Id of the School.
@@ -122,7 +122,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Update an existing school entity.
+     * Update an existing $$school$$ entity.
      * 
      * @param schoolId
      *            The Id of the School.
@@ -140,7 +140,7 @@ public class SchoolResource implements CrudEndpoint {
 
     /**
      * Returns all the student-school-associations that
-     * reference the given school
+     * reference the given $$school$$
      * 
      * @param schoolId
      *            The Id of the School.

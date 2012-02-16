@@ -5,7 +5,9 @@ import java.util.List;
 
 import freemarker.ext.beans.BeansWrapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,8 @@ import org.slc.sli.view.widget.WidgetFactory;
  * Controller for showing the list of studentview.
  *
  */
+@Controller
+@RequestMapping("/studentlistcontent")
 public class StudentListContentController extends DashboardController {
 
     private ConfigManager configManager;
@@ -92,22 +96,12 @@ public class StudentListContentController extends DashboardController {
         return new ModelAndView("studentListContent");
     }
 
-
-    /*
-     * Getters and setters
-     */
-    public ConfigManager getConfigManager() {
-        return configManager;
-    }
-
+    @Autowired
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
     }
     
-    public PopulationManager getPopulationManager() {
-        return populationManager;
-    }
-
+    @Autowired
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
     }
