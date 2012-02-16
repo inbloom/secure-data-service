@@ -42,7 +42,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Returns all Student entities.
+     * Returns all $$student$$ entities.
      * 
      * @param uriInfo
      *            The URI context.
@@ -54,7 +54,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Get a single student entity
+     * Get a single $$student$$ entity
      * 
      * @param idList
      *            school id
@@ -80,7 +80,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Returns all the student-school-associations in the context of the specified student.
+     * Returns all the student-school-associations in the context of the specified $$student$$.
      * 
      * @param id
      */
@@ -137,7 +137,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Create a new student resource.
+     * Create a new $$student$$ resource.
      * 
      * @param newEntityBody
      *            entity data
@@ -153,7 +153,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Delete a student resource.
+     * Delete a $$student$$ resource.
      * 
      * @param typePath
      *            resourceUri of the entity
@@ -169,7 +169,7 @@ public class StudentResource implements CrudEndpoint {
     }
 
     /**
-     * Update an existing student resource.
+     * Update an existing $$student$$ resource.
      * 
      * @param typePath
      *            resourceUri for the entity
