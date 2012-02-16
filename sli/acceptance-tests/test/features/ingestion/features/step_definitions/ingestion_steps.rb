@@ -138,7 +138,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component)
     puts "Showing : " + @resultOfIngestion
     
-    @messageString = "Processed " + message + " Records."
+    @messageString = "Processed " + message + " records."
     if @resultOfIngestion.include? @messageString
       assert(true, "Processed all the records.")
     else
