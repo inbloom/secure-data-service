@@ -231,7 +231,7 @@
 								</docletArtifact>
 							</docletArtifacts>
 							<additionalparam>-output
-								${project.build.outputDirectory}/resourcedoc.xml</additionalparam>
+								${project.build.outputDirectory}/doc/resourcedoc.xml</additionalparam>
 						</configuration>
 					</plugin>
 
@@ -249,7 +249,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<wadlFile>${project.build.outputDirectory}/application.wadl</wadlFile>
+							<wadlFile>${project.build.outputDirectory}/doc/application.wadl</wadlFile>
 							<formatWadlFile>true</formatWadlFile>
 							<baseUri>http://www.sli.slc.org/api/rest</baseUri>
 							<packagesResourceConfig>
@@ -261,7 +261,7 @@
 									<properties>
 										<property>
 											<name>applicationDocsFile</name>
-											<value>${project.build.outputDirectory}/application-doc.xml</value>
+											<value>${project.build.outputDirectory}/doc/application-doc.xml</value>
 										</property>
 									</properties>
 								</wadlGeneratorDescription>
@@ -270,7 +270,7 @@
 									<properties>
 										<property>
 											<name>resourceDocFile</name>
-											<value>${project.build.outputDirectory}/resourcedoc.xml</value>
+											<value>${project.build.outputDirectory}/doc/resourcedoc.xml</value>
 										</property>
 									</properties>
 								</wadlGeneratorDescription>
@@ -291,8 +291,8 @@
 								<configuration>
 									<mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
 									<arguments>
-										<argument>${project.build.outputDirectory}/application.wadl</argument>
-										<argument>${project.build.outputDirectory}/merge-examples.xml</argument>
+										<argument>${project.build.outputDirectory}/doc/application.wadl</argument>
+										<argument>${project.build.outputDirectory}/doc/merge/merge-examples.xml</argument>
 										<argument>eapplication.wadl</argument>
 									</arguments>
 								</configuration>
@@ -306,7 +306,7 @@
 								<phase>package</phase>
 								<configuration>
 									<executable>xsltproc</executable>
-									<commandlineArgs>-o ${project.build.outputDirectory}/application.html ${project.build.outputDirectory}/wadl.xsl ${project.build.outputDirectory}/eapplication.wadl</commandlineArgs>
+									<commandlineArgs>-o ${project.build.outputDirectory}/doc/application.html ${project.build.outputDirectory}/doc/xsl/wadl.xsl ${project.build.outputDirectory}/doc/eapplication.wadl</commandlineArgs>
 								</configuration>
 							</execution>
 						</executions>

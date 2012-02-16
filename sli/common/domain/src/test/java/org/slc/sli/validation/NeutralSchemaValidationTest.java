@@ -128,6 +128,26 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidSessionCourseAssociation() throws Exception {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/session_course_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "sessionCourseAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
 
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
