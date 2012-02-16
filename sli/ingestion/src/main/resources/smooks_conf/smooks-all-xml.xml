@@ -1347,4 +1347,49 @@
     <jb:value property="AssigningOrganizationCode" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
   </jb:bean>
 
+ <!--  studentObjectiveAssessment -->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+     <jb:expression property="recordType">'studentObjectiveAssessment'</jb:expression>
+     <jb:wiring property="attributes" beanIdRef="sOAAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="sOAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
+     <jb:wiring property="performanceLevelDescriptors" beanIdRef="plDescriptorsArray" />
+     <jb:wiring property="oAReference" beanIdRef="OAReferenceType" />
+     <jb:value property="sTAReference" data="StudentObjectiveAssessment/StudentTestAssessmentReference" />
+  </jb:bean>
+
+  <jb:bean beanId="ScoreResultsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+     <jb:wiring beanIdRef="ScoreResults" />
+  </jb:bean>
+
+  <jb:bean beanId="ScoreResults" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+    <jb:value property="assessmentReportingMethod" data="StudentObjectiveAssessment/ScoreResults/@AssessmentReportingMethod" />
+    <jb:value property="result" data="StudentObjectiveAssessment/ScoreResults/Result" />
+  </jb:bean>
+
+  <jb:bean beanId="plDescriptorsArrray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+    <jb:wiring beanIdRef="plDescriptor" />
+  </jb:bean>
+
+  <jb:bean beanId="plDescriptor" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment" >
+    <jb:value property="codeValue" data="StudentObjectiveAssessment/PerformanceLevels/CodeValue" />
+    <jb:value property="Description" data="StudentObjectiveAssessment/PerformanceLevels/Description" />
+  </jb:bean>
+
+  <!-- ObjectiveAssessmentReferenceType -->
+  <jb:bean beanId="OAReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:value property="oaIdCode" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
+        <jb:value property="id" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@id" />
+        <jb:value property="ref" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@ref" />
+  </jb:bean>
+
+  <!--  end of studentObjectiveAssessment  -->
+
+
+
+
+
 </smooks-resource-list>
