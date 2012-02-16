@@ -98,7 +98,7 @@ public class SchoolResource implements CrudEndpoint {
      * @param uriInfo
      * @return A single school entity
      * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.blah.org/mynamespace}school
+     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
      */
     @GET
     @Path("{schoolId}")
