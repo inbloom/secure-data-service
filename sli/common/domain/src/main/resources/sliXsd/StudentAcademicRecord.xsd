@@ -143,8 +143,8 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- 
-	<xs:element name="courseSessionAssociation">
+  -->
+	<xs:element name="sessionCourseAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
 				with a session during which the course is offered.
@@ -182,7 +182,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
- -->
+
 	<xs:complexType name="additionalCredits">
 		<xs:annotation>
 			<xs:documentation>Additional credits or units of value awarded for
