@@ -55,8 +55,8 @@
 						<xs:documentation>The course's level of rigor.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseLevelCharacteristics" type="courseLevelCharacteristicsType"
-					minOccurs="0">
+				<xs:element name="courseLevelCharacteristics" type="courseLevelCharacteristicItemType"
+					minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Specification of the specific program or
 							designation associated with the course. For example: Ap, IB, Dual
