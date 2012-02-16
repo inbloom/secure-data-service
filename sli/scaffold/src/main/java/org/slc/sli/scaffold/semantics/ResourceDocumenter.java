@@ -29,7 +29,7 @@ public abstract class ResourceDocumenter {
     private static final Map<String, String> RESOURCE_MAP = new HashMap<String, String>() {
         {
             put("v1/schools", "EducationalOrganization_xsd.html#school");
-            put("v1/students", "StudentAcademicRecord_xsd.html");
+            put("v1/students", "Enrollment_xsd.html#student");
         } 
     };
     
