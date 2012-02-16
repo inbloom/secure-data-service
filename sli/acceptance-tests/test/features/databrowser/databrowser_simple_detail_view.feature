@@ -1,6 +1,6 @@
 @wip
 Feature: Data Browser
-As a dataprowler user, I want to be able to see lists of objects in a simple view, and click on a single object to get a detailed view of just that object 
+As a Data Browser user, I want to be able to traverse all of the data I have access to so that I can investigate/troubleshoot issues as they come up
  
 Scenario: Go to Data Browser when authenticated SLI
  
@@ -20,14 +20,19 @@ When I click on the Logout link
 Then I am redirected to a page that informs me that I have signed out
 And I am no longer authenticated to SLI
 
-Scenario: Navigate to home page from any page
+Scenario Outline: Navigate to home page from any page
 
 Given I have an open web browser
 And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-And I have navigated to the "My Schools" page of the Data Browser
+And I have navigated to the <Page> page of the Data Browser
 When I click on the "Home" link
 Then I should be redirected to the Data Browser home page
- 
+ Examples:
+ | Page                      |
+ | "My Schools"              |
+ | "Teacher to Section List" |
+ | "Me"                      |
+	
 Scenario: Associations List - Simple View
 
 Given I have an open web browser
@@ -48,15 +53,20 @@ Then the row expands below listing the rest of the attributes for the item
 When I click on the row containing "FHS-Science101"
 Then the row collapses hiding the additional attributes
 
-Scenario: Entity Detail View
+Scenario Outline: Entity Detail View
 
 Given I have an open web browser
 And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-And I have navigated to the "My Sections" page of the Data Browser
-When I click on the row containing "FHS-Math101"
-And I click on the "Me" of any of the associating entities
-Then I am redirected to a page that page lists all of the "FHS-Math101" entity's fields
- 
+And I have navigated to the <Page> page of the Data Browser
+When I click on the row containing <Text>
+And I click on the <Link> of any of the associating entities
+Then I am redirected to a page that page lists all of the <Entity> entity's fields
+ Examples:
+| Page                      | Text                                  | Link         | Entity        |
+| "My Sections"             | "FHS-Math101"                         | "Me"         | "FHS-Math101" |
+| "Teacher to Section List" | "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"| "GetSection" | "FHS-Math101" |
+| "Teacher to Section List" | "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"| "GetTeacher" | "jdoe"        |
+	
 Scenario: Click on Available Links associations
 
 Given I have an open web browser
