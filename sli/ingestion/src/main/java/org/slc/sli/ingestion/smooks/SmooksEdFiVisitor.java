@@ -48,17 +48,17 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        // TODO Auto-generated method stub
+        // nothing
     }
 
     @Override
     public void onChildElement(SAXElement element, SAXElement childElement, ExecutionContext executionContext) {
-        // TODO Auto-generated method stub
+        // nothing
     }
 
     @Override
     public void onChildText(SAXElement element, SAXText childText, ExecutionContext executionContext) {
-        // TODO Auto-generated method stub
+        // nothing
 
     }
 
