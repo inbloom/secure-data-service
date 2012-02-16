@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -68,12 +69,12 @@ public class SchoolResource implements CrudEndpoint {
      *            entity data
      * @param uriInfo
      * @return (This is the !return place)
-     * @request.representation.mediaType application/json
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
     @POST
+    @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
         return crudDelegate.create(newEntityBody, uriInfo);
     }
@@ -83,18 +84,15 @@ public class SchoolResource implements CrudEndpoint {
      * 
      * @param id
      *            The Id of the School.
-<<<<<<< Updated upstream
      * @param expandDepth
      *            whether or not the full entity should be returned or just the link. Defaults to
      *            false
-=======
      * @param offset
      *            Index of the first result to return
      * @param limit
      *            Maximum number of results to return.
      * @param expandDepth
      *            Number of hops (associations) for which to expand entities.
->>>>>>> Stashed changes
      * @param uriInfo
      * @return A single school entity
      * @response.representation.200.mediaType application/json
