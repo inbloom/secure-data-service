@@ -10,16 +10,20 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
+
+//import org.slc.sli.api.resources.Resource;
 
 /**
  * Prototype new api end points and versioning
@@ -27,18 +31,19 @@ import org.slc.sli.api.resources.Resource;
  * @author srupasinghe
  * 
  */
-@Path("v1/teacher-school-associations")
+@Path(PathConstants.V1 + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class TeacherSchoolAssociationResource {
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+public class TeacherSchoolAssociationResource implements CrudEndpoint {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherSchoolAssociationResource.class);
     
     private static final String TYPE_PATH = "teacher-school-associations";
     private final CrudEndpoint crudDelegate;
     
     @Autowired
     public TeacherSchoolAssociationResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new BaseResource(entityDefs, TYPE_PATH);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
     }
     
     /**
@@ -53,10 +58,9 @@ public class TeacherSchoolAssociationResource {
      * @return
      */
     @GET
-    public Response getEntityCollection(@Context final UriInfo uriInfo,
-            @QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("limit") @DefaultValue("50") final int limit) {
-        return crudDelegate.readAll(uriInfo);
+    public Response readAll(@QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("limit") @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
+        return crudDelegate.readAll(offset, limit, uriInfo);
     }
     
     /**
@@ -90,7 +94,6 @@ public class TeacherSchoolAssociationResource {
      */
     @GET
     @Path("{id}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
     public Response read(@PathParam("id") final String id,
             @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {

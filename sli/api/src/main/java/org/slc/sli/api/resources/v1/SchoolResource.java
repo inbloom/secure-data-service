@@ -10,10 +10,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -28,18 +31,18 @@ import org.slc.sli.api.resources.Resource;
  * @author srupasinghe
  * 
  */
-@Path("v1/schools")
+@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-public class SchoolResource {
-    
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+public class SchoolResource implements CrudEndpoint {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     private static final String TYPE_PATH = "schools";
     private final CrudEndpoint crudDelegate;
     
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
-        crudDelegate = new BaseResource(entityDefs, TYPE_PATH);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
     }
     
     /**
@@ -53,10 +56,9 @@ public class SchoolResource {
      * @return
      */
     @GET
-    public Response getEntityCollection(@Context final UriInfo uriInfo,
-            @QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("limit") @DefaultValue("50") final int limit) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
+        return crudDelegate.readAll(offset, limit, uriInfo);
     }
     
     /**
@@ -91,7 +93,7 @@ public class SchoolResource {
     @GET
     @Path("{schoolId}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response read(@PathParam("schoolId") final String schoolId,
+    public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {
         return crudDelegate.read(schoolId, expandDepth, uriInfo);
@@ -107,7 +109,7 @@ public class SchoolResource {
      */
     @DELETE
     @Path("{schoolId}")
-    public Response delete(@PathParam("schoolId") final String schoolId) {
+    public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId) {
         return crudDelegate.delete(schoolId);
     }
     
@@ -123,7 +125,8 @@ public class SchoolResource {
      */
     @PUT
     @Path("{schoolId}")
-    public Response update(@PathParam("schoolId") final String schoolId, final EntityBody newEntityBody) {
+    public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+            final EntityBody newEntityBody) {
         return crudDelegate.update(schoolId, newEntityBody);
     }
     
@@ -137,7 +140,7 @@ public class SchoolResource {
      */
     @GET
     @Path("{schoolId}/student-school-associations")
-    public Response getStudentSchoolAssociations(@PathParam("schoolId") final String schoolId) {
+    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
