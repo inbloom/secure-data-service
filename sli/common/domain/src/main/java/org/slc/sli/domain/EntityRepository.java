@@ -175,7 +175,7 @@ public interface EntityRepository {
      */
 
     /**
-     * @param collectioName
+     * @param collectionName
      *            the name of the collection to look in
      * @param id
      *            the global unique id of the entity
@@ -183,6 +183,6 @@ public interface EntityRepository {
      *            the query for checking if specified entity matches
      * @return true if specified entity matches query, otherwise return false
      */
-    public boolean matchQuery(String collectioName, String id, Query query);
+    public boolean matchQuery(String collectionName, String id, Query query);
 
 }
