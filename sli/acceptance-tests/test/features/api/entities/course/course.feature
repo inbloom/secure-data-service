@@ -15,6 +15,7 @@ Scenario: Create a new course
   Then I should receive a return code of 200
     And the response entity should match "<course: Chinese 1>"
 
+@wip
 Scenario: Read a course by ID
   Given format "application/json"
   When I navigate to GET "/courses/<id: 'Spanish 1 Course'>"
