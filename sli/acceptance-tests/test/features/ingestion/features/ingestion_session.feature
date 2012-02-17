@@ -10,7 +10,7 @@ Given I post "Session1.zip" file as the payload of the ingestion job
 	   | collectionName              |
 	   | session                     |
 When zip file is scp to ingestion landing zone
-	And "10" seconds have elapsed
+	And "5" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | session                     | 50    |
@@ -29,7 +29,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "Session2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-	And "10" seconds have elapsed
+	And "5" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | session                     | 50    |
@@ -39,8 +39,8 @@ Then I should see following map of entry counts in the corresponding collections
 	   | session                     | 10                  | body.schoolYear             | 2011-2012               | string               |
 	   | session                     | 25                  | body.term                   | Fall Semester           | string               |
 	   | session                     | 5                   | body.beginDate              | 2011-09-06              | string               |
-	   | session                     | 5                   | body.endDate                | 2011-12-16              | string               |
-	   | session                     | 0                   | body.endDate                | 2011-12-23              | string               |
+	   | session                     | 0                   | body.endDate                | 2011-12-16              | string               |
+	   | session                     | 5                   | body.endDate                | 2011-12-23              | string               |
 	   | session                     | 0                   | body.totalInstructionalDays | 75                      | integer              |
 	   | session                     | 5                   | body.totalInstructionalDays | 80                      | integer              |
 	And I should see "Processed 50 records." in the resulting batch job file
