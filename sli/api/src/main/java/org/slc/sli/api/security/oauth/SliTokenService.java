@@ -39,14 +39,14 @@ public class SliTokenService extends RandomValueTokenServices {
     private EntityDefinitionStore store;
     
     @Autowired
-    private TokenStore sliTokenStore;
+    private TokenStore mongoTokenStore;
     
     @PostConstruct
     public void init() {
         setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
         setAccessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
         setSupportRefreshToken(true);
-        setTokenStore(sliTokenStore);
+        setTokenStore(mongoTokenStore);
     }
     
     /**
