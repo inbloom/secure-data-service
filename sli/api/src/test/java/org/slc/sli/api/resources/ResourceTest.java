@@ -625,23 +625,29 @@ public class ResourceTest {
     @Test
     public void testHopQuery() throws Exception {
         repo.deleteAll();
-        Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        EntityBody body1 = new EntityBody(createTestEntity());
+        body1.put("sortField", 1);
+        Response createResponse = api.createEntity("students", body1, uriInfo);
         String studentId1 = parseIdFromLocation(createResponse);
         
-        Response createResponse2 = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
+        EntityBody body2 = new EntityBody(createTestEntity());
+        body2.put("sortField", 2);
+        Response createResponse2 = api.createEntity("students", body2, uriInfo);
         String studentId2 = parseIdFromLocation(createResponse2);
         
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
         String schoolId = parseIdFromLocation(createResponse3);
         
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId1, schoolId)),
-                uriInfo);
-        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId2, schoolId)),
-                uriInfo);
+        EntityBody body3 = new EntityBody(createTestAssociation(studentId1, schoolId));
+        body3.put("sortField", 3);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, body3, uriInfo);
+        EntityBody body4 = new EntityBody(createTestAssociation(studentId2, schoolId));
+        body4.put("sortField", 4);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, body4, uriInfo);
         
         UriInfo queryInfo = buildMockUriInfo("studentUniqueStateId=1234");
-        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 0, 10,
-                false, queryInfo);
+        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "sortField",
+                SortOrder.decending, 0, 10, false, queryInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
         assertEquals(2, hopCollection.size());
@@ -650,6 +656,8 @@ public class ResourceTest {
             hoppedRelatives.add(entity.getId());
         }
         assertEquals(new HashSet<String>(Arrays.asList(studentId1, studentId2)), hoppedRelatives);
+        assertEquals(studentId2, hopCollection.get(0).getId());
+        assertEquals(studentId1, hopCollection.get(1).getId());
         
         queryInfo = buildMockUriInfo("studentUniqueStateId=1235");
         hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 0, 10, false,
@@ -671,6 +679,7 @@ public class ResourceTest {
         hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
         assertEquals(2, hopCollection.size());
+        
     }
     
     @Test
