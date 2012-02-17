@@ -26,6 +26,12 @@ public class DummyEntityRepository implements EntityRepository {
         }
         entities.get(collection).put(id, entity);
     }
+
+    @Override
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
     @Override
     public Entity find(String collectioName, String id) {
@@ -115,6 +121,12 @@ public class DummyEntityRepository implements EntityRepository {
     public boolean matchQuery(String collectioName, String id, Query query) {
         // TODO Auto-generated method stub
         return false;
+    }
+    
+    @Override
+    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
