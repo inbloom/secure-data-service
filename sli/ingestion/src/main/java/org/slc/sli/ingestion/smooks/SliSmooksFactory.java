@@ -6,10 +6,12 @@ import java.util.Map;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.FileRecordWriter;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Factory class for Smooks
@@ -22,7 +24,7 @@ public class SliSmooksFactory {
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
 
-    public Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
+    public Smooks createInstance(FileType fileType, FileRecordWriter<NeutralRecord> fileWriter, ErrorReport errorReport)
             throws IOException, SAXException {
 
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
@@ -36,7 +38,7 @@ public class SliSmooksFactory {
         }
     }
 
-    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
+    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, FileRecordWriter<NeutralRecord> fileWriter,
             ErrorReport errorReport) throws IOException, SAXException {
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 

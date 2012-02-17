@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
+@Deprecated
 public class NeutralRecordFileReader implements Iterator {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);

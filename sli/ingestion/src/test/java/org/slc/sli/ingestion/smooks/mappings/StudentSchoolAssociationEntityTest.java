@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -79,19 +77,9 @@ public class StudentSchoolAssociationEntityTest {
 
         String testData = ",,,900000001,,,,,,,,,,,,,,,,,,,,,,,990000001,,,2012-01-17,Eighth grade,Next year school,false,true,2011-09-12,End of school year,true,Full Time Employment,Full";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, testData);
+        checkValidSSANeutralRecord(record);
 
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            checkValidSSANeutralRecord(record);
-        } finally {
-            nrfr.close();
-        }
     }
 
     @Test
@@ -99,21 +87,8 @@ public class StudentSchoolAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
-
-        } finally {
-            nrfr.close();
-        }
-
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
     }
 
     @Test
@@ -122,18 +97,8 @@ public class StudentSchoolAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-            // Tests that the NeutralRecords were created
-            Assert.assertTrue(nrfr.hasNext());
-            NeutralRecord record = nrfr.next();
-            checkValidSSANeutralRecord(record);
-        } finally {
-            nrfr.close();
-        }
-
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        checkValidSSANeutralRecord(record);
     }
 
 }

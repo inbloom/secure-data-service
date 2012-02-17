@@ -12,14 +12,17 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.smooks.SliSmooksFactory;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.smooks.SliSmooksFactory;
+import org.slc.sli.ingestion.util.FileRecordWriter;
+import org.slc.sli.ingestion.util.NeutralRecordJsonStreamer;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * smooks handler for edfi files
@@ -55,7 +58,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
         File neutralRecordOutFile = createTempFile();
 
-        NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
+        FileRecordWriter<NeutralRecord> nrFileWriter = new NeutralRecordJsonStreamer(neutralRecordOutFile);
 
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter, errorReport);

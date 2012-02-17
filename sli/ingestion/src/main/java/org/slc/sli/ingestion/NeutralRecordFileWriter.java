@@ -21,6 +21,7 @@ import org.springframework.util.ResourceUtils;
 /**
  *
  */
+@Deprecated
 public class NeutralRecordFileWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileWriter.class);

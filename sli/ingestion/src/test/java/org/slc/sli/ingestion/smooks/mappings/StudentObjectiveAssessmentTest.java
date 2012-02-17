@@ -1,5 +1,5 @@
 package org.slc.sli.ingestion.smooks.mappings;
-import java.io.ByteArrayInputStream;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
 
@@ -28,18 +27,18 @@ public class StudentObjectiveAssessmentTest {
     private EntityValidator validator;
 
     String xmlTestData = "<InterchangeStudentAssessment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentAssessment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-    		+ "<StudentObjectiveAssessment>"
-    		+ "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
-                  +  "<Result>12</Result>"
-            +  "</ScoreResults>"
- 		   + "<StudentTestAssessmentReference>STA-TAKS-Reading-8-2011-604844</StudentTestAssessmentReference>"
-           + "<ObjectiveAssessmentReference>"
- 		      + "<ObjectiveAssessmentIdentity>"
-                   + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
-              + "</ObjectiveAssessmentIdentity>"
-    		+ "</ObjectiveAssessmentReference>"
+            + "<StudentObjectiveAssessment>"
+            + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
+            + "<Result>12</Result>"
+            + "</ScoreResults>"
+            + "<StudentTestAssessmentReference>STA-TAKS-Reading-8-2011-604844</StudentTestAssessmentReference>"
+            + "<ObjectiveAssessmentReference>"
+            + "<ObjectiveAssessmentIdentity>"
+            + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
+            + "</ObjectiveAssessmentIdentity>"
+            + "</ObjectiveAssessmentReference>"
             + "</StudentObjectiveAssessment>"
-       + "</InterchangeStudentAssessment>";
+            + "</InterchangeStudentAssessment>";
 
     public void testValidSectionCSV() throws Exception {
 
@@ -48,19 +47,10 @@ public class StudentObjectiveAssessmentTest {
 
         String testData = "";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                testData);
 
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
-        } finally {
-            nrfr.close();
-        }
+        checkValidSectionNeutralRecord(neutralRecord);
     }
 
     @Test
@@ -68,20 +58,9 @@ public class StudentObjectiveAssessmentTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentAssessment/StudentObjectiveAssessment";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        EntityTestUtils.mapValidation(record.getAttributes(), "student.objective.assessment", validator);
 
-            // Tests that the NeutralRecord was created
-            Assert.assertTrue(nrfr.hasNext());
-
-            NeutralRecord record = nrfr.next();
-            EntityTestUtils.mapValidation(record.getAttributes(), "student.objective.assessment", validator);
-
-        } finally {
-            nrfr.close();
-        }
     }
 
     @Test
@@ -89,17 +68,9 @@ public class StudentObjectiveAssessmentTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentAssessment/StudentObjectiveAssessment";
 
-        ByteArrayInputStream testInput = new ByteArrayInputStream(xmlTestData.getBytes());
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-            // Tests that the NeutralRecords were created
-            Assert.assertTrue(nrfr.hasNext());
-            NeutralRecord record = nrfr.next();
-            checkValidSectionNeutralRecord(record);
-        } finally {
-            nrfr.close();
-        }
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        checkValidSectionNeutralRecord(record);
+
     }
 
     private void checkValidSectionNeutralRecord(NeutralRecord record) {

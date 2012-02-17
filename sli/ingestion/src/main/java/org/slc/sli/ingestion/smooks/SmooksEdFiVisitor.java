@@ -8,12 +8,13 @@ import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
 import org.milyn.javabean.context.BeanContext;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.FileRecordWriter;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -28,21 +29,21 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
     private final String beanId;
-    private final NeutralRecordFileWriter nrfWriter;
+    private final FileRecordWriter<NeutralRecord> nrfWriter;
     private final ErrorReport errorReport;
 
-    private SmooksEdFiVisitor(String beanId, NeutralRecordFileWriter nrfWriter, ErrorReport errorReport) {
+    private SmooksEdFiVisitor(String beanId, FileRecordWriter<NeutralRecord> nrfWriter, ErrorReport errorReport) {
         this.beanId = beanId;
         this.nrfWriter = nrfWriter;
         this.errorReport = errorReport;
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter,
+    public static SmooksEdFiVisitor createInstance(String beanId, FileRecordWriter<NeutralRecord> nrfWriter,
             ErrorReport errorReport) {
         return new SmooksEdFiVisitor(beanId, nrfWriter, errorReport);
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter) {
+    public static SmooksEdFiVisitor createInstance(String beanId, FileRecordWriter<NeutralRecord> nrfWriter) {
         return new SmooksEdFiVisitor(beanId, nrfWriter, null);
     }
 
@@ -80,7 +81,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             }
         } else {
 
-            // Write Neutral Record
             nrfWriter.writeRecord(neutralRecord);
         }
     }
