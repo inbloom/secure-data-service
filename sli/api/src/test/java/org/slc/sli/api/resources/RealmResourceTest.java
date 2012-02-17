@@ -44,7 +44,12 @@ public class RealmResourceTest {
     private static final String ENTITY_TYPE_NAME = "realm";
     private static final String VALID_REALM_ID = "Calradia";
     private static final String INVALID_REALM_ID = "Mordor";
-    private static final String IDP_ID_EXPECTED = "http://devdanil.slidev.org:8080/idp";
+    private static final HashMap<String, String> IDP_ID_EXPECTED = new HashMap<String, String>();
+    
+    static {
+    	IDP_ID_EXPECTED.put("id", "http://devdanil.slidev.org:8080/idp");
+    	IDP_ID_EXPECTED.put("redirectEndpoint", "http://devdanil.slidev.org:8080/idp/SSORedirect/metaAlias/idp");
+    }
 
     @Autowired
     private RealmResource realmer;
@@ -118,7 +123,7 @@ public class RealmResourceTest {
         String ssoInit = realmer.getSsoInitUrl(VALID_REALM_ID);
 
         Assert.assertNotNull(ssoInit);
-        Assert.assertEquals(this.ssoInitUrl.replaceAll("\\{idpId\\}", URLEncoder.encode(IDP_ID_EXPECTED, "UTF-8")),
+        Assert.assertEquals(this.ssoInitUrl.replaceAll("\\{idpId\\}", URLEncoder.encode(IDP_ID_EXPECTED.get("id"), "UTF-8")),
                 ssoInit);
     }
 

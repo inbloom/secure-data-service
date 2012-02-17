@@ -83,7 +83,7 @@ public class StudentResource {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(PathConstants.STUDENTS, newEntityBody, uriInfo);
     }
@@ -107,13 +107,14 @@ public class StudentResource {
         return this.crudDelegate.read(PathConstants.STUDENTS, studentId, uriInfo);
     }
 
+
     /**
-     * Delete a $$students$$ entity
+     * Delete a $$students$$ resource.
      * 
-     * @param studentId
-     *            The Id of the student.
-     * @param uriInfo
-     *            URI information including path and query parameters
+     * @param typePath
+     *            resourceUri of the entity
+     * @param id
+     *            id of the entity
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */

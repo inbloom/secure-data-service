@@ -30,6 +30,7 @@ import org.slc.sli.api.representation.EntityBody;
  * Prototype new api end points and versioning
  * 
  * @author srupasinghe
+ * TODO: make sure @Produces gets picked up from Class to Resource Endpoint (billy)
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
@@ -94,7 +95,14 @@ public class SchoolResource {
      * Get a single $$schools$$ entity
      * 
      * @param schoolId
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
+     * @param expandDepth
+     *            whether or not the full entity should be returned or just the link. Defaults to
+     *            false
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single school entity
@@ -113,7 +121,7 @@ public class SchoolResource {
      * Delete a $$schools$$ entity
      * 
      * @param schoolId
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
@@ -130,7 +138,7 @@ public class SchoolResource {
      * Update an existing $$schools$$ entity.
      * 
      * @param schoolId
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
      * @param newEntityBody
      *            entity data
      * @param uriInfo
@@ -147,8 +155,8 @@ public class SchoolResource {
     }
 
     /**
-     * Returns all the student-school-associations that
-     * reference the given $$schools$$
+     * Returns each $$studentSchoolAssociations$$ that
+     * references the given $$schools$$
      * 
      * @param schoolId
      *            The Id of the School.

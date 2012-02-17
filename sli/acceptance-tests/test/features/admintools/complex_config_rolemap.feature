@@ -10,7 +10,8 @@ Scenario: Go to Complex-Configurable Role Mapping Page when not authenticated to
 Given I have an open web browser
 And I am not authenticated to SLI IDP
 When I navigate to the Complex-Configurable Role Mapping Page
-Then I should be directed to the Realm page
+Then I was redirected to the SLI IDP Login page
+#Then I should be directed to the Realm page
  
  @wip
 Scenario: Go to Complex-Configurable Role Mapping Page when authenticated to IDP other than SLI
@@ -41,9 +42,9 @@ Scenario: Valid SLI IDP user (State Super Administrator) login to Complex-Config
 Given I have an open web browser
 And I am not authenticated to SLI IDP
 And I have tried to access the Complex-Configurable Role Mapping Page
-And I was redirected to the Realm page
-And I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
+#And I was redirected to the Realm page
+#And I choose realm "Shared Learning Infrastructure" in the drop-down list
+#And I click on the page Go button
 And I was redirected to the SLI IDP Login page
 And I am user "demo"
 And "demo" is valid "SLI IDP" user

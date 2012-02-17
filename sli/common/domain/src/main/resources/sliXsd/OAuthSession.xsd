@@ -8,7 +8,9 @@
 					minOccurs="1" maxOccurs="1" />
 				<xs:element name="userAuthn" type="userAuthentication"
 					minOccurs="1" maxOccurs="1" />
-				<xs:element name="samlRequestId" type="xs:string"
+				<xs:element name="samlMessageId" type="xs:string"
+					minOccurs="1" maxOccurs="1" />
+				<xs:element name="requestToken" type="xs:string"
 					minOccurs="1" maxOccurs="1" />
 				<xs:element name="verificationCode" type="authorizationCode"
 					minOccurs="1" maxOccurs="1" />
@@ -47,6 +49,24 @@
 						48-character string representing the Secret of
 						the client (maps to 'client_secret' field) requesting an access
 						token.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="clientScope" type="xs:string" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Enumerated value represented whether or not the
+						client has been enabled. Values are 'ENABLED' or 'DISABLED'.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="redirectUri" type="xs:string" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Base URL that will handle callbacks for the
+						client.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -96,10 +116,17 @@
 				<xs:annotation>
 					<xs:documentation>
 						External ID of the user (if the user has no
-						unique ID in a
-						federated Identity Provider). This serves the SLI
-						Administrator
-						use case.
+						unique ID in a federated Identity Provider). This serves the SLI
+						Administrator use case.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mongoEntityId" type="xs:string"
+				minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Unique Identifier of the SLIPrincipal
+						(corresponds to '_id').
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -147,7 +174,7 @@
 						short-lived (generally 10 minute expiration).
 					</xs:documentation>
 				</xs:annotation>
-			</xs:element>		
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

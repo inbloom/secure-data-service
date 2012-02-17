@@ -117,4 +117,16 @@ public class DummyEntityRepository implements EntityRepository {
         return false;
     }
     
+    @Override
+    public Entity find(String arg0, String arg1, String arg2, String arg3) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

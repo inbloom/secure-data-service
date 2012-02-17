@@ -60,7 +60,7 @@ public class SamlFederationResource {
     //private TokenManager manager;
     
     @GET
-    @Path("/ssoInit")
+    @Path("ssoInit")
     public String getSsoRedirect(@QueryParam("realmId") final String realmId, @QueryParam("requestToken") String requestToken) {
         
         if (realmId == null) {
