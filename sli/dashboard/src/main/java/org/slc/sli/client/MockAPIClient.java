@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
 
@@ -60,21 +59,24 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
+    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        //return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
+        return studentAssmts;
     }
 
+    @Override
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+        
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENT_METADATA_FILE), null);
+    }
+    
     @Override
     public List<GenericEntity> getCustomData(String token, String key) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
     }
-
-    @Override
-    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return fromFile(getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), AssessmentMetaData[].class);
-    }
-
+    
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         // TODO: student id logic isn't working yet. for now, pass in null.

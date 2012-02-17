@@ -9,7 +9,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
@@ -38,6 +37,8 @@ public class LiveAPIClient implements APIClient {
     private static final String TEACHER_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-school-associations/";
     private static final String COURSE_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/course-section-associations/";
     private static final String SECTION_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/section-school-associations/";
+    private static final String STUDENT_ASSMT_ASSOC_URL = Constants.API_SERVER_URI + "/student-assessment-associations/";
+    private static final String ASSMT_URL = Constants.API_SERVER_URI + "/assessments/";
     
     private RESTClient restClient;
     private Gson gson;
@@ -88,11 +89,21 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get a list of assessment results, given the student ids
+     * Get a list of student assessment results, given a student id
      */
     @Override
-    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
-        return mockClient.getAssessments(getUsername(), studentIds);
+    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
+
+        // make a call to student-assessments, with the student id
+        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_ASSMT_ASSOC_URL + studentId, token);
+        
+        // for each link in the returned list, make the student-assessment call for the result data
+        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
+        for (GenericEntity response : responses) {
+            studentAssmts.add(getStudentAssessment(parseId(response.getMap(Constants.ATTR_LINK)), token));
+        }
+        
+        return studentAssmts;  
     }
     
     /**
@@ -104,11 +115,16 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get all assessment meta-data
+     * Get assessment info, given a list of assessment ids
      */
     @Override
-    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return mockClient.getAssessmentMetaData(getUsername());
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+
+        List<GenericEntity> assmts = new ArrayList<GenericEntity>();
+        for (String assmtId : assessmentIds) {
+            assmts.add(getAssessment(assmtId, token));
+        }
+        return assmts;
     }
     
     /**
@@ -223,6 +239,20 @@ public class LiveAPIClient implements APIClient {
         return createEntityFromAPI(ED_ORG_URL + id, token);
     }
 
+    /**
+     * Get one student-assessment association 
+     */
+    private GenericEntity getStudentAssessment(String id, String token) {
+        return createEntityFromAPI(STUDENT_ASSMT_ASSOC_URL + id, token);
+    }
+    
+    /**
+     * Get one assessment
+     */
+    private GenericEntity getAssessment(String id, String token) {
+        return createEntityFromAPI(ASSMT_URL + id, token);
+    }
+    
     /**
      * Get the user's unique identifier
      * @param token

@@ -14,15 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
-import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
 /**
@@ -63,24 +60,29 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
-        ViewManager viewManager = new ViewManager(viewConfigs, populationManager);
+        ViewManager viewManager = new ViewManager(viewConfigs);
         List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, user);
 
         if (applicableViewConfigs.size() > 0) {
+        
             // add applicable viewConfigs to model map
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
-            List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
-            List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
-            model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
+            // get student, program, and assessment data
+            List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig);
+            
+            //List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
+            //List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
+            model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(studentSummaries));
 
             // insert the assessments object into the modelmap
-            List<GenericEntity> assessments = populationManager.getAssessments(user.getUsername(), uids, viewConfig);
-            List<AssessmentMetaData> assessmentsMetaData = populationManager.getAssessmentMetaData(user.getUsername());
-            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(assessments, assessmentsMetaData));            
+            //List<GenericEntity> studentAssmts = populationManager.getStudentAssessments(user.getUsername(), uids, viewConfig);
+            List<GenericEntity> assmts = populationManager.getAssessments(user.getUsername(), studentSummaries);
+            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
+                        
         }
 
         // insert a widget factory into the modelmap

@@ -37,18 +37,18 @@
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
-    
-<!-- 
-    <bean id="viewManager" class="org.slc.sli.view.ViewManager"/>
--->    
+ 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager" parent="manager"/>
-    <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.InstitutionalHierarchyManager"    parent="manager"/>
-
+    
+    <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.InstitutionalHierarchyManager"    parent="manager"/>   
     
     <bean id="populationManager" class="org.slc.sli.manager.PopulationManager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
-    
+         
+    <bean id="viewManager" class="org.slc.sli.view.ViewManager">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
     
     <!-- Redirect view --> 
     <bean name="/" class="org.slc.sli.controller.LandingPageController">

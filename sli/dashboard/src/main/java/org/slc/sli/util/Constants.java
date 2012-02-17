@@ -49,6 +49,7 @@ public class Constants {
     public static final String ATTR_ID = "id";
     public static final String ATTR_CUSTOM_DATA = "customData";
     public static final String ATTR_ASSESSMENT_NAME = "assessmentName";
+    public static final String ATTR_ASSESSMENT_ID = "assessmentId";
     public static final String ATTR_STUDENT_ID = "studentId";
     public static final String ATTR_NAME = "name";
     public static final String ATTR_FIRST_NAME = "firstName";
