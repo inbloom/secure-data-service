@@ -25,7 +25,7 @@
 
 	<!-- Beans referenced by Authorization and Resource Services -->
 	<bean id="clientService" class="org.slc.sli.api.security.oauth.SLIClientDetailService" />
-	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.TokenManager" />
+	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.SliTokenStore" />
 
 	<bean id="oauth2ExceptionTranslationFilter"
 		class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
@@ -39,7 +39,10 @@
 		/> -->
 
 	<oauth2:authorization-server
-		client-details-service-ref="clientService" token-services-ref="tokenServices" />
+		client-details-service-ref="clientService" 
+		token-services-ref="tokenServices" 
+		authorization-endpoint-url="/oauth/authorize"
+		token-endpoint-url="/oauth/token" />
 
 	<!-- <oauth2:authorization-code /> -->
 	<!-- </oauth2:authorization-server> -->

@@ -148,7 +148,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Returns all the student-school-associations that
+     * Returns each $$studentSchoolAssociations$$ that
      * reference the given $$schools$$
      * 
      * @param schoolId
