@@ -25,6 +25,7 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private File file;
     private File neutralRecordFile;
     private File deltaNeutralRecordFile;
+    private File entityFile;
     private String checksum;
     private FaultsReport faultsReport;
 
@@ -140,6 +141,14 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
 
     public void setNeutralRecordFile(File neutralRecordFile) {
         this.neutralRecordFile = neutralRecordFile;
+    }
+
+    public File getEntityFile() {
+        return entityFile;
+    }
+
+    public void setEntityFile(File entityFile) {
+        this.entityFile = entityFile;
     }
 
     public File getDeltaNeutralRecordFile() {

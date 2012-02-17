@@ -10,5 +10,5 @@ public enum MessageType {
     PERSIST_REQUEST,
     ERROR,
     DONE,
-    MERGE_REQUEST;
+    TRANSFORM_REQUEST;
 }
