@@ -96,8 +96,6 @@ public class TeacherSchoolAssociationResource {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single school entity
-     * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID + "}")
