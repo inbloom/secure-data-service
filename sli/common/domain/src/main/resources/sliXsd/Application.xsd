@@ -5,8 +5,11 @@
 
 	<xs:element name="application">
 		<xs:complexType>
-			<!-- xs:annotation> <xs:appinfo> <sli:SecuritySphere>Admin</sli:SecuritySphere> 
-				</xs:appinfo> </xs:annotation -->
+			<xs:annotation> 
+			     <xs:appinfo> 
+			         <sli:SecuritySphere>Admin</sli:SecuritySphere> 
+				</xs:appinfo>
+			</xs:annotation>
 			<xs:sequence>
 				<xs:element name="name" type="xs:string" minOccurs="1" />
 				<xs:element name="description" type="xs:string"

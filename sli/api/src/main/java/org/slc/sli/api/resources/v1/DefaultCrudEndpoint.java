@@ -87,11 +87,6 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     public Response read(final String collectionName, final String idList, final UriInfo uriInfo) {
-        this.logger.debug("URI info: ");
-        this.logger.debug("AbPt: " + uriInfo.getAbsolutePath());
-        this.logger.debug("Base: " + uriInfo.getBaseUri());
-        this.logger.debug("Path: " + uriInfo.getPath());
-        this.logger.debug("QPMS: " + uriInfo.getQueryParameters());
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -297,11 +292,18 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
-            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    sourceEntity.getResourceName(), (String) entityBody.get(assocDef.getSourceKey())).toString()));
+            String sourceId = (String) entityBody.get(assocDef.getSourceKey());
+            if (sourceId != null) {
+                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
+                        sourceEntity.getResourceName(), sourceId).toString()));
+            }
             EntityDefinition targetEntity = assocDef.getTargetEntity();
-            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
+            String targetId = (String) entityBody.get(assocDef.getTargetKey());
+            if (targetId != null) {
+                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
+                        targetEntity.getResourceName(), targetId).toString()));
+            }
+            
         } else {
             links.addAll(ResourceUtil.getAssociationsLinks(entityDefs, defn, id, uriInfo));
             links.addAll(ResourceUtil.getReferenceLinks(uriInfo, entityDefs, defn, entityBody));

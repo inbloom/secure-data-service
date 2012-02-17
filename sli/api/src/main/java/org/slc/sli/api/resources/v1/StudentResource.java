@@ -96,8 +96,6 @@ public class StudentResource {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single student entity
-     * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}student
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}")

@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.provider.token.RandomValueTokenServic
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -28,7 +27,7 @@ import org.slc.sli.domain.EntityRepository;
  * 
  */
 @Component
-public class SliTokenService extends RandomValueTokenServices {
+public class OAuthSessionService extends RandomValueTokenServices {
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600; // 1 hour
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 900;   // 15 minutes
     private static final String OAUTH_SESSION_COLLECTION = OAuthTokenUtil.getOAuthCollectionName();
@@ -40,22 +39,14 @@ public class SliTokenService extends RandomValueTokenServices {
     private EntityDefinitionStore store;
     
     @Autowired
-    private TokenStore sliTokenStore;
-    
-    private EntityService service;
+    private TokenStore mongoTokenStore;
     
     @PostConstruct
     public void init() {
-        EntityDefinition def = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
-        setService(def.getService());
         setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
         setAccessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
         setSupportRefreshToken(true);
-        setTokenStore(sliTokenStore);
-    }
-    
-    public void setService(EntityService service) {
-        this.service = service;
+        setTokenStore(mongoTokenStore);
     }
     
     /**
@@ -83,7 +74,7 @@ public class SliTokenService extends RandomValueTokenServices {
                 EntityBody sliPrincipal = OAuthTokenUtil.mapSliPrincipal(principal);
                 body.put("userAuthn", sliPrincipal);
                 
-                service.update(oauthSession.getEntityId(), (EntityBody) body);
+                getService().update(oauthSession.getEntityId(), (EntityBody) body);
                 
                 // it might be pertinent to do more in terms of checking the
                 // client and user authentication objects for
@@ -123,8 +114,17 @@ public class SliTokenService extends RandomValueTokenServices {
             for (Entity oauthSession : results) {
                 Map<String, Object> body = oauthSession.getBody();
                 body.put("samlMessageId", messageId);
-                service.update(oauthSession.getEntityId(), (EntityBody) body);
+                getService().update(oauthSession.getEntityId(), (EntityBody) body);
             }
         }
+    }
+    
+    /**
+     * Gets the EntityService associated with the OAuth 2.0 session collection.
+     * 
+     * @return Instance of EntityService for performing collection operations.
+     */
+    private EntityService getService() {
+        return store.lookupByResourceName(OAUTH_SESSION_COLLECTION).getService();
     }
 }
