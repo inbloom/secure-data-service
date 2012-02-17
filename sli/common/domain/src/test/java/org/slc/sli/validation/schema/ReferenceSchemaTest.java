@@ -107,6 +107,12 @@ public class ReferenceSchemaTest {
         }
         
         @Override
+        public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        
+        @Override
         public Iterable<Entity> findAll(String collectioName) {
             // TODO Auto-generated method stub
             return null;
