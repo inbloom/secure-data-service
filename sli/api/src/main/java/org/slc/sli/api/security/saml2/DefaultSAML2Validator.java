@@ -65,7 +65,8 @@ public class DefaultSAML2Validator implements SAML2Validator {
         try {
             Iterator iterator = getSignature(samlDocument).getSignedInfo().getReferences().iterator();
             for (; iterator.hasNext();) {
-                valid = ((Reference) iterator.next()).validate(valContext);
+                Reference ref = ((Reference) iterator.next());
+                valid = ref.validate(valContext);
             }
         } catch (XMLSignatureException e) {
             return false;
