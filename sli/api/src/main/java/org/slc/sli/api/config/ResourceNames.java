@@ -8,7 +8,7 @@ package org.slc.sli.api.config;
  *
  */
 public class ResourceNames {
-    public final static String SCHOOLS = "schools";
-    public final static String STUDENTS = "schools";
-    public final static String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
+    public static final String SCHOOLS = "schools";
+    public static final String STUDENTS = "schools";
+    public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
 }
