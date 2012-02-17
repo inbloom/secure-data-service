@@ -151,11 +151,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, offset, limit,
-                                uriInfo.getRequestUri().getQuery());
+                                uriInfo.getRequestUri().getQuery(), null, null);
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, offset, limit,
-                                uriInfo.getRequestUri().getQuery());
+                                uriInfo.getRequestUri().getQuery(), null, null);
                         relative = associationDefinition.getSourceEntity();
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
