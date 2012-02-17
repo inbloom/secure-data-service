@@ -61,6 +61,8 @@ public class SchoolResource {
      *            starting position in results to return to user
      * @param limit
      *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return result of CRUD operation
@@ -78,6 +80,8 @@ public class SchoolResource {
      * 
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
      * @return result of CRUD operation
@@ -97,6 +101,8 @@ public class SchoolResource {
      * 
      * @param schoolId
      *            The Id of the $$schools$$.
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single school entity
@@ -114,6 +120,8 @@ public class SchoolResource {
      * 
      * @param schoolId
      *            The Id of the $$schools$$.
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
@@ -133,6 +141,8 @@ public class SchoolResource {
      *            The id of the $$schools$$.
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
@@ -158,6 +168,10 @@ public class SchoolResource {
      *            Maximum number of results to return.
      * @param expandDepth
      *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return       
      */
     @GET
@@ -165,7 +179,8 @@ public class SchoolResource {
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit) {
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
