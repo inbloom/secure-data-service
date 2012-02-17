@@ -17,23 +17,25 @@
 		<freemarker.version>2.3.18</freemarker.version>
 		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
-		<env>dev</env>
 		<apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
 	</properties>
 
 	<profiles>
 		<profile>
-			<id>default</id>
+			<id>prod</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+				<property>
+                  <name>env</name>
+                  <value>prod</value>
+                </property>				
+            </activation>
 			<properties>
+			    <env>prod</env>
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
-				<!-- set to 'Live' to use live server, 'Mock' for mock data -->
-				<apiclient>Live</apiclient>
 				<war.file.name>dashboard</war.file.name>
+				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 			<build>
 				<filters>
@@ -43,20 +45,48 @@
 		</profile>
 
 		<profile>
-			<id>dev</id>
-			<properties>
-				<env>dev</env>
+			<id>qa1</id>
+			<activation>
+				<property>
+                  <name>env</name>
+                  <value>qa1</value>
+                </property>			
+            </activation>
+            <properties>
+                <env>qa1</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+					file based authentication -->
+				<server.mode>live</server.mode>
+				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 		</profile>
 		<profile>
-			<id>test</id>
-			<properties>
+			<id>qa2</id>
+			<activation>
+				<property>
+                  <name>env</name>
+                  <value>qa2</value>
+                </property>			
+            </activation>
+            <properties>
+                <env>qa2</env>
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>test</server.mode>
-				<!-- set to 'Live' to use live server, 'Mock' for mock data -->
-				<apiclient>Mock</apiclient>
-				<env>test</env>
+				<log.path>${CATALINA_HOME}/logs/</log.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<activation>
+              <activeByDefault>true</activeByDefault>
+            </activation>
+			<properties>
+			    <env>dev</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+					file based authentication -->
+				<server.mode>test</server.mode>
+				<log.path>${user.home}/logs/</log.path>
 			</properties>
 		</profile>
 	</profiles>

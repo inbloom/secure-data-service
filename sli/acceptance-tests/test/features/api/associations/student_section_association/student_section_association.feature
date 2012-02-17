@@ -38,7 +38,7 @@ Scenario Outline: Read a student-section-association
         And I should receive a link named "self" with URI "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
 		And "beginDate" should be "2011-09-15"
 		And "endDate" should be "2011-12-15"
-		And "repeatIdentifier" should be "Repeated_counted_in_grade_point_average"
+		And "repeatIdentifier" should be "Repeated, counted in grade point average"
 	Examples:
 	    	| format                     |
     		| "application/json"         |
@@ -48,12 +48,12 @@ Scenario Outline: Read a student-section-association
 Scenario Outline: Update a student-section-association 
 	Given format <format>
 	When I navigate to GET "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
-      Then  "repeatIdentifier" should be "Repeated_counted_in_grade_point_average"
-	When I set "repeatIdentifier" to "Not_repeated"
+      Then  "repeatIdentifier" should be "Repeated, counted in grade point average"
+	When I set "repeatIdentifier" to "Not repeated"
 		And I navigate to PUT "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
 	Then I should receive a return code of 204
 	When I navigate to GET "/student-section-associations/<'Student Albert Wright and Section Foreign Language - A' ID>"
-	Then "repeatIdentifier" should be "Not_repeated"
+	Then "repeatIdentifier" should be "Not repeated"
 	Examples:
 	    	| format                     |
     		| "application/json"         |

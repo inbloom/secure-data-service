@@ -40,7 +40,7 @@ public class DocumentManipulator {
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
     
-    protected void init() {
+    public void init() {
         docFactory = DocumentBuilderFactory.newInstance();
         xPathFactory = XPathFactory.newInstance();
         
@@ -79,7 +79,7 @@ public class DocumentManipulator {
      * @return
      * @throws XPathException
      */
-    protected NodeList getNodeList(Document doc, String expression) throws XPathException {
+    public NodeList getNodeList(Document doc, String expression) throws XPathException {
         XPath xpath = xPathFactory.newXPath();
         xpath.setNamespaceContext(new DocumentNamespaceResolver(doc));
         

@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
-@RequestMapping("/appselector")
+@RequestMapping({"/", "/appselector"})
 public class AppSelectorController {
 
     @RequestMapping(method = RequestMethod.GET)
