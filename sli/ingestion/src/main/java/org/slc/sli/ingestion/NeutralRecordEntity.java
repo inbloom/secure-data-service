@@ -51,6 +51,7 @@ public class NeutralRecordEntity implements Entity {
     /**
      * @author tshewchuk 2/2/2010 (PI3 US811)
      */
+    @Override
     public Map<String, Object> getMetaData() {
         return metaData;
     }
@@ -93,7 +94,7 @@ public class NeutralRecordEntity implements Entity {
      * @author tshewchuk 2/1/2010 (PI3 US811)
      */
     public boolean isAssociation() {
-        return !neutralRecord.getLocalParentIds().isEmpty();
+        return neutralRecord.isAssociation();
     }
 
     /**

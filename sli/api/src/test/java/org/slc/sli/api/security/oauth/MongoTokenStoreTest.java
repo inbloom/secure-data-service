@@ -53,15 +53,13 @@ import org.slc.sli.domain.enums.Right;
 @DirtiesContext
 public class MongoTokenStoreTest {
     
-    private static final String ACCESS_TOKEN_ONE_VALUE = "test-refresh-token-one";
+    private static final String ACCESS_TOKEN_ONE_VALUE = "test-access-token-one";
     private static final String ACCESS_TOKEN_ONE_TYPE = "test-type";
     private static final String REFRESH_TOKEN_ONE_VALUE = "test-refresh-token-one";
     private static final String BAD_TOKEN_VALUE = "bad-token";
     
     @Spy
     private EntityRepository repo;
-    
-    private Date expirationDate;
     
     @Mock
     private EntityService service;
@@ -70,20 +68,20 @@ public class MongoTokenStoreTest {
     private RolesToRightsResolver rolesToRightsResolver;
     
     @InjectMocks
-    private MongoTokenStore tokenManager;
+    private MongoTokenStore mongoTokenStore;
     
+    private Date expirationDate;
     private Set<GrantedAuthority> educatorAuthorities;
     
     @Before
     public void setUp() {
         repo = new MockRepo();
-        tokenManager = new MongoTokenStore();
+        mongoTokenStore = new MongoTokenStore();
         educatorAuthorities = new HashSet<GrantedAuthority>();
         educatorAuthorities.add(Right.AGGREGATE_READ);
         educatorAuthorities.add(Right.READ_GENERAL);
-        // service = Mockito.mock(EntityService.class);
+        service = Mockito.mock(EntityService.class);
         rolesToRightsResolver = Mockito.mock(RolesToRightsResolver.class);
-        // tokenManager.setService(service);
         
         Mockito.when(service.create(Mockito.isA(EntityBody.class))).thenReturn("id");
         Mockito.when(rolesToRightsResolver.resolveRoles("test-realm", Arrays.asList(new String[] { "Educator" })))
@@ -119,6 +117,41 @@ public class MongoTokenStoreTest {
     }
     
     @Test
+    public void testReadRefreshToken() {
+        ExpiringOAuth2RefreshToken token = mongoTokenStore.readRefreshToken(REFRESH_TOKEN_ONE_VALUE);
+        assertEquals(expirationDate, token.getExpiration());
+        assertEquals("test-refresh-token-one", token.getValue());
+    }
+    
+    @Test
+    public void testReadAuthenticationWithAccessToken() {
+        OAuth2Authentication auth = mongoTokenStore.readAuthentication(new OAuth2AccessToken(ACCESS_TOKEN_ONE_VALUE));
+        SLIPrincipal userAuth = (SLIPrincipal) auth.getUserAuthentication().getPrincipal();
+        assertEquals("user-one", userAuth.getId());
+    }
+    
+    @Test
+    public void testReadAuthenticationWithRefreshToken() {
+        OAuth2Authentication auth = mongoTokenStore.readAuthentication(new ExpiringOAuth2RefreshToken(
+                REFRESH_TOKEN_ONE_VALUE, expirationDate));
+        SLIPrincipal userAuth = (SLIPrincipal) auth.getUserAuthentication().getPrincipal();
+        assertEquals("user-one", userAuth.getId());
+    }
+    
+    @Test
+    public void testReadNonExistentAccessToken() {
+        OAuth2AccessToken token = mongoTokenStore.readAccessToken(BAD_TOKEN_VALUE);
+        assertEquals(null, token);
+    }
+    
+    @Test
+    public void testReadAccessToken() {
+        OAuth2AccessToken token = mongoTokenStore.readAccessToken(ACCESS_TOKEN_ONE_VALUE);
+        assertEquals(ACCESS_TOKEN_ONE_VALUE, token.getValue());
+        assertEquals(ACCESS_TOKEN_ONE_TYPE, token.getTokenType());
+    }
+    
+    @Test
     public void testStoreAccessToken() {
         Entity principalEntity = Mockito.mock(Entity.class);
         Authentication userAuthentication = Mockito.mock(Authentication.class);
@@ -140,42 +173,7 @@ public class MongoTokenStoreTest {
         accessToken.setTokenType("test-type");
         ExpiringOAuth2RefreshToken rt = new ExpiringOAuth2RefreshToken("test-refresh", expirationDate);
         accessToken.setRefreshToken(rt);
-        tokenManager.storeAccessToken(accessToken, auth);
-    }
-    
-    @Test
-    public void testReadRefreshToken() {
-        ExpiringOAuth2RefreshToken token = tokenManager.readRefreshToken(REFRESH_TOKEN_ONE_VALUE);
-        assertEquals(expirationDate, token.getExpiration());
-        assertEquals("test-refresh-token-one", token.getValue());
-    }
-    
-    @Test
-    public void testReadAuthenticationWithAccessToken() {
-        OAuth2Authentication auth = tokenManager.readAuthentication(new OAuth2AccessToken(ACCESS_TOKEN_ONE_VALUE));
-        SLIPrincipal userAuth = (SLIPrincipal) auth.getUserAuthentication().getPrincipal();
-        assertEquals("user-one", userAuth.getId());
-    }
-    
-    @Test
-    public void testReadAuthenticationWithRefreshToken() {
-        OAuth2Authentication auth = tokenManager.readAuthentication(new ExpiringOAuth2RefreshToken(
-                REFRESH_TOKEN_ONE_VALUE, expirationDate));
-        SLIPrincipal userAuth = (SLIPrincipal) auth.getUserAuthentication().getPrincipal();
-        assertEquals("user-one", userAuth.getId());
-    }
-    
-    @Test
-    public void testReadNonExistentAccessToken() {
-        OAuth2AccessToken token = tokenManager.readAccessToken(BAD_TOKEN_VALUE);
-        assertEquals(null, token);
-    }
-    
-    @Test
-    public void testReadAccessToken() {
-        OAuth2AccessToken token = tokenManager.readAccessToken(ACCESS_TOKEN_ONE_VALUE);
-        assertEquals(ACCESS_TOKEN_ONE_VALUE, token.getValue());
-        assertEquals(ACCESS_TOKEN_ONE_TYPE, token.getTokenType());
+        mongoTokenStore.storeAccessToken(accessToken, auth);
     }
     
     @Test
@@ -195,7 +193,7 @@ public class MongoTokenStoreTest {
         Mockito.when(principal.getEntity()).thenReturn(principalEntity);
         Mockito.when(auth.getPrincipal()).thenReturn(principal);
         
-        tokenManager.storeRefreshToken(new ExpiringOAuth2RefreshToken("token", new Date()), auth);
+        mongoTokenStore.storeRefreshToken(new ExpiringOAuth2RefreshToken("token", new Date()), auth);
     }
     
 }

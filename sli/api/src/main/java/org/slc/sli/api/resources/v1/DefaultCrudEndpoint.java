@@ -3,7 +3,7 @@ package org.slc.sli.api.resources.v1;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -71,11 +71,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     @Override
-    public Response readAll(final String collectionName, final int offset, final int limit, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final int offset, final int limit, final HttpHeaders headers, final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
     
-    public Response create(final String collectionName, final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+    public Response create(final String collectionName, final EntityBody newEntityBody, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -86,7 +86,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
-    public Response read(final String collectionName, final String idList, final UriInfo uriInfo) {
+    public Response read(final String collectionName, final String idList, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -224,7 +224,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response delete(final String collectionName, final String id, final UriInfo uriInfo) {
+    public Response delete(final String collectionName, final String id, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
@@ -247,7 +247,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response update(final String collectionName, final String id, final EntityBody newEntityBody,
+    public Response update(final String collectionName, final String id, final EntityBody newEntityBody, final HttpHeaders headers,
             final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
