@@ -32,7 +32,6 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
     private final EntityDefinitionStore entityDefs;
-    private final String typePath;
     private final Logger logger;
     
     /**
@@ -40,35 +39,44 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * exception handling code.
      */
     protected static interface ResourceLogic {
-        Response run(EntityDefinition entityDef);
+        public Response run(EntityDefinition entityDef);
     }
     
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName) {
-        this(entityDefs, resourceName, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
+    /**
+     * Constructor.
+     * 
+     * @param entityDefs
+     * @param resourceName
+     */
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs) {
+        this(entityDefs, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
     }
     
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName, final Logger log) {
+    /**
+     * Constructor.
+     * 
+     * @param entityDefs
+     * @param resourceName
+     * @param log
+     */
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final Logger logger) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
         }
-        if (resourceName == null) {
-            throw new NullPointerException("typePath");
-        }
-        if (log == null) {
+        if (logger == null) {
             throw new NullPointerException("logger");
         }
         this.entityDefs = entityDefs;
-        this.typePath = resourceName;
-        this.logger = log;
+        this.logger = logger;
     }
     
     @Override
-    public Response readAll(final int offset, final int limit, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final int offset, final int limit, final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
     
-    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response create(final String collectionName, final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -78,8 +86,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
-    public Response read(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response read(final String collectionName, final String idList, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 // split list of IDs into individual ID(s)
@@ -216,8 +224,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response delete(final String id) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response delete(final String collectionName, final String id, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 entityDef.getService().delete(id);
@@ -239,8 +247,9 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response update(final String id, final EntityBody newEntityBody) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response update(final String collectionName, final String id, final EntityBody newEntityBody,
+            final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
@@ -258,14 +267,14 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Handle preconditions and exceptions.
      */
-    private static Response handle(final String typePath, final EntityDefinitionStore entityDefs,
+    private static Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
             final ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Invalid resource path: " + typePath)).build();
+                            "Invalid resource path: " + resourceName)).build();
         }
         return logic.run(entityDef);
     }
@@ -289,11 +298,18 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
-            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    sourceEntity.getResourceName(), (String) entityBody.get(assocDef.getSourceKey())).toString()));
+            String sourceId = (String) entityBody.get(assocDef.getSourceKey());
+            if (sourceId != null) {
+                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(
+                        uriInfo, sourceEntity.getResourceName(), sourceId).toString()));
+            }
             EntityDefinition targetEntity = assocDef.getTargetEntity();
-            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
+            String targetId = (String) entityBody.get(assocDef.getTargetKey());
+            if (targetId != null) {
+                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(
+                        uriInfo, targetEntity.getResourceName(), targetId).toString()));
+            }
+            
         } else {
             links.addAll(ResourceUtil.getAssociationsLinks(entityDefs, defn, id, uriInfo));
             links.addAll(ResourceUtil.getReferenceLinks(uriInfo, entityDefs, defn, entityBody));
