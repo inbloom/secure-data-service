@@ -72,6 +72,11 @@ public class MockRepo implements EntityRepository {
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
+    
+    @Override
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+        return find(collectionName, id);
+    }
 
     @Override
     public Entity find(String entityType, String id) {

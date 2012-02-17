@@ -43,7 +43,7 @@ public class TeacherSchoolAssociationResource implements CrudEndpoint {
     
     @Autowired
     public TeacherSchoolAssociationResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
+        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH);
     }
     
     /**

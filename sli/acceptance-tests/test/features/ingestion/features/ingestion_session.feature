@@ -22,7 +22,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | session                     | 5                   | body.beginDate              | 2011-09-06              |
 	   | session                     | 5                   | body.endDate                | 2011-12-16              |
 	   | session                     | 0                   | body.endDate                | 2011-12-23              |
-	   | session                     | 0                   | body.totalInstructionalDays | 75                      |
+	   | session                     | 5                   | body.totalInstructionalDays | 75                      |
 	   | session                     | 0                   | body.totalInstructionalDays | 80                      |
 	And I should see "Processed 50 records." in the resulting batch job file
 
@@ -42,5 +42,5 @@ Then I should see following map of entry counts in the corresponding collections
 	   | session                     | 0                   | body.endDate                | 2011-12-16              |
 	   | session                     | 5                   | body.endDate                | 2011-12-23              |
 	   | session                     | 0                   | body.totalInstructionalDays | 75                      |
-	   | session                     | 0                   | body.totalInstructionalDays | 80                      |
+	   | session                     | 5                   | body.totalInstructionalDays | 80                      |
 	And I should see "Processed 50 records." in the resulting batch job file
