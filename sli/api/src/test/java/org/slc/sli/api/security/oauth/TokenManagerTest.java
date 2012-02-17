@@ -71,14 +71,14 @@ public class TokenManagerTest {
 	private RolesToRightsResolver rolesToRightsResolver;
 
 	@InjectMocks
-	private TokenManager tokenManager;
+	private SliTokenStore tokenManager;
 
 	private Set<GrantedAuthority> educatorAuthorities;
 
 	@Before
 	public void setUp() {
 		repo = new MockRepo();
-		tokenManager = new TokenManager();
+		tokenManager = new SliTokenStore();
 		educatorAuthorities = new HashSet<GrantedAuthority>();
 		educatorAuthorities.add(Right.AGGREGATE_READ);
 		educatorAuthorities.add(Right.READ_GENERAL);

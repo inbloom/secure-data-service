@@ -40,7 +40,7 @@ import org.slc.sli.domain.EntityRepository;
  * @author shalka
  */
 @Component
-public class TokenManager implements TokenStore {
+public class SliTokenStore implements TokenStore {
     
     private static final String OAUTH_SESSION_COLLECTION = OAuthTokenUtil.getOAuthCollectionName();
     
