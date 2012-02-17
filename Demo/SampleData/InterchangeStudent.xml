@@ -312,7 +312,7 @@
 </Name>
 <Sex>Female</Sex>
 <EconomicDisadvantaged>false</EconomicDisadvantaged>
-<SchoolFoodServicesEligibility>None</SchoolFoodServicesEligibility>
+<SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 <Race>
 </Race>
@@ -736,7 +736,7 @@
 </Name>
 <Sex>Female</Sex>
 <EconomicDisadvantaged>true</EconomicDisadvantaged>
-<SchoolFoodServicesEligibility>None</SchoolFoodServicesEligibility>
+<SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 <Race>
 </Race>
