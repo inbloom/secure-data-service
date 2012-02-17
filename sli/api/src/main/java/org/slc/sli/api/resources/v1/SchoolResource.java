@@ -24,12 +24,20 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
 
 /**
  * Prototype new api end points and versioning
  * 
  * @author srupasinghe
+ * TODO: remove typepath, use ResourceName constants
+ * TODO: remove implements CrudEndpoint (kevin)
+ * TODO: make sure @Produces gets picked up from Class to Resource Endpoint (billy)
+ * TODO: limit/offset default values documentation, use constants
+ * TODO: remove expandDepth from /schools/{schoolId}
+ * TODO: association, limit/offset constants, remove expand depth
+ * TODO: add uriInfo to every endpoint
+ * 
+ * TODO: generally remove all strings
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
@@ -37,6 +45,7 @@ import org.slc.sli.api.resources.Resource;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class SchoolResource implements CrudEndpoint {
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     private static final String TYPE_PATH = "schools";
     private final CrudEndpoint crudDelegate;
@@ -100,7 +109,7 @@ public class SchoolResource implements CrudEndpoint {
      */
     @GET
     @Path("{schoolId}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
             @Context final UriInfo uriInfo) {
