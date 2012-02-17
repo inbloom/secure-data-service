@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.security;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Document;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.oauth.SliTokenService;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -56,8 +59,8 @@ public class SamlFederationResource {
     @Autowired
     private SamlAttributeTransformer transformer;
     
-    //@Autowired
-    //private TokenManager manager;
+    @Autowired
+    private SliTokenService oauth;
     
     @GET
     @Path("ssoInit")
@@ -69,11 +72,10 @@ public class SamlFederationResource {
         
         String idp = fetchIdpEndpoint(realmId);
         
+        // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(idp);
         
-        // Entity authSession = fetchOne("authSession", new Query(Criteria.where("requestToken").is(requestToken)));
-        // authSession.getBody().put("samlRequestId", tuple.getLeft());
-        // repo.update("authSession", authSession);
+        oauth.storeSamlMessageId(requestToken, tuple.getLeft());
         
         return idp + "?SAMLRequest=" + tuple.getRight();
     }
@@ -81,7 +83,7 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public void consume(@FormParam("SAMLResponse") String postData) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
         Document doc = saml.decodeSamlPost(postData);
         
         String msgId = doc.getRootElement().getAttributeValue("ID");
@@ -102,7 +104,7 @@ public class SamlFederationResource {
             }
         }
         
-        //  Apply transforms
+        // Apply transforms
         attributes = transformer.apply(realm, attributes);
         
         // TODO change everything authRealm to use issuer instead of authRealm
@@ -112,15 +114,9 @@ public class SamlFederationResource {
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         
-        // store attributes in session
-        // create verification code
-        // store verification code in session
-        // FIXME manager.userAuthenticated(inResponseTo,issuer,principal);
-
-        // get app from session
-        // get app url from mongo
+        String redirect = oauth.userAuthenticated(inResponseTo, msgId, principal);
         
-        // redirect user to app url + requestToken + verificationCode
+        return Response.temporaryRedirect(URI.create(redirect)).build();
     }
     
     @POST
