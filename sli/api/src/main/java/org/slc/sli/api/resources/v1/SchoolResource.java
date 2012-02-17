@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -68,8 +69,8 @@ public class SchoolResource {
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, headers, uriInfo);
     }
 
     /**
@@ -87,8 +88,8 @@ public class SchoolResource {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -104,8 +105,8 @@ public class SchoolResource {
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
@@ -121,8 +122,8 @@ public class SchoolResource {
     @DELETE
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
@@ -141,8 +142,8 @@ public class SchoolResource {
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             final EntityBody newEntityBody, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
     }
 
     /**
