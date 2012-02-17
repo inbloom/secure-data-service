@@ -216,36 +216,12 @@ public class GenerateStudentAssessment {
         studentAssessmentResultSet = Utility.getResultSet(conn, this.studentAssessmentQuery);
 
         studentAssessmentSpecialAccommodationsResultSet =  Utility.getResultSet(conn, this.studentAssessmentSpecialAccommodationsQuery);
-        try {
-            studentAssessmentSpecialAccommodationsResultSet.next();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-        }
 
         studentAssessmentScoreResultResultSet =  Utility.getResultSet(conn, this.studentAssessmentScoreResultQuery);
-        try {
-            studentAssessmentScoreResultResultSet.next();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-        }
 
         performanceLevelsesResultSet =  Utility.getResultSet(conn, this.performanceLevelsesQuery);
-        try {
-            performanceLevelsesResultSet.next();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-        }
 
         assessmentIdentificationCodeResultSet =  Utility.getResultSet(conn, this.assessmentIdentificationCodeQuery);
-        try {
-            assessmentIdentificationCodeResultSet.next();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-        }
     }
 
     private void getStudentAssessment() {
@@ -265,20 +241,22 @@ public class GenerateStudentAssessment {
             // SpecialAccommodationses
             StringBuilder sasa = new StringBuilder("");
             boolean hasOne = false;
-            try {
-                while (this.studentAssessmentSpecialAccommodationsResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
-                        && this.studentAssessmentSpecialAccommodationsResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
-                        && this.studentAssessmentSpecialAccommodationsResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
-                        && this.studentAssessmentSpecialAccommodationsResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
-                        && this.studentAssessmentSpecialAccommodationsResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
-                        && this.studentAssessmentSpecialAccommodationsResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-                    sasa.append(Utility.replace(this.specialAccommodationses, "--SpecialAccommodation--", this.studentAssessmentSpecialAccommodationsResultSet.getString("SpecialAccommodationsType")));
-                    hasOne = true;
-                    this.studentAssessmentSpecialAccommodationsResultSet.next();
+            if (studentAssessmentSpecialAccommodationsResultSet != null) {
+                try {
+                    while (this.studentAssessmentSpecialAccommodationsResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
+                            && this.studentAssessmentSpecialAccommodationsResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
+                            && this.studentAssessmentSpecialAccommodationsResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
+                            && this.studentAssessmentSpecialAccommodationsResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
+                            && this.studentAssessmentSpecialAccommodationsResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
+                            && this.studentAssessmentSpecialAccommodationsResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
+                        sasa.append(Utility.replace(this.specialAccommodationses, "--SpecialAccommodation--", this.studentAssessmentSpecialAccommodationsResultSet.getString("SpecialAccommodationsType")));
+                        hasOne = true;
+                        this.studentAssessmentSpecialAccommodationsResultSet.next();
+                    }
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    //e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
             }
             if (!hasOne)
                 sasa.append(Utility.replace(this.specialAccommodationses, "--SpecialAccommodation--", null));
@@ -292,48 +270,52 @@ public class GenerateStudentAssessment {
             // ScoreResultses
             StringBuilder scoreResultsSB = new StringBuilder("");
             hasOne = false;
-            try {
-                while (this.studentAssessmentScoreResultResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
-                        && this.studentAssessmentScoreResultResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
-                        && this.studentAssessmentScoreResultResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
-                        && this.studentAssessmentScoreResultResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
-                        && this.studentAssessmentScoreResultResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
-                        && this.studentAssessmentScoreResultResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-
-                    String temp = Utility.replace(scoreResultses, "--AssessmentReportingMethod--", this.studentAssessmentScoreResultResultSet.getString("AssessmentReportingMethodType"));
-                    temp = Utility.replace(temp, "--Result--", this.studentAssessmentScoreResultResultSet.getString("Result"));
-                    scoreResultsSB.append(temp);
-                    hasOne = true;
-                    this.studentAssessmentScoreResultResultSet.next();
+            if (studentAssessmentScoreResultResultSet != null) {
+                try {
+                    while (this.studentAssessmentScoreResultResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
+                            && this.studentAssessmentScoreResultResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
+                            && this.studentAssessmentScoreResultResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
+                            && this.studentAssessmentScoreResultResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
+                            && this.studentAssessmentScoreResultResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
+                            && this.studentAssessmentScoreResultResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
+    
+                        String temp = Utility.replace(scoreResultses, "--AssessmentReportingMethod--", this.studentAssessmentScoreResultResultSet.getString("AssessmentReportingMethodType"));
+                        temp = Utility.replace(temp, "--Result--", this.studentAssessmentScoreResultResultSet.getString("Result"));
+                        scoreResultsSB.append(temp);
+                        hasOne = true;
+                        this.studentAssessmentScoreResultResultSet.next();
+                    }
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    //e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
             }
             if (!hasOne) {
                 String temp = Utility.replace(scoreResultses, "--AssessmentReportingMethod--", null);
                 temp = Utility.replace(temp, "--Result--", null);
                 scoreResultsSB.append(temp);
-           }
+            }
             studentAssessment = Utility.replace(studentAssessment, "--ScoreResultses--\n", scoreResultsSB.toString());
 
             // performanceLevelses
             StringBuilder pl = new StringBuilder("");
             hasOne = false;
-            try {
-                while (this.performanceLevelsesResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
-                        && this.performanceLevelsesResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
-                        && this.performanceLevelsesResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
-                        && this.performanceLevelsesResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
-                        && this.performanceLevelsesResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
-                        && this.performanceLevelsesResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-                    pl.append(Utility.replace(this.performanceLevelses, "--CodeValue--", this.performanceLevelsesResultSet.getString("PerformanceLevelDescriptor")));
-                    hasOne = true;
-                    this.performanceLevelsesResultSet.next();
+            if (performanceLevelsesResultSet != null) {
+                try {
+                    while (this.performanceLevelsesResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
+                            && this.performanceLevelsesResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
+                            && this.performanceLevelsesResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
+                            && this.performanceLevelsesResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
+                            && this.performanceLevelsesResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
+                            && this.performanceLevelsesResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
+                        pl.append(Utility.replace(this.performanceLevelses, "--CodeValue--", this.performanceLevelsesResultSet.getString("PerformanceLevelDescriptor")));
+                        hasOne = true;
+                        this.performanceLevelsesResultSet.next();
+                    }
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    //e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
             }
             if (!hasOne)
                 pl.append(Utility.replace(this.performanceLevelses, "--CodeValue--", null));
@@ -342,24 +324,26 @@ public class GenerateStudentAssessment {
             // assessmentIdentificationCodes
             StringBuilder idCodes = new StringBuilder("");
             hasOne = false;
-            try {
-                while (this.assessmentIdentificationCodeResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
-                        && this.assessmentIdentificationCodeResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
-                        && this.assessmentIdentificationCodeResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
-                        && this.assessmentIdentificationCodeResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
-                        && this.assessmentIdentificationCodeResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
-                        && this.assessmentIdentificationCodeResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-
-                    String temp = Utility.replace(this.assessmentIdentificationCodes, "--AssessmentIdentificationCode_IdentificationSystem--", this.assessmentIdentificationCodeResultSet.getString("AssessmentIdentificationSystem"));
-                    temp = Utility.replace(temp, "--AssessmentIdentificationCode_AssigningOrganizationCode--", this.assessmentIdentificationCodeResultSet.getString("AssigningOrganizationCode"));
-                    temp = Utility.replace(temp, "--ID--", this.assessmentIdentificationCodeResultSet.getString("IdentificationCode"));
-                    idCodes.append(temp);
-                    hasOne = true;
-                    this.assessmentIdentificationCodeResultSet.next();
+            if (assessmentIdentificationCodeResultSet != null) {
+                try {
+                    while (this.assessmentIdentificationCodeResultSet.getString("StudentUSI").equals(this.studentAssessmentResultSet.getString("StudentUSI"))
+                            && this.assessmentIdentificationCodeResultSet.getString("AssessmentTitle").equals(this.studentAssessmentResultSet.getString("AssessmentTitle"))
+                            && this.assessmentIdentificationCodeResultSet.getString("AcademicSubjectTypeId").equals(this.studentAssessmentResultSet.getString("AcademicSubjectTypeId"))
+                            && this.assessmentIdentificationCodeResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
+                            && this.assessmentIdentificationCodeResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
+                            && this.assessmentIdentificationCodeResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
+    
+                        String temp = Utility.replace(this.assessmentIdentificationCodes, "--AssessmentIdentificationCode_IdentificationSystem--", this.assessmentIdentificationCodeResultSet.getString("AssessmentIdentificationSystem"));
+                        temp = Utility.replace(temp, "--AssessmentIdentificationCode_AssigningOrganizationCode--", this.assessmentIdentificationCodeResultSet.getString("AssigningOrganizationCode"));
+                        temp = Utility.replace(temp, "--ID--", this.assessmentIdentificationCodeResultSet.getString("IdentificationCode"));
+                        idCodes.append(temp);
+                        hasOne = true;
+                        this.assessmentIdentificationCodeResultSet.next();
+                    }
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    //e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
             }
             if (!hasOne) {
                 String temp = Utility.replace(this.assessmentIdentificationCodes, "--AssessmentIdentificationCode_IdentificationSystem--", null);
@@ -382,8 +366,10 @@ public class GenerateStudentAssessment {
         this.getData();
         System.out.print(this.begin);
         try {
-            while (this.studentAssessmentResultSet.next()) {
-                this.getStudentAssessment();
+            if (studentAssessmentResultSet != null) {
+                do {
+                    this.getStudentAssessment();
+                } while (this.studentAssessmentResultSet.next());
             }
         } catch (SQLException e) {
 

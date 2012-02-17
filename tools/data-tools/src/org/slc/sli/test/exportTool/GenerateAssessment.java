@@ -104,6 +104,8 @@ public class GenerateAssessment {
     private ResultSet assessmentResultSet;
     private String assessmentQuery = new StringBuilder()
         .append("SELECT a.AssessmentTitle\n")
+        .append("      ,a.AcademicSubjectTypeId\n")
+        .append("      ,a.AssessedGradeLevelTypeId\n")
         .append("      ,ast.CodeValue as AcademicSubjectType\n")
         .append("      ,glt.CodeValue as AssessedGradeLevelType\n")
         .append("      ,a.Version\n")
@@ -116,11 +118,31 @@ public class GenerateAssessment {
         .append("      ,a.Nomenclature\n")
         .append("      ,apd.CodeValue as AssessmentPeriodDescriptor\n")
         .append("  FROM EdFi.edfi.Assessment a\n")
-        .append("  INNER JOIN EdFi.edfi.AcademicSubjectType ast ON a.AcademicSubjectTypeId = ast.AcademicSubjectTypeId\n")
-        .append("  INNER JOIN EdFi.edfi.GradeLevelType glt ON a.AssessedGradeLevelTypeId = glt.GradeLevelTypeId\n")
-        .append("  INNER JOIN EdFi.edfi.AssessmentCategoryType act ON a.AssessmentCategoryTypeId = act.AssessmentCategoryTypeId\n")
+        .append("  LEFT JOIN EdFi.edfi.AcademicSubjectType ast ON a.AcademicSubjectTypeId = ast.AcademicSubjectTypeId\n")
+        .append("  LEFT JOIN EdFi.edfi.GradeLevelType glt ON a.AssessedGradeLevelTypeId = glt.GradeLevelTypeId\n")
+        .append("  LEFT JOIN EdFi.edfi.AssessmentCategoryType act ON a.AssessmentCategoryTypeId = act.AssessmentCategoryTypeId\n")
         .append("  LEFT JOIN EdFi.edfi.ContentStandardType cst ON a.ContentStandardTypeId = cst.ContentStandardTypeId\n")
         .append("  LEFT JOIN EdFi.edfi.AssessmentPeriodDescriptor apd ON a.AssessmentPeriodDescriptorId = apd.AssessmentPeriodDescriptorId\n")
+        .append("    ORDER BY a.AssessmentTitle, a.AcademicSubjectTypeId, a.AssessedGradeLevelTypeId, a.Version\n")
+        .toString();
+
+    private ResultSet assessmentIdentificationCodeResultSet;
+    private String assessmentIdentificationCodeQuery = new StringBuilder()
+        .append("SELECT aic.AssessmentTitle\n")
+        .append("      ,aic.AcademicSubjectTypeId\n")
+        .append("      ,aic.AssessedGradeLevelTypeId\n")
+        .append("      ,aic.Version\n")
+        .append("      ,aist.CodeValue as AssessmentIdentificationSystem\n")
+        .append("      ,aic.AssigningOrganizationCode\n")
+        .append("      ,aic.IdentificationCode\n")
+        .append("  FROM EdFi.edfi.AssessmentIdentificationCode aic\n")
+        .append("  RIGHT JOIN EdFi.edfi.Assessment a \n")
+        .append("   ON a.AssessmentTitle = aic.AssessmentTitle\n")
+        .append("       AND a.AcademicSubjectTypeId = aic.AcademicSubjectTypeId\n")
+        .append("       AND a.AssessedGradeLevelTypeId = aic.AssessedGradeLevelTypeId\n")
+        .append("       AND a.Version = aic.Version\n")
+        .append("  LEFT JOIN EdFi.edfi.AssessmentIdentificationSystemType aist ON aic.AssessmentIdentificationSystemTypeId = aist.AssessmentIdentificationSystemTypeId\n")
+        .append("  ORDER BY aic.AssessmentTitle, aic.AcademicSubjectTypeId, aic.AssessedGradeLevelTypeId, aic.Version\n")
         .toString();
 
 
@@ -144,6 +166,9 @@ public class GenerateAssessment {
             assessment = Utility.replace(assessment, "--MaxRawScore--", this.assessmentResultSet.getString("MaxRawScore"));
             assessment = Utility.replace(assessment, "--Nomenclature--", this.assessmentResultSet.getString("Nomenclature"));
             assessment = Utility.replace(assessment, "--AssessmentPeriod--", this.assessmentResultSet.getString("AssessmentPeriodDescriptor"));
+
+        
+        
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
