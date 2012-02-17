@@ -34,6 +34,10 @@ public class MockRepo implements EntityRepository {
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
     
     public MockRepo() {
+        setup();
+    }
+    
+    private void setup() {
         repo.put("course", new LinkedHashMap<String, Entity>());
         repo.put("student", new LinkedHashMap<String, Entity>());
         repo.put("school", new LinkedHashMap<String, Entity>());
@@ -149,6 +153,11 @@ public class MockRepo implements EntityRepository {
         
     }
     
+    public void deleteAll() {
+        repo.clear();
+        setup();
+    }
+    
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
@@ -198,7 +207,7 @@ public class MockRepo implements EntityRepository {
         if (queryString != null) {
             String[] queryStrings = queryString.split("&");
             for (String query : queryStrings) {
-                if (!isReservedQueryKey(query)) {
+                if (!isReservedQueryKey(query) && !query.trim().isEmpty()) {
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
                         if (keyAndValue != null) {
@@ -230,6 +239,13 @@ public class MockRepo implements EntityRepository {
                         if (keyAndValue != null) {
                             queryMap.put(keyAndValue, ">");
                         }
+                    } else if (query.contains("$in")) {
+                        String[] keyAndValue = getKeyAndValue(query, "$in");
+                        if (keyAndValue != null) {
+                            queryMap.put(keyAndValue, "$in");
+                        }
+                    } else {
+                        throw new RuntimeException("Unhandled query: " + query);
                     }
                 }
             }
@@ -248,6 +264,9 @@ public class MockRepo implements EntityRepository {
     }
     
     private String[] getKeyAndValue(String queryString, String operator) {
+        if (operator.equals("$in")) {
+            operator = "\\$in";
+        }
         String[] keyAndValue = queryString.split(operator, 2);
         if (keyAndValue.length != 2) {
             return null;
@@ -257,7 +276,6 @@ public class MockRepo implements EntityRepository {
     }
     
     private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
-        boolean match = true;
         for (Entry<String[], String> keyAndValueEntries : queryMap.entrySet()) {
             String[] keyAndValue = keyAndValueEntries.getKey();
             String key = keyAndValue[0];
@@ -265,31 +283,64 @@ public class MockRepo implements EntityRepository {
             String operator = keyAndValueEntries.getValue();
             if (operator.equals(">=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0))) {
-                    match = false;
+                    return false;
                 }
             } else if (operator.equals("<=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0))) {
-                    match = false;
+                    return false;
                 }
             } else if (operator.equals("!=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0))) {
-                    match = false;
+                    return false;
                 }
             } else if (operator.equals("=")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0))) {
-                    match = false;
+                    return false;
                 }
             } else if (operator.equals("<")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) < 0))) {
-                    match = false;
+                    return false;
                 }
             } else if (operator.equals(">")) {
                 if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0))) {
-                    match = false;
+                    return false;
                 }
+            } else if (operator.equals("$in")) {
+                boolean match = false;
+                if ("_id".equals(key)) {
+                    String[] ids = value.split(":");
+                    if (ids != null) {
+                        for (String id : ids) {
+                            if (id.equals(entity.getEntityId())) {
+                                match = true;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if (!entity.getBody().containsKey(key)) {
+                        match = false;
+                    } else {
+                        String entityValue = (String) entity.getBody().get(key);
+                        String[] values = value.split(":");
+                        if (values != null) {
+                            for (String v : values) {
+                                if (v.equals(entityValue)) {
+                                    match = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!match) {
+                    return false;
+                }
+            } else {
+                throw new RuntimeException("Unhandled query operator: " + operator);
             }
         }
-        return match;
+        return true;
     }
     
     private int compareToValue(Object entityValue, String value) throws Exception {
@@ -390,7 +441,7 @@ public class MockRepo implements EntityRepository {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
             }
             
-        } else if (dbObject.containsField("lte")) {
+        } else if (dbObject.containsField("$lte")) {
             if (queryString.equals("")) {
                 queryString = key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
             } else {
@@ -403,7 +454,24 @@ public class MockRepo implements EntityRepository {
             } else {
                 queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
             }
-            
+        } else if (dbObject.containsField("$in")) {
+            if (!queryString.equals("")) {
+                queryString = queryString + "&";
+            }
+            StringBuilder sb = new StringBuilder();
+            if (!(dbObject.get("$in") instanceof Object[])) {
+                throw new RuntimeException("Unknown $in type: " + dbObject.get("$in"));
+            }
+            Object[] set = (Object[]) dbObject.get("$in");
+            for (int i = 0; i < set.length; i++) {
+                if (i > 0) {
+                    sb.append(":");
+                }
+                sb.append(set[i]);
+            }
+            queryString = queryString + key.replaceFirst("body.", "") + "$in" + sb.toString();
+        } else {
+            throw new RuntimeException("Unhandled query type: " + key + " " + dbObject);
         }
         return queryString;
     }
@@ -485,6 +553,15 @@ public class MockRepo implements EntityRepository {
     
     private void sortEntities(List<Entity> entities, EntityComparator comparator) {
         Collections.sort(entities, comparator);
+    }
+    
+    @Override
+    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        ArrayList<String> ids = new ArrayList<String>();
+        for (Entity e : this.findByQuery(collectionName, query, skip, max)) {
+            ids.add(e.getEntityId());
+        }
+        return ids;
     }
     
 }
