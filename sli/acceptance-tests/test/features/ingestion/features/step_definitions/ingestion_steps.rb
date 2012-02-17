@@ -136,9 +136,10 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
     
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component)
-    puts "Showing : " + @resultOfIngestion
+    puts "Showing : <" + @resultOfIngestion + ">"
     
-    @messageString = "Processed " + message.to_s + " records."
+    @messageString = message.to_s
+    
     if @resultOfIngestion.include? @messageString
       assert(true, "Processed all the records.")
     else
