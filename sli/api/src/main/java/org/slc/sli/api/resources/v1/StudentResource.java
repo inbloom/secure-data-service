@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -24,171 +25,122 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
 /**
- * Responds to URI requests involving student info/path.
+ * Prototype new api end points and versioning
  * 
- * 
- * 
- * @author kmyers
- *
+ * @author srupasinghe
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StudentResource implements CrudEndpoint {
+public class StudentResource {
+    
+    /**
+     * Logging utility.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentResource.class);
-
-    private static final String RESOURCE_NAME_STUDENTS = "students";
+    
+    /*
+     * Interface capable of performing CRUD operations.
+     */
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public StudentResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new DefaultCrudEndpoint(entityDefs, RESOURCE_NAME_STUDENTS);
+    public StudentResource(EntityDefinitionStore entityDefs) {
+        this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$student$$ entities.
+     * Returns all $$students$$ entities for which the logged in User has permission and context.
      * 
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
      * @param uriInfo
-     *            The URI context.
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
      */
     @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
-        return crudDelegate.readAll(offset, limit, uriInfo);
-    }
-
-    /**
-     * Get a single $$student$$ entity
-     * 
-     * @param idList
-     *            school id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
-     * @param fullEntities
-     *            whether or not the full entity should be returned or just the link. Defaults to
-     *            false
-     * @param uriInfo
-     * @return A single school entity
-     * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
-     */
-    @GET
-    @Path("{" + ParameterConstants.STUDENT_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String idList,
-            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean fullEntities,
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context final UriInfo uriInfo) {
-        return crudDelegate.read(idList, fullEntities, uriInfo);
+        return this.crudDelegate.readAll(PathConstants.STUDENTS, offset, limit, uriInfo);
     }
 
     /**
-     * Returns all the student-school-associations in the context of the specified $$student$$.
-     * 
-     * @param id
-     */
-    @GET
-    @Path("{" + ParameterConstants.STUDENT_ID + "}/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
-    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String id,
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue("0") final int skip,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue("50") final int max,
-            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean fullEntities,
-            @Context final UriInfo uriInfo) {
-        return null;
-        /*
-         * return handle(RESOURCE_NAME_STUDENTS, entityDefs, new ResourceLogic() {
-         * 
-         * @Override
-         * public Response run(final EntityDefinition entityDef) {
-         * // FIXME: Why do we effectively read twice? (The isOfType is an exists test).
-         * if (entityDef.isOfType(id)) {
-         * final EntityBody entityBody = entityDef.getService().get(id);
-         * entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody,
-         * entityDefs));
-         * return Response.ok(entityBody).build();
-         * } else if (entityDef instanceof AssociationDefinition) {
-         * AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-         * Iterable<String> associationIds = null;
-         * 
-         * boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
-         * boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
-         * 
-         * if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
-         * associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max,
-         * uriInfo.getRequestUri().getQuery());
-         * } else if (checkAgainstSourceEntity) {
-         * associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-         * uriInfo.getRequestUri().getQuery());
-         * } else if (checkAgainstTargetEntity) {
-         * associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-         * uriInfo.getRequestUri().getQuery());
-         * } else {
-         * return Response.status(Status.NOT_FOUND).build();
-         * }
-         * 
-         * if (fullEntities) {
-         * return Response.ok(getFullEntities(associationIds, entityDef)).build();
-         * } else {
-         * CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
-         * return Response.ok(collection).build();
-         * }
-         * }
-         * return Response.status(Status.NOT_FOUND).build();
-         * }
-         * });
-         */
-    }
-
-    /**
-     * Create a new $$student$$ resource.
+     * Create a new $$students$$ entity.
      * 
      * @param newEntityBody
      *            entity data
      * @param uriInfo
-     * @return Response with a status of CREATED and a Location header set pointing to where the new
-     *         entity lives
-     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
-     *                                        value.
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
      */
     @POST
-    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
-        return crudDelegate.create(newEntityBody, uriInfo);
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response create(final EntityBody newEntityBody, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(PathConstants.STUDENTS, newEntityBody, uriInfo);
     }
 
     /**
-     * Delete a $$student$$ resource.
+     * Get a single $$students$$ entity
      * 
-     * @param typePath
-     *            resourceUri of the entity
-     * @param id
-     *            id of the entity
+     * @param studentId
+     *            The Id of the student.
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single student entity
+     * @response.representation.200.mediaType application/json
+     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}student
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(PathConstants.STUDENTS, studentId, uriInfo);
+    }
+
+    /**
+     * Delete a $$students$$ entity
+     * 
+     * @param studentId
+     *            The Id of the student.
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String id) {
-        return crudDelegate.delete(id);
+    public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String studentId, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(PathConstants.STUDENTS, studentId, uriInfo);
     }
 
     /**
-     * Update an existing $$student$$ resource.
+     * Update an existing $$students$$ entity.
      * 
-     * @param typePath
-     *            resourceUri for the entity
-     * @param id
-     *            id of the entity
+     * @param studentId
+     *            The Id of the student.
      * @param newEntityBody
-     *            entity data that will used to replace the existing entity data
+     *            entity data
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String id, final EntityBody newEntityBody) {
-        return crudDelegate.update(id, newEntityBody);
+    public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            final EntityBody newEntityBody, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(PathConstants.STUDENTS, studentId, newEntityBody, uriInfo);
     }
 }
