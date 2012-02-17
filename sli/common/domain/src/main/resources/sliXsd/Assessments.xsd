@@ -53,7 +53,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="performanceLevel" type="description">
+			<xs:element name="performanceLevelDescriptor" type="performanceLevelDescriptor">
 				<xs:annotation>
 					<xs:documentation>The performance level(s) defined for the
 						assessment.
