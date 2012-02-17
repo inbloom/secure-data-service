@@ -17,13 +17,14 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.FileRecordParser;
+import org.slc.sli.ingestion.util.NeutralRecordJsonStreamer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -139,20 +140,22 @@ public class PersistenceProcessor implements Processor {
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
 
-        NeutralRecordFileReader nrFileReader = new NeutralRecordFileReader(neutralRecordsFile);
+        FileRecordParser<NeutralRecord> nrFileReader = new NeutralRecordJsonStreamer(neutralRecordsFile);
+
+        NeutralRecord neutralRecord = nrFileReader.parseRecord();
+
         try {
-            while (nrFileReader.hasNext()) {
+            while (neutralRecord != null) {
 
                 recordNumber++;
-
-                NeutralRecord neutralRecord = nrFileReader.next();
-
                 LOG.debug("processing " + neutralRecord);
 
                 // map NeutralRecord to Entity
                 NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
                 entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
+
+                neutralRecord = nrFileReader.parseRecord();
 
             }
 
