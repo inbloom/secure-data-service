@@ -25,7 +25,7 @@ class DB
             Statement st = conn.createStatement();
             ResultSet rec = st.executeQuery("SELECT StudentUSI,PersonalTitlePrefixTypeId,FirstName,MiddleName,LastSurname,GenerationCodeSuffixTypeId,MaidenName,PersonalInformationVerificationTypeId,SexTypeId,BirthDate,CityOfBirth,StateOfBirthAbbreviationTypeId,CountryOfBirthCodeTypeId,DateEnteredUS,MultipleBirthStatus,ProfileThumbnail,HispanicLatinoEthnicity,OldEthnicityTypeId,EconomicDisadvantaged,SchoolFoodServicesEligibilityTypeId,LimitedEnglishProficiencyTypeId,DisplacementStatusType,LoginId FROM Student");
             while (rec.next()) {
-            	System.out.println(rec.getString("StudentUSI"));
+                System.out.println(rec.getString("StudentUSI"));
             }
             st.close();
         }

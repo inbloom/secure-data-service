@@ -214,7 +214,7 @@ public class GenerateStudentAssessment {
     private void getData() {
         Connection conn = Utility.getConnection();
         studentAssessmentResultSet = Utility.getResultSet(conn, this.studentAssessmentQuery);
-       
+
         studentAssessmentSpecialAccommodationsResultSet =  Utility.getResultSet(conn, this.studentAssessmentSpecialAccommodationsQuery);
         try {
             studentAssessmentSpecialAccommodationsResultSet.next();
@@ -283,12 +283,12 @@ public class GenerateStudentAssessment {
             if (!hasOne)
                 sasa.append(Utility.replace(this.specialAccommodationses, "--SpecialAccommodation--", null));
             studentAssessment = Utility.replace(studentAssessment, "--SpecialAccommodationses--\n", sasa.toString());
-           
+
             // LinguisticAccommodationses
             StringBuilder studentAssessmentLinguisticAccommodations = new StringBuilder("");
             studentAssessmentLinguisticAccommodations.append(Utility.replace(linguisticAccommodationses, "--LinguisticAccommodation--", null));
             studentAssessment = Utility.replace(studentAssessment, "--LinguisticAccommodationses--\n", studentAssessmentLinguisticAccommodations.toString());
-            
+
             // ScoreResultses
             StringBuilder scoreResultsSB = new StringBuilder("");
             hasOne = false;
@@ -299,7 +299,7 @@ public class GenerateStudentAssessment {
                         && this.studentAssessmentScoreResultResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
                         && this.studentAssessmentScoreResultResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
                         && this.studentAssessmentScoreResultResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-                    
+
                     String temp = Utility.replace(scoreResultses, "--AssessmentReportingMethod--", this.studentAssessmentScoreResultResultSet.getString("AssessmentReportingMethodType"));
                     temp = Utility.replace(temp, "--Result--", this.studentAssessmentScoreResultResultSet.getString("Result"));
                     scoreResultsSB.append(temp);
@@ -316,7 +316,7 @@ public class GenerateStudentAssessment {
                 scoreResultsSB.append(temp);
            }
             studentAssessment = Utility.replace(studentAssessment, "--ScoreResultses--\n", scoreResultsSB.toString());
-            
+
             // performanceLevelses
             StringBuilder pl = new StringBuilder("");
             hasOne = false;
@@ -338,7 +338,7 @@ public class GenerateStudentAssessment {
             if (!hasOne)
                 pl.append(Utility.replace(this.performanceLevelses, "--CodeValue--", null));
             studentAssessment = Utility.replace(studentAssessment, "--PerformanceLevelses--\n", pl.toString());
-            
+
             // assessmentIdentificationCodes
             StringBuilder idCodes = new StringBuilder("");
             hasOne = false;
@@ -349,7 +349,7 @@ public class GenerateStudentAssessment {
                         && this.assessmentIdentificationCodeResultSet.getString("AssessedGradeLevelTypeId").equals(this.studentAssessmentResultSet.getString("AssessedGradeLevelTypeId"))
                         && this.assessmentIdentificationCodeResultSet.getString("Version").equals(this.studentAssessmentResultSet.getString("Version"))
                         && this.assessmentIdentificationCodeResultSet.getString("AdministrationDate").equals(this.studentAssessmentResultSet.getString("AdministrationDate"))) {
-                    
+
                     String temp = Utility.replace(this.assessmentIdentificationCodes, "--AssessmentIdentificationCode_IdentificationSystem--", this.assessmentIdentificationCodeResultSet.getString("AssessmentIdentificationSystem"));
                     temp = Utility.replace(temp, "--AssessmentIdentificationCode_AssigningOrganizationCode--", this.assessmentIdentificationCodeResultSet.getString("AssigningOrganizationCode"));
                     temp = Utility.replace(temp, "--ID--", this.assessmentIdentificationCodeResultSet.getString("IdentificationCode"));
@@ -368,7 +368,7 @@ public class GenerateStudentAssessment {
                 idCodes.append(temp);
            }
             studentAssessment = Utility.replace(studentAssessment, "--AssessmentIdentificationCodes--\n", idCodes.toString());
-                       
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
