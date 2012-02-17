@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.oauth2.provider.token.RandomValueTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -26,6 +27,7 @@ import org.slc.sli.domain.EntityRepository;
  * @author shalka
  * 
  */
+@Component
 public class SliTokenService extends RandomValueTokenServices {
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600; // 1 hour
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 900;   // 15 minutes
