@@ -1,36 +1,91 @@
 <InterchangeStudentAssessment xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAssessment.xsd">
-    <StudentAssessment id="SaId">
-        <AdministrationDate>1999-07-12</AdministrationDate>
-        <AdministrationEndDate>2010-06-14</AdministrationEndDate>
+    <StudentAssessment id="ID005">
+        <AdministrationDate>2013-11-11</AdministrationDate>
+        <AdministrationEndDate>2013-08-07</AdministrationEndDate>
         <SerialNumber>231101422</SerialNumber>
-        <AdministrationLanguage>English</AdministrationLanguage>
+        <AdministrationLanguage>Malay</AdministrationLanguage>
         <AdministrationEnvironment>School</AdministrationEnvironment>
         <SpecialAccommodations>
-            <SpecialAccommodation>Presentation</SpecialAccommodation>
+            <SpecialAccommodation>Colored lenses</SpecialAccommodation>
+            <SpecialAccommodation>Assistive device that does interfere with independent work of the student</SpecialAccommodation>
+        </SpecialAccommodations>
+        <SpecialAccommodations>
+            <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+            <SpecialAccommodation>Breaks during testing</SpecialAccommodation>
         </SpecialAccommodations>
         <LinguisticAccommodations>
-            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+            <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+            <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
         </LinguisticAccommodations>
-        <RetestIndicator>Primary Administration</RetestIndicator>
-        <ReasonNotTested>Absent</ReasonNotTested>
-        <ScoreResults AssessmentReportingMethod="Pass-fail">
-            <Result>Pass</Result>
+        <LinguisticAccommodations>
+            <LinguisticAccommodation>Clarification - Word or Phrase</LinguisticAccommodation>
+            <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+        </LinguisticAccommodations>
+        <RetestIndicator>2nd Retest</RetestIndicator>
+        <ReasonNotTested>Medical waiver</ReasonNotTested>
+        <ScoreResults AssessmentReportingMethod="Workplace readiness score">
+            <Result>uDcDPPMbzwXnlNsazojAEF6R8LIME6</Result>
         </ScoreResults>
-        <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
-        <PerformanceLevels>
-            <CodeValue>12</CodeValue>
-            <Description>performancelvldescription</Description>
+        <ScoreResults AssessmentReportingMethod="Sten score">
+            <Result>wp8LHfJTg0VCYibTjopqHgrwQLysVfikvHH</Result>
+        </ScoreResults>
+        <GradeLevelWhenAssessed>Eleventh grade</GradeLevelWhenAssessed>
+        <PerformanceLevels id="ID007" ref="ID001">
+            <CodeValue>KYn6axx9pJEX</CodeValue>
+            <CodeValue>bn</CodeValue>
         </PerformanceLevels>
-        <StudentReference>
+        <PerformanceLevels id="ID009" ref="ID002">
+            <Description>iCVfaEbxmLrwjJHDp24L6b.RqEqktmj4RQ.uZu1orVHu3ZDmIEAU-4o6G0piplr</Description>
+            <Description>o4d07w7KBFLDv_:fTpRC6hDuGzrDCg-9:cwqPCbOiVQ7FJC_DM4ETxGH67_9tG9zxRQ7uvoWGcS61aQzmp.djePWS8BzzO:B.0OjCwZ.5IY1XAmn0DyTWLCVVPlvntyjiPBJW6BZpH-i1VBx.lIBj1QmCRfKSd2v-Sil:C3:Iut2sN.cP0MF8M9PGPJh6yvPgqwzLQ3pRVXPh-m_neWgS3irXiKkuHU8zKT8EfF__kf8ZX_ccZBOzACZTTBdEI80ePBGNt:95CQoOnVKPKH4bPIPLPBgpPRIr4mrKdtv8z2L8llbtQRWNT16a4clF4ZgAJjl8Mpa89_pHWlQinxt9JuuoVLSughk66KY6YWwt6DMTAcTBah0fXs2zdLHf4S57c203kCOJOGG5vjlMInFF.4_KEWRMvB:AMp59MpeH7gJ9W6M936StsWtbQO5Q_EOWpnCnnqA:BlpMufI1QXRNG9Fsqj:hNywuX5rWknNJyE422qgfRQCJqzC39MX23-wnqBvq7UXrbIZfNhA8nPve_Wq</Description>
+        </PerformanceLevels>
+        <StudentReference id="ID011" ref="ID008">
             <StudentIdentity>
-                <StudentUniqueStateId>108000601</StudentUniqueStateId>
+                <StudentUniqueStateId>Yjmyw</StudentUniqueStateId>
+                <StudentIdentificationCode IdentificationSystem="State Migrant" AssigningOrganizationCode="XcjWvDlTR">
+                    <IdentificationCode>rm2eQj5XDoyb1_vtJ5JRfWX.y4DQEKL7bp8HmsOnbd</IdentificationCode>
+                </StudentIdentificationCode>
+                <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="CLfIyVvfaYS0cNfl8INrIER08oPD03QR3LPLKSQddc2bT">
+                    <IdentificationCode>xf.FJvA0kjN2E2fKG-zWiPEvkjT19x.9gj</IdentificationCode>
+                </StudentIdentificationCode>
+                <Name Verification="Immigration document/visa">
+                    <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+                    <FirstName>fuQxfaI6tDdkdwIV837X23zwA5gu8UMjpXnmJXhk</FirstName>
+                    <MiddleName>C1llfwqfNCmKIc.1B2BgZob3Zj3BB5XpJLegzhm.Q9LfXkRvr7KP5F2BD5ikZoUB</MiddleName>
+                    <LastSurname>OxHxe4Aupz.3jC</LastSurname>
+                    <GenerationCodeSuffix>III</GenerationCodeSuffix>
+                    <MaidenName>Ymdze9xSyTMRSEcf9XGLIpqv24jgVTyon</MaidenName>
+                </Name>
+                <OtherName OtherNameType="Alias">
+                    <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+                    <FirstName>e_lSI9l.l1zL</FirstName>
+                    <MiddleName>YO.h5EvS73OrUSF4Od4j</MiddleName>
+                    <LastSurname>hqFflX_H6_Sz3</LastSurname>
+                    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+                </OtherName>
+                <OtherName OtherNameType="Nickname">
+                    <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+                    <FirstName>tkm8BjSpnvx4udI2Y.rM8tRj_DdXyG6YmUVGY1DrYC4pEQM1DDk</FirstName>
+                    <MiddleName>QlwVOwo0oTxmjFGD</MiddleName>
+                    <LastSurname>zRrMSQvvSsIRLOetT0Avpav1Mn-Gvjmvbef4sAMB9g7UT8S0UFCnIrJusk</LastSurname>
+                    <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+                </OtherName>
+                <BirthDate>2013-10-21</BirthDate>
+                <Sex>Male</Sex>
+                <HispanicLatinoEthnicity>0</HispanicLatinoEthnicity>
+                <Race>
+                    <RacialCategory>Black - African American</RacialCategory>
+                    <RacialCategory>White</RacialCategory>
+                </Race>
             </StudentIdentity>
         </StudentReference>
-        <AssessmentReference>
+        <AssessmentReference id="ID013" ref="ID002">
             <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="School" AssigningOrganizationCode="orgcode" >
-                    <ID>234000601</ID>
-                </AssessmentIdentificationCode>
+                <AssessmentFamilyTitle>xxNq_TgKZ-y4Al0vVtxFo3D5.azgcH.I</AssessmentFamilyTitle>
+                <AssessmentTitle>c-aKzuT08</AssessmentTitle>
+                <AssessmentCategory>State high school subject assessment</AssessmentCategory>
+                <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+                <GradeLevelAssessed>Postsecondary</GradeLevelAssessed>
+                <Version>-133291797</Version>
             </AssessmentIdentity>
         </AssessmentReference>
     </StudentAssessment>
