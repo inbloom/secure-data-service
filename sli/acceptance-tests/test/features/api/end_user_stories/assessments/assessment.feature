@@ -20,7 +20,7 @@ Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most 
 		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
-		and filter by  "AssessmentFamilyHierarchyName" = "DIBELS Next" 
+		And filter by  "AssessmentFamilyHierarchyName" = "DIBELS Next" 
 		And "sort_by" ="AssessmentPeriodDescriptor.beginDate"
 		 And "sort_order"="descending" 
 		 And set the "page_size"  = "1" 
@@ -164,7 +164,7 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
-@wip
+
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <username> with password <password>
     And I have a Role attribute returned from the "SEA/LEA IDP"

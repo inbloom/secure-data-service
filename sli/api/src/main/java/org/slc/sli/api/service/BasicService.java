@@ -130,12 +130,12 @@ public class BasicService implements EntityService {
         
         return true;
     }
-
+    
     @Override
     public EntityBody get(String id) {
         return this.get(id, null, null);
     }
-
+    
     @Override
     public EntityBody get(String id, String includeFields, String excludeFields) {
         
@@ -152,6 +152,11 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
+        return get(ids, null, null);
+    }
+    
+    @Override
+    public Iterable<EntityBody> get(Iterable<String> ids, String sortBy, SortOrder sortOrder) {
         
         checkRights(Right.READ_GENERAL);
         
@@ -166,8 +171,9 @@ public class BasicService implements EntityService {
         }
         
         if (!binIds.isEmpty()) {
-            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)),
-                    0, MAX_RESULT_SIZE);
+            Query query = queryConverter.stringToQuery(collectionName, null, sortBy, sortOrder);
+            Iterable<Entity> entities = repo.findByQuery(collectionName,
+                    query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
