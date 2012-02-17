@@ -3,14 +3,16 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <display-name>Archetype Created Web Application</display-name>
   
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:application-context.xml,classpath:application-security.xml,classpath:application-security-${server.mode}.xml</param-value>
+    </context-param>
+    
+    
     <!-- Processes application requests -->
     <servlet>
-        <servlet-name>appServlet</servlet-name>
+        <servlet-name>dashboard</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:application-context.xml</param-value>
-        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>       
  
@@ -19,23 +21,17 @@
         <url-pattern>/static/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>appServlet</servlet-name>
+        <servlet-name>dashboard</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:application-context.xml, classpath:application-security.xml, classpath:application-security-${server.mode}.xml</param-value>
-    </context-param>
-    
-    
+  
     <session-config>
     <session-timeout>5</session-timeout>
     </session-config>
     
     <!-- Welcome files -->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file></welcome-file>
     </welcome-file-list>
 
     <filter>
