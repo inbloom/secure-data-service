@@ -6,12 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -281,31 +279,4 @@ public class EntityRepositoryTest {
         
     }
     
-    @Test
-    public void testBS() {
-        EntityRepository r = repository;
-        Map<String, Object> school1 = new HashMap<String, Object>();
-        school1.put("testData", 1);
-        school1.put("junk", "asdf");
-        Entity created = r.create("school", school1);
-        String id1 = created.getEntityId();
-        
-        school1.put("testData", 2);
-        school1.remove("junk");
-        created = r.create("school", school1);
-        String id2 = created.getEntityId();
-        
-        Query query = new Query();
-        query.addCriteria(Criteria.where("body.testData").in(Arrays.asList(1, 2)));
-        query.addCriteria(Criteria.where("_id").in(Arrays.asList(UUID.fromString(id1), UUID.fromString(id2))));
-        query.sort().on("body.testData", Order.DESCENDING);
-        // query.fields().include("_id").include("body.junk");
-        
-        Iterable<Entity> entities = r.findByQuery("school", query, 0, 100);
-        for (Entity e : entities) {
-            System.err.println(e.getEntityId() + "\t" + e.getBody());
-        }
-        
-        r.deleteAll("school");
-    }
 }
