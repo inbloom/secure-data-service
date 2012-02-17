@@ -2,7 +2,6 @@ package org.slc.sli.api.security.saml2;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;

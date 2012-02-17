@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.saml2;
 
-import java.io.InputStream;
 import java.io.IOException;
 import java.security.Key;
 import java.security.KeyStore;
@@ -14,10 +13,22 @@ import java.security.cert.X509CertSelector;
 import java.util.Enumeration;
 import java.util.Iterator;
 import javax.security.auth.x500.X500Principal;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dom.*;
-import javax.xml.crypto.dsig.keyinfo.*;
+
+import javax.xml.crypto.KeySelector;
+import javax.xml.crypto.KeySelectorException;
+import javax.xml.crypto.AlgorithmMethod;
+import javax.xml.crypto.KeySelectorResult;
+import javax.xml.crypto.XMLCryptoContext;
+import javax.xml.crypto.NodeSetData;
+import javax.xml.crypto.OctetStreamData;
+import javax.xml.crypto.XMLStructure;
+
+import javax.xml.crypto.dsig.SignatureMethod;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyName;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
+import javax.xml.crypto.dsig.keyinfo.X509IssuerSerial;
 
 
 /**
@@ -138,8 +149,7 @@ public class X509KeySelector extends KeySelector {
                     RetrievalMethod rm = (RetrievalMethod) kiType;
                     try {
                         KeySelectorResult ksr = null;
-                        if (rm.getType().equals
-                                (X509Data.RAW_X509_CERTIFICATE_TYPE)) {
+                        if (rm.getType().equals(X509Data.RAW_X509_CERTIFICATE_TYPE)) {
                             OctetStreamData data = (OctetStreamData)
                                     rm.dereference(context);
                             CertificateFactory cf =
@@ -223,6 +233,7 @@ public class X509KeySelector extends KeySelector {
      * Returns an OID of a public-key algorithm compatible with the specified
      * signature algorithm URI.
      * @param algURI The base uri of the algorithm the key was made with
+     * @return String A reference OID for the algorithim used to sign.
      */
     private String getPKAlgorithmOID(String algURI) {
         if (algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
@@ -260,11 +271,11 @@ public class X509KeySelector extends KeySelector {
      */
     //@@@FIXME: this should also work for key types other than DSA/RSA
     private boolean algEquals(String algURI, String algName) {
-        if (algName.equalsIgnoreCase("DSA") &&
-                algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
+        if (algName.equalsIgnoreCase("DSA")
+                && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
             return true;
-        } else if (algName.equalsIgnoreCase("RSA") &&
-                algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
+        } else if (algName.equalsIgnoreCase("RSA")
+                && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
             return true;
         } else {
             return false;
@@ -301,8 +312,7 @@ public class X509KeySelector extends KeySelector {
                 try {
                     xcs.setSubjectPublicKeyAlgID(algOID);
                     xcs.setSerialNumber(xis.getSerialNumber());
-                    xcs.setIssuer(new X500Principal
-                            (xis.getIssuerName()).getName());
+                    xcs.setIssuer(new X500Principal(xis.getIssuerName()).getName());
                 } catch (IOException ioe) {
                     throw new KeySelectorException(ioe);
                 }

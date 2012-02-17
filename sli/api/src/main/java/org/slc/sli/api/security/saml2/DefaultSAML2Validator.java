@@ -3,11 +3,22 @@ package org.slc.sli.api.security.saml2;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
+import javax.xml.crypto.AlgorithmMethod;
+import javax.xml.crypto.KeySelector;
+import javax.xml.crypto.KeySelectorException;
+import javax.xml.crypto.KeySelectorResult;
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.XMLCryptoContext;
+import javax.xml.crypto.XMLStructure;
+import javax.xml.crypto.dsig.Reference;
+import javax.xml.crypto.dsig.SignatureMethod;
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.crypto.dsig.XMLSignatureException;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
+
 import java.security.Key;
 import java.security.KeyException;
 import java.security.PublicKey;
@@ -22,15 +33,15 @@ public class DefaultSAML2Validator implements SAML2Validator {
 
     private DOMValidateContext valContext;
 
-    public NodeList getSignatureElement(Document samlDocument) {
+    private NodeList getSignatureElement(Document samlDocument) {
         return samlDocument.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
     }
 
-    public void createContext(Document samlDocument) {
+    private void createContext(Document samlDocument) {
         this.valContext = new DOMValidateContext(new KeyValueKeySelector(), getSignatureElement(samlDocument).item(0));
     }
 
-    public XMLSignature getSignature(Document samlDocument) throws MarshalException {
+    private XMLSignature getSignature(Document samlDocument) throws MarshalException {
         createContext(samlDocument);
         XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
         return factory.unmarshalXMLSignature(valContext);
@@ -114,11 +125,11 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
 
         static boolean algEquals(String algURI, String algName) {
-            if (algName.equalsIgnoreCase("DSA") &&
-                    algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
+            if (algName.equalsIgnoreCase("DSA")
+                    && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
                 return true;
-            } else if (algName.equalsIgnoreCase("RSA") &&
-                    algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
+            } else if (algName.equalsIgnoreCase("RSA")
+                    && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
                 return true;
             } else {
                 return false;
