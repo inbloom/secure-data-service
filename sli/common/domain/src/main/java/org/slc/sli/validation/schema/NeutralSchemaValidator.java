@@ -72,5 +72,9 @@ public class NeutralSchemaValidator implements EntityValidator {
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
         entitySchemaRegistry = schemaRegistry;
     }
+    
+    public void setEntityRepository(EntityRepository entityRepo) {
+        this.validationRepo = entityRepo;
+    }
 
 }

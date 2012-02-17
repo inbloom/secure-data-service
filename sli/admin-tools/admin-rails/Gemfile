@@ -13,8 +13,12 @@ gem 'execjs'
 
 gem 'therubyracer'
 
-group :deployment do
- gem 'thin'
+group :deployment, :integration do
+  # Deploy with Capistrano
+  gem 'capistrano'
+  # Multi-stage deployment
+  gem 'capistrano-ext'
+  gem 'thin'
 end
 
 
@@ -34,8 +38,6 @@ gem 'jquery-rails'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug'

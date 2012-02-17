@@ -25,22 +25,28 @@
 
 	<!-- Beans referenced by Authorization and Resource Services -->
 	<bean id="clientService" class="org.slc.sli.api.security.oauth.SLIClientDetailService" />
-<!-- 	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.TokenManager" /> -->
+	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.MongoTokenStore" />
 
 	<bean id="oauth2ExceptionTranslationFilter"
 		class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
 
-<!-- 	<bean id="oauth2EndpointValidationFilter" -->
-<!-- 		class="org.springframework.security.oauth2.provider.filter.EndpointValidationFilter" /> -->
+	<!-- <bean id="oauth2EndpointValidationFilter" -->
+	<!-- class="org.springframework.security.oauth2.provider.filter.EndpointValidationFilter" 
+		/> -->
 
-<!-- 	<bean id="oauth2ProtectedResourceFilter" -->
-<!-- 		class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" /> -->
+	<!-- <bean id="oauth2ProtectedResourceFilter" -->
+	<!-- class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" 
+		/> -->
 
-<!-- 	<oauth2:authorization-server /> -->
-<!-- 		client-details-service-ref="clientService" token-services-ref="tokenServices"> -->
-<!-- 		<oauth2:authorization-code /> -->
-<!-- 	</oauth2:authorization-server> -->
-<!-- 	<oauth2:resource-server id="oauth2ResourceServer" /> -->
+<!-- 	<oauth2:authorization-server -->
+<!-- 		client-details-service-ref="clientService"  -->
+<!-- 		token-services-ref="tokenServices"  -->
+<!-- 		authorization-endpoint-url="/oauth/authorize" -->
+<!-- 		token-endpoint-url="/oauth/token" /> -->
+
+	<!-- <oauth2:authorization-code /> -->
+	<!-- </oauth2:authorization-server> -->
+	<!-- <oauth2:resource-server id="oauth2ResourceServer" /> -->
 
 	<!-- OAuth 2.0 Authorization Server configuration -->
 	<!--<oauth2:authorization-server client-details-service-ref="ClientService"> 
