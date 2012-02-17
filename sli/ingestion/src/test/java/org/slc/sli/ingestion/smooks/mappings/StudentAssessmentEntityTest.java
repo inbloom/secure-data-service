@@ -66,8 +66,6 @@ public class StudentAssessmentEntityTest {
             Assert.fail();
         }
 
-        System.out.println(edfiStudentAssessmentXml);
-
         NeutralRecord neutralRecord = EntityTestUtils
                 .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                         targetSelector, edfiStudentAssessmentXml);
