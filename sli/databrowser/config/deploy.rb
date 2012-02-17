@@ -42,6 +42,14 @@ namespace :deploy do
     start
   end
   
+  namespace :assets do
+    task :precompile do
+      run <<-CMD
+        cd #{deploy_to}/current/#{working_dir} && bundle exec rake RAILS_ENV=integration RAILS_GROUPS=assets assets:precompile
+      CMD
+    end
+  end
+  
   task :finalize_update, :except => { :no_release => true } do
     run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
 
