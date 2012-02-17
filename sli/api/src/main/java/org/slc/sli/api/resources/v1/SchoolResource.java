@@ -30,7 +30,6 @@ import org.slc.sli.api.representation.EntityBody;
  * Prototype new api end points and versioning
  * 
  * @author srupasinghe
- * TODO: make sure @Produces gets picked up from Class to Resource Endpoint (billy)
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
@@ -65,6 +64,7 @@ public class SchoolResource {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
@@ -96,18 +96,9 @@ public class SchoolResource {
      * 
      * @param schoolId
      *            The Id of the $$schools$$.
-     * @param expandDepth
-     *            whether or not the full entity should be returned or just the link. Defaults to
-     *            false
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single school entity
-     * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
@@ -138,7 +129,7 @@ public class SchoolResource {
      * Update an existing $$schools$$ entity.
      * 
      * @param schoolId
-     *            The Id of the $$schools$$.
+     *            The id of the $$schools$$.
      * @param newEntityBody
      *            entity data
      * @param uriInfo
@@ -166,11 +157,11 @@ public class SchoolResource {
      *            Maximum number of results to return.
      * @param expandDepth
      *            Number of hops (associations) for which to expand entities.
-     * 
-     * @return
+     * @return       
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}/student-school-associations")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit) {
