@@ -30,7 +30,7 @@ public class MockAPIClient implements APIClient {
     private static Logger log = LoggerFactory.getLogger(MockAPIClient.class);
     
     private ClassLoader classLoader;
-
+    
     // Mock Data Files
     private static final String MOCK_DATA_DIRECTORY = "mock_data/";
     private static final String MOCK_ENROLLMENT_FILE = "school.json";
@@ -46,7 +46,6 @@ public class MockAPIClient implements APIClient {
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
-
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
@@ -60,10 +59,20 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-        // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        //return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
-        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
-        return studentAssmts;
+        
+        // get all assessments in the file. this is very inefficient, since we're reading the whole file each time, but only
+        // grabbing assmts for one student. not sure of a good way around it at the moment.
+        List<GenericEntity> studentAssmts = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
+
+        // filter by the student id
+        for (GenericEntity studentAssmt : studentAssmts) {
+            if (studentAssmt.getString(Constants.ATTR_STUDENT_ID).equals(studentId)) {
+                filteredAssmts.add(studentAssmt);
+            }
+        }
+        
+        return filteredAssmts;
     }
 
     @Override

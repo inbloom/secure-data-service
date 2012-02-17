@@ -7,8 +7,8 @@ import org.slc.sli.entity.GenericEntity;
 /**
  * 
  * An interface to the SLI API. 
- * This is meant to be a thin wrapper around API calls. It does group together multiple calls
- * in some cases, in a way useful to the rest of the dashboard application.
+ * This is meant to be a thin wrapper around API calls. It groups together multiple API calls
+ * in some cases, hopefully in a way useful to the rest of the dashboard application.
  *
  */
 public interface APIClient {

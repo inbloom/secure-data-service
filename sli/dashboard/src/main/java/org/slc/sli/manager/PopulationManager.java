@@ -40,15 +40,6 @@ public class PopulationManager {
     }
     
     /**
-     * Initialize with population-independent metadata.
-     * 
-     */
-    public void init() {
-        
-        // load assessment info?
-    }
-    
-    /**
      * Get the assessment family lookup map
      * 
      * @return assessmentFamilyMap
@@ -89,11 +80,11 @@ public class PopulationManager {
             studentAssessmentMap.put(studentId, studentAssessments);
         }
         
-        // Add programs and assessment to summaries
+        // Add programs and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
-            studentSummary.put(Constants.ATTR_ASSESSMENTS, studentAssessmentMap.get(id));
+            studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
         }
         
         return studentSummaries;
@@ -163,7 +154,7 @@ public class PopulationManager {
     }
 
     /**
-     * Grab the assessment ids from the student assessment results
+     * Helper method to grab the assessment ids from the student assessment results
      * 
      * @return
      */
@@ -171,12 +162,13 @@ public class PopulationManager {
         
         List<String> assmtIds = new ArrayList<String>();
         
-        // loop through student assessments, grab assessment lists
+        // loop through student summaries, grab student assessment lists
         for (GenericEntity studentSummary : studentSummaries) {
             
-            List<GenericEntity> studentAssmts = (List<GenericEntity>) studentSummary.get(Constants.ATTR_ASSESSMENTS);
+            List<GenericEntity> studentAssmts = (List<GenericEntity>) studentSummary.get(Constants.ATTR_STUDENT_ASSESSMENTS);
             for (GenericEntity studentAssmt : studentAssmts) {
                 
+                // add assessment id to the list
                 String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
                 if (!(assmtIds.contains(assmtId))) {
                     assmtIds.add(assmtId);
