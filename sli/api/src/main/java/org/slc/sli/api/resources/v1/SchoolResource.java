@@ -56,7 +56,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Returns all $$school$$ entities for which the logged in User has permission and context.
+     * Returns all $$schools$$ entities for which the logged in User has permission and context.
      * 
      * @param uriInfo
      * @param offset
@@ -72,7 +72,7 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Create a new $$school$$ entity.
+     * Create a new $$schools$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -89,10 +89,10 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Get a single $$school$$ entity
+     * Get a single $$schools$$ entity
      * 
      * @param id
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
      * @param expandDepth
      *            whether or not the full entity should be returned or just the link. Defaults to
      *            false
@@ -117,10 +117,10 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Delete a $$school$$ entity
+     * Delete a $$schools$$ entity
      * 
      * @param id
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
@@ -131,10 +131,10 @@ public class SchoolResource implements CrudEndpoint {
     }
 
     /**
-     * Update an existing $$school$$ entity.
+     * Update an existing $$schools$$ entity.
      * 
      * @param schoolId
-     *            The Id of the School.
+     *            The Id of the $$schools$$.
      * @param newEntityBody
      *            entity data that will used to replace the existing entity data
      * @return Response with a NOT_CONTENT status code
@@ -149,7 +149,7 @@ public class SchoolResource implements CrudEndpoint {
 
     /**
      * Returns all the student-school-associations that
-     * reference the given $$school$$
+     * reference the given $$schools$$
      * 
      * @param schoolId
      *            The Id of the School.
