@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,8 @@ import org.slc.sli.util.SecurityUtil;
  * Handles a request to display a student list
  *
  */
+@Controller
+@RequestMapping("/studentlist")
 public class StudentListController extends DashboardController {
 
     // model map keys required by the view for the student list view
@@ -61,13 +65,7 @@ public class StudentListController extends DashboardController {
         return SecurityUtil.getPrincipal();
     }
 
-    /*
-     * Getters and setters
-     */
-    public InstitutionalHierarchyManager getInstitutionalHierarchyManager() {
-        return institutionalHierarchyManager;
-    }
-
+    @Autowired
     public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
         this.institutionalHierarchyManager = institutionalHierarchyManager;
     }

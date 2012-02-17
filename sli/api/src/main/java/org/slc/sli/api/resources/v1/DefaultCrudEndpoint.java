@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
@@ -30,7 +32,6 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
     private final EntityDefinitionStore entityDefs;
-    private final String typePath;
     private final Logger logger;
     
     /**
@@ -38,31 +39,44 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * exception handling code.
      */
     protected static interface ResourceLogic {
-        Response run(EntityDefinition entityDef);
+        public Response run(EntityDefinition entityDef);
     }
-    
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName, final Logger logger) {
+
+    /**
+     * Constructor.
+     * 
+     * @param entityDefs
+     * @param resourceName
+     */
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs) {
+        this(entityDefs, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param entityDefs
+     * @param resourceName
+     * @param log
+     */
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final Logger logger) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
-        }
-        if (resourceName == null) {
-            throw new NullPointerException("typePath");
         }
         if (logger == null) {
             throw new NullPointerException("logger");
         }
         this.entityDefs = entityDefs;
-        this.typePath = resourceName;
         this.logger = logger;
     }
     
     @Override
-    public Response readAll(final int offset, final int limit, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final int offset, final int limit, final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
     
-    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response create(final String collectionName, final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -72,8 +86,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
-    public Response read(final String idList, final boolean fullEntities, final UriInfo uriInfo) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response read(final String collectionName, final String idList, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 // split list of IDs into individual ID(s)
@@ -84,24 +98,25 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                 // validate the number of input IDs is lower than the max acceptable amount
                 if (ids.length > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
-                            + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                                    errorMessage)).build();
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
                 }
+                
+                //get query parameters
+                MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+                
+                //get query parameters for specific fields to include or exclude
+                String includeFields = queryParameters.getFirst("includeFields");
+                String excludeFields = queryParameters.getFirst("excludeFields");
                 
                 // loop through all input ID(s)
                 for (String id : ids) {
                     // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
-                        EntityBody entityBody = entityDef.getService().get(id);
-                        entityBody.put(ResourceConstants.LINKS,
-                                getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        EntityBody entityBody = entityDef.getService().get(id, includeFields, excludeFields);
+                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
                         results.add(entityBody);
-                    } else if (multipleIds) { // ID not found but multiple IDs are being searched
-                                              // for
+                    } else if (multipleIds) { // ID not found but multiple IDs searched for
                         results.add(null);
                     } else { // ID not found and only one ID being searched for
                         return Response.status(Status.NOT_FOUND).build();
@@ -151,11 +166,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                     EntityDefinition relative = null;
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, offset, limit,
-                                uriInfo.getRequestUri().getQuery());
+                                uriInfo.getRequestUri().getQuery(), null, null);
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
                         relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, offset, limit,
-                                uriInfo.getRequestUri().getQuery());
+                                uriInfo.getRequestUri().getQuery(), null, null);
                         relative = associationDefinition.getSourceEntity();
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
@@ -204,8 +219,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response delete(final String id) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response delete(final String collectionName, final String id, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 entityDef.getService().delete(id);
@@ -227,8 +242,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response update(final String id, final EntityBody newEntityBody) {
-        return handle(typePath, entityDefs, new ResourceLogic() {
+    public Response update(final String collectionName, final String id, final EntityBody newEntityBody, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
@@ -246,14 +261,14 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Handle preconditions and exceptions.
      */
-    private static Response handle(final String typePath, final EntityDefinitionStore entityDefs,
+    private static Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
             final ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Invalid resource path: " + typePath)).build();
+                            "Invalid resource path: " + resourceName)).build();
         }
         return logic.run(entityDef);
     }
@@ -277,11 +292,18 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
-            links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    sourceEntity.getResourceName(), (String) entityBody.get(assocDef.getSourceKey())).toString()));
+            String sourceId = (String) entityBody.get(assocDef.getSourceKey());
+            if (sourceId != null) {
+                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
+                        sourceEntity.getResourceName(), sourceId).toString()));
+            }
             EntityDefinition targetEntity = assocDef.getTargetEntity();
-            links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
-                    targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
+            String targetId = (String) entityBody.get(assocDef.getTargetKey());
+            if (targetId != null) {
+                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
+                        targetEntity.getResourceName(), targetId).toString()));
+            }
+            
         } else {
             links.addAll(ResourceUtil.getAssociationsLinks(entityDefs, defn, id, uriInfo));
             links.addAll(ResourceUtil.getReferenceLinks(uriInfo, entityDefs, defn, entityBody));

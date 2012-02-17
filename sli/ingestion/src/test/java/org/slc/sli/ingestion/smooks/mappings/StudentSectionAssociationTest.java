@@ -40,7 +40,7 @@ public class StudentSectionAssociationTest {
             + " <BeginDate>2009-09-15</BeginDate>"
             + " <EndDate>2010-06-02</EndDate>"
             + " <HomeroomIndicator>false</HomeroomIndicator>"
-            + " <RepeatIdentifier>Not Repeated</RepeatIdentifier>"
+            + " <RepeatIdentifier>Not repeated</RepeatIdentifier>"
             + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
 
     @Test
@@ -49,7 +49,7 @@ public class StudentSectionAssociationTest {
         String smooksConfig = "smooks_conf/smooks-studentSectionAssociation-csv.xml";
         String targetSelector = "csv-record";
 
-        String testData = "111220001,MT100,2009-09-15,2010-06-02,false,Not Repeated";
+        String testData = "111220001,MT100,2009-09-15,2010-06-02,false,Not repeated";
 
         ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
         NeutralRecordFileReader nrfr = null;
@@ -113,6 +113,6 @@ public class StudentSectionAssociationTest {
         Assert.assertEquals("2009-09-15", entity.get("beginDate"));
         Assert.assertEquals("2010-06-02", entity.get("endDate"));
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
-        Assert.assertEquals("Not Repeated", entity.get("repeatIdentifier"));
+        Assert.assertEquals("Not repeated", entity.get("repeatIdentifier"));
     }
 }

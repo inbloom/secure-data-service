@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -23,8 +24,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
-//import org.slc.sli.api.resources.Resource;
-
 /**
  * Prototype new api end points and versioning
  * 
@@ -35,102 +34,113 @@ import org.slc.sli.api.representation.EntityBody;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class TeacherSchoolAssociationResource implements CrudEndpoint {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherSchoolAssociationResource.class);
-    
-    private static final String TYPE_PATH = "teacher-school-associations";
-    private final CrudEndpoint crudDelegate;
-    
-    @Autowired
-    public TeacherSchoolAssociationResource(final EntityDefinitionStore entityDefs) {
-        crudDelegate = new DefaultCrudEndpoint(entityDefs, TYPE_PATH, LOGGER);
-    }
+public class TeacherSchoolAssociationResource {
     
     /**
-     * Returns all teacher-school-association entities for which the logged in User has permission
-     * and context.
+     * Logging utility.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherSchoolAssociationResource.class);
+    
+    /*
+     * Interface capable of performing CRUD operations.
+     */
+    private final CrudEndpoint crudDelegate;
+
+    @Autowired
+    public TeacherSchoolAssociationResource(EntityDefinitionStore entityDefs) {
+        this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
+    }
+
+    /**
+     * Returns all $$teacherSchoolAssociations$$ entities for which the logged in User has permission and context.
      * 
-     * @param uriInfo
      * @param offset
      *            starting position in results to return to user
      * @param limit
      *            maximum number of results to return to user (starting from offset)
-     * @return
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
      */
     @GET
-    public Response readAll(@QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("limit") @DefaultValue("50") final int limit, @Context final UriInfo uriInfo) {
-        return crudDelegate.readAll(offset, limit, uriInfo);
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.readAll(PathConstants.TEACHER_SCHOOL_ASSOCIATIONS, offset, limit, uriInfo);
     }
-    
+
     /**
-     * Create a new teacher-school-association entity.
+     * Create a new $$teacherSchoolAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
      * @param uriInfo
-     * @return Response with a status of CREATED and a Location header set pointing to where the new
-     *         entity lives
-     * @response.representation.201.mediaType HTTP headers with a Created status code and a Location
-     *                                        value.
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
      */
     @POST
-    public Response create(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
-        return crudDelegate.create(newEntityBody, uriInfo);
+    @Consumes({ MediaType.APPLICATION_JSON })
+    public Response create(final EntityBody newEntityBody, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(PathConstants.TEACHER_SCHOOL_ASSOCIATIONS, newEntityBody, uriInfo);
     }
-    
+
     /**
-     * Get a single teacher-school-association entity
+     * Get a single $$teacherSchoolAssociations$$ entity
      * 
-     * @param id
-     *            teacher-school-association id
-     * @param expandDepth
-     *            whether or not the full entity should be returned or just the link. Defaults to
-     *            false
+     * @param teacherSchoolAssociationId
+     *            The Id of the teacher school association.
      * @param uriInfo
-     * @return A single student entity
+     *            URI information including path and query parameters
+     * @return A single school entity
      * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}student
+     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
      */
     @GET
-    @Path("{id}")
-    public Response read(@PathParam("id") final String id,
-            @QueryParam(ParameterConstants.EXPAND_DEPTH) @DefaultValue("false") final boolean expandDepth,
+    @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID + "}")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response read(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID) final String teacherSchoolAssociationId,
             @Context final UriInfo uriInfo) {
-        return crudDelegate.read(id, expandDepth, uriInfo);
+        return this.crudDelegate.read(PathConstants.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, uriInfo);
     }
-    
+
     /**
-     * Delete a teacher-school-association entity
+     * Delete a $$teacherSchoolAssociations$$ entity
      * 
-     * @param typePath
-     *            resourceUri of the entity
-     * @param id
-     *            id of the entity
+     * @param teacherSchoolAssociationId
+     *            The Id of the teacher school association.
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{id}")
-    public Response delete(@PathParam("id") final String id) {
-        return crudDelegate.delete(id);
+    @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID) final String teacherSchoolAssociationId, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(PathConstants.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, uriInfo);
     }
-    
+
     /**
-     * Update an existing teacher-school-association entity.
+     * Update an existing $$teacherSchoolAssociations$$ entity.
      * 
-     * @param typePath
-     *            resourceUri for the entity
-     * @param id
-     *            id of the entity
+     * @param teacherSchoolAssociationId
+     *            The Id of the teacher school association.
      * @param newEntityBody
-     *            entity data that will used to replace the existing entity data
+     *            entity data
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{id}")
-    public Response update(@PathParam("id") final String id, final EntityBody newEntityBody) {
-        return crudDelegate.update(id, newEntityBody);
+    @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID + "}")
+    public Response update(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOCIATION_ID) final String teacherSchoolAssociationId,
+            final EntityBody newEntityBody, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(PathConstants.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, newEntityBody, uriInfo);
     }
 }
