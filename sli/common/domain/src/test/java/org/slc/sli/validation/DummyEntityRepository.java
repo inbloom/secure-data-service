@@ -26,6 +26,12 @@ public class DummyEntityRepository implements EntityRepository {
         }
         entities.get(collection).put(id, entity);
     }
+
+    @Override
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
     @Override
     public Entity find(String collectioName, String id) {

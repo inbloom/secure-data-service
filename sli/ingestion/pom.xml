@@ -41,13 +41,13 @@
       <artifactId>hornetq-core</artifactId>
       <version>2.2.5.Final</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.jboss.netty</groupId>
       <artifactId>netty</artifactId>
       <version>3.2.3.Final</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.hornetq</groupId>
       <artifactId>hornetq-jms</artifactId>
@@ -70,7 +70,7 @@
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>dal</artifactId>
-      
+
       <exclusions>
       	<exclusion>
           <groupId>org.slc.sli</groupId>
@@ -78,13 +78,12 @@
       	</exclusion>
       </exclusions>
     </dependency>
-    
+
     <!-- SLI - MOCKS -->
     <dependency>
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>mock-dal</artifactId>
     </dependency>
-
 
     <!-- Integration (ETL) Framework -->
 
@@ -179,7 +178,7 @@
     	<version>${camel.version}</version>
     	<scope>test</scope>
     </dependency>
-    
+
     <dependency>
     	<groupId>org.apache.camel</groupId>
     	<artifactId>camel-jms</artifactId>
@@ -191,12 +190,20 @@
 	    <artifactId>aspectjrt</artifactId>
 	    <version>${aspectj.version}</version>
 	</dependency>
-	
+
 	<dependency>
 	    <groupId>commons-jexl</groupId>
 	    <artifactId>commons-jexl</artifactId>
 	    <version>${jexl.version}</version>
 	</dependency>
+
+     <dependency>
+       <groupId>junit-addons</groupId>
+       <artifactId>junit-addons</artifactId>
+       <version>1.4</version>
+       <scope>test</scope>
+     </dependency>
+
 </dependencies>
 
   <build>

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.WriteResult;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,13 +50,33 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Override
     public Entity find(String collectionName, String id) {
+        return this.find(collectionName, id, null, null);
+    }
+
+    @Override
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
         Object databaseId = idConverter.toDatabaseId(id);
         if (databaseId == null) {
             LOG.debug("Unable to process id {}", new Object[] { id });
             return null;
         }
-        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, Entity.class, collectionName);
+        
+        Query query = new Query(Criteria.where("_id").is(databaseId));
+        
+        if (includeFields != null) {
+            for (String includeField : includeFields.split(",")) {
+                LOG.debug("Including field " + includeField + " in resulting body");
+                query.fields().include("body." + includeField);
+            }
+        } else if (excludeFields != null) {
+            for (String excludeField : excludeFields.split(",")) {
+                LOG.debug("Excluding field " + excludeField + " from resulting body");
+                query.fields().exclude("body." + excludeField);
+            }
+        }
+        
+        LOG.debug("Finding in collection {} for ID {}", new Object[] { collectionName, id });
+        return template.findOne(query, Entity.class, collectionName);
     }
     
     @Override

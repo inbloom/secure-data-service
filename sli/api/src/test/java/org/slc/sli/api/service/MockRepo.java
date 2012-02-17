@@ -67,6 +67,8 @@ public class MockRepo implements EntityRepository {
                                                                                    // technical-debt.
         repo.put("authSession", new LinkedHashMap<String, Entity>());
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
+        repo.put("application", new LinkedHashMap<String, Entity>());
+        repo.put("oauthSession", new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -75,6 +77,11 @@ public class MockRepo implements EntityRepository {
     
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
+    }
+    
+    @Override
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+        return find(collectionName, id);
     }
     
     @Override

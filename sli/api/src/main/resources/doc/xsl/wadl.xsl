@@ -484,7 +484,7 @@
 </xsl:template>
 
 <xsl:template name="getStyle">
-    <link rel="stylesheet" href="wadl.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="css/wadl.css" media="all" type="text/css" />
 </xsl:template>
 
 <xsl:template name="getTitle">

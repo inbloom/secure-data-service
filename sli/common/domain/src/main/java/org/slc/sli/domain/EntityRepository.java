@@ -14,13 +14,26 @@ import org.springframework.data.mongodb.core.query.Query;
 public interface EntityRepository {
     
     /**
-     * @param collectioName
+     * @param collectionName
      *            the name of the collection to look in
      * @param id
      *            the global unique id of the entity
      * @return the entity retrieved
      */
-    public Entity find(String collectioName, String id);
+    public Entity find(String collectionName, String id);
+    
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param id
+     *            the global unique id of the entity
+     * @param includeFields
+     *            fields to include in lookup. All other fields are excluded from results
+     * @param excludeFields
+     *            fields to exclude from lookup. All other fields are included in results
+     * @return the entity retrieved
+     */
+    public Entity find(String collectionName, String id, String includeFields, String excludeFields);
     
     /**
      * @param collectionName
