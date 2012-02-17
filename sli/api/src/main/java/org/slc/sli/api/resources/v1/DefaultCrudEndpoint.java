@@ -3,7 +3,7 @@ package org.slc.sli.api.resources.v1;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -41,7 +41,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     protected static interface ResourceLogic {
         public Response run(EntityDefinition entityDef);
     }
-
+    
     /**
      * Constructor.
      * 
@@ -51,7 +51,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs) {
         this(entityDefs, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
     }
-
+    
     /**
      * Constructor.
      * 
@@ -71,11 +71,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     @Override
-    public Response readAll(final String collectionName, final int offset, final int limit, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final int offset, final int limit, final HttpHeaders headers, final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
     
-    public Response create(final String collectionName, final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+    public Response create(final String collectionName, final EntityBody newEntityBody, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -86,7 +86,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
-    public Response read(final String collectionName, final String idList, final UriInfo uriInfo) {
+    public Response read(final String collectionName, final String idList, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -98,14 +98,18 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                 // validate the number of input IDs is lower than the max acceptable amount
                 if (ids.length > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
-                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
+                            + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                                    errorMessage)).build();
                 }
                 
-                //get query parameters
+                // get query parameters
                 MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
                 
-                //get query parameters for specific fields to include or exclude
+                // get query parameters for specific fields to include or exclude
                 String includeFields = queryParameters.getFirst("includeFields");
                 String excludeFields = queryParameters.getFirst("excludeFields");
                 
@@ -114,7 +118,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                     // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
                         EntityBody entityBody = entityDef.getService().get(id, includeFields, excludeFields);
-                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        entityBody.put(ResourceConstants.LINKS,
+                                getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
                         results.add(entityBody);
                     } else if (multipleIds) { // ID not found but multiple IDs searched for
                         results.add(null);
@@ -205,7 +210,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     
     private static Iterable<EntityBody> getHoppedEntities(final Iterable<String> relatives,
             final EntityDefinition relativeDef) {
-        return relativeDef.getService().get(relatives);
+        return relativeDef.getService().get(relatives, null, null);
     }
     
     /**
@@ -219,7 +224,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response delete(final String collectionName, final String id, final UriInfo uriInfo) {
+    public Response delete(final String collectionName, final String id, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
@@ -242,7 +247,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     
-    public Response update(final String collectionName, final String id, final EntityBody newEntityBody, final UriInfo uriInfo) {
+    public Response update(final String collectionName, final String id, final EntityBody newEntityBody, final HttpHeaders headers,
+            final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -294,14 +300,14 @@ class DefaultCrudEndpoint implements CrudEndpoint {
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
             String sourceId = (String) entityBody.get(assocDef.getSourceKey());
             if (sourceId != null) {
-                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(uriInfo,
-                        sourceEntity.getResourceName(), sourceId).toString()));
+                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(
+                        uriInfo, sourceEntity.getResourceName(), sourceId).toString()));
             }
             EntityDefinition targetEntity = assocDef.getTargetEntity();
             String targetId = (String) entityBody.get(assocDef.getTargetKey());
             if (targetId != null) {
-                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
-                        targetEntity.getResourceName(), targetId).toString()));
+                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(
+                        uriInfo, targetEntity.getResourceName(), targetId).toString()));
             }
             
         } else {

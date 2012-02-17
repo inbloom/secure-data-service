@@ -42,7 +42,6 @@ public interface QueryConverter {
      *            the query string received from http GET request
      * @return the converted spring data query object
      */
-    @Deprecated
     public Query stringToQuery(String entityType, String queryString);
     
     /**

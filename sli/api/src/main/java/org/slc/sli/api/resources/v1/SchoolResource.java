@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -30,7 +31,6 @@ import org.slc.sli.api.representation.EntityBody;
  * Prototype new api end points and versioning
  * 
  * @author srupasinghe
- * TODO: make sure @Produces gets picked up from Class to Resource Endpoint (billy)
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
@@ -61,15 +61,18 @@ public class SchoolResource {
      *            starting position in results to return to user
      * @param limit
      *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, headers, uriInfo);
     }
 
     /**
@@ -77,6 +80,8 @@ public class SchoolResource {
      * 
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
      * @return result of CRUD operation
@@ -87,8 +92,8 @@ public class SchoolResource {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -96,25 +101,18 @@ public class SchoolResource {
      * 
      * @param schoolId
      *            The Id of the $$schools$$.
-     * @param expandDepth
-     *            whether or not the full entity should be returned or just the link. Defaults to
-     *            false
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single school entity
-     * @response.representation.200.mediaType application/json
-     * @response.representation.200.qname {http://www.w3.org/2001/XMLSchema}school
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
@@ -122,6 +120,8 @@ public class SchoolResource {
      * 
      * @param schoolId
      *            The Id of the $$schools$$.
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
@@ -130,17 +130,19 @@ public class SchoolResource {
     @DELETE
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$schools$$ entity.
      * 
      * @param schoolId
-     *            The Id of the $$schools$$.
+     *            The id of the $$schools$$.
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
@@ -150,8 +152,8 @@ public class SchoolResource {
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             final EntityBody newEntityBody, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -166,14 +168,19 @@ public class SchoolResource {
      *            Maximum number of results to return.
      * @param expandDepth
      *            Number of hops (associations) for which to expand entities.
-     * 
-     * @return
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return       
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}/student-school-associations")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit) {
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
