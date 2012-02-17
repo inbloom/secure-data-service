@@ -42,11 +42,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     protected static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
     }
-
+    
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName) {
         this(entityDefs, resourceName, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
     }
-
+    
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName, final Logger log) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
@@ -90,14 +90,18 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                 // validate the number of input IDs is lower than the max acceptable amount
                 if (ids.length > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
-                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
+                            + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                                    errorMessage)).build();
                 }
                 
-                //get query parameters
+                // get query parameters
                 MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
                 
-                //get query parameters for specific fields to include or exclude
+                // get query parameters for specific fields to include or exclude
                 String includeFields = queryParameters.getFirst("includeFields");
                 String excludeFields = queryParameters.getFirst("excludeFields");
                 
@@ -106,7 +110,8 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                     // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
                         EntityBody entityBody = entityDef.getService().get(id, includeFields, excludeFields);
-                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        entityBody.put(ResourceConstants.LINKS,
+                                getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
                         results.add(entityBody);
                     } else if (multipleIds) { // ID not found but multiple IDs searched for
                         results.add(null);
@@ -197,7 +202,7 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     
     private static Iterable<EntityBody> getHoppedEntities(final Iterable<String> relatives,
             final EntityDefinition relativeDef) {
-        return relativeDef.getService().get(relatives);
+        return relativeDef.getService().get(relatives, null, null);
     }
     
     /**
