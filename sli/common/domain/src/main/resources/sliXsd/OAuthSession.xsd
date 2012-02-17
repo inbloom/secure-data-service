@@ -196,7 +196,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="expiration" type="xs:date" minOccurs="1"
-				maxOccurs="1">
+	maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>
 						Time when the Access Token is no longer valid
