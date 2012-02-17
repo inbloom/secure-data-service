@@ -34,11 +34,11 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 5     |
         | teacherSectionAssociation   | 0     |
      And I check to find if record is in collection:
-	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          |
-	   | student                     | 1                   | metaData.externalId      | 530425896            |
-	   | student                     | 1                   | metaData.externalId      | 784204643            |
-	   | teacher                     | 1                   | metaData.externalId      | cgray                |
-	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   |
+	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
+	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |
+	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
+	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
+	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
 	And I should see "Processed 83 records." in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
@@ -59,9 +59,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 5     |
         | teacherSectionAssociation   | 0     |
      And I check to find if record is in collection:
-	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          |
-	   | student                     | 1                   | metaData.externalId      | 530425896            |
-	   | student                     | 1                   | metaData.externalId      | 784204643            |
-	   | teacher                     | 1                   | metaData.externalId      | cgray                |
-	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   |
+	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
+	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |
+	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
+	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
+	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
 	And I should see "Processed 83 records." in the resulting batch job file

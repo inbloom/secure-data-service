@@ -3,11 +3,12 @@ package org.slc.sli.ingestion.smooks.mappings;
 import static org.mockito.Mockito.mock;
 
 
+
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.ingestion.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
@@ -33,6 +35,34 @@ public class SectionEntityTest {
 
     @Autowired
     private EntityValidator validator;
+
+    @Autowired
+    private DummyEntityRepository repo;
+
+    private Entity makeDummyEntity(final String type, final String id) {
+        return new Entity() {
+
+            @Override
+            public String getType() {
+                return type;
+            }
+
+            @Override
+            public Map<String, Object> getMetaData() {
+                return new HashMap<String, Object>();
+            }
+
+            @Override
+            public String getEntityId() {
+                return id;
+            }
+
+            @Override
+            public Map<String, Object> getBody() {
+                return new HashMap<String, Object>();
+            }
+        };
+    }
 
     String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<Section> "
@@ -95,9 +125,16 @@ public class SectionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("section");
 
-        neutralRecord.getAttributes().put("courseId", UUID.randomUUID().toString());
-        neutralRecord.getAttributes().put("schoolId", UUID.randomUUID().toString());
-        neutralRecord.getAttributes().put("sessionId", UUID.randomUUID().toString());
+        /*when(repo.find("section", "152901001")).thenReturn(makeDummyEntity("school", "152901001"));
+        when(repo.find("session", "223")).thenReturn(makeDummyEntity("session", "223"));
+        when(repo.find("course", "ELA4")).thenReturn(makeDummyEntity("ELA4", "152901001"));*/
+
+        repo.addEntity("school", "152901001", makeDummyEntity("school", "152901001"));
+        repo.addEntity("session", "223", makeDummyEntity("session", "223"));
+        repo.addEntity("course", "ELA4", makeDummyEntity("course", "ELA4"));
+        repo.addEntity("program", "223", makeDummyEntity("program", "223"));
+
+        junitx.util.PrivateAccessor.setField(validator, "validationRepo", repo);
 
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "section", validator);
     }
@@ -345,6 +382,7 @@ public class SectionEntityTest {
         Assert.assertEquals("Face-to-face instruction", entity.get("mediumOfInstruction"));
         Assert.assertEquals("Regular Students", entity.get("populationServed"));
 
+        @SuppressWarnings("unchecked")
         Map<String, Object> availableCredit = (Map<String, Object>) entity.get("availableCredit");
         Assert.assertTrue(availableCredit != null);
         Assert.assertEquals("Semester hour credit", availableCredit.get("creditType"));
@@ -357,12 +395,9 @@ public class SectionEntityTest {
 
         Assert.assertEquals("223", entity.get("sessionId"));
 
+        @SuppressWarnings("unchecked")
         List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("223", programReferenceList.get(0));
-
-        entity.put("courseId", UUID.randomUUID().toString());
-        entity.put("schoolId", UUID.randomUUID().toString());
-        entity.put("sessionId", UUID.randomUUID().toString());
     }
 }

@@ -24,61 +24,55 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 @Component
 public class SliRequestFilter extends GenericFilterBean {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SliRequestFilter.class);
-
-	private static final String PARAM_SESSION = "sessionId";
-	private static final String HEADER_SESSION_NAME = "sessionId";
-
-	@Autowired
-	private SecurityTokenResolver resolver;
-
-	/**
-	 * Intercepter method called by spring Checks cookies to see if SLI session
-	 * id exists If session does exist, resolution will be attempted
-	 */
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-
-		HttpServletRequest http = (HttpServletRequest) request;
-		String sessionId = getSessionIdFromRequest(http);
-
-		LOG.debug("Request URL: " + http.getRequestURL()
-				+ (http.getQueryString() == null ? "" : http.getQueryString()));
-
-		Authentication auth = resolver.resolve(sessionId);
-		if (auth != null) {
-			LOG.debug("Created Auth Hash: {}@{}", auth.getClass(),
-					Integer.toHexString(auth.hashCode()));
-
-		}
-
-		SecurityContextHolder.getContext().setAuthentication(auth);
-
-		if (SecurityContextHolder.getContext().getAuthentication() == null
-				|| !(SecurityContextHolder.getContext().getAuthentication()
-						.getCredentials() instanceof PreAuthenticatedAuthenticationToken)) {
-			chain.doFilter(request, response);
-		}
-	}
-
-	private String getSessionIdFromRequest(HttpServletRequest req) {
-
-		String sessionId = req.getParameter(PARAM_SESSION);
-
-		// Allow for sessionId to come in both request or header
-		if (sessionId == null) {
-			sessionId = req.getHeader(HEADER_SESSION_NAME);
-		}
-
-		LOG.debug("Session Id: " + sessionId);
-
-		return sessionId;
-	}
-
-	public void setResolver(SecurityTokenResolver resolver) {
-		this.resolver = resolver;
-	}
+    
+    private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
+    
+    private static final String PARAM_SESSION = "sessionId";
+    private static final String HEADER_SESSION_NAME = "sessionId";
+    
+    @Autowired
+    private SecurityTokenResolver resolver;
+    
+    /**
+     * Intercepter method called by spring Checks cookies to see if SLI session
+     * id exists If session does exist, resolution will be attempted
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        
+        HttpServletRequest http = (HttpServletRequest) request;
+        String sessionId = getSessionIdFromRequest(http);
+        
+        LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
+        
+        Authentication auth = resolver.resolve(sessionId);
+        if (auth != null) {
+            LOG.debug("Created Auth Hash: {}@{}", auth.getClass(), Integer.toHexString(auth.hashCode()));
+            
+        }
+        
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        
+        if (SecurityContextHolder.getContext().getAuthentication() == null || !(SecurityContextHolder.getContext().getAuthentication().getCredentials() instanceof PreAuthenticatedAuthenticationToken)) {
+            chain.doFilter(request, response);
+        }
+    }
+    
+    private String getSessionIdFromRequest(HttpServletRequest req) {
+        
+        String sessionId = req.getParameter(PARAM_SESSION);
+        
+        // Allow for sessionId to come in both request or header
+        if (sessionId == null) {
+            sessionId = req.getHeader(HEADER_SESSION_NAME);
+        }
+        
+        LOG.debug("Session Id: " + sessionId);
+        
+        return sessionId;
+    }
+    
+    public void setResolver(SecurityTokenResolver resolver) {
+        this.resolver = resolver;
+    }
 }

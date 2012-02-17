@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -191,34 +192,6 @@ public class EntityRepositoryTest {
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
     }
     
-    // @Test
-    // public void testValidation() {
-    // Map<String, Object> badBody = buildTestStudentEntity();
-    // badBody.put("bad-entity", "true");
-    // try {
-    // repository.create("student", badBody);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Entity saved = repository.create("student", buildTestStudentEntity());
-    // String id = saved.getEntityId();
-    // saved.getBody().put("bad-entity", "true");
-    // try {
-    // repository.update("student", saved);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Map<String, String> badFields = new HashMap<String, String>();
-    // badFields.put("bad-entity", "true");
-    // Iterable<Entity> badEntities = repository.findByFields("student", badFields, 0, 100);
-    // assertTrue(!badEntities.iterator().hasNext());
-    // repository.delete("student", id);
-    // }
-    
     private Map<String, Object> buildTestStudentEntity() {
         
         Map<String, Object> body = new HashMap<String, Object>();
@@ -277,5 +250,23 @@ public class EntityRepositoryTest {
         
         assertTrue(updated.isAfter(created));
         
+    }
+    
+    @Test
+    public void testFindIdsByQuery() {
+        repository.deleteAll("student");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        
+        Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
+        List<String> idList = new ArrayList<String>();
+        for (String id : ids) {
+            idList.add(id);
+        }
+        
+        assertEquals(5, idList.size());
     }
 }
