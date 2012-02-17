@@ -51,7 +51,7 @@ import org.slc.sli.domain.enums.Right;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @DirtiesContext
-public class TokenManagerTest {
+public class MongoTokenStoreTest {
     
     private static final String ACCESS_TOKEN_ONE_VALUE = "test-refresh-token-one";
     private static final String ACCESS_TOKEN_ONE_TYPE = "test-type";
