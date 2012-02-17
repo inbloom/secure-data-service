@@ -67,9 +67,7 @@ public class MongoEntityRepository implements EntityRepository {
                 LOG.debug("Including field " + includeField + " in resulting body");
                 query.fields().include("body." + includeField);
             }
-        }
-        
-        if (excludeFields != null) {
+        } else if (excludeFields != null) {
             for (String excludeField : excludeFields.split(",")) {
                 LOG.debug("Excluding field " + excludeField + " from resulting body");
                 query.fields().exclude("body." + excludeField);
