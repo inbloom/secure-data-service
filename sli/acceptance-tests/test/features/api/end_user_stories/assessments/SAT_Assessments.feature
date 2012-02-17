@@ -20,8 +20,8 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
-		And filter by  "AssessmentFamilyHierarchyName" = "SAT" 
-		And "sort_by" ="AssessmentPeriodDescriptor.BeginDatee"
+		And filter by  "assessmentFamilyHierarchyName" = "SAT" 
+		And "sort_by" ="assessmentPeriodDescriptor.beginDatee"
 		And "sort_order"="descending" 
 		And set the "page_size"  = "1" 
 		And get the "page"="1"
@@ -30,22 +30,22 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
         
 	When I navigate to  GET "/assessments/<'Most recent SAT' ID>"
 	    Then I should receive 1 assessment  
-		     And  the "AssessmentTitle" is "SAT"
-		     And the "AssessmentCategory" is "College Addmission Test"
-		     And the "GradeLevelAssessed" is "Twelfth Grade"
-		     And the "LowestGradeLevelAssessed" is "Eleventh Grade"
-		     And the "AssessmentFamilyHierarchyName" is "SAT"
-		     And the "MaxRawScore" is "2400"
-		     And the "MinRawScore" is "600"
-		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Writing"
-		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
-		     And the "ObjectiveAssessment.MaxRawScore" = 600
-		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Math"
-		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
-		     And the "ObjectiveAssessment.MaxRawScore" = 600
-		     And the "ObjectiveAssessment.IdentificationCode" = "SAT-Critical Reading"
-		     And the "ObjectiveAssessment.PercentofAssessment" = "33%"
-		     And the "ObjectiveAssessment.MaxRawScore" = 600
+		     And  the "ssessmentTitle" is "SAT"
+		     And the "assessmentCategory" is "College Addmission Test"
+		     And the "gradeLevelAssessed" is "Twelfth Grade"
+		     And the "lowestGradeLevelAssessed" is "Eleventh Grade"
+		     And the "assessmentFamilyHierarchyName" is "SAT"
+		     And the "maxRawScore" is "2400"
+		     And the "minRawScore" is "600"
+		     And the "objectiveAssessment.identificationCode" = "SAT-Writing"
+		     And the "objectiveAssessment.percentofAssessment" = "33%"
+		     And the "objectiveAssessment.maxRawScore" = 600
+		     And the "objectiveAssessment.identificationCode" = "SAT-Math"
+		     And the "objectiveAssessment.percentofAssessment" = "33%"
+		     And the "objectiveAssessment.maxRawScore" = 600
+		     And the "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
+		     And the "objectiveAssessment.percentofAssessment" = "33%"
+		     And the "objectiveAssessment.maxRawScore" = 600
 	  
 	 When I navigate to GET "/student-section-association/<'ImportantSection' ID>/targets"
 		Then I should receive a collection of 5 student links
@@ -55,28 +55,28 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 	     Then I get a collection of 20 student-assessment-associations links 
 	     When I filter by studentId is <'Current_student' ID>
 	         Then I get 1 student-assessment-association
-			    	 And the "AdministrationDate" is "2012/05/10"
-			     And the "GradeLevelWhenAssessed" is "Twelfth Grade"
-			     And the "ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
-			     And the "ScoreResults.Result" is "2060" 
-			     And the "ScoreResults.AssessmentReportingResultType" is "Percentile"	
-			     And the "ScoreResults.Result" is "92" 
-				And the "StudentObjectiveAssessment.ObjectiveAssessment" has the 3 entries
-				 And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-Writing"
-				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
-			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
-			     And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-Math"
-				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
-			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
-			     And the "StudentObjectiveAssessment.ObjectiveAssessment.IdentificationCode = "SAT-CriticalReading"
-				 And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "ScaleScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "680"
-			     And the "StudentObjectiveAssessment.ScoreResults.AssessmentReportingResultType" is "PercentileScore"	
-			     And the "StudentObjectiveAssessment.ScoreResults.Result" is "80"
+			    	 And the "administrationDate" is "2012/05/10"
+			     And the "gradeLevelWhenAssessed" is "Twelfth Grade"
+			     And the "scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the "scoreResults.result" is "2060" 
+			     And the "scoreResults.assessmentReportingResultType" is "Percentile"	
+			     And the "scoreResults.result" is "92" 
+				And the "studentObjectiveAssessment.objectiveAssessment" has the 3 entries
+				 And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
+				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
+			     And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Math"
+				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
+			     And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-CriticalReading"
+				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
