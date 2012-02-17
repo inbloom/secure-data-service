@@ -26,7 +26,7 @@
     <!-- jb:value property="sourceId" data="" / -->
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'student'</jb:expression>
-    <jb:value property="localId" data="StudentUniqueStateId" />
+    <jb:value property="localId" data="InterchangeStudent/Student/StudentUniqueStateId" />
     <jb:wiring property="attributes" beanIdRef="studentAttributes" />
   </jb:bean>
 
@@ -626,7 +626,7 @@
   <!-- Start Teacher mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/Teacher">
     <jb:expression property="recordType">'teacher'</jb:expression>
-    <jb:value property="localId" data="StaffUniqueStateId" />
+    <jb:value property="localId" data="InterchangeStaffAssociation/Teacher/StaffUniqueStateId" />
     <jb:wiring property="attributes" beanIdRef="teacherAttributes" />
   </jb:bean>
 
@@ -915,7 +915,7 @@
     <jb:expression property="recordType">'course'</jb:expression>
 
     <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
-    <jb:value property="localId" data="Course/CourseTitle" />
+    <jb:value property="localId" data="InterchangeEducationOrganization/Course/CourseTitle" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>
@@ -1252,7 +1252,7 @@
   <!-- Session mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Session">
     <jb:expression property="recordType">'session'</jb:expression>
-    <jb:value property="localId" data="Session/SessionName" />
+    <jb:value property="localId" data="InterchangeMasterSchedule/Session/SessionName" />
     <jb:wiring property="attributes" beanIdRef="sessionAttributes" />
   </jb:bean>
 
@@ -1387,5 +1387,6 @@
   </jb:bean>
 
   <!--  end of studentObjectiveAssessment  -->
+
 
 </smooks-resource-list>
