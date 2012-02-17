@@ -122,18 +122,18 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		     And the "gradeLevelAssessed" is "Second Grade"
 		     And the "lowestGradeLevelAssessed" is "Second Grade"
 		     And the "assessmentPerformanceLevel" has the 3 levels
-				     "assessmentPerformanceLevel.performanceLevel.description"= "At or Above Benchmark"
-				     "assessmentPerformanceLevel.performanceLevel.code"= "Level 1"
-				     "assessmentPerformanceLevel.minimumScore" = "190"
-				     "assessmentPerformanceLevel.maximumScore" = "380"
-				     "assessmentPerformanceLevel.performanceLevel.description"= "Below Benchmark"
-				     "assessmentPerformanceLevel.performanceLevel.code"= "Level 2"
-				     "assessmentPerformanceLevel.maximumScore" = "189"
-				     "assessmentPerformanceLevel.minimumScore" = "145"
-				     "assessmentPerformanceLevel.performanceLevel.description"= "Well Below Benchmark"
-				     "assessmentPerformanceLevel.performanceLevel.code"= "Level 3"
-				     "assessmentPerformanceLevel.maximumScore" = "144"
-				     "assessmentPerformanceLevel.minimumScore" = "13"
+			 And "assessmentPerformanceLevel.performanceLevel.description"= "At or Above Benchmark"
+			And "assessmentPerformanceLevel.performanceLevel.code"= "Level 1"
+			And "assessmentPerformanceLevel.minimumScore" = "190"
+			And "assessmentPerformanceLevel.maximumScore" = "380"
+			And "assessmentPerformanceLevel.performanceLevel.description"= "Below Benchmark"
+			And "assessmentPerformanceLevel.performanceLevel.code"= "Level 2"
+			And "assessmentPerformanceLevel.maximumScore" = "189"
+			And "assessmentPerformanceLevel.minimumScore" = "145"
+			And "assessmentPerformanceLevel.performanceLevel.description"= "Well Below Benchmark"
+			And "assessmentPerformanceLevel.performanceLevel.code"= "Level 3"
+			And "assessmentPerformanceLevel.maximumScore" = "144"
+			And "assessmentPerformanceLevel.minimumScore" = "13"
 			 And the "assessmentFamilyHierarchyName" is "DIBELS.DIBELS Next.DIBELS Next Grade 2"
 		     And the "maxRawScore" is "380"
 		     And the "minRawScore" is "13"
@@ -164,7 +164,6 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
-@wip
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <username> with password <password>
     And I have a Role attribute returned from the "SEA/LEA IDP"
