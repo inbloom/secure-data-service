@@ -16,7 +16,13 @@ set :scm, :git
 
 # Generate an additional task to fire up the thin clusters
 namespace :deploy do
-  
+  namespace :assets do
+    task :precompile do
+      run <<-CMD
+        cd #{deploy_to}/current/#{working_dir} && bundle exec rake RAILS_ENV=integration RAILS_GROUPS=assets assets:precompile
+      CMD
+    end
+  end
   desc "Start the Thin processes"
   task :start do
     run  <<-CMD
