@@ -1,13 +1,13 @@
-@wip
 Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 
+@wip
 Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
-	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
-	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+    Given  I am valid SEA/LEA end user <Username> with password <Password>
+    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And the role attribute equals <AnyDefaultSLIRole>
+    And I am authenticated on "SEA/LEA IDP"
 
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
@@ -88,11 +88,12 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
+@wip
 Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
-	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
-	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+    Given  I am valid SEA/LEA end user <Username> with password <Password>
+    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And the role attribute equals <AnyDefaultSLIRole>
+    And I am authenticated on "SEA/LEA IDP"
 
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
@@ -156,6 +157,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 			     And the "performanceLevelDescriptor.description" is "Below Benchmark"
 			     And the "scoreResults.assessmentReportingResultType" is "ScaleScore"	
 			     And the "scoreResults.result" is "120"     
+
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 | "educator"      | "educator1234"      | "Educator"         |
@@ -163,43 +165,31 @@ Examples:
 | "leader"        | "leader1234"        | "Leader"           |
 
 
-Scenario Outline:  As a AggregateViewer I should not see assessment data
-	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
-	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
+    Given I am a valid SEA/LEA end user <username> with password <password>
+    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And the role attribute equals "Aggregate Viewer"
+    And I am authenticated on "SLI Realm"
 
-	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
-	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
-		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-		And I should receive a link named "self" with URI "/teachers/<'Ms. Jones' ID>"
-		
-	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-	Then I should receive a collection of 2 section links 
-		And I should find section with uniqueSectionCode is "Section I" 
-		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
-				
-	When I navigate to "getStudents" with URI "/student-section-associations/<'ImportantSection' ID>/targets"
-	Then I should receive a collection of 5 student links
-		And after resolution, I should receive a "Student" with ID <'John Doe' ID>
-		And after resolution, I should receive a "Student" with ID  <'Sean Deer' ID>
-		And after resolution, I should receive a "Student" with ID  <'Suzy Queue' ID>
-		And after resolution, I should receive a "Student" with ID  <'Mary Line' ID>
-	 	And after resolution, I should receive a "Student" with ID  <'Dong Steve' ID>
-	 	
-	When I navigate to GET "student/<'John Doe' ID>"  	
-	Then I should not receive a link named "getAssessments" with URI "/student-assessment-associations/<'John Doe' ID>/targets"
-	
-	When I navigate to GET "section/<'ImportantSection' ID>"  	
-	Then I should receive a link named "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets"
-	Then I should receive a collection of 2 assessment links
-		And after resolution, I should receive a "Assessment" with ID <'Grade 2 MOY DIBELS' ID>
-		And after resolution, I should receive a "Assessment" with ID  <'Grade 2 BOY DIBELS' ID>
-		
-	When I navigate to "/assessment/<'Grade 2 BOY DIBELS' ID>"
-	Then I should be able to access all data fields for the assessment entity
+    When I navigate to GET "/teachers/<'Ms. Smith' ID>"
+    Then I should receive a return code of 403
+        
+    When I navigate to GET "/teacher-section-associations/<'Teacher Ms. Jones and Section Algebra II' ID>/targets"
+    Then I should receive a return code of 403
+
+    When I navigate to GET "/student-section-associations/<'Algebra II' ID>/targets"
+    Then I should receive a return code of 403
+         
+    When I navigate to GET "/students/<'Jane Doe' ID>"      
+    Then I should receive a return code of 403
+    
+    When I navigate to GET "/sections/<'Algebra II' ID>"      
+    Then I should receive a return code of 403
+        
+    When I navigate to GET "/assessments/<'Grade 2 BOY DIBELS' ID>"
+    Then I should receive a return code of 403
 
 Examples:
 | Username         | Password             | AnyDefaultSLIRole  |
-| "aggregateViewer"| "aggregate1234"      | "AggregateViewer"         |
-	 
+| "aggregateViewer"| "aggregate1234"      | "AggregateViewer"  |
+     

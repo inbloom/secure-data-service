@@ -1,14 +1,13 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +20,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
+
 
 /**
  * Test the smooks mappings for Student entity
@@ -47,7 +47,7 @@ public class StudentEntityTest {
                 + "<StudentIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
                 + "    <IdentificationCode>231101422</IdentificationCode>"
                 + "</StudentIdentificationCode>"
-                + "<Name Verification=\"verificationString\">"
+                + "<Name Verification=\"Birth certificate\">"
                 + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
                 + "    <FirstName>Alfonso</FirstName>"
                 + "    <MiddleName>Ora</MiddleName>"
@@ -79,14 +79,14 @@ public class StudentEntityTest {
                 + "    <StateAbbreviation>MD</StateAbbreviation>"
                 + "    <PostalCode>21218</PostalCode>"
                 + "    <NameOfCounty>Baltimore</NameOfCounty>"
-                + "    <CountyFIPSCode>USA123</CountyFIPSCode>"
-                + "    <CountryCode>USA</CountryCode>"
+                + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+                + "    <CountryCode>US</CountryCode>"
                 + "    <Latitude>245</Latitude>"
                 + "    <Longitude>432</Longitude>"
-                + "    <OpenDate>01-01-1969</OpenDate>"
-                + "    <CloseDate>12-12-2012</CloseDate>"
+                + "    <OpenDate>1969-01-01</OpenDate>"
+                + "    <CloseDate>2012-12-12</CloseDate>"
                 + "</Address>"
-                + "<Telephone TelephoneNumberType=\"mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
+                + "<Telephone TelephoneNumberType=\"Mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
                 + "    <TelephoneNumber>410-555-0248</TelephoneNumber>"
                 + "</Telephone>"
                 + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
@@ -133,7 +133,7 @@ public class StudentEntityTest {
                 + "    <AuditoryLearning>1</AuditoryLearning>"
                 + "    <TactileLearning>1</TactileLearning>"
                 + "</LearningStyles>"
-                + "<CohortYears CohortYearType=\"9th grade\">"
+                + "<CohortYears CohortYearType=\"Ninth grade\">"
                 + "    <SchoolYear>2010-2011</SchoolYear>"
                 + "</CohortYears>"
                 + "<StudentIndicators>"
@@ -155,7 +155,9 @@ public class StudentEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("student");
 
-        Assert.assertTrue(validator.validate(e));
+
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "student", validator);
+
     }
 
     @Test
@@ -167,12 +169,12 @@ public class StudentEntityTest {
 
         String studentCsv = "231101422,"
                 + "District,OrgCode,231101422,"
-                + "verificationString,Mr,Alfonso,Ora,Steele,Jr,Jimenez,"
+                + "Birth certificate,Mr,Alfonso,Ora,Steele,Jr,Jimenez,"
                 + "Alias,Mr,Alden,Gannon,Horne,II,"
                 + "Male,"
                 + "1999-07-12,Baltimore,MD,US,2001-03-23,false,"
-                + "Home,555 Main Street,1A,building site number,Baltimore,MD,21218,Baltimore,USA123,USA,245,432,01-01-1969,12-12-2012,"
-                + "mobile,410-555-0248,true,"
+                + "Home,555 Main Street,1A,building site number,Baltimore,MD,21218,Baltimore,US123,US,245,432,1969-01-01,2012-12-12,"
+                + "Mobile,410-555-0248,true,"
                 + "Home/Personal,asteele@email.com,"
                 + "profilethumbnail,"
                 + "true,"
@@ -189,7 +191,7 @@ public class StudentEntityTest {
                 + "Other,"
                 + "Bilingual,2011-01-11,2011-01-11,School,"
                 + "1,1,1,"
-                + "9th grade,2010-2011,"
+                + "Ninth grade,2010-2011,"
                 + "student,student,student,2011-01-11,2011-01-12,School,aStudent";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -211,7 +213,7 @@ public class StudentEntityTest {
                 + "<StudentIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
                 + "    <IdentificationCode>231101422</IdentificationCode>"
                 + "</StudentIdentificationCode>"
-                + "<Name Verification=\"verificationString\">"
+                + "<Name Verification=\"Birth certificate\">"
                 + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
                 + "    <FirstName>Alfonso</FirstName>"
                 + "    <MiddleName>Ora</MiddleName>"
@@ -243,14 +245,14 @@ public class StudentEntityTest {
                 + "    <StateAbbreviation>MD</StateAbbreviation>"
                 + "    <PostalCode>21218</PostalCode>"
                 + "    <NameOfCounty>Baltimore</NameOfCounty>"
-                + "    <CountyFIPSCode>USA123</CountyFIPSCode>"
-                + "    <CountryCode>USA</CountryCode>"
+                + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+                + "    <CountryCode>US</CountryCode>"
                 + "    <Latitude>245</Latitude>"
                 + "    <Longitude>432</Longitude>"
-                + "    <OpenDate>01-01-1969</OpenDate>"
-                + "    <CloseDate>12-12-2012</CloseDate>"
+                + "    <OpenDate>1969-01-01</OpenDate>"
+                + "    <CloseDate>2012-12-12</CloseDate>"
                 + "</Address>"
-                + "<Telephone TelephoneNumberType=\"mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
+                + "<Telephone TelephoneNumberType=\"Mobile\" PrimaryTelephoneNumberIndicator=\"true\">"
                 + "    <TelephoneNumber>410-555-0248</TelephoneNumber>"
                 + "</Telephone>"
                 + "<ElectronicMail EmailAddressType=\"Home/Personal\">"
@@ -297,7 +299,7 @@ public class StudentEntityTest {
                 + "    <AuditoryLearning>1</AuditoryLearning>"
                 + "    <TactileLearning>1</TactileLearning>"
                 + "</LearningStyles>"
-                + "<CohortYears CohortYearType=\"9th grade\">"
+                + "<CohortYears CohortYearType=\"Ninth grade\">"
                 + "    <SchoolYear>2010-2011</SchoolYear>"
                 + "</CohortYears>"
                 + "<StudentIndicators>"
@@ -329,7 +331,7 @@ public class StudentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(studentIdentificationCodeMap, "assigningOrganizationCode", "OrgCode");
 
         Map nameMap = (Map) studentNeutralRecord.getAttributes().get("name");
-        EntityTestUtils.assertObjectInMapEquals(nameMap, "verification", "verificationString");
+        EntityTestUtils.assertObjectInMapEquals(nameMap, "verification", "Birth certificate");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "firstName", "Alfonso");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "lastSurname", "Steele");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "personalTitlePrefix", "Mr");
@@ -366,16 +368,16 @@ public class StudentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "MD");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "21218");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "Baltimore");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "USA123");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "USA");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "US123");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "01-01-1969");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "12-12-2012");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "1969-01-01");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "2012-12-12");
 
         List telephoneList = (List) studentNeutralRecord.getAttributes().get("telephone");
         Map telephoneMap = (Map) telephoneList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumberType", "mobile");
+        EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumberType", "Mobile");
         EntityTestUtils.assertObjectInMapEquals(telephoneMap, "primaryTelephoneNumberIndicator", true);
         EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumber", "410-555-0248");
 
@@ -450,7 +452,7 @@ public class StudentEntityTest {
 
         List cohortYearsList = (List) studentNeutralRecord.getAttributes().get("cohortYears");
         Map cohortYearsMap = (Map) cohortYearsList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(cohortYearsMap, "cohortYearType", "9th grade");
+        EntityTestUtils.assertObjectInMapEquals(cohortYearsMap, "cohortYearType", "Ninth grade");
         EntityTestUtils.assertObjectInMapEquals(cohortYearsMap, "schoolYear", "2010-2011");
 
         List studentIndicatorsList = (List) studentNeutralRecord.getAttributes().get("studentIndicators");

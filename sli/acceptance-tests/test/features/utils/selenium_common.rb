@@ -28,6 +28,7 @@ def assertWithWait(msg, &blk)
   begin
     wait.until {yield}
   rescue
+    puts webdriverDebugMessage(@driver,msg)
   end
   assert(yield, webdriverDebugMessage(@driver,msg))
 end

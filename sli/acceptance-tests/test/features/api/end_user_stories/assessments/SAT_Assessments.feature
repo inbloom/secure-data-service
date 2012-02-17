@@ -1,8 +1,8 @@
-@wip
 Feature: SAT Scores 
 
 Background: None
 
+@wip
 Scenario Outline:  As a teacher for my class I want to get the most recent values SAT including Critical Reading, Writing, Mathematics 
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
 	And I have a Role attribute returned from the "SEA/LEA IDP"

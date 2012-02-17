@@ -541,8 +541,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="academicSubjects" type="academicSubjectsType"
-						minOccurs="0">
+					<xs:element name="academicSubjects" type="academicSubjectType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The teaching field required for the position,
 								for

@@ -3,8 +3,10 @@ package org.slc.sli.ingestion.smooks.mappings;
 import static org.mockito.Mockito.mock;
 
 
+
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.ingestion.validation.DummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
@@ -33,11 +36,39 @@ public class SectionEntityTest {
     @Autowired
     private EntityValidator validator;
 
+    @Autowired
+    private DummyEntityRepository repo;
+
+    private Entity makeDummyEntity(final String type, final String id) {
+        return new Entity() {
+
+            @Override
+            public String getType() {
+                return type;
+            }
+
+            @Override
+            public Map<String, Object> getMetaData() {
+                return new HashMap<String, Object>();
+            }
+
+            @Override
+            public String getEntityId() {
+                return id;
+            }
+
+            @Override
+            public Map<String, Object> getBody() {
+                return new HashMap<String, Object>();
+            }
+        };
+    }
+
     String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<Section> "
             + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
             + "<SequenceOfCourse>1</SequenceOfCourse>"
-            + "<EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>"
+            + "<EducationalEnvironment>Mainstream (Special Education) </EducationalEnvironment>"
             + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
             + "<PopulationServed>Regular Students</PopulationServed>"
             + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
@@ -94,7 +125,18 @@ public class SectionEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("section");
 
-        Assert.assertTrue(validator.validate(e));
+        /*when(repo.find("section", "152901001")).thenReturn(makeDummyEntity("school", "152901001"));
+        when(repo.find("session", "223")).thenReturn(makeDummyEntity("session", "223"));
+        when(repo.find("course", "ELA4")).thenReturn(makeDummyEntity("ELA4", "152901001"));*/
+
+        repo.addEntity("school", "152901001", makeDummyEntity("school", "152901001"));
+        repo.addEntity("session", "223", makeDummyEntity("session", "223"));
+        repo.addEntity("course", "ELA4", makeDummyEntity("course", "ELA4"));
+        repo.addEntity("program", "223", makeDummyEntity("program", "223"));
+
+        junitx.util.PrivateAccessor.setField(validator, "validationRepo", repo);
+
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "section", validator);
     }
 
     @Test(expected = EntityValidationException.class)
@@ -274,7 +316,7 @@ public class SectionEntityTest {
                 + "<Section> "
                 + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
                 + "<SequenceOfCourse>1</SequenceOfCourse>"
-                + "<EducationalEnvironment>Mainstrean (Special Education)</EducationalEnvironment>"
+                + "<EducationalEnvironment>Mainstrean (Special Education) </EducationalEnvironment>"
                 + "<CourseOfferingReference>"
                 +    "<CourseOfferingIdentity>"
                 +       "<LocalCourseCode>ELA4</LocalCourseCode>"
@@ -309,7 +351,7 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        String csvTestData = "A-ELA4,1,Mainstream (Special Education),Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+        String csvTestData = "A-ELA4,1,Mainstream (Special Education) ,Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 csvTestData);
@@ -336,25 +378,26 @@ public class SectionEntityTest {
         Assert.assertEquals("A-ELA4", entity.get("uniqueSectionCode"));
         Assert.assertEquals("1", entity.get("sequenceOfCourse").toString());
 
-        Assert.assertEquals("Mainstream (Special Education)", entity.get("educationalEnvironment"));
+        Assert.assertEquals("Mainstream (Special Education) ", entity.get("educationalEnvironment"));
         Assert.assertEquals("Face-to-face instruction", entity.get("mediumOfInstruction"));
         Assert.assertEquals("Regular Students", entity.get("populationServed"));
 
+        @SuppressWarnings("unchecked")
         Map<String, Object> availableCredit = (Map<String, Object>) entity.get("availableCredit");
         Assert.assertTrue(availableCredit != null);
         Assert.assertEquals("Semester hour credit", availableCredit.get("creditType"));
         Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
         Assert.assertEquals("0.05", availableCredit.get("credit").toString());
 
-        Assert.assertEquals("ELA4", entity.get("courseOfferingReference"));
+        Assert.assertEquals("ELA4", entity.get("courseId"));
 
-        Assert.assertEquals("152901001", entity.get("schoolReference"));
+        Assert.assertEquals("152901001", entity.get("schoolId"));
 
-        Assert.assertEquals("223", entity.get("sessionReference"));
+        Assert.assertEquals("223", entity.get("sessionId"));
 
+        @SuppressWarnings("unchecked")
         List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
         Assert.assertEquals("223", programReferenceList.get(0));
-
     }
 }

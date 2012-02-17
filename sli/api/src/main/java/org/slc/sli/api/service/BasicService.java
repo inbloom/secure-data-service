@@ -129,13 +129,18 @@ public class BasicService implements EntityService {
         
         return true;
     }
-    
+
     @Override
     public EntityBody get(String id) {
+        return this.get(id, null, null);
+    }
+
+    @Override
+    public EntityBody get(String id, String includeFields, String excludeFields) {
         
         checkAccess(Right.READ_GENERAL, id);
         
-        Entity entity = repo.find(collectionName, id);
+        Entity entity = repo.find(collectionName, id, includeFields, excludeFields);
         
         if (entity == null) {
             throw new EntityNotFoundException(id);

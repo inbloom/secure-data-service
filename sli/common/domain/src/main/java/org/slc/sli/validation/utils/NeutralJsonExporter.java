@@ -19,9 +19,9 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Utility class for exporting Neutral Schema files to flat files.
- *
+ * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 public class NeutralJsonExporter {
     
@@ -30,15 +30,15 @@ public class NeutralJsonExporter {
     /**
      * Loads the XSD files and dumps the Neutral Schema objects to JSON files in the specified
      * directory.
-     *
+     * 
      * Option 1:
-     * Param 1: xsdDirectory (defaults to "classpath:sliXsd-wip")
+     * Param 1: xsdDirectory (defaults to "classpath:sliXsd")
      * Param 2: outputDir (defaults to "neutral-schemas")
-     *
+     * 
      * Option 2: (does not print out JSON files)
      * Param 1: --test
-     * Param 2: xsdDirectory (defaults to classpath:sliXsd-wip)
-     *
+     * Param 2: xsdDirectory (defaults to classpath:sliXsd)
+     * 
      * @param args
      * @throws IOException
      */
@@ -107,6 +107,14 @@ public class NeutralJsonExporter {
         }
         if (!sane) {
             throw new RuntimeException("Dependency check failed against XSDs in: " + xsdPath);
+        }
+        
+        for (NeutralSchema ns : schemas) {
+            if (NeutralSchemaType.COMPLEX.equals(ns.getSchemaType())) {
+                if (ns.getFields().size() == 1) {
+                    System.out.println("1 field schema: " + ns.getType());
+                }
+            }
         }
         
         if (output) {
