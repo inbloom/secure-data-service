@@ -86,9 +86,9 @@ public class ExportStudent {
 	}
 
 	private void getDataSet() {
-		Connection conn = DBUtil.getConnection();
-		studentResultSet = DBUtil.getResultSet(conn, this.studentQuery);
-		studentAddressResultSet = DBUtil.getResultSet(conn,
+		Connection conn = Utility.getConnection();
+		studentResultSet = Utility.getResultSet(conn, this.studentQuery);
+		studentAddressResultSet = Utility.getResultSet(conn,
 				this.studentAddressResultSetQuery);
 		try {
 			studentAddressResultSet.next();
@@ -114,7 +114,7 @@ public class ExportStudent {
 					.getString("CodeValue")));
 
 			BirthData birthData = factory.createBirthData();
-			birthData.setBirthDate(DBUtil
+			birthData.setBirthDate(Utility
 					.convertStringToCalendar(this.studentResultSet
 							.getString("BirthDate")));
 			student.setBirthData(birthData);

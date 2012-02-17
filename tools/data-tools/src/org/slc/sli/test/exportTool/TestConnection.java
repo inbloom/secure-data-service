@@ -19,7 +19,7 @@ class DB
     {
         try
         {
-            Connection conn = DBUtil.getConnection();
+            Connection conn = Utility.getConnection();
             System.out.println("connected");
 
             Statement st = conn.createStatement();
