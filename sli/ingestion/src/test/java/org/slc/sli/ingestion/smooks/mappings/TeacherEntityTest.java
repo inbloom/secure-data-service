@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -9,8 +10,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,92 +36,91 @@ public class TeacherEntityTest {
     @Autowired
     EntityValidator validator;
 
+    String testData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
+            + "<Teacher>"
+            + "<StaffUniqueStateId>111111111</StaffUniqueStateId>"
+            + "<StaffIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
+            + "    <ID>111111111</ID>"
+            + "</StaffIdentificationCode>"
+            + "<StaffIdentificationCode IdentificationSystem=\"Drivers License\" AssigningOrganizationCode=\"OrgCode2\">"
+            + "    <ID>1111111112</ID>"
+            + "</StaffIdentificationCode>"
+            + "<Name Verification=\"Birth certificate\">"
+            + "    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>"
+            + "    <FirstName>Teacher</FirstName>"
+            + "    <MiddleName>Jose</MiddleName>"
+            + "    <LastSurname>NotStaff</LastSurname>"
+            + "    <MaidenName>maiden name</MaidenName>"
+            + "    <GenerationCodeSuffix>III</GenerationCodeSuffix>"
+            + "</Name>"
+            + "<OtherName OtherNameType=\"Alias\">"
+            + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
+            + "    <FirstName>shady</FirstName>"
+            + "    <MiddleName>guy</MiddleName>"
+            + "    <LastSurname>alias</LastSurname>"
+            + "    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>"
+            + "</OtherName>"
+            + "<OtherName OtherNameType=\"Alias\">"
+            + "    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>"
+            + "    <FirstName>shady2</FirstName>"
+            + "    <MiddleName>guy2</MiddleName>"
+            + "    <LastSurname>alias2</LastSurname>"
+            + "    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>"
+            + "</OtherName>"
+            + "<Sex>Male</Sex>"
+            + "<BirthDate>1971-01-01</BirthDate>"
+            + "<Address AddressType=\"Home\">"
+            + "    <StreetNumberName>100 10th street</StreetNumberName>"
+            + "    <ApartmentRoomSuiteNumber>1A</ApartmentRoomSuiteNumber>"
+            + "    <BuildingSiteNumber>building site number</BuildingSiteNumber>"
+            + "    <City>New York</City>"
+            + "    <StateAbbreviation>NY</StateAbbreviation>"
+            + "    <PostalCode>10021</PostalCode>"
+            + "    <NameOfCounty>New York</NameOfCounty>"
+            + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+            + "    <CountryCode>US</CountryCode>"
+            + "    <Latitude>245</Latitude>"
+            + "    <Longitude>432</Longitude>"
+            + "    <OpenDate>1969-01-01</OpenDate>"
+            + "    <CloseDate>2012-12-12</CloseDate>"
+            + "</Address>"
+            + "<Telephone PrimaryTelephoneNumberIndicator=\"true\" TelephoneNumberType=\"Mobile\">"
+            + "    <TelephoneNumber>123-123-1234</TelephoneNumber>"
+            + "</Telephone>"
+            + "<ElectronicMail EmailAddressType=\"Work\">"
+            + "    <EmailAddress>teacher@school.edu</EmailAddress>"
+            + "</ElectronicMail>"
+            + "<ElectronicMail EmailAddressType=\"Work\">"
+            + "    <EmailAddress>teacher@home.com</EmailAddress>"
+            + "</ElectronicMail>"
+            + "<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>"
+            + "<OldEthnicity>Hispanic</OldEthnicity>"
+            + "<Race>"
+            + "    <RacialCategory>White</RacialCategory>"
+            + "</Race>"
+            + "<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>"
+            + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
+            + "<YearsOfPriorTeachingExperience>13</YearsOfPriorTeachingExperience>"
+            + "<Credentials>"
+            + "    <CredentialType>Certification</CredentialType>"
+            + "    <CredentialField>"
+            + "        <Description>Computer Science certificate</Description>"
+            + "    </CredentialField>"
+            + "    <Level>Junior High (Grade Level 6-8)</Level>"
+            + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
+            + "    <CredentialIssuanceDate>2005-09-25</CredentialIssuanceDate>"
+            + "    <CredentialExpirationDate>2013-09-25</CredentialExpirationDate>"
+            + "    <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>"
+            + "</Credentials>"
+            + "<LoginId>aTeacher</LoginId>"
+            + "<TeacherUniqueStateId>teacher123</TeacherUniqueStateId>"
+            + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>" + "</Teacher></InterchangeStaffAssociation>";
+
     @Test
     public void testValidTeacher() throws IOException, SAXException {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
 
         String targetSelector = "InterchangeStaffAssociation/Teacher";
-
-        String testData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
-                + "<Teacher>"
-                + "<StaffUniqueStateId>111111111</StaffUniqueStateId>"
-                + "<StaffIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
-                + "    <ID>111111111</ID>"
-                + "</StaffIdentificationCode>"
-                + "<StaffIdentificationCode IdentificationSystem=\"District2\" AssigningOrganizationCode=\"OrgCode2\">"
-                + "    <ID>1111111112</ID>"
-                + "</StaffIdentificationCode>"
-                + "<Name Verification=\"verificationString\">"
-                + "    <PersonalTitlePrefix>Dr.</PersonalTitlePrefix>"
-                + "    <FirstName>Teacher</FirstName>"
-                + "    <MiddleName>Jose</MiddleName>"
-                + "    <LastSurname>NotStaff</LastSurname>"
-                + "    <MaidenName>maiden name</MaidenName>"
-                + "    <GenerationCodeSuffix>III</GenerationCodeSuffix>"
-                + "</Name>"
-                + "<OtherName OtherNameType=\"other name type\">"
-                + "    <PersonalTitlePrefix>Mr.</PersonalTitlePrefix>"
-                + "    <FirstName>shady</FirstName>"
-                + "    <MiddleName>guy</MiddleName>"
-                + "    <LastSurname>alias</LastSurname>"
-                + "    <GenerationCodeSuffix>Jr.</GenerationCodeSuffix>"
-                + "</OtherName>"
-                + "<OtherName OtherNameType=\"other name type2\">"
-                + "    <PersonalTitlePrefix>Mr.2</PersonalTitlePrefix>"
-                + "    <FirstName>shady2</FirstName>"
-                + "    <MiddleName>guy2</MiddleName>"
-                + "    <LastSurname>alias2</LastSurname>"
-                + "    <GenerationCodeSuffix>Jr.2</GenerationCodeSuffix>"
-                + "</OtherName>"
-                + "<Sex>Male</Sex>"
-                + "<BirthDate>01-01-1971</BirthDate>"
-                + "<Address AddressType=\"home address\">"
-                + "    <StreetNumberName>100 10th street</StreetNumberName>"
-                + "    <ApartmentRoomSuiteNumber>1A</ApartmentRoomSuiteNumber>"
-                + "    <BuildingSiteNumber>building site number</BuildingSiteNumber>"
-                + "    <City>New York</City>"
-                + "    <StateAbbreviation>NY</StateAbbreviation>"
-                + "    <PostalCode>10021</PostalCode>"
-                + "    <NameOfCounty>New York</NameOfCounty>"
-                + "    <CountyFIPSCode>USA123</CountyFIPSCode>"
-                + "    <CountryCode>USA</CountryCode>"
-                + "    <Latitude>245</Latitude>"
-                + "    <Longitude>432</Longitude>"
-                + "    <OpenDate>01-01-1969</OpenDate>"
-                + "    <CloseDate>12-12-2012</CloseDate>"
-                + "</Address>"
-                + "<Telephone PrimaryTelephoneNumberIndicator=\"true\" TelephoneNumberType=\"cell\">"
-                + "    <TelephoneNumber>123-123-1234</TelephoneNumber>"
-                + "</Telephone>"
-                + "<ElectronicMail EmailAddressType=\"primary\">"
-                + "    <EmailAddress>teacher@school.edu</EmailAddress>"
-                + "</ElectronicMail>"
-                + "<ElectronicMail EmailAddressType=\"secondary\">"
-                + "    <EmailAddress>teacher@home.com</EmailAddress>"
-                + "</ElectronicMail>"
-                + "<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>"
-                + "<OldEthnicity>old ethnicity</OldEthnicity>"
-                + "<Race>"
-                + "    <RacialCategory>first racial category</RacialCategory>"
-                + "</Race>"
-                + "<HighestLevelOfEducationCompleted>Bachelors</HighestLevelOfEducationCompleted>"
-                + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
-                + "<YearsOfPriorTeachingExperience>13</YearsOfPriorTeachingExperience>"
-                + "<Credentials>"
-                + "    <CredentialType>Certification</CredentialType>"
-                + "    <CredentialField>"
-                + "        <CodeValue>code value 123</CodeValue>"
-                + "        <Description>Computer Science certificate</Description>"
-                + "    </CredentialField>"
-                + "    <Level>Junior High (Grade Level 6-8)</Level>"
-                + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
-                + "    <CredentialIssuanceDate>2005-09-25</CredentialIssuanceDate>"
-                + "    <CredentialExpirationDate>2013-09-25</CredentialExpirationDate>"
-                + "    <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>"
-                + "</Credentials>"
-                + "<LoginId>aTeacher</LoginId>"
-                + "<TeacherUniqueStateId>teacher123</TeacherUniqueStateId>"
-                + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>" + "</Teacher></InterchangeStaffAssociation>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 testData);
@@ -132,7 +130,7 @@ public class TeacherEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("teacher");
 
-        Assert.assertTrue(validator.validate(e));
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "teacher", validator);
     }
 
     @Test
@@ -142,10 +140,10 @@ public class TeacherEntityTest {
 
         String targetSelector = "csv-record";
 
-        String teacherCsv = "111111111,District,OrgCode,111111111,verificationString,Dr.,Teacher,Jose,NotStaff,III,maiden name,"
-                + "other name type,Mr.,shady,guy,alias,Jr.,Male,01-01-1971,home address,100 10th street,1A,building site number,"
-                + "New York,NY,10021,New York,USA123,USA,245,432,01-01-1969,12-12-2012,cell,123-123-1234,true,primary,teacher@school.edu,"
-                + "false,old ethnicity,first racial category,Bachelors,12,13,Certification,code value 123,Computer Science certificate,"
+        String teacherCsv = "111111111,District,OrgCode,111111111,Birth certificate,Dr,Teacher,Jose,NotStaff,III,maiden name,"
+                + "Alias,Mr,shady,guy,alias,Jr,Male,1971-01-01,Home,100 10th street,1A,building site number,"
+                + "New York,NY,10021,New York,US123,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
+                + "false,Hispanic,White,Bachelor's,12,13,Certification,code value 123,Computer Science certificate,"
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -161,89 +159,8 @@ public class TeacherEntityTest {
 
         String targetSelector = "InterchangeStaffAssociation/Teacher";
 
-        String edfiTeacherXml = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
-                + "<Teacher>"
-                + "<StaffUniqueStateId>111111111</StaffUniqueStateId>"
-                + "<StaffIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
-                + "    <ID>111111111</ID>"
-                + "</StaffIdentificationCode>"
-                + "<StaffIdentificationCode IdentificationSystem=\"District2\" AssigningOrganizationCode=\"OrgCode2\">"
-                + "    <ID>1111111112</ID>"
-                + "</StaffIdentificationCode>"
-                + "<Name Verification=\"verificationString\">"
-                + "    <PersonalTitlePrefix>Dr.</PersonalTitlePrefix>"
-                + "    <FirstName>Teacher</FirstName>"
-                + "    <MiddleName>Jose</MiddleName>"
-                + "    <LastSurname>NotStaff</LastSurname>"
-                + "    <MaidenName>maiden name</MaidenName>"
-                + "    <GenerationCodeSuffix>III</GenerationCodeSuffix>"
-                + "</Name>"
-                + "<OtherName OtherNameType=\"other name type\">"
-                + "    <PersonalTitlePrefix>Mr.</PersonalTitlePrefix>"
-                + "    <FirstName>shady</FirstName>"
-                + "    <MiddleName>guy</MiddleName>"
-                + "    <LastSurname>alias</LastSurname>"
-                + "    <GenerationCodeSuffix>Jr.</GenerationCodeSuffix>"
-                + "</OtherName>"
-                + "<OtherName OtherNameType=\"other name type2\">"
-                + "    <PersonalTitlePrefix>Mr.2</PersonalTitlePrefix>"
-                + "    <FirstName>shady2</FirstName>"
-                + "    <MiddleName>guy2</MiddleName>"
-                + "    <LastSurname>alias2</LastSurname>"
-                + "    <GenerationCodeSuffix>Jr.2</GenerationCodeSuffix>"
-                + "</OtherName>"
-                + "<Sex>Male</Sex>"
-                + "<BirthDate>01-01-1971</BirthDate>"
-                + "<Address AddressType=\"home address\">"
-                + "    <StreetNumberName>100 10th street</StreetNumberName>"
-                + "    <ApartmentRoomSuiteNumber>1A</ApartmentRoomSuiteNumber>"
-                + "    <BuildingSiteNumber>building site number</BuildingSiteNumber>"
-                + "    <City>New York</City>"
-                + "    <StateAbbreviation>NY</StateAbbreviation>"
-                + "    <PostalCode>10021</PostalCode>"
-                + "    <NameOfCounty>New York</NameOfCounty>"
-                + "    <CountyFIPSCode>USA123</CountyFIPSCode>"
-                + "    <CountryCode>USA</CountryCode>"
-                + "    <Latitude>245</Latitude>"
-                + "    <Longitude>432</Longitude>"
-                + "    <OpenDate>01-01-1969</OpenDate>"
-                + "    <CloseDate>12-12-2012</CloseDate>"
-                + "</Address>"
-                + "<Telephone PrimaryTelephoneNumberIndicator=\"true\" TelephoneNumberType=\"cell\">"
-                + "    <TelephoneNumber>123-123-1234</TelephoneNumber>"
-                + "</Telephone>"
-                + "<ElectronicMail EmailAddressType=\"primary\">"
-                + "    <EmailAddress>teacher@school.edu</EmailAddress>"
-                + "</ElectronicMail>"
-                + "<ElectronicMail EmailAddressType=\"secondary\">"
-                + "    <EmailAddress>teacher@home.com</EmailAddress>"
-                + "</ElectronicMail>"
-                + "<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>"
-                + "<OldEthnicity>old ethnicity</OldEthnicity>"
-                + "<Race>"
-                + "    <RacialCategory>first racial category</RacialCategory>"
-                + "</Race>"
-                + "<HighestLevelOfEducationCompleted>Bachelors</HighestLevelOfEducationCompleted>"
-                + "<YearsOfPriorProfessionalExperience>12</YearsOfPriorProfessionalExperience>"
-                + "<YearsOfPriorTeachingExperience>13</YearsOfPriorTeachingExperience>"
-                + "<Credentials>"
-                + "    <CredentialType>Certification</CredentialType>"
-                + "    <CredentialField>"
-                + "        <CodeValue>code value 123</CodeValue>"
-                + "        <Description>Computer Science certificate</Description>"
-                + "    </CredentialField>"
-                + "    <Level>Junior High (Grade Level 6-8)</Level>"
-                + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
-                + "    <CredentialIssuanceDate>2005-09-25</CredentialIssuanceDate>"
-                + "    <CredentialExpirationDate>2013-09-25</CredentialExpirationDate>"
-                + "    <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>"
-                + "</Credentials>"
-                + "<LoginId>aTeacher</LoginId>"
-                + "<TeacherUniqueStateId>teacher123</TeacherUniqueStateId>"
-                + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>" + "</Teacher></InterchangeStaffAssociation>";
-
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-                targetSelector, edfiTeacherXml);
+                targetSelector, testData);
 
         checkValidTeacherNeutralRecord(neutralRecord);
     }
@@ -262,47 +179,47 @@ public class TeacherEntityTest {
         if (staffIdentificationCodeList.size() > 1) {
             // TODO: remove when we support csv lists
             Map staffIdentificationCodeMap2 = (Map) staffIdentificationCodeList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "identificationSystem", "District2");
+            EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "identificationSystem", "Drivers License");
             EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "ID", "1111111112");
             EntityTestUtils.assertObjectInMapEquals(staffIdentificationCodeMap2, "assigningOrganizationCode",
                     "OrgCode2");
         }
 
         Map nameMap = (Map) teacherNeutralRecord.getAttributes().get("name");
-        EntityTestUtils.assertObjectInMapEquals(nameMap, "verification", "verificationString");
+        EntityTestUtils.assertObjectInMapEquals(nameMap, "verification", "Birth certificate");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "firstName", "Teacher");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "lastSurname", "NotStaff");
-        EntityTestUtils.assertObjectInMapEquals(nameMap, "personalTitlePrefix", "Dr.");
+        EntityTestUtils.assertObjectInMapEquals(nameMap, "personalTitlePrefix", "Dr");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "middleName", "Jose");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "generationCodeSuffix", "III");
         EntityTestUtils.assertObjectInMapEquals(nameMap, "maidenName", "maiden name");
 
         List otherNameList = (List) teacherNeutralRecord.getAttributes().get("otherName");
         Map otherNameMap = (Map) otherNameList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "otherNameType", "other name type");
-        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "personalTitlePrefix", "Mr.");
+        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "otherNameType", "Alias");
+        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "personalTitlePrefix", "Mr");
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "firstName", "shady");
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "middleName", "guy");
         EntityTestUtils.assertObjectInMapEquals(otherNameMap, "lastSurname", "alias");
-        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "generationCodeSuffix", "Jr.");
+        EntityTestUtils.assertObjectInMapEquals(otherNameMap, "generationCodeSuffix", "Jr");
         if (otherNameList.size() > 1) {
             // TODO: remove if block when we support CSV lists
             Map otherNameMap2 = (Map) otherNameList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "otherNameType", "other name type2");
-            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "personalTitlePrefix", "Mr.2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "otherNameType", "Alias");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "personalTitlePrefix", "Mr");
             EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "firstName", "shady2");
             EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "middleName", "guy2");
             EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "lastSurname", "alias2");
-            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "generationCodeSuffix", "Jr.2");
+            EntityTestUtils.assertObjectInMapEquals(otherNameMap2, "generationCodeSuffix", "Jr");
 
         }
 
         assertEquals("Male", teacherNeutralRecord.getAttributes().get("sex"));
-        assertEquals("01-01-1971", teacherNeutralRecord.getAttributes().get("birthDate"));
+        assertEquals("1971-01-01", teacherNeutralRecord.getAttributes().get("birthDate"));
 
         List addressList = (List) teacherNeutralRecord.getAttributes().get("address");
         Map addressMap = (Map) addressList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "addressType", "home address");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "addressType", "Home");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "streetNumberName", "100 10th street");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "apartmentRoomSuiteNumber", "1A");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "buildingSiteNumber", "building site number");
@@ -310,31 +227,31 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "NY");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "10021");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "New York");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "USA123");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "USA");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "US123");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "01-01-1969");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "12-12-2012");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "1969-01-01");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "2012-12-12");
 
         List telephoneList = (List) teacherNeutralRecord.getAttributes().get("telephone");
         Map telephoneMap = (Map) telephoneList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumberType", "cell");
+        EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumberType", "Mobile");
         EntityTestUtils.assertObjectInMapEquals(telephoneMap, "primaryTelephoneNumberIndicator", true);
         EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumber", "123-123-1234");
 
         List emailAddressList = (List) teacherNeutralRecord.getAttributes().get("electronicMail");
         Map emailAddressMap = (Map) emailAddressList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddressType", "primary");
+        EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddressType", "Work");
         EntityTestUtils.assertObjectInMapEquals(emailAddressMap, "emailAddress", "teacher@school.edu");
         if (emailAddressList.size() > 1) {
             // TODO: remove if block when we support lists in CSV
             Map emailAddressMap2 = (Map) emailAddressList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(emailAddressMap2, "emailAddressType", "secondary");
+            EntityTestUtils.assertObjectInMapEquals(emailAddressMap2, "emailAddressType", "Work");
             EntityTestUtils.assertObjectInMapEquals(emailAddressMap2, "emailAddress", "teacher@home.com");
         }
 
-        assertEquals("old ethnicity", teacherNeutralRecord.getAttributes().get("oldEthnicity"));
+        assertEquals("Hispanic", teacherNeutralRecord.getAttributes().get("oldEthnicity"));
         assertEquals(false, teacherNeutralRecord.getAttributes().get("hispanicLatinoEthnicity"));
 
         List raceList = (List) teacherNeutralRecord.getAttributes().get("race");
@@ -342,9 +259,9 @@ public class TeacherEntityTest {
         assertTrue(raceList.size() > 0);
         assertTrue(raceList.get(0) instanceof String);
         String raceCategory = (String) raceList.get(0);
-        assertEquals("first racial category", raceCategory);
+        assertEquals("White", raceCategory);
 
-        assertEquals("Bachelors", teacherNeutralRecord.getAttributes().get("highestLevelOfEducationCompleted"));
+        assertEquals("Bachelor's", teacherNeutralRecord.getAttributes().get("highestLevelOfEducationCompleted"));
         assertEquals(12, teacherNeutralRecord.getAttributes().get("yearsOfPriorProfessionalExperience"));
         assertEquals(13, teacherNeutralRecord.getAttributes().get("yearsOfPriorTeachingExperience"));
 
@@ -361,7 +278,6 @@ public class TeacherEntityTest {
         assertEquals(1, credentialFieldList.size());
         Map credentialFieldMap = (Map) credentialFieldList.get(0);
         assertNotNull(credentialFieldMap);
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "codeValue", "code value 123");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
 
         assertEquals("aTeacher", teacherNeutralRecord.getAttributes().get("loginId"));

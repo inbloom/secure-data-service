@@ -3,6 +3,7 @@ package org.slc.sli.api.service;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 
+
 /**
  * Service for retrieving entities in DB
  * 
@@ -38,7 +39,7 @@ public interface EntityService {
      * @return if the entity was changed
      */
     public boolean update(String id, EntityBody content);
-    
+
     /**
      * Retrieves an entity from the data store
      * 
@@ -47,6 +48,19 @@ public interface EntityService {
      * @return the body of the entity
      */
     public EntityBody get(String id);
+
+    /**
+     * Retrieves an entity from the data store with certain fields added/removed.
+     * 
+     * @param id
+     *            the id of the entity to retrieve
+     * @param includeFields
+     *            any fields to be included in results
+     * @param excludeFields
+     *            any fields to be excluded from results
+     * @return the body of the entity
+     */
+    public EntityBody get(String id, String includeFields, String excludeFields);
     
     /**
      * Get multiple entities from the data store

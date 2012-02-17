@@ -12,7 +12,7 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 When /^I navigate to the Data Browser Home URL$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']
+  @driver.get PropLoader.getProps['databrowser_server_url']
 end
 
 Then /^I should be redirected to the Data Browser home page$/ do

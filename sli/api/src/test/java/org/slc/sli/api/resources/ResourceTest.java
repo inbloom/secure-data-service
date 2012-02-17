@@ -443,11 +443,6 @@ public class ResourceTest {
     }
 
     @Test
-    public void testStudentAssessment() {
-
-    }
-    
-    @Test
     public void testAssessmentFamily() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
 

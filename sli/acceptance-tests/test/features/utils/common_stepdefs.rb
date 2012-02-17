@@ -15,14 +15,14 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
-  
+
   ###### Remove eventually
   if(@res.code == 403 && Integer(arg1) != 403)
     url = PropLoader.getProps['api_server_url']+"/api/rest/system/session/debug"
     tempResponse = RestClient.get(url, {:accept => "application/json", :sessionId => @sessionId}){|response, request, result| response }
     puts "#############################################", tempResponse.body, "##########################################################"
   end
-  
+
   assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
@@ -58,7 +58,7 @@ When /^I navigate to DELETE "([^"]*)"$/ do |uri|
   assert(@res != nil, "Response from rest-client DELETE is nil")
 end
 
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>)"$/ do |rel, href|
+Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   assert(@result.has_key?("links"), "Response contains no links")
   found = false
   @result["links"].each do |link|
@@ -68,18 +68,3 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"
   end
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
-
-Then /^I should receive a link named "([^"]*)" with URI "([^"]*<[^"]*>|[^"]*<[^"]*>)\/targets"$/ do |rel, href|
-  assert(@result.has_key?("links"), "Response contains no links")
-  found = false
-  @result["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
-    end
-  end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
-end
-
-
-
-
