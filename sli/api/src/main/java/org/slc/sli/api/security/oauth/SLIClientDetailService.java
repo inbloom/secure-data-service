@@ -5,28 +5,29 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.security.ApplicationResource;
-import org.slc.sli.api.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.security.ApplicationResource;
+import org.slc.sli.api.service.EntityService;
+
 /**
  * 
  * @author pwolf
- *
+ * 
  */
 @Component
 public class SLIClientDetailService implements ClientDetailsService {
     
     @Autowired
     private EntityDefinitionStore store;
-
+    
     private EntityService service;
     
     @PostConstruct
@@ -34,10 +35,9 @@ public class SLIClientDetailService implements ClientDetailsService {
         EntityDefinition def = store.lookupByResourceName("application");
         service = def.getService();
     }
-
+    
     @Override
-    public ClientDetails loadClientByClientId(String clientId)
-            throws OAuth2Exception {
+    public ClientDetails loadClientByClientId(String clientId) throws OAuth2Exception {
         String uuid = lookupIdFromClientId(clientId);
         
         if (uuid != null) {
@@ -53,8 +53,8 @@ public class SLIClientDetailService implements ClientDetailsService {
             List<String> scopes = new ArrayList<String>();
             scopes.add(scope);
             details.setScope(scopes);
-
-            //TODO: set authorities and grant types
+            
+            // TODO: set authorities and grant types
             return details;
         } else {
             throw new OAuth2Exception("Could not find client with ID " + clientId);
@@ -68,5 +68,5 @@ public class SLIClientDetailService implements ClientDetailsService {
         }
         return null;
     }
-
+    
 }

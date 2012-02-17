@@ -25,7 +25,7 @@ import org.springframework.data.mongodb.core.query.Query;
  * 
  */
 public interface QueryConverter {
-
+    
     /**
      * @param entityType
      *            the entity type that query will be applied to
@@ -33,8 +33,18 @@ public interface QueryConverter {
      *            the query string received from http GET request
      * @return the converted spring data query object
      */
+    public Query stringToQuery(String entityType, String queryString, String sortBy, SortOrder sortOrder);
+    
+    /**
+     * @param entityType
+     *            the entity type that query will be applied to
+     * @param queryString
+     *            the query string received from http GET request
+     * @return the converted spring data query object
+     */
+    @Deprecated
     public Query stringToQuery(String entityType, String queryString);
-
+    
     /**
      * @param entityType
      *            the entity type that query will be applied to
