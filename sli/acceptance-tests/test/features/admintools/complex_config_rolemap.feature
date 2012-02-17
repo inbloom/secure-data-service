@@ -10,6 +10,7 @@ Scenario: Go to Complex-Configurable Role Mapping Page when not authenticated to
 Given I have an open web browser
 And I am not authenticated to SLI IDP
 When I navigate to the Complex-Configurable Role Mapping Page
+Then I was redirected to the SLI IDP Login page
 #Then I should be directed to the Realm page
  
  @wip
