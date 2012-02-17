@@ -3,19 +3,13 @@ package org.slc.sli.api.resources.admin;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -25,6 +19,12 @@ import org.slc.sli.api.security.resolve.IdpResolver;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Realm handling api
@@ -87,7 +87,8 @@ public class RealmResource implements IdpResolver {
 
         String idp = SecurityUtil.sudoRun(new SecurityTask<String>() {
 
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public String execute() {
                 EntityBody eb = getService().get(realmId);
 
@@ -95,7 +96,8 @@ public class RealmResource implements IdpResolver {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
 
-                return (String) eb.get("idp");
+                Map<String,String> idpData = (Map<String, String>) eb.get("idp");
+				return (String) idpData.get("id");
             }
         });
 
