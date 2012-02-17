@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
@@ -40,20 +42,24 @@ class DefaultCrudEndpoint implements CrudEndpoint {
     protected static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
     }
-    
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName, final Logger logger) {
+
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName) {
+        this(entityDefs, resourceName, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
+    }
+
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final String resourceName, final Logger log) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
         }
         if (resourceName == null) {
             throw new NullPointerException("typePath");
         }
-        if (logger == null) {
+        if (log == null) {
             throw new NullPointerException("logger");
         }
         this.entityDefs = entityDefs;
         this.typePath = resourceName;
-        this.logger = logger;
+        this.logger = log;
     }
     
     @Override
@@ -84,24 +90,25 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                 // validate the number of input IDs is lower than the max acceptable amount
                 if (ids.length > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
-                            + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                                    errorMessage)).build();
+                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs " + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
+                    return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), errorMessage)).build();
                 }
+                
+                //get query parameters
+                MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+                
+                //get query parameters for specific fields to include or exclude
+                String includeFields = queryParameters.getFirst("includeFields");
+                String excludeFields = queryParameters.getFirst("excludeFields");
                 
                 // loop through all input ID(s)
                 for (String id : ids) {
                     // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
-                        EntityBody entityBody = entityDef.getService().get(id);
-                        entityBody.put(ResourceConstants.LINKS,
-                                getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        EntityBody entityBody = entityDef.getService().get(id, includeFields, excludeFields);
+                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
                         results.add(entityBody);
-                    } else if (multipleIds) { // ID not found but multiple IDs are being searched
-                                              // for
+                    } else if (multipleIds) { // ID not found but multiple IDs searched for
                         results.add(null);
                     } else { // ID not found and only one ID being searched for
                         return Response.status(Status.NOT_FOUND).build();

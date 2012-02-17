@@ -116,8 +116,13 @@ Then /^I check to find if record is in collection:$/ do |table|
   
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
     
+    if row["searchType"] == "integer"
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+    else
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
+    end
+
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
@@ -134,10 +139,12 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
     #remote check of file
     @job_status_filename_component = "job-" + @source_file_name + "-"
     
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component)
+    puts "Showing : <" + @resultOfIngestion + ">"
     
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component + " " + message)
+    @messageString = message.to_s
     
-    @messageString = "Processed " + message + " Records."
     if @resultOfIngestion.include? @messageString
       assert(true, "Processed all the records.")
     else

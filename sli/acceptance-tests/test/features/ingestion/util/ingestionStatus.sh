@@ -24,7 +24,7 @@ JOB_STRING=$1
 VERIFICATION_RECORDS=$2
 
 OUT=`externalDirectoryListing | grep $JOB_STRING | tail -1`
-OUT=`externalFileView $OUT | grep 'Processed $VERIFICATION_RECORDS Records'`
+OUT=`externalFileView $OUT`
 
 echo $OUT
 exit 0
