@@ -2,6 +2,9 @@ require "bundler/capistrano"
 require 'capistrano/ext/multistage'
 set :stages, %w(integration, deployment)
 set :application, "Identity Management Admin Tool"
+
+working_dir = "sli/admin-tools/admin-rails"
+
 set :repository,  "git@git.slidev.org:sli/sli.git"
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
@@ -16,7 +19,13 @@ set :scm, :git
 
 # Generate an additional task to fire up the thin clusters
 namespace :deploy do
-  
+  namespace :assets do
+    task :precompile do
+      run <<-CMD
+        cd #{deploy_to}/current/#{working_dir} && bundle exec rake RAILS_ENV=integration RAILS_GROUPS=assets assets:precompile
+      CMD
+    end
+  end
   desc "Start the Thin processes"
   task :start do
     run  <<-CMD
