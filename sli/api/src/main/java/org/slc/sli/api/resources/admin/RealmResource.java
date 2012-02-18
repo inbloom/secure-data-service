@@ -88,7 +88,7 @@ public class RealmResource implements IdpResolver {
         String idp = SecurityUtil.sudoRun(new SecurityTask<String>() {
 
             @SuppressWarnings("unchecked")
-			@Override
+            @Override
             public String execute() {
                 EntityBody eb = getService().get(realmId);
 
@@ -96,8 +96,8 @@ public class RealmResource implements IdpResolver {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
 
-                Map<String,String> idpData = (Map<String, String>) eb.get("idp");
-				return (String) idpData.get("id");
+                Map<String, String> idpData = (Map<String, String>) eb.get("idp");
+                return (String) idpData.get("id");
             }
         });
 

@@ -1,6 +1,10 @@
 require "bundler/capistrano"
-
+require 'capistrano/ext/multistage'
+set :stages, %w(integration, deployment)
 set :application, "Identity Management Admin Tool"
+
+working_dir = "sli/admin-tools/admin-rails"
+
 set :repository,  "git@git.slidev.org:sli/sli.git"
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
@@ -12,22 +16,27 @@ set :keep_releases, 2
 
 set :scm, :git
 
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-server "devrails1.slidev.org", :app, :web, :db, :primary => true
 
 # Generate an additional task to fire up the thin clusters
 namespace :deploy do
+  namespace :assets do
+    task :precompile do
+      run <<-CMD
+        cd #{deploy_to}/current/#{working_dir} && bundle exec rake RAILS_ENV=integration RAILS_GROUPS=assets assets:precompile
+      CMD
+    end
+  end
   desc "Start the Thin processes"
   task :start do
     run  <<-CMD
-      cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin start -C config/thin.yml
+      cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin start -C config/thin.yml -e #{rails_env}
     CMD
   end
 
   desc "Stop the Thin processes"
   task :stop do
     run  <<-CMD
-      cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin stop -C config/thin.yml
+      cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin stop -C config/thin.yml -e #{rails_env}
     CMD
   end
 

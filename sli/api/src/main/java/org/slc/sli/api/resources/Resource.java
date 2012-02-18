@@ -163,7 +163,8 @@ public class Resource {
                     }
                     
                     if (fullEntities) {
-                        return Response.ok(getFullEntities(associationIds, entityDef, uriInfo)).build();
+                        return Response.ok(getFullEntities(associationIds, entityDef, uriInfo, sortBy, sortOrder))
+                                .build();
                     } else {
                         CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
                         return Response.ok(collection).build();
@@ -188,8 +189,8 @@ public class Resource {
     }
     
     private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef,
-            UriInfo uriInfo) {
-        Iterable<EntityBody> entityBodies = entityDef.getService().get(associationIds);
+            UriInfo uriInfo, String sortBy, SortOrder sortOrder) {
+        Iterable<EntityBody> entityBodies = entityDef.getService().get(associationIds, sortBy, sortOrder);
         addLinksToEntities(entityBodies, entityDef, uriInfo);
         return entityBodies;
     }

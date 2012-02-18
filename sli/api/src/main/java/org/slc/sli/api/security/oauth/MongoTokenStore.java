@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -40,7 +38,7 @@ import org.slc.sli.domain.EntityRepository;
  * @author shalka
  */
 @Component
-public class SliTokenStore implements TokenStore {
+public class MongoTokenStore implements TokenStore {
     
     private static final String OAUTH_SESSION_COLLECTION = OAuthTokenUtil.getOAuthCollectionName();
     
@@ -50,20 +48,8 @@ public class SliTokenStore implements TokenStore {
     @Autowired
     private EntityDefinitionStore store;
     
-    private EntityService service;
-    
     @Autowired
-    private RolesToRightsResolver rolesToRightsResolver;
-    
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
-        setService(def.getService());
-    }
-    
-    public void setService(EntityService service) {
-        this.service = service;
-    }
+    private RolesToRightsResolver resolver;
     
     /**
      * Finds the OAuth2Authentication object in the oauthSession collection that
@@ -89,11 +75,14 @@ public class SliTokenStore implements TokenStore {
     }
     
     /**
+     * Maps the returned query result (containing an Iterable<Entity> object) into an
+     * OAuth2Authentication object.
      * 
      * @param queryResult
-     * @return
+     *            Result returned from Mongo.
+     * @return Mapped OAuth2Authentication object.
      */
-    private OAuth2Authentication mapOAuth2Authentication(Iterable<Entity> queryResult) {
+    public OAuth2Authentication mapOAuth2Authentication(Iterable<Entity> queryResult) {
         if (queryResult != null) {
             for (Entity oauth2Session : queryResult) {
                 Map<String, Object> body = oauth2Session.getBody();
@@ -122,7 +111,7 @@ public class SliTokenStore implements TokenStore {
                     
                     String samlMessageId = (String) body.get("samlMessageId");
                     
-                    Set<GrantedAuthority> userAuthorities = rolesToRightsResolver.resolveRoles(userRealm, userRoles);
+                    Set<GrantedAuthority> userAuthorities = resolver.resolveRoles(userRealm, userRoles);
                     
                     ClientToken clientAuthentication = new ClientToken(clientId, clientSecret, clientScope);
                     Authentication userAuthentication = new PreAuthenticatedAuthenticationToken(principal,
@@ -143,17 +132,23 @@ public class SliTokenStore implements TokenStore {
      */
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
-        EntityBody clientAuthentication = OAuthTokenUtil.mapClientAuthentication(authentication
-                .getClientAuthentication());
-        EntityBody userAuthentication = OAuthTokenUtil.mapUserAuthentication(authentication.getUserAuthentication());
-        EntityBody accessToken = OAuthTokenUtil.mapAccessToken(token);
-        
-        EntityBody oauth2Session = new EntityBody();
-        oauth2Session.put("clientAuthn", clientAuthentication);
-        oauth2Session.put("userAuthn", userAuthentication);
-        oauth2Session.put("accessToken", accessToken);
-        
-        service.create(oauth2Session);
+        // make sure the access token doesn't already exist before storing it
+        Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
+                new Query(Criteria.where("body.accessToken.value").is(token.getValue())), 0, 1);
+        if (results == null) {
+            EntityBody clientAuthentication = OAuthTokenUtil.mapClientAuthentication(authentication
+                    .getClientAuthentication());
+            EntityBody userAuthentication = OAuthTokenUtil
+                    .mapUserAuthentication(authentication.getUserAuthentication());
+            EntityBody accessToken = OAuthTokenUtil.mapAccessToken(token);
+            
+            EntityBody oauth2Session = new EntityBody();
+            oauth2Session.put("clientAuthn", clientAuthentication);
+            oauth2Session.put("userAuthn", userAuthentication);
+            oauth2Session.put("accessToken", accessToken);
+            
+            getService().create(oauth2Session);
+        }
     }
     
     /**
@@ -213,7 +208,7 @@ public class SliTokenStore implements TokenStore {
                     Map<String, Object> oauthSession = (Map<String, Object>) oauth2Session.getBody();
                     
                     accessToken.put("expiration", new Date());
-                    service.update(oauth2Session.getEntityId(), (EntityBody) oauthSession);
+                    getService().update(oauth2Session.getEntityId(), (EntityBody) oauthSession);
                 }
             }
         }
@@ -236,7 +231,7 @@ public class SliTokenStore implements TokenStore {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> accessToken = (Map<String, Object>) body.get("accessToken");
                 accessToken.put("refreshToken", rt);
-                service.update(oauthSession.getEntityId(), (EntityBody) body);
+                getService().update(oauthSession.getEntityId(), (EntityBody) body);
             }
         }
     }
@@ -283,7 +278,7 @@ public class SliTokenStore implements TokenStore {
                     refreshToken.put("expiration", new Date());
                     accessToken.put("refreshToken", refreshToken);
                     oauthSession.getBody().put("accessToken", accessToken);
-                    service.update(oauthSession.getEntityId(), (EntityBody) oauthSession.getBody());
+                    getService().update(oauthSession.getEntityId(), (EntityBody) oauthSession.getBody());
                 }
             }
         }
@@ -315,9 +310,19 @@ public class SliTokenStore implements TokenStore {
                         && !OAuthTokenUtil.isTokenExpired(refreshTokenTokenExpiration)) {
                     access.put("expiration", new Date());
                     oauthSession.getBody().put("accessToken", access);
-                    service.update(oauthSession.getEntityId(), (EntityBody) oauthSession.getBody());
+                    getService().update(oauthSession.getEntityId(), (EntityBody) oauthSession.getBody());
                 }
             }
         }
+    }
+    
+    /**
+     * Gets the EntityService associated with the OAuth 2.0 session collection.
+     * 
+     * @return Instance of EntityService for performing collection operations.
+     */
+    public EntityService getService() {
+        EntityDefinition defn = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
+        return defn.getService();
     }
 }
