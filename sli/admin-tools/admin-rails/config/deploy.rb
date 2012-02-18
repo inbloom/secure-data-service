@@ -2,6 +2,9 @@ require "bundler/capistrano"
 require 'capistrano/ext/multistage'
 set :stages, %w(integration, deployment)
 set :application, "Identity Management Admin Tool"
+
+working_dir = "sli/admin-tools/admin-rails"
+
 set :repository,  "git@git.slidev.org:sli/sli.git"
 set :bundle_gemfile, "sli/admin-tools/admin-rails/Gemfile"
 
