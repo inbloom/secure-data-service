@@ -1350,7 +1350,7 @@
     <jb:value data="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods/ShortDescription" />
   </jb:bean>
   <jb:bean beanId="AssessmentFamily_DescriptionChoiceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods/AssessmentPeriod">
+    createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
     <jb:value data="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods" />
   </jb:bean>
 
