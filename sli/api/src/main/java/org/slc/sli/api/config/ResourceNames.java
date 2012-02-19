@@ -14,4 +14,5 @@ public class ResourceNames {
     public static final String ASSESSMENTS = "assessments";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String SECTIONS = "sections";
+    public static final String SESSIONS = "sessions";
 }
