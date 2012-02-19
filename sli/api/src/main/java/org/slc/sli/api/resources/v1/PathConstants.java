@@ -25,6 +25,7 @@ class PathConstants {
     public static final String SESSIONS = "sessions";
     public static final String COHORTS = "cohorts";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
+    public static final String PARENTS = "parents";
     
     /**
      * Path for student school association data

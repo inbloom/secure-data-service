@@ -54,6 +54,7 @@ public class ParameterConstants {
     public static final String SESSION_ID = "sessionId";
     public static final String COHORT_ID = "cohortId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
+    public static final String PARENT_ID = "parentId";
     
     /**
      * Query parameter for fields to include.
