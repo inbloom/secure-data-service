@@ -49,6 +49,7 @@ public class ParameterConstants {
      */
     public static final String STUDENT_ID = "studentId";
     public static final String ASSESSMENT_ID = "assessmentId";
+    public static final String BELL_SCHEDULE_ID = "bellScheduleId";
     
     /**
      * Query parameter for fields to include.
