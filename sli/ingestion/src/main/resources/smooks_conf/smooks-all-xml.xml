@@ -1166,9 +1166,21 @@
   <jb:bean beanId="assessmentPeriodType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
     <jb:value property="id" data="Assessment/AssessmentPeriod/@id" />
     <jb:value property="ref" data="Assessment/AssessmentPeriod/@ref" />
-    <jb:value property="codeValue" data="Assessment/AssessmentPeriod/CodeValue" />
-    <jb:value property="shortDescription" data="Assessment/AssessmentPeriod/ShortDescription" />
-    <jb:value property="description" data="Assessment/AssessmentPeriod/Description" />
+    <jb:wiring property="codeValues" beanIdRef="codeValueChoiceArray" />
+    <jb:wiring property="shortDescriptions" beanIdRef="shortDescriptionChoiceArray" />
+    <jb:wiring property="descriptions" beanIdRef="descriptionChoiceArray" />
+  </jb:bean>
+  <jb:bean beanId="codeValueChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
+    <jb:value data="Assessment/AssessmentPeriod/CodeValue" />
+  </jb:bean>
+  <jb:bean beanId="shortDescriptionChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
+    <jb:value data="Assessment/AssessmentPeriod/ShortDescription" />
+  </jb:bean>
+  <jb:bean beanId="descriptionChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
+    <jb:value data="Assessment/AssessmentPeriod/Description" />
   </jb:bean>
 
   <jb:bean beanId="assessmentItemReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1325,9 +1337,21 @@
   <jb:bean beanId="AssessmentFamily_AssessmentPeriodType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
     <jb:value property="id" data="AssessmentFamily/AssessmentPeriods/@id" />
     <jb:value property="ref" data="AssessmentFamily/AssessmentPeriods/@ref" />
-    <jb:value property="CodeValue" data="AssessmentFamily/AssessmentPeriods/CodeValue" />
-    <jb:value property="ShortDescription" data="AssessmentFamily/AssessmentPeriods/ShortDescription" />
-    <jb:value property="Description" data="AssessmentFamily/AssessmentPeriods/Description" />
+    <jb:wiring property="CodeValues" beanIdRef="AssessmentFamily_CodeValueChoiceArray" />
+    <jb:wiring property="ShortDescriptions" beanIdRef="AssessmentFamily_ShortDescriptionChoiceArray" />
+    <jb:wiring property="Descriptions" beanIdRef="AssessmentFamily_DescriptionChoiceArray" />
+  </jb:bean>
+  <jb:bean beanId="AssessmentFamily_CodeValueChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
+    <jb:value data="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods/CodeValue" />
+  </jb:bean>
+  <jb:bean beanId="AssessmentFamily_ShortDescriptionChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
+    <jb:value data="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods/ShortDescription" />
+  </jb:bean>
+  <jb:bean beanId="AssessmentFamily_DescriptionChoiceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods">
+    <jb:value data="InterchangeAssessmentMetadata/AssessmentFamily/AssessmentPeriods" />
   </jb:bean>
 
   <jb:bean beanId="AssessmentFamilyReferenceType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
