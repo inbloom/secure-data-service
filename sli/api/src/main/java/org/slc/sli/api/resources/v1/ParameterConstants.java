@@ -57,6 +57,7 @@ public class ParameterConstants {
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
     public static final String TEACHER_ID = "teacherId";
+    public static final String COURSE_ID = "courseId";
     
     /**
      * Query parameter for fields to include.
