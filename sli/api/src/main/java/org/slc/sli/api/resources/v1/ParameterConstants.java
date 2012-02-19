@@ -48,6 +48,7 @@ public class ParameterConstants {
      * Entity reference to an ID in the student collection.
      */
     public static final String STUDENT_ID = "studentId";
+    public static final String ASSESSMENT_ID = "assessmentId";
     
     /**
      * Query parameter for fields to include.
@@ -58,4 +59,5 @@ public class ParameterConstants {
      * Query parameter for fields to exclude.
      */
     public static final String EXCLUDE_FIELDS = "excludeFields";
+
 }
