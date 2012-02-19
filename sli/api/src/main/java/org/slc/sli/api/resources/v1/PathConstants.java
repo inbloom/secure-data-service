@@ -21,6 +21,7 @@ class PathConstants {
     
     public static final String ASSESSMENTS = "assessments";
     public static final String BELL_SCHEDULES = "bellSchedules";
+    public static final String SECTIONS = "sections";
     
     /**
      * Path for student school association data
