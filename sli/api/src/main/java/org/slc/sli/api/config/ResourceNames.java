@@ -19,4 +19,5 @@ public class ResourceNames {
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
+    public static final String TEACHERS = "teachers";
 }
