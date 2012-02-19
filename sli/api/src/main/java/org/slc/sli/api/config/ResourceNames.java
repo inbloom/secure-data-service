@@ -16,4 +16,5 @@ public class ResourceNames {
     public static final String SECTIONS = "sections";
     public static final String SESSIONS = "sessions";
     public static final String COHORTS = "cohorts";
+    public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
 }
