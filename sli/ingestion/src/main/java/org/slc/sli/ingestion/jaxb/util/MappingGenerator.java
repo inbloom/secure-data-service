@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.springframework.util.ReflectionUtils;
 
+import org.slc.sli.ingestion.jaxb.domain.sli.Assessment;
+
 /**
  * Generate template mappings for an SLI domain class
  *
@@ -21,7 +23,7 @@ public class MappingGenerator {
     private static final String SLI_DOMAIN_PACKAGE = "org.slc.sli.ingestion.jaxb.domain.sli";
 
     public static void main(String[] args) {
-        // generateClassMapping(someclass.class);
+        generateClassMapping(Assessment.class);
     }
 
     /**
@@ -108,11 +110,11 @@ public class MappingGenerator {
         out("public static java.util.Collection<" + clazz.getName() + "> map" + clazz.getSimpleName()
                 + "List(java.util.List<" + ED_FI_DOMAIN_PACKAGE + "." + clazz.getSimpleName() + "> edFi"
                 + clazz.getSimpleName() + "List) {");
-
+        out("");
         out("java.util.Collection<" + clazz.getName() + "> sli" + clazz.getSimpleName()
                 + "List = new java.util.ArrayList<" + clazz.getName() + ">(edFi" + clazz.getSimpleName()
                 + "List.size());");
-
+        out("");
         out("for (" + ED_FI_DOMAIN_PACKAGE + "." + clazz.getSimpleName() + " edFi" + clazz.getSimpleName() + " : edFi"
                 + clazz.getSimpleName() + "List) {");
 
@@ -127,6 +129,7 @@ public class MappingGenerator {
     }
 
     private static void generateListMapFooter(final Class<?> clazz) {
+        out("");
         out("sli" + clazz.getSimpleName() + "List.add(sli" + clazz.getSimpleName() + ");");
         out("}");
         out("return sli" + clazz.getSimpleName() + "List;");
@@ -185,6 +188,8 @@ public class MappingGenerator {
                                 + ".get" + fieldPascalCase + "()");
                     }
 
+                    out("");
+                    out("// " + field.getName());
                     out(setFieldString);
                 }
             });
