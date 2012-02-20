@@ -12,8 +12,8 @@ import javax.xml.bind.Unmarshaller;
  */
 public class MappingUtils {
 
-    public static Unmarshaller createEdFiUnmarshaller() throws JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("org.slc.sli.domain.edfi");
+    public static Unmarshaller createUnmarshallerForPackage(String packageName) throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance(packageName);
         return jc.createUnmarshaller();
     }
 
