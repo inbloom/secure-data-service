@@ -17,8 +17,8 @@ import org.springframework.util.ReflectionUtils;
  */
 public class MappingGenerator {
 
-    private static final String ED_FI_DOMAIN_PACKAGE = "org.slc.sli.domain.edfi";
-    private static final String SLI_DOMAIN_PACKAGE = "org.slc.sli.domain";
+    private static final String ED_FI_DOMAIN_PACKAGE = "org.slc.sli.ingestion.jaxb.domain.edfi";
+    private static final String SLI_DOMAIN_PACKAGE = "org.slc.sli.ingestion.jaxb.domain.sli";
 
     public static void main(String[] args) {
         // generateClassMapping(someclass.class);
