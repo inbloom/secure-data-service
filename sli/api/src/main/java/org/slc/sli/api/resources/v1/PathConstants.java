@@ -19,6 +19,17 @@ class PathConstants {
      */
     public static final String STUDENTS = "students";
     
+    public static final String ASSESSMENTS = "assessments";
+    public static final String BELL_SCHEDULES = "bellSchedules";
+    public static final String SECTIONS = "sections";
+    public static final String SESSIONS = "sessions";
+    public static final String COHORTS = "cohorts";
+    public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
+    public static final String PARENTS = "parents";
+    public static final String PROGRAMS = "programs";
+    public static final String TEACHERS = "teachers";
+    public static final String COURSES = "courses";
+    
     /**
      * Path for student school association data
      */

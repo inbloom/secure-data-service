@@ -48,6 +48,16 @@ public class ParameterConstants {
      * Entity reference to an ID in the student collection.
      */
     public static final String STUDENT_ID = "studentId";
+    public static final String ASSESSMENT_ID = "assessmentId";
+    public static final String BELL_SCHEDULE_ID = "bellScheduleId";
+    public static final String SECTION_ID = "sectionId";
+    public static final String SESSION_ID = "sessionId";
+    public static final String COHORT_ID = "cohortId";
+    public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
+    public static final String PARENT_ID = "parentId";
+    public static final String PROGRAM_ID = "programId";
+    public static final String TEACHER_ID = "teacherId";
+    public static final String COURSE_ID = "courseId";
     
     /**
      * Query parameter for fields to include.
@@ -58,4 +68,5 @@ public class ParameterConstants {
      * Query parameter for fields to exclude.
      */
     public static final String EXCLUDE_FIELDS = "excludeFields";
+
 }
