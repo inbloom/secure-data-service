@@ -84,6 +84,9 @@ public class SamlFederationResource {
     @Path("sso/post")
     @SuppressWarnings("unchecked")
     public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
+        
+        LOG.info("Received a SAML post...");
+        
         Document doc = saml.decodeSamlPost(postData);
         
         String msgId = doc.getRootElement().getAttributeValue("ID");
