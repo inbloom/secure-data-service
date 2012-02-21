@@ -43,8 +43,9 @@ public class StudentListController extends DashboardController {
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
 
         UserDetails user = getPrincipal();
-
-        model.addAttribute(INST_HIERARCHY, convertToJson(institutionalHierarchyManager.getInstHierarchy(SecurityUtil.getToken())));
+        
+        List<GenericEntity> instHierarchy = institutionalHierarchyManager.getInstHierarchy(SecurityUtil.getToken());
+        model.addAttribute(INST_HIERARCHY, convertToJson(instHierarchy));
         model.addAttribute(USER_NAME, user.getUsername());
 
         return new ModelAndView("studentList");

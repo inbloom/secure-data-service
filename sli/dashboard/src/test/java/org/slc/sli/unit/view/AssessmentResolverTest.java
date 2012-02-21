@@ -76,6 +76,7 @@ public class AssessmentResolverTest {
 
     // --- helper functions ---
     private List<GenericEntity> getAssessments() {
+        /*
         String studentId = "111111111";
         student = new GenericEntity();
         student.put("id", studentId);
@@ -96,10 +97,11 @@ public class AssessmentResolverTest {
         when(mockClient.getFilename("mock_data/rbraverman/custom_view_config.json")).thenReturn("src/test/resources/mock_data/rbraverman/custom_view_config.json");
         aManager.setEntityManager(entityManager);
         List<GenericEntity> assmts = aManager.getAssessments("rbraverman", studentIds, config);
-        return assmts;
+        return assmts;*/
+        return null;
     }
     private List<AssessmentMetaData> getAssessmentMetaData() {
-
+        /*
         EntityManager entityManager = new EntityManager();
         PopulationManager aManager = new PopulationManager(); 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
@@ -107,6 +109,7 @@ public class AssessmentResolverTest {
         entityManager.setApiClient(mockClient);
         aManager.setEntityManager(entityManager);
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("rbraverman");
-        return metaData;
+        return metaData;*/
+        return null;
     }
 }

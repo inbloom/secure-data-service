@@ -19,8 +19,12 @@ import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
+import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
+import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
+
+import com.google.gson.Gson;
 
 /**
  * Controller for showing the list of studentview.
@@ -30,6 +34,7 @@ public class StudentListContentController extends DashboardController {
 
     private ConfigManager configManager;
     private PopulationManager populationManager;
+    private ViewManager viewManager;
 
     public StudentListContentController() { }
 
@@ -60,8 +65,8 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
-        ViewManager viewManager = new ViewManager(viewConfigs);
-        List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, user);
+        viewManager.setViewConfigs(viewConfigs);
+        List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken());
 
         if (applicableViewConfigs.size() > 0) {
         
@@ -73,6 +78,7 @@ public class StudentListContentController extends DashboardController {
 
             // get student, program, and assessment data
             List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig);
+            System.out.println(studentSummaries.toString());
             
             //List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
             //List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
@@ -81,7 +87,8 @@ public class StudentListContentController extends DashboardController {
             // insert the assessments object into the modelmap
             //List<GenericEntity> studentAssmts = populationManager.getStudentAssessments(user.getUsername(), uids, viewConfig);
             List<GenericEntity> assmts = populationManager.getAssessments(user.getUsername(), studentSummaries);
-            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
+            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts, ""));
+            
                         
         }
 
@@ -94,6 +101,14 @@ public class StudentListContentController extends DashboardController {
         return new ModelAndView("studentListContent");
     }
 
+
+    public ViewManager getViewManager() {
+        return viewManager;
+    }
+
+    public void setViewManager(ViewManager viewManager) {
+        this.viewManager = viewManager;
+    }
 
     /*
      * Getters and setters
@@ -113,5 +128,11 @@ public class StudentListContentController extends DashboardController {
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
     }
+    
+    private String convertToJson(List<GenericEntity> list) {
+        
+        Gson gson = new Gson();
+        return gson.toJson(list);
+    }    
 
 }

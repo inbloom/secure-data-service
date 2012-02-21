@@ -332,7 +332,7 @@ public class LiveAPIClient implements APIClient {
         
         for (int j = 0; j < sections.size(); j++) {
             sectionIDToCourseIDMap.put(sections.get(j).get(Constants.ATTR_ID).toString(), dummmyCourseID);
-            fakeCourse.put(Constants.ATTR_SECTIONS, sections.get(j));
+            fakeCourse.appendToList(Constants.ATTR_SECTIONS, sections.get(j));
         }
         // Then create schools and associate the first one to all sections
         String teacherId = getId(token); 

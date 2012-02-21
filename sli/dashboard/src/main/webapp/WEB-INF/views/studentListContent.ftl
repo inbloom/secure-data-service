@@ -58,11 +58,11 @@
       <#-- assessment results -->
       <#elseif field.getType() = constants.FIELD_TYPE_ASSESSMENT>
         <#if field.getVisual()?? && (field.getVisual()?length > 0)>
-          <#include "widget/" + field.getVisual() + ".ftl">
+          <#--<#include "widget/" + field.getVisual() + ".ftl">-->
         <#else>
           ${assessments.get(field, student)}
         </#if>
-        
+       
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

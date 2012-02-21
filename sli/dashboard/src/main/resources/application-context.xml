@@ -26,6 +26,7 @@
     <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
         <property name="configManager"     ref="configManager"/>
         <property name="populationManager" ref="populationManager"/>
+        <property name="viewManager" ref="viewManager"/>
     </bean>
     
     <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController" />
@@ -46,7 +47,7 @@
         <property name="entityManager" ref="entityManager"/>
     </bean>
          
-    <bean id="viewManager" class="org.slc.sli.view.ViewManager">
+    <bean id="viewManager" class="org.slc.sli.manager.ViewManager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
     

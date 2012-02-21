@@ -26,13 +26,17 @@ public class TimedLogic {
      * Returns the assessment with the most recent timestamp
      */
     public static GenericEntity getMostRecentAssessment(List<GenericEntity> a) {
+    	/*
         Collections.sort(a, new Comparator<GenericEntity>() {
             // this should probably get more precise if we actually have an actual timestamp!
             public int compare(GenericEntity o1, GenericEntity o2) {
-                return (Integer.parseInt((String) (o2.get(Constants.ATTR_YEAR))) - (Integer.parseInt((String) (o1.get(Constants.ATTR_YEAR)))));  
+                //return (Integer.parseInt((String) (o2.get(Constants.ATTR_YEAR))) - (Integer.parseInt((String) (o1.get(Constants.ATTR_YEAR)))));  
+                return 0;
             }
         });
-        return a.get(0);
+        */
+    	// temporary - we don't really want to create a new generic entity
+        return new GenericEntity(a.get(0));
     }
 
     /**

@@ -18,13 +18,26 @@ import org.slc.sli.util.Constants;
  */
 public class ViewManager extends Manager {
     List<ViewConfig> viewConfigs;
+    
+    public List<ViewConfig> getViewConfigs() {
+        return viewConfigs;
+    }
+
+    public void setViewConfigs(List<ViewConfig> viewConfigs) {
+        this.viewConfigs = viewConfigs;
+    }
+
     EntityManager entityManager;
     
     public ViewManager(List<ViewConfig> viewConfigs) {
         this.viewConfigs = viewConfigs;
     }
     
-    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, UserDetails user) {
+    public ViewManager() {
+        
+    }
+    
+    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
         // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
         ArrayList<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
@@ -36,7 +49,7 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = entityManager.getStudents(user.getUsername(), uids);
+                List<GenericEntity> students = entityManager.getStudents(token, uids);
 
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
