@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.SliTokenService;
+import org.slc.sli.api.security.oauth.OAuthSessionService;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -60,7 +60,7 @@ public class SamlFederationResource {
     private SamlAttributeTransformer transformer;
     
     @Autowired
-    private SliTokenService oauth;
+    private OAuthSessionService oauth;
     
     @GET
     @Path("ssoInit")

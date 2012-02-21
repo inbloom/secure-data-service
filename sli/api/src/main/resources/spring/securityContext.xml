@@ -19,13 +19,13 @@
 	<bean name="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<security:filter-chain-map path-type="ant">
 			<security:filter-chain pattern="/**"
-				filters="sliRequestFilter, oauth2ExceptionTranslationFilter" />
+				filters="sliRequestFilter" />
 		</security:filter-chain-map>
 	</bean>
 
 	<!-- Beans referenced by Authorization and Resource Services -->
 	<bean id="clientService" class="org.slc.sli.api.security.oauth.SLIClientDetailService" />
-	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.SliTokenStore" />
+	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.MongoTokenStore" />
 
 	<bean id="oauth2ExceptionTranslationFilter"
 		class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
@@ -38,11 +38,11 @@
 	<!-- class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" 
 		/> -->
 
-	<oauth2:authorization-server
-		client-details-service-ref="clientService" 
-		token-services-ref="tokenServices" 
-		authorization-endpoint-url="/oauth/authorize"
-		token-endpoint-url="/oauth/token" />
+<!-- 	<oauth2:authorization-server -->
+<!-- 		client-details-service-ref="clientService"  -->
+<!-- 		token-services-ref="tokenServices"  -->
+<!-- 		authorization-endpoint-url="/oauth/authorize" -->
+<!-- 		token-endpoint-url="/oauth/token" /> -->
 
 	<!-- <oauth2:authorization-code /> -->
 	<!-- </oauth2:authorization-server> -->

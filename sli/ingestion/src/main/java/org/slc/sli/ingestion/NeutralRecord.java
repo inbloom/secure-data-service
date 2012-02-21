@@ -45,6 +45,11 @@ public class NeutralRecord {
     protected String jobId;
 
     /**
+     * stores a flag whether the current record is association.
+     */
+    protected boolean association;
+
+    /**
      * stores the Id value uniquely identifying this record in the scope of the
      * source system. The Id is assumed to be permanent and unique the object,
      * statewide.
@@ -131,6 +136,21 @@ public class NeutralRecord {
     }
 
     /**
+     * @return the association
+     */
+    public boolean isAssociation() {
+        return association;
+    }
+
+    /**
+     * @param association
+     *            the association to set
+     */
+    public void setAssociation(boolean association) {
+        this.association = association;
+    }
+
+    /**
      * @return the localParentIds
      */
     public Map<String, Object> getLocalParentIds() {
@@ -179,7 +199,6 @@ public class NeutralRecord {
      * @author tshewchuk 2/6/2010 (PI3 US811)
      */
     public void setAttributeField(String fieldName, Object fieldValue) {
-        this.attributes.remove(fieldName);
         this.attributes.put(fieldName, fieldValue);
     }
 

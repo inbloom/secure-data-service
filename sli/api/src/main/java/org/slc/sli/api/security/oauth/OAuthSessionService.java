@@ -1,8 +1,10 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -28,7 +30,7 @@ import org.slc.sli.domain.EntityRepository;
  * 
  */
 @Component
-public class SliTokenService extends RandomValueTokenServices {
+public class OAuthSessionService extends RandomValueTokenServices {
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600; // 1 hour
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 900;   // 15 minutes
     private static final String OAUTH_SESSION_COLLECTION = OAuthTokenUtil.getOAuthCollectionName();
@@ -40,28 +42,21 @@ public class SliTokenService extends RandomValueTokenServices {
     private EntityDefinitionStore store;
     
     @Autowired
-    private TokenStore sliTokenStore;
-    
-    private EntityService service;
+    private TokenStore mongoTokenStore;
     
     @PostConstruct
     public void init() {
-        EntityDefinition def = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
-        setService(def.getService());
         setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
         setAccessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
         setSupportRefreshToken(true);
-        setTokenStore(sliTokenStore);
-    }
-    
-    public void setService(EntityService service) {
-        this.service = service;
+        setTokenStore(mongoTokenStore);
     }
     
     /**
      * Method called by SAML consumer. Performs a lookup in Mongo to find
      * OAuth2Authentication object corresponding to the original SAML message
      * ID, and stores information about the authenticated user into that object.
+     * The returned String is NOT url encoded.
      * 
      * @param originalMsgId
      *            Unique identifier of SAML message sent to disco.
@@ -77,13 +72,14 @@ public class SliTokenService extends RandomValueTokenServices {
                 new Query(Criteria.where("body.samlMessageId").is(originalMsgId)), 0, 1);
         if (results != null) {
             for (Entity oauthSession : results) {
-                StringBuilder url = new StringBuilder();
+                // StringBuilder url = new StringBuilder();
+                
                 Map<String, Object> body = oauthSession.getBody();
                 
                 EntityBody sliPrincipal = OAuthTokenUtil.mapSliPrincipal(principal);
                 body.put("userAuthn", sliPrincipal);
                 
-                service.update(oauthSession.getEntityId(), (EntityBody) body);
+                getService().update(oauthSession.getEntityId(), (EntityBody) body);
                 
                 // it might be pertinent to do more in terms of checking the
                 // client and user authentication objects for
@@ -92,14 +88,18 @@ public class SliTokenService extends RandomValueTokenServices {
                 Map<String, Object> clientAuthentication = (Map<String, Object>) body.get("clientAuthn");
                 
                 String clientRedirectUri = (String) clientAuthentication.get("redirectUri");
+                Map<String, Object> parameterMap = new HashMap<String, Object>();
+                parameterMap.put("state", (String) body.get("requestToken"));
+                parameterMap.put("code", (String) body.get("verificationCode"));
+                // String requestToken = (String) body.get("requestToken");
+                // String verificationCode = (String) body.get("verificationCode");
                 
-                String requestToken = (String) body.get("requestToken");
-                String verificationCode = (String) body.get("verificationCode");
-                
-                url.append(clientRedirectUri);
-                url.append("?requestToken=" + requestToken);
-                url.append("&verificationCode=" + verificationCode);
-                return url.toString();
+                // URI url = UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap);
+                // url.append(clientRedirectUri);
+                // url.append("?requestToken=" + requestToken);
+                // url.append("&verificationCode=" + verificationCode);
+                // return url.toString();
+                return UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap).toString();
             }
         }
         return null;
@@ -123,8 +123,18 @@ public class SliTokenService extends RandomValueTokenServices {
             for (Entity oauthSession : results) {
                 Map<String, Object> body = oauthSession.getBody();
                 body.put("samlMessageId", messageId);
-                service.update(oauthSession.getEntityId(), (EntityBody) body);
+                getService().update(oauthSession.getEntityId(), (EntityBody) body);
             }
         }
+    }
+    
+    /**
+     * Gets the EntityService associated with the OAuth 2.0 session collection.
+     * 
+     * @return Instance of EntityService for performing collection operations.
+     */
+    private EntityService getService() {
+        EntityDefinition defn = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
+        return defn.getService();
     }
 }

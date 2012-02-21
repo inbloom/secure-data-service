@@ -1,6 +1,7 @@
 package org.slc.sli.api.service.query;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,6 +23,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class QueryConverterTest {
     @Autowired
     QueryConverter queryConverter;
+    
+    @Test
+    public void testNull() {
+        // should always return a null, so callers don't have to worry about null checking
+        assertTrue(queryConverter.stringToQuery(null, null, null, null) != null);
+    }
     
     @Test
     public void testfindParamType() {
@@ -76,7 +83,7 @@ public class QueryConverterTest {
         query.sort().on("body.entryGradeLevel", Order.DESCENDING);
         
         Query convertedQuery = queryConverter.stringToQuery("studentSchoolAssociation", "entryGradeLevel=First grade",
-                "entryGradeLevel", SortOrder.decending);
+                "entryGradeLevel", SortOrder.descending);
         assertEquals(query.getQueryObject(), convertedQuery.getQueryObject());
         assertEquals(query.getSortObject(), convertedQuery.getSortObject());
     }

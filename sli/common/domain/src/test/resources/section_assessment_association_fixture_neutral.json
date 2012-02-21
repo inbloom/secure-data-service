@@ -1,0 +1,1 @@
+{ "_id" : { "$binary" : "CkY/HCJtPty8+wuoq0kKhw==", "$type" : "03" }, "type" : "sectionAssessmentAssociation", "body" : { "sectionId" : "cb7a932f-2d44-800c-d574-cdb25a29fc76", "assessmentId" : "dd916592-7dfe-4e27-a8ac-bec5f4b757b7" }, "metadata" : {} }
