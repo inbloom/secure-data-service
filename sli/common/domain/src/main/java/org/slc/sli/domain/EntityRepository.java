@@ -187,6 +187,17 @@ public interface EntityRepository {
      */
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max);
     
+    /**
+     * Get the number of elements in the collection matching a particular query
+     * 
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param query
+     *            the query to look for
+     * @return the number of entities matching the query in the collection
+     */
+    public long count(String collectionName, Query query);
+    
     /*
      * matchQuery method is a temporary solution for association/sourceGUID/targets type of
      * filtering as the current data model does not have any reference between source entity and

@@ -126,6 +126,12 @@ public class DummyEntityRepository implements EntityRepository {
     }
     
     @Override
+    public long count(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
     public boolean matchQuery(String collectioName, String id, Query query) {
         // TODO Auto-generated method stub
         return false;
