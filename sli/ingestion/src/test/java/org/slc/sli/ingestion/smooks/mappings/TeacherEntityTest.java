@@ -105,6 +105,7 @@ public class TeacherEntityTest {
             + "    <CredentialType>Certification</CredentialType>"
             + "    <CredentialField>"
             + "        <Description>Computer Science certificate</Description>"
+            + "        <CodeValue>C110AW</CodeValue>"
             + "    </CredentialField>"
             + "    <Level>Junior High (Grade Level 6-8)</Level>"
             + "    <TeachingCredentialType>One Year</TeachingCredentialType>"
@@ -143,7 +144,7 @@ public class TeacherEntityTest {
         String teacherCsv = "111111111,District,OrgCode,111111111,Birth certificate,Dr,Teacher,Jose,NotStaff,III,maiden name,"
                 + "Alias,Mr,shady,guy,alias,Jr,Male,1971-01-01,Home,100 10th street,1A,building site number,"
                 + "New York,NY,10021,New York,US123,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
-                + "false,Hispanic,White,Bachelor's,12,13,Certification,code value 123,Computer Science certificate,"
+                + "false,Hispanic,White,Bachelor's,12,13,Certification,C110AW,Computer Science certificate,"
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -275,10 +276,13 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(credentialsMap, "teachingCredentialBasis", "Doctoral degree");
         List credentialFieldList = (List) credentialsMap.get("credentialField");
         assertNotNull(credentialFieldList);
-        assertEquals(1, credentialFieldList.size());
-        Map credentialFieldMap = (Map) credentialFieldList.get(0);
-        assertNotNull(credentialFieldMap);
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
+        assertEquals(2, credentialFieldList.size());
+        Map credentialFieldMapDescription = (Map) credentialFieldList.get(1);
+        assertNotNull(credentialFieldMapDescription);
+        EntityTestUtils.assertObjectInMapEquals(credentialFieldMapDescription, "description", "Computer Science certificate");
+        Map credentialFieldMapCodeValue = (Map) credentialFieldList.get(0);
+        assertNotNull(credentialFieldMapCodeValue);
+        EntityTestUtils.assertObjectInMapEquals(credentialFieldMapCodeValue, "codeValue", "C110AW");
 
         assertEquals("aTeacher", teacherNeutralRecord.getAttributes().get("loginId"));
         assertEquals("teacher123", teacherNeutralRecord.getAttributes().get("teacherUniqueStateId"));

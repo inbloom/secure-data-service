@@ -736,14 +736,20 @@
 
   <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList"
     createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
-    <jb:wiring beanIdRef="teacherCredentialFieldDescriptor" />
+    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorCodeValue" />
+    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorDescription" />
   </jb:bean>
 
-  <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap"
+  <jb:bean beanId="teacherCredentialFieldDescriptorCodeValue" class="java.util.HashMap"
     createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
     <jb:value property="codeValue" data="Credentials/CredentialField/CodeValue" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherCredentialFieldDescriptorDescription" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/Teacher/Credentials/CredentialField">
     <jb:value property="description" data="Credentials/CredentialField/Description" />
   </jb:bean>
+
   <!-- End Teacher Mapping -->
 
   <!-- Student Section Association mapping -->
