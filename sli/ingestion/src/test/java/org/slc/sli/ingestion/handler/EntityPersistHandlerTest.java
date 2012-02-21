@@ -121,7 +121,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity> emptyList());
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity>emptyList());
 
         // Create a new student entity, and test creating it in the data store.
         NeutralRecordEntity studentEntity = createStudentEntity();
@@ -288,7 +288,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, BAD_STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity> emptyList());
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity>emptyList());
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
