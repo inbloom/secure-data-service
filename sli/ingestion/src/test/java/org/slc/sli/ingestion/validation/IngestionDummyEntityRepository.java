@@ -111,11 +111,6 @@ public class IngestionDummyEntityRepository implements EntityRepository {
         return null;
     }
 
-    @Override
-    public Entity find(String arg0, String arg1, String arg2, String arg3) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
@@ -127,6 +122,18 @@ public class IngestionDummyEntityRepository implements EntityRepository {
     public long count(String collectionName, Query query) {
         // TODO Auto-generated method stub
         return 0;
+    }
+    
+    @Override
+    public Entity find(String collectionName, Map<String, String> query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> query) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
