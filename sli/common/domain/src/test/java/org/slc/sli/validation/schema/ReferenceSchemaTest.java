@@ -187,6 +187,12 @@ public class ReferenceSchemaTest {
         }
         
         @Override
+        public long count(String collectionName, Query query) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
         public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
             // TODO Auto-generated method stub
             return null;

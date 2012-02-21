@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
@@ -49,6 +50,10 @@ import org.slc.sli.api.service.query.SortOrder;
         Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
     
+    private static final String TOTAL_COUNT_HEADER = "TotalCount";
+    private static final String LINK_HEADER = "Link";
+    private static final String MAX_RESULTS_PARAM = "max-results";
+    private static final String START_INDEX_PARAM = "start-index";
     public static final String FULL_ENTITIES_PARAM = "full-entities";
     public static final String SORT_BY_PARAM = "sort-by";
     public static final String SORT_ORDER_PARAM = "sort-order";
@@ -131,8 +136,8 @@ public class Resource {
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max,
+            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
@@ -145,35 +150,60 @@ public class Resource {
                 } else if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
                     Iterable<String> associationIds = null;
+                    long totalCount = 0;
                     
                     boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
                     boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
+                    String query = uriInfo.getRequestUri().getQuery();
                     
                     if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
+                        associationIds = associationDefinition.getService().getAssociationsFor(id, skip, max, query,
+                                sortBy, sortOrder);
+                        totalCount = associationDefinition.getService().countAssociationsFor(id, query);
                     } else if (checkAgainstSourceEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
+                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max, query,
+                                sortBy, sortOrder);
+                        totalCount = associationDefinition.getService().countAssociationsWith(id, query);
                     } else if (checkAgainstTargetEntity) {
-                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
+                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max, query,
+                                sortBy, sortOrder);
+                        totalCount = associationDefinition.getService().countAssociationsTo(id, query);
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
                     
+                    ResponseBuilder response;
                     if (fullEntities) {
-                        return Response.ok(getFullEntities(associationIds, entityDef, uriInfo, sortBy, sortOrder))
-                                .build();
+                        response = Response.ok(getFullEntities(associationIds, entityDef, uriInfo, sortBy, sortOrder));
                     } else {
                         CollectionResponse collection = getShortEntities(uriInfo, entityDef, associationIds);
-                        return Response.ok(collection).build();
+                        response = Response.ok(collection);
                     }
+                    return addPagingHeaders(response, entityDef.getType(), skip, max, totalCount, uriInfo).build();
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
             
         });
+    }
+    
+    private ResponseBuilder addPagingHeaders(ResponseBuilder resp, String type, int currentStart, int size, long total,
+            UriInfo info) {
+        int nextStart = currentStart + size;
+        if (nextStart < total) {
+            String nextLink = info.getRequestUriBuilder().replaceQueryParam(START_INDEX_PARAM, nextStart)
+                    .replaceQueryParam(MAX_RESULTS_PARAM, size).build().toString();
+            resp.header(LINK_HEADER, "<" + nextLink + ">; rel=next");
+        }
+        if (currentStart > 0) {
+            int prevStart = currentStart - size;
+            String prevLink = info.getRequestUriBuilder()
+                    .replaceQueryParam(START_INDEX_PARAM, prevStart > 0 ? prevStart : 0)
+                    .replaceQueryParam(MAX_RESULTS_PARAM, size).build().toString();
+            resp.header(LINK_HEADER, "<" + prevLink + ">; rel=prev");
+        }
+        resp.header(TOTAL_COUNT_HEADER, total);
+        return resp;
     }
     
     private CollectionResponse getShortEntities(final UriInfo uriInfo, EntityDefinition entityDef,
@@ -217,8 +247,8 @@ public class Resource {
     public Response getFullEntities(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getEntity(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
     
@@ -247,8 +277,8 @@ public class Resource {
     public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -312,8 +342,8 @@ public class Resource {
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max,
+            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
@@ -397,8 +427,8 @@ public class Resource {
     public Response getFullHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam("start-index") @DefaultValue("0") final int skip,
-            @QueryParam("max-results") @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getHoppedRelatives(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
     

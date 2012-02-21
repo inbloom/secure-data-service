@@ -45,20 +45,20 @@ public class SessionEntityTest {
 
     private FileTypeValidator fileTypeValidator = new FileTypeValidator();
 
-    private String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-            + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+    private String validXmlTestData = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+            + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<Session> "
             + "<SessionName>2012 Spring</SessionName>"
             + "<SchoolYear>2011-2012</SchoolYear>"
             + "<Term>Spring Semester</Term>"
             + "<BeginDate>2012-01-02</BeginDate>"
             + "<EndDate>2012-06-22</EndDate>"
-            + "<TotalInstructionalDays>118</TotalInstructionalDays>" + "</Session>" + "</InterchangeMasterSchedule>";
+            + "<TotalInstructionalDays>118</TotalInstructionalDays>" + "</Session>" + "</InterchangeEducationOrgCalendar>";
 
     @Test
     public void testValidSession() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 validXmlTestData);
@@ -73,10 +73,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingSessionName() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingSessionName = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingSessionName = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
@@ -84,7 +84,7 @@ public class SessionEntityTest {
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
                 + "</Session>"
-                + "</InterchangeMasterSchedule>";
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSessionName);
@@ -100,10 +100,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingSchoolYear() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingSchoolYear = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingSchoolYear = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<Term>Spring Semester</Term>"
@@ -111,7 +111,7 @@ public class SessionEntityTest {
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
                 + "</Session>"
-                + "</InterchangeMasterSchedule>";
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSchoolYear);
@@ -127,10 +127,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingTerm() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingTerm = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingTerm = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -138,7 +138,7 @@ public class SessionEntityTest {
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
                 + "</Session>"
-                + "</InterchangeMasterSchedule>";
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTerm);
@@ -154,10 +154,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingBeginDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingBeginDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingBeginDate = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -165,7 +165,7 @@ public class SessionEntityTest {
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
                 + "</Session>"
-                + "</InterchangeMasterSchedule>";
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingBeginDate);
@@ -181,10 +181,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingEndDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingEndDate = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingEndDate = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -192,7 +192,7 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
                 + "</Session>"
-                + "</InterchangeMasterSchedule>";
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingEndDate);
@@ -208,16 +208,16 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionMissingTotalInstructionalDays() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlMissingTotalInstructionalDays = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlMissingTotalInstructionalDays = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
-                + "<EndDate>2012-06-22</EndDate>" + "</Session>" + "</InterchangeMasterSchedule>";
+                + "<EndDate>2012-06-22</EndDate>" + "</Session>" + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTotalInstructionalDays);
@@ -233,10 +233,10 @@ public class SessionEntityTest {
     @Test(expected = EntityValidationException.class)
     public void testInvalidSessionIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
-        String invalidXmlIncorrectEnum = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
-                + "\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+        String invalidXmlIncorrectEnum = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
+                + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
                 + "<Session> "
                 + "<SessionName>2012 Spring</SessionName>"
                 + "<SchoolYear>2011-2012</SchoolYear>"
@@ -244,7 +244,7 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-                + "</Session>" + "</InterchangeMasterSchedule>";
+                + "</Session>" + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlIncorrectEnum);
@@ -299,7 +299,7 @@ public class SessionEntityTest {
     @Test
     public void testValidSessionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Session";
+        String targetSelector = "InterchangeEducationOrgCalendar/Session";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 validXmlTestData);
