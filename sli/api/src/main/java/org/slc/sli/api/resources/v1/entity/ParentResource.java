@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +25,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
@@ -32,16 +37,16 @@ import org.slc.sli.api.representation.EntityBody;
  * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.BELL_SCHEDULES)
+@Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class BellScheduleResource {
+public class ParentResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(BellScheduleResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParentResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +54,12 @@ public class BellScheduleResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public BellScheduleResource(EntityDefinitionStore entityDefs) {
+    public ParentResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$bellSchedules$$ entities for which the logged in User has permission and context.
+     * Returns all $$parents$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +76,11 @@ public class BellScheduleResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.BELL_SCHEDULES, offset, limit, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.PARENTS, offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$bellSchedules$$ entity.
+     * Create a new $$parents$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +97,33 @@ public class BellScheduleResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.BELL_SCHEDULES, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.PARENTS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$bellSchedules$$ entity
+     * Get a single $$parents$$ entity
      * 
-     * @param bellScheduleId
-     *            The Id of the $$bellSchedules$$.
+     * @param parentId
+     *            The Id of the $$parents$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single bellSchedule entity
+     * @return A single parent entity
      */
     @GET
-    @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
+    @Path("{" + ParameterConstants.PARENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
+    public Response read(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.PARENTS, parentId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$bellSchedules$$ entity
+     * Delete a $$parents$$ entity
      * 
-     * @param bellScheduleId
-     *            The Id of the $$bellSchedules$$.
+     * @param parentId
+     *            The Id of the $$parents$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +132,17 @@ public class BellScheduleResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId, 
+    @Path("{" + ParameterConstants.PARENT_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.PARENT_ID) final String parentId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.PARENTS, parentId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$bellSchedules$$ entity.
+     * Update an existing $$parents$$ entity.
      * 
-     * @param bellScheduleId
-     *            The id of the $$bellSchedules$$.
+     * @param parentId
+     *            The id of the $$parents$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +153,10 @@ public class BellScheduleResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
-    public Response update(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
+    @Path("{" + ParameterConstants.PARENT_ID + "}")
+    public Response update(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.BELL_SCHEDULES, bellScheduleId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.PARENTS, parentId, newEntityBody, headers, uriInfo);
     }
 }

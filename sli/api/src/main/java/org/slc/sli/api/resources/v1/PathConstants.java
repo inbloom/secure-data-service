@@ -7,7 +7,7 @@ package org.slc.sli.api.resources.v1;
  * @author kmyers
  *
  */
-class PathConstants {
+public class PathConstants {
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "students";  
     public static final String ASSESSMENTS = "assessments";

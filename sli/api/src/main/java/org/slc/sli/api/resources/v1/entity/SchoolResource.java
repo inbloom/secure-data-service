@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -25,23 +26,28 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
  * 
- * @author jstokes
+ * @author srupasinghe
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.ASSESSMENTS)
+@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class AssessmentResource {
+public class SchoolResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AssessmentResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +55,12 @@ public class AssessmentResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public AssessmentResource(EntityDefinitionStore entityDefs) {
+    public SchoolResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$assessments$$ entities for which the logged in User has permission and context.
+     * Returns all $$schools$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +77,11 @@ public class AssessmentResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.ASSESSMENTS, offset, limit, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$assessments$$ entity.
+     * Create a new $$schools$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +98,33 @@ public class AssessmentResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.ASSESSMENTS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$assessments$$ entity
+     * Get a single $$schools$$ entity
      * 
-     * @param assessmentId
-     *            The Id of the $$assessments$$.
+     * @param schoolId
+     *            The Id of the $$schools$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single assessment entity
+     * @return A single school entity
      */
     @GET
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
+    public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$assessments$$ entity
+     * Delete a $$schools$$ entity
      * 
-     * @param assessmentId
-     *            The Id of the $$assessments$$.
+     * @param schoolId
+     *            The Id of the $$schools$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +133,17 @@ public class AssessmentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, 
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$assessments$$ entity.
+     * Update an existing $$schools$$ entity.
      * 
-     * @param assessmentId
-     *            The id of the $$assessments$$.
+     * @param schoolId
+     *            The id of the $$schools$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +154,38 @@ public class AssessmentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
+    public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.ASSESSMENTS, assessmentId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
+    }
+
+    /**
+     * Returns each $$studentSchoolAssociations$$ that
+     * references the given $$schools$$
+     * 
+     * @param schoolId
+     *            The Id of the School.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return       
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
+    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
