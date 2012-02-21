@@ -118,8 +118,11 @@ class DefaultCrudEndpoint implements CrudEndpoint {
                     // ID is a valid entity from the collection
                     if (entityDef.isOfType(id)) {
                         EntityBody entityBody = entityDef.getService().get(id, includeFields, excludeFields);
-                        entityBody.put(ResourceConstants.LINKS,
-                                getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        logger.debug("headers.getRequestHeader(\"accept\") -> " + headers.getRequestHeader("accept"));
+                        if (headers.getRequestHeader("accept").contains(HypermediaType.VENDOR_SLC_JSON)) {
+                            entityBody.put(ResourceConstants.LINKS,
+                                    getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        }
                         results.add(entityBody);
                     } else if (multipleIds) { // ID not found but multiple IDs searched for
                         results.add(null);
