@@ -46,6 +46,7 @@ public class ApplicationResource {
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
     public static final String CLIENT_ID = "client_id";
+    public static final String CLIENT_SECRET = "client_secret";
 
     @PostConstruct
     public void init() {
@@ -60,10 +61,18 @@ public class ApplicationResource {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
 
+        if (newApp.containsKey(CLIENT_SECRET) 
+                || newApp.containsKey(CLIENT_ID) 
+                || newApp.containsKey("id")) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  " 
+            + "Remove attribute and try again.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
         newApp.put(CLIENT_ID, clientId);
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
-        newApp.put("client_secret", clientSecret);
+        newApp.put(CLIENT_SECRET, clientSecret);
         service.create(newApp);
 
         String uri = uriToString(uriInfo) + "/" + clientId;

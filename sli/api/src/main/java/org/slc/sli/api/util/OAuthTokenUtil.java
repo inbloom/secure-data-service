@@ -1,7 +1,5 @@
 package org.slc.sli.api.util;
 
-import java.util.Date;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -95,11 +93,12 @@ public class OAuthTokenUtil {
     public static EntityBody mapAccessToken(OAuth2AccessToken accessToken) {
         EntityBody refreshToken = new EntityBody();
         refreshToken.put("value", accessToken.getRefreshToken().getValue());
-        refreshToken.put("expiration", ((ExpiringOAuth2RefreshToken) accessToken.getRefreshToken()).getExpiration());
+        refreshToken.put("expiration", ((ExpiringOAuth2RefreshToken) accessToken.getRefreshToken()).getExpiration()
+                .getTime());
         
         EntityBody entity = new EntityBody();
         entity.put("value", accessToken.getValue());
-        entity.put("expiration", accessToken.getExpiration());
+        entity.put("expiration", accessToken.getExpiration().getTime());
         entity.put("tokenType", accessToken.getTokenType());
         entity.put("refreshToken", refreshToken);
         return entity;
@@ -110,10 +109,10 @@ public class OAuthTokenUtil {
      * expiration date (indicating that expiration is true).
      * 
      * @param expiration
-     *            Date to be checked.
+     *            Date to be checked (represented by number of milliseconds since last epoch).
      * @return 'true' if expired, 'false' if not expired.
      */
-    public static boolean isTokenExpired(Date expiration) {
-        return System.currentTimeMillis() > expiration.getTime();
+    public static boolean isTokenExpired(long expiration) {
+        return System.currentTimeMillis() > expiration;
     }
 }

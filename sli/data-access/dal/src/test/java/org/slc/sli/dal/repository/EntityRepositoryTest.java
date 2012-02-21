@@ -6,12 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -193,34 +192,6 @@ public class EntityRepositoryTest {
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
     }
     
-    // @Test
-    // public void testValidation() {
-    // Map<String, Object> badBody = buildTestStudentEntity();
-    // badBody.put("bad-entity", "true");
-    // try {
-    // repository.create("student", badBody);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Entity saved = repository.create("student", buildTestStudentEntity());
-    // String id = saved.getEntityId();
-    // saved.getBody().put("bad-entity", "true");
-    // try {
-    // repository.update("student", saved);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Map<String, String> badFields = new HashMap<String, String>();
-    // badFields.put("bad-entity", "true");
-    // Iterable<Entity> badEntities = repository.findByFields("student", badFields, 0, 100);
-    // assertTrue(!badEntities.iterator().hasNext());
-    // repository.delete("student", id);
-    // }
-    
     private Map<String, Object> buildTestStudentEntity() {
         
         Map<String, Object> body = new HashMap<String, Object>();
@@ -282,30 +253,20 @@ public class EntityRepositoryTest {
     }
     
     @Test
-    public void testBS() {
-        EntityRepository r = repository;
-        Map<String, Object> school1 = new HashMap<String, Object>();
-        school1.put("testData", 1);
-        school1.put("junk", "asdf");
-        Entity created = r.create("school", school1);
-        String id1 = created.getEntityId();
+    public void testFindIdsByQuery() {
+        repository.deleteAll("student");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
         
-        school1.put("testData", 2);
-        school1.remove("junk");
-        created = r.create("school", school1);
-        String id2 = created.getEntityId();
-        
-        Query query = new Query();
-        query.addCriteria(Criteria.where("body.testData").in(Arrays.asList(1, 2)));
-        query.addCriteria(Criteria.where("_id").in(Arrays.asList(UUID.fromString(id1), UUID.fromString(id2))));
-        query.sort().on("body.testData", Order.DESCENDING);
-        // query.fields().include("_id").include("body.junk");
-        
-        Iterable<Entity> entities = r.findByQuery("school", query, 0, 100);
-        for (Entity e : entities) {
-            System.err.println(e.getEntityId() + "\t" + e.getBody());
+        Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
+        List<String> idList = new ArrayList<String>();
+        for (String id : ids) {
+            idList.add(id);
         }
         
-        r.deleteAll("school");
+        assertEquals(5, idList.size());
     }
 }

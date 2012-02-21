@@ -1,14 +1,13 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
-
-
-
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import junitx.util.PrivateAccessor;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.DummyEntityRepository;
+import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
@@ -37,7 +36,7 @@ public class SectionEntityTest {
     private EntityValidator validator;
 
     @Autowired
-    private DummyEntityRepository repo;
+    private IngestionDummyEntityRepository repo;
 
     private Entity makeDummyEntity(final String type, final String id) {
         return new Entity() {
@@ -121,6 +120,11 @@ public class SectionEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
 
+        Assert.assertEquals(3, neutralRecord.getLocalParentIds().size());
+        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Course"));
+        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("School"));
+        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Session"));
+
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("section");
@@ -134,7 +138,7 @@ public class SectionEntityTest {
         repo.addEntity("course", "ELA4", makeDummyEntity("course", "ELA4"));
         repo.addEntity("program", "223", makeDummyEntity("program", "223"));
 
-        junitx.util.PrivateAccessor.setField(validator, "validationRepo", repo);
+        PrivateAccessor.setField(validator, "validationRepo", repo);
 
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "section", validator);
     }

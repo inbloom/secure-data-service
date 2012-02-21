@@ -47,8 +47,8 @@ public class RealmResourceTest {
     private static final HashMap<String, String> IDP_ID_EXPECTED = new HashMap<String, String>();
     
     static {
-    	IDP_ID_EXPECTED.put("id", "http://devdanil.slidev.org:8080/idp");
-    	IDP_ID_EXPECTED.put("redirectEndpoint", "http://devdanil.slidev.org:8080/idp/SSORedirect/metaAlias/idp");
+        IDP_ID_EXPECTED.put("id", "http://devdanil.slidev.org:8080/idp");
+        IDP_ID_EXPECTED.put("redirectEndpoint", "http://devdanil.slidev.org:8080/idp/SSORedirect/metaAlias/idp");
     }
 
     @Autowired
