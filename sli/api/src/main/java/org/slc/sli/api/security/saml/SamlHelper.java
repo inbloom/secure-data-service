@@ -3,29 +3,42 @@ package org.slc.sli.api.security.saml;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
+
+import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom.input.DOMBuilder;
+import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 /**
- * Handles Saml composing and parsing
+ * Handles Saml composing, parsing and validating (signatures)
  * 
  * @author dkornishev
  * 
@@ -38,11 +51,26 @@ public class SamlHelper {
     public static final Namespace SAML_NS = Namespace.getNamespace("saml", "urn:oasis:names:tc:SAML:2.0:assertion");
     public static final Namespace SAMLP_NS = Namespace.getNamespace("samlp", "urn:oasis:names:tc:SAML:2.0:protocol");
     
-    private SAXBuilder builder = new SAXBuilder();
-    private XMLOutputter formater = new XMLOutputter(Format.getPrettyFormat());
+    // Jdom converters
+    private DOMBuilder builder = new DOMBuilder();
+    private DOMOutputter domer = new DOMOutputter();
+    
+    // W3c stuff
+    private DocumentBuilder domBuilder;
+    private Transformer transform;
     
     @Value("${sli.security.sp.issuerName}")
     private String issuerName;
+    
+    @PostConstruct
+    public void init() throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        domBuilder = factory.newDocumentBuilder();
+        
+        transform = TransformerFactory.newInstance().newTransformer();
+        transform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    }
     
     /**
      * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
@@ -91,13 +119,24 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(authnContext);
         
-        String xmlString = formater.outputString(doc);
-        LOG.debug(xmlString);
         
         try {
+            org.w3c.dom.Document dom = domer.output(doc);
+            
+            // TODO sign and add digest
+            
+            String xmlString = nodeToXmlString(dom);
+            LOG.debug(xmlString);
+            
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (IOException e) {
             LOG.error("Error generating AuthnRequest", e);
+            throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
+        } catch (JDOMException e) {
+            LOG.error("Error generating AuthnRequest.  Error converting to DOM", e);
+            throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
+        } catch (TransformerException e) {
+            LOG.error("Error generating AuthnRequest.  Error converting to XML String", e);
             throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
         }
     }
@@ -110,17 +149,47 @@ public class SamlHelper {
      * @throws Exception
      */
     public Document decodeSamlPost(String postData) {
-        String trimmed = postData.replaceAll("\r\n", "");
-        String base64Decoded = new String(Base64.decodeBase64(trimmed));
-        
-        LOG.debug("Got Saml message via post: \n{}\n", base64Decoded);
+        String base64Decoded = decode(postData);
         
         try {
-            return builder.build(new StringReader(base64Decoded));
+            
+            org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
+            
+            // TODO verify digest and signature
+            
+            return this.builder.build(doc);
+            
         } catch (Exception e) {
             LOG.error("Error unmarshalling saml post", e);
             throw new IllegalArgumentException("Posted SAML isn't valid");
         }
+    }
+    
+    /**
+     * Decodes post body in accordance to SAML 2 spec
+     * 
+     * @param postData
+     * @return decoded string
+     */
+    private String decode(String postData) {
+        String trimmed = postData.replaceAll("\r\n", "");
+        String base64Decoded = new String(Base64.decodeBase64(trimmed));
+        
+        LOG.debug("Decrypted SAML: \n{}\n", base64Decoded);
+        return base64Decoded;
+    }
+    
+    /**
+     * Converts w3c node to string representation
+     * 
+     * @param node to convert
+     * @return string respresentation of the node
+     * @throws TransformerException
+     */
+    private String nodeToXmlString(Node node) throws TransformerException {
+        StringWriter sw = new StringWriter();
+        transform.transform(new DOMSource(node), new StreamResult(sw));
+        return sw.toString();
     }
     
     /**
