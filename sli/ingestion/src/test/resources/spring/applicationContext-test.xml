@@ -44,7 +44,7 @@
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="repo" class="org.slc.sli.ingestion.validation.DummyEntityRepository" />
+  <bean id="repo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
 
   <context:annotation-config />

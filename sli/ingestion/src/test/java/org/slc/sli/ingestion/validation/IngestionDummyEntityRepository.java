@@ -16,7 +16,7 @@ import org.slc.sli.domain.EntityRepository;
  * 
  */
 @Component
-public class DummyEntityRepository implements EntityRepository {
+public class IngestionDummyEntityRepository implements EntityRepository {
     
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
     

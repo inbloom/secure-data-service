@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
       # Get the state unique id and state to identify and key logging
       session[:full_name] ||= Check.get("")["full_name"]
     else
+      SessionResource.auth_id = nil
       logger.debug { "No cookie set" }
     end
   end
