@@ -385,7 +385,8 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json"
+    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
