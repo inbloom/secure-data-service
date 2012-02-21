@@ -28,17 +28,17 @@ public class StudentObjectiveAssessmentTest {
     private EntityValidator validator;
 
     String xmlTestData = "<InterchangeStudentAssessment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentAssessment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-    		+ "<StudentObjectiveAssessment>"
-    		+ "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
-                  +  "<Result>12</Result>"
+           + "<StudentObjectiveAssessment>"
+            + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
+                +  "<Result>12</Result>"
             +  "</ScoreResults>"
- 		   + "<StudentTestAssessmentReference>STA-TAKS-Reading-8-2011-604844</StudentTestAssessmentReference>"
-           + "<ObjectiveAssessmentReference>"
- 		      + "<ObjectiveAssessmentIdentity>"
-                   + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
+            +  "<StudentTestAssessmentReference>STA-TAKS-Reading-8-2011-604844</StudentTestAssessmentReference>"
+            +  "<ObjectiveAssessmentReference>"
+            +    "<ObjectiveAssessmentIdentity>"
+                    + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
               + "</ObjectiveAssessmentIdentity>"
-    		+ "</ObjectiveAssessmentReference>"
-            + "</StudentObjectiveAssessment>"
+            + "</ObjectiveAssessmentReference>"
+           + "</StudentObjectiveAssessment>"
        + "</InterchangeStudentAssessment>";
 
     public void testValidSectionCSV() throws Exception {

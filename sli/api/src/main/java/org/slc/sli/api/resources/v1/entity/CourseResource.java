@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +25,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
@@ -32,16 +38,16 @@ import org.slc.sli.api.representation.EntityBody;
  * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SECTIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.COURSES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SectionResource {
+public class CourseResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SectionResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +55,12 @@ public class SectionResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public SectionResource(EntityDefinitionStore entityDefs) {
+    public CourseResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$sections$$ entities for which the logged in User has permission and context.
+     * Returns all $$courses$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +77,13 @@ public class SectionResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.SECTIONS, offset, limit, headers, uriInfo);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return this.crudDelegate.readAll(ResourceNames.COURSES, headers, uriInfo);
     }
 
     /**
-     * Create a new $$sections$$ entity.
+     * Create a new $$courses$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +100,33 @@ public class SectionResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SECTIONS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.COURSES, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$sections$$ entity
+     * Get a single $$courses$$ entity
      * 
-     * @param sectionId
-     *            The Id of the $$sections$$.
+     * @param courseId
+     *            The Id of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single section entity
+     * @return A single course entity
      */
     @GET
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
+    public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTIONS, sectionId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.COURSES, courseId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$sections$$ entity
+     * Delete a $$courses$$ entity
      * 
-     * @param sectionId
-     *            The Id of the $$sections$$.
+     * @param courseId
+     *            The Id of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +135,17 @@ public class SectionResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SECTION_ID) final String sectionId, 
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SECTIONS, sectionId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.COURSES, courseId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$sections$$ entity.
+     * Update an existing $$courses$$ entity.
      * 
-     * @param sectionId
-     *            The id of the $$sections$$.
+     * @param courseId
+     *            The id of the $$courses$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +156,10 @@ public class SectionResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SECTIONS, sectionId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.COURSES, courseId, newEntityBody, headers, uriInfo);
     }
 }

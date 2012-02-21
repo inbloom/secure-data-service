@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.saml2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -31,6 +33,7 @@ import java.util.List;
  * as it was configured on 2/16/2012.
  */
 public class DefaultSAML2Validator implements SAML2Validator {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultSAML2Validator.class);
 
     private DOMValidateContext valContext;
 
@@ -53,8 +56,10 @@ public class DefaultSAML2Validator implements SAML2Validator {
         try {
             return getSignature(samlDocument).validate(valContext);
         } catch (MarshalException e) {
+            LOG.warn("Couldn't validate Document", e);
             return false;
         } catch (XMLSignatureException e) {
+            LOG.warn("Couldn't validate Document", e);
             return false;
         }
     }
@@ -64,8 +69,10 @@ public class DefaultSAML2Validator implements SAML2Validator {
         try {
             return getSignature(samlDocument).getSignatureValue().validate(valContext);
         } catch (MarshalException e) {
+            LOG.warn("Couldn't validate signature", e);
             return false;
         } catch (XMLSignatureException e) {
+            LOG.warn("Couldn't validate signature", e);
             return false;
         }
 
@@ -81,8 +88,10 @@ public class DefaultSAML2Validator implements SAML2Validator {
                 valid = ref.validate(valContext);
             }
         } catch (XMLSignatureException e) {
+            LOG.warn("Couldn't validate digest", e);
             return false;
         } catch (MarshalException e) {
+            LOG.warn("Couldn't validate digest", e);
             return false;
         }
         return valid;
@@ -137,15 +146,8 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
 
         static boolean algEquals(String algURI, String algName) {
-            if (algName.equalsIgnoreCase("DSA")
-                    && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
-                return true;
-            }
-            if (algName.equalsIgnoreCase("RSA")
-                    && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
-                return true;
-            }
-            return false;
+            return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) || (algName.equalsIgnoreCase("RSA")
+                    && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1));
         }
 
         public class SimpleKeySelectorResult implements KeySelectorResult {

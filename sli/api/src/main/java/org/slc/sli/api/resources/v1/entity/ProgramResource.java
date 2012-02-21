@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +25,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
@@ -32,16 +38,16 @@ import org.slc.sli.api.representation.EntityBody;
  * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
+@Path(PathConstants.V1 + "/" + PathConstants.PROGRAMS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class ParentResource {
+public class ProgramResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParentResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProgramResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +55,12 @@ public class ParentResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public ParentResource(EntityDefinitionStore entityDefs) {
+    public ProgramResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$parents$$ entities for which the logged in User has permission and context.
+     * Returns all $$programs$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +77,13 @@ public class ParentResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.PARENTS, offset, limit, headers, uriInfo);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return this.crudDelegate.readAll(ResourceNames.PROGRAMS, headers, uriInfo);
     }
 
     /**
-     * Create a new $$parents$$ entity.
+     * Create a new $$programs$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +100,33 @@ public class ParentResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.PARENTS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.PROGRAMS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$parents$$ entity
+     * Get a single $$programs$$ entity
      * 
-     * @param parentId
-     *            The Id of the $$parents$$.
+     * @param programId
+     *            The Id of the $$programs$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single parent entity
+     * @return A single program entity
      */
     @GET
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
+    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+    public Response read(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.PARENTS, parentId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.PROGRAMS, programId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$parents$$ entity
+     * Delete a $$programs$$ entity
      * 
-     * @param parentId
-     *            The Id of the $$parents$$.
+     * @param programId
+     *            The Id of the $$programs$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +135,17 @@ public class ParentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PARENT_ID) final String parentId, 
+    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String programId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.PARENTS, parentId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.PROGRAMS, programId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$parents$$ entity.
+     * Update an existing $$programs$$ entity.
      * 
-     * @param parentId
-     *            The id of the $$parents$$.
+     * @param programId
+     *            The id of the $$programs$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +156,10 @@ public class ParentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
+    public Response update(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.PARENTS, parentId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.PROGRAMS, programId, newEntityBody, headers, uriInfo);
     }
 }

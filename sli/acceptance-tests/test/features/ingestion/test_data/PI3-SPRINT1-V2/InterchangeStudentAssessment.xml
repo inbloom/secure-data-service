@@ -1,0 +1,21 @@
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
+    <StudentAssessment>
+		<AdministrationDate>2011-05-01</AdministrationDate>
+		<SerialNumber>0</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ScoreResults AssessmentReportingMethod="Raw score">
+			<Result>410</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="National College-Bound Percentile">
+			<Result>17</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="State College-Bound Percentile">
+			<Result>17</Result>
+		</ScoreResults>
+		<StudentReference ref="STU-605394"/>
+		<AssessmentReference ref="TA-SAT-Mathematics-1"/>
+	</StudentAssessment>
+</InterchangeStudentAssessment>

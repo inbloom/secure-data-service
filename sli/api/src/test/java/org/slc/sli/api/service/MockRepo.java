@@ -78,10 +78,15 @@ public class MockRepo implements EntityRepository {
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
-    
+
     @Override
-    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
-        return find(collectionName, id);
+    public Entity find(String collectionName, Map<String, String> queryParameters) {
+        return find(collectionName, queryParameters.get("_id"));
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
+        return null;
     }
     
     @Override
@@ -179,6 +184,11 @@ public class MockRepo implements EntityRepository {
         return toReturn;
     }
     
+    @Override
+    public long count(String collectionName, Query query) {
+        return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();
+    }
+
     private Iterable<Entity> findByFields(String entityType, String queryString, Map<String, Integer> sortKeyOrderMap,
             int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -353,41 +363,11 @@ public class MockRepo implements EntityRepository {
         return compare;
     }
     
-    private boolean matchQuery(String entityType, String id, String queryString) {
-        boolean match = false;
-        List<Entity> toReturn = new ArrayList<Entity>();
-        Map<String[], String> queryMap = stringToQuery(queryString);
-        if (repo.containsKey(entityType)) {
-            List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
-            for (Entity entity : all) {
-                try {
-                    if (matchQueries(entity, queryMap)) {
-                        toReturn.add(entity);
-                    }
-                } catch (Exception e) {
-                    System.out.println("error processing query!");
-                }
-            }
-        }
-        for (Entity entity : toReturn) {
-            if (entity.getEntityId().equals(id)) {
-                match = true;
-            }
-        }
-        return match;
-    }
-    
     @Override
     public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
         String queryString = queryToString(query);
         Map<String, Integer> sortKeyOrderMap = getSortKeyOrderMap(query);
         return findByFields(entityType, queryString, sortKeyOrderMap, skip, max);
-    }
-    
-    @Override
-    public boolean matchQuery(String entityType, String id, Query query) {
-        String queryString = queryToString(query);
-        return matchQuery(entityType, id, queryString);
     }
     
     private String queryToString(Query query) {

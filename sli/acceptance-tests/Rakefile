@@ -304,11 +304,23 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit] do
   runTests("test/features/admintools")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
