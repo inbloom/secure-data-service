@@ -647,7 +647,7 @@ public class ResourceTest {
         
         UriInfo queryInfo = buildMockUriInfo("studentUniqueStateId=1234");
         Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "sortField",
-                SortOrder.decending, 0, 10, false, queryInfo);
+                SortOrder.descending, 0, 10, false, queryInfo);
         CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
         assertNotNull(hopCollection);
         assertEquals(2, hopCollection.size());
@@ -752,7 +752,7 @@ public class ResourceTest {
         Map<String, Object> assoc2 = (Map<String, Object>) collection.get(1);
         assertEquals(ssa2Id, assoc2.get("id"));
         Response resp2 = api.getFullEntities(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "sortField",
-                SortOrder.decending, 0, 10, uriInfo);
+                SortOrder.descending, 0, 10, uriInfo);
         assertEquals(200, resp2.getStatus());
         List<?> collection2 = (List<?>) resp2.getEntity();
         assertEquals(2, collection2.size());

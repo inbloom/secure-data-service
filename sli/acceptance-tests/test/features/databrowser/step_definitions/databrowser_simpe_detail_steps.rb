@@ -40,7 +40,7 @@ Then /^I am no longer authenticated to SLI$/ do
 end
 
 Given /^I have navigated to the "([^"]*)" page of the Data Browser$/ do |arg1|
-  @driver.get PropLoader.getProps['admintools_server_url']
+  @driver.get PropLoader.getProps['databrowser_server_url']
   # Wait for home page to load
   assertWithWait("Failed to find '"+arg1+"' Link on page")  {@driver.find_element(:link_text, arg1)}
   @driver.find_element(:link_text, arg1).click

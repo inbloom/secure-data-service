@@ -22,7 +22,7 @@ Background: None
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" with filter sorting and pagination
 		And filter by  "assessmentFamilyHierarchyName" = "DIBELS Next" 
 		And "sort-by" = "assessmentPeriodDescriptor.beginDate"
-		 And "sort-order" = "decending" 
+		 And "sort-order" = "descending" 
 		 And "start-index" = "0" 
 		 And "max-results" = "1"
 	     Then  I should receive a collection of 1 assessment link
@@ -66,7 +66,7 @@ Background: None
 	 When for each student, I navigate to GET "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>" with filter sorting and pagination
 	 	 And for each student, filter by "studentId" = <'Current_student' ID> 
 		 And for each student, "sort-by" = "administrationDate"
-		 And for each student, "sort-order" = "decending"
+		 And for each student, "sort-order" = "descending"
 		 And for each student, "start-index" = "0" 
 		 And for each student, "max-results" = "1"
 		 Then for each student, I should receive a collection of 1 studentAssessmentAssociation link 
@@ -146,7 +146,7 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 	    When for each student, I navigate to GET "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>" with filter sorting and pagination
 	 	 And for each student, filter by "studentId" = <'Current_student' ID> 
 		 And for each student, "sort-by" = "administrationDate"
-		 And for each student, "sort-order" = "decending"
+		 And for each student, "sort-order" = "descending"
 		 And for each student, "start-index" = "0" 
 		 And for each student, "max-results" = "1"
 		 Then for each student, I should receive a collection of 1 studentAssessmentAssociation link 

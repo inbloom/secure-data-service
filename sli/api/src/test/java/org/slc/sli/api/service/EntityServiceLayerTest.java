@@ -308,7 +308,7 @@ public class EntityServiceLayerTest {
                         SortOrder.ascending));
         
         assertEquals(Arrays.asList(id2, id4, id1, id3), studentSchoolAssociationService.getAssociatedEntitiesTo(
-                schoolId, 0, 4, null, "firstName", SortOrder.decending));
+                schoolId, 0, 4, null, "firstName", SortOrder.descending));
         
         studentService.delete(id1);
         studentService.delete(id2);

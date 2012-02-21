@@ -9,12 +9,12 @@ import org.springframework.data.mongodb.core.query.Order;
  */
 public enum SortOrder {
     
-    ascending, decending;
+    ascending, descending;
     
     protected Order toOrder() {
         if (this == ascending) {
             return Order.ASCENDING;
-        } else if (this == decending) {
+        } else if (this == descending) {
             return Order.DESCENDING;
         } else {
             return null;
