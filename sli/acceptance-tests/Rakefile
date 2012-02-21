@@ -152,7 +152,7 @@ end
 ############################################################
 desc "Run API Acceptances Tests"
 task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,
-                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
+                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests] do
   displayFailureReport()
 end
 
@@ -263,6 +263,13 @@ desc "Run Aggregation Discovery Tests"
 task :aggregationDiscoveryTests => [:realmInit] do
   runFixtureAndTests("test/features/api/aggregations","aggregation","aggregation_fixture.json")
 end
+
+desc "Run Assessment User Story Tests"
+task :endUserStoryAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/assessments")
+end
+
 ############################################################
 # API tests end
 ############################################################
@@ -378,7 +385,8 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json"
+    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

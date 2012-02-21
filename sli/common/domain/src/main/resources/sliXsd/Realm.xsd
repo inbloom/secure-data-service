@@ -10,13 +10,35 @@
          </xs:annotation>
          <xs:sequence>
             <xs:element name="state" type="xs:string" minOccurs="1" />
-            <xs:element name="idp" type="xs:string" minOccurs="1" />
+            <xs:element name="idp" type="idpEndpoints" minOccurs="1" />
+            <xs:element name="saml" type="samlMap" minOccurs="1" />
             <xs:element name="realm" type="xs:string" minOccurs="1" />
             <xs:element name="mappings" type="roleMap" minOccurs="1" />
             <xs:element name="metadata" type="metadataType" minOccurs="0"/>
          </xs:sequence>
       </xs:complexType>
    </xs:element>
+
+   <xs:complexType name="idpEndpoints">
+      <xs:sequence>
+	      <xs:element name="id" type="xs:string" minOccurs="1" />
+	      <xs:element name="redirectEndpoint" type="xs:string" minOccurs="1" />
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="samlMap">
+      <xs:sequence>
+         <xs:element name="field" type="samlField" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="samlField">
+      <xs:sequence>
+	      <xs:element name="clientName" type="xs:string" minOccurs="1" />
+	      <xs:element name="sliName" type="xs:string" minOccurs="1" />
+	      <xs:element name="transform" type="xs:string" minOccurs="1" />
+      </xs:sequence>
+   </xs:complexType>
 
    <xs:complexType name="roleMap">
       <xs:sequence>

@@ -32,6 +32,7 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
@@ -129,12 +130,12 @@ public class BasicService implements EntityService {
         
         return true;
     }
-
+    
     @Override
     public EntityBody get(String id) {
         return this.get(id, null, null);
     }
-
+    
     @Override
     public EntityBody get(String id, String includeFields, String excludeFields) {
         
@@ -151,6 +152,11 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
+        return get(ids, null, null);
+    }
+    
+    @Override
+    public Iterable<EntityBody> get(Iterable<String> ids, String sortBy, SortOrder sortOrder) {
         
         checkRights(Right.READ_GENERAL);
         
@@ -165,8 +171,9 @@ public class BasicService implements EntityService {
         }
         
         if (!binIds.isEmpty()) {
-            Iterable<Entity> entities = repo.findByQuery(collectionName, new Query(Criteria.where("_id").in(binIds)),
-                    0, MAX_RESULT_SIZE);
+            Query query = queryConverter.stringToQuery(collectionName, null, sortBy, sortOrder);
+            Iterable<Entity> entities = repo.findByQuery(collectionName,
+                    query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -181,14 +188,19 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<String> list(int start, int numResults) {
-        return list(start, numResults, null);
+        return list(start, numResults, null, null, null);
     }
     
     @Override
     public Iterable<String> list(int start, int numResults, String queryString) {
+        return list(start, numResults, queryString, null, null);
+    }
+    
+    @Override
+    public Iterable<String> list(int start, int numResults, String queryString, String sortBy, SortOrder sortOrder) {
         checkRights(Right.READ_GENERAL);
         
-        Query query = queryConverter.stringToQuery(defn.getType(), queryString);
+        Query query = queryConverter.stringToQuery(defn.getType(), queryString, sortBy, sortOrder);
         
         List<String> allowed = findAccessible();
         
@@ -198,7 +210,7 @@ public class BasicService implements EntityService {
                 binIds.add(idConverter.toDatabaseId(id));
             }
             
-            query = new Query(Criteria.where("_id").in(binIds));
+            query = query.addCriteria(Criteria.where("_id").in(binIds));
         }
         
         List<String> results = new ArrayList<String>();
@@ -290,7 +302,7 @@ public class BasicService implements EntityService {
      *             if actor doesn't have association path to given entity
      */
     private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
-    EntityNotFoundException, AccessDeniedException {
+            EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
