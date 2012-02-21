@@ -33,8 +33,9 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-group :deoployment, :production do
+group :deployment, :integration do
 	gem 'capistrano'
+	gem 'capistrano-ext'
 	gem 'thin'
 end
 

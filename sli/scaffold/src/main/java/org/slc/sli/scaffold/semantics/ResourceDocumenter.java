@@ -21,8 +21,7 @@ public class ResourceDocumenter {
             
     private static final String LINK_HTML = "<a href=\"$LINK\">$TYPE</a>";
     private static final String PROP_FILE = "/resource_mapping.properties";
-    private static final String BASE_URL = 
-            "http://ec2-107-20-87-141.compute-1.amazonaws.com:8080/view/API/job/domain/ws/sli/common/domain/Documentation/html/";
+    private static String baseUrl;
     private static Properties props;
     
     /**
@@ -45,6 +44,8 @@ public class ResourceDocumenter {
         try {
             props = new Properties();
             props.load(ResourceDocumenter.class.getResourceAsStream(PROP_FILE));
+            baseUrl = (String) props.get("base_url");
+            props.remove("base_url");
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,8 +85,13 @@ public class ResourceDocumenter {
     }
 
     private String addResource(String content, Entry<Object, Object> entry) {
+        String value = (String) entry.getValue();
         String key = (String) entry.getKey();
-        content = content.replace("$$" + key + "$$", createLink(key, (String) entry.getValue()));
+        
+        String link = (String) value.split(",")[0];
+        String href = (String) value.split(",")[1];
+        
+        content = content.replace("$$" + key + "$$", createLink(link, href));
         
         return content;
     }
@@ -93,7 +99,7 @@ public class ResourceDocumenter {
     private String createLink(String key, String value) {
         String link = "";
         
-        link = LINK_HTML.replace("$LINK", BASE_URL + value);
+        link = LINK_HTML.replace("$LINK", baseUrl + value);
         link = link.replace("$TYPE", key);
         
         return link;

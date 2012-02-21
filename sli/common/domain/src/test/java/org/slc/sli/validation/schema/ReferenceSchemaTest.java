@@ -25,8 +25,9 @@ import org.slc.sli.validation.ValidationError;
 
 /**
  * Tests the ReferenceSchema methods
+ * 
  * @author srupasinghe
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -70,8 +71,9 @@ public class ReferenceSchemaTest {
     
     /**
      * Mock repo class
+     * 
      * @author srupasinghe
-     *
+     * 
      */
     static class ValidationRepo implements EntityRepository {
         Map<String, List<Entity>> data = new HashMap<String, List<Entity>>();
@@ -102,6 +104,12 @@ public class ReferenceSchemaTest {
         
         @Override
         public Iterable<Entity> findAll(String collectionName, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        
+        @Override
+        public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
             // TODO Auto-generated method stub
             return null;
         }
@@ -182,6 +190,12 @@ public class ReferenceSchemaTest {
         public boolean matchQuery(String collectioName, String id, Query query) {
             // TODO Auto-generated method stub
             return false;
+        }
+        
+        @Override
+        public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
         }
         
     }

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,6 @@ public class TeacherEntityTest {
             + "<Credentials>"
             + "    <CredentialType>Certification</CredentialType>"
             + "    <CredentialField>"
-            + "        <CodeValue>code value 123</CodeValue>"
             + "        <Description>Computer Science certificate</Description>"
             + "    </CredentialField>"
             + "    <Level>Junior High (Grade Level 6-8)</Level>"
@@ -118,8 +116,6 @@ public class TeacherEntityTest {
             + "<TeacherUniqueStateId>teacher123</TeacherUniqueStateId>"
             + "<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>" + "</Teacher></InterchangeStaffAssociation>";
 
-
-    @Ignore
     @Test
     public void testValidTeacher() throws IOException, SAXException {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -282,7 +278,6 @@ public class TeacherEntityTest {
         assertEquals(1, credentialFieldList.size());
         Map credentialFieldMap = (Map) credentialFieldList.get(0);
         assertNotNull(credentialFieldMap);
-        EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "codeValue", "code value 123");
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMap, "description", "Computer Science certificate");
 
         assertEquals("aTeacher", teacherNeutralRecord.getAttributes().get("loginId"));
