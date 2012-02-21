@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import com.mongodb.WriteResult;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,33 +49,97 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Override
     public Entity find(String collectionName, String id) {
-        return this.find(collectionName, id, null, null);
+        Object databaseId = idConverter.toDatabaseId(id);
+        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
+        return template.findById(databaseId, MongoEntity.class, collectionName);
     }
 
     @Override
-    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
-        Object databaseId = idConverter.toDatabaseId(id);
-        if (databaseId == null) {
-            LOG.debug("Unable to process id {}", new Object[] { id });
-            return null;
-        }
+    public Entity find(String collectionName, Map<String, String> queryParameters) {
+        //turn query parameters into a Mongo-specific query
+        Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
         
-        Query query = new Query(Criteria.where("_id").is(databaseId));
-        
-        if (includeFields != null) {
-            for (String includeField : includeFields.split(",")) {
-                LOG.debug("Including field " + includeField + " in resulting body");
-                query.fields().include("body." + includeField);
-            }
-        } else if (excludeFields != null) {
-            for (String excludeField : excludeFields.split(",")) {
-                LOG.debug("Excluding field " + excludeField + " from resulting body");
-                query.fields().exclude("body." + excludeField);
-            }
-        }
-        
-        LOG.debug("Finding in collection {} for ID {}", new Object[] { collectionName, id });
+        //find and return an entity
         return template.findOne(query, Entity.class, collectionName);
+    }
+    
+    @Override
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
+        //turn query parameters into a Mongo-specific query
+        Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
+        
+        //find and return an entity
+        return template.find(query, Entity.class, collectionName);
+    }
+    
+    /**
+     * Constructs a mongo-specific Query object from a map of key/value pairs. Contains special cases when the key is "_id", "includeFields",
+     * "excludeFields", "skip", and "limit". All other keys are added to the query as criteria specifying a field to search for (in the entity's
+     * body). 
+     * 
+     * @param queryParameters
+     *              all parameters to be included in query
+     * @param converter
+     *              used to convert human readable IDs into GUIDs (if queryParameters contains "_id" key)
+     * @return query object compatible with Mongo containing all parameters specified in the original map
+     */
+    private static Query createQuery(Map<String, String> queryParameters, IdConverter converter) {
+        Query query = new Query();
+        
+        if (queryParameters == null) {
+            return query;
+        }
+        
+        //read each entry in map
+        for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
+            String key = entry.getKey();
+            
+            //id field needs to be translated
+            if (key.equals("_id")) {
+                String id = entry.getValue();
+                if (id != null) {
+                    Object databaseId = converter.toDatabaseId(id);
+                    if (databaseId == null) {
+                        LOG.debug("Unable to process id {}", new Object[] { id });
+                        return null;
+                    }
+                    query.addCriteria(Criteria.where(entry.getKey()).is(databaseId));
+                }
+            } else if (key.equals("includeFields")) { //specific field(s) to include in result set
+                String includeFields = entry.getValue();
+                if (includeFields != null) {
+                    for (String includeField : includeFields.split(",")) {
+                        LOG.debug("Including field " + includeField + " in resulting body");
+                        query.fields().include("body." + includeField);
+                    }
+                }
+            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
+                String excludeFields = entry.getValue();
+                if (excludeFields != null) {
+                    for (String excludeField : excludeFields.split(",")) {
+                        LOG.debug("Excluding field " + excludeField + " from resulting body");
+                        query.fields().exclude("body." + excludeField);
+                    }
+                }
+            } else if (key.equals("skip")) { //skip to record X instead of starting at the beginning
+                String skip = entry.getValue();
+                if (skip != null) {
+                    query.skip(Integer.parseInt(skip));
+                }
+            } else if (key.equals("limit")) { //display X results instead of all of them
+                String limit = entry.getValue();
+                if (limit != null) {
+                    query.limit(Integer.parseInt(limit));
+                }
+            } else { //query param on record
+                String value = entry.getValue();
+                if (value != null) {
+                    query.addCriteria(Criteria.where("body." + key).is(value));
+                }
+            }
+        }
+        
+        return query;
     }
     
     @Override

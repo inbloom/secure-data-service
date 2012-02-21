@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,9 +109,15 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
         @Override
-        public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+        public Entity find(String collectionName, Map<String, String> queryParameters) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
             // TODO Auto-generated method stub
             return null;
         }
