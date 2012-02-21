@@ -46,7 +46,7 @@ Scenario: Sorting a collection of full student entities obtained via a hop
 		And the link at index 1 should have "name.firstName" equal to "Sybill"
 
 
-Scenario: Paging: request the first two results from an API request
+Scenario: Paging request the first two results from an API request
     Given format "application/json"
 		And parameter "sort-by" is "entryGradeLevel"
 		And parameter "sort-order" is "ascending"
@@ -59,8 +59,10 @@ Scenario: Paging: request the first two results from an API request
 		And the link at index 0 should point to an entity with id "094b9681-4fbc-4d59-a05d-87f6f5d0b759"
 		And the link at index 1 should point to an entity with id "7a238370-415e-4fc0-9c5e-565cb8394d13"
 		And the header "TotalCount" equals 3
+		And the a next link exists with start-index equal to 2 and max-results equal to 2
+		And the a previous link should not exist
 
-Scenario: Paging: request a page of results from a API request
+Scenario: Request the last and middle page of results from a API request
     Given format "application/json"
 		And parameter "sort-by" is "entryGradeLevel"
 		And parameter "sort-order" is "ascending"
@@ -71,4 +73,14 @@ Scenario: Paging: request a page of results from a API request
 		And the link at index 0 should point to an entity with id "7a238370-415e-4fc0-9c5e-565cb8394d13"
 		And the link at index 1 should point to an entity with id "4e044247-4cc0-49fa-900d-80064614060c"
 		And the header "TotalCount" equals 3
+		And the a previous link exists with start-index equal to 0 and max-results equal to 2
+		And the a next link should not exist
+	Given parameter "start-index" is "1"
+		And parameter "max-results" is "1"
+	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>"
+	Then I should receive a collection with 1 elements
+			And the link at index 0 should point to an entity with id "7a238370-415e-4fc0-9c5e-565cb8394d13"
+			And the header "TotalCount" equals 3
+			And the a previous link exists with start-index equal to 0 and max-results equal to 1
+			And the a next link exists with start-index equal to 2 and max-results equal to 1
 

@@ -25,6 +25,9 @@ Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   if !defined? @queryParams
     @queryParams = []
   end
+  @queryParams.delete_if do |entry|
+    entry.start_with? param
+  end
   @queryParams << "#{param}=#{value}"
 end
 
@@ -69,3 +72,56 @@ Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
   singleValue = convert(resultValue[0])
   singleValue.should == value
 end
+
+Then /^the a next link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
+      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
+      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link should not exist$/ do
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      found_link = true
+    end
+  end
+  found_link.should == false
+end
+
+Then /^the a next link should not exist$/ do
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      found_link = true
+    end
+  end
+  found_link.should == false
+end
+
