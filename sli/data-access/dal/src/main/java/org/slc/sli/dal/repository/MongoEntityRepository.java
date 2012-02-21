@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class MongoEntityRepository implements EntityRepository {
     public Entity find(String collectionName, String id) {
         return this.find(collectionName, id, null, null);
     }
-
+    
     @Override
     public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
         Object databaseId = idConverter.toDatabaseId(id);
@@ -203,6 +204,15 @@ public class MongoEntityRepository implements EntityRepository {
         List<Entity> results = template.find(query, Entity.class, collectionName);
         logResults(collectionName, results);
         return results;
+    }
+    
+    @Override
+    public long count(String collectionName, Query query) {
+        DBCollection collection = template.getCollection(collectionName);
+        if (collection == null) {
+            return 0;
+        }
+        return collection.count(query.getQueryObject());
     }
     
     @Override

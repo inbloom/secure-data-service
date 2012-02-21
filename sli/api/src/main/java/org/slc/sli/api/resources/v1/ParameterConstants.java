@@ -33,10 +33,20 @@ public class ParameterConstants {
      * Number of links to traverse when presenting a high-level document.
      */
     public static final String EXPAND_DEPTH = "expandDepth";
+    
+    /**
+     * Query parameter for fields to include.
+     */
+    public static final String INCLUDE_FIELDS = "includeFields";
+    
+    /**
+     * Query parameter for fields to exclude.
+     */
+    public static final String EXCLUDE_FIELDS = "excludeFields";
 
     
     /**
-     * Entity reference to an ID in the student collection.
+     * Entity/Association IDs 
      */
     public static final String SCHOOL_ID = "schoolId";
     public static final String STUDENT_ID = "studentId";
@@ -53,16 +63,4 @@ public class ParameterConstants {
     
     public static final String TEACHER_SCHOOL_ASSOCIATION_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SECTION_ASSOCIATION_ID = "teacherSectionAssociations";
-    
-    /**
-     * Query parameter for fields to include.
-     */
-    public static final String INCLUDE_FIELDS = "includeFields";
-    
-    /**
-     * Query parameter for fields to exclude.
-     */
-    public static final String EXCLUDE_FIELDS = "excludeFields";
-
-
 }
