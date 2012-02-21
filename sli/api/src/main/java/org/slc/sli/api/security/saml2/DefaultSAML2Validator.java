@@ -3,6 +3,7 @@ package org.slc.sli.api.security.saml2;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import java.security.cert.X509Certificate;
 import javax.xml.crypto.AlgorithmMethod;
 import javax.xml.crypto.KeySelector;
 import javax.xml.crypto.KeySelectorException;
@@ -18,6 +19,7 @@ import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
 
 import java.security.Key;
 import java.security.KeyException;
@@ -118,6 +120,17 @@ public class DefaultSAML2Validator implements SAML2Validator {
                     // make sure algorithm is compatible with method
                     if (algEquals(sm.getAlgorithm(), pk.getAlgorithm())) {
                         return new SimpleKeySelectorResult(pk);
+                    }
+                }
+                if (xmlStructure instanceof X509Data) {
+                    X509Data xd = (X509Data) xmlStructure;
+                    Iterator data = xd.getContent().iterator();
+                    for (; data.hasNext();) {
+                        Object o = data.next();
+                        if (o instanceof X509Certificate) {
+                            X509Certificate cert = (X509Certificate) o;
+                            return new SimpleKeySelectorResult(cert.getPublicKey());
+                        }
                     }
                 }
             }
