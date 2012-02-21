@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.DummyEntityRepository;
+import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
@@ -36,7 +36,7 @@ public class SectionEntityTest {
     private EntityValidator validator;
 
     @Autowired
-    private DummyEntityRepository repo;
+    private IngestionDummyEntityRepository repo;
 
     private Entity makeDummyEntity(final String type, final String id) {
         return new Entity() {

@@ -8,3 +8,4 @@ target
 #below is to ignore generated junit output
 TEST-*.xml
 *.tmp
+acceptance-tests/test/features/ingestion/test_data/*.zip
