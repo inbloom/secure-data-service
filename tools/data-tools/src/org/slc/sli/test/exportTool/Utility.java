@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 public class Utility {
@@ -55,12 +56,14 @@ public class Utility {
         return conn;
     }
 
+    // if resultSet does not contain any record, we return null instead
     public static ResultSet getResultSet(Connection conn, String query) {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            rs.next();
+            if (!rs.next())
+                rs = null;
         } catch (SQLException e) {
             //e.printStackTrace();
             rs = null;
@@ -84,5 +87,64 @@ public class Utility {
         if (replacement == null)
             replacement = "";
         return original.replaceAll(regex, replacement);
+    }
+
+    public static String generateXMLbasedOnTemplate(ResultSet resultSet, String template, List<String> keys) {
+        String xml = template;
+        try {
+            for (String key : keys) {
+                xml = Utility.replace(xml, "--"+key+"--", resultSet.getString(key));
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return xml;
+    }
+
+    private static String generateEmptyXMLbasedOnTemplate(String template, List<String> keys) {
+        String xml = template;
+        for (String key : keys) {
+            xml = Utility.replace(xml, "--"+key+"--", null);
+        }
+        return xml;
+    }
+
+    public static String generateEmbeddedXMLbasedOnTemplate(ResultSet mainSet, List<String> joinKeys, ResultSet embeddedSet, String embeddedTemplate, List<String> keys) {
+        StringBuilder embeddedXml = new StringBuilder("");
+        boolean hasOne = false;
+        if (embeddedSet != null) {
+            try {
+                while (foundMatch(mainSet, joinKeys, embeddedSet)) {
+                    String temp = generateXMLbasedOnTemplate(embeddedSet, embeddedTemplate, keys);
+                    embeddedXml.append(temp);
+                    hasOne = true;
+                    embeddedSet.next();
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+            }
+        }
+        if (!hasOne) {
+            String temp = generateEmptyXMLbasedOnTemplate(embeddedTemplate, keys);
+            embeddedXml.append(temp);
+            }
+
+        return embeddedXml.toString();
+    }
+
+    private static boolean foundMatch(ResultSet mainSet, List<String> joinKeys, ResultSet embeddedSet) {
+        for (String key : joinKeys) {
+            try {
+                if (!embeddedSet.getString(key).equals(mainSet.getString(key)))
+                    return false;
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                return false;
+            }
+        }
+        return true;
     }
 }
