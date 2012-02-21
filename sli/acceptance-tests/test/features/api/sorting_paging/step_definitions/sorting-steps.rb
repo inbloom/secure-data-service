@@ -21,21 +21,14 @@ Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
 end
 
-Given /^sort\-by is "([^\"]*)"$/ do |sortBy|
+Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   if !defined? @queryParams
     @queryParams = []
   end
-  @queryParams << "sort-by=#{sortBy}"
+  @queryParams << "#{param}=#{value}"
 end
 
-Given /^sort\-order is "([^\"]*)"$/ do |sortOrder|
-  if !defined? @queryParams
-    @queryParams = []
-  end
-  @queryParams << "sort-order=#{sortOrder}"
-end
-
-Then /^I should receive a collection of student association links$/ do
+Then /^I should receive a collection of links$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")
 end
@@ -45,83 +38,3 @@ Then /^the link at index (\d+) should point to an entity with id "([^\"]*)"$/ do
   @result[index].should_not == nil
   @result[index]["id"].should == id
 end
-
-# 
-# # Function validate
-# # Inputs: (Array or Hash) data = Array or Hash of data (e.g. from JSON response)
-# # Inputs: (Hash) fields = Hash containing key=field name, value= field expected class, or Hash of expected values (if it's an Array or Hash)
-# # Output: Nothing, uses assertions to ensure data matches values
-# # Returns: Nothing, see Output
-# # Description: Validates if data from a GET has the specified fields and data types
-# def validate(data, fields)
-#   if data.is_a? Array
-#     data.each do |entity|
-#       validate(entity, fields)
-#     end
-#   elsif data.is_a? Hash
-#     fields.each do |key, value|
-#       if value.is_a? Hash
-#         assert(data[key] != nil, "object/array expected to exist: #{key}")
-#         validate(data[key], value)
-#       else
-#         if value == nil
-#           assert(data[key] == nil, "Field should not exist: #{key}")
-#         else
-#           assert(data[key].is_a?(value), "Field #{key} should be of type #{value}, found #{data[key].class}")
-#         end
-#       end
-#     end
-#   end
-# end
-# 
-# Then /^I should receive a collection of student objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   # puts @result
-#   validate(@result, {"id" => String, 
-#                              "studentUniqueStateId" => String, 
-#                             "name" => {"firstName" => String, 
-#                                        "lastSurname" => String}})
-# end
-# 
-# Then /^I should not receive a collection of student links\.$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should receive a collection of student\-school\-association objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "studentId" => String, "schoolId" => String, "entryGradeLevel" => String})
-# end
-# 
-# Then /^I should not receive a collection of student\-school\-association links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should not receive a collection of student links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should receive a collection of school objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, 
-#                              "stateOrganizationId" => String, 
-#                              "nameOfInstitution" => String, 
-#                              "address" => {"streetNumberName" => String,
-#                                            "city" => String,
-#                                            "stateAbbreviation" => String,
-#                                            "postalCode" => String}})
-# end
-# 
-# Then /^I should not receive a collection of school links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end

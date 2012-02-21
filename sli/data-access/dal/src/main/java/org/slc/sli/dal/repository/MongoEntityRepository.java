@@ -280,19 +280,6 @@ public class MongoEntityRepository implements EntityRepository {
     }
     
     @Override
-    public boolean matchQuery(String collectionName, String id, Query query) {
-        boolean match = false;
-        if (query != null) {
-            List<Entity> results = template.find(query, Entity.class, collectionName);
-            for (Entity entity : results) {
-                if (entity.getEntityId().equals(id))
-                    match = true;
-            }
-        }
-        return match;
-    }
-    
-    @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
         if (query == null) {
             query = new Query();
