@@ -22,17 +22,17 @@ When zip file is scp to ingestion landing zone
 	And "10" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 50    |
+        | student                     | 52    |
         | studentSchoolAssociation    | 0     |
-        | course                      | 12    |
+        | course                      | 11    |
         | educationOrganization       | 3     |
         | school                      | 5     |
-        | section                     | 0     |
+        | section                     | 19    |
         | studentSchoolAssociation    | 0     |
-        | studentSectionAssociation   | 0     |
+        | studentSectionAssociation   | 83    |
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
-        | teacherSectionAssociation   | 0     |
+        | teacherSectionAssociation   | 19    |
      And I check to find if record is in collection:
 	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
 	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |
@@ -47,17 +47,17 @@ When zip file is scp to ingestion landing zone
 	And "10" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 50    |
+        | student                     | 52    |
         | studentSchoolAssociation    | 0     |
-        | course                      | 12    |
+        | course                      | 11    |
         | educationOrganization       | 3     |
         | school                      | 5     |
-        | section                     | 0     |
+        | section                     | 19    |
         | studentSchoolAssociation    | 0     |
-        | studentSectionAssociation   | 0     |
+        | studentSectionAssociation   | 83    |
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
-        | teacherSectionAssociation   | 0     |
+        | teacherSectionAssociation   | 19    |
      And I check to find if record is in collection:
 	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
 	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |

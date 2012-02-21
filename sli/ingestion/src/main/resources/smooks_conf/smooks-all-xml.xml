@@ -1279,7 +1279,7 @@
   <!-- Session mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrgCalendar/Session">
     <jb:expression property="recordType">'session'</jb:expression>
-    <jb:value property="localId" data="InterchangeEducationOrgCalendar/Session/SessionName" />
+    <jb:value property="localId" data="Session/SessionName" />
     <jb:wiring property="attributes" beanIdRef="sessionAttributes" />
   </jb:bean>
 
