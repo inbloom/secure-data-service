@@ -127,7 +127,7 @@ public class X509KeySelector extends KeySelector {
 
             // Iterate through KeyInfo types
             Iterator i = keyInfo.getContent().iterator();
-            while (i.hasNext()) {
+            for (; i.hasNext();) {
                 XMLStructure kiType = (XMLStructure) i.next();
                 // check X509Data
                 if (kiType instanceof X509Data) {
