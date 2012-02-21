@@ -70,10 +70,16 @@ Then /^I should receive a collection of (\d+) ([\w-]+) links$/ do |arg1, arg2|
     dataH=JSON.parse(@res.body)
     counter=0
     @ids = Array.new
+    if arg2 == "student"
+      @studentIds = Array.new
+    end
     dataH.each do|link|
       if link["link"]["rel"]=="self" and link["link"]["href"].include? @collectionType
         counter=counter+1
         @ids.push(link["id"])
+        if arg2 == "student"
+          @studentIds.push(link["id"])
+        end
       end
     end
     assert(counter==Integer(arg1), "Expected response of size #{arg1}, received #{counter}")
@@ -147,6 +153,14 @@ When /^"([^"]*)" = "([^"]*)"$/ do |key, value|
     assert(@res != nil, "Response from rest-client GET is nil")
   end
 end
+
+When /^I navigate to "([^"]*)" with URI "([^"]*)" and  filter by "([^"]*)" is "([^"]*)"$/ do |rel, href, filterKey, filterValue|
+  href="/student-assessment-associations/"+@ids[0]+"/targets"
+  href=href+"?"+URI.escape(filterKey)+"="+URI.escape(filterValue)
+  restHttpGet(href)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
 
 Then /^I should receive a collection of (\d+) ([\w-]+) link$/ do |arg1, arg2|
   @collectionType = "/"+arg2+"s/"
@@ -273,7 +287,7 @@ end
 When /^for each student, I navigate to GET "([^"]*)" with filter sorting and pagination$/ do |href|
   @hrefs=Array.new
   counter=0
-  @ids.each do |id|
+  @studentIds.each do |id|
     @hrefs[counter]=href
     counter=counter+1
   end
@@ -282,7 +296,7 @@ end
 
 When /^for each student, filter by "([^"]*)" = <'Current_student' ID>$/ do |key|
  counter = 0
-  @ids.each do |id|
+  @studentIds.each do |id|
     @hrefs[counter]=@hrefs[counter]+"?studentId="+URI.escape(id)
     counter=counter+1
   end
@@ -290,7 +304,7 @@ end
    
 When /^for each student, "([^"]*)" = "([^"]*)"$/ do |key, value|
   counter = 0
-    @ids.each do |id|
+    @studentIds.each do |id|
     @hrefs[counter]=@hrefs[counter]+"&"+URI.escape(key)+"="+URI.escape(value)
     counter=counter+1
   end
@@ -298,7 +312,7 @@ end
 
 Then /^for each student, I should receive a collection of (\d+) studentAssessmentAssociation link$/ do |value|
   counter = 0
-  @ids.each do |id|
+  @studentIds.each do |id|
     restHttpGet(@hrefs[counter])
     assert(@res != nil, "Response from rest-client GET is nil")
     dataH=JSON.parse(@res.body)
@@ -311,7 +325,7 @@ Then /^for each student, I should receive a "([^"]*)" with ID "([^"]*)"$/ do |ty
   counter = 0
   found = false
   @saaIds = Array.new
-  @ids.each do |id|
+  @studentIds.each do |id|
     restHttpGet(@hrefs[counter])
     assert(@res != nil, "Response from rest-client GET is nil")
     dataH=JSON.parse(@res.body)
