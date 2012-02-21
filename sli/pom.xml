@@ -53,7 +53,7 @@
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
 		<jersey.version>1.9.1</jersey.version>
-		<jackson.version>1.8.5</jackson.version>
+		<jackson.version>1.9.4</jackson.version>
 
 		<!-- Persistence Framework Versions -->
 		<commons.dbcp.version>20030825.184428</commons.dbcp.version>
