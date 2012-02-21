@@ -18,7 +18,7 @@ When /^I navigate to POST "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should receive the data for the specified application entry$/ do
-  
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
 end

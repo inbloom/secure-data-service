@@ -1,4 +1,4 @@
-@wip
+
 Feature: Application Registration Entity
 As an OAuth application developer for SLI, I want to create a registration entity in SLI so that it can authenticate with SLI
 
