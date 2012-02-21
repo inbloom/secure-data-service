@@ -82,7 +82,9 @@ public class JaxbFileHandler extends AbstractIngestionHandler<IngestionFileEntry
 
         Unmarshaller unmarshaller = MappingUtils.createUnmarshallerForPackage("org.slc.sli.ingestion.jaxb.domain.edfi");
 
+        long timeNow = System.currentTimeMillis();
         Object edFiObject = unmarshaller.unmarshal(fileEntry.getFile());
+        LOG.info("time taken jaxb unmarshal: " + (System.currentTimeMillis() - timeNow));
 
         if (fileEntry.getFileType() == FileType.XML_ASSESSMENT_METADATA) {
 
