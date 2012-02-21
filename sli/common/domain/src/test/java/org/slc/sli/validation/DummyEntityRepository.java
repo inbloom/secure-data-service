@@ -3,6 +3,8 @@ package org.slc.sli.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +30,13 @@ public class DummyEntityRepository implements EntityRepository {
     }
 
     @Override
-    public Entity find(String collectionName, String id, String includeFields, String excludeFields) {
+    public Entity find(String collectionName, Map<String, String> queryParameters) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
         // TODO Auto-generated method stub
         return null;
     }

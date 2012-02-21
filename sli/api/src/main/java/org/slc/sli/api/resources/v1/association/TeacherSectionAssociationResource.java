@@ -76,7 +76,7 @@ public class TeacherSectionAssociationResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, offset, limit, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
