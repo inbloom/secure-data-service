@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,21 +135,43 @@ public class BasicService implements EntityService {
     
     @Override
     public EntityBody get(String id) {
-        return this.get(id, null, null);
+        checkAccess(Right.READ_GENERAL, id);
+        Entity entity = getRepo().find(collectionName, id);
+        if (entity == null) {
+            LOG.info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        return makeEntityBody(entity);
     }
     
     @Override
-    public EntityBody get(String id, String includeFields, String excludeFields) {
+    public EntityBody get(String id, Map<String, String> queryParameters) {
         
         checkAccess(Right.READ_GENERAL, id);
         
-        Entity entity = repo.find(collectionName, id, includeFields, excludeFields);
+        Entity entity = repo.find(collectionName, queryParameters);
         
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
         
+        //
+        
         return makeEntityBody(entity);
+    }
+    
+    @Override
+    public Iterable<EntityBody> list(Map<String, String> queryParameters) {
+        
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        
+        //for each entity found in the collection matching query parameters
+        for (Entity entity : this.repo.findAll(this.collectionName, queryParameters)) {
+            //add a new body containing that data
+            results.add(makeEntityBody(entity));
+        }
+        
+        return results;
     }
     
     @Override

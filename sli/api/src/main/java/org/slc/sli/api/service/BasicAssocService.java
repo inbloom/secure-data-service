@@ -166,21 +166,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null, null, null);
         
-        // List<String> results = new ArrayList<String>();
-        // for (Entity entity : entityObjects) {
-        // Object other = entity.getBody().get(otherEntityKey);
-        // if (other != null
-        // && other instanceof String
-        // && getRepo().matchQuery(otherEntityDefn.getStoredCollectionName(), (String) other,
-        // queryConverter.stringToQuery(otherEntityDefn.getType(), queryString))) {
-        // results.add((String) other);
-        // } else {
-        // LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other
-        // });
-        // }
-        // }
-        // return results;
-        
         List<UUID> ids = new ArrayList<UUID>();
         for (Entity entity : entityObjects) {
             Object other = entity.getBody().get(otherEntityKey);

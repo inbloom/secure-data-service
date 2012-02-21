@@ -248,46 +248,94 @@
 	
 	<!-- ISAT Section -->
 	
-	<Assessment id="ISAT-Writing-1">
-		<AssessmentTitle>ISAT-Writing</AssessmentTitle>
+	<Assessment id="ISAT-Writing-8th-grade-2011">
+		<AssessmentTitle>ISAT-Writing-8th-grade-2011</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>ISAT-Writing</ID>
+			<ID>ISAT-Writing-8th-grade-2011</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
 		<AcademicSubject>Writing</AcademicSubject>
 		<GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<Description>State Criteria</Description>
+				<Description>1</Description>
 			</PerformanceLevel>
 			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 			<MinimumScore>120</MinimumScore>
-			<MaximumScore>450</MaximumScore>
+			<MaximumScore>221</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>2</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>221</MinimumScore>
+			<MaximumScore>246</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>3</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>246</MinimumScore>
+			<MaximumScore>288</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>4</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>288</MinimumScore>
+			<MaximumScore>410</MaximumScore>
 		</AssessmentPerformanceLevel>
 		<ContentStandard>State Standard</ContentStandard>
 		<Version>1</Version>
-		<RevisionDate>2005-03-12</RevisionDate>
+		<RevisionDate>2011-03-12</RevisionDate>
 		<MaxRawScore>450</MaxRawScore>
 	</Assessment>
-	<Assessment id="ISAT-Reading-1">
-		<AssessmentTitle>ISAT-Reading</AssessmentTitle>
+	<Assessment id="ISAT-Reading-8th-grade-2011">
+		<AssessmentTitle>ISAT-Reading-8th-grade-2011</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>ISAT-Reading</ID>
+			<ID>ISAT-Reading-8th-grade-2011</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
 		<GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<Description>State Criteria</Description>
+				<Description>1</Description>
 			</PerformanceLevel>
 			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 			<MinimumScore>120</MinimumScore>
-			<MaximumScore>450</MaximumScore>
+			<MaximumScore>180</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>2</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>180</MinimumScore>
+			<MaximumScore>231</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>3</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>231</MinimumScore>
+			<MaximumScore>278</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>4</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>278</MinimumScore>
+			<MaximumScore>364</MaximumScore>
 		</AssessmentPerformanceLevel>
 		<ContentStandard>State Standard</ContentStandard>
 		<Version>1</Version>
-		<RevisionDate>2005-03-12</RevisionDate>
+		<RevisionDate>2011-03-12</RevisionDate>
 		<MaxRawScore>450</MaxRawScore>
 	</Assessment>
 	

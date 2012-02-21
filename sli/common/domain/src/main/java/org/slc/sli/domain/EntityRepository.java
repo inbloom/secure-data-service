@@ -2,6 +2,9 @@ package org.slc.sli.domain;
 
 import java.util.Map;
 
+
+
+
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
@@ -21,19 +24,28 @@ public interface EntityRepository {
      * @return the entity retrieved
      */
     public Entity find(String collectionName, String id);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param id
+     *            the global unique id of the entity
+     * @param query
+     *            all parameters to be included in query
+     * @return the entity retrieved
+     */
+    public Entity find(String collectionName, Map<String, String> query);
     
     /**
      * @param collectionName
      *            the name of the collection to look in
      * @param id
      *            the global unique id of the entity
-     * @param includeFields
-     *            fields to include in lookup. All other fields are excluded from results
-     * @param excludeFields
-     *            fields to exclude from lookup. All other fields are included in results
+     * @param query
+     *            all parameters to be included in query
      * @return the entity retrieved
      */
-    public Entity find(String collectionName, String id, String includeFields, String excludeFields);
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> query);
     
     /**
      * @param collectionName
@@ -185,28 +197,6 @@ public interface EntityRepository {
      * @return the number of entities matching the query in the collection
      */
     public long count(String collectionName, Query query);
-    
-    /*
-     * matchQuery method is a temporary solution for association/sourceGUID/targets type of
-     * filtering as the current data model does not have any reference between source entity and
-     * target entity. since mongodb does not provide any join collection query and the current
-     * collection configuration map each entity type to one collection, do the filtering on
-     * association/sourceGUID/targets will be difficult to accomplish directly. matchQuery method
-     * is used to check if the id with specific type matches the query after the id of the target
-     * entity has been retrieved by traversal from source entity -> association entity -> target
-     * entity
-     */
-    
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param id
-     *            the global unique id of the entity
-     * @param query
-     *            the query for checking if specified entity matches
-     * @return true if specified entity matches query, otherwise return false
-     */
-    public boolean matchQuery(String collectionName, String id, Query query);
     
     /**
      * Filter a collection of IDs by
