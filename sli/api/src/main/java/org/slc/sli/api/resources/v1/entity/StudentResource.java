@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +25,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
@@ -32,16 +37,16 @@ import org.slc.sli.api.representation.EntityBody;
  * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SESSIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SessionResource {
+public class StudentResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SessionResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +54,12 @@ public class SessionResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public SessionResource(EntityDefinitionStore entityDefs) {
+    public StudentResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$sessions$$ entities for which the logged in User has permission and context.
+     * Returns all $$students$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +76,11 @@ public class SessionResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.SESSIONS, offset, limit, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.STUDENTS, offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$sessions$$ entity.
+     * Create a new $$students$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +97,33 @@ public class SessionResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SESSIONS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.STUDENTS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$sessions$$ entity
+     * Get a single $$students$$ entity
      * 
-     * @param sessionId
-     *            The Id of the $$sessions$$.
+     * @param studentId
+     *            The Id of the $$students$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single session entity
+     * @return A single student entity
      */
     @GET
-    @Path("{" + ParameterConstants.SESSION_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SESSIONS, sessionId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.STUDENTS, studentId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$sessions$$ entity
+     * Delete a $$students$$ entity
      * 
-     * @param sessionId
-     *            The Id of the $$sessions$$.
+     * @param studentId
+     *            The Id of the $$students$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +132,17 @@ public class SessionResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.SESSION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SESSION_ID) final String sessionId, 
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String studentId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SESSIONS, sessionId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.STUDENTS, studentId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$sessions$$ entity.
+     * Update an existing $$students$$ entity.
      * 
-     * @param sessionId
-     *            The id of the $$sessions$$.
+     * @param studentId
+     *            The id of the $$students$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +153,10 @@ public class SessionResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.SESSION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SESSIONS, sessionId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.STUDENTS, studentId, newEntityBody, headers, uriInfo);
     }
 }
