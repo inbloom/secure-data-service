@@ -4,6 +4,9 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.query.SortOrder;
 
+import java.util.Map;
+
+
 /**
  * Service for retrieving entities in DB
  * 
@@ -48,19 +51,26 @@ public interface EntityService {
      * @return the body of the entity
      */
     public EntityBody get(String id);
-    
+
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      * 
      * @param id
      *            the id of the entity to retrieve
-     * @param includeFields
-     *            any fields to be included in results
-     * @param excludeFields
-     *            any fields to be excluded from results
+     * @param queryParameters
+     *            all parameters to be included in query
      * @return the body of the entity
      */
-    public EntityBody get(String id, String includeFields, String excludeFields);
+    public EntityBody get(String id, Map<String, String> queryParameters);
+
+    /**
+     * Retrieves an entity from the data store with certain fields added/removed.
+     * 
+     * @param queryParameters
+     *            all parameters to be included in query
+     * @return the body of the entity
+     */
+    public Iterable<EntityBody> list(Map<String, String> queryParameters);
     
     /**
      * Get multiple entities from the data store

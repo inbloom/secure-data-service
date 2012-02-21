@@ -704,6 +704,7 @@ public class ResourceTest {
         assertEquals(404, listResponse2.getStatus());
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetFullEntities() {
         // create student 1
@@ -762,8 +763,8 @@ public class ResourceTest {
         assertEquals(ssa1Id, assoc2.get("id"));
         
         // test getFullHoppedRelatives from school id
-        Response hopResp = api.getFullHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 0, 10,
-                uriInfo);
+        Response hopResp = api.getFullHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "name",
+                SortOrder.descending, 0, 10, uriInfo);
         assertEquals(200, hopResp.getStatus());
         List<?> hoppedCollection = (List<?>) hopResp.getEntity();
         EntityBody student1FromApi = (EntityBody) api.getEntity(STUDENT_URI, studentId1, null, null, 0, 10, false,
@@ -776,6 +777,73 @@ public class ResourceTest {
         assertTrue(hoppedCollection.contains(student1FromApi));
         assertTrue(hoppedCollection.contains(student2FromApi));
         
+        // check sorting on getFullHoppedRelatives
+        assertEquals(2, hoppedCollection.size());
+        Map<String, Object> responseStudent1 = (Map<String, Object>) hoppedCollection.get(0);
+        assertEquals(studentId2, responseStudent1.get("id"));
+        Map<String, Object> responseStudent2 = (Map<String, Object>) hoppedCollection.get(1);
+        assertEquals(studentId1, responseStudent2.get("id"));
+    }
+    
+    @Test
+    public void testPagingOnAssociationLink() {
+        // create student 1
+        EntityBody student1 = new EntityBody(createTestEntity());
+        student1.put("name", "student1");
+        Response createResponse = api.createEntity("students", student1, uriInfo);
+        String studentId1 = parseIdFromLocation(createResponse);
+        
+        // create student 2
+        EntityBody student2 = new EntityBody(createTestEntity());
+        student2.put("name", "student2");
+        Response createResponse2 = api.createEntity("students", student2, uriInfo);
+        String studentId2 = parseIdFromLocation(createResponse2);
+        
+        EntityBody student3 = new EntityBody(createTestEntity());
+        student3.put("name", "student3");
+        Response createResponse3 = api.createEntity("students", student3, uriInfo);
+        String studentId3 = parseIdFromLocation(createResponse3);
+        
+        // create school
+        Response schoolCreateResp = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
+        String schoolId = parseIdFromLocation(schoolCreateResp);
+        
+        // create associations
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId1, schoolId)),
+                uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId2, schoolId)),
+                uriInfo);
+        api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, new EntityBody(createTestAssociation(studentId3, schoolId)),
+                uriInfo);
+        
+        Response response1 = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 0, 1, false, uriInfo);
+        CollectionResponse result1 = (CollectionResponse) response1.getEntity();
+        assertEquals(1, result1.size());
+        List<Object> links1 = response1.getMetadata().get("Link");
+        assertTrue(links1.contains("<request?start-index=1&max-results=1>; rel=next")
+                || links1.contains("<request?max-results=1&start-index=1>; rel=next"));
+        assertEquals(1, links1.size());
+        assertEquals(3L, response1.getMetadata().getFirst("TotalCount"));
+        
+        Response response2 = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 1, 1, false, uriInfo);
+        CollectionResponse result2 = (CollectionResponse) response2.getEntity();
+        assertEquals(1, result2.size());
+        List<Object> links2 = response2.getMetadata().get("Link");
+        assertTrue(links2.contains("<request?start-index=0&max-results=1>; rel=prev")
+                || links2.contains("<request?max-results=1&start-index=0>; rel=prev"));
+        assertTrue(links2.contains("<request?start-index=2&max-results=1>; rel=next")
+                || links2.contains("<request?max-results=1&start-index=2>; rel=next"));
+        assertEquals(2, links2.size());
+        assertEquals(3L, response2.getMetadata().getFirst("TotalCount"));
+        
+        Response response3 = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 2, 1, false, uriInfo);
+        CollectionResponse result3 = (CollectionResponse) response3.getEntity();
+        assertEquals(1, result3.size());
+        List<Object> links3 = response3.getMetadata().get("Link");
+        assertTrue(links3.contains("<request?start-index=1&max-results=1>; rel=prev")
+                || links3.contains("<request?max-results=1&start-index=1>; rel=prev"));
+        assertEquals(1, links3.size());
+        assertEquals(3L, response3.getMetadata().getFirst("TotalCount"));
     }
     
     private static String parseIdFromLocation(Response response) {

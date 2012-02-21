@@ -26,13 +26,22 @@
             </constructor-arg>
           </bean>
         </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_EDUCATION_ORG_CALENDAR}">
+          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
+            <constructor-arg value="${smooks.config.all.xml}" />
+            <constructor-arg>
+              <list>
+                <value>${smooks.targetselector.xml.session}</value>
+              </list>
+            </constructor-arg>
+          </bean>
+        </entry>
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_MASTER_SCHEDULE}">
           <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
                 <value>${smooks.targetselector.xml.section}</value>
-                <value>${smooks.targetselector.xml.session}</value>
               </list>
             </constructor-arg>
           </bean>
