@@ -762,8 +762,8 @@ public class ResourceTest {
         assertEquals(ssa1Id, assoc2.get("id"));
         
         // test getFullHoppedRelatives from school id
-        Response hopResp = api.getFullHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, null, null, 0, 10,
-                uriInfo);
+        Response hopResp = api.getFullHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "name",
+                SortOrder.descending, 0, 10, uriInfo);
         assertEquals(200, hopResp.getStatus());
         List<?> hoppedCollection = (List<?>) hopResp.getEntity();
         EntityBody student1FromApi = (EntityBody) api.getEntity(STUDENT_URI, studentId1, null, null, 0, 10, false,
@@ -776,6 +776,12 @@ public class ResourceTest {
         assertTrue(hoppedCollection.contains(student1FromApi));
         assertTrue(hoppedCollection.contains(student2FromApi));
         
+        // check sorting on getFullHoppedRelatives
+        assertEquals(2, hoppedCollection.size());
+        Map<String, Object> responseStudent1 = (Map<String, Object>) hoppedCollection.get(0);
+        assertEquals(studentId2, responseStudent1.get("id"));
+        Map<String, Object> responseStudent2 = (Map<String, Object>) hoppedCollection.get(1);
+        assertEquals(studentId1, responseStudent2.get("id"));
     }
     
     private static String parseIdFromLocation(Response response) {
