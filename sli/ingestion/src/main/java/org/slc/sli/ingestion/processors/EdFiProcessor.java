@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
+import org.slc.sli.ingestion.handler.JaxbFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -48,12 +50,12 @@ public class EdFiProcessor implements Processor {
             if (job.getErrorReport().hasErrors()) {
                 exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
             }
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.TRANSFORM_REQUEST.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Exception:",  exception);
+            LOG.error("Exception:", exception);
         }
     }
 
@@ -63,9 +65,17 @@ public class EdFiProcessor implements Processor {
 
             FileFormat fileFormat = fe.getFileType().getFileFormat();
 
+            AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = null;
+
             // get the handler for this file format
-            AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap
-                    .get(fileFormat);
+            if (fe.getFileType() == FileType.XML_ASSESSMENT_METADATA
+                    || fe.getFileType() == FileType.XML_STUDENT_ASSESSMENT) {
+
+                fileHandler = new JaxbFileHandler();
+            } else {
+                fileHandler = fileHandlerMap.get(fileFormat);
+            }
+
             if (fileHandler != null) {
 
                 fileHandler.handle(fe);
