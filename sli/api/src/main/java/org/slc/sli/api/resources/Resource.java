@@ -366,7 +366,7 @@ public class Resource {
                     }
                     
                     if (fullEntities) {
-                        return Response.ok(getHoppedEntities(relatives, relative, uriInfo)).build();
+                        return Response.ok(getHoppedEntities(relatives, relative, uriInfo, sortBy, sortOrder)).build();
                     } else {
                         CollectionResponse collection = getHoppedLinks(uriInfo, relatives, relative);
                         return Response.ok(collection).build();
@@ -392,8 +392,8 @@ public class Resource {
     }
     
     private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef,
-            UriInfo uriInfo) {
-        Iterable<EntityBody> entityBodies = relativeDef.getService().get(relatives);
+            UriInfo uriInfo, String sortBy, SortOrder sortOrder) {
+        Iterable<EntityBody> entityBodies = relativeDef.getService().get(relatives, sortBy, sortOrder);
         addLinksToEntities(entityBodies, relativeDef, uriInfo);
         return entityBodies;
     }

@@ -43,6 +43,18 @@ public class StudentSectionAssociationTest {
             + " <RepeatIdentifier>Not repeated</RepeatIdentifier>"
             + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
 
+    String invalidXMLTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
+            + "<StudentSectionAssociation>"
+              + "<SectionReference>"
+               + "<SectionIdentity>"
+                   + "<UniqueSectionCode>MT100</UniqueSectionCode>"
+               + "</SectionIdentity>"
+            + "</SectionReference>"
+            + " <BeginDate>2009-09-15</BeginDate>"
+            + " <HomeroomIndicator>false</HomeroomIndicator>"
+            + "</StudentSectionAssociation></InterchangeStudentEnrollment>";
+
+
     @Test
     public void testValidSectionCSV() throws Exception {
 
@@ -89,6 +101,24 @@ public class StudentSectionAssociationTest {
     }
 
     @Test
+    public void testInValidSectionXML() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+        String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
+
+        ByteArrayInputStream testInput = new ByteArrayInputStream(invalidXMLTestData.getBytes());
+        NeutralRecordFileReader nrfr = null;
+        try {
+            nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
+            // Tests that the NeutralRecords were created
+            Assert.assertTrue(nrfr.hasNext());
+            NeutralRecord record = nrfr.next();
+            checkInValidSectionNeutralRecord(record);
+        } finally {
+            nrfr.close();
+        }
+    }
+
+    @Test
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentEnrollment/StudentSectionAssociation";
@@ -115,4 +145,13 @@ public class StudentSectionAssociationTest {
         Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
         Assert.assertEquals("Not repeated", entity.get("repeatIdentifier"));
     }
+
+private void checkInValidSectionNeutralRecord(NeutralRecord record) {
+    Map<String, Object> entity = record.getAttributes();
+    Assert.assertEquals(null, entity.get("studentId"));
+    Assert.assertEquals("MT100", entity.get("sectionId"));
+    Assert.assertEquals("2009-09-15", entity.get("beginDate"));
+    Assert.assertEquals(null, entity.get("endDate"));
+    Assert.assertEquals("false", entity.get("homeroomIndicator").toString());
+}
 }

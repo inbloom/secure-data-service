@@ -201,12 +201,6 @@ public class ReferenceSchemaTest {
         }
 
         @Override
-        public boolean matchQuery(String collectioName, String id, Query query) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-        
-        @Override
         public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
             // TODO Auto-generated method stub
             return null;

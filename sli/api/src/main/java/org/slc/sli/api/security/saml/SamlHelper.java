@@ -32,10 +32,13 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import org.slc.sli.api.security.saml2.SAML2Validator;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -61,6 +64,9 @@ public class SamlHelper {
     
     @Value("${sli.security.sp.issuerName}")
     private String issuerName;
+    
+    @Autowired
+    private SAML2Validator validator;
     
     @PostConstruct
     public void init() throws Exception {
@@ -106,7 +112,7 @@ public class SamlHelper {
         doc.getRootElement().addContent(issuer);
         
         Element nameId = new Element("NameIDPolicy", SAMLP_NS);
-        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"));
+        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
         nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
         
         doc.getRootElement().addContent(nameId);
@@ -118,7 +124,6 @@ public class SamlHelper {
         authnContext.addContent(classRef);
         
         doc.getRootElement().addContent(authnContext);
-        
         
         try {
             org.w3c.dom.Document dom = domer.output(doc);
@@ -156,6 +161,9 @@ public class SamlHelper {
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
             
             // TODO verify digest and signature
+            if (!validator.isDocumentValid(doc)) {
+                throw new IllegalArgumentException("Invalid SAML message");
+            }
             
             return this.builder.build(doc);
             
