@@ -1,8 +1,10 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +13,7 @@ import org.springframework.security.oauth2.provider.token.RandomValueTokenServic
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -53,6 +56,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
      * Method called by SAML consumer. Performs a lookup in Mongo to find
      * OAuth2Authentication object corresponding to the original SAML message
      * ID, and stores information about the authenticated user into that object.
+     * The returned String is NOT url encoded.
      * 
      * @param originalMsgId
      *            Unique identifier of SAML message sent to disco.
@@ -68,7 +72,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
                 new Query(Criteria.where("body.samlMessageId").is(originalMsgId)), 0, 1);
         if (results != null) {
             for (Entity oauthSession : results) {
-                StringBuilder url = new StringBuilder();
+                // StringBuilder url = new StringBuilder();
+                
                 Map<String, Object> body = oauthSession.getBody();
                 
                 EntityBody sliPrincipal = OAuthTokenUtil.mapSliPrincipal(principal);
@@ -83,14 +88,18 @@ public class OAuthSessionService extends RandomValueTokenServices {
                 Map<String, Object> clientAuthentication = (Map<String, Object>) body.get("clientAuthn");
                 
                 String clientRedirectUri = (String) clientAuthentication.get("redirectUri");
+                Map<String, Object> parameterMap = new HashMap<String, Object>();
+                parameterMap.put("state", (String) body.get("requestToken"));
+                parameterMap.put("code", (String) body.get("verificationCode"));
+                // String requestToken = (String) body.get("requestToken");
+                // String verificationCode = (String) body.get("verificationCode");
                 
-                String requestToken = (String) body.get("requestToken");
-                String verificationCode = (String) body.get("verificationCode");
-                
-                url.append(clientRedirectUri);
-                url.append("?requestToken=" + requestToken);
-                url.append("&verificationCode=" + verificationCode);
-                return url.toString();
+                // URI url = UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap);
+                // url.append(clientRedirectUri);
+                // url.append("?requestToken=" + requestToken);
+                // url.append("&verificationCode=" + verificationCode);
+                // return url.toString();
+                return UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap).toString();
             }
         }
         return null;
@@ -125,6 +134,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
      * @return Instance of EntityService for performing collection operations.
      */
     private EntityService getService() {
-        return store.lookupByResourceName(OAUTH_SESSION_COLLECTION).getService();
+        EntityDefinition defn = store.lookupByResourceName(OAUTH_SESSION_COLLECTION);
+        return defn.getService();
     }
 }
