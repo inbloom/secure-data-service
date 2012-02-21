@@ -19,6 +19,7 @@ public class ConfigPersistor {
 
     private static final String VIEW_CONFIG_API_KEY = "view_config";
     private static final String LOZENGE_CONFIG_API_KEY = "lozenge_config";
+    private static final String STUDENT_FILTER_CONFIG_API_KEY = "student_filters_config";
 
     private APIClient apiClient;
     private EntityManager entityManager;
@@ -70,6 +71,31 @@ public class ConfigPersistor {
         // convert data block to POJO
         Gson gson = new Gson();
         LozengeConfig[] retVal = gson.fromJson(configStr, LozengeConfig[].class);
+
+        return retVal;
+    }
+
+    /**
+     * Get the student filters for an entity
+     *
+     * @param entityId
+     * @return StudentFilter
+     * @throws Exception
+     */
+    public StudentFilter[] getStudentFilterConfig(String entityId) throws Exception {
+        // make API call with entity id
+        CustomData[] customData = apiClient.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
+
+        // extract data block from custom data field
+        if (customData == null || customData.length == 0) {
+            return null;
+        }
+
+        String configStr = customData[0].getCustomData();
+
+        // convert data block to POJO
+        Gson gson = new Gson();
+        StudentFilter[] retVal = gson.fromJson(configStr, StudentFilter[].class);
 
         return retVal;
     }
