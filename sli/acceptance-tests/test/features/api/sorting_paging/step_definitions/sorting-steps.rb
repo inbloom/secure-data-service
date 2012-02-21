@@ -28,7 +28,7 @@ Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   @queryParams << "#{param}=#{value}"
 end
 
-Then /^I should receive a collection of student association links$/ do
+Then /^I should receive a collection of links$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")
 end
