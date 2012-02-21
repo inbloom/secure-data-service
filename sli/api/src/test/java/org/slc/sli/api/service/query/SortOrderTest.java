@@ -16,6 +16,6 @@ public class SortOrderTest {
     @Test
     public void testToOrder() {
         assertEquals(Order.ASCENDING, SortOrder.ascending.toOrder());
-        assertEquals(Order.DESCENDING, SortOrder.decending.toOrder());
+        assertEquals(Order.DESCENDING, SortOrder.descending.toOrder());
     }
 }

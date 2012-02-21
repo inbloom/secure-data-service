@@ -29,8 +29,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
  * @author kmyers
  * 
  */
-class DefaultCrudEndpoint implements CrudEndpoint {
-    
+public class DefaultCrudEndpoint implements CrudEndpoint {
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
 

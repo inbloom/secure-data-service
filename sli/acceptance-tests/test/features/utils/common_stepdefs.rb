@@ -36,6 +36,9 @@ Then /^I should receive an ID for the newly created ([\w-]+)$/ do |entity|
 end
 
 When /^I navigate to GET "([^\"]*)"$/ do |uri|
+  if defined? @queryParams
+    uri = uri + "?#{@queryParams.join('&')}"
+  end
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
