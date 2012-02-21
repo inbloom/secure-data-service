@@ -112,12 +112,6 @@ public class IngestionDummyEntityRepository implements EntityRepository {
     }
     
     @Override
-    public boolean matchQuery(String collectioName, String id, Query query) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    @Override
     public Entity find(String arg0, String arg1, String arg2, String arg3) {
         // TODO Auto-generated method stub
         return null;
