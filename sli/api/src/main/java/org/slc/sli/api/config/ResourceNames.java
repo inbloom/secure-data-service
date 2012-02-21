@@ -10,7 +10,6 @@ package org.slc.sli.api.config;
 public class ResourceNames {
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "schools";
-    public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
     public static final String ASSESSMENTS = "assessments";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String SECTIONS = "sections";
@@ -21,4 +20,7 @@ public class ResourceNames {
     public static final String PROGRAMS = "programs";
     public static final String TEACHERS = "teachers";
     public static final String COURSES = "courses";
+    
+    public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
+    public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
 }
