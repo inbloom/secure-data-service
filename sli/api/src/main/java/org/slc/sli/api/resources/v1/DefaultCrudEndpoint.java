@@ -28,7 +28,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
  * @author srupasinghe
  * 
  */
-class DefaultCrudEndpoint implements CrudEndpoint {
+public class DefaultCrudEndpoint implements CrudEndpoint {
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
     private final EntityDefinitionStore entityDefs;

@@ -137,15 +137,8 @@ public class DefaultSAML2Validator implements SAML2Validator {
         }
 
         static boolean algEquals(String algURI, String algName) {
-            if (algName.equalsIgnoreCase("DSA")
-                    && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
-                return true;
-            }
-            if (algName.equalsIgnoreCase("RSA")
-                    && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
-                return true;
-            }
-            return false;
+            return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) || (algName.equalsIgnoreCase("RSA")
+                    && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1));
         }
 
         public class SimpleKeySelectorResult implements KeySelectorResult {
