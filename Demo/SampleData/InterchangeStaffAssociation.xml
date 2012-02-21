@@ -39,17 +39,6 @@
   <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
   <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
   <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
-  <Credentials>
-   <CredentialType>Registration</CredentialType>
-   <CredentialField>
-    <CodeValue>a</CodeValue>
-   </CredentialField>
-   <Level>Secondary (Grade Level 8-12)</Level>
-   <TeachingCredentialType>Professional</TeachingCredentialType>
-   <CredentialIssuanceDate>1967-08-13</CredentialIssuanceDate>
-   <CredentialExpirationDate>1967-08-13</CredentialExpirationDate>
-   <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>
-  </Credentials>
   <LoginId>a</LoginId>
   <TeacherUniqueStateId>a</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
@@ -88,17 +77,6 @@
   <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
   <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
   <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
-  <Credentials>
-   <CredentialType>Endorsement</CredentialType>
-   <CredentialField>
-    <CodeValue>a</CodeValue>
-   </CredentialField>
-   <Level>Secondary (Grade Level 8-12)</Level>
-   <TeachingCredentialType>Retired</TeachingCredentialType>
-   <CredentialIssuanceDate>1967-08-13</CredentialIssuanceDate>
-   <CredentialExpirationDate>1967-08-13</CredentialExpirationDate>
-   <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
-  </Credentials>
   <LoginId>a</LoginId>
   <TeacherUniqueStateId>a</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
@@ -137,17 +115,6 @@
   <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
   <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
   <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
-  <Credentials>
-   <CredentialType>Endorsement</CredentialType>
-   <CredentialField>
-    <CodeValue>a</CodeValue>
-   </CredentialField>
-   <Level>Secondary (Grade Level 8-12)</Level>
-   <TeachingCredentialType>Retired</TeachingCredentialType>
-   <CredentialIssuanceDate>1967-08-13</CredentialIssuanceDate>
-   <CredentialExpirationDate>1967-08-13</CredentialExpirationDate>
-   <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
-  </Credentials>
   <LoginId>a</LoginId>
   <TeacherUniqueStateId>a</TeacherUniqueStateId>
   <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
