@@ -88,13 +88,7 @@ public class ExportStudent {
     private void getDataSet() {
         Connection conn = Utility.getConnection();
         studentResultSet = Utility.getResultSet(conn, this.studentQuery);
-        studentAddressResultSet = Utility.getResultSet(conn,
-                this.studentAddressResultSetQuery);
-        try {
-            studentAddressResultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        studentAddressResultSet = Utility.getResultSet(conn, this.studentAddressResultSetQuery);
     }
 
     private Student getStudent(ResultSet srs) {
@@ -119,35 +113,37 @@ public class ExportStudent {
                             .getString("BirthDate")));
             student.setBirthData(birthData);
 
-            try {
-                String studentUSI = this.studentAddressResultSet
-                        .getString("StudentUSI");
-                while (studentUSI.compareTo(studentUniqueStateId) == 0) {
-                    Address studentAddress = factory.createAddress();
-                    studentAddress
-                            .setStreetNumberName(this.studentAddressResultSet
-                                    .getString("StreetNumberName"));
-                    studentAddress.setCity(this.studentAddressResultSet
-                            .getString("City"));
-                    studentAddress.setStateAbbreviation(StateAbbreviationType
-                            .fromValue(this.studentAddressResultSet
-                                    .getString("StateAbbreviation")));
-                    studentAddress.setPostalCode(this.studentAddressResultSet
-                            .getString("PostalCode"));
-                    studentAddress.setAddressType(AddressType
-                            .fromValue(this.studentAddressResultSet
-                                    .getString("AddressType")));
-
-                    student.getAddress().add(studentAddress);
-
-                    if (this.studentAddressResultSet.next())
-                        studentUSI = this.studentAddressResultSet
-                                .getString("StudentUSI");
-                    else
-                        studentUSI = "";
+            if (studentAddressResultSet != null) {
+                try {
+                    String studentUSI = this.studentAddressResultSet
+                            .getString("StudentUSI");
+                    while (studentUSI.compareTo(studentUniqueStateId) == 0) {
+                        Address studentAddress = factory.createAddress();
+                        studentAddress
+                                .setStreetNumberName(this.studentAddressResultSet
+                                        .getString("StreetNumberName"));
+                        studentAddress.setCity(this.studentAddressResultSet
+                                .getString("City"));
+                        studentAddress.setStateAbbreviation(StateAbbreviationType
+                                .fromValue(this.studentAddressResultSet
+                                        .getString("StateAbbreviation")));
+                        studentAddress.setPostalCode(this.studentAddressResultSet
+                                .getString("PostalCode"));
+                        studentAddress.setAddressType(AddressType
+                                .fromValue(this.studentAddressResultSet
+                                        .getString("AddressType")));
+    
+                        student.getAddress().add(studentAddress);
+    
+                        if (this.studentAddressResultSet.next())
+                            studentUSI = this.studentAddressResultSet
+                                    .getString("StudentUSI");
+                        else
+                            studentUSI = "";
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
 
 //			student.setProfileThumbnail(this.studentResultSet.getString("ProfileThumbnail"));
@@ -163,13 +159,15 @@ public class ExportStudent {
     }
 
     private InterchangeStudent getStudents() {
-        try {
-            while (this.studentResultSet.next()) {
-                interchangeStudent.getStudent().add(
-                        this.getStudent(this.studentResultSet));
+        if (studentResultSet != null) {
+            try {
+                do {
+                    interchangeStudent.getStudent().add(
+                            this.getStudent(this.studentResultSet));
+                } while (this.studentResultSet.next());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return interchangeStudent;
     }

@@ -167,8 +167,6 @@ public class GenerateAssessment {
             assessment = Utility.replace(assessment, "--Nomenclature--", this.assessmentResultSet.getString("Nomenclature"));
             assessment = Utility.replace(assessment, "--AssessmentPeriod--", this.assessmentResultSet.getString("AssessmentPeriodDescriptor"));
 
-        
-        
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
