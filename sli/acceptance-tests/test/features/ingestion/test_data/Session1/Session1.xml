@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-MasterSchedule.xsd" xmlns="http://ed-fi.org/0100RFC062811">
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
@@ -819,4 +819,4 @@
         <GradingPeriodReference ref="GRDP_20110411"/>
     </Session>
 
-</InterchangeMasterSchedule>
+</InterchangeEducationOrgCalendar>

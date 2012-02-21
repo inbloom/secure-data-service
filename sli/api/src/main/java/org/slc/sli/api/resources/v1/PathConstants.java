@@ -12,7 +12,7 @@ public class PathConstants {
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "student-school-associations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
     public static final String SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-school-associations";
-    public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociation";
+    public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     
     public static final String ASSESSMENTS = "assessments";
     public static final String BELL_SCHEDULES = "bellSchedules";
@@ -27,6 +27,6 @@ public class PathConstants {
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "students";  
     public static final String TEACHERS = "teachers";
-    
+
     public static final String V1 = "v1";
 }

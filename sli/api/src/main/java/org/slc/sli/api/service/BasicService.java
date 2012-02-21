@@ -135,6 +135,7 @@ public class BasicService implements EntityService {
     
     @Override
     public EntityBody get(String id) {
+        checkAccess(Right.READ_GENERAL, id);
         Entity entity = getRepo().find(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
