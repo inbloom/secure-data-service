@@ -272,6 +272,17 @@ module DataProvider
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
+  
+  def self.getValidAppData()
+    return {
+      "client_type" => "PUBLIC",
+      "scope" => "ENABLED",
+      "redirect_uri" => "https://slidev.org",
+      "description" => "Prints hello world.",
+      "name" => "Hello World",
+      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
+    }
+  end
 end
 
 module CreateEntityHash

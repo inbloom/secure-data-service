@@ -93,6 +93,21 @@ public class BasicAssocService extends BasicService implements AssociationServic
         return super.create(content);
     }
     
+    @Override
+    public long countAssociationsWith(String id, String queryString) {
+        return countAssociationsTo(id, queryString) + countAssociationsFor(id, queryString);
+    }
+    
+    @Override
+    public long countAssociationsTo(String id, String queryString) {
+        return getAssociationCount(targetDefn, id, targetKey, queryString);
+    }
+    
+    @Override
+    public long countAssociationsFor(String id, String queryString) {
+        return getAssociationCount(sourceDefn, id, sourceKey, queryString);
+    }
+    
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
      * 
@@ -213,6 +228,15 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         Iterable<Entity> entityObjects = getRepo().findByQuery(getCollectionName(), query, start, numResults);
         return entityObjects;
+    }
+    
+    private long getAssociationCount(EntityDefinition type, String id, String key, String queryString) {
+        Query query = queryConverter.stringToQuery(this.getEntityDefinition().getType(), queryString, null, null);
+        if (query == null)
+            query = new Query(Criteria.where("body." + key).is(id));
+        else
+            query.addCriteria(Criteria.where("body." + key).is(id));
+        return getRepo().count(getCollectionName(), query);
     }
     
     /**

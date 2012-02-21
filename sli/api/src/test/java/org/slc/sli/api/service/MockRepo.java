@@ -179,6 +179,11 @@ public class MockRepo implements EntityRepository {
         return toReturn;
     }
     
+    @Override
+    public long count(String collectionName, Query query) {
+        return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();
+    }
+
     private Iterable<Entity> findByFields(String entityType, String queryString, Map<String, Integer> sortKeyOrderMap,
             int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
