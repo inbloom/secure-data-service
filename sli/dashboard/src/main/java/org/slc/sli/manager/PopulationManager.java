@@ -118,7 +118,7 @@ public class PopulationManager {
      * @param config
      * @return
      */
-    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
+    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config, String filterName) {
         
         // extract the studentInfo data fields
         List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
@@ -128,9 +128,24 @@ public class PopulationManager {
         if (dataFields.size() > 0) {
             studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
-        
+
+        // apply any student filters
+        List<Student> students = null;
+        if (filterName == null || filterName.equals ("NONE") || filterName.equals("")) {
+            students = studentInfo;
+        }
+        else
+        {
+            students = new ArrayList<Student>();   
+            for (Student student : studentInfo) {
+                if (student.hasProgramParticipation (filterName)) {
+                    students.add (student);
+                }
+            }
+        }
+
         // return the results
-        return studentInfo;
+        return students;        
     }
     
     
