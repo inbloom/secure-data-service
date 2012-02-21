@@ -139,11 +139,19 @@
     <jb:value property="credentialExpirationDate" data="Credentials_CredentialExpirationDate" />
     <jb:value property="teachingCredentialBasis" data="Credentials_TeachingCredentialBasis" />
   </jb:bean>
-  <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList" createOnElement="csv-record">
-  	<jb:wiring beanIdRef="teacherCredentialFieldDescriptor" />
+  <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList"
+    createOnElement="csv-record">
+    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorCodeValue" />
+    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorDescription" />
   </jb:bean>
-  <jb:bean beanId="teacherCredentialFieldDescriptor" class="java.util.HashMap" createOnElement="csv-record">
+
+  <jb:bean beanId="teacherCredentialFieldDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="csv-record">
     <jb:value property="codeValue" data="Credentials_CredentialField_CodeValue" />
+  </jb:bean>
+
+  <jb:bean beanId="teacherCredentialFieldDescriptorDescription" class="java.util.HashMap"
+    createOnElement="csv-record">
     <jb:value property="description" data="Credentials_CredentialField_Description" />
   </jb:bean>
   <!-- End Teacher Mapping -->

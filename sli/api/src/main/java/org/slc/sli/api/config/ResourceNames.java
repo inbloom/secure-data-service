@@ -9,7 +9,7 @@ package org.slc.sli.api.config;
  */
 public class ResourceNames {
     public static final String SCHOOLS = "schools";
-    public static final String STUDENTS = "schools";
+    public static final String STUDENTS = "students";
     public static final String ASSESSMENTS = "assessments";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String SECTIONS = "sections";
