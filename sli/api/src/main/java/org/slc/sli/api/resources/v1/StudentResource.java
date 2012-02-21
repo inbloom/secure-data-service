@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -21,13 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 
 /**
  * Prototype new api end points and versioning
  * 
- * @author srupasinghe
+ * @author jstokes
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
@@ -58,15 +60,18 @@ public class StudentResource {
      *            starting position in results to return to user
      * @param limit
      *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(PathConstants.STUDENTS, offset, limit, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.readAll(ResourceNames.STUDENTS, offset, limit, headers, uriInfo);
     }
 
     /**
@@ -74,6 +79,8 @@ public class StudentResource {
      * 
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
      * @return result of CRUD operation
@@ -83,16 +90,18 @@ public class StudentResource {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(PathConstants.STUDENTS, newEntityBody, uriInfo);
+    public Response create(final EntityBody newEntityBody, 
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(ResourceNames.STUDENTS, newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$students$$ entity
      * 
      * @param studentId
-     *            The Id of the student.
+     *            The Id of the $$students$$.
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single student entity
@@ -101,35 +110,38 @@ public class StudentResource {
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(PathConstants.STUDENTS, studentId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENTS, studentId, headers, uriInfo);
     }
 
-
     /**
-     * Delete a $$students$$ resource.
+     * Delete a $$students$$ entity
      * 
-     * @param typePath
-     *            resourceUri of the entity
-     * @param id
-     *            id of the entity
+     * @param studentId
+     *            The Id of the $$students$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String studentId, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(PathConstants.STUDENTS, studentId, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(ResourceNames.STUDENTS, studentId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$students$$ entity.
      * 
      * @param studentId
-     *            The Id of the student.
+     *            The id of the $$students$$.
      * @param newEntityBody
      *            entity data
+     * @param headers
+     *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
@@ -139,7 +151,7 @@ public class StudentResource {
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             final EntityBody newEntityBody, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(PathConstants.STUDENTS, studentId, newEntityBody, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(ResourceNames.STUDENTS, studentId, newEntityBody, headers, uriInfo);
     }
 }

@@ -1,25 +1,12 @@
 package org.slc.sli.api.util;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.domain.Entity;
 
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
@@ -29,9 +16,6 @@ import org.slc.sli.domain.Entity;
  * 
  */
 public class OAuthTokenUtil {
-    
-    @Autowired
-    private static RolesToRightsResolver rolesToRightsResolver;
     
     /**
      * Name of the collection in Mongo that stores OAuth 2.0 session
@@ -109,63 +93,15 @@ public class OAuthTokenUtil {
     public static EntityBody mapAccessToken(OAuth2AccessToken accessToken) {
         EntityBody refreshToken = new EntityBody();
         refreshToken.put("value", accessToken.getRefreshToken().getValue());
-        refreshToken.put("expiration", ((ExpiringOAuth2RefreshToken) accessToken.getRefreshToken()).getExpiration());
+        refreshToken.put("expiration", ((ExpiringOAuth2RefreshToken) accessToken.getRefreshToken()).getExpiration()
+                .getTime());
         
         EntityBody entity = new EntityBody();
         entity.put("value", accessToken.getValue());
-        entity.put("expiration", accessToken.getExpiration());
+        entity.put("expiration", accessToken.getExpiration().getTime());
         entity.put("tokenType", accessToken.getTokenType());
         entity.put("refreshToken", refreshToken);
         return entity;
-    }
-    
-    /**
-     * 
-     * @param queryResult
-     * @return
-     */
-    public static OAuth2Authentication mapOAuth2Authentication(Iterable<Entity> queryResult) {
-        if (queryResult != null) {
-            for (Entity oauth2Session : queryResult) {
-                Map<String, Object> body = oauth2Session.getBody();
-                Date accessTokenExpiration = (Date) body.get("accessToken.expiration");
-                
-                // make sure the access token hasn't expired
-                if (!OAuthTokenUtil.isTokenExpired(accessTokenExpiration)) {
-                    String clientId = (String) body.get("clientAuthn.clientId");
-                    String clientSecret = (String) body.get("clientAuthn.clientSecret");
-                    Set<String> clientScope = new HashSet<String>();
-                    clientScope.add((String) body.get("clientAuthn.clientScope"));
-                    
-                    String userId = (String) body.get("userAuthn.userId");
-                    String userRealm = (String) body.get("userAuthn.userRealm");
-                    @SuppressWarnings("unchecked")
-                    List<String> userRoles = (List<String>) body.get("userAuthn.userRoles");
-                    String userExtId = (String) body.get("userAuthn.externalId");
-                    Entity mongoEntityId = (Entity) body.get("userAuthn.mongoEntityId");
-                    
-                    SLIPrincipal principal = new SLIPrincipal();
-                    principal.setId(userId);
-                    principal.setRealm(userRealm);
-                    principal.setRoles(userRoles);
-                    principal.setExternalId(userExtId);
-                    principal.setEntity(mongoEntityId);
-                    
-                    String samlMessageId = (String) body.get("samlMessageId");
-                    
-                    Set<GrantedAuthority> userAuthorities = rolesToRightsResolver.resolveRoles(userRealm, userRoles);
-                    
-                    ClientToken clientAuthentication = new ClientToken(clientId, clientSecret, clientScope);
-                    Authentication userAuthentication = new PreAuthenticatedAuthenticationToken(principal,
-                            samlMessageId, userAuthorities);
-                    
-                    return new OAuth2Authentication(clientAuthentication, userAuthentication);
-                } else {
-                    throw new InvalidTokenException("token is expired");
-                }
-            }
-        }
-        throw new InvalidTokenException("no matching token in database");
     }
     
     /**
@@ -173,10 +109,10 @@ public class OAuthTokenUtil {
      * expiration date (indicating that expiration is true).
      * 
      * @param expiration
-     *            Date to be checked.
+     *            Date to be checked (represented by number of milliseconds since last epoch).
      * @return 'true' if expired, 'false' if not expired.
      */
-    public static boolean isTokenExpired(Date expiration) {
-        return System.currentTimeMillis() > expiration.getTime();
+    public static boolean isTokenExpired(long expiration) {
+        return System.currentTimeMillis() > expiration;
     }
 }

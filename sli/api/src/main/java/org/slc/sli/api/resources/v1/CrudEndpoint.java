@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -26,7 +27,7 @@ public interface CrudEndpoint {
      *      URI information including path and query parameters
      * @return requested information or error status
      */
-    public Response readAll(String resourceName, int offset, int limit, UriInfo uriInfo);
+    public Response readAll(String resourceName, int offset, int limit, HttpHeaders headers, UriInfo uriInfo);
 
     /**
      * Reads one or more entities from a specific location or collection.
@@ -41,7 +42,7 @@ public interface CrudEndpoint {
      *      URI information including path and query parameters
      * @return requested information or error status
      */
-    public Response read(String resourceName, String idList, UriInfo uriInfo);
+    public Response read(String resourceName, String idList, HttpHeaders headers, UriInfo uriInfo);
 
     /**
      * Creates a new entity in a specific location or collection.
@@ -54,7 +55,7 @@ public interface CrudEndpoint {
      *      URI information including path and query parameters
      * @return resulting status from request
      */
-    public Response create(String resourceName, EntityBody newEntityBody, UriInfo uriInfo);
+    public Response create(String resourceName, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
 
     /**
      * Updates a given entity in a specific location or collection.
@@ -69,7 +70,7 @@ public interface CrudEndpoint {
      *      URI information including path and query parameters
      * @return resulting status from request
      */
-    public Response update(String resourceName, String id, EntityBody newEntityBody, UriInfo uriInfo);
+    public Response update(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
 
     /**
      * Deletes a given entity from a specific location or collection.
@@ -82,5 +83,5 @@ public interface CrudEndpoint {
      *      URI information including path and query parameters
      * @return resulting status from request
      */
-    public Response delete(String resourceName, String id, UriInfo uriInfo);
+    public Response delete(String resourceName, String id, HttpHeaders headers, UriInfo uriInfo);
 }

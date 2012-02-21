@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.WriteResult;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

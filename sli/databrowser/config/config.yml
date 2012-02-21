@@ -4,3 +4,5 @@ test:
     api_base: https://devapp1.slidev.org/api/rest
 deployment:
     api_base: https://devapp1.slidev.org/api/rest
+integration:
+    api_base: https://testapi1.slidev.org/api/rest
