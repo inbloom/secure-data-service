@@ -110,7 +110,7 @@ public class BasicQueryConverter implements QueryConverter {
                 }
                 mongoQuery.sort().on("body." + sortBy, sortOrder.toOrder());
             } else {
-                throw new RuntimeException("Cannot sort by requested field.  Field " + sortBy
+                throw new SortingException("Cannot sort by requested field.  Field " + sortBy
                         + " does not exist on entity " + entityType);
             }
         }
