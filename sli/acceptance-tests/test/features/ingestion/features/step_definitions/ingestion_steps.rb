@@ -12,7 +12,7 @@ INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
-INGESTION_MODE = ENV['ingestion_mode']
+INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 
 ############################################################
 # STEPS: GIVEN
@@ -28,6 +28,8 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
+  path_name = file_name[0..-5]
+  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{@local_file_store_path}#{path_name}/*")
   @source_file_name = file_name
 end
 
