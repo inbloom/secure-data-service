@@ -15,6 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,5 +154,21 @@ public class TeacherResource {
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.update(ResourceNames.TEACHERS, teacherId, newEntityBody, headers, uriInfo);
+    }
+    
+    /**
+     * @param teacherSectionAssociationId
+     *            The id of the $$teacherSectionAssociations$$
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo 
+     *            URI information including path and query parameters
+     */
+    @GET
+    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS)
+    public Response getSections(@PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
+            final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }

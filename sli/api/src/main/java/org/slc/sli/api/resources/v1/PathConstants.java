@@ -23,6 +23,7 @@ class PathConstants {
     
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
+    public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     
     public static final String V1 = "v1";
 }
