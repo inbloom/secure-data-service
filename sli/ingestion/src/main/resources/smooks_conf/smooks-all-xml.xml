@@ -1250,13 +1250,13 @@
   <!-- End Assessment -->
 
   <!-- Session mapping -->
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Session">
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrgCalendar/Session">
     <jb:expression property="recordType">'session'</jb:expression>
     <jb:value property="localId" data="Session/SessionName" />
     <jb:wiring property="attributes" beanIdRef="sessionAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="sessionAttributes" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Session">
+  <jb:bean beanId="sessionAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/Session">
     <jb:value property="sessionName" data="Session/SessionName" />
     <jb:value property="schoolYear" data="Session/SchoolYear" />
     <jb:value property="term" data="Session/Term" />
