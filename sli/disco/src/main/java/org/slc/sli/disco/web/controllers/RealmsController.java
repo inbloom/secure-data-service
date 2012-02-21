@@ -53,7 +53,8 @@ public class RealmsController {
      * @throws IOException
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState, Model model) throws IOException {
+    public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState, 
+            @RequestParam(value = "RealmName", required = false) String realmName, Model model) throws IOException {
 
         ResponseEntity<String> resp = rest.getForEntity(this.listUrl, String.class);
 
@@ -68,6 +69,12 @@ public class RealmsController {
         while (nodes.hasNext()) {
             JsonNode node = nodes.next();
             map.put(node.get("id").getTextValue(), node.get("state").getTextValue());
+            
+            if (realmName != null && realmName.length() > 0) {
+                if (realmName.equals(node.get("state").getTextValue())) {
+                    return ssoInit(node.get("id").getTextValue(), relayState, model);
+                }
+            }
         }
 
         model.addAttribute("dummy", new HashMap<String, String>());
@@ -100,7 +107,7 @@ public class RealmsController {
             LOG.error("Error Calling API", e);
 
             model.addAttribute("errorMsg", realmId == null ? "No realm selected.  Please select your realm." : "Error calling server");
-            return this.listRealms(relayState, model);
+            return this.listRealms(relayState, "", model);
         }
     }
 

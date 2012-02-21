@@ -186,9 +186,15 @@ public class AssessmentEntityTest {
         Map assessmentPeriodMap = (Map) assessmentNeutralRecord.getAttributes().get("assessmentPeriod");
         EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "id", "theid");
         EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "ref", "theref");
-        EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "codeValue", "code value");
-        EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "shortDescription", "short desc");
-        EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "description", "descript");
+        List codeValueChoiceList = (List) assessmentPeriodMap.get("codeValues");
+        if (!codeValueChoiceList.isEmpty())
+            assertEquals("code value", codeValueChoiceList.get(0));
+        List shortDescriptionChoiceList = (List) assessmentPeriodMap.get("shortDescriptions");
+        if (!shortDescriptionChoiceList.isEmpty())
+            assertEquals("short desc", shortDescriptionChoiceList.get(0));
+        List descriptionChoiceList = (List) assessmentPeriodMap.get("descriptions");
+        if (!descriptionChoiceList.isEmpty())
+            assertEquals("descript", descriptionChoiceList.get(0));
 
         List assessmentItemReferenceList = (List) assessmentNeutralRecord.getAttributes().get(
                 "assessmentItemReferences");

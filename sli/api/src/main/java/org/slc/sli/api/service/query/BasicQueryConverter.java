@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.Resource;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
@@ -23,22 +24,28 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 @Component
 public class BasicQueryConverter implements QueryConverter {
-
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId", "full-entities" };
+    
+    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
+            Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
-
+    
     @Autowired
     SchemaRepository schemaRepo;
-
+    
     @Override
     public Query stringToQuery(String entityType, String queryString) {
+        return stringToQuery(entityType, queryString, null, null);
+    }
+    
+    @Override
+    public Query stringToQuery(String entityType, String queryString, String sortBy, SortOrder sortOrder) {
         Query mongoQuery = new Query();
         if (queryString == null)
             queryString = "";
         String[] queryStrings = queryString.split("&");
         try {
             for (String query : queryStrings) {
-
+                
                 if (!isReservedQueryKey(query) && !query.equals("")) {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
@@ -55,7 +62,7 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0])
                                     .lte(convertToType(type, keyAndValue[1]));
                         }
-
+                        
                     } else if (query.contains("!=")) {
                         String[] keyAndValue = getKeyAndValue(query, "!=");
                         if (keyAndValue != null) {
@@ -68,14 +75,14 @@ public class BasicQueryConverter implements QueryConverter {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).is(convertToType(type, keyAndValue[1]));
                         }
-
+                        
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
                         if (keyAndValue != null) {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(convertToType(type, keyAndValue[1]));
                         }
-
+                        
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
                         if (keyAndValue != null) {
@@ -88,16 +95,22 @@ public class BasicQueryConverter implements QueryConverter {
                         mongoQuery.addCriteria(criteria);
                 }
             }
-
+            
         } catch (RuntimeException e) {
             LOG.debug("error parsing query String {}", queryString);
             throw new QueryParseException(queryString);
-
         }
-
+        
+        if (sortBy != null && !sortBy.trim().isEmpty()) {
+            if (sortOrder == null) {
+                sortOrder = SortOrder.ascending;
+            }
+            mongoQuery.sort().on("body." + sortBy, sortOrder.toOrder());
+        }
+        
         return mongoQuery;
     }
-
+    
     @Override
     public String findParamType(String entityType, String queryField) {
         String[] nestedFields = queryField.split("\\.");
@@ -123,49 +136,49 @@ public class BasicQueryConverter implements QueryConverter {
         }
         return schema.getSchemaType().toString();
     }
-
+    
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
         if (schema == null)
             return null;
         switch (schema.getSchemaType()) {
-            case STRING:
-            case INTEGER:
-            case DATE:
-            case TIME:
-            case DATETIME:
-            case ID:
-            case IDREF:
-            case INT:
-            case LONG:
-            case DOUBLE:
-            case BOOLEAN:
-            case TOKEN:
-                return null;
-            case LIST:
-                for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                    LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
-                    if (getNestedSchema(possibleSchema, field) != null) {
-                        return getNestedSchema(possibleSchema, field);
-                    }
+        case STRING:
+        case INTEGER:
+        case DATE:
+        case TIME:
+        case DATETIME:
+        case ID:
+        case IDREF:
+        case INT:
+        case LONG:
+        case DOUBLE:
+        case BOOLEAN:
+        case TOKEN:
+            return null;
+        case LIST:
+            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                if (getNestedSchema(possibleSchema, field) != null) {
+                    return getNestedSchema(possibleSchema, field);
                 }
-                return null;
-            case COMPLEX:
-                for (String key : schema.getFields().keySet()) {
-                    NeutralSchema possibleSchema = schema.getFields().get(key);
-                    if (key.startsWith("*")) {
-                        key = key.substring(1);
-                    }
-                    if (key.equals(field)) {
-                        return possibleSchema;
-                    }
-                }
-                return null;
-            default: {
-                throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
             }
+            return null;
+        case COMPLEX:
+            for (String key : schema.getFields().keySet()) {
+                NeutralSchema possibleSchema = schema.getFields().get(key);
+                if (key.startsWith("*")) {
+                    key = key.substring(1);
+                }
+                if (key.equals(field)) {
+                    return possibleSchema;
+                }
+            }
+            return null;
+        default: {
+            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
+        }
         }
     }
-
+    
     private boolean isReservedQueryKey(String queryString) {
         boolean found = false;
         for (String key : reservedQueryKeys) {
@@ -174,7 +187,7 @@ public class BasicQueryConverter implements QueryConverter {
         }
         return found;
     }
-
+    
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator);
         if (keyAndValue.length != 2)
@@ -182,7 +195,7 @@ public class BasicQueryConverter implements QueryConverter {
         else
             return keyAndValue;
     }
-
+    
     private Object convertToType(String type, String value) {
         try {
             if (type.equals("INT") || type.equals("INTEGER")) {
@@ -214,6 +227,6 @@ public class BasicQueryConverter implements QueryConverter {
         } catch (Exception e) {
             throw new QueryParseException("");
         }
-
+        
     }
 }

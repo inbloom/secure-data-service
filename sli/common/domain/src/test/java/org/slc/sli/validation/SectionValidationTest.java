@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ import org.slc.sli.domain.Entity;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionValidationTest {
-
+    
     @Autowired
     private EntityValidator validator;
     
@@ -35,34 +36,11 @@ public class SectionValidationTest {
     
     @Before
     public void init() {
-        repo.addEntity("school", "42", makeDummyEntity("school", "42"));
-        repo.addEntity("session", "MySessionId", makeDummyEntity("session", "MySessionId"));
-        repo.addEntity("course", "MyCourseId", makeDummyEntity("course", "MyCourseId"));
-    }
-
-    private Entity makeDummyEntity(final String type, final String id) {
-        return new Entity() {
-            
-            @Override
-            public String getType() {
-                return type;
-            }
-            
-            @Override
-            public Map<String, Object> getMetaData() {
-                return new HashMap<String, Object>();
-            }
-            
-            @Override
-            public String getEntityId() {
-                return id;
-            }
-            
-            @Override
-            public Map<String, Object> getBody() {
-                return new HashMap<String, Object>();
-            }
-        };
+        repo.addEntity("school", "42", ValidationTestUtils.makeDummyEntity("school", "42"));
+        repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
+        repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
+        repo.addEntity("program", "program1", ValidationTestUtils.makeDummyEntity("program", "program1"));
+        repo.addEntity("program", "program2", ValidationTestUtils.makeDummyEntity("program", "program2"));
     }
     
     private Entity goodSection() {
@@ -80,6 +58,11 @@ public class SectionValidationTest {
         goodSection.put("schoolId", "42");
         goodSection.put("sessionId", "MySessionId");
         goodSection.put("courseId", "MyCourseId");
+        List<String> programs = new ArrayList<String>();
+        programs.add("program1");
+        programs.add("program2");
+        goodSection.put("programReference", programs);
+        
         return new Entity() {
             
             @Override
@@ -96,7 +79,7 @@ public class SectionValidationTest {
             public Map<String, Object> getBody() {
                 return goodSection;
             }
-
+            
             @Override
             public Map<String, Object> getMetaData() {
                 return new HashMap<String, Object>();

@@ -44,6 +44,7 @@
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
+  <bean id="repo" class="org.slc.sli.ingestion.validation.DummyEntityRepository" />
 
 
   <context:annotation-config />
@@ -135,12 +136,10 @@
   </bean>
 
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
-    </property>
     <property name="entityRepository">
       <bean class="org.slc.sli.dal.repository.MongoEntityRepository" />
     </property>
+    <property name="messageSource" ref="messageSource" />
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
