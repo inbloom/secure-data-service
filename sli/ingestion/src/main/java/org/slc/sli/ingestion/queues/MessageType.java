@@ -9,6 +9,5 @@ public enum MessageType {
     BULK_TRANSFORM_REQUEST,
     PERSIST_REQUEST,
     ERROR,
-    DONE,
-    TRANSFORM_REQUEST;
+    DONE;
 }

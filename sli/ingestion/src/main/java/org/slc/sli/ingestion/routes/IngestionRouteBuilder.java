@@ -22,7 +22,6 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
-import org.slc.sli.ingestion.processors.NeutralRecordTransformProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -47,9 +46,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
-
-    @Autowired
-    NeutralRecordTransformProcessor nrMergeProcessor;
 
     @Autowired
     LocalFileSystemLandingZone lz;
@@ -113,9 +109,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
-                .to(workItemQueueUri)
-            .when(header("IngestionMessageType").isEqualTo(MessageType.TRANSFORM_REQUEST.name()))
-                .process(nrMergeProcessor)
                 .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .to("direct:persist")
