@@ -76,18 +76,13 @@ public class StudentListContentController extends DashboardController {
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
-            // get student, program, and assessment data
+            // get student, program, and assessment result data
             List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig);
-            System.out.println(studentSummaries.toString());
-            
-            //List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
-            //List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
             model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(studentSummaries));
 
             // insert the assessments object into the modelmap
-            //List<GenericEntity> studentAssmts = populationManager.getStudentAssessments(user.getUsername(), uids, viewConfig);
             List<GenericEntity> assmts = populationManager.getAssessments(user.getUsername(), studentSummaries);
-            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts, ""));
+            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
                         
         }

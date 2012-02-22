@@ -6,11 +6,8 @@ import java.util.Map;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
-
-//Hopefully there will be one for each of dataSet types
 
 /**
  * A utility class for views in SLI dashboard. As a wrapper around assessment data passed onto
@@ -20,15 +17,10 @@ import org.slc.sli.util.Constants;
  *
  */
 public class AssessmentResolver {
-    Map<String, List<GenericEntity>> studentIdToAssessments;
+
     AssessmentMetaDataResolver metaDataResolver;
 
     public static final String DATA_SET_TYPE = "assessment";
-
-    //public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
-    //public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
-    //public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
-    //public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
 
     public static final String TIMESLOT_MOSTRECENTWINDOW = "MOST_RECENT_WINDOW";
     public static final String TIMESLOT_MOSTRECENTRESULT = "MOST_RECENT_RESULT";
@@ -37,23 +29,9 @@ public class AssessmentResolver {
     /**
      * Constructor
      */
-    public AssessmentResolver(List<GenericEntity> a, List<AssessmentMetaData> md) {
-        /*
-        studentIdToAssessments = new HashMap<String, List<GenericEntity>>();
-        for (GenericEntity ass : a) {
-            studentIdToAssessments.put(ass.getString(Constants.ATTR_STUDENT_ID), new ArrayList<GenericEntity>());
-        }
-        for (GenericEntity ass : a) {
-            studentIdToAssessments.get(ass.getString(Constants.ATTR_STUDENT_ID)).add(ass);
-        }
-        metaDataResolver = new AssessmentMetaDataResolver(md);
-        */
-
-    }
-    
-    public AssessmentResolver(List<GenericEntity> studentSummaries, List<GenericEntity> assmts, String s) {
+    public AssessmentResolver(List<GenericEntity> studentSummaries, List<GenericEntity> assmts) {
         
-        metaDataResolver = new AssessmentMetaDataResolver(assmts, "");
+        metaDataResolver = new AssessmentMetaDataResolver(assmts);
     }
 
     /**
@@ -68,10 +46,6 @@ public class AssessmentResolver {
         String dataPointName = extractDataPointName(field.getValue());
         if (chosenAssessment == null) { return ""; }
         if (dataPointName == null) { return ""; }
-        
-        //if (dataPointName.equals(DATA_POINT_NAME_SCALESCORE)) { return chosenAssessment.getString(DATA_POINT_NAME_SCALESCORE); }
-        //if (dataPointName.equals(DATA_POINT_NAME_PERCENTILE)) { return chosenAssessment.getString(DATA_POINT_NAME_PERCENTILE); }
-        //if (dataPointName.equals(DATA_POINT_NAME_LEXILESCORE)) { return chosenAssessment.getString(DATA_POINT_NAME_LEXILESCORE); }
 
         return getScore(chosenAssessment, dataPointName);
         
@@ -132,11 +106,8 @@ public class AssessmentResolver {
      */
     public GenericEntity resolveAssessment(Field field, Map student) {
 
-        // A) filter out students first
-        //List<GenericEntity> studentFiltered = studentIdToAssessments.get(student.get(Constants.ATTR_ID));
-        //if (studentFiltered == null || studentFiltered.isEmpty()) { return null; }
 
-        // B) filter out assessments based on dataset path
+        // filter out assessments based on dataset path
         String assessmentName = extractAssessmentName(field.getValue());
         /*
         List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
@@ -164,15 +135,19 @@ public class AssessmentResolver {
             return null;
         }
         
-        // C) Apply time logic. 
+        // Apply time logic. 
         GenericEntity chosenAssessment = null;
 
         String timeSlot = field.getTimeSlot();
+        
+        // TODO: implement most recent window when the assessment period info is available
         /*if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered,
                                                                         metaDataResolver,
                                                                         assessmentName);
-        } else */ if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
+        } else */ 
+        
+        if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
         } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);

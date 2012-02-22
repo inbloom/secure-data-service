@@ -48,7 +48,7 @@ public class AssessmentMetaDataResolver {
     }
     */
     
-    public AssessmentMetaDataResolver(List<GenericEntity> assmts, String dummy) {
+    public AssessmentMetaDataResolver(List<GenericEntity> assmts) {
         
         this.assmts = assmts;
         /*

@@ -50,6 +50,7 @@ public class Constants {
     public static final String ATTR_CUSTOM_DATA = "customData";
     public static final String ATTR_ASSESSMENT_NAME = "assessmentName";
     public static final String ATTR_ASSESSMENT_ID = "assessmentId";
+    public static final String ATTR_ADMIN_DATE = "administrationDate";
     public static final String ATTR_ASSESSMENT_PERF_LEVEL = "assessmentPerformanceLevel";
     public static final String ATTR_ASSESSMENT_REPORTING_METHOD = "assessmentReportingMethod";
     public static final String ATTR_ASSESSMENT_TITLE = "assessmentTitle";
