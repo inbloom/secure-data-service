@@ -254,7 +254,20 @@ public class AssessmentMetaDataResolver {
     }
     
     /**
-     * Returns true iff assessment family 1 is ancestor of assessment family 2
+     * Get an assessment object by id
+     */
+    public GenericEntity getAssmtById(String id) {
+        
+        for (GenericEntity assmt : assmts) {
+            if (assmt.getString(Constants.ATTR_ASSESSMENT_ID).equals(id)) {
+                return assmt;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Returns true if assessment family 1 is ancestor of assessment family 2
      */
     public boolean isAncestor(String assFamilyName1, String assFamilyName2) {
         /*
@@ -271,4 +284,18 @@ public class AssessmentMetaDataResolver {
         return false;
     }
 
+    /**
+     * Returns true if the assmt identified by the assmtId belongs in the assmt family
+     * 
+     */
+    public boolean isInAssessmentFamily(String assmtId, String assmtFamilyName) {
+        
+        GenericEntity assmt = getAssmtById(assmtId);
+        if (assmt == null) {
+            return false;
+        }
+        
+        return assmt.getString(Constants.ATTR_ASSESSMENT_TITLE).contains(assmtFamilyName);
+    }
+    
 }

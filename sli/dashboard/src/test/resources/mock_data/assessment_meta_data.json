@@ -1,7 +1,7 @@
 [
 {
-	"assessmentId" : "ISAT_READING_GRADE_8_2011",
-	"assessmentTitle" : "ISAT_READING_GRADE_8_2011",
+	"assessmentId" : "ISAT-Reading-8th-grade-2011",
+	"assessmentTitle" : "ISAT-Reading-8th-grade-2011",
 	"maxRawScore" : 364,
 	"minRawScore" : 120,
 	"assessmentPerformanceLevel" : [
@@ -32,8 +32,8 @@
 	]
 },
 {
-	"assessmentId" : "ISAT_WRITING_GRADE_8_2011",
-	"assessmentTitle" : "ISAT_WRITING_GRADE_8_2011",
+	"assessmentId" : "ISAT-Writing-8th-grade-2011",
+	"assessmentTitle" : "ISAT-Writing-8th-grade-2011",
 	"maxRawScore" : 410,
 	"minRawScore" : 120,
 	"assessmentPerformanceLevel" : [

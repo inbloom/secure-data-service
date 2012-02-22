@@ -1,7 +1,7 @@
 [
 {
         "studentId":"453827070",
-        "assessmentId":"ISAT_READING_GRADE_8_2011",
+        "assessmentId":"ISAT-Reading-8th-grade-2011",
         "administrationDate":"2011-09-15",
         "administrationEndDate":"2011-12-15",
         "retestIndicator":"1st Retest",
@@ -35,7 +35,7 @@
 },
 {
         "studentId":"453827070",
-        "assessmentId":"ISAT_READING_GRADE_8_2011",
+        "assessmentId":"ISAT-Reading-8th-grade-2011",
         "administrationDate":"2011-11-15",
         "administrationEndDate":"2011-12-15",
         "retestIndicator":"1st Retest",
@@ -69,7 +69,7 @@
 },
 {
         "studentId":"453827070",
-        "assessmentId":"ISAT_WRITING_GRADE_8_2011",
+        "assessmentId":"ISAT-Writing-8th-grade-2011",
         "administrationDate":"2011-09-15",
         "administrationEndDate":"2011-12-15",
         "retestIndicator":"1st Retest",

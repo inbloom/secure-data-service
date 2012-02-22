@@ -125,7 +125,7 @@ public class AssessmentResolver {
         for (Map studentAssmt : studentAssmts) {
             
             // TODO: i don't think we can depend on the assessment id to contain the name
-            if (((String) (studentAssmt.get("assessmentId"))).contains(assessmentName)) {
+            if (metaDataResolver.isInAssessmentFamily((String) (studentAssmt.get(Constants.ATTR_ASSESSMENT_ID)), assessmentName)) {
                 // TODO: all this converting from Maps to GenericEntity needs to be revisited
                 studentAssessmentFiltered.add(new GenericEntity(studentAssmt));
             }
