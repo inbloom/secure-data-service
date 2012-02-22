@@ -62,5 +62,69 @@
 			"maximumScore" : 410
 		}
 	]
-}
+},
+    {
+        "assessmentId": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
+        "assessmentTitle": "TRC_ASSESSMENT_GRADE_2_BOY",
+        "maxRawScore": 364,
+        "minRawScore": 0,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            }
+        ]
+    },
+    {
+        "assessmentId": "DIBELS_NEXT_GRADE_2_BOY_ID",
+        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY",
+        "maxRawScore": 364,
+        "minRawScore": 0,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 80,
+                "maximumScore": 180
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 180,
+                "maximumScore": 231
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 231,
+                "maximumScore": 278
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 278,
+                "maximumScore": 364
+            }
+        ]
+    }
 ]
