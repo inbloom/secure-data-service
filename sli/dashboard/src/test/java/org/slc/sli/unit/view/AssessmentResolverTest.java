@@ -2,23 +2,14 @@ package org.slc.sli.unit.view;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.mockito.PowerMockito;
 
-import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.Field;
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.view.AssessmentResolver;
 
 /**
@@ -100,7 +91,7 @@ public class AssessmentResolverTest {
         return assmts;*/
         return null;
     }
-    private List<AssessmentMetaData> getAssessmentMetaData() {
+    private List<GenericEntity> getAssessmentMetaData() {
         /*
         EntityManager entityManager = new EntityManager();
         PopulationManager aManager = new PopulationManager(); 

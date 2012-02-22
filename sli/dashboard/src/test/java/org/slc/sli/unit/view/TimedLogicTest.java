@@ -71,8 +71,9 @@ public class TimedLogicTest {
     }
 
     private GenericEntity createAssessmentMetaData(String name, String windowEndDate) {
-        /*
+        
         GenericEntity retVal = new GenericEntity();
+        /*
         retVal.setName(name);
         Period p = new Period();
         p.setWindowEnd(windowEndDate);
