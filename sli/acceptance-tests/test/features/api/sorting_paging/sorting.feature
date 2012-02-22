@@ -15,7 +15,7 @@ Scenario: Sorting a collection of student school association links by entryGrade
 		And the link at index 2 should point to an entity with id "4e044247-4cc0-49fa-900d-80064614060c"
 
 
-Scenario: Sorting a collection of student entities links obtained via a hop by name.firstName, descending
+Scenario: Sorting a collection of student entities links obtained via a hop by firstName, descending
 	Given format "application/json"
 		And parameter "sort-by" is "name.firstName"
 		And parameter "sort-order" is "descending"
