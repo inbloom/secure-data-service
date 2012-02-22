@@ -69,7 +69,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             long timeNow = System.currentTimeMillis();
             smooks.filterSource(new StreamSource(inputStream));
-            LOG.info("smooks filtering time: " + (System.currentTimeMillis() - timeNow));
+            LOG.info("smooks processing time: " + (System.currentTimeMillis() - timeNow));
 
             // set the IngestionFileEntry NeutralRecord file we just wrote
             fileEntry.setNeutralRecordFile(neutralRecordOutFile);
