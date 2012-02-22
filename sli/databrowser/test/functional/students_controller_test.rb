@@ -11,7 +11,7 @@ class StudentsControllerTest < ActionController::TestCase
     #SessionResource.auth_id = token
     #mock_rest_client = Test::Unit::MockObject(RestClient).new
     #print("The client is #{mock_rest_client.class}\n")
-
+    cookies['iPlanetDirectoryPro'] = 'test_auth'
     SessionResource.auth_id = "test_auth"
     @api_url = "https://devapp1.slidev.org/api/rest"
     @accepts = {"Accept" => "application/json"}
@@ -21,10 +21,10 @@ class StudentsControllerTest < ActionController::TestCase
     get_students_link = "#{@api_url}/schools/test-school-1/getStudents"
 
 
-    RestClient.expects(:get).with("#{@api_url}/home?sessionId=test_auth", @accepts).returns('{"links" : [{"rel" : "getFoo"}, {"rel" : "getSchools", "href" : "' + schools_link + '"}]}')
-    RestClient.expects(:get).with(schools_link + "?sessionId=#{SessionResource.auth_id}", @accepts).returns('[{"link" : {"href" : "' +first_school_link + '"}}]')
-    RestClient.expects(:get).with(first_school_link + "?sessionId=#{SessionResource.auth_id}", @accepts).returns('{"links" : [{"rel" : "getStudents", "href": "' + get_students_link + '"}]}')
-    RestClient.expects(:get).with(get_students_link + "?sessionId=#{SessionResource.auth_id}", @accepts).returns('[{"id" : "first-student", "link" : {"href":"http://example.com"}}]')
+    RestClient.expects(:get).with("#{@api_url}/home?sessionId=", @accepts).returns('{"links" : [{"rel" : "getFoo"}, {"rel" : "getSchools", "href" : "' + schools_link + '"}]}')
+    RestClient.expects(:get).with(schools_link + "?sessionId=", @accepts).returns('[{"link" : {"href" : "' +first_school_link + '"}}]')
+    RestClient.expects(:get).with(first_school_link + "?sessionId=", @accepts).returns('{"links" : [{"rel" : "getStudents", "href": "' + get_students_link + '"}]}')
+    RestClient.expects(:get).with(get_students_link + "?sessionId=", @accepts).returns('[{"id" : "first-student", "link" : {"href":"http://example.com"}}]')
 
   end
 

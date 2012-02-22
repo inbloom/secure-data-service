@@ -37,7 +37,7 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig);
+                List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig, "NONE");
 
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {

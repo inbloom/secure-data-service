@@ -90,7 +90,7 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
                         }
                     } else
-                        throw new RuntimeException();
+                        throw new RuntimeException("Unknown query operation: " + query);
                     if (criteria != null)
                         mongoQuery.addCriteria(criteria);
                 }
@@ -102,10 +102,17 @@ public class BasicQueryConverter implements QueryConverter {
         }
         
         if (sortBy != null && !sortBy.trim().isEmpty()) {
-            if (sortOrder == null) {
-                sortOrder = SortOrder.ascending;
+            String type = findParamType(entityType, sortBy);
+            if (!"NULL".equals(type)) {
+                
+                if (sortOrder == null) {
+                    sortOrder = SortOrder.ascending;
+                }
+                mongoQuery.sort().on("body." + sortBy, sortOrder.toOrder());
+            } else {
+                throw new SortingException("Cannot sort by requested field.  Field " + sortBy
+                        + " does not exist on entity " + entityType);
             }
-            mongoQuery.sort().on("body." + sortBy, sortOrder.toOrder());
         }
         
         return mongoQuery;
@@ -174,7 +181,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             return null;
         default: {
-            throw new RuntimeException("Unknown Avro Schema Type: " + schema.getSchemaType());
+            throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
         }
         }
     }

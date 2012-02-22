@@ -108,4 +108,38 @@ public interface AssociationService extends EntityService {
     public Iterable<String> getAssociationsFor(String id, int start, int numResults, String queryString, String sortBy,
             SortOrder sortOrder);
     
+    /**
+     * Get the count of associations associated with a given source entity in the data store
+     * 
+     * @param id
+     *            the id of the target to look for associations from
+     * @param queryString
+     *            the query string to filter returned collection results
+     * @return the number of associations
+     */
+    public long countAssociationsWith(String id, String queryString);
+    
+    /**
+     * Get the count of associations associated with a given target entity in the data store
+     * 
+     * @param id
+     *            the id of the target to look for associations from
+     * @param queryString
+     *            the query string to filter returned collection results
+     * @return the number of associations
+     */
+    public long countAssociationsTo(String id, String queryString);
+    
+    /**
+     * Gets the count of entities associated with a given entity in the data store. Checks both
+     * target and source
+     * 
+     * @param id
+     *            the id of the target to look for associations from
+     * @param queryString
+     *            the query string to filter returned collection results
+     * @return the number of associations
+     */
+    public long countAssociationsFor(String id, String queryString);
+    
 }

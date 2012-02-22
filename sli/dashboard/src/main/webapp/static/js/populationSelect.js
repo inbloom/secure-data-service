@@ -54,18 +54,36 @@ function changeView(viewIndex) {
     var schoolIndex = document.getElementById("schoolSelect").value;
     var courseIndex = document.getElementById("courseSelect").value;
     var sectionIndex = document.getElementById("sectionSelect").value;
-    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, viewIndex);
+    var filterIndex = null;
+    if (document.getElementById("studentFilterSelector")) {
+        filterIndex = document.getElementById("studentFilterSelector").value;
+    }
+    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, viewIndex, filterIndex);
 }
 
-function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex){
+function filterStudents(filterIndex) {
+    var edOrgIndex = document.getElementById("edOrgSelect").value;
+    var schoolIndex = document.getElementById("schoolSelect").value;
+    var courseIndex = document.getElementById("courseSelect").value;
+    var sectionIndex = document.getElementById("sectionSelect").value;
+    var viewIndex = document.getElementById("viewSelector").value;
+    printStudentList(edOrgIndex, schoolIndex, courseIndex, sectionIndex, viewIndex, filterIndex);
+}
+
+function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex, filterIndex){
     var i = 0;
+    filterIndex = filterIndex == null ? 0 : filterIndex;
     var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
-                            + "&viewIndex=" + viewIndex + "&username=" + "${username}";; 
+                            + "&viewIndex=" + viewIndex + "&filterIndex=" + filterIndex 
+                            + "&username=" + "${username}";
     $("#studentDiv").load(studentContentUrl, function() {
         document.getElementById("viewSelector").selectedIndex = viewIndex;
+        if (document.getElementById("studentFilterSelector")) {
+            document.getElementById("studentFilterSelector").selectedIndex = filterIndex;        
+        }
     });
 }
 

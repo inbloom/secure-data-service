@@ -118,7 +118,7 @@ public class PopulationManager {
      * @param config
      * @return
      */
-    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config) {
+    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config, String filterName) {
         
         // extract the studentInfo data fields
         List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
@@ -128,9 +128,9 @@ public class PopulationManager {
         if (dataFields.size() > 0) {
             studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
-        
+
         // return the results
-        return studentInfo;
+        return studentInfo;        
     }
     
     

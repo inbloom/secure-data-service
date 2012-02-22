@@ -83,7 +83,7 @@ public class QueryConverterTest {
         query.sort().on("body.entryGradeLevel", Order.DESCENDING);
         
         Query convertedQuery = queryConverter.stringToQuery("studentSchoolAssociation", "entryGradeLevel=First grade",
-                "entryGradeLevel", SortOrder.decending);
+                "entryGradeLevel", SortOrder.descending);
         assertEquals(query.getQueryObject(), convertedQuery.getQueryObject());
         assertEquals(query.getSortObject(), convertedQuery.getSortObject());
     }

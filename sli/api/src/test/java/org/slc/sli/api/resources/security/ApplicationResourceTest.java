@@ -60,6 +60,7 @@ public class ApplicationResourceTest {
     private static final int STATUS_DELETED = 204;
     private static final int STATUS_NOT_FOUND = 404;
     private static final int STATUS_FOUND = 200;
+    private static final int STATUS_BAD_REQUEST = 400;
     
     @Before
     public void setUp() throws Exception {
@@ -81,9 +82,46 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_CREATED, resp.getStatus());
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
         assertTrue("Client secret set", app.get("client_secret").toString().length() == 48);
-        
     }
     
+    @Test
+    public void testBadCreate1() {   //include id in POST
+        EntityBody app = getNewApp();
+        app.put("id", "123");
+        // test create during dup check
+        Mockito.when(
+                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                .thenReturn(new ArrayList<String>());
+        
+        Response resp = resource.createApplication(app, uriInfo);
+        assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
+    }
+    
+    @Test
+    public void testBadCreate2() {   //include client_id in POST
+        EntityBody app = getNewApp();
+        app.put("client_id", "123");
+        // test create during dup check
+        Mockito.when(
+                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                .thenReturn(new ArrayList<String>());
+        
+        Response resp = resource.createApplication(app, uriInfo);
+        assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
+    }
+    
+    @Test
+    public void testBadCreate3() {   //include client_secret in POST
+        EntityBody app = getNewApp();
+        app.put("client_secret", "123");
+        // test create during dup check
+        Mockito.when(
+                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                .thenReturn(new ArrayList<String>());
+        
+        Response resp = resource.createApplication(app, uriInfo);
+        assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
+    }
     
     private EntityBody getNewApp() {
         EntityBody app = new EntityBody();

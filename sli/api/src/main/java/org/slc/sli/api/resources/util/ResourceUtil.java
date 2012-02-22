@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -159,6 +160,31 @@ public class ResourceUtil {
 
         return links;
     }
+    
+    /**
+     * Adds the value to a list and then puts the list into the query parameters associated to the given key.
+     * 
+     * @param queryParameters where to put the value once added to a list
+     * @param key key value for new parameter
+     * @param value resulting value for new parameter
+     */
+    public static void putValue(MultivaluedMap<String, String> queryParameters, String key, String value) {
+        List<String> values = new ArrayList<String>();
+        values.add(value);
+        queryParameters.put(key, values);
+    }
+
+    /**
+     * Adds the value to a list and then puts the list into the query parameters associated to the given key.
+     * 
+     * @param queryParameters where to put the value once added to a list
+     * @param key key value for new parameter
+     * @param value resulting value for new parameter
+     */
+    public static void putValue(MultivaluedMap<String, String> queryParameters, String key, int value) {
+        ResourceUtil.putValue(queryParameters, key, "" + value);
+    }
+
 
     /**
      * Helper method to convert MultivaluedMap to a Map
