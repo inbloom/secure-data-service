@@ -1,6 +1,6 @@
 [
 {
-	"assessmentId" : "6a53f63e-deb8-443d-8138-fc5a7368239c",
+	"assessmentId" : "ISAT_READING_GRADE_8_2011",
 	"assessmentTitle" : "ISAT_READING_GRADE_8_2011",
 	"maxRawScore" : 364,
 	"minRawScore" : 120,
@@ -28,6 +28,38 @@
 			"assessmentReportingMethod" : "Scale score",
 			"minimumScore" : 278,
 			"maximumScore" : 364
+		}
+	]
+},
+{
+	"assessmentId" : "ISAT_WRITING_GRADE_8_2011",
+	"assessmentTitle" : "ISAT_WRITING_GRADE_8_2011",
+	"maxRawScore" : 410,
+	"minRawScore" : 120,
+	"assessmentPerformanceLevel" : [
+		{
+			"performanceLevel" : "1",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 120,
+			"maximumScore" : 221
+		},
+		{
+			"performanceLevel" : "2",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 221,
+			"maximumScore" : 246
+		},
+		{
+			"performanceLevel" : "3",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 246,
+			"maximumScore" : 288
+		},
+		{
+			"performanceLevel" : "4",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 288,
+			"maximumScore" : 410
 		}
 	]
 }

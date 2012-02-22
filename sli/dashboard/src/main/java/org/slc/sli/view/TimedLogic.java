@@ -1,13 +1,10 @@
 package org.slc.sli.view;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.util.Constants;
 
 /**
@@ -26,7 +23,7 @@ public class TimedLogic {
      * Returns the assessment with the most recent timestamp
      */
     public static GenericEntity getMostRecentAssessment(List<GenericEntity> a) {
-    	/*
+        /*
         Collections.sort(a, new Comparator<GenericEntity>() {
             // this should probably get more precise if we actually have an actual timestamp!
             public int compare(GenericEntity o1, GenericEntity o2) {
@@ -35,7 +32,7 @@ public class TimedLogic {
             }
         });
         */
-    	// temporary - we don't really want to create a new generic entity
+        // temporary - we don't really want to create a new generic entity
         return new GenericEntity(a.get(0));
     }
 
@@ -58,6 +55,8 @@ public class TimedLogic {
     public static GenericEntity getMostRecentAssessmentWindow(List<GenericEntity> a, 
                                                            AssessmentMetaDataResolver metaDataResolver,
                                                            String assmtName) {
+        
+        /*
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         // if the window has already passed in the current year, then the latest window is in this year.
@@ -102,6 +101,7 @@ public class TimedLogic {
                 return ass;
             }
         }
+        */
         return null;
     }
 

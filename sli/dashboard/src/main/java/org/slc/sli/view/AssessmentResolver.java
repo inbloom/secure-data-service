@@ -3,12 +3,10 @@ package org.slc.sli.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.assessmentmetadata.PerfLevel;
 import org.slc.sli.util.Constants;
 
 
@@ -27,10 +25,10 @@ public class AssessmentResolver {
 
     public static final String DATA_SET_TYPE = "assessment";
 
-    public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
-    public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
-    public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
-    public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
+    //public static final String DATA_POINT_NAME_PERFLEVEL = "perfLevel";
+    //public static final String DATA_POINT_NAME_SCALESCORE = "scaleScore";
+    //public static final String DATA_POINT_NAME_PERCENTILE = "percentile";
+    //public static final String DATA_POINT_NAME_LEXILESCORE = "lexileScore";
 
     public static final String TIMESLOT_MOSTRECENTWINDOW = "MOST_RECENT_WINDOW";
     public static final String TIMESLOT_MOSTRECENTRESULT = "MOST_RECENT_RESULT";
@@ -40,7 +38,7 @@ public class AssessmentResolver {
      * Constructor
      */
     public AssessmentResolver(List<GenericEntity> a, List<AssessmentMetaData> md) {
-    	/*
+        /*
         studentIdToAssessments = new HashMap<String, List<GenericEntity>>();
         for (GenericEntity ass : a) {
             studentIdToAssessments.put(ass.getString(Constants.ATTR_STUDENT_ID), new ArrayList<GenericEntity>());
@@ -55,7 +53,7 @@ public class AssessmentResolver {
     
     public AssessmentResolver(List<GenericEntity> studentSummaries, List<GenericEntity> assmts, String s) {
         
-    	//metaDataResolver = new AssessmentMetaDataResolver(assmts);
+        metaDataResolver = new AssessmentMetaDataResolver(assmts, "");
     }
 
     /**
@@ -90,21 +88,21 @@ public class AssessmentResolver {
                 }
             }
         }
-		*/
+        */
         
         //return "";
     }
 
-    private String getScore(GenericEntity assmt, String dataPointName) {
-    	
-    	// find the right score
-    	List<Map> scoreResults = assmt.getList("scoreResults");
-    	for (Map scoreResult : scoreResults) {
-    		if (scoreResult.get("assessmentReportingMethod").equals(dataPointName)) {
-    			return (String) (scoreResult.get("result"));
-    		}
-    	}
-    	return "";
+    public String getScore(GenericEntity assmt, String dataPointName) {
+        
+        // find the right score
+        List<Map> scoreResults = assmt.getList(Constants.ATTR_SCORE_RESULTS);
+        for (Map scoreResult : scoreResults) {
+            if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(dataPointName)) {
+                return (String) (scoreResult.get(Constants.ATTR_RESULT));
+            }
+        }
+        return "";
     }
     
     /**
@@ -112,14 +110,18 @@ public class AssessmentResolver {
      * (used by fuel gauge visualization widget)
      */
     public List<Integer> getCutpoints(Field field, Map student) {
+        
         // look up the assessment. 
         GenericEntity chosenAssessment = resolveAssessment(field, student);
 
         if (chosenAssessment == null) { return null; }
+        
         // get the cutpoints
-        return metaDataResolver.findCutpointsForFamily(chosenAssessment.getString(Constants.ATTR_ASSESSMENT_NAME));
+        String dataPointId = field.getValue();
+        String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
+        return metaDataResolver.findCutpointsForFamily(assmtName);
     }
-
+    
     public AssessmentMetaDataResolver getMetaData() {
         return metaDataResolver;
     }
@@ -144,14 +146,22 @@ public class AssessmentResolver {
             }
         }
         if (studentAssessmentFiltered.isEmpty()) { return null; }
-		*/
+        */
 
-        List<GenericEntity> studentAssmts = (List<GenericEntity>) (student.get(Constants.ATTR_STUDENT_ASSESSMENTS));
+        List<Map> studentAssmts = (List<Map>) (student.get(Constants.ATTR_STUDENT_ASSESSMENTS));
         
-        List<GenericEntity> studentAssessmentFiltered = studentAssmts;
+        List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
+        for (Map studentAssmt : studentAssmts) {
+            
+            // TODO: i don't think we can depend on the assessment id to contain the name
+            if (((String) (studentAssmt.get("assessmentId"))).contains(assessmentName)) {
+                // TODO: all this converting from Maps to GenericEntity needs to be revisited
+                studentAssessmentFiltered.add(new GenericEntity(studentAssmt));
+            }
+        }
         
         if (studentAssessmentFiltered == null || studentAssessmentFiltered.size() == 0) {
-        	return null;
+            return null;
         }
         
         // C) Apply time logic. 

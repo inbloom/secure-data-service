@@ -20,15 +20,11 @@ import org.slc.sli.util.Constants;
  */
 public class StudentResolver {
 
-    //List<GenericEntity> students;
-    //List<GenericEntity> programs;
     List<GenericEntity> studentSummaries;
     /**
      * Constructor
      */
     public StudentResolver(List<GenericEntity> s, List<GenericEntity> p) {
-        //students = s;
-        //programs = p;
     }
     
     public StudentResolver(List<GenericEntity> studentSummaryList) {
@@ -69,13 +65,6 @@ public class StudentResolver {
         } 
         
         // Now check program participation
-        /*
-        for (GenericEntity p : programs) {
-            if (p.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
-                return ((List<String>) (p.get(Constants.ATTR_PROGRAMS))).contains(code);
-            }
-        }
-        */
         List<String> programs = (List<String>) (student.get(Constants.ATTR_PROGRAMS));
         if (programs != null) {
             return programs.contains(code);
