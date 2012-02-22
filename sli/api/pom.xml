@@ -330,6 +330,42 @@
 								</configuration>
 							</execution>
 							
+							<execution>
+                                <id>copy</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>cp</executable>
+                                    <commandlineArgs>-r -f ${project.build.outputDirectory}/doc .</commandlineArgs>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>tar</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>tar</executable>
+                                    <commandlineArgs>-czf doc.tar.gz doc/</commandlineArgs>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>ouput</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>cp</executable>
+                                    <commandlineArgs>doc.tar.gz ${project.build.outputDirectory}/../</commandlineArgs>
+                                </configuration>
+                            </execution>
+							
 						</executions>
 					</plugin>
 
