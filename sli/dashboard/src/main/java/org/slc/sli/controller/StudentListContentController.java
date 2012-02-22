@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.config.StudentFilter;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.manager.ConfigManager;
@@ -50,7 +51,7 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, Integer viewIndex,
+    public ModelAndView studentListContent(String population, Integer viewIndex, Integer filterIndex,
                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
@@ -77,9 +78,22 @@ public class StudentListContentController extends DashboardController {
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
-            List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig);
+            List<StudentFilter> studentFilterConfig = configManager.getStudentFilterConfig(user.getUsername());
+            model.addAttribute("studentFilters",studentFilterConfig);
+
+            if (filterIndex == null) { filterIndex = 0; }
+            String studentFilterName = "";
+            if (studentFilterConfig != null) {
+                studentFilterName = studentFilterConfig.get(filterIndex).getName();
+            }
+
+            List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig, studentFilterName);
             List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
-            model.addAttribute(Constants.MM_KEY_STUDENTS, new StudentResolver(students, programs));
+
+            StudentResolver studentResolver = new StudentResolver (students, programs);
+            studentResolver.filterStudents (studentFilterName);
+
+            model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
 
             // insert the assessments object into the modelmap
             List<GenericEntity> assessments = populationManager.getAssessments(user.getUsername(), uids, viewConfig);
@@ -100,7 +114,7 @@ public class StudentListContentController extends DashboardController {
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
     }
-    
+
     @Autowired
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;

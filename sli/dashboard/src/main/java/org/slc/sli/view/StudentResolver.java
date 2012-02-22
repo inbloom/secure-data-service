@@ -3,6 +3,7 @@ package org.slc.sli.view;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
@@ -72,5 +73,20 @@ public class StudentResolver {
         }
 
         return false;
+    }
+
+    public void filterStudents(String filterName) {
+
+        if (filterName != null && filterName != "")
+        {
+            List<GenericEntity> filteredStudents = new ArrayList<GenericEntity>();
+            for (GenericEntity student : students) {
+                Map studentMap = (Map)student;
+                if (lozengeApplies(studentMap, filterName)) {
+                    filteredStudents.add ((GenericEntity)studentMap);
+                }
+            }
+            this.students = filteredStudents;
+        }
     }
 }

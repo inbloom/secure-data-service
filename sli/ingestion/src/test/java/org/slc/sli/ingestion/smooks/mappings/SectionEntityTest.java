@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.ingestion.validation.DummyEntityRepository;
+import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 
@@ -36,7 +36,7 @@ public class SectionEntityTest {
     private EntityValidator validator;
 
     @Autowired
-    private DummyEntityRepository repo;
+    private IngestionDummyEntityRepository repo;
 
     private Entity makeDummyEntity(final String type, final String id) {
         return new Entity() {
@@ -64,52 +64,117 @@ public class SectionEntityTest {
     }
 
     String validXmlTestData = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-            + "<Section> "
-            + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
-            + "<SequenceOfCourse>1</SequenceOfCourse>"
-            + "<EducationalEnvironment>Mainstream (Special Education) </EducationalEnvironment>"
-            + "<MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>"
-            + "<PopulationServed>Regular Students</PopulationServed>"
-            + "<AvailableCredit CreditType=\"Semester hour credit\" CreditConversion=\"0.05\">"
-            +    "<Credit>0.05</Credit>"
-            + "</AvailableCredit>"
-            + "<CourseOfferingReference>"
-            +    "<CourseOfferingIdentity>"
-            +       "<LocalCourseCode>ELA4</LocalCourseCode>"
-            +       "<Term>1</Term>"
-            +       "<SchoolYear>1996-1997</SchoolYear>"
-            +       "<CourseCode IdentificationSystem=\"NCES Pilot SNCCS course code\" AssigningOrganizationCode=\"ELU\">"
-            +            "<Id>23</Id>"
-            +       "</CourseCode>"
-            +    "</CourseOfferingIdentity>"
-            + "</CourseOfferingReference>"
-            + "<SchoolReference>"
-            +    "<EducationalOrgIdentity>"
-            +       "<StateOrganizationId>152901001</StateOrganizationId>"
-            +       "<EducationalOrgIdentificationCode IdentificationSystem=\"NCES Pilot SNCCS course code\">"
-            +           "<Id>23</Id>"
-            +       "</EducationalOrgIdentificationCode>"
-            +    "</EducationalOrgIdentity>"
-            + "</SchoolReference>"
-            + "<SessionReference>"
-            +   "<SessionIdentity>"
-            +       "<SessionName>223</SessionName>"
-            +       "<Term>2</Term>"
-            +       "<SchoolYear>1997-1998</SchoolYear>"
-            +   "</SessionIdentity>"
-            + "</SessionReference>"
-            + "<LocationReference>"
-            +   "<LocationIdentity>"
-            +       "<ClassroomIdentificationCode>ELU</ClassroomIdentificationCode>"
-            +   "</LocationIdentity>"
-            + "</LocationReference>"
-            + "<ProgramReference>"
-            +   "<ProgramIdentity>"
-            +       "<ProgramId>223</ProgramId>"
-            +       "<ProgramType>Bilingual</ProgramType>"
-            +   "</ProgramIdentity>"
-            + "</ProgramReference>"
-        + "</Section>"
+    + "   <Section>                                                                                    "
+    + "       <UniqueSectionCode>UniqueSectionCode0</UniqueSectionCode>                                "
+    + "       <SequenceOfCourse>4</SequenceOfCourse>                                                   "
+    + "       <EducationalEnvironment>Classroom</EducationalEnvironment>                               "
+    + "       <MediumOfInstruction>Televised</MediumOfInstruction>                                     "
+    + "       <PopulationServed>Regular Students</PopulationServed>                                    "
+    + "       <AvailableCredit CreditType=\"Carnegie unit\" CreditConversion=\"0\">                                                                        "
+    + "           <Credit>50.00</Credit>                                                               "
+    + "       </AvailableCredit>                                                                       "
+    + "       <CourseOfferingReference id=\"ID003\" ref=\"ID001\">                                                                "
+    + "           <CourseOfferingIdentity>                                                             "
+    + "               <LocalCourseCode>LocalCourseCode0</LocalCourseCode>                              "
+    + "               <CourseCode IdentificationSystem=\"CSSC course code\" AssigningOrganizationCode=\"AssigningOrganizationCode1\">                             "
+    + "                   <ID>ID0</ID>                                                                 "
+    + "               </CourseCode>                                                                    "
+    + "               <CourseCode IdentificationSystem=\"CSSC course code\" AssigningOrganizationCode=\"AssigningOrganizationCode3\">                             "
+    + "                   <ID>ID1</ID>                                                                 "
+    + "               </CourseCode>                                                                    "
+    + "               <Term>Fall Semester</Term>                                                       "
+    + "               <SchoolYear>1996-1997</SchoolYear>                                               "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID2</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID3</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <StateOrganizationId>StateOrganizationId0</StateOrganizationId>                  "
+    + "           </CourseOfferingIdentity>                                                            "
+    + "       </CourseOfferingReference>                                                               "
+    + "       <SchoolReference id=\"ID005\" ref=\"ID005\">                                                                        "
+    + "           <EducationalOrgIdentity>                                                             "
+    + "               <StateOrganizationId>StateOrganizationId1</StateOrganizationId>                  "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID4</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID5</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "           </EducationalOrgIdentity>                                                            "
+    + "       </SchoolReference>                                                                       "
+    + "       <SessionReference id=\"ID007\" ref=\"ID003\">                                                                       "
+    + "           <SessionIdentity>                                                                    "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID6</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID7</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID8</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID9</ID>                                                                 "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <SessionName>SessionName0</SessionName>                                          "
+    + "           </SessionIdentity>                                                                   "
+    + "       </SessionReference>                                                                      "
+    + "       <LocationReference id=\"ID009\" ref=\"ID000\">                                                                      "
+    + "           <LocationIdentity>                                                                   "
+    + "               <ClassroomIdentificationCode>ClassroomIdentificat</ClassroomIdentificationCode>  "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID10</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID11</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID12</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID13</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "           </LocationIdentity>                                                                  "
+    + "       </LocationReference>                                                                     "
+    + "       <ClassPeriodReference id=\"ID011\" ref=\"ID008\">                                                                   "
+    + "           <ClassPeriodIdentity>                                                                "
+    + "               <ClassPeriodName>ClassPeriodName0</ClassPeriodName>                              "
+    + "               <StateOrganizationId>StateOrganizationId2</StateOrganizationId>                  "
+    + "               <StateOrganizationId>StateOrganizationId3</StateOrganizationId>                  "
+    + "           </ClassPeriodIdentity>                                                               "
+    + "       </ClassPeriodReference>                                                                  "
+    + "       <ProgramReference id=\"ID013\" ref=\"ID011\">                                                                       "
+    + "           <ProgramIdentity>                                                                    "
+    + "               <ProgramType>Adult/Continuing Education</ProgramType>                            "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID14</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID15</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID16</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID17</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "           </ProgramIdentity>                                                                   "
+    + "       </ProgramReference>                                                                      "
+    + "       <ProgramReference id=\"ID015\" ref=\"ID008\">                                                                       "
+    + "           <ProgramIdentity>                                                                    "
+    + "               <ProgramId>ProgramId0</ProgramId>                                                "
+    + "               <StateOrganizationId>StateOrganizationId4</StateOrganizationId>                  "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID18</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID19</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "           </ProgramIdentity>                                                                   "
+    + "       </ProgramReference>                                                                      "
+    + "   </Section>                                                                                   "
     + "</InterchangeMasterSchedule>";
 
 
@@ -133,10 +198,10 @@ public class SectionEntityTest {
         when(repo.find("session", "223")).thenReturn(makeDummyEntity("session", "223"));
         when(repo.find("course", "ELA4")).thenReturn(makeDummyEntity("ELA4", "152901001"));*/
 
-        repo.addEntity("school", "152901001", makeDummyEntity("school", "152901001"));
-        repo.addEntity("session", "223", makeDummyEntity("session", "223"));
-        repo.addEntity("course", "ELA4", makeDummyEntity("course", "ELA4"));
-        repo.addEntity("program", "223", makeDummyEntity("program", "223"));
+        repo.addEntity("school", "StateOrganizationId1", makeDummyEntity("school", "StateOrganizationId1"));
+        repo.addEntity("session", "SessionName0", makeDummyEntity("session", "SessionName0"));
+        repo.addEntity("course", "LocalCourseCode0", makeDummyEntity("course", "LocalCourseCode0"));
+        repo.addEntity("program", "ProgramId0", makeDummyEntity("program", "ProgramId0"));
 
         PrivateAccessor.setField(validator, "validationRepo", repo);
 
@@ -355,7 +420,7 @@ public class SectionEntityTest {
         String smooksConfig = "smooks_conf/smooks-section-csv.xml";
         String targetSelector = "csv-record";
 
-        String csvTestData = "A-ELA4,1,Mainstream (Special Education) ,Face-to-face instruction,Regular Students,Semester hour credit,0.05,0.05,ELA4,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,152901001,NCES Pilot SNCCS course code,23,223,2,1997-1998,ELU,,223,Bilingual";
+        String csvTestData = "UniqueSectionCode0,4,Classroom,Televised,Regular Students,Carnegie unit,0.0,50.0,LocalCourseCode0,1,1996-1997,NCES Pilot SNCCS course code,ELU,23,StateOrganizationId1,NCES Pilot SNCCS course code,23,SessionName0,2,1997-1998,ELU,,ProgramId0,Bilingual";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 csvTestData);
@@ -379,29 +444,29 @@ public class SectionEntityTest {
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
 
-        Assert.assertEquals("A-ELA4", entity.get("uniqueSectionCode"));
-        Assert.assertEquals("1", entity.get("sequenceOfCourse").toString());
+        Assert.assertEquals("UniqueSectionCode0", entity.get("uniqueSectionCode"));
+        Assert.assertEquals("4", entity.get("sequenceOfCourse").toString());
 
-        Assert.assertEquals("Mainstream (Special Education) ", entity.get("educationalEnvironment"));
-        Assert.assertEquals("Face-to-face instruction", entity.get("mediumOfInstruction"));
+        Assert.assertEquals("Classroom", entity.get("educationalEnvironment"));
+        Assert.assertEquals("Televised", entity.get("mediumOfInstruction"));
         Assert.assertEquals("Regular Students", entity.get("populationServed"));
 
         @SuppressWarnings("unchecked")
         Map<String, Object> availableCredit = (Map<String, Object>) entity.get("availableCredit");
         Assert.assertTrue(availableCredit != null);
-        Assert.assertEquals("Semester hour credit", availableCredit.get("creditType"));
-        Assert.assertEquals("0.05", availableCredit.get("creditConversion").toString());
-        Assert.assertEquals("0.05", availableCredit.get("credit").toString());
+        Assert.assertEquals("Carnegie unit", availableCredit.get("creditType"));
+        Assert.assertEquals("0.0", availableCredit.get("creditConversion").toString());
+        Assert.assertEquals("50.0", availableCredit.get("credit").toString());
 
-        Assert.assertEquals("ELA4", entity.get("courseId"));
+        Assert.assertEquals("LocalCourseCode0", entity.get("courseId"));
 
-        Assert.assertEquals("152901001", entity.get("schoolId"));
+        Assert.assertEquals("StateOrganizationId1", entity.get("schoolId"));
 
-        Assert.assertEquals("223", entity.get("sessionId"));
+        Assert.assertEquals("SessionName0", entity.get("sessionId"));
 
         @SuppressWarnings("unchecked")
         List<String> programReferenceList = (List<String>) entity.get("programReference");
         Assert.assertTrue(programReferenceList != null);
-        Assert.assertEquals("223", programReferenceList.get(0));
+        Assert.assertEquals("ProgramId0", programReferenceList.get(0));
     }
 }

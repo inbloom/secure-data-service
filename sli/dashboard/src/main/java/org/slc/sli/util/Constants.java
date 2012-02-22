@@ -17,6 +17,18 @@ public class Constants {
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
 
+/*
+                       \"name\": \"limitedEnglishProficiency\",
+                        \"name\": \"ELL_FORMER\",
+                        \"name\": \"504\",
+                        \"name\": \"504_FORMER\",
+                        \"name\": \"IEP\",
+                        \"name\": \"IEP_FORMER\",
+                        \"name\": \"LEA\",
+                        \"name\": \"RPT\",
+                        \"name\": \"RED\",
+                        \"name\": \"schoolFoodServiceEligibility\",
+*/
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";

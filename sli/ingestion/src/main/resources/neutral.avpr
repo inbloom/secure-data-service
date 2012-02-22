@@ -5,6 +5,7 @@
         {"name": "sourceId", "type": ["string", "null"]},
         {"name": "jobId", "type": ["string", "null"]},
         {"name": "localId", "type": ["string", "null"]},
+        {"name": "association", "type": "boolean"},
         {"name": "localParentIds", "type": [{"type": "map", "values": "string"},"null"]},
         {"name": "recordType", "type": ["string", "null"]},
         {"name": "attributes", "type": ["string","null"]},

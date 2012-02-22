@@ -5,11 +5,12 @@ DB_HOST=devdal1.slidev.org
 #devdal1.slidev.org
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
-DB_NAME=devApps
+DB_NAME=devapp1
 #devApps
 
 echo $DIR
 
+$MONGO_HOME/mongoimport --drop -d $DB_NAME -c realm -h $DB_HOST --file "$DIR/realm_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c teacher -h $DB_HOST --file "$DIR/teacher_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c student -h $DB_HOST --file "$DIR/student_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c school -h $DB_HOST --file "$DIR/school_data.json"

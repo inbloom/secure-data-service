@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
+
+    <Session>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Baker School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Charlie School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Dog School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Echo School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+
+    <Session>
+        <SessionName>Spring 2012 Able School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Charlie School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Dog School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Echo School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+
+    <Session>
+        <SessionName>Fall 2012 Able School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-09-04</BeginDate>
+        <EndDate>2012-12-22</EndDate>
+        <TotalInstructionalDays>88</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2012 Baker School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-09-04</BeginDate>
+        <EndDate>2012-12-22</EndDate>
+        <TotalInstructionalDays>88</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2012 Charlie School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-09-04</BeginDate>
+        <EndDate>2012-12-22</EndDate>
+        <TotalInstructionalDays>88</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2012 Dog School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-09-04</BeginDate>
+        <EndDate>2012-12-22</EndDate>
+        <TotalInstructionalDays>88</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2012 Echo School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-09-04</BeginDate>
+        <EndDate>2012-12-22</EndDate>
+        <TotalInstructionalDays>88</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+
+    <Session>
+        <SessionName>Spring 2013 Able School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2013-01-04</BeginDate>
+        <EndDate>2013-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2013 Baker School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2013-01-04</BeginDate>
+        <EndDate>2013-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2013 Charlie School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2013-01-04</BeginDate>
+        <EndDate>2013-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2013 Dog School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2013-01-04</BeginDate>
+        <EndDate>2013-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2013 Echo School</SessionName>
+        <SchoolYear>2012-2013</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2013-01-04</BeginDate>
+        <EndDate>2013-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+
+
+
+    <Session>
+        <SessionName>Fall 2013 Able School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2013-08-23</BeginDate>
+        <EndDate>2013-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2013 Baker School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2013-08-23</BeginDate>
+        <EndDate>2013-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2013 Charlie School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2013-08-23</BeginDate>
+        <EndDate>2013-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2013 Dog School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2013-08-23</BeginDate>
+        <EndDate>2013-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2013 Echo School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2013-08-23</BeginDate>
+        <EndDate>2013-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+    <Session>
+        <SessionName>Spring 2014 Able School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2014-01-04</BeginDate>
+        <EndDate>2014-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2014 Baker School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2014-01-04</BeginDate>
+        <EndDate>2014-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2014 Charlie School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2014-01-04</BeginDate>
+        <EndDate>2014-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2014 Dog School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2014-01-04</BeginDate>
+        <EndDate>2014-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2014 Echo School</SessionName>
+        <SchoolYear>2013-2014</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2014-01-04</BeginDate>
+        <EndDate>2014-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+
+
+
+    <Session>
+        <SessionName>Fall 2014 Able School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2014-08-23</BeginDate>
+        <EndDate>2014-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2014 Baker School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2014-08-23</BeginDate>
+        <EndDate>2014-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2014 Charlie School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2014-08-23</BeginDate>
+        <EndDate>2014-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2014 Dog School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2014-08-23</BeginDate>
+        <EndDate>2014-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2014 Echo School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2014-08-23</BeginDate>
+        <EndDate>2014-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+    <Session>
+        <SessionName>Spring 2015 Able School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2015-01-04</BeginDate>
+        <EndDate>2015-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2015 Baker School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2015-01-04</BeginDate>
+        <EndDate>2015-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2015 Charlie School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2015-01-04</BeginDate>
+        <EndDate>2015-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2015 Dog School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2015-01-04</BeginDate>
+        <EndDate>2015-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2015 Echo School</SessionName>
+        <SchoolYear>2014-2015</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2015-01-04</BeginDate>
+        <EndDate>2015-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+
+
+
+    <Session>
+        <SessionName>Fall 2015 Able School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2015-08-23</BeginDate>
+        <EndDate>2015-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2015 Baker School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2015-08-23</BeginDate>
+        <EndDate>2015-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2015 Charlie School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2015-08-23</BeginDate>
+        <EndDate>2015-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2015 Dog School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2015-08-23</BeginDate>
+        <EndDate>2015-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2015 Echo School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2015-08-23</BeginDate>
+        <EndDate>2015-12-17</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+    <Session>
+        <SessionName>Spring 2016 Able School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2016-01-04</BeginDate>
+        <EndDate>2016-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2016 Baker School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2016-01-04</BeginDate>
+        <EndDate>2016-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2016 Charlie School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2016-01-04</BeginDate>
+        <EndDate>2016-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2016 Dog School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2016-01-04</BeginDate>
+        <EndDate>2016-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2016 Echo School</SessionName>
+        <SchoolYear>2015-2016</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2016-01-04</BeginDate>
+        <EndDate>2016-05-27</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901107</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20110104"/>
+        <GradingPeriodReference ref="GRDP_20110222"/>
+        <GradingPeriodReference ref="GRDP_20110411"/>
+    </Session>
+
+</InterchangeEducationOrgCalendar>

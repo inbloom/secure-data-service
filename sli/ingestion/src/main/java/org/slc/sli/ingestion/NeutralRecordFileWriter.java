@@ -106,6 +106,9 @@ public class NeutralRecordFileWriter {
             avroRecord.put("localId", null);
         }
 
+        // populate the localId
+        avroRecord.put("association", record.isAssociation());
+
         // populate localParentIds if present
         if (record.getLocalParentIds() != null && record.getLocalParentIds().size() > 0) {
             avroRecord.put("localParentIds", encodeMap(record.getLocalParentIds()));
