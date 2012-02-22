@@ -24,7 +24,7 @@
 	</bean>
 
 	<!-- Beans referenced by Authorization and Resource Services -->
-	<bean id="clientService" class="org.slc.sli.api.security.oauth.SLIClientDetailService" />
+	<bean id="clientService" class="org.slc.sli.api.security.oauth.SliClientDetailService" />
 	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.MongoTokenStore" />
 
 	<bean id="oauth2ExceptionTranslationFilter"
