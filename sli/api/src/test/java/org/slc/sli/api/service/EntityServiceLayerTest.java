@@ -209,16 +209,20 @@ public class EntityServiceLayerTest {
         EntityBody student1 = new EntityBody();
         student1.put("firstName", "Bonzo");
         student1.put("name.firstName", "Bonzo");
+        student1.put("name", createMap("middleName", "1"));
         student1.put("lastName", "Madrid");
         EntityBody student2 = new EntityBody();
         student2.put("firstName", "Petra");
         student2.put("lastName", "Arkanian");
+        student2.put("name", createMap("middleName", "2"));
         EntityBody student3 = new EntityBody();
         student3.put("firstName", "Andrew");
         student3.put("lastName", "Wiggen");
+        student3.put("name", createMap("middleName", "3"));
         EntityBody student4 = new EntityBody();
         student4.put("firstName", "Julian");
         student4.put("lastName", "Delphiki");
+        student4.put("name", createMap("middleName", "4"));
         String id1 = studentService.create(student1);
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
@@ -307,8 +311,8 @@ public class EntityServiceLayerTest {
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null, "entryGradeLevel",
                         SortOrder.ascending));
         
-        assertEquals(Arrays.asList(id2, id4, id1, id3), studentSchoolAssociationService.getAssociatedEntitiesTo(
-                schoolId, 0, 4, null, "firstName", SortOrder.descending));
+        assertEquals(Arrays.asList(id4, id3, id2, id1), studentSchoolAssociationService.getAssociatedEntitiesTo(
+                schoolId, 0, 4, null, "name.middleName", SortOrder.descending));
         
         studentService.delete(id1);
         studentService.delete(id2);
@@ -412,5 +416,11 @@ public class EntityServiceLayerTest {
         ids.put("assoc2Id", assoc2Id);
         
         return ids;
+    }
+    
+    private Map<String, Object> createMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(key, value);
+        return map;
     }
 }

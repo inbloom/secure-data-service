@@ -88,12 +88,6 @@ public class EntityRepositoryTest {
         searchResults = repository.findByQuery("student", query, 0, 20);
         assertTrue(searchResults.iterator().hasNext());
         
-        // test match by query object
-        Query query2 = new Query(Criteria.where("body.firstName").is("Jane"));
-        assertTrue(repository.matchQuery("student", id, query2));
-        query2 = null;
-        assertTrue(!repository.matchQuery("student", id, query2));
-        
         // test update
         found.getBody().put("firstName", "Mandy");
         assertTrue(repository.update("student", found));
@@ -119,6 +113,7 @@ public class EntityRepositoryTest {
         assertFalse(entities.iterator().hasNext());
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testSort() {
         
@@ -190,6 +185,22 @@ public class EntityRepositoryTest {
         assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
         assertEquals("2", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
+    }
+    
+    @Test
+    public void testCount() {
+        repository.deleteAll("student");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        Map<String, Object> oddStudent = buildTestStudentEntity();
+        oddStudent.put("cityOfBirth", "Nantucket");
+        repository.create("student", oddStudent);
+        assertEquals(5, repository.count("student", new Query()));
+        Query nantucket = new Query();
+        nantucket.addCriteria(Criteria.where("body.cityOfBirth").is("Nantucket"));
+        assertEquals(1, repository.count("student", nantucket));
     }
     
     private Map<String, Object> buildTestStudentEntity() {

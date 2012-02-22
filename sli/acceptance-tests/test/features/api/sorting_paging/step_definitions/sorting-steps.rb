@@ -21,21 +21,17 @@ Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
 end
 
-Given /^sort\-by is "([^\"]*)"$/ do |sortBy|
+Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
   if !defined? @queryParams
     @queryParams = []
   end
-  @queryParams << "sort-by=#{sortBy}"
-end
-
-Given /^sort\-order is "([^\"]*)"$/ do |sortOrder|
-  if !defined? @queryParams
-    @queryParams = []
+  @queryParams.delete_if do |entry|
+    entry.start_with? param
   end
-  @queryParams << "sort-order=#{sortOrder}"
+  @queryParams << "#{param}=#{value}"
 end
 
-Then /^I should receive a collection of student association links$/ do
+Then /^I should receive a collection$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")
 end
@@ -46,82 +42,86 @@ Then /^the link at index (\d+) should point to an entity with id "([^\"]*)"$/ do
   @result[index]["id"].should == id
 end
 
-# 
-# # Function validate
-# # Inputs: (Array or Hash) data = Array or Hash of data (e.g. from JSON response)
-# # Inputs: (Hash) fields = Hash containing key=field name, value= field expected class, or Hash of expected values (if it's an Array or Hash)
-# # Output: Nothing, uses assertions to ensure data matches values
-# # Returns: Nothing, see Output
-# # Description: Validates if data from a GET has the specified fields and data types
-# def validate(data, fields)
-#   if data.is_a? Array
-#     data.each do |entity|
-#       validate(entity, fields)
-#     end
-#   elsif data.is_a? Hash
-#     fields.each do |key, value|
-#       if value.is_a? Hash
-#         assert(data[key] != nil, "object/array expected to exist: #{key}")
-#         validate(data[key], value)
-#       else
-#         if value == nil
-#           assert(data[key] == nil, "Field should not exist: #{key}")
-#         else
-#           assert(data[key].is_a?(value), "Field #{key} should be of type #{value}, found #{data[key].class}")
-#         end
-#       end
-#     end
-#   end
-# end
-# 
-# Then /^I should receive a collection of student objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   # puts @result
-#   validate(@result, {"id" => String, 
-#                              "studentUniqueStateId" => String, 
-#                             "name" => {"firstName" => String, 
-#                                        "lastSurname" => String}})
-# end
-# 
-# Then /^I should not receive a collection of student links\.$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should receive a collection of student\-school\-association objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "studentId" => String, "schoolId" => String, "entryGradeLevel" => String})
-# end
-# 
-# Then /^I should not receive a collection of student\-school\-association links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should not receive a collection of student links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
-# 
-# Then /^I should receive a collection of school objects$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, 
-#                              "stateOrganizationId" => String, 
-#                              "nameOfInstitution" => String, 
-#                              "address" => {"streetNumberName" => String,
-#                                            "city" => String,
-#                                            "stateAbbreviation" => String,
-#                                            "postalCode" => String}})
-# end
-# 
-# Then /^I should not receive a collection of school links$/ do
-#   assert(@result != nil, "Response contains no data")
-#   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-#   validate(@result, {"id" => String, "link" => nil})
-# end
+Then /^the link at index (\d+) should have "([^\"]*)" equal to "([^\"]*)"$/ do |index, field, id|
+  index = convert(index)
+  @result[index].should_not == nil
+  fieldValue = @result[index];
+  field.split("\.").each do |f| 
+    fieldValue = fieldValue[f]
+  end
+  fieldValue.should == id
+end
+
+Then /^I should receive a collection with (\d+) elements$/ do |count|;
+  count = convert(count)
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Array), "Expected array of links")
+  @result.length.should == count 
+end
+
+Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
+  value = convert(value)
+  header.downcase!
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  resultValue = headers[header]
+  resultValue.should be_a Array
+  resultValue.length.should == 1
+  singleValue = convert(resultValue[0])
+  singleValue.should == value
+end
+
+Then /^the a next link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
+      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
+      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      found_link = true
+    end
+  end
+  found_link.should == true
+end
+
+Then /^the a previous link should not exist$/ do
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=prev/.match link
+      found_link = true
+    end
+  end
+  found_link.should == false
+end
+
+Then /^the a next link should not exist$/ do
+  links = @res.raw_headers["link"];
+  links.should be_a Array
+  found_link = false
+  links.each do |link|
+    if /rel=next/.match link
+      found_link = true
+    end
+  end
+  found_link.should == false
+end
+

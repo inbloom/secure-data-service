@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -26,23 +25,29 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
  * 
- * @author srupasinghe
+ * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
+@Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_INCIDENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SchoolResource {
+public class DisciplineIncidentResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineIncidentResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -50,12 +55,12 @@ public class SchoolResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public SchoolResource(EntityDefinitionStore entityDefs) {
+    public DisciplineIncidentResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$schools$$ entities for which the logged in User has permission and context.
+     * Returns all $$disciplineIncidents$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -72,11 +77,13 @@ public class SchoolResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, offset, limit, headers, uriInfo);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return this.crudDelegate.readAll(ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
 
     /**
-     * Create a new $$schools$$ entity.
+     * Create a new $$disciplineIncidents$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -93,33 +100,33 @@ public class SchoolResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.DISCIPLINE_INCIDENTS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$schools$$ entity
+     * Get a single $$disciplineIncidents$$ entity
      * 
-     * @param schoolId
-     *            The Id of the $$schools$$.
+     * @param disciplineIncidentId
+     *            The Id of the $$disciplineIncidents$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single school entity
+     * @return A single disciplineIncident entity
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+    public Response read(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$schools$$ entity
+     * Delete a $$disciplineIncidents$$ entity
      * 
-     * @param schoolId
-     *            The Id of the $$schools$$.
+     * @param disciplineIncidentId
+     *            The Id of the $$disciplineIncidents$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -128,17 +135,17 @@ public class SchoolResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId, 
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$schools$$ entity.
+     * Update an existing $$disciplineIncidents$$ entity.
      * 
-     * @param schoolId
-     *            The id of the $$schools$$.
+     * @param disciplineIncidentId
+     *            The id of the $$disciplineIncidents$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -149,38 +156,10 @@ public class SchoolResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
-    public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
+    public Response update(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * Returns each $$studentSchoolAssociations$$ that
-     * references the given $$schools$$
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return       
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
-    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return this.crudDelegate.update(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, newEntityBody, headers, uriInfo);
     }
 }

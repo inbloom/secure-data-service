@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -15,6 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
@@ -32,16 +39,16 @@ import org.slc.sli.api.representation.EntityBody;
  * @author jstokes
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.ASSESSMENTS)
+@Path(PathConstants.V1 + "/" + PathConstants.TEACHERS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class AssessmentResource {
+public class TeacherResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AssessmentResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -49,12 +56,12 @@ public class AssessmentResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public AssessmentResource(EntityDefinitionStore entityDefs) {
+    public TeacherResource(EntityDefinitionStore entityDefs) {
         this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
     }
 
     /**
-     * Returns all $$assessments$$ entities for which the logged in User has permission and context.
+     * Returns all $$teachers$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -71,11 +78,13 @@ public class AssessmentResource {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.readAll(ResourceNames.ASSESSMENTS, offset, limit, headers, uriInfo);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return this.crudDelegate.readAll(ResourceNames.TEACHERS, headers, uriInfo);
     }
 
     /**
-     * Create a new $$assessments$$ entity.
+     * Create a new $$teachers$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -92,33 +101,33 @@ public class AssessmentResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.ASSESSMENTS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.TEACHERS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$assessments$$ entity
+     * Get a single $$teachers$$ entity
      * 
-     * @param assessmentId
-     *            The Id of the $$assessments$$.
+     * @param teacherId
+     *            The Id of the $$teachers$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single assessment entity
+     * @return A single teacher entity
      */
     @GET
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
+    @Path("{" + ParameterConstants.TEACHER_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
+    public Response read(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.TEACHERS, teacherId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$assessments$$ entity
+     * Delete a $$teachers$$ entity
      * 
-     * @param assessmentId
-     *            The Id of the $$assessments$$.
+     * @param teacherId
+     *            The Id of the $$teachers$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +136,17 @@ public class AssessmentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, 
+    @Path("{" + ParameterConstants.TEACHER_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.TEACHERS, teacherId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$assessments$$ entity.
+     * Update an existing $$teachers$$ entity.
      * 
-     * @param assessmentId
-     *            The id of the $$assessments$$.
+     * @param teacherId
+     *            The id of the $$teachers$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,10 +157,26 @@ public class AssessmentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
+    @Path("{" + ParameterConstants.TEACHER_ID + "}")
+    public Response update(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.ASSESSMENTS, assessmentId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.TEACHERS, teacherId, newEntityBody, headers, uriInfo);
+    }
+    
+    /**
+     * @param teacherSectionAssociationId
+     *            The id of the $$teacherSectionAssociations$$
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo 
+     *            URI information including path and query parameters
+     */
+    @GET
+    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS)
+    public Response getSections(@PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
+            final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.SERVICE_UNAVAILABLE).build();
     }
 }
