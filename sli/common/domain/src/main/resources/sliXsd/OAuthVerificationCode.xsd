@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+
+	<xs:element name="oauthVerificationCode">
+		<xs:annotation>
+			<xs:documentation>
+				Denoted the 'authorization_code' in the OAuth 2.0
+				specification, this token represents a request for an access token.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="value" type="xs:string" minOccurs="1"
+					maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Value assigned to the request token. Required as
+							part of the OAuth 2.0 process for receiving an access token.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="redirectUri" type="xs:string"
+					minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Absolute (or relative) URL to redirect the
+							user-agent back with SAML request information, or with an OAuth
+							request token or access token.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="expiration" type="xs:long" minOccurs="1"
+					maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Date and time when the request token expires (can
+							no longer be used to get an access token). Request tokens are very
+							short-lived (generally 10 minute expiration). Stored as the
+							number
+							of milliseconds since the last epoch.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="userName" type="xs:string"
+					minOccurs="1" maxOccurs="1">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

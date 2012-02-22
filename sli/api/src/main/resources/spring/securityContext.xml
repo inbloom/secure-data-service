@@ -16,45 +16,30 @@
                         http://www.springframework.org/schema/security/oauth2 
                         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
+    <!-- Spring Security Filter Chain -->
 	<bean name="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<security:filter-chain-map path-type="ant">
 			<security:filter-chain pattern="/**"
 				filters="sliRequestFilter" />
 		</security:filter-chain-map>
 	</bean>
-
-	<!-- Beans referenced by Authorization and Resource Services -->
-	<bean id="clientService" class="org.slc.sli.api.security.oauth.SLIClientDetailService" />
-	<bean id="tokenServices" class="org.slc.sli.api.security.oauth.MongoTokenStore" />
-
-	<bean id="oauth2ExceptionTranslationFilter"
-		class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
-
-	<!-- <bean id="oauth2EndpointValidationFilter" -->
-	<!-- class="org.springframework.security.oauth2.provider.filter.EndpointValidationFilter" 
-		/> -->
-
-	<!-- <bean id="oauth2ProtectedResourceFilter" -->
-	<!-- class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" 
-		/> -->
-
-<!-- 	<oauth2:authorization-server -->
-<!-- 		client-details-service-ref="clientService"  -->
-<!-- 		token-services-ref="tokenServices"  -->
-<!-- 		authorization-endpoint-url="/oauth/authorize" -->
-<!-- 		token-endpoint-url="/oauth/token" /> -->
-
-	<!-- <oauth2:authorization-code /> -->
-	<!-- </oauth2:authorization-server> -->
-	<!-- <oauth2:resource-server id="oauth2ResourceServer" /> -->
-
-	<!-- OAuth 2.0 Authorization Server configuration -->
-	<!--<oauth2:authorization-server client-details-service-ref="ClientService"> 
-		<oauth2:authorization-code disabled="false" services-ref="AuthorizationServices" 
-		/> </oauth2:authorization-server> -->
-
-	<!-- OAuth 2.0 Resource Server configuration -->
-	<!-- <oauth:resource-server id="OAuth2ResourceServer" token-services-ref="TokenServices" 
-		/> -->
+	
+	<security:http>
+        <security:form-login />
+		<security:http-basic />
+        <security:logout />
+		<security:anonymous />        
+        <security:intercept-url pattern="/oauth/authorize" access="ROLE_ADMINISTRATOR" />
+    </security:http>
+    
+	<!-- TECHNICAL DEBT: This Authentication Manager will need to be replaced with discovery service and SSO. -->
+	<security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="linda.kim" password="linda.kim1234" authorities="EDUCATOR" />
+                <security:user name="demo" password="demo1234" authorities="ROLE_ADMINISTRATOR" />
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 
 </beans>

@@ -16,6 +16,8 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * 
@@ -38,10 +40,18 @@ public class SliClientDetailService implements ClientDetailsService {
     
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws OAuth2Exception {
-        String uuid = lookupIdFromClientId(clientId);
+        final String uuid = lookupIdFromClientId(clientId);
         
         if (uuid != null) {
-            EntityBody entity = service.get(uuid);
+            //EntityBody entity = service.get(uuid);
+            
+            EntityBody entity = SecurityUtil.sudoRun(new SecurityTask<EntityBody>() {
+                @Override
+                public EntityBody execute() {
+                    return service.get(uuid);
+                }
+            });
+            
             ApplicationDetails details = new ApplicationDetails();
             details.setClientId((String) entity.get("client_id"));
             details.setClientSecret((String) entity.get("client_secret"));
@@ -61,8 +71,14 @@ public class SliClientDetailService implements ClientDetailsService {
         }
     }
     
-    private String lookupIdFromClientId(String clientId) {
-        Iterable<String> results = service.list(0, 1, ApplicationResource.CLIENT_ID + "=" + clientId);
+    private String lookupIdFromClientId(final String clientId) {
+
+        Iterable<String> results = SecurityUtil.sudoRun(new SecurityTask<Iterable<String>>() {
+            @Override
+            public Iterable<String> execute() {
+                return service.list(0, 1, ApplicationResource.CLIENT_ID + "=" + clientId);
+            }
+        });
         if (results.iterator().hasNext()) {
             return results.iterator().next();
         }

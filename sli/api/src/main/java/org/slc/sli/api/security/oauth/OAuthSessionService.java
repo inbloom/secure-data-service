@@ -31,9 +31,10 @@ import org.slc.sli.domain.EntityRepository;
  */
 @Component
 public class OAuthSessionService extends RandomValueTokenServices {
-    private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 3600; // 1 hour
-    private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 900;   // 15 minutes
+    
     private static final String OAUTH_SESSION_COLLECTION = OAuthTokenUtil.getOAuthCollectionName();
+    private static final int REFRESH_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getRefreshTokenValidity(); 
+    private static final int ACCESS_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getAccessTokenValidity();
     
     @Autowired
     private EntityRepository repo;

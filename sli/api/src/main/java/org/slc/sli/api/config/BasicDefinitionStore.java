@@ -201,6 +201,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // Adding the OAuth 2.0 Authorized Session Manager (uses Token Manager)
         addDefinition(factory.makeEntity("oauthSession").storeAs("oauthSession").build());
+        
+        // Adding OAuth 2.0 Verification Code Services
+        addDefinition(factory.makeEntity("oauthVerificationCode").build());
     }
     
     private void add(EntityDefinition defn) {

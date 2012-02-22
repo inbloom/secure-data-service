@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeAuthenticationTokenHolder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 
@@ -139,6 +142,8 @@ public class MongoTokenStore implements TokenStore {
         
         SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
         if (principal != null) {
+            // look up client AND user
+            
             Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
                     new Query(Criteria.where("body.userAuthn.mongoEntityId").is(principal.getEntity().getEntityId())),
                     0, 1);
@@ -236,6 +241,15 @@ public class MongoTokenStore implements TokenStore {
             throw new InvalidTokenException("token is expired");
         }
         
+        // perform lookup on authentication object
+        //authentication.getClientAuthentication().getClientId()
+        //authentication.getUserAuthentication().
+        
+        System.out.println("principal: " + authentication.getUserAuthentication().getPrincipal());
+        System.out.println("credentials: " + authentication.getUserAuthentication().getCredentials());
+        System.out.println("name: " + authentication.getUserAuthentication().getName());
+        System.out.println("class: " + authentication.getClass());
+        System.out.println("details: " + authentication.getUserAuthentication().getDetails());
         SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
         if (principal != null) {
             Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
