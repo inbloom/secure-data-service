@@ -20,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.oauth.SLIClientDetailService;
+import org.slc.sli.api.security.oauth.SliClientDetailService;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class ApplicationResourceTest {
     @InjectMocks private ApplicationResource resource;
     
     @Autowired
-    @InjectMocks private SLIClientDetailService detailsService;
+    @InjectMocks private SliClientDetailService detailsService;
     
     @Mock EntityService service;
     

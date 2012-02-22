@@ -23,7 +23,7 @@ import org.slc.sli.api.service.EntityService;
  * 
  */
 @Component
-public class SLIClientDetailService implements ClientDetailsService {
+public class SliClientDetailService implements ClientDetailsService {
     
     @Autowired
     private EntityDefinitionStore store;
