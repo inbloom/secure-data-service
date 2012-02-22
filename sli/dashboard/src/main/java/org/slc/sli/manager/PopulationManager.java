@@ -129,23 +129,8 @@ public class PopulationManager {
             studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
         }
 
-        // apply any student filters
-        List<Student> students = null;
-        if (filterName == null || filterName.equals ("NONE") || filterName.equals("")) {
-            students = studentInfo;
-        }
-        else
-        {
-            students = new ArrayList<Student>();   
-            for (Student student : studentInfo) {
-                if (student.hasProgramParticipation (filterName)) {
-                    students.add (student);
-                }
-            }
-        }
-
         // return the results
-        return students;        
+        return studentInfo;        
     }
     
     

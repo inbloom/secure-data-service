@@ -83,21 +83,26 @@ public class ConfigPersistor {
      * @throws Exception
      */
     public StudentFilter[] getStudentFilterConfig(String entityId) throws Exception {
-        // make API call with entity id
-        CustomData[] customData = apiClient.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
 
-        // extract data block from custom data field
-        if (customData == null || customData.length == 0) {
+        // make API call with entity id
+        List<GenericEntity> customData = entityManager.getCustomData(entityId, LOZENGE_CONFIG_API_KEY);
+        if (customData == null || customData.size() == 0) {
             return null;
         }
 
-        String configStr = customData[0].getCustomData();
+        String configStr = customData.get(0).getString(Constants.ATTR_CUSTOM_DATA);
 
         // convert data block to POJO
         Gson gson = new Gson();
         StudentFilter[] retVal = gson.fromJson(configStr, StudentFilter[].class);
 
-        return retVal;
+        StudentFilter[] studentFilters = new StudentFilter[retVal.length+1];
+        System.arraycopy (retVal, 0, studentFilters, 1, retVal.length);
+
+        StudentFilter noFilter = new StudentFilter("", "", "No Filter");
+        studentFilters[0] = noFilter;
+
+        return studentFilters;
     }
 
     /*
