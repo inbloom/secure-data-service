@@ -73,7 +73,7 @@
         <#else>
           ${assessments.get(field, student)}
         </#if>
-        
+       
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

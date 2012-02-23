@@ -21,19 +21,17 @@ import org.slc.sli.util.Constants;
  */
 public class StudentResolver {
 
-    List<GenericEntity> students;
-    List<GenericEntity> programs;
-    
+    List<GenericEntity> studentSummaries;
+
     /**
      * Constructor
      */
-    public StudentResolver(List<GenericEntity> s, List<GenericEntity> p) {
-        students = s;
-        programs = p;
+    public StudentResolver(List<GenericEntity> studentSummaryList) {
+        studentSummaries = studentSummaryList;
     }
     
     public List<GenericEntity> list() {
-        return students;
+        return studentSummaries;
     }
 
     /**
@@ -66,10 +64,9 @@ public class StudentResolver {
         } 
         
         // Now check program participation
-        for (GenericEntity p : programs) {
-            if (p.get(Constants.ATTR_STUDENT_ID).equals(student.get(Constants.ATTR_ID))) {
-                return ((List<String>) (p.get(Constants.ATTR_PROGRAMS))).contains(code);
-            }
+        List<String> programs = (List<String>) (student.get(Constants.ATTR_PROGRAMS));
+        if (programs != null) {
+            return programs.contains(code);
         }
 
         return false;
@@ -77,16 +74,16 @@ public class StudentResolver {
 
     public void filterStudents(String filterName) {
 
-        if (filterName != null && filterName != "")
-        {
+        if (filterName != null && filterName != "") {
+            
             List<GenericEntity> filteredStudents = new ArrayList<GenericEntity>();
-            for (GenericEntity student : students) {
-                Map studentMap = (Map)student;
+            for (GenericEntity student : studentSummaries) {
+                Map studentMap = (Map) student;
                 if (lozengeApplies(studentMap, filterName)) {
-                    filteredStudents.add ((GenericEntity)studentMap);
+                    filteredStudents.add((GenericEntity) studentMap);
                 }
             }
-            this.students = filteredStudents;
+            this.studentSummaries = filteredStudents;
         }
     }
 }

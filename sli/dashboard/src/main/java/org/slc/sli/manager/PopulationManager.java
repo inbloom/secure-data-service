@@ -1,7 +1,6 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,9 +15,7 @@ import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
 
 
 /**
@@ -43,23 +40,6 @@ public class PopulationManager {
     }
     
     /**
-     * Initialize with population-independent metadata.
-     * 
-     */
-    public void init() {
-        /*
-        List<GenericEntity> assessmentMetaDataList = entityManager.getAssessmentMetadata();
-        for (GenericEntity assessmentFamily : assessmentMetaDataList) {
-            List<Map> assessments = (List<Map>) assessmentFamily.get("children");
-            
-            for (Map assessment : assessments) {
-                this.getAssessmentFamilyMap().put((String) assessment.get("name"), assessmentFamily);
-            }
-        }
-        */
-    }
-    
-    /**
      * Get the assessment family lookup map
      * 
      * @return assessmentFamilyMap
@@ -80,87 +60,58 @@ public class PopulationManager {
      * @return studentList
      *         - the student summary entity list
      */
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds) {
-        
-        List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
-        List<GenericEntity> studentAssessments = entityManager.getAssessments(token, studentIds);
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig) {
+       
+        // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
-        
-        // Initialize student programs
-        Map studentProgramMap = new HashMap<String, Object>();
+            
+        // Get student programs
+        List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
+        Map<String, Object> studentProgramMap = new HashMap<String, Object>();
         for (GenericEntity studentProgram : studentPrograms) {
             List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);            
-            studentProgramMap.put(studentProgram.get(Constants.ATTR_STUDENT_ID), programs);
+            studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
-
-        // Initialize student assessments
-        Map studentAssessmentMap = new HashMap<String, Object>();
-        for (GenericEntity studentAssessment : studentAssessments) {
-            String assessmentName = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_NAME);
-            studentAssessment.put(Constants.ATTR_ASSESSMENT_FAMILY, this.getAssessmentFamilyMap().get(assessmentName));
-            studentAssessmentMap.put(studentAssessment.get(Constants.ATTR_STUDENT_ID), studentAssessment);
+        
+        // Get student assessments
+        Map<String, Object> studentAssessmentMap = new HashMap<String, Object>();
+        for (String studentId : studentIds) {
+            List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
+            studentAssessmentMap.put(studentId, studentAssessments);
         }
-
-        // Initialize student summaries
+        
+        // Add programs and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
-            studentSummary.put(Constants.ATTR_ASSESSMENTS, studentAssessmentMap.get(id));
+            studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
         }
         
         return studentSummaries;
     }
     
+    
     /**
+     * Get a list of assessment results for one student, filtered by assessment name
      * 
      * @param username
-     * @param studentIds
+     * @param studentId
      * @param config
      * @return
      */
-    public List<GenericEntity> getStudentInfo(String username, List<String> studentIds, ViewConfig config, String filterName) {
-        
-        // extract the studentInfo data fields
-        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_STUDENT_INFO);
-        
-        // call the entity manager
-        List<GenericEntity> studentInfo = new ArrayList<GenericEntity>();
-        if (dataFields.size() > 0) {
-            studentInfo.addAll(entityManager.getStudents(SecurityUtil.getToken(), studentIds));
-        }
+    private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
 
-        // return the results
-        return studentInfo;        
-    }
-    
-    
-    /**
-     * Returns the student program association data for the giving list of students
-     */    
-    public List<GenericEntity> getStudentProgramAssociations(String username, List<String> studentIds) {
-        List<GenericEntity> programs = new ArrayList<GenericEntity>();
-        programs.addAll(entityManager.getPrograms(SecurityUtil.getToken(), studentIds));
-        return programs;
-    }
-    
-    
-    public List<GenericEntity> getAssessments(String username, List<String> studentIds, ViewConfig config) {
-        
-        // extract the studentInfo data fields we need
+        // get list of assmt names from config
         List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_ASSESSMENT);
-
-
-        // TODO: API question: do we make one call and get all assessments, then filter? or make calls for only what we need?
-        //       For now, make one call and filter.
-        List<GenericEntity> assmts = entityManager.getAssessments(username, studentIds);
-        
-        // get list of assmt names
         Set<String> assmtNames = getAssmtNames(dataFields);
-        assmtNames = getAssmtNames(dataFields);
-
+        
+        // get all assessments for student
+        List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
+        
         // filter out unwanted assmts
         List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
         filteredAssmts.addAll(assmts);
+        
         /* To do this right, we'll need all the assessments under the assmt family's name, and
          * we'll require assessment metadata for it
         for (Assessment assmt : assmts) {
@@ -168,8 +119,7 @@ public class PopulationManager {
                 filteredAssmts.add(assmt);
         }
         */
-
-        // return the results
+        
         return filteredAssmts;
     }
 
@@ -186,17 +136,51 @@ public class PopulationManager {
         return assmtNames;
     }
 
-    
-    public List<AssessmentMetaData> getAssessmentMetaData(String username) {
+    /**
+     * Get meta data about the assessments
+     * 
+     * @param username
+     * @param studentAssessments
+     * @return
+     */
+    public List<GenericEntity> getAssessments(String username, List<GenericEntity> studentSummaries) {
         
-        AssessmentMetaData[] metaData = entityManager.getAssessmentMetaData(username);
-        return Arrays.asList(metaData);    
+        // get the list of assessment ids from the student assessments
+        List<String> assmtIds = extractAssessmentIds(studentSummaries);
+        
+        // get the assessment objects from the api
+        List<GenericEntity> assmts = entityManager.getAssessments(username, assmtIds);
+        return assmts;    
     }
 
-    
-    public EntityManager getEntityManager() {
-        return this.entityManager;
+    /**
+     * Helper method to grab the assessment ids from the student assessment results
+     * 
+     * @return
+     */
+    private List<String> extractAssessmentIds(List<GenericEntity> studentSummaries) {
+        
+        List<String> assmtIds = new ArrayList<String>();
+        
+        // loop through student summaries, grab student assessment lists
+        for (GenericEntity studentSummary : studentSummaries) {
+            
+            List<GenericEntity> studentAssmts = (List<GenericEntity>) studentSummary.get(Constants.ATTR_STUDENT_ASSESSMENTS);
+            for (GenericEntity studentAssmt : studentAssmts) {
+                
+                // add assessment id to the list
+                String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
+                if (!(assmtIds.contains(assmtId))) {
+                    assmtIds.add(assmtId);
+                }
+            }
+        }
+        
+        return assmtIds;
     }
+    
+    
+
     
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;

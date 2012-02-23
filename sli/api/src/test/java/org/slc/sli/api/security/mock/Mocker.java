@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,6 +38,7 @@ public class Mocker {
 
     @Autowired
     private static SecurityTokenResolver openamRestTokenResolver;
+    
     public static final String MOCK_URL = "mock";
     public static final String VALID_TOKEN = "valid_token";
     public static final String INVALID_TOKEN = "invalid_token";

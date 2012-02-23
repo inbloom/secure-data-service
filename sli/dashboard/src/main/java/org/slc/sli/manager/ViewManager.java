@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -18,14 +16,26 @@ import org.slc.sli.util.Constants;
  */
 public class ViewManager extends Manager {
     List<ViewConfig> viewConfigs;
-    PopulationManager populationManager;
     
-    public ViewManager(List<ViewConfig> viewConfigs, PopulationManager populationManager) {
+    public List<ViewConfig> getViewConfigs() {
+        return viewConfigs;
+    }
+
+    public void setViewConfigs(List<ViewConfig> viewConfigs) {
         this.viewConfigs = viewConfigs;
-        this.populationManager = populationManager;
+    }
+
+    EntityManager entityManager;
+    
+    public ViewManager(List<ViewConfig> viewConfigs) {
+        this.viewConfigs = viewConfigs;
     }
     
-    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, UserDetails user) {
+    public ViewManager() {
+        
+    }
+    
+    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
         // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
         ArrayList<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
@@ -37,8 +47,8 @@ public class ViewManager extends Manager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = populationManager.getStudentInfo(user.getUsername(), uids, viewConfig, "NONE");
-
+                List<GenericEntity> students = entityManager.getStudents(token, uids);
+                
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));
@@ -78,5 +88,13 @@ public class ViewManager extends Manager {
         gradeValues.put("Eleventh grade", 11);
         gradeValues.put("Twelfth grade", 12);
         return gradeValues;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     } 
 }
