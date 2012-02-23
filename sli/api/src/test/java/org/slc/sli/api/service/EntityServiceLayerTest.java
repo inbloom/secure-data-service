@@ -32,6 +32,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.AssociationService.EntityIdList;
 import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.EntityRepository;
@@ -295,14 +296,18 @@ public class EntityServiceLayerTest {
         assertFalse(studentSchoolAssociationService
                 .getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=Fifth grade", null, null).iterator().hasNext());
         
-        assertEquals(Arrays.asList(schoolId), studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4,
-                "nameOfInstitution=Battle School", null, null));
+        EntityIdList idList1 = studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4,
+                "nameOfInstitution=Battle School", null, null);
+        assertEquals(Arrays.asList(schoolId), iterableToList(idList1));
+        assertEquals(1, idList1.getTotalCount());
         assertFalse(studentSchoolAssociationService
                 .getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=new Battle School", null, null).iterator()
                 .hasNext());
         
-        assertEquals(Arrays.asList(id1), studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4,
-                "name.firstName=Bonzo", null, null));
+        EntityIdList idList2 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4,
+                "name.firstName=Bonzo", null, null);
+        assertEquals(Arrays.asList(id1), iterableToList(idList2));
+        assertEquals(4, idList2.getTotalCount());
         assertFalse(studentSchoolAssociationService
                 .getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=non exist", null, null).iterator().hasNext());
         
@@ -311,8 +316,10 @@ public class EntityServiceLayerTest {
                 studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null, "entryGradeLevel",
                         SortOrder.ascending));
         
-        assertEquals(Arrays.asList(id4, id3, id2, id1), studentSchoolAssociationService.getAssociatedEntitiesTo(
-                schoolId, 0, 4, null, "name.middleName", SortOrder.descending));
+        EntityIdList idList3 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, null,
+                "name.middleName", SortOrder.descending);
+        assertEquals(Arrays.asList(id4, id3, id2, id1), iterableToList(idList3));
+        assertEquals(4, idList3.getTotalCount());
         
         studentService.delete(id1);
         studentService.delete(id2);
