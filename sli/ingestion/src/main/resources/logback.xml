@@ -56,7 +56,7 @@
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->
-  <root level="info">
+  <root level="debug">
       <appender-ref ref="FILE"/>
   </root>
 

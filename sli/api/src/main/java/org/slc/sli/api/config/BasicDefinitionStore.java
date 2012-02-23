@@ -77,7 +77,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity("aggregation", "aggregations").buildAndRegister(this);
         factory.makeEntity("aggregationDefinition", "aggregationDefinitions").buildAndRegister(this);
         EntityDefinition assessment = factory.makeEntity("assessment", "assessments").buildAndRegister(this);
-        factory.makeEntity("assessmentFamily", "assessmentFamilies").buildAndRegister(this);
         EntityDefinition course = factory.makeEntity("course", "courses").buildAndRegister(this);
         EntityDefinition school = factory.makeEntity("school", "schools").buildAndRegister(this);
         EntityDefinition section = factory.makeEntity("section", "sections").buildAndRegister(this);
@@ -148,12 +147,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getSectionAssessmentAssociations").build();
         addAssocDefinition(sectionAssessmentAssociation);
         
-        AssociationDefinition sectionSchoolAssociation = factory.makeAssoc("sectionSchoolAssociation")
-                .exposeAs("section-school-associations").storeAs("sectionSchoolAssociation")
-                .from(section, "getSection", "getSections").to(school, "getSchool", "getSchools")
-                .calledFromSource("getSectionSchoolAssociations").calledFromTarget("getSectionSchoolAssociations")
-                .build();
-        addAssocDefinition(sectionSchoolAssociation);
         
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation")

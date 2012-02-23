@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
 
@@ -31,7 +30,7 @@ public class MockAPIClient implements APIClient {
     private static Logger log = LoggerFactory.getLogger(MockAPIClient.class);
     
     private ClassLoader classLoader;
-
+    
     // Mock Data Files
     private static final String MOCK_DATA_DIRECTORY = "mock_data/";
     private static final String MOCK_ENROLLMENT_FILE = "school.json";
@@ -47,7 +46,6 @@ public class MockAPIClient implements APIClient {
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
-
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
@@ -60,21 +58,34 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
-        // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
+        
+        // get all assessments in the file. this is very inefficient, since we're reading the whole file each time, but only
+        // grabbing assmts for one student. not sure of a good way around it at the moment.
+        List<GenericEntity> studentAssmts = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
+
+        // filter by the student id
+        for (GenericEntity studentAssmt : studentAssmts) {
+            if (studentAssmt.getString(Constants.ATTR_STUDENT_ID).equals(studentId)) {
+                filteredAssmts.add(studentAssmt);
+            }
+        }
+        
+        return filteredAssmts;
     }
 
+    @Override
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+        
+        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
+    }
+    
     @Override
     public List<GenericEntity> getCustomData(String token, String key) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
     }
-
-    @Override
-    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return fromFile(getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), AssessmentMetaData[].class);
-    }
-
+    
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         // TODO: student id logic isn't working yet. for now, pass in null.
