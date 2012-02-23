@@ -151,8 +151,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests,
-                   :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests] do
   displayFailureReport()
 end
 
@@ -231,6 +230,17 @@ task :collectionTests => [:realmInit] do
   runTests("test/features/api/collections")
 end
 
+desc "Run Sorting and Paging Tests"
+task :sortingAndPagingTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/api/sorting_paging")
+end
+
 # dependecy on importSandboxData so that association tests can depend on the associated
 # entiy data to be available
 desc "Run Association Tests"
@@ -263,6 +273,13 @@ desc "Run Aggregation Discovery Tests"
 task :aggregationDiscoveryTests => [:realmInit] do
   runFixtureAndTests("test/features/api/aggregations","aggregation","aggregation_fixture.json")
 end
+
+desc "Run Assessment User Story Tests"
+task :endUserStoryAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/assessments")
+end
+
 ############################################################
 # API tests end
 ############################################################
@@ -287,11 +304,23 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit] do
   runTests("test/features/admintools")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
@@ -378,7 +407,8 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json"
+    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

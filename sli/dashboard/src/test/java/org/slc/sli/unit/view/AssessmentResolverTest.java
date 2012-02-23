@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.slc.sli.config.Field;
@@ -30,6 +31,7 @@ public class AssessmentResolverTest {
         resolver = new AssessmentResolver(getAssessments(), getAssessmentMetaData());
     }
 
+    @Ignore
     @Test
     public void testGet() throws Exception {
         Field f = new Field();
@@ -50,6 +52,7 @@ public class AssessmentResolverTest {
         assertEquals("K", trcScore);
     }
 
+    @Ignore
     @Test
     public void testGetCutpoint() throws Exception {
         // get the D-next cutpoints

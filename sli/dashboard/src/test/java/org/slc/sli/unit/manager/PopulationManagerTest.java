@@ -143,7 +143,7 @@ public class PopulationManagerTest {
         StudentManager studentManager = new StudentManager();
         studentManager.setApiClient(mockClient);
         studentManager.setEntityManager(entityManager);
-        List<GenericEntity> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config);
+        List<GenericEntity> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config, "NONE");
         assertEquals(2, studentInfo.size());
         */
     }

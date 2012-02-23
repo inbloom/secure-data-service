@@ -18,6 +18,17 @@
     </#if>
 </span>
 
+<span id="studentFilterSpan">
+    <#if studentFilters??>
+      <#assign filtersSize = studentFilters?size>  
+        <select id="studentFilterSelector" onChange="filterStudents(this.value)">
+          <#list studentFilters as filter>
+            <option value=${filter_index}>${filter.getDescription()}</option>
+          </#list>
+        </select>
+    </#if>
+</span>
+
 <table id="studentList"> 
 
 <#if viewConfig??>

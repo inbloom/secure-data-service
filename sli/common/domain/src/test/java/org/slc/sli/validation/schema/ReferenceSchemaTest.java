@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +27,9 @@ import org.slc.sli.validation.ValidationError;
 
 /**
  * Tests the ReferenceSchema methods
+ * 
  * @author srupasinghe
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -70,8 +73,9 @@ public class ReferenceSchemaTest {
     
     /**
      * Mock repo class
+     * 
      * @author srupasinghe
-     *
+     * 
      */
     static class ValidationRepo implements EntityRepository {
         Map<String, List<Entity>> data = new HashMap<String, List<Entity>>();
@@ -102,6 +106,18 @@ public class ReferenceSchemaTest {
         
         @Override
         public Iterable<Entity> findAll(String collectionName, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Entity find(String collectionName, Map<String, String> queryParameters) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
             // TODO Auto-generated method stub
             return null;
         }
@@ -179,9 +195,15 @@ public class ReferenceSchemaTest {
         }
         
         @Override
-        public boolean matchQuery(String collectioName, String id, Query query) {
+        public long count(String collectionName, Query query) {
             // TODO Auto-generated method stub
-            return false;
+            return 0;
+        }
+
+        @Override
+        public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
         }
         
     }

@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.UUID;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,10 +23,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Tests for EntityPersistHandler
@@ -42,8 +49,6 @@ public class EntityPersistHandlerTest {
 
     private Validator<NeutralRecordEntity> mockedValidator;
 
-    private ErrorReport mockedErrorReport = mock(ErrorReport.class);
-
     private static final String STUDENT_ID = "765432";
     private static final String SCHOOL_ID = "654321";
     private static final String INTERNAL_STUDENT_ID = "0x" + STUDENT_ID;
@@ -53,7 +58,6 @@ public class EntityPersistHandlerTest {
     private static final String METADATA_BLOCK = "metaData";
     private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";
-
 
     private Map<String, String> schoolFilterFields = new HashMap<String, String>();
     private Map<String, String> studentSchoolAssociationFilterFields = new HashMap<String, String>();
@@ -70,7 +74,6 @@ public class EntityPersistHandlerTest {
         mockedEntityRepository = mock(MongoEntityRepository.class);
         entityPersistHandler.setEntityRepository(mockedEntityRepository);
         when(mockedEntityRepository.findByPaths("student", new HashMap<String, String>())).thenReturn(studentFound);
-
 
         // School search.
         schoolFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
@@ -124,10 +127,10 @@ public class EntityPersistHandlerTest {
         NeutralRecordEntity studentEntity = createStudentEntity();
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentEntity, new FaultsReport());
 
-        verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(),
-                studentEntity.getMetaData(), "student");
+        verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
+                "student");
     }
 
     /**
@@ -139,19 +142,53 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
 
         NeutralRecordEntity studentEntity = createStudentEntity();
+        NeutralRecordEntity existingStudentEntity = createStudentEntity();
+
+        existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
         // Student search.
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Arrays.asList((Entity) studentEntity));
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(
+                Arrays.asList((Entity) existingStudentEntity));
 
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentEntity, new FaultsReport());
 
         verify(entityRepository).update("student", studentEntity);
+    }
+
+    @Test
+    public void testPersistanceExceptionHandling() {
+        MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+
+        NeutralRecordEntity studentEntity = createStudentEntity();
+        NeutralRecordEntity existingStudentEntity = createStudentEntity();
+
+        existingStudentEntity.setEntityId(UUID.randomUUID().toString());
+
+        // Student search.
+        Map<String, String> studentFilterFields = new HashMap<String, String>();
+        studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
+        studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(
+                Arrays.asList((Entity) existingStudentEntity));
+
+        ValidationError error = new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, "field", null,
+                new String[] { "String" });
+        when(entityRepository.update("student", studentEntity)).thenThrow(
+                new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
+
+        entityPersistHandler.setEntityRepository(entityRepository);
+
+        FaultsReport fr = new FaultsReport();
+        entityPersistHandler.doHandling(studentEntity, fr);
+
+        Assert.assertTrue(fr.hasErrors());
+        Assert.assertEquals("Entity student - Record 0: Missing or empty field <field>", fr.getFaults().get(0).getMessage());
     }
 
     /**
@@ -185,7 +222,7 @@ public class EntityPersistHandlerTest {
 
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
                 studentSchoolAssociationEntity.getType());
@@ -221,13 +258,17 @@ public class EntityPersistHandlerTest {
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
+        NeutralRecordEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
+
+        existingStudentSchoolAssociationEntity.setEntityId(UUID.randomUUID().toString());
+
         when(entityRepository.findByPaths("studentSchoolAssociation", studentSchoolAssociationFilterFields))
-                .thenReturn(Arrays.asList((Entity) studentSchoolAssociationEntity));
+                .thenReturn(Arrays.asList((Entity) existingStudentSchoolAssociationEntity));
 
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
 
         verify(entityRepository).update("studentSchoolAssociation", studentSchoolAssociationEntity);
     }
@@ -264,7 +305,7 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
 
         verify(entityRepository, never()).update("studentSchoolAssociation", studentSchoolAssociationEntity);
     }
@@ -278,39 +319,12 @@ public class EntityPersistHandlerTest {
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(BAD_STUDENT_ID);
         studentSchoolAssociationEntity.setAttributeField("studentId", BAD_STUDENT_ID);
 
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, mockedErrorReport);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
         verify(mockedEntityRepository, never()).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
                 studentSchoolAssociationEntity.getType());
         verify(mockedEntityRepository, never()).update(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity);
-    }
-
-    @Test
-    public void testHandlePassedValidation() {
-        /*
-         * when validation passes for an entity, we should try to persist
-         */
-
-        NeutralRecordEntity mockedEntity = mock(NeutralRecordEntity.class);
-        ErrorReport mockedErrorReport = mock(ErrorReport.class);
-
-        String expectedType = "student";
-        when(mockedEntity.getType()).thenReturn(expectedType);
-
-        Map<String, Object> expectedMap = new HashMap<String, Object>();
-        when(mockedEntity.getBody()).thenReturn(expectedMap);
-
-        Map<String, Object> expectedMetaData = new HashMap<String, Object>();
-        expectedMetaData.put(REGION_ID_FIELD, REGION_ID);
-        expectedMetaData.put(EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(mockedEntity.getMetaData()).thenReturn(expectedMetaData);
-
-        when(mockedErrorReport.hasErrors()).thenReturn(false);
-
-        entityPersistHandler.handle(mockedEntity, mockedErrorReport);
-
-        verify(mockedEntityRepository).create(expectedType, expectedMap, expectedMetaData, expectedType);
     }
 
     @Test
@@ -379,6 +393,7 @@ public class EntityPersistHandlerTest {
     public NeutralRecordEntity createStudentSchoolAssociationEntity(String studentId) {
         // Create neutral record for entity.
         NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setAssociation(true);
         neutralRecord.setRecordType("studentSchoolAssociation");
         Map<String, Object> localParentIds = new HashMap<String, Object>();
         localParentIds.put("Student", studentId);

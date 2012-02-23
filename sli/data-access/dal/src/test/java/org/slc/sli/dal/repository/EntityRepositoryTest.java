@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -87,12 +88,6 @@ public class EntityRepositoryTest {
         searchResults = repository.findByQuery("student", query, 0, 20);
         assertTrue(searchResults.iterator().hasNext());
         
-        // test match by query object
-        Query query2 = new Query(Criteria.where("body.firstName").is("Jane"));
-        assertTrue(repository.matchQuery("student", id, query2));
-        query2 = null;
-        assertTrue(!repository.matchQuery("student", id, query2));
-        
         // test update
         found.getBody().put("firstName", "Mandy");
         assertTrue(repository.update("student", found));
@@ -118,6 +113,7 @@ public class EntityRepositoryTest {
         assertFalse(entities.iterator().hasNext());
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testSort() {
         
@@ -191,33 +187,21 @@ public class EntityRepositoryTest {
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
     }
     
-    // @Test
-    // public void testValidation() {
-    // Map<String, Object> badBody = buildTestStudentEntity();
-    // badBody.put("bad-entity", "true");
-    // try {
-    // repository.create("student", badBody);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Entity saved = repository.create("student", buildTestStudentEntity());
-    // String id = saved.getEntityId();
-    // saved.getBody().put("bad-entity", "true");
-    // try {
-    // repository.update("student", saved);
-    // fail("Should have thrown a validation exception");
-    // } catch (EntityValidationException e) {
-    // //received correct exception
-    // assertEquals("student", e.getEntityType());
-    // }
-    // Map<String, String> badFields = new HashMap<String, String>();
-    // badFields.put("bad-entity", "true");
-    // Iterable<Entity> badEntities = repository.findByFields("student", badFields, 0, 100);
-    // assertTrue(!badEntities.iterator().hasNext());
-    // repository.delete("student", id);
-    // }
+    @Test
+    public void testCount() {
+        repository.deleteAll("student");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        Map<String, Object> oddStudent = buildTestStudentEntity();
+        oddStudent.put("cityOfBirth", "Nantucket");
+        repository.create("student", oddStudent);
+        assertEquals(5, repository.count("student", new Query()));
+        Query nantucket = new Query();
+        nantucket.addCriteria(Criteria.where("body.cityOfBirth").is("Nantucket"));
+        assertEquals(1, repository.count("student", nantucket));
+    }
     
     private Map<String, Object> buildTestStudentEntity() {
         
@@ -277,5 +261,23 @@ public class EntityRepositoryTest {
         
         assertTrue(updated.isAfter(created));
         
+    }
+    
+    @Test
+    public void testFindIdsByQuery() {
+        repository.deleteAll("student");
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        repository.create("student", buildTestStudentEntity());
+        
+        Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
+        List<String> idList = new ArrayList<String>();
+        for (String id : ids) {
+            idList.add(id);
+        }
+        
+        assertEquals(5, idList.size());
     }
 }

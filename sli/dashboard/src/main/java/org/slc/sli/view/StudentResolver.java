@@ -3,6 +3,7 @@ package org.slc.sli.view;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
@@ -21,12 +22,10 @@ import org.slc.sli.util.Constants;
 public class StudentResolver {
 
     List<GenericEntity> studentSummaries;
+
     /**
      * Constructor
      */
-    public StudentResolver(List<GenericEntity> s, List<GenericEntity> p) {
-    }
-    
     public StudentResolver(List<GenericEntity> studentSummaryList) {
         studentSummaries = studentSummaryList;
     }
@@ -71,5 +70,20 @@ public class StudentResolver {
         }
 
         return false;
+    }
+
+    public void filterStudents(String filterName) {
+
+        if (filterName != null && filterName != "") {
+            
+            List<GenericEntity> filteredStudents = new ArrayList<GenericEntity>();
+            for (GenericEntity student : studentSummaries) {
+                Map studentMap = (Map) student;
+                if (lozengeApplies(studentMap, filterName)) {
+                    filteredStudents.add((GenericEntity) studentMap);
+                }
+            }
+            this.studentSummaries = filteredStudents;
+        }
     }
 }

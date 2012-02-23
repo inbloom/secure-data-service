@@ -17,6 +17,26 @@ import org.slc.sli.validation.SchemaRepository;
 /**
  * Default implementation of the entity definition store
  * 
+ * Instructions on adding entities:
+ * 
+ * If the entity that needs to be exposed to the api is identical to something in the database, most
+ * of the defaults should work for you.
+ * factory.makeEntity(nameOfEntityType, pathInURI).buildAndRegister(this);
+ * 
+ * If your entity requires some processing when it is fetched from the db and stored back in, this
+ * can be handled by adding one or more treatments
+ * factory.makeEntity(...).withTreatments(firstTransformation,
+ * anotherTransformation).buildAndRegister(this);
+ * 
+ * If it needs to be stored in a collection other than the one named by the entity type (if it is
+ * sharing a collection with another type):
+ * factory.makeEntity(...).storeAs(collectionName).buildAndRegister(this);
+ * 
+ * If it needs to be stored somewhere other than the default db (for instance if this is something
+ * that should be kept in memory), define your own repo and use with this:
+ * factory.makeEntity(...).storeIn(newRepo).buildAndRegister(this);
+ * 
+ * 
  * @author nbrown
  * 
  */
@@ -160,7 +180,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .build();
         addAssocDefinition(sessionCourseAssociation);
         
-        // TODO: Known technical-debt to be replaced by internal reference fields (such as
+        // TODO: Known technical-debt to be replaced by internal reference
+        // fields (such as
         // section.courseId)
         AssociationDefinition courseSectionAssociation = factory.makeAssoc("courseSectionAssociation")
                 .exposeAs("course-section-associations").storeAs("courseSectionAssociation")
@@ -177,6 +198,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
+        
+        // Adding the OAuth 2.0 Authorized Session Manager (uses Token Manager)
+        addDefinition(factory.makeEntity("oauthSession").storeAs("oauthSession").build());
     }
     
     private void add(EntityDefinition defn) {

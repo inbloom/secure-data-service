@@ -11,34 +11,17 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 >
 
-    <!-- controllers -->
-<!-- 
-    <bean name="/populationSummary"        class="org.slc.sli.controller.PopulationSummaryController">
-        <property name="viewManager" ref="viewManager"/>
-        <property name="populationManager" ref="populationManager"/>
-    </bean>
--->
-    
-    <bean name="/studentlist"        class="org.slc.sli.controller.StudentListController">
-        <property name="institutionalHierarchyManager" ref="institutionalHierarchyManager"/>
-    </bean>
+    <context:property-placeholder location="classpath:${env}.properties" ignore-resource-not-found="false" />
 
-    <bean name="/studentlistcontent" class="org.slc.sli.controller.StudentListContentController">
-        <property name="configManager"     ref="configManager"/>
-        <property name="populationManager" ref="populationManager"/>
-        <property name="viewManager" ref="viewManager"/>
-    </bean>
-    
-    <bean name="/appselector" class="org.slc.sli.controller.AppSelectorController" />
     
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
-        <property name="apiClient" ref="${apiclient}Client"/>
+        <property name="apiClient" ref="${api.client}"/>
     </bean>
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager"     parent="manager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
- 
+
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager" parent="manager"/>
     
     <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.InstitutionalHierarchyManager"    parent="manager"/>   
@@ -51,28 +34,14 @@
         <property name="entityManager" ref="entityManager"/>
     </bean>
     
-    <!-- Redirect view --> 
-    <bean name="/" class="org.slc.sli.controller.LandingPageController">
-      <property name="url" value="appselector" />
-    </bean>
-    
-    <!-- freemarker config -->
-    <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/views/"/>
-    </bean>
- 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-        <property name="cache" value="false"/>
-        <property name="prefix" value=""/>
-        <property name="suffix" value=".ftl"/>
-    </bean>
+
 
     <bean id="restClient" class="org.slc.sli.client.RESTClient" />
     
-	<bean id= "LiveClient" class="org.slc.sli.client.LiveAPIClient">
+	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	</bean>
 
-    <bean id= "MockClient" class="org.slc.sli.client.MockAPIClient" />
+    <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
     
 </beans>

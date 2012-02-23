@@ -1,7 +1,7 @@
-@wip
 Feature: Get ISAT Reading Scores
 Background: None
 
+@wip
 Scenario Outline:  As a teacher for my class I want to get the most recent values of the following attributes: ISAT Reading test PerformaceLevel, ScaleScore and Lexile
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
 	And I have a Role attribute returned from the "SEA/LEA IDP"
@@ -35,22 +35,22 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 		     And the "GradeLevelAssessed" is "Eight Grade"
 		     And the "LowestGradeLevelAssessed" is "Third Grade"
 		     And the "AssessmentPerformanceLevel" has the 4 levels
-				     "PerformanceLevel.Description"= "Academic Warning"
-				     "PerformanceLevel.Code"= "AW"
-				     "MaximumScore" = "179"
-				     "MinimumScore" = "120"
-				     "PerformanceLevel.Description"= "Below Standards"
-				     "PerformanceLevel.Code"= "BS"
-				     "MaximumScore" = "230"
-				     "MinimumScore" = "180"
-				     "PerformanceLevel.Description"= "Meets Standards"
-				     "PerformanceLevel.Code"= "MS"
-				     "MaximumScore" = "277"
-				     "MinimumScore" = "231"
-				      "PerformanceLevel.Description"= "Exceeds Standards"
-				     "PerformanceLevel.Code"= "ES"
-				     "MaximumScore" = "364"
-				     "MinimumScore" = "278"
+			 And the "AssessmentPerformanceLevel" levels contain a "Description" value of "Academic Warning"
+             And the "AssessmentPerformanceLevel" levels contain a "Code" value of "AW"
+             And the "AssessmentPerformanceLevel" levels contain a "MaximumScore" value of "179"
+             And the "AssessmentPerformanceLevel" levels contain a "MinimumScore" value of "120"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Description" value of "Below Standards"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Code" value of "BS"
+             And the "AssessmentPerformanceLevel" levels contain a "MaximumScore" value of "230"
+             And the "AssessmentPerformanceLevel" levels contain a "MinimumScore" value of "180"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Description" value of "Meets Standards"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Code" value of "MS"
+             And the "AssessmentPerformanceLevel" levels contain a "MaximumScore" value of "277"
+             And the "AssessmentPerformanceLevel" levels contain a "MinimumScore" value of "231"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Description" value of "Exceeds Standards"
+             And the "AssessmentPerformanceLevel" levels contain a "PerformanceLevel.Code" value of "ES"
+             And the "AssessmentPerformanceLevel" levels contain a "MaximumScore" value of "364"
+             And the "AssessmentPerformanceLevel" levels contain a "MinimumScore" value of "278"
 		     And the "AssessmentFamilyHierarchyName" is "ISAT Reading for Grades 3-8"
 		     And the "MaxRawScore" is "450"
 		     And the "MinRawScore" is "120"

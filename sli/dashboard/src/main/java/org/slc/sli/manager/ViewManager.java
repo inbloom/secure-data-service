@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -50,7 +48,7 @@ public class ViewManager extends Manager {
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
                 List<GenericEntity> students = entityManager.getStudents(token, uids);
-
+                
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));

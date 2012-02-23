@@ -100,7 +100,7 @@ public class PopulationManager {
      * @return
      */
     private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-        
+
         // get list of assmt names from config
         List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_ASSESSMENT);
         Set<String> assmtNames = getAssmtNames(dataFields);
@@ -180,9 +180,7 @@ public class PopulationManager {
     }
     
     
-    public EntityManager getEntityManager() {
-        return this.entityManager;
-    }
+
     
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;

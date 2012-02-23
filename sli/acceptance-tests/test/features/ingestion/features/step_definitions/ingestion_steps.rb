@@ -12,7 +12,7 @@ INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
-INGESTION_MODE = ENV['ingestion_mode']
+INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 
 ############################################################
 # STEPS: GIVEN
@@ -28,6 +28,8 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
+  path_name = file_name[0..-5]
+  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{@local_file_store_path}#{path_name}/*")
   @source_file_name = file_name
 end
 
@@ -116,8 +118,13 @@ Then /^I check to find if record is in collection:$/ do |table|
   
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
     
+    if row["searchType"] == "integer"
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+    else
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
+    end
+
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
     if @entity_count.to_s != row["expectedRecordCount"].to_s
@@ -132,39 +139,14 @@ end
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   if (INGESTION_MODE == 'remote')
     #remote check of file
-    @COMMAND = "
-      #!/bin/bash
+    @job_status_filename_component = "job-" + @source_file_name + "-"
     
-      externalDirectoryListing()
-      {
-      sftp ingestion@testing1.slidev.org << EOF
-      cd lz/inbound/
-      ls -tr
-      exit
-      EOF
-      }
-      
-      externalFileView()
-      {
-      PARAM=$1
-      ssh ingestion@testing1.slidev.org << EOF
-      cd lz/inbound/
-      cat $PARAM
-      exit
-      EOF
-      }
-      JOB_STRING=$1
-      VERIFICATION_RECORDS=$2
-
-      OUT=`externalDirectoryListing | grep $JOB_STRING | tail -1`
-      OUT=`externalFileView $OUT | grep 'Processed $VERIFICATION_RECORDS Records'`
-      
-      echo $OUT
-      exit 0
-    ";
-    @resultOfIngestion = runShellCommand(@COMMAND)
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component)
+    puts "Showing : <" + @resultOfIngestion + ">"
     
-    @messageString = "Processed " + message + " Records."
+    @messageString = message.to_s
+    
     if @resultOfIngestion.include? @messageString
       assert(true, "Processed all the records.")
     else
