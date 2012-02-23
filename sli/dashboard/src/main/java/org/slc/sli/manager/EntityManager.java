@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 
 /**
@@ -145,29 +144,27 @@ public class EntityManager extends Manager {
     }
     
     /**
-     * Get the list of assessment metadata entities
+     * Get the list of assessment entities
      * 
-     * @return assessmentMetadataList
-     *         - the assessment metadata entity list
+     * @return assessment list
      */
-    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return apiClient.getAssessmentMetaData(token);
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+        return apiClient.getAssessments(token, assessmentIds);
     }
     
     /**
-     * Get the list of assessment entities identified by the student id list and authorized for the
+     * Get the list of student assessment entities identified by the student id list and authorized for the
      * security token
      * 
      * @param token
      *            - the principle authentication token
      * @param studentIds
      *            - the student id list
-     * @return assessmentList
-     *         - the assessment entity list
+     * @return student assessment list
      */
-    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
+    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return apiClient.getAssessments(token, studentIds);
+        return apiClient.getStudentAssessments(token, studentId);
     }
     
     /**

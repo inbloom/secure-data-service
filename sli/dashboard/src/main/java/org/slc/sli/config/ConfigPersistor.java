@@ -96,8 +96,8 @@ public class ConfigPersistor {
         Gson gson = new Gson();
         StudentFilter[] retVal = gson.fromJson(configStr, StudentFilter[].class);
 
-        StudentFilter[] studentFilters = new StudentFilter[retVal.length+1];
-        System.arraycopy (retVal, 0, studentFilters, 1, retVal.length);
+        StudentFilter[] studentFilters = new StudentFilter[retVal.length + 1];
+        System.arraycopy(retVal, 0, studentFilters, 1, retVal.length);
 
         StudentFilter noFilter = new StudentFilter("", "", "No Filter");
         studentFilters[0] = noFilter;
