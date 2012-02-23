@@ -151,7 +151,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests] do
   displayFailureReport()
 end
 
@@ -261,6 +261,12 @@ desc "Run Home URI Tests"
 task :homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
+end
+
+desc "Run V1 Home URI Tests"
+task :V1homeUriTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api_v1/home_uri")
 end
 
 desc "Run Aggregation Tests"
