@@ -1,714 +1,130 @@
 [
-    {
-        "name": "ACT",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual",
-        "children" : [
-                    { "name": "ACT_READING" },
-                    { "name": "ACT_READING_SOC_SCI" },
-                    { "name": "ACT_READING_ARTS_LIT" },
-                    { "name": "ACT_ENGLISH" },
-                    { "name": "ACT_ENGLISH_UM" },
-                    { "name": "ACT_ENGLISH_RS" },
-                    { "name": "ACT_WRITING" },
-                    { "name": "ACT_WRITING_PLUS_ENG" }
-        ]
-    },
-    {
-        "name": "SAT",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual",
-        "children" : [
-                    { "name": "SAT_READING" },
-                    { "name": "SAT_WRITING" },
-                    { "name": "SAT_WRITING_ESSAY" },
-                    { "name": "SAT_WRITING_MC" }
-        ]
-    },
-    {
-        "name": "PSAT",
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "01/01",
-	           "windowEnd": "12/31"
-		}
-	  ],
-        "period" : "Annual",
-        "children" : [
-                    { "name": "PSAT_READING" },
-                    { "name": "PSAT_WRITING" }
-        ]
-
-    },
-    {
-        "name": "AP_ENGLISH",
-        "perfLevels": [
-            {
-                "name": "1",
-                "shortName": "1",
-                "isReal": true
-            },
-            {
-                "name": "2",
-                "shortName": "2",
-                "isReal": true
-            },
-            {
-                "name": "3",
-                "shortName": "3",
-                "isReal": true
-            },
-            {
-                "name": "4",
-                "shortName": "4",
-                "isReal": true
-            },
-            {
-                "name": "5",
-                "shortName": "5",
-                "isReal": true
-            }
-        ],
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "03/05",
-	           "windowEnd": "03/15"
-		}
-	],
-        "period" : "Annual",
-        "children" : [
-                    { "name": "AP_LANGUAGE" },
-                    { "name": "AP_LITERATURE" }
-        ]
-    },
-    {
-        "name": "ISAT_READING",
-        "perfLevels": [
-            {
-                "name": "1",
-                "code": "W",
-                "shortName": "1",
-                "longName": "Level 1: Academic Warning (W)",
-                "isReal": true
-            },
-            {
-                "name": "2",
-                "code": "B",
-                "shortName": "2",
-                "longName": "Level 2: Below Standards (B)",
-                "isReal": true
-            },
-            {
-                "name": "3",
-                "code": "M",
-                "shortName": "3",
-                "longName": "Level 3: Meets Standards (S)",
-                "isReal": true
-            },
-            {
-                "name": "4",
-                "code": "E",
-                "shortName": "4",
-                "longName": "Level 4: Exceeds Standards (E)",
-                "isReal": true
-            },
-            {
-                "name": "I",
-                "code": "!",
-                "shortName": "Inv.",
-                "longName": "Invalid Score or Data Error",
-                "isReal": false
-            },
-            {
-                "name": "N",
-                "code": "-",
-                "shortName": "N/A",
-                "longName": "Score not available (N/A)",
-                "isReal": false
-            }
-        ],
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "03/05",
-	           "windowEnd": "03/15"
-		}
-	],
-        "period" : "Annual",
-        "children": [
-            {
-                "name": "ISAT_READING_GRADE_3",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,156] },
-                    { "name": "2",
-                      "range": [156,191] },
-                    { "name": "3",
-                      "range": [191,227] },
-                    { "name": "4",
-                      "range": [227,329] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_3_2010" },
-                    { "name": "ISAT_READING_GRADE_3_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_READING_GRADE_4",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,158] },
-                    { "name": "2",
-                      "range": [158,203] },
-                    { "name": "3",
-                      "range": [203,237] },
-                    { "name": "4",
-                      "range": [237,341] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_4_2010" },
-                    { "name": "ISAT_READING_GRADE_4_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_READING_GRADE_5",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,161] },
-                    { "name": "2",
-                      "range": [161,215] },
-                    { "name": "3",
-                      "range": [215,247] },
-                    { "name": "4",
-                      "range": [247,351] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_5_2010" },
-                    { "name": "ISAT_READING_GRADE_5_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_READING_GRADE_6",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,167] },
-                    { "name": "2",
-                      "range": [167,220] },
-                    { "name": "3",
-                      "range": [220,257] },
-                    { "name": "4",
-                      "range": [257,360] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_6_2010" },
-                    { "name": "ISAT_READING_GRADE_6_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_READING_GRADE_7",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,174] },
-                    { "name": "2",
-                      "range": [174,226] },
-                    { "name": "3",
-                      "range": [226,267] },
-                    { "name": "4",
-                      "range": [267,369] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_7_2010" },
-                    { "name": "ISAT_READING_GRADE_7_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_READING_GRADE_8",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,180] },
-                    { "name": "2",
-                      "range": [180,231] },
-                    { "name": "3",
-                      "range": [231,278] },
-                    { "name": "4",
-                      "range": [278,364] }
-                ],
-                "children": [
-                    { "name": "ISAT_READING_GRADE_8_2010" },
-                    { "name": "ISAT_READING_GRADE_8_2011" }
-                ]
-            }
-        ]
-    },
-
-    {
-        "name": "ISAT_WRITING",
-        "perfLevels": [
-            {
-                "name": "1",
-                "code": "W",
-                "shortName": "1",
-                "longName": "Level 1: Academic Warning (W)",
-                "isReal": true
-            },
-            {
-                "name": "2",
-                "code": "B",
-                "shortName": "2",
-                "longName": "Level 2: Below Standards (B)",
-                "isReal": true
-            },
-            {
-                "name": "3",
-                "code": "M",
-                "shortName": "3",
-                "longName": "Level 3: Meets Standards (S)",
-                "isReal": true
-            },
-            {
-                "name": "4",
-                "code": "E",
-                "shortName": "4",
-                "longName": "Level 4: Exceeds Standards (E)",
-                "isReal": true
-            },
-            {
-                "name": "I",
-                "code": "!",
-                "shortName": "Inv.",
-                "longName": "Invalid Score or Data Error",
-                "isReal": false
-            },
-            {
-                "name": "N",
-                "code": "-",
-                "shortName": "N/A",
-                "longName": "Score not available (N/A)",
-                "isReal": false
-            }
-        ],
-        "periods" : [
-		{ 
-	           "name": "Annual",
-	           "windowStart": "03/05",
-	           "windowEnd": "03/15"
-		}
-	],
-        "period" : "Annual",
-        "children": [
-            {
-                "name": "ISAT_WRITING_GRADE_3",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,163] },
-                    { "name": "2",
-                      "range": [163,184] },
-                    { "name": "3",
-                      "range": [184,224] },
-                    { "name": "4",
-                      "range": [224,341] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_3_2010" },
-                    { "name": "ISAT_WRITING_GRADE_3_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_WRITING_GRADE_4",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,172] },
-                    { "name": "2",
-                      "rang": [172,200] },
-                    { "name": "3",
-                      "range": [200,247] },
-                    { "name": "4",
-                      "range": [247,355] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_4_2010" },
-                    { "name": "ISAT_WRITING_GRADE_4_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_WRITING_GRADE_5",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,180] },
-                    { "name": "2",
-                      "range": [180,214] },
-                    { "name": "3",
-                      "range": [214,271] },
-                    { "name": "4",
-                      "range": [271,369] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_5_2010" },
-                    { "name": "ISAT_WRITING_GRADE_5_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_WRITING_GRADE_6",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,194] },
-                    { "name": "2",
-                      "range": [194,225] },
-                    { "name": "3",
-                      "range": [225,176] },
-                    { "name": "4",
-                      "range": [176,379] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_6_2010" },
-                    { "name": "ISAT_WRITING_GRADE_6_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_WRITING_GRADE_7",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,207] },
-                    { "name": "2",
-                      "range": [207,235] },
-                    { "name": "3",
-                      "range": [235,281] },
-                    { "name": "4",
-                      "range": [281,392] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_7_2010" },
-                    { "name": "ISAT_WRITING_GRADE_7_2011" }
-                ]
-            },
-            {
-                "name": "ISAT_WRITING_GRADE_8",
-                "cutpoints": [
-                    { "name": "1",
-                      "range": [120,221] },
-                    { "name": "2",
-                      "range": [221,246] },
-                    { "name": "3",
-                      "range": [246,288] },
-                    { "name": "4",
-                      "range": [288,410] }
-                ],
-                "children": [
-                    { "name": "ISAT_WRITING_GRADE_8_2010" },
-                    { "name": "ISAT_WRITING_GRADE_8_2011" }
-                ]
-            }
-        ]
-    },
-
-    {
-        "name": "DIBELS_NEXT",
-        "perfLevels": [
-            {
-                "name": "3",
-                "longName": "At or Above Benchmark",
-                "shortName": "@B",
-                "isReal": true
-            },
-            {
-                "name": "2",
-                "longName": "Below Benchmark",
-                "shortName": "BB",
-                "isReal": true
-            },
-            {
-                "name": "1",
-                "longName": "Well Below Benchmark",
-                "shortName": "WB",
-                "isReal": true
-            }
-        ],
-        "periods" : [
-		{ 
-	           "name": "BOY",
-	           "windowStart": "09/05",
-	           "windowEnd": "09/15"
+{
+	"assessmentId" : "ISAT-Reading-8th-grade-2011",
+	"assessmentTitle" : "ISAT-Reading-8th-grade-2011",
+	"maxRawScore" : 364,
+	"minRawScore" : 120,
+	"assessmentPerformanceLevel" : [
+		{
+			"performanceLevel" : "1",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 120,
+			"maximumScore" : 180
 		},
-		{ 
-	           "name": "MOY",
-	           "windowStart": "01/05",
-	           "windowEnd": "01/15"
+		{
+			"performanceLevel" : "2",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 180,
+			"maximumScore" : 231
 		},
-		{ 
-	           "name": "EOY",
-	           "windowStart": "05/05",
-	           "windowEnd": "05/15"
+		{
+			"performanceLevel" : "3",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 231,
+			"maximumScore" : 278
+		},
+		{
+			"performanceLevel" : "4",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 278,
+			"maximumScore" : 364
 		}
-	],
-        "children": [
-            { 
-              "name": "DIBELS_NEXT_GRADE_K", 
-              "children": [
-                  {
-                    "name": "DIBELS_NEXT_GRADE_K_BOY",
-		    "period": "BOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [0, 13] },
-                        { "name": "2", 
-                          "range": [13, 26] },
-                        { "name": "3", 
-                          "range": [26, 104] }
-                     ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_K_MOY",
-		    "period": "MOY", 
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [3, 85] },
-                        { "name": "2", 
-                          "range": [85, 122] },
-                        { "name": "3", 
-                          "range": [122,277] }
-                     ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_K_EOY",
-	            "period": "EOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [16, 89] },
-                        { "name": "2", 
-                          "range": [89, 119] },
-                        { "name": "3", 
-                          "range": [119, 280] }
-                     ]
-                  }
-              ]
-            },
-            { 
-              "name": "DIBELS_NEXT_GRADE_1", 
-              "children": [
-                  {
-                    "name": "DIBELS_NEXT_GRADE_1_BOY",
-		    "period": "BOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [8, 97] },
-                        { "name": "2", 
-                          "range": [97, 113] },
-                        { "name": "3", 
-                          "range": [113, 257] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_1_MOY",
-		    "period": "MOY", 
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [10, 100] },
-                        { "name": "2", 
-                          "range": [100, 130] },
-                        { "name": "3", 
-                          "range": [130, 424] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_1_EOY",
-	            "period": "EOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [1, 111] },
-                        { "name": "2", 
-                          "range": [111, 155] },
-                        { "name": "3", 
-                          "range": [155, 354] }
-                    ]
-		  }
-              ]
-            },
-            { 
-              "name": "DIBELS_NEXT_GRADE_2", 
-              "children": [ 
-                  {
-                    "name": "DIBELS_NEXT_GRADE_2_BOY",
-		    "period": "BOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [3, 109] },
-                        { "name": "2", 
-                          "range": [109, 141] },
-                        { "name": "3", 
-                          "range": [141, 359] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_2_MOY",
-		    "period": "MOY", 
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [11, 109] },
-                        { "name": "2", 
-                          "range": [109, 190] },
-                        { "name": "3", 
-                          "range": [190, 429] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_2_EOY",
-	            "period": "EOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [19, 180] },
-                        { "name": "2", 
-                          "range": [180, 238] },
-                        { "name": "3", 
-                          "range": [238, 460] }
-                    ]
-                  }
-              ]
-            },
-            { 
-              "name": "DIBELS_NEXT_GRADE_3", 
-              "children": [
-                  {
-                    "name": "DIBELS_NEXT_GRADE_3_BOY",
-		    "period": "BOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [16, 180] },
-                        { "name": "2", 
-                          "range": [180, 220] },
-                        { "name": "3", 
-                          "range": [220, 526] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_3_MOY",
-		    "period": "MOY", 
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [43, 235] },
-                        { "name": "2", 
-                          "range": [235, 285] },
-                        { "name": "3", 
-                          "range": [285, 552] }
-                    ]
-                  },
-                  {
-                    "name": "DIBELS_NEXT_GRADE_3_EOY",
-	            "period": "EOY",
-                    "cutpoints": [
-                        { "name": "1",
-                          "range": [39, 280] },
-                        { "name": "2", 
-                          "range": [280, 330] },
-                        { "name": "3", 
-                          "range": [330, 636] }
-                     ]
-                  }
-              ]
-            }
-        ]
-    }, 
-
-    {
-        "name": "TRC",
-        "perfLevels": [
-            {
-		"name": "1",
-		"longName": "Far below proficient",
-		"shortName": "Far below proficient",
-		"isReal": true
-            },
-            {
-		"name": "2",
-		"longName": "Below proficient",
-		"shortName": "Below proficient",
-		"isReal": true
-            },
-            {
-		"name": "3",
-		"longName": "Proficient",
-		"shortName": "Proficient",
-		"isReal": true
-            },
-            {
-		"name": "4",
-		"longName": "Above proficient",
-		"shortName": "Above proficient",
-		"isReal": true
-            }
-        ], 
-        "periods" : [
-		{ 
-	           "name": "BOY",
-	           "windowStart": "09/05",
-	           "windowEnd": "09/15"
-		},
-		{ 
-	           "name": "MOY",
-	           "windowStart": "01/05",
-	           "windowEnd": "01/15"
-		},
-		{ 
-	           "name": "EOY",
-	           "windowStart": "05/05",
-	           "windowEnd": "05/15"
-		}
-	],
-        "children": [
-            { 
-                "name": "TRC_GRADE_1_BOY",
-	        "period": "BOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_1_MOY",
-	        "period": "MOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_1_EOY",
-	        "period": "EOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_2_BOY",
-	        "period": "BOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_2_MOY",
-	        "period": "MOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_2_EOY",
-	        "period": "EOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_3_BOY",
-	        "period": "BOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_3_MOY",
-	        "period": "MOY"
-	    }, 
-            { 
-                "name": "TRC_GRADE_3_EOY",
-	        "period": "EOY"
-	    }
 	]
+},
+{
+	"assessmentId" : "ISAT-Writing-8th-grade-2011",
+	"assessmentTitle" : "ISAT-Writing-8th-grade-2011",
+	"maxRawScore" : 410,
+	"minRawScore" : 120,
+	"assessmentPerformanceLevel" : [
+		{
+			"performanceLevel" : "1",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 120,
+			"maximumScore" : 221
+		},
+		{
+			"performanceLevel" : "2",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 221,
+			"maximumScore" : 246
+		},
+		{
+			"performanceLevel" : "3",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 246,
+			"maximumScore" : 288
+		},
+		{
+			"performanceLevel" : "4",
+			"assessmentReportingMethod" : "Scale score",
+			"minimumScore" : 288,
+			"maximumScore" : 410
+		}
+	]
+},
+    {
+        "assessmentId": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
+        "assessmentTitle": "TRC_ASSESSMENT_GRADE_2_BOY",
+        "maxRawScore": 364,
+        "minRawScore": 0,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Proficiency level",
+                "minimumScore": null,
+                "maximumScore": null
+            }
+        ]
+    },
+    {
+        "assessmentId": "DIBELS_NEXT_GRADE_2_BOY_ID",
+        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY",
+        "maxRawScore": 364,
+        "minRawScore": 0,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 80,
+                "maximumScore": 180
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 180,
+                "maximumScore": 231
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 231,
+                "maximumScore": 278
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 278,
+                "maximumScore": 364
+            }
+        ]
     }
-
 ]
-
-
-
-
