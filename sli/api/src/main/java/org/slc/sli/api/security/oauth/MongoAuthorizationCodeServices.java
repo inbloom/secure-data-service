@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
@@ -50,7 +51,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
         final EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code, authentication
                 .getClientAuthentication().getRequestedRedirect(), authentication.getUserAuthentication().getName());
-        
+        verificationCode.put("clientId", authentication.getClientAuthentication().getClientId());
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
             @Override
             public Boolean execute() {
@@ -82,10 +83,11 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                     clientScope.add("ENABLED");
                     // String redirectUri = (String) body.get("clientAuthn.redirectUri");
                     
-                    clientAuthentication = new UnconfirmedAuthorizationCodeClientToken("admin",
-                            "sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4", clientScope, "",
+                    //TODO: figure out if client secret is needed here
+                    clientAuthentication = new UnconfirmedAuthorizationCodeClientToken((String) body.get("clientId"),
+                            "TODO--CLIENT SECRET", clientScope, "",
                             (String) body.get("redirectUri"));
-                    userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+                    userAuthentication = new UsernamePasswordAuthenticationToken(verifyCode.getEntityId(), body.get("userName"));
                     
                     // EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code);
                     // body.put("verificationCode", verificationCode);

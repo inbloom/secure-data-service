@@ -140,12 +140,12 @@ public class MongoTokenStore implements TokenStore {
             throw new InvalidTokenException("token is expired");
         }
         
-        SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
-        if (principal != null) {
+        String entityIdForUser = (String) authentication.getUserAuthentication().getPrincipal();
+        if (entityIdForUser != null) {
             // look up client AND user
             
             Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                    new Query(Criteria.where("body.userAuthn.mongoEntityId").is(principal.getEntity().getEntityId())),
+                    new Query(Criteria.where("body.userAuthn.mongoEntityId").is(entityIdForUser)),
                     0, 1);
             // if the user has pre-existing authentication credentials -> update access token
             // otherwise --> create new access token and authentication in OAuth2Session collection
@@ -250,10 +250,10 @@ public class MongoTokenStore implements TokenStore {
         System.out.println("name: " + authentication.getUserAuthentication().getName());
         System.out.println("class: " + authentication.getClass());
         System.out.println("details: " + authentication.getUserAuthentication().getDetails());
-        SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
-        if (principal != null) {
+        String entityIdForUser = (String) authentication.getUserAuthentication().getPrincipal();
+        if (entityIdForUser != null) {
             Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                    new Query(Criteria.where("body.userAuthn.mongoEntityId").is(principal.getEntity().getEntityId())),
+                    new Query(Criteria.where("body.userAuthn.mongoEntityId").is(entityIdForUser)),
                     0, 1);
             if (results != null) {
                 for (Entity oauthSession : results) {

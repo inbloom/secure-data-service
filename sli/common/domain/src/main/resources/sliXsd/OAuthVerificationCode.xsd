@@ -46,6 +46,9 @@
 				<xs:element name="userName" type="xs:string"
 					minOccurs="1" maxOccurs="1">
 				</xs:element>
+				<xs:element name="clientId" type="xs:string"
+                    minOccurs="1" maxOccurs="1">
+                </xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

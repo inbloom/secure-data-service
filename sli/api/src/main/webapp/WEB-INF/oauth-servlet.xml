@@ -30,7 +30,7 @@
     client-details-service-ref="sliClientDetailService"
     token-services-ref="OAuthSessionService">   
         <oauth2:authorization-code services-ref="mongoAuthorizationCodeServices" />
-        <oauth2:implicit />
+<!--         <oauth2:implicit /> -->
         <oauth2:refresh-token />
     </oauth2:authorization-server>
     
