@@ -61,6 +61,21 @@ Scenario: Paging request the first two results from an API request
 		And the header "TotalCount" equals 3
 		And the a next link exists with start-index equal to 2 and max-results equal to 2
 		And the a previous link should not exist
+		
+Scenario: Paging request the first two results from an API request using /targets
+    Given format "application/json"
+		And parameter "sort-by" is "name.firstName"
+		And parameter "sort-order" is "ascending"
+	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
+	Then I should receive a collection with 2 elements
+ 	Given parameter "start-index" is "0"
+		And parameter "max-results" is "1"
+	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
+	Then I should receive a collection with 1 elements
+		And the link at index 0 should point to an entity with id "1aaad90e-02d0-4346-a3c4-a42747b9b050"
+		And the header "TotalCount" equals 2
+		And the a next link exists with start-index equal to 1 and max-results equal to 1
+		And the a previous link should not exist
 
 Scenario: Request the last and middle page of results from a API request
     Given format "application/json"
