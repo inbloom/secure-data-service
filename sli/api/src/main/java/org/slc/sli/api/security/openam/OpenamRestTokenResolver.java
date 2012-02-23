@@ -95,7 +95,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
 
     private Authentication buildAuthentication(String token, String payload) {
-        final SLIPrincipal principal = locator.locate(extractRealm(payload), extractValue("uid", payload));
+        final SLIPrincipal principal = locator.locate(tokenServiceUrl, extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         principal.setRealm(extractRealm(payload));
