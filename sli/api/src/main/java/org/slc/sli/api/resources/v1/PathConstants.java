@@ -10,6 +10,7 @@ package org.slc.sli.api.resources.v1;
 public class PathConstants {
 
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "student-school-associations";
+    public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
     public static final String SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-school-associations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
