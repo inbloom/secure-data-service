@@ -12,6 +12,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +25,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.enums.Right;
 
@@ -39,13 +42,21 @@ public class OpenamRestTokenResolverTest {
     private OpenamRestTokenResolver resolver;
 
     private RolesToRightsResolver   rightsResolver;
+    
+    @Value("${sli.security.tokenService.url}")
+    private String tokenServiceUrl;
+ 
 
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
-        resolver.setLocator(Mocker.getLocator());
+        UserLocator locator = Mocker.getLocator();
+        Mockito.when(locator.locate("mock", "demo")).thenReturn(new SLIPrincipal(Mocker.VALID_INTERNAL_ID));
+		resolver.setLocator(locator);
+
+        
         rightsResolver = mock(RolesToRightsResolver.class);
         resolver.setResolver(rightsResolver);
 
