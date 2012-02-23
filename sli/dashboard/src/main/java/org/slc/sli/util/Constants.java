@@ -61,14 +61,25 @@ public class Constants {
     public static final String ATTR_ID = "id";
     public static final String ATTR_CUSTOM_DATA = "customData";
     public static final String ATTR_ASSESSMENT_NAME = "assessmentName";
+    public static final String ATTR_ASSESSMENT_ID = "assessmentId";
+    public static final String ATTR_ADMIN_DATE = "administrationDate";
+    public static final String ATTR_ASSESSMENT_PERF_LEVEL = "assessmentPerformanceLevel";
+    public static final String ATTR_ASSESSMENT_REPORTING_METHOD = "assessmentReportingMethod";
+    public static final String ATTR_ASSESSMENT_TITLE = "assessmentTitle";
+    public static final String ATTR_RESULT = "result";
+    public static final String ATTR_SCORE_RESULTS = "scoreResults";
+    public static final String ATTR_MINIMUM_SCORE = "minimumScore";
+    public static final String ATTR_MAXIMUM_SCORE = "maximumScore";
     public static final String ATTR_STUDENT_ID = "studentId";
     public static final String ATTR_NAME = "name";
     public static final String ATTR_FIRST_NAME = "firstName";
     public static final String ATTR_LAST_SURNAME = "lastSurname";
     public static final String ATTR_PROGRAMS = "programs";
     public static final String ATTR_YEAR = "year";
-    public static final String ATTR_SCALE_SCORE = "scaleScore";
-    public static final String ATTR_PERF_LEVEL = "perfLevel";
+    public static final String ATTR_SCALE_SCORE = "Scale score";
+    public static final String ATTR_PERF_LEVEL = "Mastery level";
+    public static final String ATTR_PERCENTILE = "Percentile";
+    public static final String ATTR_LEXILE_SCORE = "Other";
     public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
     public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
     public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
@@ -77,6 +88,7 @@ public class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";

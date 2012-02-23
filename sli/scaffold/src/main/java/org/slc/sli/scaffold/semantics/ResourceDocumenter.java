@@ -40,7 +40,7 @@ public class ResourceDocumenter {
         writeFile(content, generatedHtml);
     }
     
-    private void readPropertiesFile() {
+    protected void readPropertiesFile() {
         try {
             props = new Properties();
             props.load(ResourceDocumenter.class.getResourceAsStream(PROP_FILE));
@@ -72,7 +72,7 @@ public class ResourceDocumenter {
      * @param generatedHtml file to read from
      * @return the file as a string
      */
-    private String readFile(File generatedHtml) {
+    protected String readFile(File generatedHtml) {
         String content = "";
         try {
             content = IOUtils.toString(new FileInputStream(generatedHtml));
@@ -84,7 +84,7 @@ public class ResourceDocumenter {
         return content;
     }
 
-    private String addResource(String content, Entry<Object, Object> entry) {
+    protected String addResource(String content, Entry<Object, Object> entry) {
         String value = (String) entry.getValue();
         String key = (String) entry.getKey();
         
@@ -96,13 +96,17 @@ public class ResourceDocumenter {
         return content;
     }
     
-    private String createLink(String key, String value) {
+    protected String createLink(String key, String value) {
         String link = "";
         
         link = LINK_HTML.replace("$LINK", baseUrl + value);
         link = link.replace("$TYPE", key);
         
         return link;
+    }
+    
+    protected String getBaseUrl() {
+        return baseUrl;
     }
 
     public static void main(String[] args) {
