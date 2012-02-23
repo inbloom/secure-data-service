@@ -62,7 +62,6 @@ Scenario: Paging request the first two results from an API request
 		And the a next link exists with start-index equal to 2 and max-results equal to 2
 		And the a previous link should not exist
 
-@wip
 Scenario: Paging request the first two results from an API request using /targets
     Given format "application/json"
 		And parameter "sort-by" is "name.firstName"

@@ -36,43 +36,43 @@ import org.slc.sli.domain.enums.Right;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
-
-    private static final String     DEFAULT_REALM_ID = "dc=slidev,dc=net";
-
+    
+    private static final String DEFAULT_REALM_ID = "i am -> a default -> realm -> yay -> me!";
+    
     private OpenamRestTokenResolver resolver;
-
-    private RolesToRightsResolver   rightsResolver;
+    
+    private RolesToRightsResolver rightsResolver;
     
     @Value("${sli.security.tokenService.url}")
     private String tokenServiceUrl;
- 
-
+    
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
         UserLocator locator = Mocker.getLocator();
-        Mockito.when(locator.locate("mock", "demo")).thenReturn(new SLIPrincipal(Mocker.VALID_INTERNAL_ID));
-		resolver.setLocator(locator);
-
+        SLIPrincipal principal = new SLIPrincipal(Mocker.VALID_INTERNAL_ID);
+        principal.setRealm(DEFAULT_REALM_ID);
+        Mockito.when(locator.locate("mock", "demo")).thenReturn(principal);
+        resolver.setLocator(locator);
         
         rightsResolver = mock(RolesToRightsResolver.class);
         resolver.setResolver(rightsResolver);
-
+        
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
-
+    
     @Test
     public void testResolveSuccess() {
-
+        
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
         Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
-
+    
     @Test
     public void testResolveFailure() {
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, null)).thenReturn(null);
