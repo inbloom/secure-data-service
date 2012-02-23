@@ -24,11 +24,18 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 
+/**
+ * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
+ * authorization codes as part of OAuth 2.0 implementation.
+ * 
+ * @author shalka
+ * 
+ */
 @Component
 public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCodeServices {
     
     private static final String OAUTH_VERIFICATION_CODE = "oauthVerificationCode";
-        
+    
     @Autowired
     private EntityRepository repo;
     
@@ -41,7 +48,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
      */
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
-        final EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code, authentication.getClientAuthentication().getRequestedRedirect(), authentication.getUserAuthentication().getName());
+        final EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code, authentication
+                .getClientAuthentication().getRequestedRedirect(), authentication.getUserAuthentication().getName());
         
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
             @Override
@@ -49,7 +57,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 getService().create(verificationCode);
                 return true;
             }
-        });       
+        });
     }
     
     /**
@@ -68,19 +76,20 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 long authCodeExpiration = Long.parseLong(body.get("expiration").toString());
                 
                 if (!OAuthTokenUtil.isTokenExpired(authCodeExpiration)) {
-                    //String clientId = (String) body.get("clientAuthn.clientId");
-                    //String clientSecret = (String) body.get("clientAuthn.clientSecret");
+                    // String clientId = (String) body.get("clientAuthn.clientId");
+                    // String clientSecret = (String) body.get("clientAuthn.clientSecret");
                     Set<String> clientScope = new HashSet<String>();
                     clientScope.add("ENABLED");
-                    //String redirectUri = (String) body.get("clientAuthn.redirectUri");
+                    // String redirectUri = (String) body.get("clientAuthn.redirectUri");
                     
-                    clientAuthentication = new UnconfirmedAuthorizationCodeClientToken("admin", "sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4",
-                            clientScope, "", (String) body.get("redirectUri"));
+                    clientAuthentication = new UnconfirmedAuthorizationCodeClientToken("admin",
+                            "sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4", clientScope, "",
+                            (String) body.get("redirectUri"));
                     userAuthentication = SecurityContextHolder.getContext().getAuthentication();
                     
-                    //EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code);
-                    //body.put("verificationCode", verificationCode);
-                    //getService().update(oauth2Session.getEntityId(), (EntityBody) body);
+                    // EntityBody verificationCode = OAuthTokenUtil.mapAuthorizationCode(code);
+                    // body.put("verificationCode", verificationCode);
+                    // getService().update(oauth2Session.getEntityId(), (EntityBody) body);
                 }
             }
         }

@@ -28,12 +28,12 @@
 			<artifactId>mock-dal</artifactId>
 		</dependency>
 
-        <dependency>
-           <groupId>org.jdom</groupId>
-           <artifactId>jdom</artifactId>
-           <version>1.1</version>
-        </dependency>
-               
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
 		<!-- Spring Context dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -130,6 +130,19 @@
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>1.0.0.M5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+
+		<!-- Java Servlet JSTL dependency -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -312,10 +325,13 @@
 								<phase>package</phase>
 								<configuration>
 									<executable>xsltproc</executable>
-									<commandlineArgs>-o ${project.build.outputDirectory}/doc/application.html ${project.build.outputDirectory}/doc/xsl/wadl.xsl ${project.build.outputDirectory}/doc/eapplication.wadl</commandlineArgs>
+									<commandlineArgs>-o
+										${project.build.outputDirectory}/doc/application.html
+										${project.build.outputDirectory}/doc/xsl/wadl.xsl
+										${project.build.outputDirectory}/doc/eapplication.wadl</commandlineArgs>
 								</configuration>
 							</execution>
-							
+
 							<execution>
 								<id>resource documenter</id>
 								<phase>package</phase>
@@ -329,7 +345,7 @@
 									</arguments>
 								</configuration>
 							</execution>
-							
+
 						</executions>
 					</plugin>
 
