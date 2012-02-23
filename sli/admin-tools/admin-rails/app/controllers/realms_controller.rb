@@ -10,7 +10,15 @@ class RealmsController < ApplicationController
   def index
     #figure out the realm this user has access to
     userRealm = get_user_realm
-    realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
+    realmToRedirectTo = nil
+    realms = Realm.all
+    puts "blah"
+    realms.each do |realm|
+      puts "Checking"
+      puts realm.inspect
+      realmToRedirectTo = realm if realm.idp.id == userRealm
+    end
+    #realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
     if realmToRedirectTo != nil
       redirect_to realmToRedirectTo
       return
