@@ -62,6 +62,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="studentId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The student uuid associated with this attendance.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
