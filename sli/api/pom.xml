@@ -289,33 +289,38 @@
 						<artifactId>exec-maven-plugin</artifactId>
 						<version>1.1</version>
 						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<configuration>
-									<mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
-									<arguments>
-										<argument>${project.build.outputDirectory}/doc/application.wadl</argument>
-										<argument>${project.build.outputDirectory}/doc/merge/merge-examples.xml</argument>
-										<argument>eapplication.wadl</argument>
-									</arguments>
-								</configuration>
-							</execution>
+                            <execution>
+                                <id>apidoc-merge</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
+                                    <arguments>
+                                        <argument>${project.build.outputDirectory}/doc/application.wadl</argument>
+                                        <argument>${project.build.outputDirectory}/doc/merge/merge-examples.xml</argument>
+                                        <argument>eapplication.wadl</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
 
-							<execution>
-								<id>exec-xsltproc: application.html</id>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<phase>package</phase>
-								<configuration>
-									<executable>xsltproc</executable>
-									<commandlineArgs>-o ${project.build.outputDirectory}/doc/application.html ${project.build.outputDirectory}/doc/xsl/wadl.xsl ${project.build.outputDirectory}/doc/eapplication.wadl</commandlineArgs>
-								</configuration>
-							</execution>
-							
+                            <execution>
+                                <id>apidoc-xslt</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>org.slc.sli.scaffold.XslTransformDocument</mainClass>
+                                    <arguments>
+                                        <argument>${project.build.outputDirectory}/doc/eapplication.wadl</argument>
+                                        <argument>${project.build.outputDirectory}/doc/xsl/wadl.xsl</argument>
+                                        <argument>${project.build.outputDirectory}/doc/application.html</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
 							<execution>
 								<id>resource documenter</id>
 								<phase>package</phase>
