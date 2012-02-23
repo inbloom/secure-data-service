@@ -89,6 +89,7 @@ public class Constants {
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
+    public static final String ATTR_COURSE_ID = "courseId";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
