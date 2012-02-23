@@ -20,9 +20,6 @@
                         http://www.springframework.org/schema/security/oauth2
                         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
  
-    <!--Basic application beans. -->
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
-	
     <!-- Beans referenced by Authorization and Resource Services -->
     <bean id="oauth2ProtectedResourceFilter" class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" />
     <bean id="oauth2ExceptionHandlerFilter" class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />    
@@ -33,6 +30,7 @@
     client-details-service-ref="sliClientDetailService"
     token-services-ref="OAuthSessionService">   
         <oauth2:authorization-code services-ref="mongoAuthorizationCodeServices" />
+        <oauth2:implicit />
         <oauth2:refresh-token />
     </oauth2:authorization-server>
     
@@ -46,4 +44,5 @@
     </security:global-method-security>
    
     <context:component-scan base-package="org.slc.sli.api.security.oauth" />
+    <context:annotation-config />
 </beans>

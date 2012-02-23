@@ -56,5 +56,6 @@ public class AccessConfirmationController {
         Map<String, Object> model = new TreeMap<String, Object>();
         model.put("client", client);
         return new ModelAndView("access_confirmation", model);
+        //return "access_confirmation";
     }
 }

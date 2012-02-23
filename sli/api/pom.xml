@@ -131,6 +131,7 @@
 			<version>1.0.0.M5</version>
 		</dependency>
 
+        <!-- Include Spring taglib for OAuth Authorize view -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
@@ -140,7 +141,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
