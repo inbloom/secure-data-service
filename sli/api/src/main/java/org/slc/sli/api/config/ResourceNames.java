@@ -13,6 +13,7 @@ public class ResourceNames {
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";
     public static final String ASSESSMENTS = "assessments";
     public static final String ASSESSMENT_FAMILIES = "assessmentFamilies";
+    public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";

@@ -59,10 +59,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentId" type="xs:string">
+			<xs:element name="studentId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The student uuid associated with this attendance.
+					<xs:documentation>The student associated with this attendance.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

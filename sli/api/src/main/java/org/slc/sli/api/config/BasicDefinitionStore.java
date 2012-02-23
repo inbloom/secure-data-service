@@ -1,18 +1,16 @@
 package org.slc.sli.api.config;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.validation.SchemaRepository;
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 /**
  * Default implementation of the entity definition store
@@ -87,7 +85,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = factory.makeEntity("teacher", ResourceNames.TEACHERS).buildAndRegister(this);
         EntityDefinition educationOrganization = factory.makeEntity("educationOrganization", ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
-        
+        factory.makeEntity("attendance", ResourceNames.ATTENDANCES).buildAndRegister(this);
+
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation")
                 .exposeAs(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS).storeAs("studentSchoolAssociation")
