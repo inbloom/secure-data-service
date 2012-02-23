@@ -8,7 +8,7 @@ public class StudentFilter {
     String label;
     String description;
 
-    public StudentFilter (String name, String label, String description) {
+    public StudentFilter(String name, String label, String description) {
         this.name = name;
         this.label = label;
         this.description = description;
