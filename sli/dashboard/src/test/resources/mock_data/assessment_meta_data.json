@@ -71,27 +71,27 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 1,
+                "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 2,
+                "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 3,
+                "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 4,
+                "maximumScore": 4
             }
         ]
     },

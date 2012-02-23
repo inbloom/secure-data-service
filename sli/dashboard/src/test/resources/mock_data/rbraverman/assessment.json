@@ -8,14 +8,14 @@
     "scoreResults":[
                     {
                     "assessmentReportingMethod": "Scale score",
-                    "result": "211"
+                    "result": "3"
                     },
                     {
-                    "assessmentReportingMethod": "Mastery level",
+                    "assessmentReportingMethod": "Achievement/Proficiency level",
                     "result": "K"
                     },
                     {
-                    "assessmentReportingMethod": "Proficiency Level",
+                    "assessmentReportingMethod": "Mastery level",
                     "result": "3"
                     }
                     ]
@@ -29,11 +29,11 @@
     "scoreResults": [
                     {
                     "assessmentReportingMethod": "Scale score",
-                    "result": "111"
+                    "result": "280"
                     },
                     {
-                    "assessmentReportingMethod": "Proficiency Level",
-                    "result": "3"
+                    "assessmentReportingMethod": "Mastery level",
+                    "result": "2"
                     },
                     {
                     "assessmentReportingMethod": "Percentile",
