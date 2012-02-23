@@ -57,7 +57,7 @@ public class ResourceDocumenter {
      * @param content content to write
      * @param output output file
      */
-    protected void writeFile(String content, File output) {
+    private void writeFile(String content, File output) {
         try {
             IOUtils.write(content, new FileOutputStream(output));
         } catch (FileNotFoundException e) {
@@ -103,6 +103,10 @@ public class ResourceDocumenter {
         link = link.replace("$TYPE", key);
         
         return link;
+    }
+    
+    protected String getBaseUrl() {
+        return baseUrl;
     }
 
     public static void main(String[] args) {

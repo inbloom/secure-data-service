@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.entity.assessmentmetadata.PerfLevel;
-import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.util.Constants;
 
 /**
@@ -61,8 +58,9 @@ public class AssessmentMetaDataResolver {
         */
     }
 
+    /*
     private void populateStructures(AssessmentMetaData metaData) {
-        /*
+
         if (allMetaData.containsKey(metaData.getName())) {
             throw new RuntimeException("Assessment name repeated in assessment metadata. ");
         }
@@ -79,11 +77,13 @@ public class AssessmentMetaDataResolver {
         } else {
             assessments.add(metaData);
         }
-        */
+        
     }
+    */
 
+    /*
     public PerfLevel findPerfLevelForFamily(String name, String perfLevel) {
-        /*
+        
         List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
         if (perfLevels == null) { return null; }
         for (PerfLevel pl : perfLevels) {
@@ -91,12 +91,13 @@ public class AssessmentMetaDataResolver {
                 return pl;
             }
         }
-        */
         return null;
     }
+     */
 
+    /*
     public List<Period> findPeriodsForFamily(String name) {
-        /*
+        
         AssessmentMetaData metaData = allMetaData.get(name);
         if (metaData == null) return null;
         // find the possible periods for the assessment family
@@ -106,12 +107,14 @@ public class AssessmentMetaDataResolver {
             }
             metaData = parent.get(metaData);
         }
-        */
+        
         return null;
     }
+    */
 
+    /*
     public Period findPeriodForFamily(String name) {
-        /*
+        
         List<Period> familyPeriods = findPeriodsForFamily(name);
         if (familyPeriods == null || familyPeriods.isEmpty()) {
             throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no periods data ");
@@ -133,10 +136,10 @@ public class AssessmentMetaDataResolver {
         }
         // if we reached here, the assessment meta data does not contains a period
         // throw new RuntimeException("Malformed assessment meta data: Assessment family " + name + " has no period data associated.");
-        */
+        
         return null;
     }
-
+     */
     
     /*
      * Returns a list representing the high cutpoints of the assessment's levels, plus one first
@@ -195,8 +198,9 @@ public class AssessmentMetaDataResolver {
      *
      * Returns null if no perf levels are found for the family.
      */
+    /*
     public List<PerfLevel> findPerfLevelsForFamily(String name) {
-        /*
+        
         AssessmentMetaData metaData = allMetaData.get(name);
         if (metaData == null) return null;
         // find the possible periods for the assessment family
@@ -206,9 +210,10 @@ public class AssessmentMetaDataResolver {
             }
             metaData = parent.get(metaData);
         }
-        */
+        
         return null;
     }
+    */
 
     public Integer findNumRealPerfLevelsForFamily(String name) {
         /*

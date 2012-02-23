@@ -1,28 +1,11 @@
 package org.slc.sli.unit.manager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.when;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import org.slc.sli.client.MockAPIClient;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
-import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
 
 /**
  * 
