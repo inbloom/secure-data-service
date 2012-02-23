@@ -25,7 +25,7 @@ public class XslTransformDocumentTest {
         URL xsltUrl = this.getClass().getResource("/wadl.xsl");
 
         try {
-            xslt.transform(new File(wadlUrl.toURI()), new File(xsltUrl.toURI()), "out.html");
+            xslt.transform(new File(wadlUrl.toURI()), new File(xsltUrl.toURI()), "target/out.html");
         } catch (URISyntaxException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

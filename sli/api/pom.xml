@@ -237,7 +237,7 @@
 								</docletArtifact>
 							</docletArtifacts>
 							<additionalparam>-output
-								${project.build.outputDirectory}/doc/resourcedoc.xml</additionalparam>
+								${project.build.outputDirectory}/../doc/resourcedoc.xml</additionalparam>
 						</configuration>
 					</plugin>
 
@@ -255,7 +255,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<wadlFile>${project.build.outputDirectory}/doc/application.wadl</wadlFile>
+							<wadlFile>${project.build.outputDirectory}/../doc/application.wadl</wadlFile>
 							<formatWadlFile>true</formatWadlFile>
 							<baseUri>http://www.sli.slc.org/api/rest</baseUri>
 							<packagesResourceConfig>
@@ -267,7 +267,7 @@
 									<properties>
 										<property>
 											<name>applicationDocsFile</name>
-											<value>${project.build.outputDirectory}/doc/application-doc.xml</value>
+											<value>${project.build.outputDirectory}/../doc/application-doc.xml</value>
 										</property>
 									</properties>
 								</wadlGeneratorDescription>
@@ -276,7 +276,7 @@
 									<properties>
 										<property>
 											<name>resourceDocFile</name>
-											<value>${project.build.outputDirectory}/doc/resourcedoc.xml</value>
+											<value>${project.build.outputDirectory}/../doc/resourcedoc.xml</value>
 										</property>
 									</properties>
 								</wadlGeneratorDescription>
@@ -290,6 +290,18 @@
 						<version>1.1</version>
 						<executions>
                             <execution>
+                                <id>copy-doc-resources</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <executable>cp</executable>
+                                    <commandlineArgs>-r ${project.basedir}/src/main/doc ${project.build.outputDirectory}/..</commandlineArgs>
+                                </configuration>
+                            </execution>
+
+                            <execution>
                                 <id>apidoc-merge</id>
                                 <phase>package</phase>
                                 <goals>
@@ -298,8 +310,8 @@
                                 <configuration>
                                     <mainClass>org.slc.sli.scaffold.MergeDocuments</mainClass>
                                     <arguments>
-                                        <argument>${project.build.outputDirectory}/doc/application.wadl</argument>
-                                        <argument>${project.build.outputDirectory}/doc/merge/merge-examples.xml</argument>
+                                        <argument>${project.build.outputDirectory}/../doc/application.wadl</argument>
+                                        <argument>${project.build.outputDirectory}/../doc/merge/merge-examples.xml</argument>
                                         <argument>eapplication.wadl</argument>
                                     </arguments>
                                 </configuration>
@@ -314,9 +326,9 @@
                                 <configuration>
                                     <mainClass>org.slc.sli.scaffold.XslTransformDocument</mainClass>
                                     <arguments>
-                                        <argument>${project.build.outputDirectory}/doc/eapplication.wadl</argument>
-                                        <argument>${project.build.outputDirectory}/doc/xsl/wadl.xsl</argument>
-                                        <argument>${project.build.outputDirectory}/doc/application.html</argument>
+                                        <argument>${project.build.outputDirectory}/../doc/eapplication.wadl</argument>
+                                        <argument>${project.build.outputDirectory}/../doc/xsl/wadl.xsl</argument>
+                                        <argument>${project.build.outputDirectory}/../doc/application.html</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -330,7 +342,7 @@
 								<configuration>
 									<mainClass>org.slc.sli.scaffold.semantics.ResourceDocumenter</mainClass>
 									<arguments>
-										<argument>${project.build.outputDirectory}/doc/application.html</argument>
+										<argument>${project.build.outputDirectory}/../doc/application.html</argument>
 									</arguments>
 								</configuration>
 							</execution>
@@ -343,7 +355,7 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <executable>cp</executable>
-                                    <commandlineArgs>-r -f ${project.build.outputDirectory}/doc .</commandlineArgs>
+                                    <commandlineArgs>-r -f ${project.build.outputDirectory}/../doc .</commandlineArgs>
                                 </configuration>
                             </execution>
                             
@@ -370,8 +382,19 @@
                                     <commandlineArgs>doc.tar.gz ${project.build.outputDirectory}/../</commandlineArgs>
                                 </configuration>
                             </execution>
-							
-						</executions>
+
+                            <execution>
+                                <id>cleanup</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>rm</executable>
+                                    <commandlineArgs>-rf doc doc.tar.gz</commandlineArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
 					</plugin>
 
 				</plugins>

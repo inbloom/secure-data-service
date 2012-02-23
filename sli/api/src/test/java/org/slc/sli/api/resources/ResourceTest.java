@@ -164,13 +164,6 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createTestSectionSchoolAssociation(String sectionId, String schoolId) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("sectionId", sectionId);
-        entity.put("schoolId", schoolId);
-        return entity;
-    }
-    
     public Map<String, Object> createTestEducationOrganizationAssociation(String educationOrganizationParentId,
             String educationOrganizationChildId) {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -463,18 +456,6 @@ public class ResourceTest {
         assertEquals(studentId1, ssaAssocBody.get("studentId"));
         assertEquals(sectionId1, ssaAssocBody.get("sectionId"));
         
-    }
-    
-    @Test
-    public void testAssessmentFamily() {
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        Response createResponse = api.createEntity("assessmentFamilies", new EntityBody(createTestEntity()), uriInfo);
-        assertNotNull(createResponse);
-        assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
-        String studentId1 = parseIdFromLocation(createResponse);
-        ids.put(new TypeIdPair("assessmentFamilies", studentId1), (String) createResponse.getMetadata().get("Location")
-                .get(0));
     }
     
     @Test
