@@ -64,7 +64,7 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of associated entities
      */
-    public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
+    public EntityIdList getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
             String sortBy, SortOrder sortOrder);
     
     /**
@@ -84,7 +84,7 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of entities associated to the given entity
      */
-    public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
+    public EntityIdList getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
             String sortBy, SortOrder sortOrder);
     
     /**
@@ -141,5 +141,12 @@ public interface AssociationService extends EntityService {
      * @return the number of associations
      */
     public long countAssociationsFor(String id, String queryString);
+    
+    public static interface EntityIdList extends Iterable<String> {
+        /**
+         * Returns the total number of entities possible from the request, ignoring paging.
+         */
+        public long getTotalCount();
+    }
     
 }
