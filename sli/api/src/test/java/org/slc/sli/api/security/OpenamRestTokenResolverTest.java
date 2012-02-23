@@ -37,7 +37,7 @@ import org.slc.sli.domain.enums.Right;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
 
-    private static final String     DEFAULT_REALM_ID = "dc=slidev,dc=net";
+    private static final String     DEFAULT_REALM_ID = "i am -> a default -> realm -> yay -> me!";
 
     private OpenamRestTokenResolver resolver;
 
@@ -53,7 +53,9 @@ public class OpenamRestTokenResolverTest {
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
         UserLocator locator = Mocker.getLocator();
-        Mockito.when(locator.locate("mock", "demo")).thenReturn(new SLIPrincipal(Mocker.VALID_INTERNAL_ID));
+        SLIPrincipal principal = new SLIPrincipal(Mocker.VALID_INTERNAL_ID);
+        principal.setRealm(DEFAULT_REALM_ID);
+        Mockito.when(locator.locate("mock", "demo")).thenReturn(principal);
 		resolver.setLocator(locator);
 
         
