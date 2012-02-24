@@ -4,6 +4,7 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
+require_relative '../../common.rb'
 #puts $:
 
 
@@ -22,16 +23,6 @@ end
 Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2/targets" if arg2 == "'Apple Alternative Elementary School' ID"
   id
-end
-
-# transform /v1/entity/<Place Holder Id>/association
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/[\w-]+)$/ do |version, uri, template, assoc|
-  version + uri + Transform(template) + assoc
-end
-
-# transform /v1/entity/<Place Holder Id>/association/entity
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/[\w-]+)(\/[\w-]+)$/ do |version, uri, template, assoc, entity|
-  version + uri + Transform(template) + assoc + entity
 end
 
 Given /^the "([^\"]+)" is "([^\"]+)"$/ do |key, value|
