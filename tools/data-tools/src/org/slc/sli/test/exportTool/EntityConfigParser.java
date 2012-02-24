@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +15,21 @@ import java.util.regex.Pattern;
 public class EntityConfigParser {
     private Map<String, String> sectionPairs = new HashMap<String, String>();
     private EdFiEntity edfiEntity = new EdFiEntity();
+    
+    private Pattern sectionPattern = Pattern.compile("#{3,}(\\w+)#{3,}");
+
+    private Pattern template = Pattern.compile("(.*)Template");
+    private Pattern query = Pattern.compile("(.*)Query");
+    
+    private Pattern valuePlaceholderPattern = Pattern.compile("--(\\w+)--");
+    private Pattern embeddedPlaceholderPattern = Pattern.compile("==(\\w+)==");
+    
+    private Pattern selectLinePattern = Pattern.compile("SELECT (.*) FROM", Pattern.CASE_INSENSITIVE);
+    private Pattern columnPattern = Pattern.compile("(\\w+)$");
+    
+    private Pattern joinLinePattern = Pattern.compile("ORDER BY (.*)", Pattern.CASE_INSENSITIVE);
+    private Pattern joinKeyPattern = Pattern.compile("(\\w+)$");
+
     /**
      * @param args
      */
@@ -26,7 +42,6 @@ public class EntityConfigParser {
     }
 
     public void getPartNamesAndStrings(String filename) {
-        Pattern sectionPattern = Pattern.compile("###(\\w*)###");
 
         try {
             FileInputStream fstream = new FileInputStream(filename);
@@ -72,8 +87,6 @@ public class EntityConfigParser {
     }
 
     public void generateEdFiEntityConfig() {
-        Pattern template = Pattern.compile("(.*)Template");
-        Pattern query = Pattern.compile("(.*)Query");
 
         for (String sectionName : this.sectionPairs.keySet()) {
             if (sectionName.equals("begin")) {
@@ -117,33 +130,82 @@ public class EntityConfigParser {
     }
 
     public void generatePlaceholders() {
-        Pattern valuePlaceholderPattern = Pattern.compile("--(\\w*)--");
-        Matcher valuePlaceholderMatcher = valuePlaceholderPattern.matcher(this.edfiEntity.mainTemplate);
+        parseTemplate(this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedElementPlaceholders);
+
+        parseQuery(this.edfiEntity.mainQuery, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
+        
+        for (String elementName : this.edfiEntity.EmbeddedElements.keySet()) {
+            EmbeddedElement element = this.edfiEntity.EmbeddedElements.get(elementName);
+            parseTemplate(element.template, element.valuePlaceholders, element.embeddedPlaceholders);
+            parseQuery(element.query, element.columnNames, element.joinKeys);
+        }
+        return;
+    }
+    
+    private void parseTemplate(String template, List<String> valueHolders, List<String> embeddedHolders) {
+        Matcher valuePlaceholderMatcher = valuePlaceholderPattern.matcher(template);
         while (valuePlaceholderMatcher.find()) {
             String valuePlaceholder = valuePlaceholderMatcher.group(1);
             System.out.println(valuePlaceholder);
-            if(!this.edfiEntity.valuePlaceholders.contains(valuePlaceholder)) {
-                this.edfiEntity.valuePlaceholders.add(valuePlaceholder);
+            if(!valueHolders.contains(valuePlaceholder)) {
+                valueHolders.add(valuePlaceholder);
             }
         }
 
-        Pattern embeddedPlaceholderPattern = Pattern.compile("==(\\w*)==");
-        Matcher embeddedPlaceholderMatcher = embeddedPlaceholderPattern.matcher(this.edfiEntity.mainTemplate);
+        Matcher embeddedPlaceholderMatcher = embeddedPlaceholderPattern.matcher(template);
         while (embeddedPlaceholderMatcher.find()) {
             String embeddedPlaceholder = embeddedPlaceholderMatcher.group(1);
             System.out.println(embeddedPlaceholder);
-            if (!this.edfiEntity.embeddedElementPlaceholders.contains(embeddedPlaceholder)) {
-                this.edfiEntity.embeddedElementPlaceholders.add(embeddedPlaceholder);
+            if (!embeddedHolders.contains(embeddedPlaceholder)) {
+                embeddedHolders.add(embeddedPlaceholder);
             }
         }
-
-        Pattern joinKeyPattern = Pattern.compile("ORDER BY (.*)");
-        Matcher joinKeyMatcher = joinKeyPattern.matcher(this.edfiEntity.mainQuery);
-        while (joinKeyMatcher.find()) {
-            String orderBy = joinKeyMatcher.group(1);
-            System.out.println("*************************");
-            System.out.println(orderBy);
+    }
+    
+    private void parseQuery(String query, List<String> columns, List<String> joinKeys) {
+        String tempQuery = query.replaceAll("\\-{2,}(.*)", "");
+        System.out.println(tempQuery);
+        
+        tempQuery = tempQuery.replaceAll("\\n", " ");
+        System.out.println(tempQuery);
+        
+        Matcher selectLineMatcher = selectLinePattern.matcher(tempQuery);
+        if (selectLineMatcher.find()) {
+            String selectLine = selectLineMatcher.group(1);
+            System.out.println(selectLine);
+            System.out.println("=========================================");
+            String[] selectedColumns = selectLine.split(",");
+            for (String selectedColumn : selectedColumns) {
+                String trimedSelectedColumn = selectedColumn.trim();
+                
+                Matcher columnMatcher = columnPattern.matcher(trimedSelectedColumn);
+                if (columnMatcher.find()) {
+                    String column = columnMatcher.group(1);
+                    if (!columns.contains(column))
+                        columns.add(column);
+                    System.out.println(column);
+                }
+            }
         }
-        return;
+        
+        
+        Matcher joinLineMatcher = joinLinePattern.matcher(query);
+        while (joinLineMatcher.find()) {
+            String orderBy = joinLineMatcher.group(1);
+            String[] localJoinKeys = orderBy.split(",");
+            
+            System.out.println("+++++++++++++++++++++++++++++");
+            for (String localKey : localJoinKeys) {
+                localKey = localKey.trim();
+                Matcher keyMatcher = joinKeyPattern.matcher(localKey);
+                if (keyMatcher.find()) {
+                    String temp = keyMatcher.group(1);             
+                    System.out.println(temp);
+                    if(!joinKeys.contains(temp))
+                        joinKeys.add(temp);
+                }
+            }
+        }
+        
     }
 }
