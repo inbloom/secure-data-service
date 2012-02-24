@@ -31,10 +31,8 @@ public class Utility {
             password = prop.getProperty("password");
 
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         propertiesLoaded = true;
@@ -65,7 +63,7 @@ public class Utility {
             if (!rs.next())
                 rs = null;
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             rs = null;
         }
         return rs;
@@ -142,6 +140,7 @@ public class Utility {
                     return false;
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
+                e.printStackTrace();
                 return false;
             }
         }

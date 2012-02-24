@@ -15,18 +15,18 @@ import java.util.regex.Pattern;
 public class EntityConfigParser {
     private Map<String, String> sectionPairs = new HashMap<String, String>();
     private EdFiEntity edfiEntity = new EdFiEntity();
-    
-    private Pattern sectionPattern = Pattern.compile("#{3,}(\\w+)#{3,}");
+
+    private Pattern sectionPattern = Pattern.compile("#{3,}(\\w+)#{3,}\\s*");
 
     private Pattern template = Pattern.compile("(.*)Template");
     private Pattern query = Pattern.compile("(.*)Query");
-    
+
     private Pattern valuePlaceholderPattern = Pattern.compile("--(\\w+)--");
     private Pattern embeddedPlaceholderPattern = Pattern.compile("==(\\w+)==");
-    
+
     private Pattern selectLinePattern = Pattern.compile("SELECT (.*) FROM", Pattern.CASE_INSENSITIVE);
     private Pattern columnPattern = Pattern.compile("(\\w+)$");
-    
+
     private Pattern joinLinePattern = Pattern.compile("ORDER BY (.*)", Pattern.CASE_INSENSITIVE);
     private Pattern joinKeyPattern = Pattern.compile("(\\w+)$");
 
@@ -36,9 +36,14 @@ public class EntityConfigParser {
     public static void main(String[] args) {
         String configFilename = "/Users/yzhang/Documents/Course.config";
         EntityConfigParser ecp = new EntityConfigParser();
-        ecp.getPartNamesAndStrings(configFilename);
-        ecp.generateEdFiEntityConfig();
-        ecp.generatePlaceholders();
+        ecp.parse(configFilename);
+    }
+
+    public EdFiEntity parse(String filename) {
+        this.getPartNamesAndStrings(filename);
+        this.generateEdFiEntityConfig();
+        this.generatePlaceholders();
+        return edfiEntity;
     }
 
     public void getPartNamesAndStrings(String filename) {
@@ -133,20 +138,23 @@ public class EntityConfigParser {
         parseTemplate(this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedElementPlaceholders);
 
         parseQuery(this.edfiEntity.mainQuery, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
-        
+
         for (String elementName : this.edfiEntity.EmbeddedElements.keySet()) {
             EmbeddedElement element = this.edfiEntity.EmbeddedElements.get(elementName);
             parseTemplate(element.template, element.valuePlaceholders, element.embeddedPlaceholders);
             parseQuery(element.query, element.columnNames, element.joinKeys);
         }
+
+//        System.out.println(this.edfiEntity.embeddedElementPlaceholders.size());
+//        System.out.println(this.edfiEntity.EmbeddedElements.keySet().size());
         return;
     }
-    
+
     private void parseTemplate(String template, List<String> valueHolders, List<String> embeddedHolders) {
         Matcher valuePlaceholderMatcher = valuePlaceholderPattern.matcher(template);
         while (valuePlaceholderMatcher.find()) {
             String valuePlaceholder = valuePlaceholderMatcher.group(1);
-            System.out.println(valuePlaceholder);
+//            System.out.println(valuePlaceholder);
             if(!valueHolders.contains(valuePlaceholder)) {
                 valueHolders.add(valuePlaceholder);
             }
@@ -155,57 +163,57 @@ public class EntityConfigParser {
         Matcher embeddedPlaceholderMatcher = embeddedPlaceholderPattern.matcher(template);
         while (embeddedPlaceholderMatcher.find()) {
             String embeddedPlaceholder = embeddedPlaceholderMatcher.group(1);
-            System.out.println(embeddedPlaceholder);
+//            System.out.println(embeddedPlaceholder);
             if (!embeddedHolders.contains(embeddedPlaceholder)) {
                 embeddedHolders.add(embeddedPlaceholder);
             }
         }
     }
-    
+
     private void parseQuery(String query, List<String> columns, List<String> joinKeys) {
         String tempQuery = query.replaceAll("\\-{2,}(.*)", "");
-        System.out.println(tempQuery);
-        
+//        System.out.println(tempQuery);
+
         tempQuery = tempQuery.replaceAll("\\n", " ");
-        System.out.println(tempQuery);
-        
+//        System.out.println(tempQuery);
+
         Matcher selectLineMatcher = selectLinePattern.matcher(tempQuery);
         if (selectLineMatcher.find()) {
             String selectLine = selectLineMatcher.group(1);
-            System.out.println(selectLine);
-            System.out.println("=========================================");
+//            System.out.println(selectLine);
+//            System.out.println("=========================================");
             String[] selectedColumns = selectLine.split(",");
             for (String selectedColumn : selectedColumns) {
                 String trimedSelectedColumn = selectedColumn.trim();
-                
+
                 Matcher columnMatcher = columnPattern.matcher(trimedSelectedColumn);
                 if (columnMatcher.find()) {
                     String column = columnMatcher.group(1);
                     if (!columns.contains(column))
                         columns.add(column);
-                    System.out.println(column);
+//                    System.out.println(column);
                 }
             }
         }
-        
-        
+
+
         Matcher joinLineMatcher = joinLinePattern.matcher(query);
         while (joinLineMatcher.find()) {
             String orderBy = joinLineMatcher.group(1);
             String[] localJoinKeys = orderBy.split(",");
-            
-            System.out.println("+++++++++++++++++++++++++++++");
+
+//            System.out.println("+++++++++++++++++++++++++++++");
             for (String localKey : localJoinKeys) {
                 localKey = localKey.trim();
                 Matcher keyMatcher = joinKeyPattern.matcher(localKey);
                 if (keyMatcher.find()) {
-                    String temp = keyMatcher.group(1);             
-                    System.out.println(temp);
+                    String temp = keyMatcher.group(1);
+//                    System.out.println(temp);
                     if(!joinKeys.contains(temp))
                         joinKeys.add(temp);
                 }
             }
         }
-        
+
     }
 }
