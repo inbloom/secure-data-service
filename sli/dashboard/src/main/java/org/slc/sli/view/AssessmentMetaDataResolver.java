@@ -227,6 +227,9 @@ public class AssessmentMetaDataResolver {
         */
         
         GenericEntity assmt = getAssmtByName(name);
+        if (assmt == null) {
+            return null;
+        }
         int numPerfLevels = 0;
         
         // loop through the assessment performance level array. count up the Mastery level records

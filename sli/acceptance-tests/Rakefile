@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -142,6 +142,11 @@ task :ingestionSessionTest do
   runTests("test/features/ingestion/features/ingestion_session.feature")
 end
 
+desc "Run Ingestion Negative Tests"
+task :ingestionNegativeTests do
+  runTests("test/features/ingestion/features/negative_testing.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -151,8 +156,8 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
-  displayFailureReport()
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :v1SchoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+displayFailureReport()
 end
 
 desc "Run Heirachy Traversal Tests"
@@ -182,6 +187,11 @@ end
 desc "Run School Tests"
 task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
+end
+
+desc "Run V1 School Tests"
+task :v1SchoolTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/school", "school", "school_fixture.json")
 end
 
 desc "Run Student Tests"
@@ -266,6 +276,12 @@ desc "Run Home URI Tests"
 task :homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
+end
+
+desc "Run V1 Home URI Tests"
+task :V1homeUriTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api_v1/home_uri")
 end
 
 desc "Run Aggregation Tests"
