@@ -43,10 +43,8 @@ namespace :deploy do
   end
   
   namespace :assets do
-    task :precompile do
-      run <<-CMD
-        cd #{deploy_to}/current/#{working_dir} && bundle exec rake RAILS_ENV=integration RAILS_GROUPS=assets assets:precompile
-      CMD
+    task :precompile, :roles => :web, :except => { :no_release => true } do
+      run "cd #{latest_release}/#{working_dir} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
     end
   end
   
@@ -56,12 +54,12 @@ namespace :deploy do
     # mkdir -p is making sure that the directories are there for some SCM's that don't
     # save empty folders
     run <<-CMD
-      rm -rf #{latest_release}/log #{latest_release}/public/system #{latest_release}/tmp/pids &&
-      mkdir -p #{latest_release}/public &&
-      mkdir -p #{latest_release}/tmp &&
-      ln -s #{shared_path}/log #{latest_release}/log &&
-      ln -s #{shared_path}/system #{latest_release}/public/system &&
-      ln -s #{shared_path}/pids #{latest_release}/tmp/pids
+      rm -rf #{latest_release}/#{working_dir}/log #{latest_release}/#{working_dir}/public/system #{latest_release}/#{working_dir}/tmp/pids &&
+      mkdir -p #{latest_release}/#{working_dir}/public &&
+      mkdir -p #{latest_release}/#{working_dir}/tmp &&
+      ln -s #{shared_path}/log #{latest_release}/#{working_dir}/log &&
+      ln -s #{shared_path}/system #{latest_release}/#{working_dir}/public/system &&
+      ln -s #{shared_path}/pids #{latest_release}/#{working_dir}/tmp/pids
     CMD
 
     if fetch(:normalize_asset_timestamps, true)

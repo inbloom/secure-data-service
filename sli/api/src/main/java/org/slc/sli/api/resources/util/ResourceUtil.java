@@ -133,17 +133,17 @@ public class ResourceUtil {
         for (AssociationDefinition assoc : associations) {
             if (assoc.getSourceEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
                 
                 links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getTargetEntity().getResourceName()).toString()));
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getTargetEntity().getResourceName()).toString()));
                 
             } else if (assoc.getTargetEntity().equals(defn)) {
                 links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
                 
                 links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getTargetEntity().getResourceName()).toString()));
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getSourceEntity().getResourceName()).toString()));
             }
         }
         return links;
