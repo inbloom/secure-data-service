@@ -2,7 +2,8 @@ package org.slc.sli.api.client;
 
 
 /**
- * Enumeration of available entity types in SLI.
+ * Enumeration of available entity types in SLI. Entities are currently mapped to
+ * specific resources in the ReSTful API.
  * 
  * @author asaarela
  */
