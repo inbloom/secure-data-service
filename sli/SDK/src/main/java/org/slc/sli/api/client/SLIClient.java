@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 
 import com.sun.jersey.api.client.ClientResponse;
 
-import org.slc.sli.api.client.impl.Entity;
-
 /**
  * Interface defining the methods available to SLI API client applications. It provides
  * basic CRUD operations available once the client connection is established.
@@ -51,18 +49,22 @@ public interface SLIClient {
      * @return EntityCollection collection of entities of EntityType that match the query.
      */
     public abstract EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
-            URISyntaxException;
+    URISyntaxException;
     
     /**
      * Update operation
-     * @param e Entity to update.
+     * 
+     * @param e
+     *            Entity to update.
      * @return Response to the update request.
      */
     public abstract ClientResponse update(final Entity e);
     
     /**
      * Delete operation
-     * @param e Entity to delete
+     * 
+     * @param e
+     *            Entity to delete
      * @return Response to the delete request.
      */
     public abstract ClientResponse delete(final Entity e);

@@ -1,13 +1,16 @@
-package org.slc.sli.api.client;
+package org.slc.sli.api.client.impl;
 
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.slc.sli.api.client.impl.Entity;
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.EntityType;
+import org.slc.sli.api.client.Link;
 
 /**
- * Generic implementation of the Entity interface.
+ * Generic implementation of the Entity interface. This is implements the Entity interface
+ * in the most generic way possible.
  * 
  * @author asaarela
  */
@@ -17,7 +20,9 @@ public class GenericEntity implements Entity {
     private final Map<String, Object> data;
     private final Map<String, Link> links;
     private final String id;
-    private final EntityType type;
+    
+    // Don't include / expect the type during marshaling.
+    private final transient EntityType type;
     
     /**
      * Construct a new generic entity.

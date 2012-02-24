@@ -1,12 +1,11 @@
-package org.slc.sli.api.client.impl;
+package org.slc.sli.api.client;
 
 import java.util.Map;
 
-import org.slc.sli.api.client.EntityType;
-import org.slc.sli.api.client.Link;
-
 /**
- * Generic entity returned by the SLI API ReSTful service.
+ * Generic entity returned by the SLI API ReSTful service. Each entity has a unique
+ * identifier, a data collection, and a collection of resource links. This interface provides
+ * the most stripped down interface required by all entities.
  * 
  * @author asaarela
  */

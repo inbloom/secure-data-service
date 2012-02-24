@@ -2,8 +2,6 @@ package org.slc.sli.api.client;
 
 import java.util.LinkedList;
 
-import org.slc.sli.api.client.impl.Entity;
-
 /**
  * Collection of Entity instances.
  * 
