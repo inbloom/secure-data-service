@@ -13,6 +13,8 @@ gem 'execjs'
 
 gem 'therubyracer'
 
+gem 'oauth2'
+
 group :deployment, :integration do
   # Deploy with Capistrano
   gem 'capistrano'

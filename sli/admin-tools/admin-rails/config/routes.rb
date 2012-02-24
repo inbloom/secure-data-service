@@ -24,7 +24,8 @@ SLIAdmin::Application.routes.draw do
     end
     
     match '/logout', :to => 'sessions#destroy'
-
+    match '/callback', :to => 'application#callback'
+	
   # Sample resource route with options:
   #   resources :products do
   #     member do
