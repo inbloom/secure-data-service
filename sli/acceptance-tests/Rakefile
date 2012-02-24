@@ -156,8 +156,8 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests] do
-  displayFailureReport()
+task :apiTests => [:courseTests, :sessionTests, :schoolTests, :studentTests, :teacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+displayFailureReport()
 end
 
 desc "Run Heirachy Traversal Tests"
@@ -202,6 +202,11 @@ end
 desc "Run Assessment Tests"
 task :assessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run Attendance Tests"
+task :attendanceTests => [:realmInit] do
+  runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
 end
 
 desc "Run Validation Tests"
@@ -266,6 +271,12 @@ desc "Run Home URI Tests"
 task :homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
+end
+
+desc "Run V1 Home URI Tests"
+task :V1homeUriTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api_v1/home_uri")
 end
 
 desc "Run Aggregation Tests"
