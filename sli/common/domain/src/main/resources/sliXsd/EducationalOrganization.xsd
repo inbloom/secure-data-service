@@ -144,7 +144,7 @@
 	</xs:complexType>
 
 
-	<xs:complexType name="educationOrganization" abstract="true">
+	<xs:complexType name="educationOrganization">
 		<xs:annotation>
 			<xs:documentation>This entity represents any public or private
 				institution,
@@ -257,6 +257,13 @@
 						<xs:annotation>
 							<xs:documentation>An optional hierarchical name for the Ed Org
 								using '.' separators.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="parentEducationAgencyReference" type="xs:string">
+					        <xs:annotation>
+						        <xs:documentation>Reference to the parent Education Organization
+							        in a hierarchy.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
