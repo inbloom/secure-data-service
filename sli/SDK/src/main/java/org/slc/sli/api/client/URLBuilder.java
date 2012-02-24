@@ -14,11 +14,6 @@ public final class URLBuilder {
     
     private final StringBuffer url = new StringBuffer();
     
-    // Private constructor, use 'create' to start the build process.
-    private URLBuilder(final String base) {
-        url.append(base);
-    }
-    
     /**
      * Start building a new URL with the provided base location.
      * 
@@ -27,7 +22,9 @@ public final class URLBuilder {
      * @return URLBuilder instance
      */
     public static URLBuilder create(final String baseUrl) {
-        return new URLBuilder(baseUrl);
+        URLBuilder rval = new URLBuilder();
+        rval.addPath(baseUrl);
+        return rval;
     }
     
     /**

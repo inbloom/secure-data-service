@@ -14,7 +14,6 @@ import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
@@ -122,28 +121,29 @@ public class RESTClient {
     public String getRequestWithHeaders(final URL url, final Map<String, List<String>> headers)
             throws URISyntaxException {
         
-        if (sessionToken != null) {
-            ClientRequest.Builder builder = new ClientRequest.Builder();
-            builder.header(API_SESSION_KEY, sessionToken);
-            
-            if (headers != null) {
-                for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                    builder.header(entry.getKey(), entry.getValue());
-                }
-            }
-            
-            builder.build(url.toURI(), "GET");
-            ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
-            
-            WebResource resource = client.resource(url.toURI());
-            
-            ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, request);
-            
-            return response.toString();
+        if (sessionToken == null) {
+            logger.error("Token is null in call to RESTClient for url" + url);
+            return null;
         }
         
-        logger.error("Token is null in call to RESTClient for url" + url);
-        return null;
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        builder.header(API_SESSION_KEY, sessionToken);
+        
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        
+        builder.build(url.toURI(), "GET");
+        builder.accept(MediaType.APPLICATION_JSON);
+        ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
+        
+        client.handle(request);
+        
+        ClientResponse response = client.handle(request);
+        
+        return response.toString();
     }
     
     /**
