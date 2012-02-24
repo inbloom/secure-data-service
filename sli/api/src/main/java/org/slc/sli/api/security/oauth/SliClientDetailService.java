@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -18,6 +19,7 @@ import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * 
@@ -56,7 +58,7 @@ public class SliClientDetailService implements ClientDetailsService {
             details.setClientId((String) entity.get("client_id"));
             details.setClientSecret((String) entity.get("client_secret"));
             details.setWebServerRedirectUri((String) entity.get("redirect_uri"));
-            details.setIsScoped(true);
+            details.setIsScoped(false);
             details.setIsSecretRequired(true);
             
             String scope = (String) entity.get("scope");
@@ -65,6 +67,9 @@ public class SliClientDetailService implements ClientDetailsService {
             details.setScope(scopes);
             
             // TODO: set authorities and grant types
+            List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+            auths.add(Right.FULL_ACCESS);
+            details.setAuthorities(auths);
             return details;
         } else {
             throw new OAuth2Exception("Could not find client with ID " + clientId);

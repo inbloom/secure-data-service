@@ -16,30 +16,40 @@
                         http://www.springframework.org/schema/security/oauth2 
                         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
-    <!-- Spring Security Filter Chain -->
 	<bean name="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<security:filter-chain-map path-type="ant">
 			<security:filter-chain pattern="/**"
 				filters="sliRequestFilter" />
 		</security:filter-chain-map>
 	</bean>
-	
+
+	<!-- OAuth 2.0 Resource Server configuration -->
+	<oauth2:resource-server id="oauth2ProviderFilter"
+		token-services-ref="OAuthSessionService" />
+
 	<security:http>
-        <security:form-login />
-		<security:http-basic />
-        <security:logout />
-		<security:anonymous />        
-        <security:intercept-url pattern="/oauth/authorize" access="ROLE_ADMINISTRATOR" />
-    </security:http>
-    
-	<!-- TECHNICAL DEBT: This Authentication Manager will need to be replaced with discovery service and SSO. -->
+		<security:form-login />
+		<security:logout />
+		<security:anonymous />
+		<security:intercept-url pattern="/oauth/authorize"
+			access="ROLE_ADMINISTRATOR" />
+		<security:custom-filter ref="oauth2ProviderFilter"
+			before="EXCEPTION_TRANSLATION_FILTER" />
+	</security:http>
+
+
+
+	<!-- TECHNICAL DEBT: This Authentication Manager will need to be replaced 
+		with discovery service and SSO. -->
 	<security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="linda.kim" password="linda.kim1234" authorities="EDUCATOR" />
-                <security:user name="demo" password="demo1234" authorities="ROLE_ADMINISTRATOR" />
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="linda.kim" password="linda.kim1234"
+					authorities="EDUCATOR" />
+				<security:user name="demo" password="demo1234"
+					authorities="ROLE_ADMINISTRATOR" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
 
 </beans>

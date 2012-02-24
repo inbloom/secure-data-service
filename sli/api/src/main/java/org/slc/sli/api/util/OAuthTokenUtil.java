@@ -1,5 +1,10 @@
 package org.slc.sli.api.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 
 import org.springframework.security.core.Authentication;
@@ -25,8 +30,8 @@ public class OAuthTokenUtil {
      * Name of the collection in Mongo that stores OAuth 2.0 session
      * information.
      */
-    private static final String OAUTH_SESSION_COLLECTION = "oauthSession";
-    
+    private static final String OAUTH_ACCESS_TOKEN_COLLECTION = "oauth_access_token";
+    private static final String OAUTH_REFRESH_TOKEN_COLLECTION = "oauth_refresh_token";
     /**
      * Lifetime (duration of validity) of an Access Token in seconds.
      */
@@ -48,8 +53,12 @@ public class OAuthTokenUtil {
      * 
      * @return String representing Mongo collection name.
      */
-    public static String getOAuthCollectionName() {
-        return OAUTH_SESSION_COLLECTION;
+    public static String getOAuthAccessTokenCollectionName() {
+        return OAUTH_ACCESS_TOKEN_COLLECTION;
+    }
+    
+    public static String getOAuthRefreshTokenCollectionName() {
+        return OAUTH_REFRESH_TOKEN_COLLECTION;
     }
     
     /**
@@ -91,7 +100,7 @@ public class OAuthTokenUtil {
      */
     public static EntityBody mapSliPrincipal(Object user) {
         EntityBody entity = new EntityBody();
-        if(user instanceof User) {
+        if (user instanceof User) {
             User principal = (User) user;
             entity.put("externalId", principal.getUsername());
             //entity.put("", principal.getAuthorities());
@@ -195,4 +204,35 @@ public class OAuthTokenUtil {
     public static int getAccessTokenValidity() {
         return ACCESS_TOKEN_VALIDITY;
     }
+    
+    public static byte[] serialize(Object o) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+        try {
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(o);
+            oos.flush();
+            oos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return baos.toByteArray();
+    }
+    
+    public static Object deserialize(byte[] b) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(b);
+        ObjectInputStream ois;
+        Object toReturn = null;
+        try {
+            ois = new ObjectInputStream(bais);
+            toReturn = ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return toReturn;
+    }
+    
 }

@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 
+ * @author pwolf
+ *
+ */
 @Controller
 @RequestMapping("/oauth/confirm_access")
 public class AccessConfirmationController {

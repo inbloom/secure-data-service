@@ -15,7 +15,7 @@
 
   <div id="content">
 
-    <sec:authorize ifAllGranted="ROLE_ADMINISTRATOR">
+    <sec:authorize ifAnyGranted="FULL_ACCESS, ADMIN_ACCESS">
       <h2>Please Confirm</h2>
 
       <p>You hereby authorize ${client.clientId} to access your protected resources.</p>
