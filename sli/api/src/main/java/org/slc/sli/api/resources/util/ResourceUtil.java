@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,6 +22,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.resources.v1.PathConstants;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -78,6 +80,7 @@ public class ResourceUtil {
      * @param uriInfo
      *            base URI
      */
+    @Deprecated
     public static List<EmbeddedLink> getAssociationsLinks(final EntityDefinitionStore entityDefs,
             final EntityDefinition defn, final String id, final UriInfo uriInfo) {
 
@@ -98,6 +101,49 @@ public class ResourceUtil {
                         assoc.getResourceName(), id).toString()));
                 links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil
                         .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
+            }
+        }
+        return links;
+    }
+    
+    /**
+     * Looks up associations for the given entity (definition) and adds embedded links for each
+     * association for the given user ID.
+     *
+     * @param entityDefs
+     *            all entity definitions
+     * @param defn
+     *            entity whose associations are being looked up
+     * @param links
+     *            list to add associations links to
+     * @param id
+     *            specific ID to append to links to create specific lookup link
+     * @param uriInfo
+     *            base URI
+     */
+    public static List<EmbeddedLink> getAssociationLinksForEntity(final EntityDefinitionStore entityDefs,
+            final EntityDefinition defn, final String id, final UriInfo uriInfo) {
+
+        LinkedList<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+
+        // look up all associations for supplied entity
+        Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
+
+        // loop through all associations to supplied entity type
+        for (AssociationDefinition assoc : associations) {
+            if (assoc.getSourceEntity().equals(defn)) {
+                links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), 
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                
+                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), 
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getTargetEntity().getResourceName()).toString()));
+                
+            } else if (assoc.getTargetEntity().equals(defn)) {
+                links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), 
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                
+                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), 
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getSourceEntity().getResourceName()).toString()));
             }
         }
         return links;
@@ -205,18 +251,21 @@ public class ResourceUtil {
     }
 
     /**
-     * Returns a URI based on the supplied URI with the type and id appended to the base URI.
-     *
+     * Returns a URI based on the supplied URI with the paths appended to the base URI.
      * @param uriInfo
-     *            URI of current actions
-     * @param type
-     *            string representing API exposure of object
-     * @param id
-     *            unique ID of an entity
-     * @return URI for searching base URI for entity type for ID
+     *              URI of current actions
+     * @param paths
+     *              Paths that need to be appended
+     * @return
      */
-    public static URI getURI(UriInfo uriInfo, String type, String id) {
-        return uriInfo.getBaseUriBuilder().path(type).path(id).build();
+    public static URI getURI(UriInfo uriInfo, String ...paths) {
+        UriBuilder builder = uriInfo.getBaseUriBuilder();
+        
+        for (String path : paths) {
+            builder.path(path);
+        }
+        
+        return builder.build();
     }
 
     /**

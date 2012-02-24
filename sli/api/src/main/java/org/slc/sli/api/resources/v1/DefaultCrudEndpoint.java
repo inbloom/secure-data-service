@@ -420,7 +420,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
             
         } else {
-            links.addAll(ResourceUtil.getAssociationsLinks(entityDefs, defn, id, uriInfo));
+            links.addAll(ResourceUtil.getAssociationLinksForEntity(entityDefs, defn, id, uriInfo));
             links.addAll(ResourceUtil.getReferenceLinks(uriInfo, entityDefs, defn, entityBody));
         }
         return links;
