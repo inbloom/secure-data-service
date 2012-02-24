@@ -143,7 +143,7 @@ public class ResourceUtil {
                         getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName()).toString()));
                 
                 links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getTargetEntity().getResourceName()).toString()));
+                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, assoc.getResourceName(), assoc.getSourceEntity().getResourceName()).toString()));
             }
         }
         return links;
