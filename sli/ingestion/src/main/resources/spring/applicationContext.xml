@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:util="http://www.springframework.org/schema/util"
-  xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-<import resource="dal-context.xml"/>
-    <context:component-scan base-package="org.slc.sli" >
-    		<context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
-    </context:component-scan>
-	<context:annotation-config />
+  <context:component-scan base-package="org.slc.sli">
+    <context:exclude-filter type="regex"
+      expression=".*AvroEntityValidator"></context:exclude-filter>
+  </context:component-scan>
+  <context:annotation-config />
 
-	<bean id="validator" class = "org.slc.sli.validation.schema.NeutralSchemaValidator"/>
+  <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+  <bean id="ingestionPropertiesPlaceholder"
+    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
     <!-- this avoids errors with *other* property placeholders -->
     <property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -33,27 +35,31 @@
     </property>
   </bean>
 
-  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
+  <bean id="lz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
     <property name="directory" value="${landingzone.inbounddir}"></property>
   </bean>
 
-  <bean id="tempLz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
+  <bean id="tempLz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
   <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
-  	  <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
-  	    <constructor-arg>
-  		  <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF"/>
-  		</constructor-arg>
-  		<constructor-arg>
-  		  <bean class="org.hornetq.api.core.TransportConfiguration" >
-		    <constructor-arg index="0">
-              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
-	        </constructor-arg>
+      <bean factory-method="createConnectionFactoryWithoutHA"
+        class="org.hornetq.api.jms.HornetQJMSClient">
+        <constructor-arg>
+          <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
+        </constructor-arg>
+        <constructor-arg>
+          <bean class="org.hornetq.api.core.TransportConfiguration">
+            <constructor-arg index="0">
+              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory
+              </value>
+            </constructor-arg>
             <constructor-arg index="1">
               <map>
-                <entry key="host" value="${queues.workItem.host}"/>
-                <entry key="port" value="${queues.workItem.port}"/>
+                <entry key="host" value="${queues.workItem.host}" />
+                <entry key="port" value="${queues.workItem.port}" />
               </map>
             </constructor-arg>
           </bean>
@@ -65,38 +71,51 @@
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
+  <import resource="dal-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
 
-  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
-    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
-    name="showOutBody" value="true" /> <property name="showOutBodyType" value="true" /> </bean> -->
+  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
+    <property name="traceOutExchanges" value="true" /> </bean> <bean id="traceFormatter"
+    class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
+    name="showOutBody" value="true" /> <property name="showOutBodyType" value="true"
+    /> </bean> -->
 
-  <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" /> -->
+  <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor"
+    /> -->
 
-  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
-    /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
+  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor">
+    <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
+    /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect>
+    </aop:config> -->
 
 
   <!-- performance tracking -->
-  <aop:aspectj-autoproxy/>
-  <bean id="ingestionPerformaceTrackingAspect" class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect"/>
+  <aop:aspectj-autoproxy />
+  <bean id="ingestionPerformaceTrackingAspect"
+    class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect" />
 
-  <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
+  <bean id="controlFileValidator"
+    class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
       <list>
-        <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
+        <bean
+          class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
+        <bean
+          class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
+        <bean
+          class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>
 
-  <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
+  <bean id="zipFileValidator"
+    class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
-  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+  <bean id="messageSource"
+    class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
       <list>
         <value>messages</value>
@@ -112,13 +131,15 @@
 
   <bean id="xmlFileHandler" parent="smooksFileHandler">
     <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+      <bean
+        class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
     </property>
   </bean>
 
   <bean id="csvFileHandler" parent="smooksFileHandler">
     <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
+      <bean
+        class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
   </bean>
 

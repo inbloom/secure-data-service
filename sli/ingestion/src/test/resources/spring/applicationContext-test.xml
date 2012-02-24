@@ -32,12 +32,14 @@
 
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
+  <import resource="dal-context.xml" />
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
     /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
+    <context:exclude-filter type="regex" expression=".*DummyEntityRepository" />
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
   </context:component-scan>
 
@@ -149,5 +151,7 @@
   </bean>
 
   <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
+
+  <bean id="testNeutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository" />
 
 </beans>

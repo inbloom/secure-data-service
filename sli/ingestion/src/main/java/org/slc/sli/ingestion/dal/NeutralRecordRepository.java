@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
-import com.mongodb.Mongo;
-import org.slc.sli.dal.convert.MongoIdConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +17,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
@@ -35,29 +32,27 @@ public class NeutralRecordRepository {
     @Autowired
     private MongoTemplate template;
 
-    @Autowired
-    private IdConverter idConverter;
-
-    public NeutralRecord find(String collectionName, String id) {
-        Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, NeutralRecord.class, collectionName);
+    public NeutralRecord find(String collection, String id) {
+        LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
+        Map<String, String> query = new HashMap<String, String>();
+        query.put("body.localId", id);
+        return find(collection, query);
     }
 
-    public NeutralRecord find(String collectionName, Map<String, String> queryParameters) {
+    public NeutralRecord find(String collection, Map<String, String> queryParameters) {
         // turn query parameters into a Neutral-specific query
-        Query query = NeutralRecordRepository.createQuery(queryParameters, this.idConverter);
+        Query query = NeutralRecordRepository.createQuery(queryParameters);
 
         // find and return an NeutralRecord
-        return template.findOne(query, NeutralRecord.class, collectionName);
+        return template.findOne(query, NeutralRecord.class, collection);
     }
 
-    public Iterable<NeutralRecord> findAll(String collectionName, Map<String, String> queryParameters) {
+    public Iterable<NeutralRecord> findAll(String collection, Map<String, String> queryParameters) {
         // turn query parameters into a Neutral-specific query
-        Query query = NeutralRecordRepository.createQuery(queryParameters, this.idConverter);
+        Query query = NeutralRecordRepository.createQuery(queryParameters);
 
         // find and return an NeutralRecord
-        return template.find(query, NeutralRecord.class, collectionName);
+        return template.find(query, NeutralRecord.class, collection);
     }
 
     /**
@@ -69,13 +64,12 @@ public class NeutralRecordRepository {
      *
      * @param queryParameters
      *            all parameters to be included in query
-     * @param converter
      *            used to convert human readable IDs into GUIDs (if queryParameters contains "_id"
      *            key)
      * @return query object compatible with Neutral containing all parameters specified in the
      *         original map
      */
-    private static Query createQuery(Map<String, String> queryParameters, IdConverter converter) {
+    private static Query createQuery(Map<String, String> queryParameters) {
         Query query = new Query();
 
         if (queryParameters == null) {
@@ -87,16 +81,14 @@ public class NeutralRecordRepository {
             String key = entry.getKey();
 
             // id field needs to be translated
-            if (key.equals("_id")) {
-                String id = entry.getValue();
-                if (id != null) {
-                    Object databaseId = converter.toDatabaseId(id);
-                    if (databaseId == null) {
-                        LOG.debug("Unable to process id {}", new Object[] { id });
-                        return null;
-                    }
-                    query.addCriteria(Criteria.where(entry.getKey()).is(databaseId));
+            String id;
+            if (key.equals("body.localId")) {
+                id = entry.getValue();
+                if (id == null) {
+                    LOG.debug("Unable to process id {}", new Object[] { id });
+                    return null;
                 }
+                query.addCriteria(Criteria.where(entry.getKey()).is(id));
             } else if (key.equals("includeFields")) { // specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
@@ -136,10 +128,9 @@ public class NeutralRecordRepository {
         return query;
     }
 
-    public Iterable<NeutralRecord> findAll(String collectionName, int skip, int max) {
-        List<NeutralRecord> results = template.find(new Query().skip(skip).limit(max), NeutralRecord.class,
-                collectionName);
-        logResults(collectionName, results);
+    public Iterable<NeutralRecord> findAll(String collection, int skip, int max) {
+        List<NeutralRecord> results = template.find(new Query().skip(skip).limit(max), NeutralRecord.class, collection);
+        logResults(collection, results);
         return results;
     }
 
@@ -149,12 +140,12 @@ public class NeutralRecordRepository {
         if (id.equals(""))
             return false;
 
-        NeutralRecord found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+        NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)),
                 NeutralRecord.class, collection);
         if (found != null) {
             template.save(neutralRecord, collection);
         }
-        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+        WriteResult result = template.updateFirst(new Query(Criteria.where("body.localId").is(id)),
                 new Update().set("body", neutralRecord.getAttributes()), collection);
         LOG.info("update a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
@@ -169,74 +160,74 @@ public class NeutralRecordRepository {
         return neutralRecord;
     }
 
-    public boolean delete(String collectionName, String id) {
+    public boolean delete(String collection, String id) {
         if (id.equals(""))
             return false;
         NeutralRecord deleted = template.findAndRemove(
-                new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), NeutralRecord.class, collectionName);
-        LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collectionName, id });
+                new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class, collection);
+        LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
         return deleted != null;
     }
 
-    public Iterable<NeutralRecord> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
-        return findByPaths(collectionName, convertBodyToPaths(fields), skip, max);
+    public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields, int skip, int max) {
+        return findByPaths(collection, convertBodyToPaths(fields), skip, max);
     }
 
-    public Iterable<NeutralRecord> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+    public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths, int skip, int max) {
         Query query = new Query();
 
-        return findByQuery(collectionName, addSearchPathsToQuery(query, paths), skip, max);
+        return findByQuery(collection, addSearchPathsToQuery(query, paths), skip, max);
     }
 
-    public void deleteAll(String collectionName) {
-        template.remove(new Query(), collectionName);
-        LOG.info("delete all entities in collection {}", collectionName);
+    public void deleteAll(String collection) {
+        template.remove(new Query(), collection);
+        LOG.info("delete all entities in collection {}", collection);
     }
 
-    public Iterable<NeutralRecord> findAll(String collectionName) {
-        return findByQuery(collectionName, new Query());
+    public Iterable<NeutralRecord> findAll(String collection) {
+        return findByQuery(collection, new Query());
     }
 
-    public Iterable<NeutralRecord> findByFields(String collectionName, Map<String, String> fields) {
-        return findByPaths(collectionName, convertBodyToPaths(fields));
+    public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields) {
+        return findByPaths(collection, convertBodyToPaths(fields));
     }
 
-    public Iterable<NeutralRecord> findByPaths(String collectionName, Map<String, String> paths) {
+    public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths) {
         Query query = new Query();
 
-        return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
+        return findByQuery(collection, addSearchPathsToQuery(query, paths));
     }
 
-    public Iterable<NeutralRecord> findByQuery(String collectionName, Query query, int skip, int max) {
+    public Iterable<NeutralRecord> findByQuery(String collection, Query query, int skip, int max) {
         if (query == null)
             query = new Query();
 
         query.skip(skip).limit(max);
 
-        return findByQuery(collectionName, query);
+        return findByQuery(collection, query);
     }
 
-    protected Iterable<NeutralRecord> findByQuery(String collectionName, Query query) {
-        List<NeutralRecord> results = template.find(query, NeutralRecord.class, collectionName);
-        logResults(collectionName, results);
+    protected Iterable<NeutralRecord> findByQuery(String collection, Query query) {
+        List<NeutralRecord> results = template.find(query, NeutralRecord.class, collection);
+        logResults(collection, results);
         return results;
     }
 
-    public long count(String collectionName, Query query) {
-        DBCollection collection = template.getCollection(collectionName);
+    public long count(String collection, Query query) {
+        DBCollection dBcollection = template.getCollection(collection);
         if (collection == null) {
             return 0;
         }
-        return collection.count(query.getQueryObject());
+        return dBcollection.count(query.getQueryObject());
     }
 
-    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+    public Iterable<String> findIdsByQuery(String collection, Query query, int skip, int max) {
         if (query == null) {
             query = new Query();
         }
         query.fields().include("_id");
         List<String> ids = new ArrayList<String>();
-        for (NeutralRecord nr : findByQuery(collectionName, query, skip, max)) {
+        for (NeutralRecord nr : findByQuery(collection, query, skip, max)) {
             ids.add(nr.getLocalId().toString());
         }
         return ids;
@@ -251,12 +242,12 @@ public class NeutralRecordRepository {
         return query;
     }
 
-    private void logResults(String collectioName, List<NeutralRecord> results) {
+    private void logResults(String collection, List<NeutralRecord> results) {
         if (results == null) {
-            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
+            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collection, 0 });
         } else {
             LOG.debug("find entities in collection {} with total numbers is {}",
-                    new Object[] { collectioName, results.size() });
+                    new Object[] { collection, results.size() });
         }
 
     }

@@ -52,9 +52,9 @@ public class NeutralRecordRepositoryTest {
         assertTrue(!id.equals(""));
 
         // test findAll
-        Iterable<NeutralRecord> entities = repository.findAll("student", 0, 20);
-        assertNotNull(entities);
-        NeutralRecord found = entities.iterator().next();
+        Iterable<NeutralRecord> records = repository.findAll("student", 0, 20);
+        assertNotNull(records);
+        NeutralRecord found = records.iterator().next();
         assertEquals(found.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
         assertEquals((found.getAttributes()).get("firstName"), "Jane");
         assertEquals((found.getAttributes()).get("lastName"), "Doe");
@@ -92,16 +92,16 @@ public class NeutralRecordRepositoryTest {
         // test update
         found.getAttributes().put("firstName", "Mandy");
         assertTrue(repository.update("student", found));
-        entities = repository.findAll("student", 0, 20);
-        assertNotNull(entities);
-        NeutralRecord updated = entities.iterator().next();
+        records = repository.findAll("student", 0, 20);
+        assertNotNull(records);
+        NeutralRecord updated = records.iterator().next();
         assertEquals(updated.getAttributes().get("firstName"), "Mandy");
 
         // test delete by id
         NeutralRecord student2Body = buildTestStudentNeutralRecord();
         NeutralRecord student2 = repository.create("student", student2Body);
-        entities = repository.findAll("student", 0, 20);
-        assertNotNull(entities.iterator().next());
+        records = repository.findAll("student", 0, 20);
+        assertNotNull(records.iterator().next());
         repository.delete("student", student2.getLocalId().toString());
         NeutralRecord zombieStudent = repository.find("student", student2.getLocalId().toString());
         assertNull(zombieStudent);
@@ -110,8 +110,8 @@ public class NeutralRecordRepositoryTest {
 
         // test deleteAll by neutral record type
         repository.deleteAll("student");
-        entities = repository.findAll("student", 0, 20);
-        assertFalse(entities.iterator().hasNext());
+        records = repository.findAll("student", 0, 20);
+        assertFalse(records.iterator().hasNext());
     }
 
     @Test
@@ -126,6 +126,16 @@ public class NeutralRecordRepositoryTest {
         NeutralRecord body3 = buildTestStudentNeutralRecord();
         NeutralRecord body4 = buildTestStudentNeutralRecord();
 
+        body1.setLocalId("1000001");
+        body2.setLocalId("1000002");
+        body3.setLocalId("1000003");
+        body4.setLocalId("1000004");
+
+        body1.setAttributeField("studentUniqueStateId", "1000001");
+        body2.setAttributeField("studentUniqueStateId", "1000002");
+        body3.setAttributeField("studentUniqueStateId", "1000003");
+        body4.setAttributeField("studentUniqueStateId", "1000004");
+
         body1.setAttributeField("firstName", "Austin");
         body2.setAttributeField("firstName", "Jane");
         body3.setAttributeField("firstName", "Mary");
@@ -136,51 +146,51 @@ public class NeutralRecordRepositoryTest {
         body3.setAttributeField("performanceLevels", new String[] { "3" });
         body4.setAttributeField("performanceLevels", new String[] { "4" });
 
-        // save entities
+        // save records
         repository.create("student", body1);
         repository.create("student", body2);
         repository.create("student", body3);
         repository.create("student", body4);
 
-        // sort entities by firstName with ascending order
+        // sort records by firstName with ascending order
         Query query = new Query();
         query.sort().on("body.firstName", Order.ASCENDING);
-        Iterable<NeutralRecord> entities = repository.findByQuery("student", query, 0, 100);
-        assertNotNull(entities);
-        Iterator<NeutralRecord> it = entities.iterator();
+        Iterable<NeutralRecord> records = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(records);
+        Iterator<NeutralRecord> it = records.iterator();
         assertEquals("Austin", it.next().getAttributes().get("firstName"));
         assertEquals("Jane", it.next().getAttributes().get("firstName"));
         assertEquals("Mary", it.next().getAttributes().get("firstName"));
         assertEquals("Suzy", it.next().getAttributes().get("firstName"));
 
-        // sort entities by firstName with descending order
+        // sort records by firstName with descending order
         query = new Query();
         query.sort().on("body.firstName", Order.DESCENDING);
-        entities = repository.findByQuery("student", query, 0, 100);
-        assertNotNull(entities);
-        it = entities.iterator();
+        records = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(records);
+        it = records.iterator();
         assertEquals("Suzy", it.next().getAttributes().get("firstName"));
         assertEquals("Mary", it.next().getAttributes().get("firstName"));
         assertEquals("Jane", it.next().getAttributes().get("firstName"));
         assertEquals("Austin", it.next().getAttributes().get("firstName"));
 
-        // sort entities by performanceLevels which is an array with ascending order
+        // sort records by performanceLevels which is an array with ascending order
         query = new Query();
         query.sort().on("body.performanceLevels", Order.ASCENDING);
-        entities = repository.findByQuery("student", query, 0, 100);
-        assertNotNull(entities);
-        it = entities.iterator();
+        records = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(records);
+        it = records.iterator();
         assertEquals("1", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
         assertEquals("2", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
         assertEquals("3", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
         assertEquals("4", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
 
-        // sort entities by performanceLevels which is an array with descending order
+        // sort records by performanceLevels which is an array with descending order
         query = new Query();
         query.sort().on("body.performanceLevels", Order.DESCENDING);
-        entities = repository.findByQuery("student", query, 0, 100);
-        assertNotNull(entities);
-        it = entities.iterator();
+        records = repository.findByQuery("student", query, 0, 100);
+        assertNotNull(records);
+        it = records.iterator();
         assertEquals("4", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
         assertEquals("3", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
         assertEquals("2", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
@@ -190,6 +200,7 @@ public class NeutralRecordRepositoryTest {
     private NeutralRecord buildTestStudentNeutralRecord() {
 
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", "1000000");
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
         // Date birthDate = new Timestamp(23234000);
@@ -215,7 +226,8 @@ public class NeutralRecordRepositoryTest {
         body.put("studentSchoolId", "DOE-JANE-222");
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId("IB2B3");
+        neutralRecord.setLocalId("1000000");
+        neutralRecord.setRecordType("student");
         neutralRecord.setAttributes(body);
         return neutralRecord;
     }
