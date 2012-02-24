@@ -7,7 +7,8 @@
 one:
     id: 1
     state: Shared Learning Initiative
-    idp: http://slidev.org
+    idp:
+      id: http://slidev.org
     realm: "dc=slidev,dc=org"
     mappings: {"Educator": ["teacher", "ta"]}
 # column: value
@@ -15,7 +16,8 @@ one:
 two:
     id: 2
     state: Tardis
-    idp: http://timelords.com 
+    idp: 
+      id: http://timelords.com 
     realm: "dc=timelors,dc=org"
     mappings: {"Educator": ["Educator"], "Leader": ["Leader"]}
 #  column: value
