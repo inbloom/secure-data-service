@@ -16,6 +16,11 @@ public class BasicLink implements Link {
     
     /**
      * Construct a new link
+     * 
+     * @param linkName
+     *            Name of the link.
+     * @param resource
+     *            Resource for the link.
      */
     public BasicLink(final String linkName, final URL resource) {
         this.linkName = linkName;

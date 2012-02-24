@@ -96,11 +96,6 @@ public class BasicQuery implements Query {
         }
     }
     
-    /**
-     * Get the query parameters associated with this query instance.
-     * 
-     * @return
-     */
     @Override
     public Map<String, Object> getParameters() {
         return params;
