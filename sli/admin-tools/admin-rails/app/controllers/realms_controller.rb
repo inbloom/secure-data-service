@@ -12,13 +12,8 @@ class RealmsController < ApplicationController
     userRealm = get_user_realm
     realmToRedirectTo = nil
     realms = Realm.all
-    puts "blah"
-    realms.each do |realm|
-      puts "Checking"
-      puts realm.inspect
-      realmToRedirectTo = realm if realm.idp.id == userRealm
-    end
-    #realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
+    realmToRedirectTo = Realm.find(:first, {:params => {'realm.idp.id' => userRealm}})
+    
     if realmToRedirectTo != nil
       redirect_to realmToRedirectTo
       return
