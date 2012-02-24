@@ -122,7 +122,8 @@ public class Utility {
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                //e.printStackTrace();
+                e.printStackTrace();
+                embeddedSet = null;
             }
         }
         if (!hasOne) {
@@ -140,7 +141,7 @@ public class Utility {
                     return false;
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                //e.printStackTrace();
                 return false;
             }
         }

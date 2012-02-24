@@ -13,16 +13,21 @@ public class EdFiEntityXMLGenerator {
     private Map<String, ResultSet> dataResultSets = new HashMap<String, ResultSet>();
     private EdFiEntity edfiEntity;
     private PrintWriter xmlOut;
-    private int entityCount = 0;
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        if (args.length != 2) {
+            System.out.println("Usage: java EdFi");
+        }
+
         String configFile = "/Users/yzhang/Documents/Course.config";
         String output = "/Users/yzhang/Documents/Course.xml";
-        
+
+        configFile = args[0];
+        output = args[1];
+
         EdFiEntityXMLGenerator generator = new EdFiEntityXMLGenerator(configFile);
         generator.generateXML(output);
     }
@@ -36,6 +41,7 @@ public class EdFiEntityXMLGenerator {
             try {
                 xmlOut = new PrintWriter(new FileWriter(filename));
                 getMains();
+                xmlOut.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -58,17 +64,17 @@ public class EdFiEntityXMLGenerator {
         String mainXML = Utility.generateXMLbasedOnTemplate(this.dataResultSets.get("main"),
                 this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders);
 
-        System.out.println("count: " + entityCount++);
-        
+//        System.out.println("count: " + entityCount++);
+
         for (String embeddedName : this.edfiEntity.embeddedElementPlaceholders) {
-            System.out.println(embeddedName);
+//            System.out.println(embeddedName);
             String embeddedXML = Utility.generateEmbeddedXMLbasedOnTemplate(
                     this.dataResultSets.get("main"),
                     this.edfiEntity.EmbeddedElements.get(embeddedName).joinKeys,
                     this.dataResultSets.get(embeddedName),
                     this.edfiEntity.EmbeddedElements.get(embeddedName).template,
                     this.edfiEntity.EmbeddedElements.get(embeddedName).valuePlaceholders);
-            mainXML = Utility.replace(mainXML, "==" + embeddedName + "==\n", embeddedXML);
+            mainXML = Utility.replace(mainXML, "\n==" + embeddedName + "==\n\n", embeddedXML);
         }
 
         xmlOut.print(mainXML);
