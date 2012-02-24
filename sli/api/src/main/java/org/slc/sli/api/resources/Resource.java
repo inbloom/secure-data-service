@@ -20,17 +20,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.Associations;
 import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
@@ -43,17 +38,13 @@ import org.slc.sli.api.service.query.SortOrder;
  * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
-@Path("{type}")
-@Component
-@Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-        Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE })
 public class Resource {
     
-    private static final String TOTAL_COUNT_HEADER = "TotalCount";
-    private static final String LINK_HEADER = "Link";
-    private static final String MAX_RESULTS_PARAM = "max-results";
-    private static final String START_INDEX_PARAM = "start-index";
+    public static final String TOTAL_COUNT_HEADER = "TotalCount";
+    public static final String LINK_HEADER = "Link";
+    public static final String MAX_RESULTS_PARAM = "max-results";
+    public static final String START_INDEX_PARAM = "start-index";
     public static final String FULL_ENTITIES_PARAM = "full-entities";
     public static final String SORT_BY_PARAM = "sort-by";
     public static final String SORT_ORDER_PARAM = "sort-order";
@@ -65,6 +56,7 @@ public class Resource {
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
     
     private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
+    private final EntityDefinition entityDef;
     private final EntityDefinitionStore entityDefs;
     
     /**
@@ -76,8 +68,9 @@ public class Resource {
         Response run(EntityDefinition entityDef);
     }
     
-    @Autowired
-    Resource(EntityDefinitionStore entityDefs) {
+    // TODO if we have one resource per entity, this should take in an entity definition, not store
+    public Resource(EntityDefinition entityDef, EntityDefinitionStore entityDefs) {
+        this.entityDef = entityDef;
         this.entityDefs = entityDefs;
     }
     
@@ -97,9 +90,8 @@ public class Resource {
      *                                        value.
      */
     @POST
-    public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody,
-            @Context final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
+    public Response createEntity(final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
+        return handle(new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -133,14 +125,14 @@ public class Resource {
     @GET
     @Path("{id}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getEntity(@PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
             @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
+        return handle(new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 if (entityDef.isOfType(id)) {
@@ -244,76 +236,12 @@ public class Resource {
     @GET
     @Path("{id}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
-    public Response getFullEntities(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getFullEntities(@PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
             @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return getEntity(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
-    }
-    
-    /**
-     * Get a single entity or association unless the URI represents an association and the id
-     * represents a
-     * source entity for that association.
-     * 
-     * @param typePath
-     *            resrouceUri for the entity/association
-     * @param id
-     *            either the association id or the association's source entity id
-     * @param skip
-     *            number of results to skip
-     * @param max
-     *            maximum number of results to return
-     * @param uriInfo
-     * @return A single entity or association, unless the type references an association and the id
-     *         represents the source entity. In that case a collection of associations.
-     * @response.representation.200.mediaType application/xml
-     */
-    @GET
-    @Path("{id}")
-    @Produces({ Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
-    @Deprecated
-    public Response getEntityXML(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
-            @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
-            @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
-            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
-            @Override
-            public Response run(EntityDefinition entityDef) {
-                if (entityDef.isOfType(id)) {
-                    EntityBody entityBody = entityDef.getService().get(id);
-                    entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
-                    Entities entities = new Entities(entityDef.getStoredCollectionName(), entityBody);
-                    return Response.ok(entities).build();
-                } else if (entityDef instanceof AssociationDefinition) {
-                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    Iterable<String> associationIds = null;
-                    if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsWith(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
-                    } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        associationIds = associationDefinition.getService().getAssociationsTo(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
-                    } else {
-                        return Response.status(Status.NOT_FOUND).build();
-                    }
-                    
-                    // TODO: refactor common code for both Get methods
-                    CollectionResponse collection = new CollectionResponse();
-                    if (associationIds != null) {
-                        for (String id : associationIds) {
-                            String href = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
-                            collection.add(id, ResourceConstants.SELF, entityDef.getType(), href);
-                        }
-                    }
-                    Associations associations = new Associations(collection);
-                    return Response.ok(associations).build();
-                }
-                return Response.status(Status.NOT_FOUND).build();
-            }
-        });
+        return getEntity(id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
     
     /**
@@ -339,14 +267,14 @@ public class Resource {
     @GET
     @Path("{id}/targets")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
-    public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getHoppedRelatives(@PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
             @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
-        return handle(typePath, new ResourceLogic() {
+        return handle(new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 if (entityDef instanceof AssociationDefinition) {
@@ -424,12 +352,12 @@ public class Resource {
     @GET
     @Path("{id}/targets")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
-    public Response getFullHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
+    public Response getFullHoppedRelatives(@PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
             @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
-        return getHoppedRelatives(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
+        return getHoppedRelatives(id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
     
     /**
@@ -444,8 +372,8 @@ public class Resource {
      */
     @DELETE
     @Path("{id}")
-    public Response deleteEntity(@PathParam("type") final String typePath, @PathParam("id") final String id) {
-        return handle(typePath, new ResourceLogic() {
+    public Response deleteEntity(@PathParam("id") final String id) {
+        return handle(new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 entityDef.getService().delete(id);
@@ -468,9 +396,8 @@ public class Resource {
      */
     @PUT
     @Path("{id}")
-    public Response updateEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
-            final EntityBody newEntityBody) {
-        return handle(typePath, new ResourceLogic() {
+    public Response updateEntity(@PathParam("id") final String id, final EntityBody newEntityBody) {
+        return handle(new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
@@ -488,13 +415,12 @@ public class Resource {
     /**
      * Handle preconditions and exceptions.
      */
-    private Response handle(String typePath, ResourceLogic logic) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(typePath);
+    private Response handle(ResourceLogic logic) {
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                            "Invalid resource path: " + typePath)).build();
+                            "Invalid resource path")).build();
         }
         return logic.run(entityDef);
     }
