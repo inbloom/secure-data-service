@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources;
+package org.slc.sli.api.resources.v1;
 
 //
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -28,14 +29,13 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.stereotype.Component;
 
 /**
- * Jersey resource for home entity and associations.
+ * Resource for home entity and associations(version 1).
  * 
  */
-@Path("home")
+@Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-    Resource.SLC_JSON_MEDIA_TYPE })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class HomeResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(HomeResource.class);
@@ -51,11 +51,10 @@ public class HomeResource {
      * Returns the initial information when a user logs in.
      * This includes a self link for the user's info, i.e. /staff/{GUID}.
      * In addition, there may be links for associations such as
-     * /staff-educationOrganization-associations/{GUID}, and a link
-     * for aggregation such as /aggregation.
+     * /staff-educationOrganization-associations
      * 
-     * @response.representation.200.mediaType application/json by default. application/xml if
-     *                                        specified.
+     * @response.representation.200.mediaType application/json by default. 
+     * 
      * @param uriInfo
      * @return Response
      */
@@ -74,10 +73,7 @@ public class HomeResource {
             List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, userId, defn);
 
             // add links for all of the entity's associations for this ID
-            links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, userId, uriInfo));
-
-            // add the aggregation link
-            links.addAll(ResourceUtil.getAggregateLink(uriInfo));
+            links.addAll(ResourceUtil.getAssociationLinksForEntity(this.entityDefs, defn, userId, uriInfo));
 
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();

@@ -71,27 +71,27 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 1,
+                "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 2,
+                "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 3,
+                "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Proficiency level",
-                "minimumScore": null,
-                "maximumScore": null
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 4,
+                "maximumScore": 4
             }
         ]
     },
@@ -124,6 +124,82 @@
                 "assessmentReportingMethod": "Scale score",
                 "minimumScore": 278,
                 "maximumScore": 364
+            }
+        ]
+    },
+    {
+        "assessmentId": "AP_LANGUAGE_2011",
+        "assessmentTitle": "AP_LANGUAGE_2011",
+        "maxRawScore": 5,
+        "minRawScore": 1,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 1,
+                "maximumScore": 1
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 2,
+                "maximumScore": 2
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 3,
+                "maximumScore": 3
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 4,
+                "maximumScore": 4
+            },
+            {
+                "performanceLevel": "5",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 5,
+                "maximumScore": 5
+            }
+        ]
+    },
+    {
+        "assessmentId": "AP_LITERATURE_2011",
+        "assessmentTitle": "AP_LITERATURE_2011",
+        "maxRawScore": 5,
+        "minRawScore": 1,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 1,
+                "maximumScore": 1
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 2,
+                "maximumScore": 2
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 3,
+                "maximumScore": 3
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 4,
+                "maximumScore": 4
+            },
+            {
+                "performanceLevel": "5",
+                "assessmentReportingMethod": "Raw score",
+                "minimumScore": 5,
+                "maximumScore": 5
             }
         ]
     }
