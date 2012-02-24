@@ -73,8 +73,6 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    exchange.setProperty("records.processed", 0);
-
                     errorReportForFile = processIngestionStream(fe);
 
                 } catch (IOException e) {
@@ -134,13 +132,15 @@ public class PersistenceProcessor implements Processor {
     private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName)
             throws IOException {
 
-        int recordNumber = 0;
+        long recordNumber = 0;
 
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
 
-        NeutralRecordFileReader nrFileReader = new NeutralRecordFileReader(neutralRecordsFile);
+        NeutralRecordFileReader nrFileReader = null;
         try {
+            nrFileReader = new NeutralRecordFileReader(neutralRecordsFile);
+
             while (nrFileReader.hasNext()) {
 
                 recordNumber++;
@@ -155,18 +155,28 @@ public class PersistenceProcessor implements Processor {
                 entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
             }
-
-            if (exchange != null) {
-                LOG.info("Setting records.processed value on exchange header");
-                exchange.setProperty("records.processed", recordNumber);
-            }
-
         } catch (Exception e) {
             recordLevelErrorsInFile.fatal("Fatal problem saving records to database.", PersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + "./n", e);
         } finally {
-            nrFileReader.close();
+            if (nrFileReader != null) {
+                nrFileReader.close();
+            }
+
             errorLogger.detachAndStopAllAppenders();
+
+            if (exchange != null) {
+                LOG.info("Setting records.processed value on exchange header");
+
+                long processedSoFar = 0;
+                Long processed = exchange.getProperty("records.processed", Long.class);
+
+                if (processed != null) {
+                    processedSoFar = processed.longValue();
+                }
+
+                exchange.setProperty("records.processed", Long.valueOf(processedSoFar + recordNumber));
+            }
         }
 
         return recordLevelErrorsInFile;
