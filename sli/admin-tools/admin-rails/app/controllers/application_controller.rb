@@ -91,6 +91,7 @@ class ApplicationController < ActionController::Base
       session[:full_name] = Check.new(SessionResource.auth_id).full_name
     else
       logger.debug { "No cookie set" }
+      SessionResource.auth_id = nil
     end
   end
 
