@@ -164,7 +164,9 @@ public class RESTClient {
         apiServerUri = new String("https://" + host + ":" + port + "/" + Constants.API_SERVER_PATH);
         
         // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from LuckyStrike.
-        sessionToken = "TODO";
+        // For now generate a token via a Rest Console in a web browser and pass the resulting token
+        // in as 'password'.
+        sessionToken = password;
         
     }
     

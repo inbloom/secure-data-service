@@ -72,8 +72,10 @@ public final class URLBuilder {
     public URLBuilder query(final Query query) {
         
         Map<String, Object> params = query.getParameters();
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            addQueryParameter(entry.getKey(), entry.getValue());
+        if (params != null) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                addQueryParameter(entry.getKey(), entry.getValue());
+            }
         }
         
         return this;
@@ -118,7 +120,7 @@ public final class URLBuilder {
     }
     
     private URLBuilder addPathSeparaterIfNeeded() {
-        if (url.charAt(url.length() - 1) != '/') {
+        if (url.length() > 0 && url.charAt(url.length() - 1) != '/') {
             url.append("/");
         }
         return this;
