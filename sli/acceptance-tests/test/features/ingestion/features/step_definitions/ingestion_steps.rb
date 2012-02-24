@@ -182,6 +182,52 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   end
 end
 
+Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
+  if (INGESTION_MODE == 'remote')
+    #remote check of file
+    @error_filename_component = "error."
+    
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
+    puts "Showing : <" + @resultOfIngestion + ">"
+    
+    @messageString = message.to_s
+    
+    if @resultOfIngestion.include? @messageString
+      assert(true, "Processed all the records.")
+    else
+      assert(false, "Did't process all the records.")
+    end
+    
+  else
+    @error_filename_component = "error."
+
+    @error_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(@error_filename_component))
+        # LAST ENTRY IS OUR FILE
+        @error_status_filename = entry
+      end
+    end
+
+    aFile = File.new(@landing_zone_path + @error_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @error_status_filename
+    assert(aFile != nil, "File " + @error_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @error_status_filename).join()
+      puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+
+    else
+       raise "File " + @error_status_filename + "can't be opened"
+    end
+  end
+end
+
 ############################################################
 # END
 ############################################################

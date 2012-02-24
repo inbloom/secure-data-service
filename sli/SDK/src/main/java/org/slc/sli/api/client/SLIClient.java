@@ -1,143 +1,72 @@
 package org.slc.sli.api.client;
 
-import javax.management.Query;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
+import com.sun.jersey.api.client.ClientResponse;
 
 /**
- * Interface defining the methods available to SLI API client applications.  The SLIClient
- * follows a builder pattern for creating a connection to the SLI API server.  It provides
- * basic CRUD operations once the client connection is established.
- *
+ * Interface defining the methods available to SLI API client applications. It provides
+ * basic CRUD operations available once the client connection is established.
+ * 
  * @author asaarela
  */
-public final class SLIClient {
+public interface SLIClient {
     
     /**
-     * TODO - move this to a public class and implement.
+     * Connect to the SLI ReSTful API web service and authenticate with the IDP.
+     * 
+     * @param host
+     *            Host running the SLI API.
+     * @param port
+     *            Port to connect to.
+     * @param username
+     *            Name of an authorized SLI user.
+     * @param password
+     *            Password for this user.
+     * @param realm
+     *            IDP realm the user is associated with.
      */
-    class Entity {
-    }
-    
-    /**
-     * TODO - move this to a public class and implement.
-     */
-    class Response {
-    }
-    
-    /**
-     * TODO - move this to a public class and implement.
-     */
-    class EntityCollection {
-    }
-    
-    /**
-     * TODO - move this to a public class and implement.
-     */
-    enum EntityType {
-    }
-    
-    /**
-     * SLIClientBuilder Builder for an SLIClient instance.
-     */
-    public static class SLIClientBuilder {
-        /**
-         * Initialize the builder connection host.
-         * @param host for the API server.
-         * @return an SLIClientBuilder
-         */
-        public SLIClientBuilder host(String host) {
-            return this;
-        }
-        
-        /**
-         * Initialize the builder connection port.
-         * @param port for the API server.
-         * @return an SLIClientBuilder
-         */
-        public SLIClientBuilder port(int port) {
-            return this;
-        }
-        
-        /**
-         * Initialize the builder user name.
-         * @param username
-         * @return SLIClientBuilder
-         */
-        public SLIClientBuilder user(String username) {
-            return this;
-        }
-        
-        /**
-         * Initialize the builder user password.
-         * @param password user password.
-         * @return SLIClientBuilder
-         */
-        public SLIClientBuilder password(String password) {
-            return this;
-        }
-        
-        /**
-         * Initialize the user's IDP realm.
-         * @param ream Users IDP realm.
-         * @return SLIClientBuilder
-         */
-        public SLIClientBuilder realm(String realm) {
-            return this;
-        }
-        
-        /**
-         * Create an SLIClient instance.
-         * @return SLIClient
-         */
-        public SLIClient build() {
-            return new SLIClient();
-        }
-    };
-    
-    /**
-     * CRUD operations
-     */
+    public abstract void connect(final String host, final int port, final String user, final String password,
+            final String realm);
     
     /**
      * Create operation
-     * @param e Entity to create
+     * 
+     * @param e
+     *            Entity to create
      * @return Response to the update request.
      */
-    public Response post(Entity e) {
-        return new Response();
-    }
+    public abstract ClientResponse create(final Entity e);
     
     /**
-     * Retrieve operation
-     * @param type The type of entity
-     * @param query Query parameters.
+     * Read operation
+     * 
+     * @param type
+     *            The type of entity
+     * @param query
+     *            Query parameters.
      * @return EntityCollection collection of entities of EntityType that match the query.
      */
-    public EntityCollection get(EntityType type, Query query) {
-        return new EntityCollection();
-    }
+    public abstract EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
+    URISyntaxException;
     
     /**
      * Update operation
-     * @param e Entity to update.
+     * 
+     * @param e
+     *            Entity to update.
      * @return Response to the update request.
      */
-    public Response put(Entity e) {
-        return new Response();
-    }
+    public abstract ClientResponse update(final Entity e);
     
     /**
      * Delete operation
-     * @param e Entity to delete
+     * 
+     * @param e
+     *            Entity to delete
      * @return Response to the delete request.
      */
-    public Response delete(Entity e) {
-        return new Response();
-    }
+    public abstract ClientResponse delete(final Entity e);
     
-    
-    /**
-     * Don't allow direct instantiation of SLIClient instances; use the builder instead.
-     */
-    private SLIClient() {
-    }
 }

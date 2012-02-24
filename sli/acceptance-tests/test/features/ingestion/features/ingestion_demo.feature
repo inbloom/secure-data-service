@@ -23,12 +23,11 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
-        | studentSchoolAssociation    | 0     |
+        | studentSchoolAssociation    | 87    |
         | course                      | 11    |
         | educationOrganization       | 3     |
         | school                      | 5     |
         | section                     | 19    |
-        | studentSchoolAssociation    | 0     |
         | studentSectionAssociation   | 83    |
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
@@ -39,7 +38,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
 	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
 	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-	And I should see "Processed 83 records." in the resulting batch job file
+	And I should see "Processed 170 records." in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
@@ -48,12 +47,11 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
-        | studentSchoolAssociation    | 0     |
+        | studentSchoolAssociation    | 87    |
         | course                      | 11    |
         | educationOrganization       | 3     |
         | school                      | 5     |
         | section                     | 19    |
-        | studentSchoolAssociation    | 0     |
         | studentSectionAssociation   | 83    |
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
@@ -64,4 +62,4 @@ Then I should see following map of entry counts in the corresponding collections
 	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
 	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
 	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-	And I should see "Processed 83 records." in the resulting batch job file
+	And I should see "Processed 170 records." in the resulting batch job file

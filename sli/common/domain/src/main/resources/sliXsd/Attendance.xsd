@@ -5,67 +5,76 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:complexType name="attendanceEvent">
+	<xs:element name="attendanceEvent">
 		<xs:annotation>
 			<xs:documentation>
-				This event entity represents the recording of whether a student is in
-				daily attendance. This should be used to model irregularities,
-				no event should correspond to the student being present.
+				This event entity represents the recording of
+				whether a student is in
+				daily attendance. This should be used to
+				model irregularities,
+				no event should correspond to the student being
+				present.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="eventDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Date for this attendance event.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="attendanceEventType" type="attendanceEventType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>
-						A code describing the type of the attendance event (e.g., daily
-						attendance, section attendance, etc.)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="attendanceEventCategory" type="attendanceEventCategoryType">
-				<xs:annotation>
-					<xs:documentation>
-						A code describing the attendance event, for example:
-						Unexcused absence
-						Excused absence
-						Tardy
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="attendanceEventReason" type="attendanceEventReason"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The reported reason for a student's absence.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>
-						The setting in which a child receives education and related services.
-						This attribute
-						is only used if it differs from the Educational Environment of the
-						section. This is
-						only used in the AttendanceEvent if different from the associated
-						Section.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="studentId" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>The student uuid associated with this attendance.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="eventDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Date for this attendance event.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="attendanceEventType" type="attendanceEventType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							A code describing the type of the attendance event (e.g., daily
+							attendance, section attendance, etc.)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="attendanceEventCategory" type="attendanceEventCategoryType">
+					<xs:annotation>
+						<xs:documentation>
+							A code describing the attendance event, for example:
+							Unexcused absence
+							Excused absence
+							Tardy
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="attendanceEventReason" type="attendanceEventReason"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The reported reason for a student's absence.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="educationalEnvironment" type="educationalEnvironmentType"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							The setting in which a child receives education and related
+							services.
+							This attribute
+							is only used if it differs from the Educational Environment of the
+							section. This is
+							only used in the AttendanceEvent if different from the associated
+							Section.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentId" type="reference">
+					<xs:annotation>
+						<xs:documentation>The student associated with this attendance.
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>student</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>
