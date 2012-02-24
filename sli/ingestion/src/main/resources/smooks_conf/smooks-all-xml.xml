@@ -1116,23 +1116,25 @@
 
   <jb:bean beanId="assessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:value property="assessmentTitle" data="Assessment/AssessmentTitle" />
-    <jb:wiring property="assessmentIdentificationCodes" beanIdRef="assessmentIdentificationCodeTypeArray" />
+    <jb:wiring property="assessmentIdentificationCode" beanIdRef="assessmentIdentificationCodeTypeArray" />
     <jb:value property="assessmentCategory" data="Assessment/AssessmentCategory" />
     <jb:value property="academicSubject" data="Assessment/AcademicSubject" />
     <jb:value property="gradeLevelAssessed" data="Assessment/GradeLevelAssessed" />
     <jb:value property="lowestGradeLevelAssessed" data="Assessment/LowestGradeLevelAssessed" />
-    <jb:wiring property="assessmentPerformanceLevels" beanIdRef="assessmentPerformanceLevelTypeArray" />
+    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="assessmentPerformanceLevelTypeArray" />
     <jb:value property="contentStandard" data="Assessment/ContentStandard" />
     <jb:value property="assessmentForm" data="Assessment/AssessmentForm" />
-    <jb:value property="version" data="Assessment/Version" />
+    <jb:value property="version" data="Assessment/Version" decoder="Integer" default="null" />
     <jb:value property="revisionDate" data="Assessment/RevisionDate" />
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
+    <!--
     <jb:wiring property="assessmentItemReferences" beanIdRef="assessmentItemReferenceTypeArray" />
     <jb:wiring property="objectiveAssessmentReferences" beanIdRef="objectiveAssessmentReferenceTypeArray" />
     <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType" />
-    <jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" />
+    <jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" /> 
+    -->
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -1145,7 +1147,7 @@
       data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode"
       data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="id" data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/ID" />
+    <jb:value property="ID" data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="assessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1153,7 +1155,7 @@
   </jb:bean>
   <jb:bean beanId="assessmentPerformanceLevelType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel">
-    <jb:wiring property="performanceLevel" beanIdRef="assessmentPerformanceLevelDescriptorType" />
+    <jb:wiring property="performanceLevelDescriptor" beanIdRef="assessmentPerformanceLevelDescriptorType" />
     <jb:value property="assessmentReportingMethod"
       data="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
     <jb:value property="minimumScore" data="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/MinimumScore"
