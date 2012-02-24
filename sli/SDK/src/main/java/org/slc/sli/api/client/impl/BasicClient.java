@@ -7,6 +7,7 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientResponse;
 
+import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.Query;

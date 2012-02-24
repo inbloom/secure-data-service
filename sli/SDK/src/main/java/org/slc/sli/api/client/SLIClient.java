@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 
 import com.sun.jersey.api.client.ClientResponse;
 
-import org.slc.sli.api.client.impl.Entity;
-
 /**
  * Interface defining the methods available to SLI API client applications. It provides
  * basic CRUD operations available once the client connection is established.
