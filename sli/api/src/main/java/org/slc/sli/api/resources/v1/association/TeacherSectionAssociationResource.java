@@ -21,17 +21,11 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE })
-public class TeacherSectionAssociationResource {
-    private final Resource crudDelegate;
+public class TeacherSectionAssociationResource extends Resource {
     
     @Autowired
     public TeacherSectionAssociationResource(EntityDefinitionStore entityDefs) {
-        this.crudDelegate = new Resource(entityDefs.lookupByResourceName(PathConstants.TEACHER_SECTION_ASSOCIATIONS),
-                entityDefs);
+        super(entityDefs.lookupByResourceName(PathConstants.TEACHER_SECTION_ASSOCIATIONS), entityDefs);
     }
-    
-    @Path("/")
-    public Resource handle() {
-        return crudDelegate;
-    }
+
 }

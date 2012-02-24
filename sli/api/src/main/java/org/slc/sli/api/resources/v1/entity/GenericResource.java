@@ -44,7 +44,7 @@ public class GenericResource {
     public GenericResource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
-
+    
     @POST
     public Response createEntity(@PathParam("type") final String typePath, final EntityBody newEntityBody, @Context final UriInfo uriInfo) {
         return new Resource(entityDefs.lookupByResourceName(typePath), entityDefs).createEntity(newEntityBody, uriInfo);
