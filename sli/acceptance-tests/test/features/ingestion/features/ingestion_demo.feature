@@ -18,6 +18,7 @@ Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
         | teacher                     |
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
+        | session                     |
 When zip file is scp to ingestion landing zone
     And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
@@ -32,6 +33,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
         | teacherSectionAssociation   | 19    |
+        | session                     | 4     |
      And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896            | string               |
@@ -56,6 +58,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacher                     | 3     |
         | teacherSchoolAssociation    | 5     |
         | teacherSectionAssociation   | 19    |
+        | session                     | 4     |
      And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896            | string               |

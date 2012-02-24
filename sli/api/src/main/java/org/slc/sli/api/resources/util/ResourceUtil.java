@@ -50,6 +50,7 @@ public class ResourceUtil {
      *            whether or not to include a self link
      * @return
      */
+    @Deprecated
     public static List<EmbeddedLink> getSelfLink(final UriInfo uriInfo, final String userId, final EntityDefinition defn) {
 
         // create a new linkedlist
@@ -59,6 +60,35 @@ public class ResourceUtil {
         if (defn != null) {
             links.add(new EmbeddedLink(ResourceConstants.SELF, defn.getType(), ResourceUtil.getURI(uriInfo, defn.getResourceName(),
                     userId).toString()));
+        }
+
+        // return
+        return links;
+    }
+    
+    /**
+     * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
+     * a self link, all other parameters can be null.
+     *
+     * @param uriInfo
+     *            base URI
+     * @param userId
+     *            unique identifier of user/object
+     * @param defn
+     *            entity definition for user/object
+     * @param createSelfLink
+     *            whether or not to include a self link
+     * @return
+     */
+    public static List<EmbeddedLink> getSelfLinkForEntity(final UriInfo uriInfo, final String userId, final EntityDefinition defn) {
+
+        // create a new linkedlist
+        LinkedList<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+
+        // add a "self" link
+        if (defn != null) {
+            links.add(new EmbeddedLink(ResourceConstants.SELF, defn.getType(), ResourceUtil.getURI(uriInfo, PathConstants.V1, 
+                    PathConstants.TEMP_MAP.get(defn.getResourceName()), userId).toString()));
         }
 
         // return

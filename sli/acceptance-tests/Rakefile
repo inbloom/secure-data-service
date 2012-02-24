@@ -156,7 +156,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests, :v1SchoolTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
 displayFailureReport()
 end
 
@@ -174,6 +174,11 @@ end
 desc "Run Session Tests"
 task :sessionTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
+end
+
+desc "Run V1 Session Tests"
+task :v1SessionTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/session", "session", "session_fixture.json")
 end
 
 desc "Run Section Tests"
@@ -197,6 +202,11 @@ end
 desc "Run Student Tests"
 task :studentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
+end
+
+desc "Run V1 Student Tests"
+task :v1StudentTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/student", "student", "student_fixture.json")
 end
 
 desc "Run Teacher Tests"

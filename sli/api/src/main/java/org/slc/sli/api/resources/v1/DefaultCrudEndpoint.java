@@ -403,20 +403,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     private static List<EmbeddedLink> getLinks(final UriInfo uriInfo, final EntityDefinition defn, final String id,
             final EntityBody entityBody, final EntityDefinitionStore entityDefs) {
-        List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, id, defn);
+        List<EmbeddedLink> links = ResourceUtil.getSelfLinkForEntity(uriInfo, id, defn);
         if (defn instanceof AssociationDefinition) {
             AssociationDefinition assocDef = (AssociationDefinition) defn;
             EntityDefinition sourceEntity = assocDef.getSourceEntity();
             String sourceId = (String) entityBody.get(assocDef.getSourceKey());
             if (sourceId != null) {
                 links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(
-                        uriInfo, sourceEntity.getResourceName(), sourceId).toString()));
+                        uriInfo, PathConstants.V1, sourceEntity.getResourceName(), sourceId).toString()));
             }
             EntityDefinition targetEntity = assocDef.getTargetEntity();
             String targetId = (String) entityBody.get(assocDef.getTargetKey());
             if (targetId != null) {
                 links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(
-                        uriInfo, targetEntity.getResourceName(), targetId).toString()));
+                        uriInfo, PathConstants.V1, targetEntity.getResourceName(), targetId).toString()));
             }
             
         } else {
