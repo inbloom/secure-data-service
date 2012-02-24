@@ -47,7 +47,7 @@ public class NeutralRecordRepositoryTest {
         NeutralRecord student = buildTestStudentNeutralRecord();
 
         // test save
-        NeutralRecord saved = repository.create("student", student);
+        NeutralRecord saved = repository.create(student);
         String id = saved.getLocalId().toString();
         assertTrue(!id.equals(""));
 
@@ -91,7 +91,7 @@ public class NeutralRecordRepositoryTest {
 
         // test update
         found.getAttributes().put("firstName", "Mandy");
-        assertTrue(repository.update("student", found));
+        assertTrue(repository.update(found));
         records = repository.findAll("student", 0, 20);
         assertNotNull(records);
         NeutralRecord updated = records.iterator().next();
@@ -99,13 +99,13 @@ public class NeutralRecordRepositoryTest {
 
         // test delete by id
         NeutralRecord student2Body = buildTestStudentNeutralRecord();
-        NeutralRecord student2 = repository.create("student", student2Body);
+        NeutralRecord student2 = repository.create(student2Body);
         records = repository.findAll("student", 0, 20);
         assertNotNull(records.iterator().next());
         repository.delete("student", student2.getLocalId().toString());
         NeutralRecord zombieStudent = repository.find("student", student2.getLocalId().toString());
         assertNull(zombieStudent);
-        assertFalse(repository.update("student", student2));
+        assertFalse(repository.update(student2));
         assertFalse(repository.delete("student", student2.getLocalId().toString()));
 
         // test deleteAll by neutral record type
@@ -147,10 +147,10 @@ public class NeutralRecordRepositoryTest {
         body4.setAttributeField("performanceLevels", new String[] { "4" });
 
         // save records
-        repository.create("student", body1);
-        repository.create("student", body2);
-        repository.create("student", body3);
-        repository.create("student", body4);
+        repository.create(body1);
+        repository.create(body2);
+        repository.create(body3);
+        repository.create(body4);
 
         // sort records by firstName with ascending order
         Query query = new Query();
@@ -235,11 +235,11 @@ public class NeutralRecordRepositoryTest {
     @Test
     public void testFindIdsByQuery() {
         repository.deleteAll("student");
-        repository.create("student", buildTestStudentNeutralRecord());
-        repository.create("student", buildTestStudentNeutralRecord());
-        repository.create("student", buildTestStudentNeutralRecord());
-        repository.create("student", buildTestStudentNeutralRecord());
-        repository.create("student", buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord());
 
         Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
         List<String> idList = new ArrayList<String>();

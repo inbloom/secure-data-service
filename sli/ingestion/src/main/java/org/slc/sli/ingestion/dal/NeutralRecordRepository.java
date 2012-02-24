@@ -134,12 +134,13 @@ public class NeutralRecordRepository {
         return results;
     }
 
-    public boolean update(String collection, NeutralRecord neutralRecord) {
+    public boolean update(NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord, "The given Neutral Record must not be null!");
         String id = neutralRecord.getLocalId().toString();
         if (id.equals(""))
             return false;
 
+        String collection = neutralRecord.getRecordType();
         NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)),
                 NeutralRecord.class, collection);
         if (found != null) {
@@ -151,9 +152,10 @@ public class NeutralRecordRepository {
         return result.getN() == 1;
     }
 
-    public NeutralRecord create(String collection, NeutralRecord neutralRecord) {
+    public NeutralRecord create(NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord.getAttributes(), "The given Neutral Record must not be null!");
 
+        String collection = neutralRecord.getRecordType();
         template.save(neutralRecord, collection);
         LOG.info(" create a Neutral Record in collection {} with id {}",
                 new Object[] { collection, neutralRecord.getLocalId() });
@@ -225,7 +227,7 @@ public class NeutralRecordRepository {
         if (query == null) {
             query = new Query();
         }
-        query.fields().include("_id");
+        query.fields().include("body.localId");
         List<String> ids = new ArrayList<String>();
         for (NeutralRecord nr : findByQuery(collection, query, skip, max)) {
             ids.add(nr.getLocalId().toString());
