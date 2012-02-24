@@ -1,9 +1,6 @@
-package org.slc.sli.api.client.impl;
+package org.slc.sli.api.client;
 
 import java.util.Map;
-
-import org.slc.sli.api.client.EntityType;
-import org.slc.sli.api.client.Link;
 
 /**
  * Generic entity returned by the SLI API ReSTful service.

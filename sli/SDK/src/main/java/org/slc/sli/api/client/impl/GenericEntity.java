@@ -1,10 +1,12 @@
-package org.slc.sli.api.client;
+package org.slc.sli.api.client.impl;
 
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.slc.sli.api.client.impl.Entity;
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.EntityType;
+import org.slc.sli.api.client.Link;
 
 /**
  * Generic implementation of the Entity interface.
