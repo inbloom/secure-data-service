@@ -2,6 +2,7 @@
 {
     "id" : "Daybreak Central High",
     "nameOfInstitution": "Daybreak Central High",
+    "parentEducationAgencyReference": "IL-DAYBREAK",
     "courses": [
         {
             "courseTitle": "Club/Team"
@@ -105,6 +106,7 @@
 {
     "id" : "Sunset Central High School",
     "nameOfInstitution" : "Sunset Central High School",
+    "parentEducationAgencyReference": "IL-SUNSET",
     "courses" : 
         [
           {

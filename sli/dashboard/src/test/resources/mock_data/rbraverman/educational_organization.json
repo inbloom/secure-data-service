@@ -6,7 +6,8 @@
       ],
       "address":[],
       "stateOrganizationId":"IL-DAYBREAK",
-      "nameOfInstitution":"Daybreak School District 4529"
+      "nameOfInstitution":"Daybreak School District 4529",
+      "parentEducationAgencyReference": "IL"
    },
    {
       "id": "IL", 
@@ -15,6 +16,7 @@
       ],
       "address":[],
       "stateOrganizationId":"IL",
-      "nameOfInstitution":"Illinois State Board of Education"
+      "nameOfInstitution":"Illinois State Board of Education",
+      "parentEducationAgencyReference": null
    }
 ]

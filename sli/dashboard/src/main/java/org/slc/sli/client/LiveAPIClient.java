@@ -136,46 +136,22 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get the associated educational organizations for a school
+     * Get the associated educational organization for a school
      */
     @Override
-    public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
-        String url = ED_ORG_SCHOOL_ASSOC_URL + school.get(Constants.ATTR_ID) + TARGETS;
-        List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-        List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
-        for (GenericEntity response : responses) {
-            edOrgs.add(getEducationalOrganization(parseId(response.getMap(Constants.ATTR_LINK)), token));
-        }
-        return edOrgs;
+    public GenericEntity getAssociatedEducationalOrganization(final String token, GenericEntity school) {
+        String edOrgId = school.getString(Constants.ATTR_PARENT_EDORG);
+        return getEducationalOrganization(edOrgId, token);
     }
 
     
     /**
-     * Get a list of parent ed-orgs, given an ed-org
+     * Get the parent ed-orgs, given an ed-org
      */
     @Override
-    public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity edOrg) {
-        String url = ED_ORG_ASSOC_URL + edOrg.get(Constants.ATTR_ID);
-        List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-        List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
-        // For every association, find the ones that this ed org is a child, and get the parent 
-        for (GenericEntity response : responses) {
-            try {
-                String assLink = (String) ((response.getMap(Constants.ATTR_LINK)).get(Constants.ATTR_HREF));
-                
-                GenericEntity assResponse = createEntityFromAPI(assLink, token);
-                String childId = (String) (assResponse.get(Constants.ATTR_ED_ORG_CHILD_ID));
-                if (childId != null && childId.equals(edOrg.get(Constants.ATTR_ID))) {
-                    String parentId = assResponse.getString(Constants.ATTR_ED_ORG_PARENT_ID);
-                    if (parentId != null) {
-                        edOrgs.add(getEducationalOrganization(parentId, token));
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("malformed json from educationOrganization-associations api call.");
-            }
-        }
-        return edOrgs;
+    public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
+        String parentEdOrgId = edOrg.getString(Constants.ATTR_PARENT_EDORG);
+        return getEducationalOrganization(parentEdOrgId, token);
     }
 
 

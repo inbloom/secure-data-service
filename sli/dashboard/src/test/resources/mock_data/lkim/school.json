@@ -2,6 +2,7 @@
     {
         "id": "East Daybreak Junior High",
         "nameOfInstitution": "East Daybreak Junior High",
+        "parentEducationAgencyReference": "IL-DAYBREAK", 
         "courses": [
             {
                 "courseTitle": "Club/Team",

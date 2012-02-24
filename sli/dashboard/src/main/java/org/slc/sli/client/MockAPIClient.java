@@ -93,46 +93,30 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school) {
-        
-        List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
-        List<GenericEntity> allAssociations = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_SCHOOL_ED_ORG_ASSOC_FILE), null);
-        // create a set of associated ed org ids, and then filter the ed or entities based on it.
-        Set<String> associatedEdOrgIds = new HashSet<String>();
-        for (int i = 0; i < allAssociations.size(); i++) {
-            if (school.get(Constants.ATTR_ID) != null && school.get(Constants.ATTR_ID).equals(allAssociations.get(i).get(Constants.ATTR_SCHOOL_ID))) {
-                associatedEdOrgIds.add((String) (allAssociations.get(i).get(Constants.ATTR_ED_ORG_ID)));
-            }
-        }
-        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
-        for (int i = 0; i < allEdOrgs.size(); i++) {
-            if (associatedEdOrgIds.contains(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
-                filtered.add(allEdOrgs.get(i));
-            }
-        }
-
-        return filtered;
+    public GenericEntity getAssociatedEducationalOrganization(final String token, GenericEntity school) {
+        // Find the parent ed-org's name.
+        String parentEdOrgId = school.getString(Constants.ATTR_PARENT_EDORG);
+        return getEducationOrganization(token, parentEdOrgId);
     }
 
     @Override
-    public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity edOrg) {
+    public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
+        // Find the parent ed-org's name.
+        String parentEdOrgId = edOrg.getString(Constants.ATTR_PARENT_EDORG);
+        return getEducationOrganization(token, parentEdOrgId);
+    }
+    
+    // helper, to find an ed-org entity. 
+    private GenericEntity getEducationOrganization(final String token, String id) {
         List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
-        List<GenericEntity> allAssociations = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_ASSOC_FILE), null);
-        // create a set of associated ed org ids, and then filter the ed or entities based on it.
-        Set<String> parentEdOrgIds = new HashSet<String>();
-        for (int i = 0; i < allAssociations.size(); i++) {
-            if (edOrg.get(Constants.ATTR_ID) != null && edOrg.get(Constants.ATTR_ID).equals(allAssociations.get(i).get("educationOrganizationChildId"))) {
-                parentEdOrgIds.add((String) (allAssociations.get(i).get(Constants.ATTR_ED_ORG_PARENT_ID)));
-            }
-        }
-        Vector<GenericEntity> filtered = new Vector<GenericEntity>();
+        if (id == null) { return null; }
         for (int i = 0; i < allEdOrgs.size(); i++) {
-            if (parentEdOrgIds.contains(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
-                filtered.add(allEdOrgs.get(i));
+            if (id.equals(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
+                return allEdOrgs.get(i);
             }
         }
-        
-        return filtered;
+        // an unknown ed-org
+        return null;
     }
 
     /**
