@@ -26,7 +26,7 @@
 	<!-- OAuth 2.0 Resource Server configuration -->
 	<oauth2:resource-server id="oauth2ProviderFilter"
 		token-services-ref="OAuthSessionService" />
-
+<!--
 	<security:http>
 		<security:form-login />
 		<security:logout />
@@ -37,7 +37,7 @@
 			before="EXCEPTION_TRANSLATION_FILTER" />
 	</security:http>
 
-
+-->
 
 	<!-- TECHNICAL DEBT: This Authentication Manager will need to be replaced 
 		with discovery service and SSO. -->
