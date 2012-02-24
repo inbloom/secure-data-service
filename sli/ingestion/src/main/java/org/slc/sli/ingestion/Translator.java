@@ -26,9 +26,9 @@ public class Translator {
      * @param neutralRecord
      * @return
      */
-    public static NeutralRecordEntity mapToEntity(NeutralRecord neutralRecord, int recordNumberInFile) {
-        LOG.debug("converting NeutralRecord({}): {} to NeutralRecordEntity", recordNumberInFile, neutralRecord);
-        return new NeutralRecordEntity(neutralRecord, recordNumberInFile);
+    public static NeutralRecordEntity mapToEntity(NeutralRecord neutralRecord, long recordNumber) {
+        LOG.debug("converting NeutralRecord({}): {} to NeutralRecordEntity", recordNumber, neutralRecord);
+        return new NeutralRecordEntity(neutralRecord, recordNumber);
     }
 
     /**

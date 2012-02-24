@@ -18,29 +18,32 @@ public class BasicQuery implements Query {
     private static final String START_INDEX_KEY = "start-index";
     private static final String MAX_RESULTS_KEY = "max-results";
     
+    /** Represents an empty query with no query parameters */
+    public static final Query EMPTY_QUERY = new BasicQuery();
+    
     private Map<String, Object> params;
     
     /**
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
-    public class QueryBuilder {
+    public class Builder {
         private Map<String, Object> params;
         
         /**
          * Instantiate a new builder
          * 
-         * @return QueryBuilder instance.
+         * @return Builder instance.
          */
-        public QueryBuilder create() {
-            return new QueryBuilder();
+        public Builder create() {
+            return new Builder();
         }
         
         /**
          * Indicate the results should be returned in ascending order.
          * 
-         * @return Updated QueryBuilder instance.
+         * @return Updated Builder instance.
          */
-        public QueryBuilder sortAscending() {
+        public Builder sortAscending() {
             params.put(SORT_ORDER_KEY, SORT_ASCENDING);
             return this;
         }
@@ -48,9 +51,9 @@ public class BasicQuery implements Query {
         /**
          * Indicate the results should be returned in descending order.
          * 
-         * @return Updated QueryBuilder instance.
+         * @return Updated Builder instance.
          */
-        public QueryBuilder sortDescending() {
+        public Builder sortDescending() {
             params.put(SORT_ORDER_KEY, SORT_DESCENDING);
             return this;
         }
@@ -62,9 +65,9 @@ public class BasicQuery implements Query {
          *            Field to filter on.
          * @param value
          *            The value to look for.
-         * @return Updated QueryBuilder instance.
+         * @return Updated Builder instance.
          */
-        public QueryBuilder filterEqual(final String fieldName, final String value) {
+        public Builder filterEqual(final String fieldName, final String value) {
             params.put(fieldName, value);
             return this;
         }
@@ -76,9 +79,9 @@ public class BasicQuery implements Query {
          *            Start of the result window.
          * @param maxResults
          *            Maximum number of results to return.
-         * @return Updated QueryBuilder instance.
+         * @return Updated Builder instance.
          */
-        public QueryBuilder paginate(final int startIndex, final int maxResults) {
+        public Builder paginate(final int startIndex, final int maxResults) {
             params.put(START_INDEX_KEY, startIndex);
             params.put(MAX_RESULTS_KEY, maxResults);
             return this;

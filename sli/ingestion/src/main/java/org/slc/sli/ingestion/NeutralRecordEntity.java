@@ -15,7 +15,7 @@ public class NeutralRecordEntity implements Entity {
 
     private final NeutralRecord neutralRecord;
 
-    private int recordNumberInFile;
+    private long recordNumberInFile;
     private Map<String, Object> metaData;  // Added 2/2/2012 by Thomas Shewchuk
     private String entityId;  // Added 2/2/2012 by Thomas Shewchuk
 
@@ -26,9 +26,9 @@ public class NeutralRecordEntity implements Entity {
     /**
      * @author tshewchuk 1/12/2010 (PI2 US311)
      */
-    public NeutralRecordEntity(NeutralRecord neutralRecord, int recordNumberInFile) {
+    public NeutralRecordEntity(NeutralRecord neutralRecord, long recordNumber) {
         this.neutralRecord = neutralRecord;
-        this.recordNumberInFile = recordNumberInFile;  // Added 2/2/2012 by Thomas Shewchuk
+        this.recordNumberInFile = recordNumber;  // Added 2/2/2012 by Thomas Shewchuk
         this.metaData = new HashMap<String, Object>();  // Added 2/7/2012 by Thomas Shewchuk
         this.entityId = null;  // Added 2/7/2012 by Thomas Shewchuk
     }
@@ -86,7 +86,7 @@ public class NeutralRecordEntity implements Entity {
     /**
      * @author tshewchuk 1/12/2010 (PI3 US811)
      */
-    public int getRecordNumberInFile() {
+    public long getRecordNumberInFile() {
         return recordNumberInFile;
     }
 
