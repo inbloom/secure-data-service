@@ -15,6 +15,18 @@ Scenario: Post an empty zip file should fail
 	And I should see "File student.xml: Empty file" in the resulting batch job file
 	
 @wip
+Scenario: Post a zip file where the first record has an incorrect enum for an attribute value
+	Given I post "valueTypeNotMatchAttributeType.zip" file as the payload of the ingestion job
+	And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |   
+	When zip file is scp to ingestion landing zone
+	And "5" seconds have elapsed
+	And I should see "Record 1: Enumeration mismatch for field <sex> (provided: [Boy], expected: [[Female, Male]])" in the resulting error log file
+	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+	And I should see "Processed 1 records." in the resulting batch job file
+	
+@wip
 Scenario: Post a zip file where the first record has a bad attribute should fail on that record and proceed
 	Given I post "firstRecordHasIncorrectAttribute.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
