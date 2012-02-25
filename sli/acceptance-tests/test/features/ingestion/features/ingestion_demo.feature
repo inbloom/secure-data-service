@@ -2,11 +2,11 @@ Feature: Demo Data Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
-	And I am using preconfigured Ingestion Landing Zone
+    And I am using preconfigured Ingestion Landing Zone
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
-	And the following collections are empty in datastore:
+    And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
         | studentSchoolAssociation    |
@@ -20,7 +20,7 @@ Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
         | teacherSectionAssociation   |
         | session                     |
 When zip file is scp to ingestion landing zone
-	And "30" seconds have elapsed
+    And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
@@ -35,17 +35,17 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 19    |
         | session                     | 4     |
      And I check to find if record is in collection:
-	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
-	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |
-	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
-	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
-	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-	And I should see "Processed 170 records." in the resulting batch job file
+       | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
+       | student                     | 1                   | metaData.externalId      | 530425896            | string               |
+       | student                     | 1                   | metaData.externalId      | 784204643            | string               |
+       | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
+       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
+    And I should see "Processed 291 records." in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-	And "30" seconds have elapsed
+    And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
@@ -60,9 +60,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 19    |
         | session                     | 4     |
      And I check to find if record is in collection:
-	   | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
-	   | student                     | 1                   | metaData.externalId      | 530425896            | string               |
-	   | student                     | 1                   | metaData.externalId      | 784204643            | string               |
-	   | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
-	   | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-	And I should see "Processed 170 records." in the resulting batch job file
+       | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
+       | student                     | 1                   | metaData.externalId      | 530425896            | string               |
+       | student                     | 1                   | metaData.externalId      | 784204643            | string               |
+       | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
+       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
+    And I should see "Processed 291 records." in the resulting batch job file

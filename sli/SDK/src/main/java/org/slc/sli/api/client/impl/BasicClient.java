@@ -2,7 +2,6 @@ package org.slc.sli.api.client.impl;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientResponse;
@@ -26,7 +25,7 @@ public final class BasicClient implements SLIClient {
     /**
      * SLIClientBuilder Builder for an BasicClient instance.
      */
-    public static class BasicClientBuilder {
+    public static class Builder {
         private String host = "localhost";
         private int port = 8080;
         private String username;
@@ -34,11 +33,20 @@ public final class BasicClient implements SLIClient {
         private String realm;
         
         /**
+         * Construct a new Builder.
+         */
+        public static Builder create() {
+            return new Builder();
+        }
+        
+        /**
          * Initialize the builder connection host.
-         * @param host for the API server.
+         * 
+         * @param host
+         *            for the API server.
          * @return an SLIClientBuilder
          */
-        public BasicClientBuilder host(final String host) {
+        public Builder host(final String host) {
             this.host = host;
             return this;
         }
@@ -48,7 +56,7 @@ public final class BasicClient implements SLIClient {
          * @param port for the API server.
          * @return an SLIClientBuilder
          */
-        public BasicClientBuilder port(final int port) {
+        public Builder port(final int port) {
             this.port = port;
             return this;
         }
@@ -58,7 +66,7 @@ public final class BasicClient implements SLIClient {
          * @param username
          * @return SLIClientBuilder
          */
-        public BasicClientBuilder user(final String username) {
+        public Builder user(final String username) {
             this.username = username;
             return this;
         }
@@ -68,7 +76,7 @@ public final class BasicClient implements SLIClient {
          * @param password user password.
          * @return SLIClientBuilder
          */
-        public BasicClientBuilder password(final String password) {
+        public Builder password(final String password) {
             this.password = password;
             return this;
         }
@@ -78,7 +86,7 @@ public final class BasicClient implements SLIClient {
          * @param ream Users IDP realm.
          * @return SLIClientBuilder
          */
-        public BasicClientBuilder realm(final String realm) {
+        public Builder realm(final String realm) {
             this.realm = realm;
             return this;
         }
@@ -93,6 +101,7 @@ public final class BasicClient implements SLIClient {
     }
     
     private RESTClient restClient;
+    private final Gson gson = new Gson();
     
     /**
      * CRUD operations
@@ -105,19 +114,29 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
-    URISyntaxException {
+    public EntityCollection read(final EntityType type, final String id, final Query query)
+            throws MalformedURLException, URISyntaxException {
         
         EntityCollection rval = new EntityCollection();
         
         // build the URL
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(type).query(query).build();
+        URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
+        if (id != null) {
+            builder.id(id);
+        }
+        builder.query(query);
         
-        String response = restClient.getRequest(url);
+        String response = restClient.getRequest(builder.build());
         
-        Gson gson = new Gson();
         rval = gson.fromJson(response, EntityCollection.class);
         return rval;
+    }
+    
+    @Override
+    public EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
+    URISyntaxException {
+        
+        return read(type, null, query);
     }
     
     @Override
@@ -148,5 +167,6 @@ public final class BasicClient implements SLIClient {
             final String realm) {
         connect(host, port, user, password, realm);
     }
+    
     
 }

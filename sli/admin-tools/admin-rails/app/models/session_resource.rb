@@ -1,8 +1,18 @@
 class SessionResource < ActiveResource::Base
-  cattr_accessor :auth_id
+  cattr_accessor :auth_id, :access_token
+
   Rails.logger.debug { "Session ID: #{@auth_id}" }
   
   class << self
+
+    def headers
+      if !access_token.nil?
+        @headers = {"Authorization" => "Bearer#{self.access_token}"}
+      else
+        @headers = {}
+      end
+    end
+
     ## Remove format from the url.
      def element_path(id, prefix_options = {}, query_options = nil)
        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
