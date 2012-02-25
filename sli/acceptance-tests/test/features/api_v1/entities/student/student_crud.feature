@@ -35,7 +35,7 @@ Scenario: Read a student by id
         And I should receive a link named "getSchools" with URI "/v1/students/<'Alfonso' ID>/studentSchoolAssociations/schools"
         And I should receive a link named "getStudentAssessmentAssociations" with URI "/v1/students/<'Alfonso' ID>/studentAssessmentAssociations"
         And I should receive a link named "getAssessments" with URI "/v1/students/<'Alfonso' ID>/studentAssessmentAssociations/assessments"
-        And I should receive a link named "self" with URI "/students/<'Alfonso' ID>"
+        And I should receive a link named "self" with URI "/v1/students/<'Alfonso' ID>"
 
 Scenario: Update an existing student
     Given format "application/json"

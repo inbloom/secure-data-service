@@ -9,7 +9,7 @@ Scenario: Home URI returns valid links for user 'educator'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/teachers/<'educator' ID>"
+    And I should receive a link named "self" with URI "/v1/teachers/<'educator' ID>"
     And I should receive a link named "getTeacherSectionAssociations" with URI "/v1/teachers/<'educator' ID>/teacherSectionAssociations"
     And I should receive a link named "getSections" with URI "/v1/teachers/<'educator' ID>/teacherSectionAssociations/sections"
     And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1/teachers/<'educator' ID>/teacherSchoolAssociations"
@@ -21,7 +21,7 @@ Scenario: Home URI returns valid links for user 'aggregator'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/staff/<'aggregator' ID>"
+    And I should receive a link named "self" with URI "/v1/staff/<'aggregator' ID>"
     And I should receive a link named "getEducationOrganizationsAssigned" with URI "/v1/staff/<'aggregator' ID>/staffEducationOrganizationAssociations"
     And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'aggregator' ID>/staffEducationOrganizationAssociations/educationOrganizations"
 
@@ -31,7 +31,7 @@ Scenario: Home URI returns valid links for user 'administrator'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/staff/<'administrator' ID>"
+    And I should receive a link named "self" with URI "/v1/staff/<'administrator' ID>"
     And I should receive a link named "getEducationOrganizationsAssigned" with URI "/v1/staff/<'administrator' ID>/staffEducationOrganizationAssociations"
     And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'administrator' ID>/staffEducationOrganizationAssociations/educationOrganizations"
 
@@ -41,7 +41,7 @@ Scenario: Home URI returns valid links for user 'leader'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/staff/<'leader' ID>"
+    And I should receive a link named "self" with URI "/v1/staff/<'leader' ID>"
     And I should receive a link named "getEducationOrganizationsAssigned" with URI "/v1/staff/<'leader' ID>/staffEducationOrganizationAssociations"
     And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'leader' ID>/staffEducationOrganizationAssociations/educationOrganizations"
 
@@ -51,7 +51,7 @@ Scenario: Home URI returns appropriate links for 'baduser'
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/staff/<'baduser' ID>"
+    And I should receive a link named "self" with URI "/v1/staff/<'baduser' ID>"
     And I should receive a link named "getEducationOrganizationsAssigned" with URI "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations"
     And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations/educationOrganizations"
   #When I navigate to GET "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations"
