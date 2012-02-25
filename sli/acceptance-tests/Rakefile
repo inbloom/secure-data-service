@@ -156,7 +156,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :v1SectionTests, :assessmentTests, :v1AssessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
 displayFailureReport()
 end
 
@@ -187,6 +187,14 @@ task :sectionTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
+end
+
+desc "Run V1 Section Tests"
+task :v1SectionTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
+  runFixtureAndTests("test/features/api_v1/entities/section", "section", "section_fixture.json")
 end
 
 desc "Run School Tests"
@@ -222,6 +230,11 @@ end
 desc "Run Assessment Tests"
 task :assessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run V1 Assessment Tests"
+task :v1AssessmentTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/assessment","assessment","assessment_fixture.json")
 end
 
 desc "Run Attendance Tests"
