@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 784204643            | string               |
        | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-    And I should see "Processed 291 records." in the resulting batch job file
+    And I should see "Processed 306 records." in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
@@ -67,4 +67,4 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 784204643            | string               |
        | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
-    And I should see "Processed 291 records." in the resulting batch job file
+    And I should see "Processed 306 records." in the resulting batch job file

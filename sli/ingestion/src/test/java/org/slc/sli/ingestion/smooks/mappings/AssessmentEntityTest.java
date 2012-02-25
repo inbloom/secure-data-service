@@ -244,7 +244,6 @@ public class AssessmentEntityTest {
                     "assigningOrganizationCode", "orgcode2");
             EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "ID", "1235");
         }
-        */
         
         List sectionReferenceTypeList = (List) assessmentNeutralRecord.getAttributes().get("sectionReferences");
         Map sectionReferenceTypeMap = (Map) sectionReferenceTypeList.get(0);
@@ -277,6 +276,7 @@ public class AssessmentEntityTest {
         Map courseCodeMap = (Map) sectionIdentityTypeMap.get("courseCode");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "identificationSystem", "courseIdentificationSystem");
         EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "id", "courseId");
+        */
     }
 
 }
