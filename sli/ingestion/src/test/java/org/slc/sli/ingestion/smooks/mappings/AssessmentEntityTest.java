@@ -133,13 +133,13 @@ public class AssessmentEntityTest {
         assertEquals("TAKS", assessmentNeutralRecord.getAttributes().get("assessmentTitle"));
 
         List assessmentIdentificationCodeList = (List) assessmentNeutralRecord.getAttributes().get(
-                "assessmentIdentificationCodes");
+                "assessmentIdentificationCode");
         Map assessmentIdentificationCodeMap = (Map) assessmentIdentificationCodeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "identificationSystem",
                 "Test Contractor ");
         EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "assigningOrganizationCode",
                 "AssigningOrg");
-        EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "id", "TAKS 3rd Grade Reading");
+        EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "ID", "TAKS 3rd Grade Reading");
 
         assertEquals("State summative assessment 3-8 general",
                 assessmentNeutralRecord.getAttributes().get("assessmentCategory"));
@@ -148,10 +148,10 @@ public class AssessmentEntityTest {
         assertEquals("Fourth grade", assessmentNeutralRecord.getAttributes().get("lowestGradeLevelAssessed"));
 
         List assessmentPerformanceLevelList = (List) assessmentNeutralRecord.getAttributes().get(
-                "assessmentPerformanceLevels");
+                "assessmentPerformanceLevel");
 
         Map assessmentPerformanceLevelMap = (Map) assessmentPerformanceLevelList.get(0);
-        Map performanceLevelMap = (Map) assessmentPerformanceLevelMap.get("performanceLevel");
+        Map performanceLevelMap = (Map) assessmentPerformanceLevelMap.get("performanceLevelDescriptor");
         EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "id", "perf id");
         EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "ref", "perf ref");
         EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "codeValue", "the code value");
@@ -164,7 +164,7 @@ public class AssessmentEntityTest {
         if (assessmentPerformanceLevelList.size() > 1) {
             // TODO: remove this if block when we support csv lists
             Map assessmentPerformanceLevelMap2 = (Map) assessmentPerformanceLevelList.get(1);
-            Map performanceLevelMap2 = (Map) assessmentPerformanceLevelMap2.get("performanceLevel");
+            Map performanceLevelMap2 = (Map) assessmentPerformanceLevelMap2.get("performanceLevelDescriptor");
             EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "id", null);
             EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "ref", null);
             EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "codeValue", "the code value2");
@@ -178,7 +178,7 @@ public class AssessmentEntityTest {
 
         assertEquals("State Standard", assessmentNeutralRecord.getAttributes().get("contentStandard"));
         assertEquals("Assessment Form", assessmentNeutralRecord.getAttributes().get("assessmentForm"));
-        assertEquals("2002", assessmentNeutralRecord.getAttributes().get("version"));
+        assertEquals(2002, assessmentNeutralRecord.getAttributes().get("version"));
         assertEquals("2002-09-01", assessmentNeutralRecord.getAttributes().get("revisionDate"));
         assertEquals(36, assessmentNeutralRecord.getAttributes().get("maxRawScore"));
         assertEquals("the nomenclature", assessmentNeutralRecord.getAttributes().get("nomenclature"));
@@ -196,6 +196,7 @@ public class AssessmentEntityTest {
         if (!descriptionChoiceList.isEmpty())
             assertEquals("descript", descriptionChoiceList.get(0));
 
+        /*
         List assessmentItemReferenceList = (List) assessmentNeutralRecord.getAttributes().get(
                 "assessmentItemReferences");
         Map assessmentItemReferenceMap = (Map) assessmentItemReferenceList.get(0);
@@ -243,7 +244,8 @@ public class AssessmentEntityTest {
                     "assigningOrganizationCode", "orgcode2");
             EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "ID", "1235");
         }
-
+        */
+        
         List sectionReferenceTypeList = (List) assessmentNeutralRecord.getAttributes().get("sectionReferences");
         Map sectionReferenceTypeMap = (Map) sectionReferenceTypeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "id", "myid");

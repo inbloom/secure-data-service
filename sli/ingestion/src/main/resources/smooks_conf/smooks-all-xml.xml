@@ -1133,8 +1133,9 @@
     <jb:wiring property="assessmentItemReferences" beanIdRef="assessmentItemReferenceTypeArray" />
     <jb:wiring property="objectiveAssessmentReferences" beanIdRef="objectiveAssessmentReferenceTypeArray" />
     <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType" />
-    <jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" /> 
     -->
+    <jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" /> 
+    
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
