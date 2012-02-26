@@ -156,7 +156,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :v1SectionTests, :assessmentTests, :v1AssessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :v1SectionTests, :assessmentTests, :v1AssessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :v1ValidationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
 displayFailureReport()
 end
 
@@ -248,6 +248,14 @@ task :validationTests => [:realmInit] do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
+end
+
+desc "Run V1 Validation Tests"
+task :v1ValidationTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/api_v1/validation")
 end
 
 desc "Run List-Filter Tests"
