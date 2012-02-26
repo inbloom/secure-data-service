@@ -1,7 +1,10 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -74,14 +77,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
     }
     
     @Override
-    public Iterable<String> getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
+    public EntityIdList getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
             String sortBy, SortOrder sortOrder) {
         return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryString, sortBy,
                 sortOrder);
     }
     
     @Override
-    public Iterable<String> getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
+    public EntityIdList getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
             String sortBy, SortOrder sortOrder) {
         return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryString, sortBy,
                 sortOrder);
@@ -159,26 +162,42 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<String> getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
+    private EntityIdList getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
             int start, int numResults, String queryString, String sortBy, SortOrder sortOrder) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         
-        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, null, null, null);
-        
+        Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, 0, Integer.MAX_VALUE, null, null, null);
+        // there can be multiple association objects pointing to the same associated entity, and we
+        // need the number of unique ones for the totalCount
+        Set<String> associatedEntityIdSet = new HashSet<String>();
         List<UUID> ids = new ArrayList<UUID>();
         for (Entity entity : entityObjects) {
             Object other = entity.getBody().get(otherEntityKey);
             if (other != null && other instanceof String) {
-                ids.add(UUID.fromString((String) other));
+                if (associatedEntityIdSet.add((String) other)) {
+                    ids.add(UUID.fromString((String) other));
+                }
             } else {
                 LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
             }
         }
         Query query = queryConverter.stringToQuery(otherEntityDefn.getType(), queryString, sortBy, sortOrder);
-        // ids.clear();
         query.addCriteria(Criteria.where("_id").in(ids));
-        return getRepo().findIdsByQuery(otherEntityDefn.getStoredCollectionName(), query, start, numResults);
+        final Iterable<String> results = getRepo().findIdsByQuery(otherEntityDefn.getStoredCollectionName(), query,
+                start, numResults);
+        final long totalCount = associatedEntityIdSet.size();
+        return new EntityIdList() {
+            @Override
+            public Iterator<String> iterator() {
+                return results.iterator();
+            }
+            
+            @Override
+            public long getTotalCount() {
+                return totalCount;
+            }
+        };
     }
     
     /**

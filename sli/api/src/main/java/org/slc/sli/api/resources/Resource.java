@@ -35,6 +35,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.query.SortOrder;
 
 /**
@@ -351,26 +352,30 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    Iterable<String> relatives = null;
+                    AssociationService.EntityIdList relatives = null;
                     EntityDefinition relative = null;
+                    String query = uriInfo.getRequestUri().getQuery();
                     if (associationDefinition.getSourceEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
+                        relatives = associationDefinition.getService().getAssociatedEntitiesWith(id, skip, max, query,
+                                sortBy, sortOrder);
                         relative = associationDefinition.getTargetEntity();
                     } else if (associationDefinition.getTargetEntity().isOfType(id)) {
-                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max,
-                                uriInfo.getRequestUri().getQuery(), sortBy, sortOrder);
+                        relatives = associationDefinition.getService().getAssociatedEntitiesTo(id, skip, max, query,
+                                sortBy, sortOrder);
                         relative = associationDefinition.getSourceEntity();
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
                     
+                    ResponseBuilder response;
                     if (fullEntities) {
-                        return Response.ok(getHoppedEntities(relatives, relative, uriInfo, sortBy, sortOrder)).build();
+                        response = Response.ok(getHoppedEntities(relatives, relative, uriInfo, sortBy, sortOrder));
                     } else {
                         CollectionResponse collection = getHoppedLinks(uriInfo, relatives, relative);
-                        return Response.ok(collection).build();
+                        response = Response.ok(collection);
                     }
+                    return addPagingHeaders(response, entityDef.getType(), skip, max, relatives.getTotalCount(),
+                            uriInfo).build();
                 } else {
                     return Response.status(Status.NOT_FOUND).build();
                 }

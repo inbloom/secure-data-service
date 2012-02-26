@@ -12,6 +12,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +25,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.security.mock.Mocker;
 import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.enums.Right;
 
@@ -33,35 +36,43 @@ import org.slc.sli.domain.enums.Right;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class OpenamRestTokenResolverTest {
-
-    private static final String     DEFAULT_REALM_ID = "dc=slidev,dc=net";
-
+    
+    private static final String DEFAULT_REALM_ID = "i am -> a default -> realm -> yay -> me!";
+    
     private OpenamRestTokenResolver resolver;
-
-    private RolesToRightsResolver   rightsResolver;
-
+    
+    private RolesToRightsResolver rightsResolver;
+    
+    @Value("${sli.security.tokenService.url}")
+    private String tokenServiceUrl;
+    
     @Before
     public void init() {
         resolver = new OpenamRestTokenResolver();
         resolver.setTokenServiceUrl(Mocker.MOCK_URL);
         resolver.setRest(Mocker.mockRest());
-        resolver.setLocator(Mocker.getLocator());
+        UserLocator locator = Mocker.getLocator();
+        SLIPrincipal principal = new SLIPrincipal(Mocker.VALID_INTERNAL_ID);
+        principal.setRealm(DEFAULT_REALM_ID);
+        Mockito.when(locator.locate("mock", "demo")).thenReturn(principal);
+        resolver.setLocator(locator);
+        
         rightsResolver = mock(RolesToRightsResolver.class);
         resolver.setResolver(rightsResolver);
-
+        
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
-
+    
     @Test
     public void testResolveSuccess() {
-
+        
         Authentication auth = resolver.resolve(Mocker.VALID_TOKEN);
         Assert.assertNotNull(auth.getAuthorities());
         Assert.assertTrue(auth.getAuthorities().contains(Right.READ_GENERAL));
     }
-
+    
     @Test
     public void testResolveFailure() {
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, null)).thenReturn(null);

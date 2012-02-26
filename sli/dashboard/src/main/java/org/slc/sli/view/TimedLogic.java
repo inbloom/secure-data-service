@@ -1,13 +1,15 @@
 package org.slc.sli.view;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.Period;
 import org.slc.sli.util.Constants;
 
 /**
@@ -18,28 +20,42 @@ import org.slc.sli.util.Constants;
  */
 public class TimedLogic {
 
-    // These implementations are *all* temporary.
-    // We can implement this only after we have a final spec from the API team on what the
-    // Assessment entity really looks like. For now we're just going by the mock assessment entity.
+    private static Logger logger = LoggerFactory.getLogger(TimedLogic.class);
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 
     /**
      * Returns the assessment with the most recent timestamp
      */
     public static GenericEntity getMostRecentAssessment(List<GenericEntity> a) {
+
         Collections.sort(a, new Comparator<GenericEntity>() {
-            // this should probably get more precise if we actually have an actual timestamp!
+            
             public int compare(GenericEntity o1, GenericEntity o2) {
-                return (Integer.parseInt((String) (o2.get(Constants.ATTR_YEAR))) - (Integer.parseInt((String) (o1.get(Constants.ATTR_YEAR)))));  
+                
+                try {
+                    Date d1 = dateFormat.parse(o1.getString(Constants.ATTR_ADMIN_DATE));
+                    Date d2 = dateFormat.parse(o2.getString(Constants.ATTR_ADMIN_DATE));
+                    return d2.compareTo(d1);
+                    
+                } catch (Exception e) { 
+                    logger.error("Date compare error");
+                    return 0;
+                }
             }
         });
-        return a.get(0);
+
+        // TODO: is this necessary? we don't really want to create a new generic entity
+        return new GenericEntity(a.get(0));
     }
 
     /**
      * Returns the assessment with the highest score
      */
     public static GenericEntity getHighestEverAssessment(List<GenericEntity> a) {
+        
         Collections.sort(a, new Comparator<GenericEntity>() {
+            
             public int compare(GenericEntity o1, GenericEntity o2) {
                 return (Integer.parseInt((String) (o2.get(Constants.ATTR_SCALE_SCORE))) - (Integer.parseInt((String) (o1.get(Constants.ATTR_SCALE_SCORE)))));
             }
@@ -54,6 +70,8 @@ public class TimedLogic {
     public static GenericEntity getMostRecentAssessmentWindow(List<GenericEntity> a, 
                                                            AssessmentMetaDataResolver metaDataResolver,
                                                            String assmtName) {
+        
+        /*
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         // if the window has already passed in the current year, then the latest window is in this year.
@@ -98,6 +116,7 @@ public class TimedLogic {
                 return ass;
             }
         }
+        */
         return null;
     }
 

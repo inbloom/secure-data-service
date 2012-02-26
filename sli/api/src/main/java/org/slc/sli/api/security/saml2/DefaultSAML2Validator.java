@@ -3,10 +3,10 @@ package org.slc.sli.api.security.saml2;
 import java.security.Key;
 import java.security.KeyException;
 import java.security.PublicKey;
+import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.security.cert.X509Certificate;
 import javax.xml.crypto.AlgorithmMethod;
 import javax.xml.crypto.KeySelector;
 import javax.xml.crypto.KeySelectorException;

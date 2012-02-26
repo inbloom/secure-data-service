@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<talendfile:ContextType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" confirmationNeeded="false" name="Default">
-  <contextParameter comment="" name="School_OutputFilePath" prompt="School_OutputFilePath?" promptNeeded="false" type="id_File" value="Z:/Work/git/SLI/sli/common/common-test-data/src/main/talend/testData/School.xml"/>
-</talendfile:ContextType>

@@ -9,6 +9,7 @@ import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.LozengeConfig;
+import org.slc.sli.config.StudentFilter;
 
 /**
  *
@@ -97,6 +98,25 @@ public class ConfigManager extends Manager {
             return null;
         }
         return Arrays.asList(userLozengeConfig);
+    }
+
+    /**
+     * Get the configuration for one particular view, for a user
+     *
+     * @param userId
+     * @param viewName
+     * @return StudentFilter list
+     */
+    public List<StudentFilter> getStudentFilterConfig(String userId) {
+
+        // get student filter configs for user's hierarchy (state, district, etc)
+        StudentFilter[] userStudentFilterConfig = null;
+        try {
+            userStudentFilterConfig = persistor.getStudentFilterConfig(userId);
+        } catch (Exception e) {
+            return null;
+        }
+        return Arrays.asList(userStudentFilterConfig);
     }
 
     /**

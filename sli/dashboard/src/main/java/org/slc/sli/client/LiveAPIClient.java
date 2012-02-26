@@ -9,7 +9,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.assessmentmetadata.AssessmentMetaData;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
@@ -38,6 +37,8 @@ public class LiveAPIClient implements APIClient {
     private static final String TEACHER_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-school-associations/";
     private static final String COURSE_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/course-section-associations/";
     private static final String SECTION_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/section-school-associations/";
+    private static final String STUDENT_ASSMT_ASSOC_URL = Constants.API_SERVER_URI + "/student-assessment-associations/";
+    private static final String ASSMT_URL = Constants.API_SERVER_URI + "/assessments/";
     
     private RESTClient restClient;
     private Gson gson;
@@ -88,11 +89,21 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get a list of assessment results, given the student ids
+     * Get a list of student assessment results, given a student id
      */
     @Override
-    public List<GenericEntity> getAssessments(final String token, List<String> studentIds) {
-        return mockClient.getAssessments(getUsername(), studentIds);
+    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
+
+        // make a call to student-assessments, with the student id
+        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_ASSMT_ASSOC_URL + studentId, token);
+        
+        // for each link in the returned list, make the student-assessment call for the result data
+        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
+        for (GenericEntity response : responses) {
+            studentAssmts.add(getStudentAssessment(parseId(response.getMap(Constants.ATTR_LINK)), token));
+        }
+        
+        return studentAssmts;  
     }
     
     /**
@@ -104,11 +115,16 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get all assessment meta-data
+     * Get assessment info, given a list of assessment ids
      */
     @Override
-    public AssessmentMetaData[] getAssessmentMetaData(final String token) {
-        return mockClient.getAssessmentMetaData(getUsername());
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+
+        List<GenericEntity> assmts = new ArrayList<GenericEntity>();
+        for (String assmtId : assessmentIds) {
+            assmts.add(getAssessment(assmtId, token));
+        }
+        return assmts;
     }
     
     /**
@@ -224,6 +240,20 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
+     * Get one student-assessment association 
+     */
+    private GenericEntity getStudentAssessment(String id, String token) {
+        return createEntityFromAPI(STUDENT_ASSMT_ASSOC_URL + id, token);
+    }
+    
+    /**
+     * Get one assessment
+     */
+    private GenericEntity getAssessment(String id, String token) {
+        return createEntityFromAPI(ASSMT_URL + id, token);
+    }
+    
+    /**
      * Get the user's unique identifier
      * @param token
      * @return
@@ -288,22 +318,6 @@ public class LiveAPIClient implements APIClient {
         getSchoolSectionsMappings(sections, token, schoolMap, sectionIDToSchoolIDMap);
 
         
-        
-        // TODO: Hack for Sprint 3.1 demo
-        // @@@ Begin Hack
-        // The associations called above won't work because API and ingestion teams have not 
-        // implemented the direct linke *or* the temporary association. So, we're faking a
-        // course association here now. 
-        // First, create a fake course and associate it to all sections
-        GenericEntity fakeCourse = new GenericEntity(); 
-        fakeCourse.put("courseTitle", "Dummy Course");
-        String dummmyCourseID = "dummy course id";
-        courseMap.put(dummmyCourseID, fakeCourse);
-        
-        for (int j = 0; j < sections.size(); j++) {
-            sectionIDToCourseIDMap.put(sections.get(j).get(Constants.ATTR_ID).toString(), dummmyCourseID);
-            fakeCourse.put(Constants.ATTR_SECTIONS, sections.get(j));
-        }
         // Then create schools and associate the first one to all sections
         String teacherId = getId(token); 
         String url = TEACHER_SCHOOL_ASSOC_URL + teacherId + TARGETS; 
@@ -319,9 +333,7 @@ public class LiveAPIClient implements APIClient {
                 }
             }
         }
-        // @@@ End Hack for Sprint 3.1 demo
-        
-        
+
         
         // Now associate course and school.
         // There is no direct course-school association in ed-fi, so in dashboard
@@ -360,29 +372,30 @@ public class LiveAPIClient implements APIClient {
      * Get the associations between courses and sections
      */
     private void getCourseSectionsMappings(List<GenericEntity> sections,
-                                           String token,
-                                           Map<String, GenericEntity> courseMap,
-                                           Map<String, String> sectionIDToCourseIDMap) { 
+            String token,
+            Map<String, GenericEntity> courseMap,
+            Map<String, String> sectionIDToCourseIDMap) { 
+
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
-            // TODO: This API team is going to remove this call when they have implemented direct course  
-            //       reference from the section entity. This "parseId(response.getLink()" expression
-            //       below should then be replaced by looking up the schoolReferenceId in the section entity
-            //       (refer to ed-fi).  
-            String url = COURSE_SECTION_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
-            List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-            if (responses.size() > 0) {
-                GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity course = getCourse(parseId(response.getMap(Constants.ATTR_LINK)), token);
-                if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
-                    courseMap.put(course.getString(Constants.ATTR_ID), course);
-                }
-                course = courseMap.get(course.get(Constants.ATTR_ID));
-                course.appendToList(Constants.ATTR_SECTIONS, section);
-                sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
-            }
+            
+            //Get course using courseId reference in section
+            GenericEntity course = getCourse(section.getString(Constants.ATTR_COURSE_ID), token);
+            
+            //Add course to courseMap, if it doesn't exist already
+            if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
+                courseMap.put(course.getString(Constants.ATTR_ID), course);
+            }   
+            
+            //Grab the most up to date course from the map
+            // Add the section to it's section list, and update sectionIdToCourseIdMap
+            course = courseMap.get(course.get(Constants.ATTR_ID));
+            course.appendToList(Constants.ATTR_SECTIONS, section);
+            sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
+        
         }
-    }
+
+}
     
     /**
      * Get the associations between schools and sections

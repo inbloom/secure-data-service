@@ -268,7 +268,7 @@ module DataProvider
        "state" => "bliss",
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
-       "realm" => "a_new_realm",
+       "name" => "a_new_realm",
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end

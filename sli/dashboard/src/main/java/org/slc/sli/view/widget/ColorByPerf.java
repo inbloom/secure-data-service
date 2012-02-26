@@ -61,7 +61,8 @@ public class ColorByPerf {
 
         GenericEntity assmt = assmts.resolveAssessment(perfField, student);
         if (assmt == null) { return 0; }
-        int level = (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
+        
+        int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL))));
         return getColorIndex(level, numLevels);
     }
 

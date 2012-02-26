@@ -104,7 +104,7 @@ public class SliAdminRoleResolveTest {
     private Map<String, Object> buildRealm() {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("state", "Admin Realm");
-        result.put("realm", "dc=adminrealm,dc=org");
+        result.put("idp.id", "dc=adminrealm,dc=org");
         Map<String, List<Map<String, Object>>> mappings = new HashMap<String, List<Map<String, Object>>>();
         
         ArrayList<Map<String, Object>> roles = new ArrayList<Map<String, Object>>();

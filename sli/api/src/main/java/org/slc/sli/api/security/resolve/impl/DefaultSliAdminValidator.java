@@ -23,7 +23,7 @@ public class DefaultSliAdminValidator implements SliAdminValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSliAdminValidator.class);
 
-    @Value("${sli.security.admin.realm}")
+    @Value("${sli.security.tokenService.url}")
     private String              patternString;
 
     private Pattern             realmPattern;

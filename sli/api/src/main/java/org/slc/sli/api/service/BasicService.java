@@ -149,6 +149,7 @@ public class BasicService implements EntityService {
         
         checkAccess(Right.READ_GENERAL, id);
         
+        queryParameters.put("_id", id);
         Entity entity = repo.find(collectionName, queryParameters);
         
         if (entity == null) {

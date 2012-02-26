@@ -13,6 +13,8 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.util.Utf8;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +66,7 @@ public class NeutralRecordFileReader implements Iterator {
         nr.setJobId(getStringNullable(avroRecord, "jobId"));
         nr.setSourceId(getStringNullable(avroRecord, "sourceId"));
         nr.setLocalId(getStringNullable(avroRecord, "localId"));
+        nr.setAssociation((Boolean) avroRecord.get("association"));
         nr.setRecordType(getStringNullable(avroRecord, "recordType"));
 
         if (avroRecord.get("attributes") != null) {
@@ -98,10 +101,12 @@ public class NeutralRecordFileReader implements Iterator {
         return normalMap;
     }
 
+    @Override
     public boolean hasNext() {
         return this.reader.hasNext();
     }
 
+    @Override
     public NeutralRecord next() {
         NeutralRecord neutralRecord = null;
         try {
@@ -112,6 +117,7 @@ public class NeutralRecordFileReader implements Iterator {
         return neutralRecord;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("remove() operation is unsupported");
     }

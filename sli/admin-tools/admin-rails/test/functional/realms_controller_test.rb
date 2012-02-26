@@ -4,7 +4,7 @@ require 'mocha'
 class RealmsControllerTest < ActionController::TestCase
 
   test "should get index" do
-    @controller.stubs(:get_user_realm).returns("dc=slidev,dc=org")
+    @controller.stubs(:get_user_realm).returns("http://slidev.org")
     get :index
     assert_redirected_to  "/realms/#{@realm_fixtures['one']['id']}"
   end

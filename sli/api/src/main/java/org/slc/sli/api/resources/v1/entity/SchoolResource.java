@@ -229,7 +229,7 @@ public class SchoolResource {
     public Response getSchoolEdorgAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
     /**
@@ -249,7 +249,7 @@ public class SchoolResource {
     public Response getSchoolEdorgAssociationEdorgs(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS, "schoolId", schoolId, "educationOrganizationId", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "educationOrganizationId", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
     }
     
     /**

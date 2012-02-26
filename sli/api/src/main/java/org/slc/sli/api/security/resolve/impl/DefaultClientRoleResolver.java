@@ -32,7 +32,7 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
     @Override
     public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
-        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.realm").is(realmId)), 0, 1);
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.idp.id").is(realmId)), 0, 1);
         Map<String, Object> realm = null;
         for (Entity firstRealm : realms) {
             realm = firstRealm.getBody();

@@ -47,9 +47,11 @@ public class FuelGauge {
      */
     public Integer getNumRealPerfLevels() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
-
+        String dataPointId = field.getValue();
+        String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
+        
         if (assmt == null) { return null; }
-        return assmts.getMetaData().findNumRealPerfLevelsForFamily((String) (assmt.get(Constants.ATTR_ASSESSMENT_NAME)));
+        return assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
     }
     
     /**
@@ -59,14 +61,15 @@ public class FuelGauge {
         GenericEntity assmt = assmts.resolveAssessment(field, student);
 
         if (assmt == null) { return null; }
-        return (Integer.parseInt((String) (assmt.get(Constants.ATTR_PERF_LEVEL))));
+        int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL))));
+        return (new Integer(level));
     }
 
     /**
      * Returns the score
      */
     public Integer getScore() { 
-        GenericEntity a = assmts.resolveAssessment(field, student);
-        return a == null ? null : (Integer.parseInt((String) (a.get(Constants.ATTR_SCALE_SCORE))));
+        GenericEntity assmt = assmts.resolveAssessment(field, student);
+        return assmt == null ? null : (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_SCALE_SCORE))));
     }
 }

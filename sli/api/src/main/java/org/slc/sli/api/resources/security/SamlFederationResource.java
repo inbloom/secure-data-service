@@ -115,8 +115,7 @@ public class SamlFederationResource {
 
         // TODO change everything authRealm to use issuer instead of authRealm
 
-        final SLIPrincipal principal = users.locate(attributes.getFirst("authRealm"), attributes.getFirst("userId"));
-        principal.setRealm(attributes.getFirst("authRealm"));
+        final SLIPrincipal principal = users.locate(issuer, attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
 

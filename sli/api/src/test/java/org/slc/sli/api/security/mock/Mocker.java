@@ -37,6 +37,7 @@ public class Mocker {
 
     @Autowired
     private static SecurityTokenResolver openamRestTokenResolver;
+    
     public static final String MOCK_URL = "mock";
     public static final String VALID_TOKEN = "valid_token";
     public static final String INVALID_TOKEN = "invalid_token";
