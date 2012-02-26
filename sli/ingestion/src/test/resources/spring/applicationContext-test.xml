@@ -152,6 +152,4 @@
 
   <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
 
-  <bean id="testNeutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository" />
-
 </beans>

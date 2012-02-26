@@ -20,12 +20,12 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     public NeutralRecord convert(DBObject dbObj) {
 
         String type = dbObj.get("type").toString();
-        String id = dbObj.get("body.localId").toString();
         Map<?, ?> map = dbObj.toMap();
         Map<String, Object> body = new HashMap<String, Object>();
         if (map.containsKey("body")) {
             body.putAll((Map<String, ?>) map.get("body"));
         }
+        String id = body.get("localId").toString();
         body.remove("localId");
 
         NeutralRecord neutralRecord = new NeutralRecord();

@@ -37,6 +37,8 @@ public class NeutralRecordRepositoryTest {
     @Autowired
     private NeutralRecordRepository repository;
 
+    private int recordId = 1000000;
+
     @Test
     public void testCRUDNeutralRecordRepository() {
 
@@ -126,16 +128,6 @@ public class NeutralRecordRepositoryTest {
         NeutralRecord body3 = buildTestStudentNeutralRecord();
         NeutralRecord body4 = buildTestStudentNeutralRecord();
 
-        body1.setLocalId("1000001");
-        body2.setLocalId("1000002");
-        body3.setLocalId("1000003");
-        body4.setLocalId("1000004");
-
-        body1.setAttributeField("studentUniqueStateId", "1000001");
-        body2.setAttributeField("studentUniqueStateId", "1000002");
-        body3.setAttributeField("studentUniqueStateId", "1000003");
-        body4.setAttributeField("studentUniqueStateId", "1000004");
-
         body1.setAttributeField("firstName", "Austin");
         body2.setAttributeField("firstName", "Jane");
         body3.setAttributeField("firstName", "Mary");
@@ -200,7 +192,7 @@ public class NeutralRecordRepositoryTest {
     private NeutralRecord buildTestStudentNeutralRecord() {
 
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("studentUniqueStateId", "1000000");
+        body.put("studentUniqueStateId", String.valueOf(++recordId));
         body.put("firstName", "Jane");
         body.put("lastName", "Doe");
         // Date birthDate = new Timestamp(23234000);
@@ -226,7 +218,7 @@ public class NeutralRecordRepositoryTest {
         body.put("studentSchoolId", "DOE-JANE-222");
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId("1000000");
+        neutralRecord.setLocalId(body.get("studentUniqueStateId"));
         neutralRecord.setRecordType("student");
         neutralRecord.setAttributes(body);
         return neutralRecord;

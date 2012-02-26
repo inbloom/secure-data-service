@@ -227,7 +227,6 @@ public class NeutralRecordRepository {
         if (query == null) {
             query = new Query();
         }
-        query.fields().include("body.localId");
         List<String> ids = new ArrayList<String>();
         for (NeutralRecord nr : findByQuery(collection, query, skip, max)) {
             ids.add(nr.getLocalId().toString());
