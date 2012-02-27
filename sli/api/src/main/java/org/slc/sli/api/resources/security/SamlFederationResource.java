@@ -15,11 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
+import org.xml.sax.InputSource;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -29,6 +33,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -59,12 +68,33 @@ public class SamlFederationResource {
     @Autowired
     private SamlAttributeTransformer transformer;
 
-    @Value("${sli.security.saml.metadata}")
-    private String metadata;
+    @Value("${sli.security.sp.issuerName}")
+    private String metadataSpIssuerName;
 
     @Autowired
     private OAuthSessionService oauth;
-
+    
+    @Value("classpath:saml/samlMetadata.xml.template")
+    private Resource metadataTemplateResource;
+    
+    private String metadata;
+    
+    @PostConstruct
+    private void processMetadata() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream is = metadataTemplateResource.getInputStream();
+        byte[] buf = new byte[1024];
+        int r = is.read(buf);
+        while (r > -1) {
+            baos.write(buf, 0, r);
+            r = is.read(buf);
+        }
+        metadata = new String(baos.toByteArray());
+        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
+        is.close();
+        
+    }
+    
     @GET
     @Path("ssoInit")
     public String getSsoRedirect(@QueryParam("realmId") final String realmId, @QueryParam("requestToken") String requestToken) {
