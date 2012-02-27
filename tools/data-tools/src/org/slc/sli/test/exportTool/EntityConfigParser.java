@@ -60,6 +60,8 @@ public class EntityConfigParser {
             boolean foundFirst = false;
 
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+
                 Matcher sectionMatcher = sectionPattern.matcher(line);
                 boolean result = sectionMatcher.matches();
                 if (result) {

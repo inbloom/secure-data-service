@@ -19,7 +19,8 @@ public class EdFiEntityXMLGenerator {
      */
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("Usage: java EdFi");
+            System.out.println("Usage: java -classpath .:../lib/jtds-1.2.5.jar org.slc.sli.test.exportTool.EdFiEntityXMLGenerator ../entity-configurations/Course.config course.xml");
+            return;
         }
 
         String configFile = "/Users/yzhang/Documents/Course.config";
@@ -74,7 +75,7 @@ public class EdFiEntityXMLGenerator {
                     this.dataResultSets.get(embeddedName),
                     this.edfiEntity.EmbeddedElements.get(embeddedName).template,
                     this.edfiEntity.EmbeddedElements.get(embeddedName).valuePlaceholders);
-            mainXML = Utility.replace(mainXML, "\n==" + embeddedName + "==\n\n", embeddedXML);
+            mainXML = Utility.replace(mainXML, "==" + embeddedName + "==\n", embeddedXML);
         }
 
         xmlOut.print(mainXML);
