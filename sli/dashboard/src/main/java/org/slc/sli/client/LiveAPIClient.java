@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
+import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.util.LocaleServiceProviderPool;
@@ -417,20 +418,15 @@ public class LiveAPIClient implements APIClient {
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
             logger.info(section.toString());
-            // TODO: This API team is going to remove this call when they have implemented direct school  
-            //       reference from the section entity. This "parseId(response.getLink()" expression
-            //       below should then be replaced by looking up the schoolReferenceId in the section entity
-            //       (refer to ed-fi).  
-            String url = SECTION_SCHOOL_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
-            List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-            if (responses.size() > 0) {
-                GenericEntity response = responses.get(0); // there should be only one.
-                GenericEntity school = getSchool(parseId(response.getMap(Constants.ATTR_LINK)), token);
-                if (!schoolMap.containsKey(school.get(Constants.ATTR_ID))) {
-                    schoolMap.put(school.getString(Constants.ATTR_ID), school);
-                }
-                sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), school.getString(Constants.ATTR_ID));
+
+            sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), section.getString(Constants.ATTR_SCHOOL_ID));
+            //Add school to map.
+            if (!schoolMap.containsKey(section.get(Constants.ATTR_SCHOOL_ID))) {
+                Map<String, String> query = new HashMap<String, String>();
+                query.put(Constants.ATTR_SCHOOL_ID, (String) section.get(Constants.ATTR_SCHOOL_ID));
+                schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID), createEntityFromAPI(SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token));
             }
+
         }
     }
     
@@ -477,6 +473,14 @@ public class LiveAPIClient implements APIClient {
         }
 
         return entityList;
+    }
+    
+    private GenericEntity createEntityWithQuery(String baseUrl, Map<String, String> queries, String token) {
+        URLBuilder builder = new URLBuilder(baseUrl);
+        for (Map.Entry<String, String> entry : queries.entrySet()) {
+            builder.addQueryParam(entry.getKey(), entry.getValue());
+        }
+        return gson.fromJson(restClient.makeJsonRequestWHeaders(builder.toString(), token), GenericEntity.class);
     }
 
 
