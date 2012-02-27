@@ -50,7 +50,7 @@ Scenario: Read a teacher by ID in JSON format
       And I should receive a link named "getSections" with URI "/v1/teachers/<'Macey' ID>/teacherSectionAssociations/sections"
       And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1/teachers/<'Macey' ID>/teacherSchoolAssociations"
       And I should receive a link named "getSchools" with URI "/v1/teachers/<'Macey' ID>/teacherSchoolAssociations/schools"
-      And I should receive a link named "self" with URI "/teachers/<'Macey' ID>"
+      And I should receive a link named "self" with URI "/v1/teachers/<'Macey' ID>"
 
 
 Scenario: Update an existing teacher in JSON format

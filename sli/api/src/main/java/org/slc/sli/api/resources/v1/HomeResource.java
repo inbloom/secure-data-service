@@ -70,7 +70,7 @@ public class HomeResource {
             EntityDefinition defn = pair.getRight();
 
             // prepare a list of links with the self link
-            List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, userId, defn);
+            List<EmbeddedLink> links = ResourceUtil.getSelfLinkForEntity(uriInfo, userId, defn);
 
             // add links for all of the entity's associations for this ID
             links.addAll(ResourceUtil.getAssociationLinksForEntity(this.entityDefs, defn, userId, uriInfo));

@@ -8,7 +8,7 @@
 	<import resource="securityContext.xml" />
 	<import resource="serviceContext.xml" />
 	
-	
 	<!--  Include resources from DAL -->
 	<import resource="classpath:/spring/db.xml" />
+	
 </beans>

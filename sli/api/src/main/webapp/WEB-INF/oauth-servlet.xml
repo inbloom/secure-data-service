@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/security/oauth2
+                        http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+
+	<!-- Beans referenced by Authorization and Resource Services -->
+	<bean id="oauth2ProtectedResourceFilter"
+		class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" />
+	<bean id="oauth2ExceptionHandlerFilter"
+		class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
+	<oauth2:expression-handler id="oauth2ExpressionHandler" />
+
+	<!-- OAuth 2.0 Authorization Server configuration -->
+	<oauth2:authorization-server
+		client-details-service-ref="sliClientDetailService"
+		token-services-ref="OAuthSessionService">
+		<oauth2:authorization-code services-ref="mongoAuthorizationCodeServices"
+			disabled="false" />
+		<oauth2:refresh-token />
+	</oauth2:authorization-server>
+
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+	<security:global-method-security
+		pre-post-annotations="enabled" proxy-target-class="true">
+		<security:expression-handler ref="oauth2ExpressionHandler" />
+	</security:global-method-security>
+
+	<context:component-scan base-package="org.slc.sli.api.security.oauth" />
+	<context:annotation-config />
+</beans>

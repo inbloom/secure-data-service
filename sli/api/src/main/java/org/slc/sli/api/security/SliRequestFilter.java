@@ -39,8 +39,8 @@ public class SliRequestFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        
         HttpServletRequest http = (HttpServletRequest) request;
+        String authToken = http.getHeader("Authorization");
         String sessionId = getSessionIdFromRequest(http);
         
         LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
@@ -53,7 +53,7 @@ public class SliRequestFilter extends GenericFilterBean {
         
         SecurityContextHolder.getContext().setAuthentication(auth);
         
-        if (SecurityContextHolder.getContext().getAuthentication() == null || !(SecurityContextHolder.getContext().getAuthentication().getCredentials() instanceof PreAuthenticatedAuthenticationToken)) {
+        if (authToken != null || SecurityContextHolder.getContext().getAuthentication() == null || !(SecurityContextHolder.getContext().getAuthentication().getCredentials() instanceof PreAuthenticatedAuthenticationToken)) {
             chain.doFilter(request, response);
         }
     }

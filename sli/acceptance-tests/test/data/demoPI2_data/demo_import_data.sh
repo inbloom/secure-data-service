@@ -11,6 +11,7 @@ DB_NAME=devapp1
 echo $DIR
 
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c realm -h $DB_HOST --file "$DIR/realm_data.json"
+$MONGO_HOME/mongoimport --drop -d $DB_NAME -c staff -h $DB_HOST --file "$DIR/staff_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c teacher -h $DB_HOST --file "$DIR/teacher_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c student -h $DB_HOST --file "$DIR/student_data.json"
 $MONGO_HOME/mongoimport --drop -d $DB_NAME -c school -h $DB_HOST --file "$DIR/school_data.json"
