@@ -52,7 +52,7 @@
 				<security:user name="linda.kim" password="linda.kim1234"
 					authorities="EDUCATOR" />
 				<security:user name="demo" password="demo1234"
-					authorities="ADMIN_ACCESS" />
+					authorities="ADMIN_ACCESS, FULL_ACCESS" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
