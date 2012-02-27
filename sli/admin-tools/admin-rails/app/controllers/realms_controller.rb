@@ -12,13 +12,9 @@ class RealmsController < ApplicationController
     userRealm = get_user_realm
     realmToRedirectTo = nil
     realms = Realm.all
-    puts "blah"
     realms.each do |realm|
-      puts "Checking"
-      puts realm.inspect
       realmToRedirectTo = realm if realm.idp.id == userRealm
     end
-    #realmToRedirectTo =  Realm.find(:first, :params => {'realm' => userRealm})
     if realmToRedirectTo != nil
       redirect_to realmToRedirectTo
       return
@@ -82,7 +78,7 @@ private
   # but ultimately we need to get that somewhere else since the user will
   # always be authenticated to the SLI realm
   def get_user_realm
-    return Check.new(SessionResource.auth_id).realm
+    return Check.new(SessionResource.auth_id, SessionResource.access_token).realm
   end
 
 end

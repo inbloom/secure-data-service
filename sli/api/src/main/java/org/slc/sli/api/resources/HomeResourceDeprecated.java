@@ -36,14 +36,15 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
     Resource.SLC_JSON_MEDIA_TYPE })
-public class HomeResource {
+@Deprecated
+public class HomeResourceDeprecated {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HomeResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HomeResourceDeprecated.class);
 
     final EntityDefinitionStore entityDefs;
 
     @Autowired
-    HomeResource(EntityDefinitionStore entityDefs) {
+    HomeResourceDeprecated(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
 

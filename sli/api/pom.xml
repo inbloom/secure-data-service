@@ -52,6 +52,11 @@
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+
 		<!-- Spring Security Config dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -76,6 +81,12 @@
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
 
 		<!-- Java Servlet dependency -->
 		<dependency>

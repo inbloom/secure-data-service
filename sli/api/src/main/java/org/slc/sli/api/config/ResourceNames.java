@@ -37,6 +37,8 @@ public class ResourceNames {
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "student-school-associations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacher-school-associations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacher-section-associations";
-    
+    public static final String STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS = "staff-educationOrganization-associations";
+    public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-associations";
+    public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     
 }
