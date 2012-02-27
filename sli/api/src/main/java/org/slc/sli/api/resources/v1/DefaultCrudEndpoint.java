@@ -12,6 +12,9 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
@@ -29,12 +32,14 @@ import org.slc.sli.api.resources.util.ResourceUtil;
  * @author kmyers
  * 
  */
+@Component
+@Scope("request")
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     /* Access to entity definitions */
-    private final EntityDefinitionStore entityDefs;
+    private EntityDefinitionStore entityDefs;
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private final Logger logger;
@@ -52,7 +57,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * 
      * @param entityDefs access to entity definitions
      */
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs) {
+    @Autowired
+    public DefaultCrudEndpoint(EntityDefinitionStore entityDefs) {
         this(entityDefs, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
     }
     

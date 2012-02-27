@@ -69,6 +69,11 @@ public class BasicQueryConverter implements QueryConverter {
                             String type = findParamType(entityType, keyAndValue[0]);
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(convertToType(type, keyAndValue[1]));
                         }
+                    } else if (query.contains("=~")) {
+                        String[] keyAndValue = getKeyAndValue(query, "=~");
+                        if (keyAndValue != null) {
+                            criteria = Criteria.where("body." + keyAndValue[0]).regex(keyAndValue[1]);
+                        }
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
                         if (keyAndValue != null) {
