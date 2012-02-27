@@ -85,7 +85,11 @@ public class SchoolEntityTest {
             + "    <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>"
             + "    <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>"
             + "    <AdministrativeFundingControl>Public School</AdministrativeFundingControl>"
-            + "    <LocalEducationAgencyReference>LEA123</LocalEducationAgencyReference>"
+            + "    <LocalEducationAgencyReference id=\"ID053\" ref=\"ID044\"> "
+            + "      <EducationalOrgIdentity>"
+            + "        <StateOrganizationId>LEA123</StateOrganizationId>"
+            + "      </EducationalOrgIdentity>"
+            + "    </LocalEducationAgencyReference>"
             + "</School>"
             + "</InterchangeEducationOrganization>";
 
