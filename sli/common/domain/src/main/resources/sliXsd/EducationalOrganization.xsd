@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	
+
 	<xs:complexType name="accountabilityRating">
 		<xs:annotation>
 			<xs:documentation>An accountability rating for a school or district.
@@ -260,7 +260,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="parentEducationAgencyReference" type="xs:string">
+					<xs:element name="parentEducationAgencyReference" type="xs:string" minOccurs="0">
 					        <xs:annotation>
 						        <xs:documentation>Reference to the parent Education Organization
 							        in a hierarchy.
@@ -332,7 +332,7 @@
 			<xs:complexContent>
 				<xs:extension base="educationOrganization">
 					<xs:sequence>
-						<xs:element name="gradesOffered" type="gradeLevelType"			                    
+						<xs:element name="gradesOffered" type="gradeLevelType"
 				            maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>The grade levels served at the school.
