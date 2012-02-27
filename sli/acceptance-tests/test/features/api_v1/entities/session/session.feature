@@ -34,7 +34,7 @@ Scenario: Read a session by ID
   Given format "application/vnd.slc+json"
   When I navigate to GET "/v1/sessions/<'FALL 2011 SESSION' ID>"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/sessions/<'FALL 2011 SESSION' ID>"
+    And I should receive a link named "self" with URI "/v1/sessions/<'FALL 2011 SESSION' ID>"
     And "sessionName" should be "Fall 2011"
     And "schoolYear" should be "2011-2012"
     And "term" should be "Fall Semester"
@@ -53,7 +53,7 @@ Scenario: Update an existing session
 Scenario: Check the updated session  
   Given format "application/vnd.slc+json"
   When I navigate to GET "/v1/sessions/<'FALL 2011 SESSION' ID>"
-  Then I should receive a link named "self" with URI "/sessions/<'FALL 2011 SESSION' ID>"
+  Then I should receive a link named "self" with URI "/v1/sessions/<'FALL 2011 SESSION' ID>"
     And "totalInstructionalDays" should be 17
 
 Scenario: Delete an existing session

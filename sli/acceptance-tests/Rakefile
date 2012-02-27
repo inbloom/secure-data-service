@@ -109,7 +109,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiTests, :securityTests] do
+task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -153,10 +153,61 @@ end
 ############################################################
 
 ############################################################
+# API V1 tests start
+############################################################
+desc "Run API V1 acceptance tests"
+task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :V1homeUriTests, :v1ValidationTests] do
+  displayFailureReport()
+end
+
+desc "Run V1 Section Tests"
+task :v1SectionTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
+  runFixtureAndTests("test/features/api_v1/entities/section", "section", "section_fixture.json")
+end
+
+desc "Run V1 Session Tests"
+task :v1SessionTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/session", "session", "session_fixture.json")
+end
+
+desc "Run V1 School Tests"
+task :v1SchoolTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/school", "school", "school_fixture.json")
+end
+
+desc "Run V1 Student Tests"
+task :v1StudentTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/student", "student", "student_fixture.json")
+end
+
+desc "Run V1 Teacher Tests"
+task :v1TeacherTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/teacher", "teacher", "teacher_fixture.json")
+end
+
+desc "Run V1 Assessment Tests"
+task :v1AssessmentTests => [:realmInit] do
+  runFixtureAndTests("test/features/api_v1/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run V1 Home URI Tests"
+task :V1homeUriTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api_v1/home_uri")
+end
+
+############################################################
+# API V1 tests end
+############################################################
+
+############################################################
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :v1SessionTests, :schoolTests, :v1SchoolTests, :v1StudentTests, :studentTests, :teacherTests, :v1TeacherTests, :sectionTests, :assessmentTests, :homeUriTests, :V1homeUriTests, :associationTests, :validationTests, :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
 displayFailureReport()
 end
 
@@ -176,11 +227,6 @@ task :sessionTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/session", "session", "session_fixture.json")
 end
 
-desc "Run V1 Session Tests"
-task :v1SessionTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_v1/entities/session", "session", "session_fixture.json")
-end
-
 desc "Run Section Tests"
 task :sectionTests => [:realmInit] do
   setFixture("school", "school_fixture.json")
@@ -194,29 +240,14 @@ task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
 end
 
-desc "Run V1 School Tests"
-task :v1SchoolTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_v1/entities/school", "school", "school_fixture.json")
-end
-
 desc "Run Student Tests"
 task :studentTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/student", "student", "student_fixture.json")
 end
 
-desc "Run V1 Student Tests"
-task :v1StudentTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_v1/entities/student", "student", "student_fixture.json")
-end
-
 desc "Run Teacher Tests"
 task :teacherTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/teacher", "teacher", "teacher_fixture.json")
-end
-
-desc "Run V1 Teacher Tests"
-task :v1TeacherTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_v1/entities/teacher", "teacher", "teacher_fixture.json")
 end
 
 desc "Run Assessment Tests"
@@ -235,6 +266,14 @@ task :validationTests => [:realmInit] do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
+end
+
+desc "Run V1 Validation Tests"
+task :v1ValidationTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/api_v1/validation")
 end
 
 desc "Run List-Filter Tests"
@@ -291,12 +330,6 @@ desc "Run Home URI Tests"
 task :homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/home_uri")
-end
-
-desc "Run V1 Home URI Tests"
-task :V1homeUriTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_v1/home_uri")
 end
 
 desc "Run Aggregation Tests"

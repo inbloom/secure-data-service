@@ -84,6 +84,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+              	<value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
               </list>
             </constructor-arg>
@@ -94,6 +95,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+              	<value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
               </list>
             </constructor-arg>
