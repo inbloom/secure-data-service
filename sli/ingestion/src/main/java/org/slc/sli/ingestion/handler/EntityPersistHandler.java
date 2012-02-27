@@ -101,9 +101,19 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         for (Map.Entry<String, Object> externalIdEntry : entity.getLocalParentIds().entrySet()) {
             String collection = externalIdEntry.getKey().toLowerCase();
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
-            String externalId = externalIdEntry.getValue().toString();
 
-            String internalId = resolveInternalId(collection, idNamespace, externalId, errorReport);
+            String internalId = "";
+            if (Map.class.isInstance(externalIdEntry.getValue())) {
+
+                Map<?, ?> externalSearchCriteria = (Map<?, ?>) externalIdEntry.getValue();
+                internalId = resolveInternalId(collection, idNamespace, externalSearchCriteria, errorReport);
+
+            } else {
+
+                String externalId = externalIdEntry.getValue().toString();
+                internalId = resolveInternalId(collection, idNamespace, externalId, errorReport);
+
+            }
 
             if (errorReport.hasErrors()) {
                 // Stop processing.
@@ -114,7 +124,33 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         }
     }
 
-    /**
+    private String resolveInternalId(String collection, String idNamespace, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+        Map<String, String> filterFields = new HashMap<String, String>();
+        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
+
+        resolveSearchCriteria(filterFields, externalSearchCriteria);
+
+        Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
+        if (found == null || !found.iterator().hasNext()) {
+            errorReport.error(
+                    "Cannot find [" + collection + "] record using the folowing filter: " + filterFields.toString(),
+                    this);
+
+            return null;
+        }
+
+        return null;
+    }
+
+    private void resolveSearchCriteria(Map<String, String> filterFields, Map<?, ?> externalSearchCriteria) {
+         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
+    	 	 String path =  searchCriteriaEntry.getKey().toString().toLowerCase();
+    	 	 path = path.substring(path.indexOf("#") + 1);
+    	 	 filterFields.put(path, searchCriteriaEntry.getValue().toString());
+    	 }
+    }
+
+	/**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
      * store.
      *
