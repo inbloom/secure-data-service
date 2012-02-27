@@ -85,7 +85,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-        return null;
+        return findByFields(collectionName, queryParameters, 0, 10);
     }
     
     @Override
