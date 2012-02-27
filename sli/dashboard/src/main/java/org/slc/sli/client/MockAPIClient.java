@@ -93,19 +93,12 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public GenericEntity getAssociatedEducationalOrganization(final String token, GenericEntity school) {
+    public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrgOrSchool) {
         // Find the parent ed-org's name.
-        String parentEdOrgId = school.getString(Constants.ATTR_PARENT_EDORG);
+        String parentEdOrgId = edOrgOrSchool.getString(Constants.ATTR_PARENT_EDORG);
         return getEducationOrganization(token, parentEdOrgId);
     }
 
-    @Override
-    public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
-        // Find the parent ed-org's name.
-        String parentEdOrgId = edOrg.getString(Constants.ATTR_PARENT_EDORG);
-        return getEducationOrganization(token, parentEdOrgId);
-    }
-    
     // helper, to find an ed-org entity. 
     private GenericEntity getEducationOrganization(final String token, String id) {
         List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
