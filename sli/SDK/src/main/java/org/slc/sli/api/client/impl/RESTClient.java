@@ -32,13 +32,9 @@ public class RESTClient {
     
     /** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
-    
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
-    
     private String sessionToken = null;
-    
     private String apiServerUri;
-    
     private Client client = null;
     
     /**
@@ -127,6 +123,8 @@ public class RESTClient {
         }
         
         ClientRequest.Builder builder = new ClientRequest.Builder();
+        
+        builder.accept(MediaType.APPLICATION_JSON);
         builder.header(API_SESSION_KEY, sessionToken);
         
         if (headers != null) {
@@ -135,15 +133,10 @@ public class RESTClient {
             }
         }
         
-        builder.build(url.toURI(), "GET");
-        builder.accept(MediaType.APPLICATION_JSON);
         ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
-        
-        client.handle(request);
-        
         ClientResponse response = client.handle(request);
         
-        return response.toString();
+        return response.getEntity(String.class);
     }
     
     /**
@@ -161,7 +154,7 @@ public class RESTClient {
     public void openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
-        apiServerUri = new String("https://" + host + ":" + port + "/" + Constants.API_SERVER_PATH);
+        apiServerUri = new String("http://" + host + ":" + port + "/" + Constants.API_SERVER_PATH);
         
         // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from LuckyStrike.
         // For now generate a token via a Rest Console in a web browser and pass the resulting token
