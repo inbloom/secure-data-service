@@ -30,12 +30,9 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENTS_URL = Constants.API_SERVER_URI + "/students/";
     private static final String COURSES_URL = Constants.API_SERVER_URI + "/courses/";
     private static final String ED_ORG_URL = Constants.API_SERVER_URI + "/educationOrganizations/";
-    private static final String ED_ORG_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/educationOrganization-school-associations/";
-    private static final String ED_ORG_ASSOC_URL = Constants.API_SERVER_URI + "/educationOrganization-associations/";
     private static final String HOME_URL = Constants.API_SERVER_URI + "/home";
     private static final String TEACHER_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-section-associations/";
     private static final String TEACHER_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-school-associations/";
-    private static final String COURSE_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/course-section-associations/";
     private static final String SECTION_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/section-school-associations/";
     private static final String STUDENT_ASSMT_ASSOC_URL = Constants.API_SERVER_URI + "/student-assessment-associations/";
     private static final String ASSMT_URL = Constants.API_SERVER_URI + "/assessments/";
@@ -359,10 +356,9 @@ public class LiveAPIClient implements APIClient {
             course = courseMap.get(course.get(Constants.ATTR_ID));
             course.appendToList(Constants.ATTR_SECTIONS, section);
             sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
-        
         }
 
-}
+    }
     
     /**
      * Get the associations between schools and sections
