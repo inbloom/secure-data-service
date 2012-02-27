@@ -132,7 +132,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 //a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = DefaultCrudEndpoint.shouldIncludeLinks(headers);
+                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
                 //list all entities matching query parameters and iterate over results
                 for (EntityBody entityBody : entityDef.getService().list(queryParameters)) {
@@ -179,7 +179,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(final EntityDefinition entityDef) {
                 //look up information on association
                 EntityDefinition endpointEntity = entityDefs.lookupByResourceName(resolutionResourceName);
-                boolean shouldIncludeLinks = DefaultCrudEndpoint.shouldIncludeLinks(headers);
+                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 String resource1 = entityDef.getStoredCollectionName();
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
@@ -192,7 +192,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 //query parameters for association and resolution lookups
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
                 Map<String, String> associationQueryParameters = 
-                        DefaultCrudEndpoint.createAssociationQueryParameters(queryParameters, key, value, idKey);
+                       createAssociationQueryParameters(queryParameters, key, value, idKey);
                 
                 //final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -257,7 +257,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 boolean multipleIds = (ids.length > 1);
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = DefaultCrudEndpoint.shouldIncludeLinks(headers);
+                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
                 
                 // loop through all input ID(s)
@@ -360,7 +360,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(final EntityDefinition entityDef) {
                 //final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = DefaultCrudEndpoint.shouldIncludeLinks(headers);
+                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
                 //loop for each entity returned by performing a list operation
                 for (EntityBody entityBody : entityDef.getService().list(ResourceUtil.convertToMap(uriInfo.getQueryParameters()))) {
@@ -438,7 +438,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param headers headers from HTTP request
      * @return true if the headers contain an "accept" request header with a HypermediaType.VENDOR_SLC_JSON value, false otherwise
      */
-    private static boolean shouldIncludeLinks(final HttpHeaders headers) {
+    protected boolean shouldIncludeLinks(final HttpHeaders headers) {
         //get the request headers for ACCEPT
         List<String> acceptRequestHeaders = headers.getRequestHeader("accept");
         
@@ -462,7 +462,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param includeField field to be specified as the only field(s) to be returned in the results
      * @return map containing specified key (and value), "includeFields" (and value), and possibly "limit" and "offset" (with values) 
      */
-    private static Map<String, String> createAssociationQueryParameters(Map<String, String> resolutionQueryParameters, 
+    protected Map<String, String> createAssociationQueryParameters(Map<String, String> resolutionQueryParameters, 
             String key, String value, String includeField) {
         //create a new map
         Map<String, String> associationQueryParameters = new HashMap<String, String>();
