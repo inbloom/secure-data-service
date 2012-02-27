@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.util.LocaleServiceProviderPool;
 
 
 /**
@@ -22,6 +24,8 @@ import org.slc.sli.util.SecurityUtil;
  *
  */
 public class LiveAPIClient implements APIClient {
+
+    private static Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String TARGETS = "/targets";
     private static final String SECTIONS_URL = Constants.API_SERVER_URI + "/sections/";
@@ -378,20 +382,26 @@ public class LiveAPIClient implements APIClient {
 
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
-            
-            //Get course using courseId reference in section
-            GenericEntity course = getCourse(section.getString(Constants.ATTR_COURSE_ID), token);
-            
-            //Add course to courseMap, if it doesn't exist already
-            if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
+
+            String url = COURSE_SECTION_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
+
+            List<GenericEntity> courses = createEntitiesFromAPI(url, token);
+            logger.info(courses.toString());
+
+            for (GenericEntity course : courses) {
                 courseMap.put(course.getString(Constants.ATTR_ID), course);
-            }   
-            
-            //Grab the most up to date course from the map
-            // Add the section to it's section list, and update sectionIdToCourseIdMap
-            course = courseMap.get(course.get(Constants.ATTR_ID));
-            course.appendToList(Constants.ATTR_SECTIONS, section);
-            sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
+                course.appendToList(Constants.ATTR_SECTIONS, section);
+                sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
+            }
+//            //Add course to courseMap, if it doesn't exist already
+//            if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
+//                courseMap.put(course.getString(Constants.ATTR_ID), course);
+//            }
+//
+//            //Grab the most up to date course from the map
+//            // Add the section to it's section list, and update sectionIdToCourseIdMap
+//            course = courseMap.get(course.get(Constants.ATTR_ID));
+//
         
         }
 
@@ -406,6 +416,7 @@ public class LiveAPIClient implements APIClient {
                                            Map<String, String> sectionIDToSchoolIDMap) { 
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
+            logger.info(section.toString());
             // TODO: This API team is going to remove this call when they have implemented direct school  
             //       reference from the section entity. This "parseId(response.getLink()" expression
             //       below should then be replaced by looking up the schoolReferenceId in the section entity
