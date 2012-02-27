@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EdFiEntityXMLGenerator {
@@ -18,13 +19,14 @@ public class EdFiEntityXMLGenerator {
      * @param args
      */
     public static void main(String[] args) {
+        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/Course.config";
+        String output = "/Users/yzhang/Documents/Course.xml";
+
         if (args.length != 2) {
-            System.out.println("Usage: java -classpath .:../lib/jtds-1.2.5.jar org.slc.sli.test.exportTool.EdFiEntityXMLGenerator ../entity-configurations/Course.config course.xml");
+            System.out
+                    .println("Usage:\njava -classpath .:../lib/jtds-1.2.5.jar org.slc.sli.test.exportTool.EdFiEntityXMLGenerator ../entity-configurations/Course.config course.xml");
             return;
         }
-
-        String configFile = "/Users/yzhang/Documents/Course.config";
-        String output = "/Users/yzhang/Documents/Course.xml";
 
         configFile = args[0];
         output = args[1];
@@ -39,14 +41,14 @@ public class EdFiEntityXMLGenerator {
     }
 
     public void generateXML(String filename) {
-            try {
-                xmlOut = new PrintWriter(new FileWriter(filename));
-                getMains();
-                xmlOut.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        try {
+            xmlOut = new PrintWriter(new FileWriter(filename));
+            getMains();
+            xmlOut.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void getData() {
@@ -65,20 +67,42 @@ public class EdFiEntityXMLGenerator {
         String mainXML = Utility.generateXMLbasedOnTemplate(this.dataResultSets.get("main"),
                 this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders);
 
-//        System.out.println("count: " + entityCount++);
-
         for (String embeddedName : this.edfiEntity.embeddedElementPlaceholders) {
-//            System.out.println(embeddedName);
-            String embeddedXML = Utility.generateEmbeddedXMLbasedOnTemplate(
-                    this.dataResultSets.get("main"),
-                    this.edfiEntity.EmbeddedElements.get(embeddedName).joinKeys,
-                    this.dataResultSets.get(embeddedName),
-                    this.edfiEntity.EmbeddedElements.get(embeddedName).template,
-                    this.edfiEntity.EmbeddedElements.get(embeddedName).valuePlaceholders);
+
+            ResultSet parentResultSet = this.dataResultSets.get("main");
+            EmbeddedElement embeddedElement = this.edfiEntity.EmbeddedElements.get(embeddedName);
+
+            String embeddedXML = this.getEmbeddedXML(parentResultSet, embeddedElement);
+
             mainXML = Utility.replace(mainXML, "==" + embeddedName + "==\n", embeddedXML);
         }
 
         xmlOut.print(mainXML);
+    }
+
+    private String getEmbeddedXML(ResultSet parentResultSet, EmbeddedElement element) {
+        String xml = "";
+
+        if (element.embeddedPlaceholders.size() > 0) {
+            xml = Utility.generateEmbeddedXMLbasedOnTemplate(parentResultSet, element.joinKeys,
+                    this.dataResultSets.get(element.name), element.template, element.valuePlaceholders);
+
+            ResultSet resultSet = this.dataResultSets.get(element.name);
+
+            for (String embeddedName : element.embeddedPlaceholders) {
+                EmbeddedElement embeddedElement = element.embeddedElementMap.get(embeddedName);
+
+                String embeddedXML = this.getEmbeddedXML(resultSet, embeddedElement);
+
+                xml = Utility.replace(xml, "==" + embeddedName + "==\n", embeddedXML);
+            }
+
+        } else {
+            xml = Utility.generateEmbeddedXMLbasedOnTemplate(parentResultSet, element.joinKeys,
+                    this.dataResultSets.get(element.name), element.template, element.valuePlaceholders);
+        }
+
+        return xml;
     }
 
     private void getMains() {
