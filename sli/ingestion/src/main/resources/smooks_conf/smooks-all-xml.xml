@@ -498,6 +498,7 @@
     <jb:value property="operationalStatus" data="OperationalStatus" />
     <jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
     <jb:wiring property="programReference" beanIdRef="programReferenceTypeArray" />
+    <jb:value property="parentEducationAgencyReference" data="StateEducationAgencyReference" />
   </jb:bean>
 
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
