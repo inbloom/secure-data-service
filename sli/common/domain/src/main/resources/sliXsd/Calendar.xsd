@@ -63,14 +63,20 @@
 						<xs:documentation>Grading period dates and durations for the session.</xs:documentation>
 					</xs:annotation>						
 				</xs:element>
-				<xs:element name="schoolId" type="xs:string">
+				<xs:element name="schoolId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the school associated with the session.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>school</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="sessionId" type="xs:string">
+				<xs:element name="sessionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the session offered at the school.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>session</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
