@@ -8,7 +8,6 @@ import org.slc.sli.api.config.ResourceNames;
 /**
  * Constants used in URI path requests.
  * 
- * 
  * @author kmyers
  *
  */
