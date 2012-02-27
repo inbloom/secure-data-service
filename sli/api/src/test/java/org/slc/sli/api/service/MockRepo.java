@@ -214,57 +214,59 @@ public class MockRepo implements EntityRepository {
         if (query != null) {
             DBObject queryObject = query.getQueryObject();
             for (String rawKey : queryObject.keySet()) {
-                boolean isId = rawKey.equals("_id");
-                String key = isId ? "_id" : rawKey.substring("body.".length());
-                if (!(isId || entity.getBody().containsKey(key))) {
+                if (!matches(entity, queryObject, rawKey)) {
                     return false;
                 }
-                Object bigValue = queryObject.get(rawKey);
-                String entityId = entity.getEntityId();
-                Object entityValue = isId ? entityId : entity.getBody().get(key);
-                if (bigValue instanceof DBObject) {
-                    @SuppressWarnings("unchecked")
-                    Entry<String, ?> opValue = (Entry<String, ?>) ((DBObject) bigValue).toMap().entrySet().iterator()
-                            .next();
-                    String operator = opValue.getKey();
-                    Object rawValue = opValue.getValue();
-                    String value = rawValue.toString();
-                    if (operator.equals("$gte")) {
-                        return compareToValue(entityValue, value) >= 0;
-                    } else if (operator.equals("$lte")) {
-                        return compareToValue(entityValue, value) <= 0;
-                    } else if (operator.equals("$ne")) {
-                        return compareToValue(entityValue, value) != 0;
-                    } else if (operator.equals("$lt")) {
-                        return compareToValue(entityValue, value) < 0;
-                    } else if (operator.equals("$gt")) {
-                        return compareToValue(entityValue, value) > 0;
-                    } else if (operator.equals("$in")) {
-                        boolean match = false;
-                        Object[] values = (Object[]) rawValue;
-                        if (values != null) {
-                            for (Object v : values) {
-                                if (v.toString().equals(entityValue.toString())) {
-                                    match = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!match) {
-                            return false;
-                        }
-                    } else if (operator.equals("$regex")) {
-                        return ((String) entityValue).matches(value);
-                    } else {
-                        throw new RuntimeException("Unhandled query operator: " + operator);
-                    }
-                } else {
-                    return compareToValue(entityValue, bigValue.toString()) == 0;
-                }
-                
             }
         }
         return true;
+    }
+    
+    private boolean matches(Entity entity, DBObject queryObject, String rawKey) throws Exception {
+        boolean isId = rawKey.equals("_id");
+        String key = isId ? "_id" : rawKey.substring("body.".length());
+        if (!(isId || entity.getBody().containsKey(key))) {
+            return false;
+        }
+        Object bigValue = queryObject.get(rawKey);
+        String entityId = entity.getEntityId();
+        Object entityValue = isId ? entityId : entity.getBody().get(key);
+        if (bigValue instanceof DBObject) {
+            @SuppressWarnings("unchecked")
+            Entry<String, ?> opValue = (Entry<String, ?>) ((DBObject) bigValue).toMap().entrySet().iterator().next();
+            String operator = opValue.getKey();
+            Object rawValue = opValue.getValue();
+            String value = rawValue.toString();
+            if (operator.equals("$gte")) {
+                return compareToValue(entityValue, value) >= 0;
+            } else if (operator.equals("$lte")) {
+                return compareToValue(entityValue, value) <= 0;
+            } else if (operator.equals("$ne")) {
+                return compareToValue(entityValue, value) != 0;
+            } else if (operator.equals("$lt")) {
+                return compareToValue(entityValue, value) < 0;
+            } else if (operator.equals("$gt")) {
+                return compareToValue(entityValue, value) > 0;
+            } else if (operator.equals("$in")) {
+                boolean match = false;
+                Object[] values = (Object[]) rawValue;
+                if (values != null) {
+                    for (Object v : values) {
+                        if (v.toString().equals(entityValue.toString())) {
+                            return true;
+                        }
+                    }
+                }
+                if (!match) {
+                    return false;
+                }
+            } else if (operator.equals("$regex")) {
+                return ((String) entityValue).matches(value);
+            } else {
+                throw new RuntimeException("Unhandled query operator: " + operator);
+            }
+        }
+        return compareToValue(entityValue, bigValue.toString()) == 0;
     }
     
     private int compareToValue(Object entityValue, String value) throws Exception {
@@ -282,7 +284,6 @@ public class MockRepo implements EntityRepository {
         Map<String, Integer> sortKeyOrderMap = getSortKeyOrderMap(query);
         return findByFields(entityType, query, sortKeyOrderMap, skip, max);
     }
-    
     
     private String generateId() {
         return UUID.randomUUID().toString();
