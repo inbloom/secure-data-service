@@ -79,7 +79,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
             UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) auth.getUserAuthentication();
             SLIPrincipal principal = new SLIPrincipal();
             principal.setName(token.getName());
-            principal.setRealm("dc=slidev,dc=org");
+            principal.setRealm("http://devdanil.slidev.org:8080/idp");
             principal.setEntity(new MongoEntity("system_entity", new HashMap<String, Object>()));
             UsernamePasswordAuthenticationToken newToken = new UsernamePasswordAuthenticationToken(principal,
                     token.getCredentials(),

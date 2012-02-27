@@ -194,6 +194,8 @@ end
 def prepareData(format, hash)
   if format == "application/json"
     hash.to_json
+  elsif format == "application/vnd.slc+json"
+    hash.to_json
   elsif format == "application/xml"
     raise "XML not implemented"
   else
