@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server, clearing your session."}
     SessionResource.auth_id = nil
+    SessionResource.access_token = nil
   end
 
 
@@ -47,13 +48,17 @@ class ApplicationController < ActionController::Base
     if false
     client_id = "#{APP_CONFIG['client_id']}"
     client_secret = "#{APP_CONFIG['client_secret']}"
+    callback_url = "#{APP_CONFIG['callback']}"
     
-    puts "Checking for token"
-
     if cookies['token'] != nil
       puts "found token"
       puts cookies['token']
+      SessionResource.access_token = cookies['token']
+      SessionResource.auth_id = 'notused'
+      puts "Done setting token in session resource"
       return
+    else
+      SessionResource.access_token = nil
     end
 
     #puts "No token"
@@ -64,20 +69,21 @@ class ApplicationController < ActionController::Base
 
   if params[:code]
     puts "We have a code, let's get a token" 
-    client = OAuth2::Client.new('admin', 'sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4', {:site => 'http://shalka.slidev.org:8080', :token_url => '/api/oauth/token'})
-    token = client.auth_code.get_token( params[:code], {:redirect_uri => 'http://shalka.slidev.org:3000/callback'})
+    client = OAuth2::Client.new(client_id, client_secret, {:site => 'http://pwolf.slidev.org:8080', :token_url => '/api/oauth/token'})
+    token = client.auth_code.get_token( params[:code], {:redirect_uri => callback_url})
     puts "Got access token"
     puts token.token
     cookies['token'] = token.token
+    SessionResource.access_token = cookies['token']
     return
   end
 
   puts "We need to request auth url"
   #client = OAuth2::Client.new('243758069043602', 'e1c4851285ed90552aa439181936af1b', :site => 'https://graph.facebook.com/oauth/access_token')
-  client = OAuth2::Client.new('admin', 'sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4', {:site => 'http://shalka.slidev.org:8080', :authorize_url => '/api/oauth/authorize'})
+  client = OAuth2::Client.new(client_id, client_secret, {:site => 'http://pwolf.slidev.org:8080', :authorize_url => '/api/oauth/authorize'})
   flash[:redirect] = current_url
   puts "Setting redirect to #{current_url}"
-  authorize_url =  client.auth_code.authorize_url(:redirect_uri => 'http://shalka.slidev.org:3000/callback')
+  authorize_url =  client.auth_code.authorize_url(:redirect_uri => callback_url)
   puts "URL is #{authorize_url}"
   redirect_to authorize_url
   return
@@ -88,7 +94,7 @@ class ApplicationController < ActionController::Base
       SessionResource.auth_id = cookies['iPlanetDirectoryPro']
       Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
       # Get the state unique id and state to identify and key logging
-      session[:full_name] = Check.new(SessionResource.auth_id).full_name
+      session[:full_name] = Check.new(SessionResource.auth_id, nil).full_name
     else
       logger.debug { "No cookie set" }
       SessionResource.auth_id = nil
