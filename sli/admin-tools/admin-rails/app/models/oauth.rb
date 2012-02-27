@@ -1,5 +1,6 @@
 class Oauth
-  attr_accessor :authorize_url, :client_id, :client_secret, :redirect_uri, :token, :code
+
+  attr_accessor :entry_url, :authorize_url, :client_id, :client_secret, :redirect_uri, :token, :code
 
   def initialize()
     @client_id = "#{APP_CONFIG['client_id']}"
@@ -9,7 +10,7 @@ class Oauth
   end
 
   def enabled()
-    return @client_id != nil
+    return @client_id != nil && @client_id != ""
   end
 
   def has_code()
@@ -18,7 +19,10 @@ class Oauth
 
 
   def get_client()
-    return OAuth2::Client.new(@client_id, @client_secret, {:site => 'http://pwolf.slidev.org:8080', :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
+    apiUrl = "#{APP_CONFIG['api_base']}"
+    uri = URI.parse(apiUrl)
+    apiUrl = "#{uri.scheme}://#{uri.host}:#{uri.port}"
+    return OAuth2::Client.new(@client_id, @client_secret, {:site => apiUrl, :token_url => '/api/oauth/token', :authorize_url => '/api/oauth/authorize'})
   end 
 
   def get_token(code)
