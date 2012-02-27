@@ -73,7 +73,11 @@ public class LocalEducationAgencyTest {
             + "        <RatingProgram>rating program</RatingProgram>"
             + "    </AccountabilityRatings>"
             + "    <ProgramReference>program reference</ProgramReference>"
-            + "    <StateEducationAgencyReference>SEA123</StateEducationAgencyReference>"
+            + "    <StateEducationAgencyReference id=\"ID041\" ref=\"ID003\">"
+            + "      <EducationalOrgIdentity>"
+            + "        <StateOrganizationId>SEA123</StateOrganizationId>"
+            + "      </EducationalOrgIdentity>"
+            + "    </StateEducationAgencyReference>"
             + "</LocalEducationAgency>"
             + "</InterchangeEducationOrganization>";
 
