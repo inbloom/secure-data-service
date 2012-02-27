@@ -2,7 +2,7 @@ require "active_resource/base"
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :check_login
+  before_filter :handle_oauth
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
@@ -22,12 +22,11 @@ class ApplicationController < ActionController::Base
 
 
   def callback
-    puts "Looking for redirect"
+    #TODO: disable redirects to other domains
     redirect_to flash[:redirect]
     return
     if params[:state]
       redirectUrl = CGI::unescape(params[:state])
-      #TODO: disable redirects to other domains
       redirect_to redirectUrl
       return
     end
@@ -43,51 +42,35 @@ class ApplicationController < ActionController::Base
   def current_url
     "http://" + request.host_with_port + request.fullpath
   end
-  
-  def check_login
-    if false
-    client_id = "#{APP_CONFIG['client_id']}"
-    client_secret = "#{APP_CONFIG['client_secret']}"
-    callback_url = "#{APP_CONFIG['callback']}"
-    
-    if cookies['token'] != nil
-      puts "found token"
-      puts cookies['token']
-      SessionResource.access_token = cookies['token']
-      SessionResource.auth_id = 'notused'
-      puts "Done setting token in session resource"
-      return
+
+  def handle_oauth
+    SessionResource.access_token = nil
+    oauth = session[:oauth]
+    if oauth == nil 
+      oauth = Oauth.new()
+      session[:oauth] = oauth 
+    end
+    if oauth.enabled
+      if oauth.token != nil
+        logger.info { "OAuth access token is #{oauth.token}"}
+        SessionResource.access_token = oauth.token
+        SessionResource.auth_id = 'notused'
+      elsif params[:code] && !oauth.has_code
+        logger.info { "Requesting access token for  #{params[:code]}"}
+        SessionResource.access_token = oauth.get_token(params[:code])
+      else
+        flash[:redirect] = current_url
+        logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
+        redirect_to oauth.authorize_url  
+      end
     else
-      SessionResource.access_token = nil
+      logger.info { "OAuth disabled."}
+      check_login
     end
 
-    #puts "No token"
-    #    OAuth2::Response.register_parser(:facebook, 'text/plain') do |body|
-    #     token_key, token_value, expiration_key, expiration_value = body.split(/[=&]/)
-    #      {token_key => token_value, expiration_key => expiration_value, :mode => :query, :param_name => 'access_token'}
-    #    end
-
-  if params[:code]
-    puts "We have a code, let's get a token" 
-    client = OAuth2::Client.new(client_id, client_secret, {:site => 'http://pwolf.slidev.org:8080', :token_url => '/api/oauth/token'})
-    token = client.auth_code.get_token( params[:code], {:redirect_uri => callback_url})
-    puts "Got access token"
-    puts token.token
-    cookies['token'] = token.token
-    SessionResource.access_token = cookies['token']
-    return
   end
-
-  puts "We need to request auth url"
-  #client = OAuth2::Client.new('243758069043602', 'e1c4851285ed90552aa439181936af1b', :site => 'https://graph.facebook.com/oauth/access_token')
-  client = OAuth2::Client.new(client_id, client_secret, {:site => 'http://pwolf.slidev.org:8080', :authorize_url => '/api/oauth/authorize'})
-  flash[:redirect] = current_url
-  puts "Setting redirect to #{current_url}"
-  authorize_url =  client.auth_code.authorize_url(:redirect_uri => callback_url)
-  puts "URL is #{authorize_url}"
-  redirect_to authorize_url
-  return
-  end #end if false
+  
+  def check_login
     # Check our session for a valid api key, if not, redirect out
     if cookies['iPlanetDirectoryPro'] != nil
       logger.debug 'We have a cookie set.'
