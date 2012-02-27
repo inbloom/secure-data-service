@@ -1,5 +1,6 @@
 package org.slc.sli.api.client;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +11,23 @@ import java.util.Map;
  * @author asaarela
  */
 public interface Entity {
+    
+    /** Key to locate 'links' field of the Entity. */
+    public static final String LINKS_KEY = "links";
+    
+    /** Key to locate the Entity's id field */
+    public static final String ENTITY_ID_KEY = "id";
+    
+    /**
+     * Get the data associated with this entity.
+     * 
+     * @return Map of data.
+     */
+    Map<String, Object> getData();
+    
+    /**
+     * Standard helper functions.
+     */
     
     /**
      * Get the type for this entity.
@@ -24,17 +42,10 @@ public interface Entity {
     String getId();
     
     /**
-     * Get the data associated with this entity.
-     * 
-     * @return Map of data.
-     */
-    Map<String, Object> getData();
-    
-    /**
      * Get a list of links for this entity.
      * 
-     * @return a map of link type name to Link instance.
+     * @return a List of links.
      */
-    Map<String, Link> getLinks();
+    List<Link> getLinks();
     
 }

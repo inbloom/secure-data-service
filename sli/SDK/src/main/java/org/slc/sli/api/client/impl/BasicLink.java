@@ -11,8 +11,8 @@ import org.slc.sli.api.client.Link;
  */
 public class BasicLink implements Link {
     
-    private final URL resource;
     private final String linkName;
+    private final URL resource;
     
     /**
      * Construct a new link
