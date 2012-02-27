@@ -135,15 +135,6 @@ public class LiveAPIClient implements APIClient {
         return mockClient.getPrograms(getUsername(), studentIds);
     }
 
-    /**
-     * Get the associated educational organization for a school
-     */
-    @Override
-    public GenericEntity getAssociatedEducationalOrganization(final String token, GenericEntity school) {
-        String edOrgId = school.getString(Constants.ATTR_PARENT_EDORG);
-        return getEducationalOrganization(edOrgId, token);
-    }
-
     
     /**
      * Get the parent ed-orgs, given an ed-org

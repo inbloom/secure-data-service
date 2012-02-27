@@ -27,11 +27,8 @@ public class InstitutionalHierarchyManager extends Manager {
     public List<GenericEntity> getSchools(String token) {
         return apiClient.getSchools(token, null);
     }
-    public GenericEntity getAssociatedEducationalOrganization(String token, GenericEntity school) {
-        return apiClient.getAssociatedEducationalOrganization(token, school);
-    }
-    public GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrg) {
-        return apiClient.getParentEducationalOrganization(token, edOrg);
+    public GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
+        return apiClient.getParentEducationalOrganization(token, edOrgOrSchool);
     }
 
     /**
@@ -55,7 +52,7 @@ public class InstitutionalHierarchyManager extends Manager {
 
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.size(); i++) {
-            GenericEntity edOrg = getAssociatedEducationalOrganization(token, schools.get(i));
+            GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
             while(edOrg != null) {
                 String edOrgId = edOrg.getString(Constants.ATTR_ID);
                 // insert ed-org id to - edOrg mapping 

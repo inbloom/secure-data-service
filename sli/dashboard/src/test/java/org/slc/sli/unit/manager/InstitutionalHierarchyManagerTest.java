@@ -32,8 +32,6 @@ public class InstitutionalHierarchyManagerTest {
 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/cgray/school.json")).thenReturn("src/test/resources/mock_data/cgray/school.json");
-        when(mockClient.getFilename("mock_data/cgray/school_educational_organization_association.json")).thenReturn("src/test/resources/mock_data/cgray/school_educational_organization_association.json");
-        when(mockClient.getFilename("mock_data/cgray/educational_organization_association.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization_association.json");
         when(mockClient.getFilename("mock_data/cgray/educational_organization.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization.json");
         iManager.setApiClient(mockClient);
         List<GenericEntity> instArray = iManager.getInstHierarchy("cgray");
