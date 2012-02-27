@@ -142,6 +142,9 @@ public interface AssociationService extends EntityService {
      */
     public long countAssociationsFor(String id, String queryString);
     
+    /**
+     * 
+     */
     public static interface EntityIdList extends Iterable<String> {
         /**
          * Returns the total number of entities possible from the request, ignoring paging.

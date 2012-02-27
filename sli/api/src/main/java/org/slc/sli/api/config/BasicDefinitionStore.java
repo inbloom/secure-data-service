@@ -191,8 +191,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
         
-        // Adding the OAuth 2.0 Authorized Session Manager (uses Token Manager)
-        addDefinition(factory.makeEntity("oauthSession").storeAs("oauthSession").build());
+        // Adding OAuth 2.0 Services
+        addDefinition(factory.makeEntity("oauth_code").build());
+        addDefinition(factory.makeEntity("oauth_access_token").build());
+        addDefinition(factory.makeEntity("oauth_refresh_token").build());
     }
     
     private void add(EntityDefinition defn) {

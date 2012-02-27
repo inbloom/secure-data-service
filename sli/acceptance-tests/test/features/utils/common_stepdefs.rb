@@ -10,7 +10,7 @@ Given /^I have access to all [^"]*$/ do
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json"].should include(fmt)
+  ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].should include(fmt)
   @format = fmt
 end
 
@@ -43,7 +43,7 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res)
-  jsonTypes = ["application/json", "application/vnd.slc.full+json"].to_set
+  jsonTypes = ["application/json", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
@@ -71,3 +71,4 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, hre
   end
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
+
