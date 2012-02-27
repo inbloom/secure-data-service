@@ -31,7 +31,7 @@ Scenario: Read a school by id
     Then I should receive a return code of 200
        And I should see the "nameOfInstitution" is "Apple Alternative Elementary School"
        And I should see the "telephoneNumber" is "(785) 667-6006"
-       And I should receive a link named "self" with URI "/schools/<'Apple Alternative Elementary School' ID>"
+       And I should receive a link named "self" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>"
        And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/teacherSchoolAssociations"
        And I should receive a link named "getTeachers" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/teacherSchoolAssociations/teachers"
        And I should receive a link named "getStudents" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/studentSchoolAssociations/students"

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -53,6 +54,7 @@ import org.slc.sli.domain.enums.Right;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @DirtiesContext
+@Ignore
 public class MongoTokenStoreTest {
     
     private static final String ACCESS_TOKEN_ONE_VALUE = "test-access-token-one-unexpired";

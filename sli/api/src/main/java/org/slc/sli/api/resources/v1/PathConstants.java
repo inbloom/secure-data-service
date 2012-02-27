@@ -40,6 +40,7 @@ public class PathConstants {
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "students";  
     public static final String TEACHERS = "teachers";
+    public static final String STAFF = "staff";
     
     /*
      * This map should go away when we switch basic definition store association names to camel case.
@@ -57,10 +58,24 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.SESSION_COURSE_ASSOCIATIONS, SESSION_COURSE_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, STUDENT_ASSESSMENT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, STUDENT_SECTION_ASSOCIATIONS);
-        
         TEMP_MAP.put(ResourceNames.STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS, STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, COURSE_SECTION_ASSOCIATIONS);
+        
+        TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
+        TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
+        TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
+        TEMP_MAP.put(ResourceNames.COURSES, COURSES);
+        TEMP_MAP.put(ResourceNames.DISCIPLINE_INCIDENTS, DISCIPLINE_INCIDENTS);
+        TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATIONS, EDUCATION_ORGANIZATIONS);
+        TEMP_MAP.put(ResourceNames.PARENTS, PARENTS);
+        TEMP_MAP.put(ResourceNames.PROGRAMS, PROGRAMS);
+        TEMP_MAP.put(ResourceNames.SECTIONS, SECTIONS);
+        TEMP_MAP.put(ResourceNames.SESSIONS, SESSIONS);
+        TEMP_MAP.put(ResourceNames.SCHOOLS, SCHOOLS);
+        TEMP_MAP.put(ResourceNames.STUDENTS, STUDENTS);
+        TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
+        TEMP_MAP.put(ResourceNames.STAFF, STAFF);
     }
 
     public static final String V1 = "v1";

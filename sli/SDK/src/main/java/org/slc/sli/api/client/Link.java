@@ -4,7 +4,8 @@ import java.net.URL;
 
 /**
  * 
- * Client representation of a URL link as provided by the SLI API ReSTful service.
+ * Client representation of a URL link as provided by the SLI API ReSTful service. Each
+ * link has a name (for example, 'getStudents') and an associated URL.
  * 
  * @author asaarela
  */

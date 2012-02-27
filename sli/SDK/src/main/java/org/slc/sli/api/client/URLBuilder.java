@@ -14,11 +14,6 @@ public final class URLBuilder {
     
     private final StringBuffer url = new StringBuffer();
     
-    // Private constructor, use 'create' to start the build process.
-    private URLBuilder(final String base) {
-        url.append(base);
-    }
-    
     /**
      * Start building a new URL with the provided base location.
      * 
@@ -27,7 +22,9 @@ public final class URLBuilder {
      * @return URLBuilder instance
      */
     public static URLBuilder create(final String baseUrl) {
-        return new URLBuilder(baseUrl);
+        URLBuilder rval = new URLBuilder();
+        rval.addPath(baseUrl);
+        return rval;
     }
     
     /**
@@ -75,8 +72,10 @@ public final class URLBuilder {
     public URLBuilder query(final Query query) {
         
         Map<String, Object> params = query.getParameters();
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            addQueryParameter(entry.getKey(), entry.getValue());
+        if (params != null) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                addQueryParameter(entry.getKey(), entry.getValue());
+            }
         }
         
         return this;
@@ -121,7 +120,7 @@ public final class URLBuilder {
     }
     
     private URLBuilder addPathSeparaterIfNeeded() {
-        if (url.charAt(url.length() - 1) != '/') {
+        if (url.length() > 0 && url.charAt(url.length() - 1) != '/') {
             url.append("/");
         }
         return this;
