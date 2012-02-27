@@ -23,7 +23,7 @@ public enum EntityType {
     COURSE_SECTION_ASSOCIATIONS("course-section-associations"),
     SECTION_SCHOOL_ASSOCIATIONS("section-school-associations"),
     STUDENT_ASSESSMENT_ASSOCIATIONS("student-assessment-associations"),
-    ASSESSMENTS("assessments");
+    ASSESSMENTS("assessments"), TEACHERS("teachers");
     
     final String path;
     

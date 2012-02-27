@@ -21,6 +21,11 @@ Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
   uri + Transform(template)
 end
 
+# transform /v1/entity/<Place Holder Id>
+Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
+  version + uri + Transform(template)
+end
+
 # transform /path/<Place Holder Id>
 Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/[\w-]+)$/ do |version, uri, template, assoc|
   version + uri + Transform(template) + assoc
