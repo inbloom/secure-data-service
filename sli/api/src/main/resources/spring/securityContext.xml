@@ -30,8 +30,7 @@
 	<oauth2:resource-server id="oauth2ProviderFilter"
 		token-services-ref="OAuthSessionService" />
 
-	<security:http>
-		<security:form-login />
+	<security:http entry-point-ref="samlAuthenticationEntryPoint">
 		<security:logout />
 		<security:anonymous />
 		<security:intercept-url pattern="/oauth/authorize"
