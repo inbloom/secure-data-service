@@ -157,7 +157,7 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1SchoolSessionAssociationTests] do
+                     :v1SchoolSessionAssociationTests, :v1CourseTests] do
   displayFailureReport()
 end
 
@@ -181,6 +181,11 @@ task :v1SectionTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/section", "section", "section_fixture.json")
+end
+
+desc "Run V1 Course Tests"
+task :v1CourseTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/course", "course", "course_fixture.json")
 end
 
 desc "Run V1 Session Tests"
