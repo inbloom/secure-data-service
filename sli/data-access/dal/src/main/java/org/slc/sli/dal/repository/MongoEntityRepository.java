@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.util.datetime.DateTimeUtil;
@@ -70,6 +71,29 @@ public class MongoEntityRepository implements EntityRepository {
         
         //find and return an entity
         return template.find(query, Entity.class, collectionName);
+    }
+    
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        //turn query parameters into a Mongo-specific query
+        Query mongoQuery = convertToQuery(query);
+        
+        //find and return an entity
+        return template.find(mongoQuery, Entity.class, collectionName);
+    }
+    
+    /**
+     * Converts a EntityQuery to a MongoQuery
+     * @param query
+     * @return
+     */
+    protected Query convertToQuery(EntityQuery query) {
+        Query mongoQuery = new Query();
+        
+        if(query.getIncludeFields() != null) {
+            mongoQuery.fields().include(query.getIncludeFields());
+        }
+        
+        return mongoQuery;
     }
     
     /**
