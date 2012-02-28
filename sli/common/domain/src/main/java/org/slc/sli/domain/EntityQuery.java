@@ -1,5 +1,8 @@
 package org.slc.sli.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Encapsulates a query object to be used by the DAL
  * @author srupasinghe
@@ -12,6 +15,7 @@ public class EntityQuery {
     protected int limit;
     protected String sortBy;
     protected int sortOrder;
+    protected Map<String, String> fields = new HashMap<String, String>(); 
    
     public EntityQueryBuilder buildQuery() {
         return new EntityQueryBuilder();
@@ -39,6 +43,10 @@ public class EntityQuery {
 
     public int getSortOrder() {
         return sortOrder;
+    }
+    
+    public Map<String, String> getFields() {
+        return fields;
     }
 
     /**
@@ -76,6 +84,11 @@ public class EntityQuery {
         
         public EntityQueryBuilder setSortOrder(int sortOrder) {
             query.sortOrder = sortOrder;
+            return this;
+        }
+        
+        public EntityQueryBuilder addField(String field, String value) {
+            query.fields.put(field, value);
             return this;
         }
         
