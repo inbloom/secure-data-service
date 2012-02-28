@@ -15,9 +15,9 @@ public class EntityQuery {
     protected int limit;
     protected String sortBy;
     protected int sortOrder;
-    protected Map<String, String> fields = new HashMap<String, String>(); 
-   
-    public EntityQueryBuilder buildQuery() {
+    protected Map<String, String> fields = new HashMap<String, String>();
+    
+    public static EntityQueryBuilder makeQuery() {
         return new EntityQueryBuilder();
     }
         
@@ -54,7 +54,7 @@ public class EntityQuery {
      * @author srupasinghe
      *
      */
-    public class EntityQueryBuilder {
+    public static class EntityQueryBuilder {
         private EntityQuery query = new EntityQuery();
         
         public EntityQueryBuilder setIncludeFields(String includeFields) {
