@@ -192,7 +192,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(factory.makeEntity("application").storeAs("application").build());
         
         // Adding OAuth 2.0 Services
-        addDefinition(factory.makeEntity("oauth_code").build());
+        addDefinition(factory.makeEntity("oauthAuthorizationCode").build());
         addDefinition(factory.makeEntity("oauth_access_token").build());
         addDefinition(factory.makeEntity("oauth_refresh_token").build());
     }

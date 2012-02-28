@@ -6,7 +6,7 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 
 When /^I navigate to the Dashboard Live home page$/ do
-  url = "https://"+ PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode']
+  url = getBaseUrl()
   print url
   @driver.get url
 end
@@ -35,7 +35,7 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
 end
 
 Then /^I should be redirected to the app selection page$/ do
-  expected_url = "http://" + PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode'] + PropLoader.getProps['dashboard_app_selector_page']
+  expected_url = getBaseUrl() + PropLoader.getProps['dashboard_app_selector_page']
   print expected_url
   assert(@driver.current_url == expected_url)
 end
