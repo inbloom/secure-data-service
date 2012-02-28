@@ -85,7 +85,7 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-        return null;
+        return findByFields(collectionName, queryParameters, 0, 10);
     }
     
     @Override
@@ -372,6 +372,11 @@ public class MockRepo implements EntityRepository {
             ids.add(e.getEntityId());
         }
         return ids;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        throw new UnsupportedOperationException("Not implemented here yet, implement me! (We're agile. And toasted.");
     }
     
 }

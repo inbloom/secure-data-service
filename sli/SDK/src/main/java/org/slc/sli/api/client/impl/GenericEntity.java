@@ -1,5 +1,6 @@
 package org.slc.sli.api.client.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,66 +19,47 @@ import org.slc.sli.api.client.Link;
 public class GenericEntity implements Entity {
     
     private final Map<String, Object> data;
-    private final Map<String, Link> links;
-    private final String id;
-    
-    // Don't include / expect the type during marshaling.
-    private final transient EntityType type;
+    private final EntityType type;
     
     /**
      * Construct a new generic entity.
      * 
      * @param type
      *            Entity type for this entity.
-     * @param id
-     *            Entity identifier.
      * @param data
      *            Map representing the entity's data.
-     * @param links
-     *            A map of the entities links; key is the link name.
      */
-    public GenericEntity(final EntityType type, final String id, final Map<String, Object> data,
-            final Map<String, Link> links) {
+    public GenericEntity(final EntityType type, final Map<String, Object> data) {
         this.type = type;
-        this.id = id;
         this.data = data;
-        this.links = links;
     }
     
-    /*
-     * (non-Javadoc)
-     * @see org.slc.sli.api.client.Entity#getId()
-     */
     @Override
     public String getId() {
-        return id;
+        if (data.containsKey(ENTITY_ID_KEY)) {
+            return (String) data.get(ENTITY_ID_KEY);
+        }
+        return null;
     }
     
-    /*
-     * (non-Javadoc)
-     * @see org.slc.sli.api.client.Entity#getData()
-     */
     @Override
     public Map<String, Object> getData() {
         return data;
     }
     
-    /*
-     * (non-Javadoc)
-     * @see org.slc.sli.api.client.Entity#getLinks()
-     */
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Link> getLinks() {
-        return links;
+    public List<Link> getLinks() {
+        
+        if (data.containsKey(LINKS_KEY)) {
+            return (List<Link>) data.get(LINKS_KEY);
+        }
+        return null;
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.slc.sli.api.client.Entity#getEntityType()
-     */
     @Override
     public EntityType getEntityType() {
         return type;
     }
 }
+

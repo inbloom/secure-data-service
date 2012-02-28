@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup>
+
+	<import platforms = "db"/>
+
+	<comment>set default values</comment>
+	<setting name="database" default="sql_server" />
+
+	<comment>import database specific properties</comment>
+	<include uri="sql_server.properties" /> 
+
+	<comment>echo the settings to the console</comment>
+	<echo>{ftl: Database URL: ${dbUrl}}</echo>
+	<echo>{ftl: JDBC URL: ${dbUrl}}</echo>
+	<echo>{ftl: Username: ${dbUser}}</echo>
+
+	<comment>define the database that will be referred by the id 'db' subsequently</comment>
+	<database id="db" url="{dbUrl}" driver="{dbDriver}" catalog="{dbCatalog}" schema="{dbSchema}"
+        	user="{dbUser}" password="{dbPassword}" />
+
+	<comment>clear the records in the Course table</comment>
+	<execute uri="delete_Course.sql" target="db" onError="ignore" />
+	
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+
+	<comment>create courses</comment>
+	<generate type="Course" count="100" consumer="db">
+
+		<variable name="course" source="CourseTitle.wgt.csv" />
+        	<variable name="orgId" source="db" selector="select EducationOrganizationId from EducationOrganization" distribution="random" />
+        	<variable name="uid" generator="idGen" />
+
+        	<attribute name="EducationOrganizationId" script="orgId" />
+        	<attribute name="IdentityCourseCode" script="course + uid" />
+        	<attribute name="CourseTitle" source="course" map="'ELA'->'English Language Arts',
+        					'MATH'->'Mathematics', 'SCIENCE'->'Science'" />
+        	<attribute name="NumberOfParts" values="'1','2','3','4'" />
+        	<attribute name="SubjectAreaTypeId" source="db" selector="select AcademicSubjectTypeId from AcademicSubjectType" distribution="random"/>
+        	
+        </generate>
+
+</setup>
+

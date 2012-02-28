@@ -2,12 +2,13 @@ package org.slc.sli.api.security;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests sudo runs
@@ -19,6 +20,11 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
  */
 public class SecurityUtilTest {
 
+    @Before
+    public void init() {
+        SecurityContextHolder.clearContext();
+    }
+    
     @Test
     public void testSudo() {
         Assert.assertNull(SecurityContextHolder.getContext().getAuthentication());

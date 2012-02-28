@@ -29,7 +29,7 @@ public interface SLIClient {
      */
     public abstract void connect(final String host, final int port, final String user, final String password,
             final String realm);
-
+    
     /**
      * Create operation
      * 
@@ -37,7 +37,7 @@ public interface SLIClient {
      *            Entity to create
      * @return Response to the update request.
      */
-    public abstract ClientResponse create(final Entity e);
+    public abstract ClientResponse create(final Entity e) throws MalformedURLException, URISyntaxException;
     
     /**
      * Read operation by ID.
@@ -72,7 +72,7 @@ public interface SLIClient {
      *            Entity to update.
      * @return Response to the update request.
      */
-    public abstract ClientResponse update(final Entity e);
+    public abstract ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException;
     
     /**
      * Delete operation
@@ -81,6 +81,6 @@ public interface SLIClient {
      *            Entity to delete
      * @return Response to the delete request.
      */
-    public abstract ClientResponse delete(final Entity e);
+    public abstract ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException;
     
 }
