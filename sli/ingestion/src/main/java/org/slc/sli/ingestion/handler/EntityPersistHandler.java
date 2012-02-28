@@ -31,7 +31,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     private static final String METADATA_BLOCK = "metaData";
 
     // Hard-code region ID here for now, until it is set for real!
-    private static final String REGION_ID = "dc=slidev,dc=net";
+    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
     private EntityRepository entityRepository;
 

@@ -100,7 +100,7 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
 
             // insert the assessments object into the modelmap
-            List<GenericEntity> assmts = populationManager.getAssessments(user.getUsername(), studentSummaries);
+            List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
         /*

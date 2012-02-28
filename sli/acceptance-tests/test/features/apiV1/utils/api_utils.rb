@@ -3,7 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../utils/sli_utils.rb'
 
 Transform /^\/(<[^"]*>)$/ do |uri_placeholder|
   uri = "/v1/" + Transform(uri_placeholder)
@@ -29,11 +29,18 @@ Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1,
   uri
 end
 
-
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
+Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
+  @fields = {} if !defined? @fields
+  @fields[key] = convert(value)
+end
+
+Given /^an invalid entity json document for a "([^"]*)"$/ do |arg1|
+  @fields = {}
+end
 
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN 2WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
@@ -57,11 +64,20 @@ When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
+Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result.has_key?(key), "Response does not contain key #{key}")
+  assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
+end
+
+Then /^the response should contain the appropriate fields and values$/ do
+  EntityProvider.verify_entities_match(@fields, @result)
+end
 
 Then /^the error message should indicate "([^"]*)"$/ do |error_message|
   if(@res.is_a?(String))
@@ -105,13 +121,11 @@ Then /^in an entity, I should receive a link named "([^"]*)" with URI "([^"]*)"$
   assert(found, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
 end
 
-
 Then /^I should receive a collection of "([^"]*)" entities$/ do |number_of_entities|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
   assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}");
 end
-
 
 # Function data_builder
 # Inputs: None

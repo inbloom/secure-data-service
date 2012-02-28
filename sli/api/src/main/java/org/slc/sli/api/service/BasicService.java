@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,8 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,9 +165,9 @@ public class BasicService implements EntityService {
         
         List<EntityBody> results = new ArrayList<EntityBody>();
         
-        //for each entity found in the collection matching query parameters
+        // for each entity found in the collection matching query parameters
         for (Entity entity : this.repo.findAll(this.collectionName, queryParameters)) {
-            //add a new body containing that data
+            // add a new body containing that data
             results.add(makeEntityBody(entity));
         }
         
@@ -182,6 +181,9 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids, String sortBy, SortOrder sortOrder) {
+        if (!ids.iterator().hasNext()) {
+            return Collections.emptyList();
+        }
         
         checkRights(Right.READ_GENERAL);
         
@@ -206,9 +208,8 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else {
-            throw new AccessDeniedException("No access to any requested entities");
         }
+        return Collections.emptyList();
     }
     
     @Override
