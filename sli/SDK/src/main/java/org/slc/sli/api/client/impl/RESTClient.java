@@ -3,6 +3,8 @@ package org.slc.sli.api.client.impl;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +89,7 @@ public class RESTClient {
      */
     public ClientResponse getRequest(final URL url) throws MalformedURLException, URISyntaxException {
         
-        return getRequestWithHeaders(url, null);
+        return getRequestWithHeaders(url, getSessionHeader());
     }
     
     /**
@@ -111,8 +113,6 @@ public class RESTClient {
         
         ClientRequest.Builder builder = new ClientRequest.Builder();
         builder.accept(MediaType.APPLICATION_JSON);
-        
-        builder.header(API_SESSION_KEY, sessionToken);
         if (headers != null) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
@@ -120,7 +120,6 @@ public class RESTClient {
         }
         
         ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
-        
         return client.handle(request);
     }
     
@@ -136,7 +135,7 @@ public class RESTClient {
     public ClientResponse postRequest(final URL url, final String json) throws URISyntaxException,
     MalformedURLException {
         
-        return postRequestWithHeaders(url, json, null);
+        return postRequestWithHeaders(url, json, getSessionHeader());
     }
     
     /**
@@ -165,8 +164,6 @@ public class RESTClient {
         
         builder.accept(MediaType.APPLICATION_JSON);
         builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
-        
-        builder.header(API_SESSION_KEY, sessionToken);
         if (headers != null) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
@@ -187,7 +184,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
-        return putRequestWithHeaders(url, json, null);
+        return putRequestWithHeaders(url, json, getSessionHeader());
     }
     
     /**
@@ -216,8 +213,6 @@ public class RESTClient {
         
         builder.accept(MediaType.APPLICATION_JSON);
         builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
-        
-        builder.header(API_SESSION_KEY, sessionToken);
         if (headers != null) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
@@ -236,7 +231,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
-        return deleteRequestWithHeaders(url, null);
+        return deleteRequestWithHeaders(url, getSessionHeader());
     }
     
     /**
@@ -261,8 +256,6 @@ public class RESTClient {
         
         ClientRequest.Builder builder = new ClientRequest.Builder();
         builder.accept(MediaType.APPLICATION_JSON);
-        
-        builder.header(API_SESSION_KEY, sessionToken);
         if (headers != null) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
@@ -271,7 +264,6 @@ public class RESTClient {
         
         ClientRequest request = builder.build(url.toURI(), HttpMethod.DELETE);
         return client.handle(request);
-        
     }
     
     /**
@@ -305,5 +297,20 @@ public class RESTClient {
      */
     public String getBaseURL() {
         return apiServerUri;
+    }
+    
+    /**
+     * Create a header map containing the sessionId token key/value pair.
+     * 
+     * @return
+     */
+    private Map<String, List<String>> getSessionHeader() {
+        Map<String, List<String>> rval = new HashMap<String, List<String>>();
+        
+        List<String> value = new LinkedList<String>();
+        value.add(sessionToken);
+        rval.put(API_SESSION_KEY, value);
+        
+        return rval;
     }
 }
