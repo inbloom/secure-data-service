@@ -1,11 +1,8 @@
 package org.slc.sli.api.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.security.core.Authentication;
@@ -184,33 +181,11 @@ public class OAuthTokenUtil {
     }
     
     public static byte[] serialize(Object o) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos;
-        try {
-            oos = new ObjectOutputStream(baos);
-            oos.writeObject(o);
-            oos.flush();
-            oos.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return baos.toByteArray();
+        return SerializationUtils.serialize((Serializable) o);
     }
     
     public static Object deserialize(byte[] b) {
-        ByteArrayInputStream bais = new ByteArrayInputStream(b);
-        ObjectInputStream ois;
-        Object toReturn = null;
-        try {
-            ois = new ObjectInputStream(bais);
-            toReturn = ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return toReturn;
+        return SerializationUtils.deserialize(b);
     }
     
 }
