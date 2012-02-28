@@ -143,29 +143,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
         }*/
         return null;
     }
-    
-    /**
-     * Method called by SAML consumer. Performs a lookup in Mongo to find
-     * oauthSession correponding to the requestToken, and stores the SAML
-     * message ID into that object.
-     * 
-     * @param requestToken
-     *            Value of token granted to the application (signifying request
-     *            for access token).
-     * @param messageId
-     *            SAML message unique identifier.
-     */
-    public void storeSamlMessageId(String requestToken, String messageId) {
-       /* Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                new Query(Criteria.where("body.requestToken").is(requestToken)), 0, 1);
-        if (results != null && messageId.length() > 0) {
-            for (Entity oauthSession : results) {
-                Map<String, Object> body = oauthSession.getBody();
-                body.put("samlMessageId", messageId);
-                getService().update(oauthSession.getEntityId(), (EntityBody) body);
-            }
-        }*/
-    }
+
     
     /**
      * Gets the EntityService associated with the OAuth 2.0 session collection.

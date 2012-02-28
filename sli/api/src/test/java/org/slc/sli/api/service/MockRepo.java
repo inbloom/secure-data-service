@@ -373,5 +373,10 @@ public class MockRepo implements EntityRepository {
         }
         return ids;
     }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        throw new UnsupportedOperationException("Not implemented here yet, implement me! (We're agile. And toasted.");
+    }
     
 }
