@@ -319,4 +319,10 @@ public class MongoEntityRepository implements EntityRepository {
         
         return paths;
     }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

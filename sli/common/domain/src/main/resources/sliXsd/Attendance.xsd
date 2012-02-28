@@ -8,12 +8,8 @@
 	<xs:element name="attendanceEvent">
 		<xs:annotation>
 			<xs:documentation>
-				This event entity represents the recording of
-				whether a student is in
-				daily attendance. This should be used to
-				model irregularities,
-				no event should correspond to the student being
-				present.
+				This event entity represents the recording of whether a student is in
+				daily attendance. This should be used to model irregularities.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>

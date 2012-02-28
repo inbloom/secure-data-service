@@ -1,8 +1,8 @@
 package org.slc.sli.api.resources.security;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URI;
 import java.util.List;
 
@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -71,18 +72,12 @@ public class SamlFederationResource {
     
     @PostConstruct
     private void processMetadata() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         InputStream is = metadataTemplateResource.getInputStream();
-        byte[] buf = new byte[1024];
-        int r = is.read(buf);
-        while (r > -1) {
-            baos.write(buf, 0, r);
-            r = is.read(buf);
-        }
-        metadata = new String(baos.toByteArray());
-        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(is, writer);
         is.close();
-        
+        metadata = writer.toString();
+        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
     }
     
     @POST
