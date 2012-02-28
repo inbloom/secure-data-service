@@ -10,6 +10,7 @@ package org.slc.sli.util;
 public class Constants {
     // API related URLs
     public static final String API_SERVER_URI = "https://devapp1.slidev.org/api/rest";
+    public static final String SECURITY_SERVER_URI = "https://devapp1.slidev.org/api/rest";
 
     public static final String SESSION_CHECK_URL = "system/session/check";
     public static final String GET_ROLES_URL = "admin/roles";

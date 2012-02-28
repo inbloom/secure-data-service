@@ -27,8 +27,6 @@ public class RESTClient {
 
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
 
-    /** URI for the API **/
-    private String apiServerUri = Constants.API_SERVER_URI;
 
     /**
      * Get the Roles and Rights information from the API
@@ -72,11 +70,10 @@ public class RESTClient {
     public String makeJsonRequest(String path, String token) {
         System.out.println("IN MAKEJSONREQUEST");
         RestTemplate template = new RestTemplate();
-        URLBuilder url = new URLBuilder(apiServerUri);
+        URLBuilder url = new URLBuilder(Constants.SECURITY_SERVER_URI);
         url.addPath(path);
         if (token != null) {
             url.addQueryParam(API_SESSION_KEY, token);
-
         }
         System.out.println("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);

@@ -24,13 +24,13 @@ import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeAuthenticationTokenHolder;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -65,7 +65,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     private EntityDefinitionStore store;
     
     @Autowired
-    private SliClientDetailService clientDetailService;
+    private SliClientDetailService clientDetailService;   
     
     /**
      * Performs a lookup based on user and client authentication (in unconfirmed authorization code
@@ -115,7 +115,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 EntityBody authorizationCode = getService().get(id);
                 String authCode = createAuthorizationCode();
                 authorizationCode.put("value", authCode);
-                authorizationCode.put("userId", principal.getName());
+                authorizationCode.put("userId", principal.getExternalId());
                 authorizationCode.put("userRoles", StringUtils.collectionToCommaDelimitedString(principal.getRoles()));
                 authorizationCode.put("userRealm", principal.getRealm());
                 
@@ -161,7 +161,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             });
             ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.addAll(authoritiesSet);
-            Authentication authentication = new AnonymousAuthenticationToken(user.getId(), user, authorities);
+           // Authentication authentication = new AnonymousAuthenticationToken(user.getId(), user, authorities);
+            Authentication authentication =  new PreAuthenticatedAuthenticationToken(user, clientToken, authorities);
             toReturn = new UnconfirmedAuthorizationCodeAuthenticationTokenHolder(clientToken, authentication);
         }
         return toReturn;
