@@ -302,7 +302,12 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'school'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/School/StateOrganizationId" />
+    <jb:wiring property="localParentIds" beanIdRef="schoolParentId" />
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="schoolParentId" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/LocalEducationAgencyReference">
+    <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
@@ -482,7 +487,12 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'educationOrganization'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/LocalEducationAgency/StateOrganizationId" />
+    <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentId" />
     <jb:wiring property="attributes" beanIdRef="localEducationOrganizationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="localEducationOrganizationParentId" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference">
+    <jb:value property="educationOrganization#parentEducationAgencyReference" data="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganizationAttributes" class="java.util.HashMap"
