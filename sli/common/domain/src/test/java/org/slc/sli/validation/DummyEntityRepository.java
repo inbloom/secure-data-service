@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
+import org.slc.sli.domain.EntityQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,12 @@ public class DummyEntityRepository implements EntityRepository {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        return null;
+    }
+
     @Override
     public Entity find(String collectioName, String id) {
         Map<String, Entity> collection = entities.get(collectioName);

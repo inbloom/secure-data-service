@@ -36,13 +36,20 @@ public interface EntityRepository {
     /**
      * @param collectionName
      *            the name of the collection to look in
-     * @param id
-     *            the global unique id of the entity
      * @param query
      *            all parameters to be included in query
      * @return the entity retrieved
      */
     public Iterable<Entity> findAll(String collectionName, Map<String, String> query);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param query
+     *            all parameters to be included in query
+     * @return the entity retrieved
+     */
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query);
     
     /**
      * @param collectionName
