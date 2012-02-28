@@ -66,11 +66,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     private EntityDefinitionStore store;
     
     @Autowired
-    private SliClientDetailService clientDetailService;
-    
-    @Value("${sli.security.tokenService.url}")
-    private String tokenServiceUrl;
-    
+    private SliClientDetailService clientDetailService;   
     
     /**
      * Performs a lookup based on user and client authentication (in unconfirmed authorization code
