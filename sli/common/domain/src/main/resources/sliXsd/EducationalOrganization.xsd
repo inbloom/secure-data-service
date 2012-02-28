@@ -260,11 +260,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="parentEducationAgencyReference" type="xs:string" minOccurs="0">
+					<xs:element name="parentEducationAgencyReference" type="reference" minOccurs="0">
 					        <xs:annotation>
 						        <xs:documentation>Reference to the parent Education Organization
 							        in a hierarchy.
 							</xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                            </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>

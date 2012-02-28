@@ -2,21 +2,25 @@ package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
@@ -32,12 +36,16 @@ import org.slc.sli.validation.EntityValidator;
 public class LocalEducationAgencyTest {
 
     @Autowired
+    @InjectMocks
     private EntityValidator validator;
+
+    @Mock
+    private EntityRepository mockRepository;
 
     private static final String EDFI_XML = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<LocalEducationAgency>"
             + "    <StateOrganizationId>152901001</StateOrganizationId>"
-            + "    <EducationOrgIdentificationCode IdentificationSystem=\"identification system\">"
+            + "    <EducationOrgIdentificationCode IdentificationSystem=\"LEA\">"
             + "        <Id>9777</Id>"
             + "    </EducationOrgIdentificationCode>"
             + "    <NameOfInstitution>Apple Alternative Elementary School</NameOfInstitution>"
@@ -53,22 +61,22 @@ public class LocalEducationAgencyTest {
             + "        <StateAbbreviation>KS</StateAbbreviation>"
             + "        <PostalCode>66952</PostalCode>"
             + "        <NameOfCounty>Smith County</NameOfCounty>"
-            + "        <CountyFIPSCode>USA123</CountyFIPSCode>"
-            + "        <CountryCode>USA</CountryCode>"
+            + "        <CountyFIPSCode>USA12</CountyFIPSCode>"
+            + "        <CountryCode>US</CountryCode>"
             + "        <Latitude>245</Latitude>"
             + "        <Longitude>432</Longitude>"
-            + "        <BeginDate>01-01-1969</BeginDate>"
-            + "        <EndDate>12-12-2012</EndDate>"
+            + "        <BeginDate>1969-01-01</BeginDate>"
+            + "        <EndDate>2012-12-12</EndDate>"
             + "    </Address>"
             + "    <Telephone InstitutionTelephoneNumberType=\"Main\">"
             + "        <TelephoneNumber>(785) 667-6006</TelephoneNumber>"
             + "    </Telephone>"
             + "    <WebSite>www.a.com</WebSite>"
-            + "    <OperationalStatus>running</OperationalStatus>"
+            + "    <OperationalStatus>Active</OperationalStatus>"
             + "    <AccountabilityRatings>"
             + "        <RatingTitle>first rating</RatingTitle>"
             + "        <Rating>A</Rating>"
-            + "        <RatingDate>01-01-2012</RatingDate>"
+            + "        <RatingDate>2012-01-01</RatingDate>"
             + "        <RatingOrganization>rating org</RatingOrganization>"
             + "        <RatingProgram>rating program</RatingProgram>"
             + "    </AccountabilityRatings>"
@@ -81,6 +89,11 @@ public class LocalEducationAgencyTest {
             + "</LocalEducationAgency>"
             + "</InterchangeEducationOrganization>";
 
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void testValidLocalEducationAgency() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
@@ -89,11 +102,11 @@ public class LocalEducationAgencyTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 EDFI_XML);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("localEducationAgency");
+        // mock repository will simulate "finding" the referenced educationOrganization
+        Entity returnEntity = mock(Entity.class);
+        Mockito.when(mockRepository.find("educationOrganization", "SEA123")).thenReturn(returnEntity);
 
-        Assert.assertTrue(validator.validate(e));
+        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "educationOrganization", validator);
     }
 
     /*
@@ -143,8 +156,7 @@ public class LocalEducationAgencyTest {
         List educationOrgIdentificationCodeList = (List) neutralRecord.getAttributes().get(
                 "educationOrgIdentificationCode");
         Map educationOrgIdentificationMap = (Map) educationOrgIdentificationCodeList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "identificationSystem",
-                "identification system");
+        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "identificationSystem", "LEA");
         EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationMap, "ID", "9777");
 
         assertEquals("Apple Alternative Elementary School", neutralRecord.getAttributes().get("nameOfInstitution"));
@@ -163,12 +175,12 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "KS");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "66952");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "Smith County");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "USA123");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "USA");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "USA12");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "01-01-1969");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "12-12-2012");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "openDate", "1969-01-01");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "closeDate", "2012-12-12");
 
         List telephoneList = (List) neutralRecord.getAttributes().get("telephone");
         Map telephoneMap = (Map) telephoneList.get(0);
@@ -176,13 +188,13 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(telephoneMap, "telephoneNumber", "(785) 667-6006");
 
         assertEquals("www.a.com", neutralRecord.getAttributes().get("webSite"));
-        assertEquals("running", neutralRecord.getAttributes().get("operationalStatus"));
+        assertEquals("Active", neutralRecord.getAttributes().get("operationalStatus"));
 
         List accountabilityRatingsList = (List) neutralRecord.getAttributes().get("accountabilityRatings");
         Map accountabilityRatingsMap = (Map) accountabilityRatingsList.get(0);
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingTitle", "first rating");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "rating", "A");
-        EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingDate", "01-01-2012");
+        EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingDate", "2012-01-01");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingOrganization", "rating org");
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
