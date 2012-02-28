@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
 
@@ -14,8 +15,9 @@ import java.util.List;
  * @author shalka
  */
 @Component
-public class SLIPrincipal implements Principal {
+public class SLIPrincipal implements Principal, Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String id;
     private String name;
     private String realm;

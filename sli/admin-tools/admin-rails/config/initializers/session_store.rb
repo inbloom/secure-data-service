@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-SLIAdmin::Application.config.session_store :cookie_store, :key => 'ADMIN_SESSION_ID'
+SLIAdmin::Application.config.session_store :cookie_store, :key => 'ADMIN_SESSION_ID', :httponly => true
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

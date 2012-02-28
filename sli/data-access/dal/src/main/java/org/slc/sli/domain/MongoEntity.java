@@ -1,5 +1,6 @@
 package org.slc.sli.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +17,12 @@ import org.bson.BasicBSONObject;
  * @author Dong Liu dliu@wgen.net
  *
  */
-public class MongoEntity implements Entity {
+public class MongoEntity implements Entity, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3661562228274704762L;
 
     private final String type;
 
