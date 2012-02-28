@@ -1,10 +1,12 @@
 require_relative '../../../../utils/sli_utils.rb'
-Given /^I am testing the '(\w+)' entity$/ do |type| @entity_type = type end
+Given /^I am testing the '(\w+)' entity$/ do |type| 
+  @entity_type = type 
+end
 
 When /^I POST a new entity$/ do
   @result = EntityProvider.get_new_entity(@entity_type)
   uri = EntityProvider.get_entity_uri(@entity_type)
-  step "I navigate to POST \"#{uri}\""
+  step "I POST the entity to \"#{uri}\""
 end
 
 Then /^I should receive a new entity ID$/ do
@@ -44,7 +46,7 @@ And /^I PUT the updated entity$/ do
   id = @update_entity["id"]
   uri = EntityProvider.get_entity_uri(@entity_type)
   @result = @update_entity
-  step "I navigate to PUT \"#{uri}/#{id}\""
+  step "I POST the entity to \"#{uri}/#{id}\""
 end
 
 Then /^the response should contain the updated fields$/ do
