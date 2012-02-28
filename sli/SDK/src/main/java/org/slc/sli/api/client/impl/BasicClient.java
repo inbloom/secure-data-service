@@ -4,14 +4,19 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.ClientResponse;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
+import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.Query;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.URLBuilder;
+import org.slc.sli.api.client.impl.transform.BasicLinkJsonTypeAdapter;
+import org.slc.sli.api.client.impl.transform.GenericEntityFromJson;
+import org.slc.sli.api.client.impl.transform.GenericEntityToJson;
 
 /**
  * Class defining the methods available to SLI API client applications. The BasicClient
@@ -21,6 +26,9 @@ import org.slc.sli.api.client.URLBuilder;
  * @author asaarela
  */
 public final class BasicClient implements SLIClient {
+    
+    private RESTClient restClient;
+    private Gson gson = null;
     
     /**
      * SLIClientBuilder Builder for an BasicClient instance.
@@ -100,9 +108,6 @@ public final class BasicClient implements SLIClient {
         }
     }
     
-    private RESTClient restClient;
-    private final Gson gson = new Gson();
-    
     /**
      * CRUD operations
      */
@@ -117,7 +122,7 @@ public final class BasicClient implements SLIClient {
     public EntityCollection read(final EntityType type, final String id, final Query query)
             throws MalformedURLException, URISyntaxException {
         
-        EntityCollection rval = new EntityCollection();
+        Entity rval = null;
         
         // build the URL
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
@@ -128,8 +133,11 @@ public final class BasicClient implements SLIClient {
         
         String response = restClient.getRequest(builder.build());
         
-        rval = gson.fromJson(response, EntityCollection.class);
-        return rval;
+        rval = gson.fromJson(response, Entity.class);
+        
+        EntityCollection r = new EntityCollection();
+        r.add(rval);
+        return r;
     }
     
     @Override
@@ -161,10 +169,15 @@ public final class BasicClient implements SLIClient {
      * Don't allow direct instantiation of BasicClient instances; use the builder instead.
      */
     private BasicClient() {
+        gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
+                .registerTypeAdapter(Entity.class, new GenericEntityToJson())
+                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter())
+                .create();
     }
     
     private BasicClient(final String host, final int port, final String user, final String password,
             final String realm) {
+        this();
         connect(host, port, user, password, realm);
     }
     

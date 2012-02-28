@@ -31,7 +31,6 @@ import org.slc.sli.domain.MongoEntity;
 public class MockRepo implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
-    private static String[] reservedQueryKeys = { "start-index", "max-results", "query" };
     
     public MockRepo() {
         setup();
@@ -78,15 +77,15 @@ public class MockRepo implements EntityRepository {
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
-
+    
     @Override
     public Entity find(String collectionName, Map<String, String> queryParameters) {
         return find(collectionName, queryParameters.get("_id"));
     }
-
+    
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-        return null;
+        return findByFields(collectionName, queryParameters, 0, 10);
     }
     
     @Override
@@ -188,16 +187,15 @@ public class MockRepo implements EntityRepository {
     public long count(String collectionName, Query query) {
         return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();
     }
-
-    private Iterable<Entity> findByFields(String entityType, String queryString, Map<String, Integer> sortKeyOrderMap,
+    
+    private Iterable<Entity> findByFields(String entityType, Query query, Map<String, Integer> sortKeyOrderMap,
             int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        Map<String[], String> queryMap = stringToQuery(queryString);
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
                 try {
-                    if (matchQueries(entity, queryMap)) {
+                    if (matchQueries(entity, query)) {
                         toReturn.add(entity);
                     }
                 } catch (Exception e) {
@@ -212,145 +210,63 @@ public class MockRepo implements EntityRepository {
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
     
-    private Map<String[], String> stringToQuery(String queryString) {
-        Map<String[], String> queryMap = new HashMap<String[], String>();
-        if (queryString != null) {
-            String[] queryStrings = queryString.split("&");
-            for (String query : queryStrings) {
-                if (!isReservedQueryKey(query) && !query.trim().isEmpty()) {
-                    if (query.contains(">=")) {
-                        String[] keyAndValue = getKeyAndValue(query, ">=");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, ">=");
-                        }
-                    } else if (query.contains("<=")) {
-                        String[] keyAndValue = getKeyAndValue(query, "<=");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, "<=");
-                        }
-                    } else if (query.contains("!=")) {
-                        String[] keyAndValue = getKeyAndValue(query, "!=");
-                        if (keyAndValue != null)
-                            queryMap.put(keyAndValue, "!=");
-                    } else if (query.contains("=")) {
-                        String[] keyAndValue = getKeyAndValue(query, "=");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, "=");
-                        }
-                        
-                    } else if (query.contains("<")) {
-                        String[] keyAndValue = getKeyAndValue(query, "<");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, "<");
-                        }
-                        
-                    } else if (query.contains(">")) {
-                        String[] keyAndValue = getKeyAndValue(query, ">");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, ">");
-                        }
-                    } else if (query.contains("$in")) {
-                        String[] keyAndValue = getKeyAndValue(query, "$in");
-                        if (keyAndValue != null) {
-                            queryMap.put(keyAndValue, "$in");
-                        }
-                    } else {
-                        throw new RuntimeException("Unhandled query: " + query);
-                    }
+    private boolean matchQueries(Entity entity, Query query) throws Exception {
+        if (query != null) {
+            DBObject queryObject = query.getQueryObject();
+            for (String rawKey : queryObject.keySet()) {
+                if (!matches(entity, queryObject, rawKey)) {
+                    return false;
                 }
             }
         }
-        return queryMap;
+        return true;
     }
     
-    private boolean isReservedQueryKey(String queryString) {
-        boolean found = false;
-        for (String key : reservedQueryKeys) {
-            if (queryString.indexOf(key) >= 0) {
-                found = true;
-            }
+    private boolean matches(Entity entity, DBObject queryObject, String rawKey) throws Exception {
+        boolean isId = rawKey.equals("_id");
+        String key = isId ? "_id" : rawKey.substring("body.".length());
+        if (!(isId || entity.getBody().containsKey(key))) {
+            return false;
         }
-        return found;
-    }
-    
-    private String[] getKeyAndValue(String queryString, String operator) {
-        if (operator.equals("$in")) {
-            operator = "\\$in";
-        }
-        String[] keyAndValue = queryString.split(operator, 2);
-        if (keyAndValue.length != 2) {
-            return null;
-        } else {
-            return keyAndValue;
-        }
-    }
-    
-    private boolean matchQueries(Entity entity, Map<String[], String> queryMap) throws Exception {
-        for (Entry<String[], String> keyAndValueEntries : queryMap.entrySet()) {
-            String[] keyAndValue = keyAndValueEntries.getKey();
-            String key = keyAndValue[0];
-            String value = keyAndValue[1];
-            String operator = keyAndValueEntries.getValue();
-            if (operator.equals(">=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) >= 0))) {
-                    return false;
-                }
-            } else if (operator.equals("<=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) <= 0))) {
-                    return false;
-                }
-            } else if (operator.equals("!=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) != 0))) {
-                    return false;
-                }
-            } else if (operator.equals("=")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) == 0))) {
-                    return false;
-                }
-            } else if (operator.equals("<")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) < 0))) {
-                    return false;
-                }
-            } else if (operator.equals(">")) {
-                if ((!entity.getBody().containsKey(key)) || (!(compareToValue(entity.getBody().get(key), value) > 0))) {
-                    return false;
-                }
+        Object bigValue = queryObject.get(rawKey);
+        String entityId = entity.getEntityId();
+        Object entityValue = isId ? entityId : entity.getBody().get(key);
+        if (bigValue instanceof DBObject) {
+            @SuppressWarnings("unchecked")
+            Entry<String, ?> opValue = (Entry<String, ?>) ((DBObject) bigValue).toMap().entrySet().iterator().next();
+            String operator = opValue.getKey();
+            Object rawValue = opValue.getValue();
+            String value = rawValue.toString();
+            if (operator.equals("$gte")) {
+                return compareToValue(entityValue, value) >= 0;
+            } else if (operator.equals("$lte")) {
+                return compareToValue(entityValue, value) <= 0;
+            } else if (operator.equals("$ne")) {
+                return compareToValue(entityValue, value) != 0;
+            } else if (operator.equals("$lt")) {
+                return compareToValue(entityValue, value) < 0;
+            } else if (operator.equals("$gt")) {
+                return compareToValue(entityValue, value) > 0;
             } else if (operator.equals("$in")) {
                 boolean match = false;
-                if ("_id".equals(key)) {
-                    String[] ids = value.split(":");
-                    if (ids != null) {
-                        for (String id : ids) {
-                            if (id.equals(entity.getEntityId())) {
-                                match = true;
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    if (!entity.getBody().containsKey(key)) {
-                        match = false;
-                    } else {
-                        String entityValue = (String) entity.getBody().get(key);
-                        String[] values = value.split(":");
-                        if (values != null) {
-                            for (String v : values) {
-                                if (v.equals(entityValue)) {
-                                    match = true;
-                                    break;
-                                }
-                            }
+                Object[] values = (Object[]) rawValue;
+                if (values != null) {
+                    for (Object v : values) {
+                        if (v.toString().equals(entityValue.toString())) {
+                            return true;
                         }
                     }
                 }
                 if (!match) {
                     return false;
                 }
+            } else if (operator.equals("$regex")) {
+                return ((String) entityValue).matches(value);
             } else {
                 throw new RuntimeException("Unhandled query operator: " + operator);
             }
         }
-        return true;
+        return compareToValue(entityValue, bigValue.toString()) == 0;
     }
     
     private int compareToValue(Object entityValue, String value) throws Exception {
@@ -365,95 +281,8 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
-        String queryString = queryToString(query);
         Map<String, Integer> sortKeyOrderMap = getSortKeyOrderMap(query);
-        return findByFields(entityType, queryString, sortKeyOrderMap, skip, max);
-    }
-    
-    private String queryToString(Query query) {
-        String queryString = "";
-        if (query != null) {
-            DBObject queryObject = query.getQueryObject();
-            for (String key : queryObject.keySet()) {
-                if (queryObject.get(key) instanceof String) {
-                    if (queryString.equals("")) {
-                        queryString = key.replaceFirst("body.", "") + "=" + (String) queryObject.get(key);
-                    } else {
-                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
-                                + (String) queryObject.get(key);
-                    }
-                } else if (queryObject.get(key) instanceof Integer) {
-                    if (queryString.equals("")) {
-                        queryString = key.replaceFirst("body.", "") + "=" + ((Integer) queryObject.get(key)).toString();
-                    } else {
-                        queryString = queryString + "&" + key.replaceFirst("body.", "") + "="
-                                + ((Integer) queryObject.get(key)).toString();
-                    }
-                } else if (queryObject.get(key) instanceof DBObject) {
-                    queryString = addQueryToString(queryString, (DBObject) queryObject.get(key), key);
-                }
-            }
-            
-        }
-        return queryString;
-    }
-    
-    private String addQueryToString(String queryString, DBObject dbObject, String key) {
-        if (dbObject.containsField("$gt")) {
-            if (queryString.equals("")) {
-                queryString = key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
-            } else {
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + ">" + dbObject.get("$gt");
-            }
-            
-        } else if (dbObject.containsField("$lt")) {
-            
-            if (queryString.equals("")) {
-                queryString = key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-            } else {
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<" + dbObject.get("$lt");
-            }
-            
-        } else if (dbObject.containsField("$gte")) {
-            if (queryString.equals("")) {
-                queryString = key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
-            } else {
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + ">=" + dbObject.get("$gte");
-            }
-            
-        } else if (dbObject.containsField("$lte")) {
-            if (queryString.equals("")) {
-                queryString = key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
-            } else {
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + "<=" + dbObject.get("$lte");
-            }
-            
-        } else if (dbObject.containsField("$ne")) {
-            if (queryString.equals("")) {
-                queryString = key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
-            } else {
-                queryString = queryString + "&" + key.replaceFirst("body.", "") + "!=" + dbObject.get("$ne");
-            }
-        } else if (dbObject.containsField("$in")) {
-            if (!queryString.equals("")) {
-                queryString = queryString + "&";
-            }
-            StringBuilder sb = new StringBuilder();
-            if (!(dbObject.get("$in") instanceof Object[])) {
-                throw new RuntimeException("Unknown $in type: " + dbObject.get("$in"));
-            }
-            Object[] set = (Object[]) dbObject.get("$in");
-            for (int i = 0; i < set.length; i++) {
-                if (i > 0) {
-                    sb.append(":");
-                }
-                sb.append(set[i]);
-            }
-            queryString = queryString + key.replaceFirst("body.", "") + "$in" + sb.toString();
-        } else {
-            throw new RuntimeException("Unhandled query type: " + key + " " + dbObject);
-        }
-        return queryString;
+        return findByFields(entityType, query, sortKeyOrderMap, skip, max);
     }
     
     private String generateId() {
@@ -496,6 +325,7 @@ public class MockRepo implements EntityRepository {
             this.sortKeyOrderMap = sortKeyOrderMap;
         }
         
+        @SuppressWarnings("unchecked")
         @Override
         public int compare(Entity entity1, Entity entity2) {
             for (String sortKey : sortKeyOrderMap.keySet()) {
@@ -509,8 +339,8 @@ public class MockRepo implements EntityRepository {
                     if (key.equals("body")) {
                         continue;
                     } else if (map1.get(key) instanceof Map && map2.get(key) instanceof Map) {
-                        map1 = (Map) map1.get(key);
-                        map2 = (Map) map2.get(key);
+                        map1 = (Map<String, Object>) map1.get(key);
+                        map2 = (Map<String, Object>) map2.get(key);
                     } else {
                         value1 = map1.get(key);
                         value2 = map2.get(key);
