@@ -46,7 +46,7 @@ And /^I PUT the updated entity$/ do
   id = @update_entity["id"]
   uri = EntityProvider.get_entity_uri(@entity_type)
   @result = @update_entity
-  step "I POST the entity to \"#{uri}/#{id}\""
+  step "I PUT the entity to \"#{uri}/#{id}\""
 end
 
 Then /^the response should contain the updated fields$/ do
