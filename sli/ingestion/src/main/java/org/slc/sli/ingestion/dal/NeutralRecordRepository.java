@@ -10,7 +10,6 @@ import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -29,8 +28,15 @@ import org.slc.sli.ingestion.NeutralRecord;
 public class NeutralRecordRepository {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
-    @Autowired
     private MongoTemplate template;
+
+    public void setTemplate(MongoTemplate template) {
+        this.template = template;
+    }
+
+    public MongoTemplate getTemplate() {
+        return this.template;
+    }
 
     public NeutralRecord find(String collection, String id) {
         LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
@@ -141,8 +147,8 @@ public class NeutralRecordRepository {
             return false;
 
         String collection = neutralRecord.getRecordType();
-        NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)),
-                NeutralRecord.class, collection);
+        NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class,
+                collection);
         if (found != null) {
             template.save(neutralRecord, collection);
         }
@@ -165,8 +171,8 @@ public class NeutralRecordRepository {
     public boolean delete(String collection, String id) {
         if (id.equals(""))
             return false;
-        NeutralRecord deleted = template.findAndRemove(
-                new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class, collection);
+        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where("body.localId").is(id)),
+                NeutralRecord.class, collection);
         LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
         return deleted != null;
     }

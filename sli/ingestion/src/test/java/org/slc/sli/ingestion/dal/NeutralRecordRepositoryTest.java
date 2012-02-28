@@ -22,7 +22,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
 /**
  * JUnits for testing the NeutralRecordRepository class.
