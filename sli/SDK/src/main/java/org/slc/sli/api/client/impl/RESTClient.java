@@ -289,7 +289,7 @@ public class RESTClient {
     public void openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
-        apiServerUri = new String("http://" + host + ":" + port + "/" + Constants.API_SERVER_PATH);
+        apiServerUri = "http://" + host + ":" + port + "/" + Constants.API_SERVER_PATH;
         
         // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from LuckyStrike.
         // For now generate a token via a Rest Console in a web browser and pass the resulting token
