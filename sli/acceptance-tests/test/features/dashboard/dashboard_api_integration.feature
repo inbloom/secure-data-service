@@ -9,7 +9,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "New York Realm " and click go
 When I login as "mario.sanchez" "mario.sanchez1234"
-Then I should be redirected to the app selection page
+Then I should be redirected to the Dashboard landing page
 When I click on the Dashboard page
 When I select ed org "No Ed-Org"
 When I select school "P.S. 5"

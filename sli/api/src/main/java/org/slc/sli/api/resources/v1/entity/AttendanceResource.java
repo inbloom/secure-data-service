@@ -30,35 +30,33 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Prototype new api end points and versioning
- * 
- * @author jstokes
- * 
+ * Attendance resource for v1
+ *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.COURSES)
+@Path(PathConstants.V1 + "/" + PathConstants.ATTENDANCES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class CourseResource {
-    
+public class AttendanceResource {
+
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AttendanceResource.class);
-    
+
     /*
-     * Interface capable of performing CRUD operations.
-     */
+    * Interface capable of performing CRUD operations.
+    */
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public CourseResource(CrudEndpoint crudDelegate) {
+    public AttendanceResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
     }
 
     /**
-     * Returns all $$courses$$ entities for which the logged in User has permission and context.
-     * 
+     * Returns all $$attendance$$ entities for which the logged in User has permission and context.
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -72,16 +70,16 @@ public class CourseResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+                            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.COURSES, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.ATTENDANCES, headers, uriInfo);
     }
 
     /**
-     * Create a new $$courses$$ entity.
-     * 
+     * Create a new $$attendance$$ entity.
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -95,35 +93,35 @@ public class CourseResource {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.COURSES, newEntityBody, headers, uriInfo);
+    public Response create(final EntityBody newEntityBody,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.create(ResourceNames.ATTENDANCES, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$courses$$ entity
-     * 
-     * @param courseId
-     *            The Id of the $$courses$$.
+     * Get a single $$attendance$$ entity
+     *
+     * @param attendanceId
+     *            The Id of the $$attendance$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single course entity
+     * @return A single attendance entity
      */
     @GET
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.COURSES, courseId, headers, uriInfo);
+    public Response read(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,
+                         @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.ATTENDANCES, attendanceId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$courses$$ entity
-     * 
-     * @param courseId
-     *            The Id of the $$courses$$.
+     * Delete a $$attendance$$ entity
+     *
+     * @param attendanceId
+     *            The Id of the $$attendance$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -132,17 +130,17 @@ public class CourseResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.COURSES, courseId, headers, uriInfo);
+    @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.delete(ResourceNames.ATTENDANCES, attendanceId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$courses$$ entity.
-     * 
-     * @param courseId
-     *            The id of the $$courses$$.
+     * Update an existing $$attendance$$ entity.
+     *
+     * @param attendanceId
+     *            The id of the $$attendance$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -153,10 +151,10 @@ public class CourseResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
-    public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.COURSES, courseId, newEntityBody, headers, uriInfo);
+    @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
+    public Response update(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,
+                           final EntityBody newEntityBody,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.update(ResourceNames.ATTENDANCES, attendanceId, newEntityBody, headers, uriInfo);
     }
 }

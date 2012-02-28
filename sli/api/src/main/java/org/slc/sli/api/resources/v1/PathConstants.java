@@ -1,9 +1,9 @@
 package org.slc.sli.api.resources.v1;
 
+import org.slc.sli.api.config.ResourceNames;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slc.sli.api.config.ResourceNames;
 
 /**
  * Constants used in URI path requests.
@@ -22,11 +22,12 @@ public class PathConstants {
     public static final String SESSION_COURSE_ASSOCIATIONS = "sessionCourseAssociations";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessmentAssociations";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
-    public static final String STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
+    public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganizationAssociations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
-    
+
     public static final String ASSESSMENTS = "assessments";
+    public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";
@@ -57,7 +58,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.SESSION_COURSE_ASSOCIATIONS, SESSION_COURSE_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, STUDENT_ASSESSMENT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, STUDENT_SECTION_ASSOCIATIONS);
-        TEMP_MAP.put(ResourceNames.STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS, STAFF_EDUCATIONORGANIZATION_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, COURSE_SECTION_ASSOCIATIONS);
         
