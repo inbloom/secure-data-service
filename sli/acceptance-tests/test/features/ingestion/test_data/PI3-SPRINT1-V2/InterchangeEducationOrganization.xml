@@ -29,6 +29,14 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
+	<StateEducationAgencyReference>
+	  <EducationalOrgIdentity>
+		<StateOrganizationId>IL</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="SEA">
+		  <ID>IL</ID>
+		</EducationOrgIdentificationCode>
+	  </EducationalOrgIdentity>
+	</StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>IL-SUNSET</StateOrganizationId>
@@ -43,6 +51,14 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Charter</LEACategory>
+	<StateEducationAgencyReference>
+	  <EducationalOrgIdentity>
+		<StateOrganizationId>IL</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="SEA">
+		  <ID>IL</ID>
+		</EducationOrgIdentificationCode>
+	  </EducationalOrgIdentity>
+	</StateEducationAgencyReference>
   </LocalEducationAgency>
 
   <Course>
