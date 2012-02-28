@@ -336,7 +336,7 @@ module EntityProvider
 
   def self.get_new_entity(type)
     case type
-    when 'attendance'
+    when 'attendance', 'v1attendance'
       { 
         "attendanceEvent" =>  
         [
@@ -351,12 +351,14 @@ module EntityProvider
     case type
     when 'attendance'
       "/attendances"
+    when 'v1attendance'
+      "/v1/attendances"
     end
   end
 
   def self.get_existing_entity(type)
     case type
-    when 'attendance'
+    when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
         "attendanceEvent" =>  
@@ -370,7 +372,7 @@ module EntityProvider
 
   def self.get_updated_entity(type)
     case type
-    when 'attendance'
+    when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
         "attendanceEvent" =>  
