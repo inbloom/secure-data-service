@@ -1,6 +1,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -269,7 +270,14 @@ public class MongoEntityRepository implements EntityRepository {
         logResults(collectionName, results);
         return results;
     }
-    
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        Entity entity = this.template.findOne(query, Entity.class, collectionName);
+        logResults(collectionName, Arrays.asList(entity));
+        return entity;
+    }
+
     @Override
     public long count(String collectionName, Query query) {
         DBCollection collection = template.getCollection(collectionName);
@@ -320,9 +328,4 @@ public class MongoEntityRepository implements EntityRepository {
         return paths;
     }
 
-    @Override
-    public Entity findOne(String collectionName, Query query) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
