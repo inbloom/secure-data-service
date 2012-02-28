@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -36,6 +37,7 @@ public class SectionValidationTest {
     
     @Before
     public void init() {
+        repo.clean();
         repo.addEntity("school", "42", ValidationTestUtils.makeDummyEntity("school", "42"));
         repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
         repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
@@ -91,6 +93,16 @@ public class SectionValidationTest {
     public void testSectionValidation() {
         Entity goodSection = goodSection();
         assertTrue(validator.validate(goodSection));
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testBadSectionValidation() {
+        Entity goodSection = goodSection();
+        goodSection.getBody().put("schoolId", "INVALID");
+        goodSection.getBody().put("sessionId", "INVALID");
+        goodSection.getBody().put("courseId", "INVALID");
+        validator.validate(goodSection);
     }
     
     @Test

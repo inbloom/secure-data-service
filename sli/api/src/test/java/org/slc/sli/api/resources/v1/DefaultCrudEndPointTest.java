@@ -108,13 +108,12 @@ public class DefaultCrudEndPointTest {
         for (String resource : resourceList) {
             Response response = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-            
-            String id = parseIdFromLocation(response);
-            assertNotNull("ID should not be null", id);
+            assertNotNull("ID should not be null", parseIdFromLocation(response));
         }
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testReadMultipleResources() {
         for (String resource : resourceList) {
             Response response = crudEndPoint.read(resource, getIDList(resource), httpHeaders, uriInfo);
@@ -130,12 +129,13 @@ public class DefaultCrudEndPointTest {
             
             EntityBody body2 = results.get(1);
             assertNotNull("Should not be null", body2);
-            assertEquals("studentUniqueStateId should be 1234", body2.get("studentUniqueStateId"), 5678);
+            assertEquals("studentUniqueStateId should be 5678", body2.get("studentUniqueStateId"), 5678);
             assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
         }
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testReadResourceFromKey() {
         for (String resource : resourceList) {
             //create one entity
@@ -148,6 +148,7 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
             //create one entity
@@ -189,6 +190,7 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testReadAll() {
         for (String resource : resourceList) {
             //create one entity
@@ -230,14 +232,15 @@ public class DefaultCrudEndPointTest {
         
         Map<String, String> map = crudEndPoint.createAssociationQueryParameters(resMap, key, value, includeField);
         
-        assertEquals("", map.size(), 4);
-        assertEquals("", map.get("someKey"), "someValue");
-        assertEquals("", map.get("limit"), "10");
-        assertEquals("", map.get("offset"), "2");
-        assertEquals("", map.get("includeFields"), "field1");
+        assertEquals("Size should be 4", map.size(), 4);
+        assertEquals("key==value", map.get("someKey"), "someValue");
+        assertEquals("limit should be 10", map.get("limit"), "10");
+        assertEquals("offset should be 2", map.get("offset"), "2");
+        assertEquals("includeField should be field1", map.get("includeFields"), "field1");
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testReadEndPoint() {
         Map<String, Object> schoolEntity = new HashMap<String, Object>();
         schoolEntity.put("field1", "3");

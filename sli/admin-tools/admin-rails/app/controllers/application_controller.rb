@@ -1,7 +1,7 @@
 require "active_resource/base"
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+ # protect_from_forgery
   before_filter :handle_oauth
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
