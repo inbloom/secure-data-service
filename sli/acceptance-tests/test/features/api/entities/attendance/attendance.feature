@@ -1,4 +1,3 @@
-@wip
 Feature: As an SLI application, I want to be able to perform CRUD on attendance.
 
 Background: Logged in as a super-user and using the small data set
@@ -22,12 +21,20 @@ Scenario: Update an existing entity
   Then the response should contain the expected entity
   When I update fields in the existing entity
   And I PUT the updated entity
+  Then I should receive a return code of 204
   When I GET the existing entity
   Then the response should contain the updated fields
 
 Scenario: Delete an existing entity
   When I DELETE an existing entity
   Then I should receive a return code of 204
-  When I GET the deleted entity
+  When I GET the existing entity
   Then I should receive a return code of 404
+
+# negative tests TODO
+# make test with bad references, should fail to post and put
+# make entity with bad fields, should fail to post and put
+# get an entitiy that doesn't exist
+# update an entity that doesn't exist
+# access incorrect root, expect 404
 
