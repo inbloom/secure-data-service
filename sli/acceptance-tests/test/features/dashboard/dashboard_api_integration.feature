@@ -14,4 +14,5 @@ When I select ed org "No Ed-Org"
 When I select school "Daybreak High School"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec3"
+And I wait for "2" seconds
 Then The students who have an ELL lozenge exist in the API
