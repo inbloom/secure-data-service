@@ -34,6 +34,7 @@ public class StudentSectionAssociationTest {
     
     @Before
     public void init() {
+        repo.clean();
         repo.addEntity("student", "Calvin", makeDummyEntity("student", "Calvin"));
         repo.addEntity("section", "Math Class", makeDummyEntity("section", "Math Class"));
     }
