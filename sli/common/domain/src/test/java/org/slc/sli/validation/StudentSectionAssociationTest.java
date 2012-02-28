@@ -3,7 +3,6 @@ package org.slc.sli.validation;
 import static org.junit.Assert.assertTrue;
 import static org.slc.sli.validation.ValidationTestUtils.makeDummyEntity;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,7 @@ import org.slc.sli.domain.Entity;
  * @author nbrown
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSectionAssociationTest {
 
     @Autowired
