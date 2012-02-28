@@ -7,16 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EntityConfigParser {
-    private Map<String, String> sectionPairs = new HashMap<String, String>();
+    private Map<String, String> sectionPairs = new LinkedHashMap<String, String>();
     private EdFiEntity edfiEntity = new EdFiEntity();
 
-    private Pattern sectionPattern = Pattern.compile("#{3,}(\\w+)#{3,}\\s*");
+    private Map<String, EmbeddedElement> allElements = new HashMap<String, EmbeddedElement>();
+
+    private Pattern sectionPattern = Pattern.compile("\\s*#{3,}(\\w+)#{3,}\\s*");
 
     private Pattern template = Pattern.compile("(.*)Template");
     private Pattern query = Pattern.compile("(.*)Query");
@@ -42,8 +45,10 @@ public class EntityConfigParser {
     public EdFiEntity parse(String filename) {
         this.getPartNamesAndStrings(filename);
         this.generateEdFiEntityConfig();
-        this.generatePlaceholders();
-        return edfiEntity;
+        if (this.validateConfig())
+            return null;
+        else
+            return edfiEntity;
     }
 
     public void getPartNamesAndStrings(String filename) {
@@ -94,6 +99,9 @@ public class EntityConfigParser {
     }
 
     public void generateEdFiEntityConfig() {
+        allElements.put("main", this.edfiEntity);
+
+        this.edfiEntity.name = "main";
 
         for (String sectionName : this.sectionPairs.keySet()) {
             if (sectionName.equals("begin")) {
@@ -101,32 +109,71 @@ public class EntityConfigParser {
             } else if (sectionName.equals("end")) {
                 this.edfiEntity.end = this.sectionPairs.get(sectionName);
             } else if (sectionName.equals("mainTemplate")) {
-                this.edfiEntity.mainTemplate = this.sectionPairs.get(sectionName);
+                this.edfiEntity.template = this.sectionPairs.get(sectionName);
+                parseTemplate(this.edfiEntity.template, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedPlaceholders);
             } else if (sectionName.equals("mainQuery")) {
-                this.edfiEntity.mainQuery = this.sectionPairs.get(sectionName);
+                this.edfiEntity.query = this.sectionPairs.get(sectionName);
+                parseQuery(this.edfiEntity.query, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
             } else {
                 Matcher templateMatcher = template.matcher(sectionName);
                 if (templateMatcher.find()) {
                     String name = templateMatcher.group(1);
-                    if (this.edfiEntity.EmbeddedElements.containsKey(name)) {
-                        this.edfiEntity.EmbeddedElements.get(name).template = this.sectionPairs.get(sectionName);
-                    } else {
-                        EmbeddedElement embedded = new EmbeddedElement();
+
+                    EmbeddedElement embedded;
+                    if (!this.allElements.containsKey(name)) {
+                        embedded = new EmbeddedElement();
                         embedded.name = name;
-                        embedded.template = this.sectionPairs.get(sectionName);
-                        this.edfiEntity.EmbeddedElements.put(name, embedded);
+                        this.allElements.put(name, embedded);
+                    } else {
+                        embedded = this.allElements.get(name);
                     }
+
+                    embedded.template = this.sectionPairs.get(sectionName);
+
+                    parseTemplate(embedded.template, embedded.valuePlaceholders, embedded.embeddedPlaceholders);
+
+                    EmbeddedElement parent = null;
+
+                    for (EmbeddedElement temp : this.allElements.values()) {
+                        if (temp.embeddedPlaceholders.contains(name))
+                            parent = temp;
+                    }
+
+//                    System.out.println("template: " + name);
+
+                    if(!parent.embeddedElementMap.containsKey(name)) {
+                        parent.embeddedElementMap.put(name, embedded);
+                    }
+
                 } else {
                     Matcher queryMatcher = query.matcher(sectionName);
                     if (queryMatcher.find()) {
                         String name = queryMatcher.group(1);
-                        if (this.edfiEntity.EmbeddedElements.containsKey(name)) {
-                            this.edfiEntity.EmbeddedElements.get(name).query = this.sectionPairs.get(sectionName);
-                        } else {
-                            EmbeddedElement embedded = new EmbeddedElement();
+
+                        EmbeddedElement embedded;
+                        if (!this.allElements.containsKey(name)) {
+                            embedded = new EmbeddedElement();
                             embedded.name = name;
-                            embedded.query = this.sectionPairs.get(sectionName);
-                            this.edfiEntity.EmbeddedElements.put(name, embedded);
+                            this.allElements.put(name, embedded);
+                        } else {
+                            embedded = this.allElements.get(name);
+                        }
+
+                        embedded.query = this.sectionPairs.get(sectionName);
+
+                        parseQuery(embedded.query, embedded.columnNames, embedded.joinKeys);
+
+                        EmbeddedElement parent = null;
+
+//                        System.out.println("query: " + name);
+
+                        for (EmbeddedElement temp : this.allElements.values()) {
+                            if (temp.embeddedPlaceholders.contains(name))
+                                parent = temp;
+                        }
+
+                        if(!parent.embeddedElementMap.containsKey(name)) {
+                            parent.embeddedElementMap.put(name, embedded);
                         }
                     }
                 }
@@ -136,21 +183,21 @@ public class EntityConfigParser {
         return;
     }
 
-    public void generatePlaceholders() {
-        parseTemplate(this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedElementPlaceholders);
-
-        parseQuery(this.edfiEntity.mainQuery, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
-
-        for (String elementName : this.edfiEntity.EmbeddedElements.keySet()) {
-            EmbeddedElement element = this.edfiEntity.EmbeddedElements.get(elementName);
-            parseTemplate(element.template, element.valuePlaceholders, element.embeddedPlaceholders);
-            parseQuery(element.query, element.columnNames, element.joinKeys);
-        }
-
-//        System.out.println(this.edfiEntity.embeddedElementPlaceholders.size());
-//        System.out.println(this.edfiEntity.EmbeddedElements.keySet().size());
-        return;
-    }
+//    public void generatePlaceholders() {
+////        parseTemplate(this.edfiEntity.template, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedPlaceholders);
+//
+////        parseQuery(this.edfiEntity.query, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
+//
+////        for (String elementName : this.edfiEntity.embeddedElementMap.keySet()) {
+////            EmbeddedElement element = this.edfiEntity.embeddedElementMap.get(elementName);
+////            parseTemplate(element.template, element.valuePlaceholders, element.embeddedPlaceholders);
+////            parseQuery(element.query, element.columnNames, element.joinKeys);
+////        }
+//
+////        System.out.println(this.edfiEntity.embeddedElementPlaceholders.size());
+////        System.out.println(this.edfiEntity.EmbeddedElements.keySet().size());
+//        return;
+//    }
 
     private void parseTemplate(String template, List<String> valueHolders, List<String> embeddedHolders) {
         Matcher valuePlaceholderMatcher = valuePlaceholderPattern.matcher(template);
@@ -217,5 +264,30 @@ public class EntityConfigParser {
             }
         }
 
+    }
+
+    private boolean validateConfig() {
+        boolean foundError = false;
+        for (EmbeddedElement element : this.allElements.values()) {
+            // values vs. columns
+            for (String valueName : element.valuePlaceholders) {
+                if (!element.columnNames.contains(valueName)) {
+                    foundError = true;
+                    System.err.println("Section name: " + element.name + "\tMissing value: " + valueName);
+                }
+            }
+
+            // embeddedPlaceHolders vs. embeddedElements
+            for (String embeddedPlaceHolder : element.embeddedPlaceholders) {
+                if (!element.embeddedElementMap.containsKey(embeddedPlaceHolder)) {
+                    foundError = true;
+                    System.err.println("Section name: " + element.name + "\tMissing embedded section: " + embeddedPlaceHolder);
+                }
+            }
+
+            // joinKeys
+            //for (String )
+        }
+        return foundError;
     }
 }

@@ -19,8 +19,8 @@ public class EdFiEntityXMLGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/Course.config";
-        String output = "/Users/yzhang/Documents/Course.xml";
+        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/teacher.config";
+        String output = "/Users/yzhang/Documents/teacher.xml";
 
         if (args.length != 2) {
             System.out
@@ -41,23 +41,27 @@ public class EdFiEntityXMLGenerator {
     }
 
     public void generateXML(String filename) {
+        if (this.edfiEntity == null) {
+            System.err.println("Config file contains errors, could not generate xml file!");
+            return;
+        }
+
         try {
             xmlOut = new PrintWriter(new FileWriter(filename));
             getMains();
             xmlOut.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     private void getData() {
         Connection conn = Utility.getConnection();
-        ResultSet mainResultSet = Utility.getResultSet(conn, this.edfiEntity.mainQuery);
+        ResultSet mainResultSet = Utility.getResultSet(conn, this.edfiEntity.query);
         dataResultSets.put("main", mainResultSet);
 
-        for (String embededElementName : this.edfiEntity.EmbeddedElements.keySet()) {
-            EmbeddedElement ee = this.edfiEntity.EmbeddedElements.get(embededElementName);
+        for (String embededElementName : this.edfiEntity.embeddedElementMap.keySet()) {
+            EmbeddedElement ee = this.edfiEntity.embeddedElementMap.get(embededElementName);
             ResultSet embeddedResultSet = Utility.getResultSet(conn, ee.query);
             dataResultSets.put(ee.name, embeddedResultSet);
         }
@@ -65,16 +69,16 @@ public class EdFiEntityXMLGenerator {
 
     private void getMain() {
         String mainXML = Utility.generateXMLbasedOnTemplate(this.dataResultSets.get("main"),
-                this.edfiEntity.mainTemplate, this.edfiEntity.valuePlaceholders);
+                this.edfiEntity.template, this.edfiEntity.valuePlaceholders);
 
-        for (String embeddedName : this.edfiEntity.embeddedElementPlaceholders) {
+        for (String embeddedName : this.edfiEntity.embeddedPlaceholders) {
 
             ResultSet parentResultSet = this.dataResultSets.get("main");
-            EmbeddedElement embeddedElement = this.edfiEntity.EmbeddedElements.get(embeddedName);
+            EmbeddedElement embeddedElement = this.edfiEntity.embeddedElementMap.get(embeddedName);
 
             String embeddedXML = this.getEmbeddedXML(parentResultSet, embeddedElement);
 
-            mainXML = Utility.replace(mainXML, "==" + embeddedName + "==\n", embeddedXML);
+            mainXML = Utility.replace(mainXML, "==" + embeddedName + "==\\s*\n", embeddedXML);
         }
 
         xmlOut.print(mainXML);

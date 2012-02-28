@@ -58,6 +58,7 @@ public class Utility {
     public static ResultSet getResultSet(Connection conn, String query) {
         ResultSet rs = null;
         try {
+            System.out.println(query);
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (!rs.next())

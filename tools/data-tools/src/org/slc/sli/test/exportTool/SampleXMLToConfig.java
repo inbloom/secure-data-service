@@ -28,6 +28,12 @@ public class SampleXMLToConfig {
      * @param args
      */
     public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out
+                    .println("Usage:\njava -classpath . org.slc.sli.test.exportTool.SampleXMLToConfig ../entity-configurations/course.sample course.config");
+            return;
+        }
+
         String input = args[0];
         String output = args[1];
 
