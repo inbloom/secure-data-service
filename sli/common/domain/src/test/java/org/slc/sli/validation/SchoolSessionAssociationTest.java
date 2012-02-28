@@ -1,10 +1,6 @@
 package org.slc.sli.validation;
 
-import static org.junit.Assert.assertTrue;
-import static org.slc.sli.validation.ValidationTestUtils.makeDummyEntity;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.slc.sli.domain.Entity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +10,11 @@ import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.Entity;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
+import static org.slc.sli.validation.ValidationTestUtils.makeDummyEntity;
 
 /**
  * Test for validation of Student Section associations
@@ -23,7 +23,7 @@ import org.slc.sli.domain.Entity;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class StudentSectionAssociationTest {
+public class SchoolSessionAssociationTest {
 
     @Autowired
     private EntityValidator validator;
@@ -34,23 +34,29 @@ public class StudentSectionAssociationTest {
     @Before
     public void init() {
         repo.clean();
-        repo.addEntity("student", "Calvin", makeDummyEntity("student", "Calvin"));
-        repo.addEntity("section", "Math Class", makeDummyEntity("section", "Math Class"));
+        repo.addEntity("school", "A school", makeDummyEntity("school", "A school"));
+        repo.addEntity("session", "A session", makeDummyEntity("session", "A session"));
     }
 
     private Entity goodAssociation() {
-        final Map<String, Object> goodSection = new HashMap<String, Object>();
-        goodSection.put("studentId", "Calvin");
-        goodSection.put("sectionId", "Math Class");
-        goodSection.put("beginDate", "1985-11-18");
-        goodSection.put("endDate", "1995-12-31");
-        goodSection.put("homeroomIndicator", true);
-        goodSection.put("repeatIdentifier", "Repeated, not counted in grade point average");
+        final Map<String, Object> goodAssociation = new HashMap<String, Object>();
+        goodAssociation.put("schoolId", "A school");
+        goodAssociation.put("sessionId", "A session");
+
+        final Map<String, Object> gradingPeriod = new HashMap<String, Object>();
+
+        gradingPeriod.put("gradingPeriod", "Third Nine Weeks");
+        gradingPeriod.put("beginDate", "2011-09-01");
+        gradingPeriod.put("endDate", "2011-10-31");
+        gradingPeriod.put("totalInstructionalDays", 45);
+
+        goodAssociation.put("gradingPeriod", gradingPeriod);
+
         return new Entity() {
 
             @Override
             public String getType() {
-                return "studentSectionAssociation";
+                return "schoolSessionAssociation";
             }
 
             @Override
@@ -60,7 +66,7 @@ public class StudentSectionAssociationTest {
 
             @Override
             public Map<String, Object> getBody() {
-                return goodSection;
+                return goodAssociation;
             }
 
             @Override
@@ -80,8 +86,8 @@ public class StudentSectionAssociationTest {
     @ExpectedException(value = EntityValidationException.class)
     public void testInvalidStudentSectionAssociation() {
         Entity goodAssociation = goodAssociation();
-        goodAssociation.getBody().put("studentId", "INVALID");
-        goodAssociation.getBody().put("sectionId", "INVALID");
+        goodAssociation.getBody().put("schoolId", "INVALID");
+        goodAssociation.getBody().put("sessionId", "INVALID");
         validator.validate(goodAssociation);
     }
 

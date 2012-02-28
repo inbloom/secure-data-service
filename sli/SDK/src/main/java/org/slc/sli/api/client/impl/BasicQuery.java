@@ -1,5 +1,6 @@
 package org.slc.sli.api.client.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slc.sli.api.client.Query;
@@ -27,7 +28,7 @@ public class BasicQuery implements Query {
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
     public class Builder {
-        private Map<String, Object> params;
+        private final Map<String, Object> params = new HashMap<String, Object>();
         
         /**
          * Instantiate a new builder

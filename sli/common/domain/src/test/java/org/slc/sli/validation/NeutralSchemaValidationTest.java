@@ -1,7 +1,6 @@
 package org.slc.sli.validation;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,7 +32,7 @@ import org.slc.sli.validation.schema.NeutralSchemaValidator;
 public class NeutralSchemaValidationTest {
     @Autowired
     private EntityValidator validator;
-    
+
     @Autowired
     private SchemaRepository schemaRepo;
     
@@ -41,12 +41,7 @@ public class NeutralSchemaValidationTest {
     
     @Before
     public void init() {
-        repo.addEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2",
-                ValidationTestUtils.makeDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2"));
-        repo.addEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-                ValidationTestUtils.makeDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e"));
-        repo.addEntity("course", "53777181-3519-4111-9210-529350429899",
-                ValidationTestUtils.makeDummyEntity("course", "53777181-3519-4111-9210-529350429899"));
+        repo.clean();
     }
 
     @SuppressWarnings("unchecked")
@@ -184,10 +179,14 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSection() throws Exception {
+        addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
+        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader("src/test/resources/section_fixture_neutral.json"));
@@ -203,10 +202,41 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
-    
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSection() throws Exception {
+        addDummyCollection("school");
+        addDummyCollection("session");
+        addDummyCollection("course");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("src/test/resources/section_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "section");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudentSectionAssociation() throws Exception {
+        addDummyEntity("section", "cb7a932f-2d44-800c-d574-cdb25a29fc76");
+        addDummyEntity("student", "2899a720-4196-6112-9874-edde0e2541db");
+        addDummyEntity("student", "9e6d1d73-a488-4311-877a-718b897a17c5");
+        addDummyEntity("student", "54c6548e-1196-86ca-ad5c-b8d72496bf78");
+        addDummyEntity("student", "a63ee073-cd6c-9a12-a124-fa6a1b4dfc7c");
+        addDummyEntity("student", "51dbb0cd-4f25-2d58-b587-5fac7605e4b3");
+        
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
@@ -223,7 +253,31 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
-    
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentSectionAssociation() throws Exception {
+        addDummyCollection("section");
+        addDummyCollection("student");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/student_section_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "studentSectionAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSectionAssessmentAssociation() throws Exception {
@@ -259,7 +313,16 @@ public class NeutralSchemaValidationTest {
             for (ValidationError err : ex.getValidationErrors()) {
                 System.err.println(err);
             }
-            fail();
+            throw ex;
         }
+    }
+
+    private void addDummyEntity(String collection, String id) {
+        repo.addEntity(collection, id,
+                ValidationTestUtils.makeDummyEntity(collection, id));
+    }
+
+    private void addDummyCollection(String collection) {
+        repo.addCollection(collection);
     }
 }
