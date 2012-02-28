@@ -8,12 +8,14 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
-  realm_select = @driver.find_element(:name=> "realmId")
+  
+ realm_select = @driver.find_element(:name=> "realmId")
+
   
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
-    if (e1 == arg1)
-      e1.select()
+    if (e1.text == arg1)
+      e1.click()
       break
     end
   end
