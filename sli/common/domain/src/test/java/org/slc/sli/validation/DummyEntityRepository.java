@@ -22,6 +22,10 @@ public class DummyEntityRepository implements EntityRepository {
     
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
     
+    public void clean() {
+        entities = new HashMap<String, Map<String, Entity>>();
+    }
+    
     public void addEntity(String collection, String id, Entity entity) {
         if (!entities.containsKey(collection)) {
             entities.put(collection, new HashMap<String, Entity>());
