@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   def callback
     #TODO: disable redirects to other domains
-    redirect_to flash[:redirect]
+    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
     return
     if params[:state]
       redirectUrl = CGI::unescape(params[:state])
@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
     oauth = session[:oauth]
     if oauth == nil 
       oauth = Oauth.new()
+      oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
     if oauth.enabled
@@ -59,7 +60,6 @@ class ApplicationController < ActionController::Base
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
       else
-        flash[:redirect] = current_url
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
         redirect_to oauth.authorize_url  
       end

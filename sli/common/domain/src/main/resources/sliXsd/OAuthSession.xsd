@@ -10,8 +10,6 @@
 					minOccurs="1" maxOccurs="1" />
 				<xs:element name="userAuthn" type="userAuthentication"
 					minOccurs="1" maxOccurs="1" />
-				<xs:element name="samlMessageId" type="xs:string"
-					minOccurs="1" maxOccurs="1" />
 				<xs:element name="requestToken" type="xs:string"
 					minOccurs="1" maxOccurs="1" />
 				<xs:element name="accessToken" type="accessToken"
