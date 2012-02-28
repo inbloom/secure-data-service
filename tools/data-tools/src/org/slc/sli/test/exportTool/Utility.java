@@ -31,10 +31,8 @@ public class Utility {
             password = prop.getProperty("password");
 
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         propertiesLoaded = true;
@@ -60,12 +58,13 @@ public class Utility {
     public static ResultSet getResultSet(Connection conn, String query) {
         ResultSet rs = null;
         try {
+            System.out.println(query);
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (!rs.next())
                 rs = null;
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             rs = null;
         }
         return rs;
@@ -124,7 +123,8 @@ public class Utility {
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                //e.printStackTrace();
+                e.printStackTrace();
+                embeddedSet = null;
             }
         }
         if (!hasOne) {
@@ -142,6 +142,7 @@ public class Utility {
                     return false;
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
+                //e.printStackTrace();
                 return false;
             }
         }

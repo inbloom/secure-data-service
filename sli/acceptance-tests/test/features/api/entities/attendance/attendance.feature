@@ -1,3 +1,4 @@
+@crud
 Feature: As an SLI application, I want to be able to perform CRUD on attendance.
 
 Background: Logged in as a super-user and using the small data set
@@ -6,16 +7,19 @@ Background: Logged in as a super-user and using the small data set
   Given format "application/json"
   Given I am testing the 'attendance' entity
 
+@create
 Scenario: Create a new entity
   When I POST a new entity
   Then I should receive a new entity ID
   When I GET the new entity
   Then the response should match the POSTed entity
 
+@read
 Scenario: Read an entity by id
   When I GET an existing entity
   Then the response should contain the expected entity
 
+@update
 Scenario: Update an existing entity
   When I GET an existing entity
   Then the response should contain the expected entity
@@ -25,6 +29,7 @@ Scenario: Update an existing entity
   When I GET the existing entity
   Then the response should contain the updated fields
 
+@delete
 Scenario: Delete an existing entity
   When I DELETE an existing entity
   Then I should receive a return code of 204

@@ -77,55 +77,52 @@ public class StudentAssessmentEntityTest {
     private void checkValidStudentAssessmentNeutralRecord(
             NeutralRecord studentAssessmentNeutralRecord) {
         
-        assertEquals("studentAssessment", studentAssessmentNeutralRecord.getRecordType());
+        assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
         assertEquals("ID005", studentAssessmentNeutralRecord.getLocalId());
         
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
-                .getAttributes().get("AdministrationDate"));
+                .getAttributes().get("administrationDate"));
         assertEquals("2013-08-07", studentAssessmentNeutralRecord
-                .getAttributes().get("AdministrationEndDate"));
+                .getAttributes().get("administrationEndDate"));
         assertEquals("231101422", studentAssessmentNeutralRecord
-                .getAttributes().get("SerialNumber"));
+                .getAttributes().get("serialNumber"));
         assertEquals("Malay", studentAssessmentNeutralRecord.getAttributes()
-                .get("AdministrationLanguage"));
+                .get("administrationLanguage"));
         assertEquals("School", studentAssessmentNeutralRecord.getAttributes()
-                .get("AdministrationEnvironment"));
+                .get("administrationEnvironment"));
 
         List specialAccommodationsList = (List) studentAssessmentNeutralRecord
-                .getAttributes().get("SpecialAccommodations");
+                .getAttributes().get("specialAccommodations");
         List specialAccommodationList = (List) specialAccommodationsList.get(0);
         assertEquals("Colored lenses", specialAccommodationList.get(0));
 
         List linguisticAccommodationsList = (List) studentAssessmentNeutralRecord
-                .getAttributes().get("LinguisticAccommodations");
+                .getAttributes().get("linguisticAccommodations");
         List linguisticAccommodationList = (List) linguisticAccommodationsList.get(0);
         assertEquals("Oral Translation - Word or Phrase",
                 linguisticAccommodationList.get(0));
 
         assertEquals("2nd Retest", studentAssessmentNeutralRecord.getAttributes()
-                .get("RetestIndicator"));
+                .get("retestIndicator"));
         assertEquals("Medical waiver", studentAssessmentNeutralRecord.getAttributes()
-                .get("ReasonNotTested"));
+                .get("reasonNotTested"));
 
         List scoreResultsList = (List) studentAssessmentNeutralRecord.getAttributes().get(
-                "ScoreResults");
+                "scoreResults");
         Map scoreResultMap = (Map) scoreResultsList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(scoreResultMap, "AssessmentReportingMethod", "Workplace readiness score");
-        EntityTestUtils.assertObjectInMapEquals(scoreResultMap, "Result", "uDcDPPMbzwXnlNsazojAEF6R8LIME6");
+        EntityTestUtils.assertObjectInMapEquals(scoreResultMap, "assessmentReportingMethod", "Workplace readiness score");
+        EntityTestUtils.assertObjectInMapEquals(scoreResultMap, "result", "uDcDPPMbzwXnlNsazojAEF6R8LIME6");
 
         assertEquals("Eleventh grade", studentAssessmentNeutralRecord.getAttributes()
-                .get("GradeLevelWhenAssessed"));
+                .get("gradeLevelWhenAssessed"));
 
         List performanceLevelsList = (List) studentAssessmentNeutralRecord.getAttributes().get(
-                "PerformanceLevels");
+                "performanceLevelDescriptors");
         Map performanceLevelDescriptorTypeMap = (Map) performanceLevelsList.get(0);
         EntityTestUtils.assertObjectInMapEquals(performanceLevelDescriptorTypeMap, "id", "ID007");
         EntityTestUtils.assertObjectInMapEquals(performanceLevelDescriptorTypeMap, "ref", "ID001");
-        List codeValueArray = (List) performanceLevelDescriptorTypeMap.get("CodeValues");
-        assertEquals("KYn6axx9pJEX", codeValueArray.get(0));
-        List descriptionList = (List) performanceLevelDescriptorTypeMap.get("Descriptions");
-        if (!descriptionList.isEmpty())
-            assertEquals("bn", descriptionList.get(0));
+        EntityTestUtils.assertObjectInMapEquals(performanceLevelDescriptorTypeMap, "codeValue", "KYn6axx9pJEX");
+        EntityTestUtils.assertObjectInMapEquals(performanceLevelDescriptorTypeMap, "description", "bn");
 
         /* TODO: Decide whether to model unbounded choices as a map of arrays or array of a map
         List performanceLevelsList = (List) studentAssessmentNeutralRecord.getAttributes().get(
@@ -139,7 +136,11 @@ public class StudentAssessmentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(performanceLevelMap,
                 "description", "performancelvldescription");
          */
+        
+        assertEquals("Yjmyw", studentAssessmentNeutralRecord
+                .getAttributes().get("studentId"));
 
+        /* TODO: after transform framework is in place, need to refactor below
         Map studentReferenceMap = (Map) studentAssessmentNeutralRecord
                 .getAttributes().get("StudentReference");
         EntityTestUtils.assertObjectInMapEquals(studentReferenceMap, "id", "ID011");
@@ -194,6 +195,7 @@ public class StudentAssessmentEntityTest {
                     EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, 
                             "ID", "rm2eQj5XDoyb1_vtJ5JRfWX.y4DQEKL7bp8HmsOnbd");
             }
+        */
     }
 
 }
