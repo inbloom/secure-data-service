@@ -1,9 +1,9 @@
 package org.slc.sli.api.resources.v1;
 
+import org.slc.sli.api.config.ResourceNames;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slc.sli.api.config.ResourceNames;
 
 /**
  * Constants used in URI path requests.
@@ -25,8 +25,9 @@ public class PathConstants {
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganizationAssociations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
-    
+
     public static final String ASSESSMENTS = "assessments";
+    public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";
