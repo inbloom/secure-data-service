@@ -280,4 +280,36 @@ public class EntityRepositoryTest {
         
         assertEquals(5, idList.size());
     }
+    
+    @Test
+    public void findOneTest() {
+        repository.deleteAll("student");
+        Map<String, Object> student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
+        
+        this.repository.create("student", student);
+        
+        assertNotNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
+    }
+
+    @Test
+    public void findOneMultipleMatches() {
+        repository.deleteAll("student");
+        Map<String, Object> student = buildTestStudentEntity();
+        student.put("firstName", "Jadwiga");
+        
+        this.repository.create("student", student);
+        this.repository.create("student", student);
+        this.repository.create("student", student);
+        
+        assertNotNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
+    }
+    
+    @Test
+    public void findOneTestNegative() {
+        repository.deleteAll("student");
+        
+        assertNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
+    }
+
 }

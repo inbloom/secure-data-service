@@ -25,7 +25,7 @@ public class DummyEntityRepository implements EntityRepository {
     public void clean() {
         entities = new HashMap<String, Map<String, Entity>>();
     }
-    
+
     public void addEntity(String collection, String id, Entity entity) {
         if (!entities.containsKey(collection)) {
             entities.put(collection, new HashMap<String, Entity>());
@@ -137,6 +137,12 @@ public class DummyEntityRepository implements EntityRepository {
 
     @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
         // TODO Auto-generated method stub
         return null;
     }

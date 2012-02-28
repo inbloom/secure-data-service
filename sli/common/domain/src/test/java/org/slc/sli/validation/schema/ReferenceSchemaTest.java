@@ -205,6 +205,12 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
             return null;
         }
+
+        @Override
+        public Entity findOne(String collectionName, Query query) {
+            // TODO Auto-generated method stub
+            return null;
+        }
         
     }
 }
