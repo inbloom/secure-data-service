@@ -6,16 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-
-import com.google.gson.Gson;
-
 import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * 
@@ -52,7 +50,6 @@ public class LiveAPIClient implements APIClient {
 
     // For now, the live client will use the mock client for api calls not yet implemented
     private MockAPIClient mockClient;
-
 
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
@@ -372,7 +369,6 @@ public class LiveAPIClient implements APIClient {
         return new ArrayList<GenericEntity>(schoolMap.values());
 
     }
-
     
     /**
      * Get the associations between courses and sections
@@ -382,20 +378,21 @@ public class LiveAPIClient implements APIClient {
 
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
-
-            String url = COURSE_SECTION_ASSOC_URL + section.get(Constants.ATTR_ID) + TARGETS;
-
-            List<GenericEntity> courses = createEntitiesFromAPI(url, token);
-            logger.info(courses.toString());
-
-            for (GenericEntity course : courses) {
+            
+            // Get course using courseId reference in section
+            GenericEntity course = getCourse(section.getString(Constants.ATTR_COURSE_ID), token);
+            
+            // Add course to courseMap, if it doesn't exist already
+            if (!courseMap.containsKey(course.get(Constants.ATTR_ID))) {
                 courseMap.put(course.getString(Constants.ATTR_ID), course);
-                course.appendToList(Constants.ATTR_SECTIONS, section);
-                sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
             }
-
+            
+            // Grab the most up to date course from the map
+            // Add the section to it's section list, and update sectionIdToCourseIdMap
+            course = courseMap.get(course.get(Constants.ATTR_ID));
+            course.appendToList(Constants.ATTR_SECTIONS, section);
+            sectionIDToCourseIDMap.put(section.getString(Constants.ATTR_ID), course.getString(Constants.ATTR_ID));
         }
-        
     }
     
     /**
@@ -405,12 +402,14 @@ public class LiveAPIClient implements APIClient {
             Map<String, GenericEntity> schoolMap, Map<String, String> sectionIDToSchoolIDMap) {
         for (int i = 0; i < sections.size(); i++) {
             GenericEntity section = sections.get(i);
-            sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), section.getString(Constants.ATTR_SCHOOL_ID));
-            //Add school to map.
+            sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID),
+                    section.getString(Constants.ATTR_SCHOOL_ID));
+            // Add school to map.
             if (!schoolMap.containsKey(section.get(Constants.ATTR_SCHOOL_ID))) {
                 Map<String, String> query = new HashMap<String, String>();
                 query.put(Constants.ATTR_SCHOOL_ID, (String) section.get(Constants.ATTR_SCHOOL_ID));
-                schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID), createEntityFromAPI(SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token));
+                schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID),
+                        createEntityFromAPI(SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token));
             }
 
         }
@@ -419,7 +418,6 @@ public class LiveAPIClient implements APIClient {
     private String getUsername() {
         return SecurityUtil.getPrincipal().getUsername().replace(" ", "");
     }
-
     
     /**
      * Creates a generic entity from an API call
