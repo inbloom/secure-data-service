@@ -32,9 +32,6 @@
 	<StateEducationAgencyReference>
 	  <EducationalOrgIdentity>
 		<StateOrganizationId>IL</StateOrganizationId>
-		<EducationOrgIdentificationCode IdentificationSystem="SEA">
-		  <ID>IL</ID>
-		</EducationOrgIdentificationCode>
 	  </EducationalOrgIdentity>
 	</StateEducationAgencyReference>
   </LocalEducationAgency>
@@ -54,9 +51,6 @@
 	<StateEducationAgencyReference>
 	  <EducationalOrgIdentity>
 		<StateOrganizationId>IL</StateOrganizationId>
-		<EducationOrgIdentificationCode IdentificationSystem="SEA">
-		  <ID>IL</ID>
-		</EducationOrgIdentificationCode>
 	  </EducationalOrgIdentity>
 	</StateEducationAgencyReference>
   </LocalEducationAgency>
@@ -272,6 +266,11 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</LocalEducationAgencyReference>
   </School>
   <School>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -307,6 +306,11 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</LocalEducationAgencyReference>
   </School>
   <School>
     <StateOrganizationId>Sunset Central High School</StateOrganizationId>
@@ -342,6 +346,11 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</LocalEducationAgencyReference>
   </School>
   <School>
     <StateOrganizationId>Illinois PS145</StateOrganizationId>
@@ -377,6 +386,11 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</LocalEducationAgencyReference>
   </School>
   <School>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -412,5 +426,10 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
+	<LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</LocalEducationAgencyReference>
   </School>
 </InterchangeEducationOrganization>
