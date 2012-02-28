@@ -18,6 +18,8 @@ import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -33,6 +35,9 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     private SliSmooksFactory sliSmooksFactory;
+    
+    @Value("${landingzone.inbounddir}")
+    private String directory;
 
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
@@ -41,6 +46,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             generateNeutralRecord(fileEntry, errorReport);
 
         } catch (IOException e) {
+            LOG.error("IOException", e);
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
@@ -79,8 +85,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     }
 
     private File createTempFile() throws IOException {
-        File outputFile = File.createTempFile("camel_", ".tmp");
-        outputFile.deleteOnExit();
+        File outputFile = File.createTempFile("camel_", ".tmp", new File(directory));
         return outputFile;
     }
 
