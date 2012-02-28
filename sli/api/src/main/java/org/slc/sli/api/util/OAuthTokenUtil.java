@@ -5,17 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Date;
 
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
 
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
@@ -42,10 +40,6 @@ public class OAuthTokenUtil {
      */
     private static final int REFRESH_TOKEN_VALIDITY = 3600;
     
-    /**
-     * Lifetime (duration of validity) of an Authorization Code in seconds.
-     */
-    private static final int AUTHORIZATION_CODE_VALIDITY = 300;
     
     /**
      * Get the name of the collection in Mongo that stores OAuth 2.0 session
@@ -170,22 +164,6 @@ public class OAuthTokenUtil {
         return clientBody;
     }
     
-    /**
-     * Maps an input authorization code into the EntityBody of a verification code object.
-     * 
-     * @param code
-     *            String representing the authorization code.
-     * @return EntityBody containing the relevant data.
-     */
-    public static EntityBody mapAuthorizationCode(String code, String redirectUri, String userName) {
-        EntityBody authorizationCode = new EntityBody();
-        long expiration = AUTHORIZATION_CODE_VALIDITY * 1000L;
-        authorizationCode.put("value", code);
-        authorizationCode.put("expiration", new Date().getTime() + expiration);
-        authorizationCode.put("redirectUri", redirectUri);
-        authorizationCode.put("userName", userName);
-        return authorizationCode;
-    }
     
     /**
      * Returns the validity of a refresh token in seconds.
