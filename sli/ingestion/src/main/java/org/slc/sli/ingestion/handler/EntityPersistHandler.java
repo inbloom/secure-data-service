@@ -99,7 +99,25 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
      */
     public void resolveInternalIds(NeutralRecordEntity entity, ErrorReport errorReport) {
         for (Map.Entry<String, Object> externalIdEntry : entity.getLocalParentIds().entrySet()) {
-            String collection = externalIdEntry.getKey().toLowerCase();
+            
+            // TODO change all smooks mappings to use "collection#fieldName" naming convention
+            // get the collection name and from the key name in one of two naming conventions
+            String collection;
+            String fieldName;
+            if (externalIdEntry.getKey().contains("#")) {
+                try {
+                    String[] keys = externalIdEntry.getKey().split("#");
+                    collection = keys[0];
+                    fieldName = keys[1];
+                } catch (Exception e) {
+                    errorReport.error(
+                            "Invalid localParentId key [" + externalIdEntry.getKey() + "]", this);
+                    return;
+                }
+            } else {
+                collection = externalIdEntry.getKey().toLowerCase();
+                fieldName = collection + "Id";
+            }
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
             String externalId = externalIdEntry.getValue().toString();
 
@@ -110,7 +128,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
                 return;
             }
 
-            entity.setAttributeField(collection + "Id", internalId);
+            entity.setAttributeField(fieldName, internalId);
         }
     }
 
