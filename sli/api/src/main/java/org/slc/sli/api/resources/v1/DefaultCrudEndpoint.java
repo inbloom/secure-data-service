@@ -82,7 +82,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Creates a new entity in a specific location or collection.
      * 
-     * @param resourceName
+     * @param collectionName
      *      where the entity should be located
      * @param newEntityBody 
      *      new map of keys/values for entity
@@ -191,7 +191,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 //query parameters for association and resolution lookups
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                Map<String, String> associationQueryParameters = 
+                Map<String, String> associationQueryParameters =
                        createAssociationQueryParameters(queryParameters, key, value, idKey);
                 
                 //final/resulting information
@@ -204,6 +204,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     queryParameters.put("_id", (String) entityBody.get(idKey));
                     
                     //lookup endpoint from association. should just return 1 result
+                    Iterable<EntityBody> entityBodyTest = endpointEntity.getService().list(queryParameters);
+
                     for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
                         //if links should be included then put them in the entity body
                         if (shouldIncludeLinks) {
@@ -345,7 +347,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Reads all entities from a specific location or collection.
      * 
-     * @param resourceName
+     * @param collectionName
      *      where the entity should be located
      * @param headers 
      *      HTTP header information (which includes request headers) 

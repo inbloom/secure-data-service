@@ -14,13 +14,19 @@ public class EntityQuery {
     protected int offset;
     protected int limit;
     protected String sortBy;
-    protected int sortOrder;
+    protected SortOrder sortOrder;
     protected Map<String, String> fields = new HashMap<String, String>();
     
     public static EntityQueryBuilder makeQuery() {
         return new EntityQueryBuilder();
     }
-        
+
+    /**
+     * Sort order enumeration
+     */
+    public enum SortOrder { ascending, descending }
+
+
     public String getIncludeFields() {
         return includeFields;
     }
@@ -41,7 +47,7 @@ public class EntityQuery {
         return sortBy;
     }
 
-    public int getSortOrder() {
+    public SortOrder getSortOrder() {
         return sortOrder;
     }
     
@@ -82,7 +88,7 @@ public class EntityQuery {
             return this;
         }
         
-        public EntityQueryBuilder setSortOrder(int sortOrder) {
+        public EntityQueryBuilder setSortOrder(SortOrder sortOrder) {
             query.sortOrder = sortOrder;
             return this;
         }
