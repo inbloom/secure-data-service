@@ -1110,7 +1110,7 @@
   <!-- Assessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:expression property="recordType">'assessment'</jb:expression>
-    <jb:value property="localId" data="InterchangeAssessmentMetadata/Assessment/@id" />
+    <jb:value property="localId" data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/ID" />
     <jb:wiring property="attributes" beanIdRef="assessmentAttributes" />
   </jb:bean>
 
@@ -1443,10 +1443,12 @@
     createOnElement="InterchangeStudentAssessment/StudentAssessment">
 
     <jb:value property="Student" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="Assessment" data="StudentAssessment/AssessmentReference/AssessmentIdentificationCode/ID" />
+    <jb:value property="Assessment" data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
   </jb:bean>
   
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
+  	<jb:value property="studentId" data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="assessmentId" data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
     <jb:value property="serialNumber" data="InterchangeStudentAssessment/StudentAssessment/SerialNumber" />
@@ -1459,8 +1461,6 @@
     <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
-    <jb:value property="studentId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="assessmentId" data="StudentAssessment/AssessmentReference/AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList"
