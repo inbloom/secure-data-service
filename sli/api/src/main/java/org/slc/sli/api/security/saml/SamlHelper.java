@@ -104,7 +104,7 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "false"));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
-        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"));
+        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"));
         
         Element issuer = new Element("Issuer", SAML_NS);
         issuer.addContent(this.issuerName);
