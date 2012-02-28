@@ -123,7 +123,7 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Delete a $$educationOrganizations$$ entity
+     * Delete an $$educationOrganizations$$ entity
      * 
      * @param educationOrganizationId
      *            The Id of the $$educationOrganizations$$.

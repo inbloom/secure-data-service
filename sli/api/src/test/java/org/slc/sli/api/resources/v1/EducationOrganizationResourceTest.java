@@ -45,7 +45,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the resource representing an education organization
- * @author vmcglau1
+ * @author vmcglaughlin
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,7 +62,6 @@ public class EducationOrganizationResourceTest {
     
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
-    private List<String> resourceList = new ArrayList<String>();
     
     @Before
     public void setup() throws Exception {
@@ -77,33 +76,28 @@ public class EducationOrganizationResourceTest {
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
-        
-        //expand this list
-        resourceList.add(ResourceNames.EDUCATION_ORGANIZATIONS);
-        
-     //   edOrgResource = new EducationOrganizationResource(new BasicDefinitionStore());
     }
     
-    public Map<String, Object> createTestEntity() {
+    private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 1);
-        entity.put("field2", 2);
+        entity.put("organizationCategories", "State Education Agency");
+        entity.put("nameOfInstitution", "Primero Test Institution");
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 1234);
         return entity;
     }
     
-    public Map<String, Object> createTestUpdateEntity() {
+    private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 8);
-        entity.put("field2", 2);
+        entity.put("organizationCategories", "Local Education Agency");
+        entity.put("nameOfInstitution", "Primero Test Institution");
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 1234);
         return entity;
     }
     
-    public Map<String, Object> createTestSecondaryEntity() {
+    private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 5);
-        entity.put("field2", 6);
+        entity.put("organizationCategories", "State Education Agency");
+        entity.put("nameOfInstitution", "Segundo Test Institution");
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 5678);
         return entity;
     }
@@ -129,10 +123,11 @@ public class EducationOrganizationResourceTest {
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
         } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have at least one entity", results.size() > 0);
+            assertTrue("Should have one entity", results.size() == 1);
         } else {
-            fail();
+            fail("Response entity not recognized: " + response);
         } 
     }
     
@@ -168,13 +163,13 @@ public class EducationOrganizationResourceTest {
         EntityBody body = (EntityBody) getResponse.getEntity();
         assertNotNull("Should return an entity", body);            
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 1234", body.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 1234);
-        assertEquals("field1 should be 8", body.get("field1"), 8);
+        assertEquals("organizationCategories should be 8", body.get("organizationCategories"), "Local Education Agency");
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
     
     @Test
     public void testReadAll() {
-        //create one entity
+        //create two entities
         edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         edOrgResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
         
@@ -182,16 +177,18 @@ public class EducationOrganizationResourceTest {
         Response response = edOrgResource.readAll(0, 100, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
-        assertNotNull("Should return an entity", results);
-        assertTrue("Should have at least one entity", results.size() > 0);
+        assertNotNull("Should return entities", results);
+        assertTrue("Should have at least two entities", results.size() >= 2);
     }
     
     @Test
-    public void testReadMultipleResources() {
+    public void testReadCommaSeparatedResources() {
         Response response = edOrgResource.read(getIDList(ResourceNames.EDUCATION_ORGANIZATIONS), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         assertEquals("Should get 2 entities", results.size(), 2);
 
@@ -206,7 +203,7 @@ public class EducationOrganizationResourceTest {
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
     
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
+    private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
             
