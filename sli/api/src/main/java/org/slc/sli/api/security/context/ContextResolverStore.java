@@ -10,7 +10,6 @@ import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityExistsException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -52,8 +51,6 @@ public class ContextResolverStore {
                         .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
                         .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.EDUCATION_ORGANIZATION)
-                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SESSION)
                         .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build()
 
@@ -68,8 +65,6 @@ public class ContextResolverStore {
 
         final List<EntityContextResolver> staffResolvers = Arrays.<EntityContextResolver>asList(
 
-                makeAssoc().setSource(EntityNames.STAFF).setTarget(EntityNames.EDUCATION_ORGANIZATION)
-                        .setAssociationPath(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS).build()
 
         );
         return staffResolvers;
@@ -124,7 +119,7 @@ public class ContextResolverStore {
 
     public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
 
-        if( contexts.isEmpty() ) {
+        if (contexts.isEmpty()) {
             init();
         }
 
