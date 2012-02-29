@@ -22,7 +22,7 @@ Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
         | assessment                  |
         | studentAssessmentAssociation|
 When zip file is scp to ingestion landing zone
-    And "30" seconds have elapsed
+    And "12" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
@@ -38,18 +38,21 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | assessment                  | 15    |
         | studentAssessmentAssociation| 6     |
-     And I check to find if record is in collection:
-       | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
-       | student                     | 1                   | metaData.externalId      | 530425896            | string               |
-       | student                     | 1                   | metaData.externalId      | 784204643            | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
-       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
+    And I check to find if record is in collection:
+       | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
+       | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
+       | student                     | 1                   | metaData.externalId      | 784204643                  | string               |
+       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
+       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 312 records." in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-    And "30" seconds have elapsed
+    And "12" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
@@ -65,10 +68,13 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | assessment                  | 15    |
         | studentAssessmentAssociation| 6     |
-     And I check to find if record is in collection:
-       | collectionName              | expectedRecordCount | searchParameter          | searchValue          | searchType           |
-       | student                     | 1                   | metaData.externalId      | 530425896            | string               |
-       | student                     | 1                   | metaData.externalId      | 784204643            | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                | string               |
-       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom   | string               |
+    And I check to find if record is in collection:
+       | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
+       | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
+       | student                     | 1                   | metaData.externalId      | 784204643                  | string               |
+       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
+       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 312 records." in the resulting batch job file

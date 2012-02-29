@@ -113,7 +113,7 @@ public class StudentSchoolAssociationResource {
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentSchoolAssociationId, headers, uriInfo);
     }
@@ -181,11 +181,11 @@ public class StudentSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudents(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response getStudents(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "_id", studentSchoolAssociationId, "schoolId", ResourceNames.STUDENTS, headers, uriInfo);
+       return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "_id", studentSchoolAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
@@ -209,7 +209,7 @@ public class StudentSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.SCHOOLS)
-    public Response getSchools(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response getSchools(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {

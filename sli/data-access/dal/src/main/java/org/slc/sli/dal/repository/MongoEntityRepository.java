@@ -13,6 +13,7 @@ import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
@@ -39,6 +40,7 @@ import org.slc.sli.validation.EntityValidator;
 public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
+
     private MongoTemplate template;
 
     /**
@@ -63,16 +65,16 @@ public class MongoEntityRepository implements EntityRepository {
     }
     @Override
     public Entity find(String collectionName, Map<String, String> queryParameters) {
-        //turn query parameters into a Mongo-specific query
+        // turn query parameters into a Mongo-specific query
         Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
-        //find and return an entity
+        // find and return an entity
         return template.findOne(query, Entity.class, collectionName);
     }
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-        //turn query parameters into a Mongo-specific query
+        // turn query parameters into a Mongo-specific query
         Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
-        //find and return an entity
+        // find and return an entity
         return template.find(query, Entity.class, collectionName);
     }
 
@@ -157,10 +159,14 @@ public class MongoEntityRepository implements EntityRepository {
      * body).
      *
      * @param queryParameters
-     *              all parameters to be included in query
+     *            all parameters to be included in query
      * @param converter
      *              used to convert human readable IDs into GUIDs (if queryParameters contains "_id" key)
      * @return query object compatible with Mongo containing all parameters specified in the original map
+
+
+
+
      */
     private static Query createQuery(Map<String, String> queryParameters, IdConverter converter) {
         Query query = new Query();
@@ -184,7 +190,7 @@ public class MongoEntityRepository implements EntityRepository {
                     }
                     query.addCriteria(Criteria.where(entry.getKey()).is(databaseId));
                 }
-            } else if (key.equals("includeFields")) { //specific field(s) to include in result set
+            } else if (key.equals("includeFields")) { // specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     for (String includeField : includeFields.split(",")) {
@@ -192,7 +198,8 @@ public class MongoEntityRepository implements EntityRepository {
                         query.fields().include("body." + includeField);
                     }
                 }
-            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
+            } else if (key.equals("excludeFields")) { // specific field(s) to exclude from result
+                                                      // set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     for (String excludeField : excludeFields.split(",")) {
@@ -200,17 +207,18 @@ public class MongoEntityRepository implements EntityRepository {
                         query.fields().exclude("body." + excludeField);
                     }
                 }
-            } else if (key.equals("skip")) { //skip to record X instead of starting at the beginning
+            } else if (key.equals("skip")) { // skip to record X instead of starting at the
+                                             // beginning
                 String skip = entry.getValue();
                 if (skip != null) {
                     query.skip(Integer.parseInt(skip));
                 }
-            } else if (key.equals("limit")) { //display X results instead of all of them
+            } else if (key.equals("limit")) { // display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     query.limit(Integer.parseInt(limit));
                 }
-            } else { //query param on record
+            } else { // query param on record
                 String value = entry.getValue();
                 if (value != null) {
                     query.addCriteria(Criteria.where("body." + key).is(value));

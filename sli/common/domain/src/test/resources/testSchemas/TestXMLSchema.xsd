@@ -151,8 +151,7 @@
 	<xs:complexType name="TestPersonallyIdentifiableInfoComplex">
 		<xs:annotation>
 			<xs:appinfo>
-				<sli:PersonallyIdentifiableInfo>true
-				</sli:PersonallyIdentifiableInfo>
+				<sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>

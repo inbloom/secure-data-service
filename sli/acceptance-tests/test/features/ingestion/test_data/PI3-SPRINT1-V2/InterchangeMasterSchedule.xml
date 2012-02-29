@@ -8,9 +8,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>1st Grade Homeroom</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>1st Grade Homeroom</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
@@ -18,9 +36,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>8th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>8th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
@@ -28,9 +64,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Club/Team</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Club/Team</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Club/Team</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Club/Team</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
@@ -38,9 +92,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>8th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>8th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
@@ -48,9 +120,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>8th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>8th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
@@ -58,9 +148,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Reading Group</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Reading Group</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>South Daybreak Elementary</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 South Daybreak Elementary</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
@@ -68,9 +176,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Special Elective:Debate Clinic</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Sunset Central High School</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Sunset Central High School</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Special Elective:Debate Clinic</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Sunset Central High School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Sec 923</UniqueSectionCode>
@@ -78,9 +204,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Writing about Government</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Writing about Government</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Daybreak Central High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Daybreak Central High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
@@ -88,9 +232,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>7th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>7th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Reading Group - Red</UniqueSectionCode>
@@ -98,9 +260,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Reading Group</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Reading Group</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>South Daybreak Elementary</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 South Daybreak Elementary</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>7th Grade English - Sec. 2</UniqueSectionCode>
@@ -108,9 +288,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>7th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>7th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Reading Group - Blue</UniqueSectionCode>
@@ -118,9 +316,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Reading Group</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Reading Group</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>South Daybreak Elementary</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 South Daybreak Elementary</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
@@ -128,9 +344,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>1st Grade Homeroom</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>1st Grade Homeroom</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>South Daybreak Elementary</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 South Daybreak Elementary</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>7th Grade English - Sec. 1</UniqueSectionCode>
@@ -138,9 +372,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>7th Grade English</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>7th Grade English</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>East Daybreak Junior High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 East Daybreak Junior High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Sec 144</UniqueSectionCode>
@@ -148,9 +400,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Writing about Government</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Writing about Government</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Daybreak Central High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Daybreak Central High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Sec 145</UniqueSectionCode>
@@ -158,9 +428,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>American Literature</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>American Literature</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Daybreak Central High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Daybreak Central High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>American Literature</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>American Literature</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Sec 142</UniqueSectionCode>
@@ -168,9 +456,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Writing about Government</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Writing about Government</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Daybreak Central High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Daybreak Central High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Sec 143</UniqueSectionCode>
@@ -178,9 +484,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Writing about Government</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Writing about Government</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>Daybreak Central High</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 Daybreak Central High</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
   <Section>
     <UniqueSectionCode>Reading Group - Green</UniqueSectionCode>
@@ -188,9 +512,27 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference><CourseOfferingIdentity><LocalCourseCode>Reading Group</LocalCourseCode><CourseCode IdentificationSystem="CSSC course code"><ID>Reading Group</ID></CourseCode><Term>First Trimester</Term><SchoolYear>2000-2001</SchoolYear><StateOrganizationId>1</StateOrganizationId></CourseOfferingIdentity></CourseOfferingReference>
-    <SchoolReference><EducationalOrgIdentity><StateOrganizationId>South Daybreak Elementary</StateOrganizationId></EducationalOrgIdentity></SchoolReference>
-    <SessionReference><SessionIdentity><SessionName>Fall 2011 South Daybreak Elementary</SessionName></SessionIdentity></SessionReference>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
   </Section>
 
 </InterchangeMasterSchedule>
