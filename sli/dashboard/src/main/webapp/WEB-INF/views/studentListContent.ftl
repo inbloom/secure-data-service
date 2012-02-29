@@ -73,6 +73,14 @@
         <#else>
           ${assessments.get(field, student)}
         </#if>
+
+      <#-- attendance results -->
+            <#elseif field.getType() = "attendance">
+              <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+                <#include "widget/" + field.getVisual() + ".ftl">
+              <#else>
+                ${attendance.get(field, student)}
+              </#if>
        
       <#else>
         <#-- No resolver found. Report an error. -->

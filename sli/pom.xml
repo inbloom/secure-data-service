@@ -96,6 +96,8 @@
 			</activation>
 			<properties>
 				<sli.env>local</sli.env>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -105,6 +107,8 @@
 			<id>dev</id>
 			<properties>
 				<sli.env>dev</sli.env>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -113,6 +117,8 @@
 			<id>ci</id>
 			<properties>
 				<sli.env>ci</sli.env>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -121,6 +127,8 @@
 			<id>devapp1</id>
 			<properties>
 				<sli.env>devapp1</sli.env>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devApp1KeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devApp1Encryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -941,6 +949,8 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 					<systemPropertyVariables>
 						<emma.rt.control>false</emma.rt.control>
 						<sli.env>${sli.env}</sli.env>
+						<sli.encryption.keyStore>${sli.encryption.keyStore}</sli.encryption.keyStore>
+						<sli.encryption.properties>${sli.encryption.properties}</sli.encryption.properties>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
@@ -952,6 +962,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 				<configuration>
 					<systemPropertyVariables>
 						<sli.env>${sli.env}</sli.env>
+						<sli.dal.encryption.keyStore>${sli.dal.encryption.keyStore}</sli.dal.encryption.keyStore>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>

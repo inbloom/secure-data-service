@@ -28,5 +28,9 @@ public class WidgetFactory {
     public static Lozenge createLozenge(Field field, Map student, StudentResolver students, LozengeConfigResolver lozenges) {
         return new Lozenge(field, student, students, lozenges);
     }
+    
+    public static FieldCounter createFieldCounter(Field field, Map student/*, AggregateResolver resolver*/) {
+        return new FieldCounter(field, student, null);
+    }
 
 }

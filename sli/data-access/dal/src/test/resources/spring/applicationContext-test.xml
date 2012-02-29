@@ -23,6 +23,8 @@
      
      <import resource="classpath:/spring/db.xml"/>
 
+     <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+     <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 
     <context:component-scan base-package="org.slc">
 		<context:exclude-filter type="regex"

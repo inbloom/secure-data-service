@@ -40,12 +40,12 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class Staff {
+public class StaffResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Staff.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaffResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -53,7 +53,7 @@ public class Staff {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public Staff(CrudEndpoint crudDelegate) {
+    public StaffResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
     }
 

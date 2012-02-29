@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -407,6 +408,56 @@ public class EntityPersistHandlerTest {
 
         // Create and return new entity from neutral record.
         return new NeutralRecordEntity(neutralRecord);
+    }
+    
+    /**
+     * @author jtully 2/28/2012
+     * Test of resolveInternalIds for reference fields of arbitrary name
+     */
+    @Test
+    public void shouldNormalizeIdInNamedReferenceField() {
+        //set up the variable names and values to test
+        String fieldName = "fieldName";
+        String collectionName = "collectionName";
+        String externalId = "externalId";
+        String internalId = "internalId";
+        String nameSpace = "nameSpace";
+        
+        //create a test entity with these values
+        Map<String, Object> localParentIds = new HashMap<String, Object>();
+        localParentIds.put(collectionName + "#" + fieldName, externalId);
+        
+        NeutralRecord testNr = new NeutralRecord();
+        testNr.setLocalParentIds(localParentIds);
+        testNr.setAttributeField(fieldName, externalId);
+        testNr.setLocalParentIds(localParentIds);
+        
+        NeutralRecordEntity testEntity = new NeutralRecordEntity(testNr);
+        testEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
+        
+        //create an entity to reference
+        NeutralRecordEntity refEntity = new NeutralRecordEntity(new NeutralRecord()); 
+        refEntity.setEntityId(internalId);
+        LinkedList<Entity> refResults = new LinkedList<Entity>();
+        refResults.add(refEntity);
+        
+        //mock the db lookup
+        Map<String, String> testFilterFields = new HashMap<String, String>();
+        testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
+        testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
+
+        when(mockedEntityRepository.findByPaths(collectionName, testFilterFields))
+                .thenReturn((Iterable<Entity>) refResults);
+
+        //mock the errorReport
+        ErrorReport mockedErrorReport = mock(ErrorReport.class);
+        when(mockedErrorReport.hasErrors()).thenReturn(false);
+        
+        entityPersistHandler.resolveInternalIds(testEntity, mockedErrorReport);
+        
+        //assert that the Id normalization was performed correctly
+        String idValue = (String) testEntity.getBody().get(fieldName);
+        Assert.assertEquals("reference Id was not normalized correctly", internalId, idValue);
     }
 
 }

@@ -267,7 +267,7 @@ public class AssessmentMetaDataResolver {
     public GenericEntity getAssmtById(String id) {
         
         for (GenericEntity assmt : assmts) {
-            if (assmt.getString(Constants.ATTR_ID).equals(id)) {
+            if (assmt.getString(Constants.ATTR_ID) != null && assmt.getString(Constants.ATTR_ID).equals(id)) {
                 return assmt;
             }
         }
