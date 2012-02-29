@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EdFiEntityXMLGenerator {
@@ -42,7 +41,7 @@ public class EdFiEntityXMLGenerator {
 
     public void generateXML(String filename) {
         if (this.edfiEntity == null) {
-            System.err.println("Config file contains errors, could not generate xml file!");
+            System.err.println("\nConfig file contains errors, could not generate xml file!");
             return;
         }
 
