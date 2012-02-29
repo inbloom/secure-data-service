@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -53,6 +54,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
             return persist(entity);
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
+        } catch (DuplicateKeyException ex) {
+            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
         }
 
         return null;
@@ -83,10 +86,26 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
     private void reportErrors(List<ValidationError> errors, NeutralRecordEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
-            String message = getFailureMessage("DAL_" + err.getType().name(), entity.getType(), entity.getRecordNumberInFile(),
-                    err.getFieldName(), err.getFieldValue(), Arrays.toString(err.getExpectedTypes()));
+            String message = getFailureMessage("DAL_" + err.getType().name(), entity.getType(),
+                    entity.getRecordNumberInFile(), err.getFieldName(), err.getFieldValue(),
+                    Arrays.toString(err.getExpectedTypes()));
             errorReport.error(message, this);
         }
+    }
+
+    /**
+     * Generic error reporting function.
+     *
+     * @param errorMessage
+     *            Error message reported by entity.
+     * @param entity
+     *            Entity reporting error.
+     * @param errorReport
+     *            Reference to error report to log error message in.
+     */
+    private void reportErrors(String errorMessage, NeutralRecordEntity entity, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + entity.getType() + ") reports failure: " + errorMessage;
+        errorReport.error(assembledMessage, this);
     }
 
     /**
@@ -99,7 +118,25 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
      */
     public void resolveInternalIds(NeutralRecordEntity entity, ErrorReport errorReport) {
         for (Map.Entry<String, Object> externalIdEntry : entity.getLocalParentIds().entrySet()) {
-            String collection = externalIdEntry.getKey().toLowerCase();
+
+            // TODO change all smooks mappings to use "collection#fieldName" naming convention
+            // get the collection name and from the key name in one of two naming conventions
+            String collection;
+            String fieldName;
+
+            if (externalIdEntry.getKey().contains("#")) {
+                try {
+                    String[] keys = externalIdEntry.getKey().split("#");
+                    collection = keys[0];
+                    fieldName = keys[1];
+                } catch (Exception e) {
+                    errorReport.error("Invalid localParentId key [" + externalIdEntry.getKey() + "]", this);
+                    break;
+                }
+            } else {
+                collection = externalIdEntry.getKey().toLowerCase();
+                fieldName = collection + "Id";
+            }
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
             String externalId = externalIdEntry.getValue().toString();
 
@@ -107,10 +144,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
             if (errorReport.hasErrors()) {
                 // Stop processing.
-                return;
+                break;
             }
-
-            entity.setAttributeField(collection + "Id", internalId);
+            entity.setAttributeField(fieldName, internalId);
         }
     }
 
@@ -167,7 +203,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         if (errorReport.hasErrors()) {
             return;
         }
-        
+
         // only true if no local id was supplied (and association is false)
         if (matchFilter.isEmpty()) {
             return;
@@ -192,16 +228,16 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
      */
     public Map<String, String> createEntityLookupFilter(NeutralRecordEntity entity, ErrorReport errorReport) {
         String regionId = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
-        
+
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), regionId);
-        
+
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
                 String referencedCollection = externalReference.getKey().toLowerCase();
                 String referencedId = referencedCollection + "Id";
-                
+
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
         } else {
@@ -213,7 +249,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
                 filter.clear();
             }
         }
-        
+
         return filter;
     }
 

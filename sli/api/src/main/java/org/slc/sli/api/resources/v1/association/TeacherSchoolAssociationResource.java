@@ -117,9 +117,9 @@ public class TeacherSchoolAssociationResource {
     @GET
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String schoolId,
+    public Response read(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, schoolId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, headers, uriInfo);
     }
 
     /**
@@ -136,9 +136,9 @@ public class TeacherSchoolAssociationResource {
      */
     @DELETE
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String schoolId, 
+    public Response delete(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, schoolId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, headers, uriInfo);
     }
 
     /**
@@ -158,10 +158,10 @@ public class TeacherSchoolAssociationResource {
     @PUT
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response update(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String schoolId,
+    public Response update(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, schoolId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, teacherSchoolAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -185,11 +185,11 @@ public class TeacherSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}" + "/" + PathConstants.TEACHERS)
-    public Response getTeachersForAssociation(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String schoolId,
+    public Response getTeachersForAssociation(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "_id", teacherSchoolAssociationId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
     }
     
     /**
@@ -213,11 +213,11 @@ public class TeacherSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}" + "/" + PathConstants.SCHOOLS)
-    public Response getSchoolsForAssociation(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String schoolId,
+    public Response getSchoolsForAssociation(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "_id", teacherSchoolAssociationId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
     }
     
 }
