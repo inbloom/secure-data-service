@@ -211,4 +211,53 @@ public class SessionResource {
         return this.crudDelegate.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
     }
 
+    /**
+     * Returns each $$sessionCourseAssociations$$ that
+     * references the given $$sessions$$
+     * 
+     * @param sessionId
+     *            The id of the $$sessions$$.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
+    public Response getSessionCourseAssociations(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
+    }
+    
+
+    /**
+     * Returns each $$courses$$ associated to the given session through
+     * a $$sessionCourseAssociations$$ 
+     * 
+     * @param sessionId
+     *            The id of the $$sessions$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.COURSES)
+    public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+    }
+
 }
