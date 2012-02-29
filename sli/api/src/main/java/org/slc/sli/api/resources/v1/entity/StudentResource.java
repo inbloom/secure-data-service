@@ -210,24 +210,4 @@ public class StudentResource {
         return this.crudDelegate.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "studentId", studentId, "sectionId",
                 ResourceNames.SECTIONS, headers, uriInfo);
     }
-
-    /**
-     * Returns a list of Attendance records associated with the student.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.ATTENDANCES)
-    public Response getAttendanceForStudent(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
-                                         @Context HttpHeaders headers,
-                                         @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.ATTENDANCES, "studentId", studentId, headers, uriInfo);
-    }
 }
