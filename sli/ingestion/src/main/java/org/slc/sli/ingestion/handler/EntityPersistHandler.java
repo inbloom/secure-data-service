@@ -31,7 +31,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     private static final String METADATA_BLOCK = "metaData";
 
     // Hard-code region ID here for now, until it is set for real!
-    private static final String REGION_ID = "dc=slidev,dc=net";
+    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
     private EntityRepository entityRepository;
 
@@ -137,7 +137,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
         if (found == null || !found.iterator().hasNext()) {
             errorReport.error(
-                    "Cannot find [" + collection + "] record using the folowing filter: " + filterFields.toString(),
+                    "Cannot find [" + collection + "] record using the following filter: " + filterFields.toString(),
                     this);
 
             return null;
@@ -167,6 +167,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         if (errorReport.hasErrors()) {
             return;
         }
+        
+        // only true if no local id was supplied (and association is false)
+        if (matchFilter.isEmpty()) {
+            return;
+        }
 
         Iterable<Entity> match = entityRepository.findByPaths(entity.getType(), matchFilter);
         if (match != null && match.iterator().hasNext()) {
@@ -187,24 +192,28 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
      */
     public Map<String, String> createEntityLookupFilter(NeutralRecordEntity entity, ErrorReport errorReport) {
         String regionId = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
-
+        
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), regionId);
-
+        
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
                 String referencedCollection = externalReference.getKey().toLowerCase();
                 String referencedId = referencedCollection + "Id";
-
+                
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
         } else {
-            entity.setMetaDataField(EntityMetadataKey.EXTERNAL_ID.getKey(), entity.getLocalId());
-
-            filter.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), entity.getLocalId().toString());
+            if (entity.getLocalId() != null) {
+                entity.setMetaDataField(EntityMetadataKey.EXTERNAL_ID.getKey(), entity.getLocalId());
+                filter.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), entity.getLocalId()
+                        .toString());
+            } else {
+                filter.clear();
+            }
         }
-
+        
         return filter;
     }
 

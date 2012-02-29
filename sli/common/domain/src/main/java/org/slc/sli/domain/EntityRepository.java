@@ -2,9 +2,6 @@ package org.slc.sli.domain;
 
 import java.util.Map;
 
-
-
-
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
@@ -24,7 +21,7 @@ public interface EntityRepository {
      * @return the entity retrieved
      */
     public Entity find(String collectionName, String id);
-
+    
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -39,13 +36,20 @@ public interface EntityRepository {
     /**
      * @param collectionName
      *            the name of the collection to look in
-     * @param id
-     *            the global unique id of the entity
      * @param query
      *            all parameters to be included in query
      * @return the entity retrieved
      */
     public Iterable<Entity> findAll(String collectionName, Map<String, String> query);
+
+    /**
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param query
+     *            all parameters to be included in query
+     * @return the entity retrieved
+     */
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query);
     
     /**
      * @param collectionName
@@ -186,6 +190,15 @@ public interface EntityRepository {
      * @return the collection of entities
      */
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max);
+    
+    /**
+     * Fetches first element from given query
+     * 
+     * @param collectionName
+     * @param query
+     * @return
+     */
+    public Entity findOne(String collectionName, Query query);
     
     /**
      * Get the number of elements in the collection matching a particular query

@@ -17,7 +17,7 @@ When I select school "South Daybreak Elementary"
 And I select course "Reading Group"
 And I select section "Reading Group - Grey"
 And I wait for "2" seconds
-Then the fuel gauge label for the assessment "DIBELS_NEXT.perfLevel" and student "111111111" is "@B"
+Then the fuel gauge label for the assessment "DIBELS_NEXT.Mastery level" and student "111111111" is "2"
 
 Scenario: Check student name
 Given I have an open web browser

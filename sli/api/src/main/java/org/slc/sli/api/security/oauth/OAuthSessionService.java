@@ -1,9 +1,5 @@
 package org.slc.sli.api.security.oauth;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -14,14 +10,10 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.RandomValueTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -70,22 +62,6 @@ public class OAuthSessionService extends RandomValueTokenServices {
             //Since our granted authorities come from the securityContext.xml, they're not getting 
             //transformed into actual SLI Rights.  Here we recreate a UsernamePasswordAuthenticationToken with the SLI Rights
             OAuth2Authentication auth = (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            for (GrantedAuthority ga : auth.getUserAuthentication().getAuthorities()) {
-                if (Right.valueOf(ga.getAuthority()) != null) {
-                    authorities.add(Right.valueOf(ga.getAuthority()));
-                }
-            }
-            UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) auth.getUserAuthentication();
-            SLIPrincipal principal = new SLIPrincipal();
-            principal.setName(token.getName());
-            principal.setRealm("dc=slidev,dc=org");
-            principal.setEntity(new MongoEntity("system_entity", new HashMap<String, Object>()));
-            UsernamePasswordAuthenticationToken newToken = new UsernamePasswordAuthenticationToken(principal,
-                    token.getCredentials(),
-                    authorities);
-            auth = new OAuth2Authentication(auth.getClientAuthentication(), newToken);
-            
             return auth;
         }
         return null;
@@ -143,29 +119,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
         }*/
         return null;
     }
-    
-    /**
-     * Method called by SAML consumer. Performs a lookup in Mongo to find
-     * oauthSession correponding to the requestToken, and stores the SAML
-     * message ID into that object.
-     * 
-     * @param requestToken
-     *            Value of token granted to the application (signifying request
-     *            for access token).
-     * @param messageId
-     *            SAML message unique identifier.
-     */
-    public void storeSamlMessageId(String requestToken, String messageId) {
-       /* Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                new Query(Criteria.where("body.requestToken").is(requestToken)), 0, 1);
-        if (results != null && messageId.length() > 0) {
-            for (Entity oauthSession : results) {
-                Map<String, Object> body = oauthSession.getBody();
-                body.put("samlMessageId", messageId);
-                getService().update(oauthSession.getEntityId(), (EntityBody) body);
-            }
-        }*/
-    }
+
     
     /**
      * Gets the EntityService associated with the OAuth 2.0 session collection.

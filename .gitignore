@@ -12,3 +12,5 @@ target
 .idea/
 *.iml
 sli/dashboard/maven-eclipse.xml
+sli/ingestion/src/main/resources/ingestion-dev.properties
+Demo/EdFiSampleData/

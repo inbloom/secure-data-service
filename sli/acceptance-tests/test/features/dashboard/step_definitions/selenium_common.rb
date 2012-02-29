@@ -52,7 +52,7 @@ def localLogin (username, password)
 end
 
 def getBaseUrl()
-  return "http://"+PropLoader.getProps['dashboard_server_address']+ 
+  return PropLoader.getProps['dashboard_server_address']+ 
           PropLoader.getProps[@appPrefix] 
 end
 

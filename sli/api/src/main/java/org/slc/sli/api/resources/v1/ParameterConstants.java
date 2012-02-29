@@ -48,21 +48,28 @@ public class ParameterConstants {
     /**
      * Entity/Association IDs 
      */
-    public static final String SCHOOL_ID = "schoolId";
-    public static final String STUDENT_ID = "studentId";
     public static final String ASSESSMENT_ID = "assessmentId";
     public static final String BELL_SCHEDULE_ID = "bellScheduleId";
-    public static final String SECTION_ID = "sectionId";
-    public static final String SESSION_ID = "sessionId";
     public static final String COHORT_ID = "cohortId";
+    public static final String COURSE_ID = "courseId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
+    public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
+    public static final String SCHOOL_ID = "schoolId";
+    public static final String SECTION_ID = "sectionId";
+    public static final String SESSION_ID = "sessionId";
+    public static final String STAFF_ID = "staffId";
+    public static final String STUDENT_ID = "studentId";
     public static final String TEACHER_ID = "teacherId";
-    public static final String COURSE_ID = "courseId";
-    
+    public static final String ATTENDANCE_ID = "attendanceId";
+    public static final String SCHOOL_SESSION_ASSOCIATION_ID = "schoolSessionAssociationId";
     public static final String TEACHER_SCHOOL_ASSOCIATION_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SCHOOL_ASSOC_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SECTION_ASSOCIATION_ID = "teacherSectionAssociationId";
+    public static final String STAFF_EDUCATION_ORGANIZATION_ID = "staffEducationOrganizationId";
+    public static final String STUDENT_SECTION_ASSOCIATION_ID = "studentSectionAssociationId";
+    public static final String STUDENT_SCHOOL_ASSOCIATION_ID = "studentSchoolAssociationId";
+    public static final String SESSION_COURSE_ASSOCIATION_ID = "sessionCourseAssociationId";
 
 }
