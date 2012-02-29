@@ -232,7 +232,7 @@ public class EducationOrganizationResourceTest {
     }
     
     private String getIDList(String resource) {
-        //create one more resource
+        //create more resources
         Response createResponse1 = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         Response createResponse2 = edOrgResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
         
