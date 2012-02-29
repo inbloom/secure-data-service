@@ -2,24 +2,25 @@ package org.slc.sli.view;
 
 import org.slc.sli.entity.GenericEntity;
 
-import java.util.List;
 
 /**
  * Class to handle the oddities of getting absences from attendance objects.
  */
 public class AttendanceAbsenceResolver implements AggregateResolver {
 
-    List<GenericEntity> studentList;
+    private GenericEntity student;
+    
+    private final String compareValue = "abscence";
 
-    public AttendanceAbsenceResolver(List<GenericEntity> studentList) {
-        this.studentList = studentList;
+    public AttendanceAbsenceResolver(GenericEntity student) {
+        this.student = student;
     }
 
     public AttendanceAbsenceResolver() {
     }
 
-    public void setStudentList(List<GenericEntity> studentList) {
-        this.studentList = studentList;
+    public void setStudent(GenericEntity student) {
+        this.student = student;
     }
 
     @Override
