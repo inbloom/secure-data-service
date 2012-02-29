@@ -27,11 +27,8 @@ public class InstitutionalHierarchyManager extends Manager {
     public List<GenericEntity> getSchools(String token) {
         return apiClient.getSchools(token, null);
     }
-    public List<GenericEntity> getAssociatedEducationalOrganizations(String token, GenericEntity school) {
-        return apiClient.getAssociatedEducationalOrganizations(token, school);
-    }
-    public List<GenericEntity> getParentEducationalOrganizations(String token, GenericEntity edOrg) {
-        return apiClient.getParentEducationalOrganizations(token, edOrg);
+    public GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
+        return apiClient.getParentEducationalOrganization(token, edOrgOrSchool);
     }
 
     /**
@@ -55,18 +52,17 @@ public class InstitutionalHierarchyManager extends Manager {
 
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.size(); i++) {
-            HashMap<String, GenericEntity> ancestorEdOrgs = new HashMap<String, GenericEntity>(); // strictly not needed, but makes the code easier to read.
-            List<GenericEntity> edOrgs = getAssociatedEducationalOrganizations(token, schools.get(i));
-            for (int j = 0; j < edOrgs.size(); j++) {
-                insertEdOrgAndAncesterIntoSet(token, ancestorEdOrgs, edOrgs.get(j));
-            }
-            // insert ed-org - school mapping into the reverse map
-            edOrgIdMap.putAll(ancestorEdOrgs);
-            for (String edOrgId : ancestorEdOrgs.keySet()) {
+            GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
+            while(edOrg != null) {
+                String edOrgId = edOrg.getString(Constants.ATTR_ID);
+                // insert ed-org id to - edOrg mapping 
+                edOrgIdMap.put(edOrgId, edOrg);
+                // insert ed-org - school mapping into the reverse map
                 if (!schoolReachableFromEdOrg.keySet().contains(edOrgId)) {
                     schoolReachableFromEdOrg.put(edOrgId, new HashSet<GenericEntity>());
                 }
                 schoolReachableFromEdOrg.get(edOrgId).add(schools.get(i));
+                edOrg = getParentEducationalOrganization(token, edOrg); // next in the ancestor chain
             }
         }
 
@@ -78,7 +74,6 @@ public class InstitutionalHierarchyManager extends Manager {
                 obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
                 // convert school ids to the school object array
                 Set<GenericEntity> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
-                GenericEntity[] reachableSchoolsArr = new GenericEntity [reachableSchools.size()];
                 obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                 retVal.add(obj);
             } catch (Exception e) {
@@ -95,14 +90,6 @@ public class InstitutionalHierarchyManager extends Manager {
     }
     
     // ------------- helper functions ----------------
-    // This assumes there is no cycle in the education organization hierarchy tree.
-    private void insertEdOrgAndAncesterIntoSet(String token, Map<String, GenericEntity> map, GenericEntity edOrg) {
-        map.put(edOrg.getString(Constants.ATTR_ID), edOrg);
-        List<GenericEntity> parentEdOrgs = getParentEducationalOrganizations(token, edOrg);
-        for (int i = 0; i < parentEdOrgs.size(); i++) {
-            insertEdOrgAndAncesterIntoSet(token, map, parentEdOrgs.get(i));
-        }
-    }
 
     private static Collection<GenericEntity> findOrphanSchools(List<GenericEntity> schools, Map<String, HashSet<GenericEntity>> schoolReachableFromEdOrg) {
         Vector<GenericEntity> orphanSchools = new Vector<GenericEntity>();
