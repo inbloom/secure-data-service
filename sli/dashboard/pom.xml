@@ -72,7 +72,7 @@
                 <env>qa2</env>
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
-				<server.mode>test</server.mode>
+				<server.mode>live</server.mode>
 				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 		</profile>
@@ -85,7 +85,7 @@
 			    <env>dev</env>
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
-				<server.mode>live</server.mode>
+				<server.mode>test</server.mode>
 				<log.path>${user.home}/logs/</log.path>
 			</properties>
 		</profile>
