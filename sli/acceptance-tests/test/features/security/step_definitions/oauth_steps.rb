@@ -39,7 +39,7 @@ When /^the user tries to access the resource "([^"]*)"$/ do |resourceUri|
 end
 
 When /^I am told to redirect my user to authenticate$/ do
-  pending # express the regexp above with the code you wish you had
+  #I don't believe anything needs to be done for this step
 end
 
 When /^the user logs in to the SLI\-IDP Login page as "([^"]*)" with password "([^"]*)"$/ do |username, password|
@@ -71,13 +71,6 @@ Given /^I try to access the resource "([^"]*)" using the user's credentials$/ do
   @res = restHttpGet(@resource)
 end
 
-Given /^the user has a expired access token and a valid refresh token$/ do
-  getToken()
-  time = Time.new
-  t = t - 600 #The current date, minus 10 minutes
-  coll.update({"accessToken.value" => @token.access_token}, {"$set" => {"accessToken.expiration" => t}})
-end
-
 Given /^the user submits their "([^"]*)" token$/ do |arg1|
   @res = @token.get(@resource)
 end
@@ -95,7 +88,7 @@ Given /^the user has a "([^"]*)" access token$/ do |arg1|
     #Generate access token, change expiration date to be in the past
       time = Time.new
       t = t - 600 #The current date, minus 10 minutes
-      coll.update({"accessToken.value" => @token.access_token}, {"$set" => {"accessToken.expiration" => t}})
+      coll.update({"accessToken.value" => @token.token}, {"$set" => {"accessToken.expiration" => t}})
   elsif arg1 == "valid"
     assert(@token != nil)
   end
@@ -105,7 +98,7 @@ Given /^the user has a "([^"]*)" refresh token$/ do |arg1|
   if arg1 == "expired"
     time = Time.new
     t = t - 600 #The current date, minus 10 minutes
-    coll.update({"accessToken.refreshToken.value" => @token.access_token.refresh()}, {"$set" => {"accessToken.refreshToken.expiration" => t}})
+    coll.update({"accessToken.refreshToken.value" => @token.refresh_token}, {"$set" => {"accessToken.refreshToken.expiration" => t}})
   elsif arg1 == "valid"
     assert(@token.refresh_token != nil)
   end
@@ -126,6 +119,7 @@ end
 Given /^the user has a made up refresh token$/ do
   token_hash = {}
   token_hash["refresh_token"] = "bad-refresh-token"
+  token_hash["access_token"] = @token.token
   
   @token = OAuth2::AccessToken::from_hash(nil, token_hash)
 end

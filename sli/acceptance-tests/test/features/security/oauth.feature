@@ -13,7 +13,7 @@ Scenario: Granting access to valid user with no prior session information
 	
 Scenario: Granting access to valid user with valid, previously obtained session token & refresh token
 
-	Given a user "demo" has previously authenticated 
+	Given the user has previously authenticated as "demo" with password "demo1234"
 	And received a "valid" access token 
 	And received a "valid" refresh token
      When I try to access the resource "admin" using the user's credentials
