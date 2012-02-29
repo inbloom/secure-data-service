@@ -45,6 +45,7 @@ public class Constants {
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
+    public static final String MM_KEY_ATTENDANCE = "attendances";
     
     // entity attributes
     public static final String ATTR_COURSES = "courses";
@@ -91,9 +92,12 @@ public class Constants {
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
+    public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
+
+
 
     /**
      * Contains the possible values for FRE participation
