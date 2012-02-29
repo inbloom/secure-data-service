@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
@@ -89,11 +90,63 @@ public class MongoEntityRepository implements EntityRepository {
      */
     protected Query convertToQuery(EntityQuery query) {
         Query mongoQuery = new Query();
-        
-        if(query.getIncludeFields() != null) {
-            mongoQuery.fields().include(query.getIncludeFields());
+        final String mongoBody = "body.";
+
+        // Include fields
+        if (query.getIncludeFields() != null) {
+            mongoQuery.fields().include(mongoBody + query.getIncludeFields());
         }
         
+        // Exclude fields
+        if (query.getExcludeFields() != null) {
+            mongoQuery.fields().exclude(mongoBody + query.getExcludeFields());
+        }
+        
+        // Sorting
+        if (query.getSortBy() != null) {
+            if (query.getSortOrder() != null) {
+                Order sortOrder = query.getSortOrder().equals(EntityQuery.SortOrder.ascending) ? Order.ASCENDING : Order.DESCENDING;
+                mongoQuery.sort().on(mongoBody + query.getSortBy(), sortOrder);
+            } else { //default to ascending order
+                mongoQuery.sort().on(mongoBody + query.getSortBy(), Order.ASCENDING);
+            }
+        }
+
+        // Limit
+        if (query.getLimit() != 0) {
+            mongoQuery.limit(query.getLimit());
+        }
+
+        // Offset
+        if (query.getOffset() != 0) {
+            mongoQuery.skip(query.getOffset());
+        }
+
+        Map<String, String> fields = query.getFields();
+
+        // _id field
+        final String mongoId = "_id";
+        if (fields.containsKey(mongoId)) {
+            String id = fields.get(mongoId);
+            
+            Object databaseId = idConverter.toDatabaseId(id);
+            if (databaseId == null) {
+                LOG.debug("Unable to process id {}", new Object[] { id });
+                return null;
+            }
+            mongoQuery.addCriteria(Criteria.where(mongoId).is(databaseId));
+            fields.remove(mongoId);
+        }
+        
+        // Query fields
+
+        for (Map.Entry<String, String> entry : query.getFields().entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (value != null) {
+                mongoQuery.addCriteria(Criteria.where(mongoBody + key).is(value));
+            }
+        }
         return mongoQuery;
     }
     
@@ -110,15 +163,15 @@ public class MongoEntityRepository implements EntityRepository {
      */
     private static Query createQuery(Map<String, String> queryParameters, IdConverter converter) {
         Query query = new Query();
-        
+
         if (queryParameters == null) {
             return query;
         }
-        
+
         //read each entry in map
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
-            
+
             //id field needs to be translated
             if (key.equals("_id")) {
                 String id = entry.getValue();
@@ -163,7 +216,7 @@ public class MongoEntityRepository implements EntityRepository {
                 }
             }
         }
-        
+
         return query;
     }
     

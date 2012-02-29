@@ -125,6 +125,6 @@ public class SmooksFileHandlerTest {
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
-        assertTrue("Valid XML should give no errors.", !errorReport.hasErrors());
+        assertTrue("Valid XML should give no errors." + errorReport.getFaults(), !errorReport.hasErrors());
     }
 }
