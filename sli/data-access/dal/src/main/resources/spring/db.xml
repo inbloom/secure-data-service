@@ -25,7 +25,6 @@
 		port="${sli.mongodb.port}" />
 	<!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
-
 	<mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
 		<mongo:custom-converters>
 			<mongo:converter>
@@ -38,7 +37,12 @@
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 
+	<bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 
+	<bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher" >
+		<property name="keyStore" value="${sli.encryption.keyStore}" />
+		<property name="propertiesFile" value="${sli.encryption.properties}" />
+	</bean>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
