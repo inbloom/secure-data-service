@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class AttendanceAbsenceResolver implements AggregateResolver {
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
+    public static final String CATEGORY = "attendanceEventCategory";
 
     private GenericEntity student;
     
@@ -33,10 +34,11 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
     @Override
     public int getCountForPath(String path) {
         //TODO: This should be a lot more generic.
-        List<GenericEntity> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
-        for (GenericEntity attendance : attendances) {
-            if (attendance.getString("attendanceEventCategory").contains(compareValue)) { ++count; }
+        for (Map attendance : attendances) {
+            String value = (String) attendance.get(CATEGORY);
+            if (value.contains(compareValue)) { ++count; }
         }
         logger.debug(student.toString());
         return count;
