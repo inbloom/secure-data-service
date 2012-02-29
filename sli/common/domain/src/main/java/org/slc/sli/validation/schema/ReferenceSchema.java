@@ -14,6 +14,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * SLI reference schema that validates entity references
+ *
  * @author srupasinghe
  *
  */
@@ -22,16 +23,16 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 public class ReferenceSchema extends NeutralSchema {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(ReferenceSchema.class);
-    
+
     // Constructors
     public ReferenceSchema() {
         this(NeutralSchemaType.REFERENCE.getName());
     }
-    
+
     public ReferenceSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
     @Override
     public NeutralSchemaType getSchemaType() {
@@ -42,7 +43,7 @@ public class ReferenceSchema extends NeutralSchema {
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -50,32 +51,33 @@ public class ReferenceSchema extends NeutralSchema {
      * @param errors
      *            list of current errors
      * @param repo
-     *            reference to the entity repository           
+     *            reference to the entity repository
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
         if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
-        
-        boolean found = true;
-        
+
+        boolean found = false;
+
         try {
-            //try to find an entity with the given id
+            // try to find an entity with the given id
             found = (repo.find(getAppInfo().getReferenceType(), (String) entity) != null);
-        } catch (IllegalArgumentException iae) {
-            //catch any malformed uuid exceptions
-            found = false;
+        } catch (Exception e) {
+            // repo.find is currently throwing multiple kinds of exceptions so we will catch all for
+            // now, as we sort out what is thrown and why
+            LOG.debug("Exception when looking up reference in repository. ", e);
         }
-        
-        //if not found add the appropriate error
+
+        // if not found add the appropriate error
         if (!found) {
-            LOG.debug("Broken reference in {}, {}, {}", new Object[]{entity, fieldName, errors});
-            
+            LOG.debug("Broken reference in {}, {}, {}", new Object[] { entity, fieldName, errors });
+
             addError(false, fieldName, entity, "Valid reference", ErrorType.REFERENTIAL_INFO_MISSING, errors);
             return false;
         }
-        
+
         return true;
     }
 }

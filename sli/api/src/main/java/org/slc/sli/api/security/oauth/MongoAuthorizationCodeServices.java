@@ -67,24 +67,10 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     @Autowired
     private SliClientDetailService clientDetailService;   
     
-    /**
-     * Performs a lookup based on user and client authentication (in unconfirmed authorization code
-     * authentication token holder), and stores the authorization 'code' into Mongo.
-     */
+
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
-        final EntityBody verificationCode = new EntityBody();
-        verificationCode.put("code", code);
-        
-        verificationCode.put("authorizationBlob", OAuthTokenUtil.serialize(authentication));
-        verificationCode.put("expiration", System.currentTimeMillis() + (5 * 60 * 1000));
-        SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
-            @Override
-            public Boolean execute() {
-                getService().create(verificationCode);
-                return true;
-            }
-        });
+        assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
     }
     
     protected void create(String clientId, String samlId) {
