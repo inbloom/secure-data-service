@@ -210,4 +210,44 @@ public class StudentResource {
         return this.crudDelegate.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "studentId", studentId, "sectionId",
                 ResourceNames.SECTIONS, headers, uriInfo);
     }
+    
+    /**
+     * student school associations
+     * 
+     * @param studentId
+     *            The Id of the Student.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
+    public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
+    }
+    
+    /**
+     * student school associations - schools lookup
+     * 
+     * @param studentId
+     *            The Id of the Student.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
+    public Response getStudentSchoolAssociationSchools(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "studentId", studentId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
+    }
 }
