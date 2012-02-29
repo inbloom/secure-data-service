@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+
+gem 'oauth2'
+gem 'mongo'
+gem 'selenium-webdriver'
+gem 'rest-client'
+gem 'builder'
+gem 'cucumber'

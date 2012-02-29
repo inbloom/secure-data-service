@@ -222,6 +222,15 @@
 							<name>sli.env</name>
 							<value>${sli.env}</value>
 						</systemProperty>
+						<systemProperty>
+						        <name>sli.encryption.keyStore</name>
+						        <value>${sli.encryption.keyStore}</value>
+						</systemProperty>
+						<systemProperty>
+						        <name>sli.encryption.properties</name>
+						        <value>${sli.encryption.properties}</value>
+						</systemProperty>
+
 					</systemProperties>
 				</configuration>
 			</plugin>

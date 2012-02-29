@@ -294,6 +294,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 listContentSchema = getSchemaFactory().createSchema(itemTypeName.getLocalPart());
             }
             listSchema.getList().add(listContentSchema);
+            listSchema.updateAnnotations();
             return listSchema;
             
         } else if (getSimpleContentTypeName(schemaSimpleType) != null) {
@@ -564,6 +565,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             if (element.getMaxOccurs() > 1) {
                 ListSchema listSchema = (ListSchema) getSchemaFactory().createSchema("list");
                 listSchema.getList().add(elementSchema);
+                listSchema.updateAnnotations();
                 elementSchema = listSchema;
             }
         }
