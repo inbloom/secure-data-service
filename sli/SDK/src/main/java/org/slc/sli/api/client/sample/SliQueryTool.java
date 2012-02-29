@@ -32,9 +32,9 @@ public class SliQueryTool {
         // for now, just hard code everything
         
         // Connect to local host.
-        SLIClient client = BasicClient.Builder.create().user("administrator").password(args[0]).build();
+        SLIClient client = BasicClient.Builder.create().user("linda.kim").password(args[0]).build();
         
-        EntityCollection collection = client.read(EntityType.SCHOOLS, args[1], BasicQuery.EMPTY_QUERY);
+        EntityCollection collection = client.read(EntityType.SECTIONS, args[1], BasicQuery.EMPTY_QUERY);
         
         for (int i = 0; i < collection.size(); ++i) {
             

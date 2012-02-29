@@ -142,10 +142,16 @@ public final class BasicClient implements SLIClient {
         
         ClientResponse response = restClient.getRequest(builder.build());
         
-        entity = gson.fromJson(response.getEntity(String.class), Entity.class);
-        
         EntityCollection r = new EntityCollection();
-        r.add(entity);
+        
+        // TODO - create a generic error handling method.
+        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
+            entity = gson.fromJson(response.getEntity(String.class), Entity.class);
+            r.add(entity);
+        } else {
+            System.err.println("Failed REST call:" + response.getStatus());
+        }
+        
         return r;
     }
     
