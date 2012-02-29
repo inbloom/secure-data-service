@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudent xsi:schemaLocation="http://ed-fi.org/0100 C:/Projects/TSDS/trunk/src/Etl/EdFi.Etl.EdFi/Ed-Fi/Interchange-Student.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <StudentIdentity>
+     <StudentReference id="STU-605723">
+        <studentUniqueStateId>605723</studentUniqueStateId>
+        <name>
+             <firstName>Keisha</firstName>
+             <lastSurname>Ho</lastSurname>
+        </name>
+		<otherName>Keish</otherName>
+		<address>
+			<streetNumberName>4 Privet Drive</streetNumberName>
+			<city>Waco</city>
+			<stateAbbreviation>TX</stateAbbreviation>
+			<postalCode>22222</postalCode>
+		</address>
+		<telephone>
+			<telephoneNumber>111-111-1111<telephoneNumber>
+		</telephone>
+		<electronicEmail>
+			<emailAddress>KHO@mymail.com</emailAddress>
+		</electronicEmail>
+		<profileThumbnail></profileThumbnail>
+		<hispanicLatinEthnicity>false</hispanicLatinEthinicity>
+		<oldEthnicity>Asian Or Pacific Islander</oldEthnicity>
+		<race>Asian</race>
+		<economicDisadvantaged>false</economicDisadvantaged>
+		<schoolFoodServicesEligibility>Full price</schoolFoodServicesEligibility>
+		<studentCharacteristics>
+			<characteristic>Immigrant</characteristic>
+			<beginDate>2003-01-01</beginDate>
+		</studentCharacteristics>
+		<limitedEnglishProficency>NotLimited</limitedEnglishProficency>
+		<homeLanguages>Vietnamese</homeLanguages>
+		<languages>English</languages>
+		<disability>
+			<disability>Other Health Impairment</disability>
+		</disability>
+		<section504Disabilities>Other</section504Disabilities>
+		<displacementStatus>false</displacementStatus>
+		<programParticipation>
+			<program>Regular Education</program>
+			<beginDate>2005-01-01</beginDate>
+		</programParticipation>
+		<learningStyles>
+			<visualLearning>45%</visualLearning>
+		</learningStyles>
+		<loginId>KHO1212</loginId>
+		<birthData>
+            <birthDate>1994-08-02</birthDate>
+			<stateOfBirthAbbreviation>TX</stateOfBirthAbbreviation>
+		</birthData>
+        <sex>Female</sex>
+      </StudentIdentity>
+   </StudentReference>
+</InterchangeStudent>
