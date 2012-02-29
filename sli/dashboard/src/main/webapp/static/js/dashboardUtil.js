@@ -26,6 +26,11 @@ DashboardUtil.getElementHeight = function (element)
     return $(element).height();
 };
 
+DashboardUtil.makeTabs = function (element)
+{
+    $(element).tabs();
+}
+
 // --- static helper function --- 
 // Gets the style object for the element where we're drawing the fuel gauge.
 // Returns a CSSStyleDeclaration object 
