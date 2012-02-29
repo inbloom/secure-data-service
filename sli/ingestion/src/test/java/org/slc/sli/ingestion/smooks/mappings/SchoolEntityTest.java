@@ -141,7 +141,7 @@ public class SchoolEntityTest {
      * targetSelector,
      * schoolCsv);
      *
-     * checkValidSchoolNeutralRecord(neutralRecord);
+     * checkValidSchoolNeutralRecord(neutralRecord, false);
      * }
      */
 
@@ -155,11 +155,11 @@ public class SchoolEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                 targetSelector, edfiSchoolXml);
 
-        checkValidSchoolNeutralRecord(neutralRecord);
+        checkValidSchoolNeutralRecord(neutralRecord, true);
     }
 
     @SuppressWarnings("rawtypes")
-    private void checkValidSchoolNeutralRecord(NeutralRecord neutralRecord) {
+    private void checkValidSchoolNeutralRecord(NeutralRecord neutralRecord, boolean isXML) {
 
         assertEquals("152901001", neutralRecord.getLocalId());
         assertEquals("152901001", neutralRecord.getAttributes().get("stateOrganizationId"));
@@ -214,7 +214,7 @@ public class SchoolEntityTest {
 
         List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals("Third grade", gradesOfferedList.get(0));
-        if (gradesOfferedList.size() > 1) {
+        if (isXML) {
             // TODO: remove if block when we support csv collections
             assertEquals("Fourth grade", gradesOfferedList.get(1));
         }
