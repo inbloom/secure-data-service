@@ -104,6 +104,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
             // get the collection name and from the key name in one of two naming conventions
             String collection;
             String fieldName;
+            
             if (externalIdEntry.getKey().contains("#")) {
                 try {
                     String[] keys = externalIdEntry.getKey().split("#");
@@ -112,7 +113,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
                 } catch (Exception e) {
                     errorReport.error(
                             "Invalid localParentId key [" + externalIdEntry.getKey() + "]", this);
-                    return;
+                    break;
                 }
             } else {
                 collection = externalIdEntry.getKey().toLowerCase();
@@ -125,9 +126,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
             if (errorReport.hasErrors()) {
                 // Stop processing.
-                return;
+                break;
             }
-
             entity.setAttributeField(fieldName, internalId);
         }
     }
