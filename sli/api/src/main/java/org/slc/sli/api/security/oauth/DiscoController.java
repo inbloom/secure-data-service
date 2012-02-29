@@ -124,7 +124,7 @@ public class DiscoController {
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
         
-        authCodeService.create(clientId, tuple.getLeft(), appRelayState);
+        authCodeService.create(clientId, tuple.getLeft());
         LOG.debug("redirecting to: " + endpoint);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
