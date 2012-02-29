@@ -22,8 +22,7 @@ public class FieldCounter {
     }
 
     public String getText() {
-        return "30";
-        //return "" + resolver.getCountForPath(field.getValue());
+        return "" + resolver.getCountForPath(field.getValue());
     }
 
     /**
