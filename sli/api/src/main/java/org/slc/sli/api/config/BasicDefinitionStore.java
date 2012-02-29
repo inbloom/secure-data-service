@@ -72,20 +72,20 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
         
         // adding the entity definitions
-        factory.makeEntity("aggregation", ResourceNames.AGGREGATIONS).buildAndRegister(this);
-        factory.makeEntity("aggregationDefinition", ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
-        EntityDefinition assessment = factory.makeEntity("assessment", ResourceNames.ASSESSMENTS).buildAndRegister(this);
-        factory.makeEntity("assessmentFamily", ResourceNames.ASSESSMENT_FAMILIES).buildAndRegister(this);
-        EntityDefinition course = factory.makeEntity("course", ResourceNames.COURSES).buildAndRegister(this);
-        EntityDefinition school = factory.makeEntity("school", ResourceNames.SCHOOLS).buildAndRegister(this);
-        EntityDefinition section = factory.makeEntity("section", ResourceNames.SECTIONS).buildAndRegister(this);
-        EntityDefinition session = factory.makeEntity("session", ResourceNames.SESSIONS).buildAndRegister(this);
-        EntityDefinition staff = factory.makeEntity("staff", ResourceNames.STAFF).buildAndRegister(this);
-        EntityDefinition student = factory.makeEntity("student", ResourceNames.STUDENTS).buildAndRegister(this);
-        EntityDefinition teacher = factory.makeEntity("teacher", ResourceNames.TEACHERS).buildAndRegister(this);
-        EntityDefinition educationOrganization = factory.makeEntity("educationOrganization", ResourceNames.EDUCATION_ORGANIZATIONS)
+        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
+        EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.ASSESSMENT_FAMILY, ResourceNames.ASSESSMENT_FAMILIES).buildAndRegister(this);
+        EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
+        EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
+        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(this);
+        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(this);
+        EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
+        EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(this);
+        EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(this);
+        EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
-        factory.makeEntity("attendance", ResourceNames.ATTENDANCES).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation")
