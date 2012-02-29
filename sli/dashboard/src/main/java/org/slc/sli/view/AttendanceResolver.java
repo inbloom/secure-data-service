@@ -2,9 +2,7 @@ package org.slc.sli.view;
 
 import org.slc.sli.entity.GenericEntity;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A class to aggregate all of the ways to deal with attendance data.

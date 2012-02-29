@@ -8,7 +8,6 @@ import org.slc.sli.client.RESTClient;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertNotNull;

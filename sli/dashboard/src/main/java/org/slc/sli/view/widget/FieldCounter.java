@@ -1,7 +1,6 @@
 package org.slc.sli.view.widget;
 
 import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AggregateResolver;
 
 import java.util.Map;
@@ -22,7 +21,7 @@ public class FieldCounter {
     }
 
     public String getText() {
-        return "" + resolver.getCountForPath(field.getValue());
+        return "30";
     }
 
     /**

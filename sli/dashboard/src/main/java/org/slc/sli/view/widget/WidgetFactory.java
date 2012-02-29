@@ -3,7 +3,6 @@ package org.slc.sli.view.widget;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
-import org.slc.sli.view.AggregateResolver;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;

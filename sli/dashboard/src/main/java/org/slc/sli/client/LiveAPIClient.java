@@ -421,7 +421,12 @@ public class LiveAPIClient implements APIClient {
      */
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
         String url = Constants.API_SERVER_URI + "v1/students/" + studentId + "/attendances";
-        return createEntitiesFromAPI(url, token);
+        try {
+            return createEntitiesFromAPI(url, token);
+        } catch (Exception e) {
+            logger.error("Couldn't retrieve attendance for id:" + studentId, e.getStackTrace());
+            return new ArrayList<GenericEntity>();
+        }
     }
     
     private String getUsername() {
