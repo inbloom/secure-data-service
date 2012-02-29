@@ -1,5 +1,3 @@
-#@wip
-
 Feature: high school college-ready student list view
 
 As a SEA/LEA user, I want to see the high school student list view
