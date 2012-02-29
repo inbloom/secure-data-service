@@ -204,8 +204,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     queryParameters.put("_id", (String) entityBody.get(idKey));
                     
                     //lookup endpoint from association. should just return 1 result
-                    Iterable<EntityBody> entityBodyTest = endpointEntity.getService().list(queryParameters);
-
                     for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
                         //if links should be included then put them in the entity body
                         if (shouldIncludeLinks) {
