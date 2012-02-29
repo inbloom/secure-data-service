@@ -74,7 +74,6 @@ public class InstitutionalHierarchyManager extends Manager {
                 obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
                 // convert school ids to the school object array
                 Set<GenericEntity> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
-                GenericEntity[] reachableSchoolsArr = new GenericEntity [reachableSchools.size()];
                 obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                 retVal.add(obj);
             } catch (Exception e) {

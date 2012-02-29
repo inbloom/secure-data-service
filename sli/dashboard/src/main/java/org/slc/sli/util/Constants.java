@@ -9,8 +9,8 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_SERVER_URI = "https://devapp1.slidev.org/api/rest";
-    public static final String SECURITY_SERVER_URI = "https://devapp1.slidev.org/api/rest";
+    public static final String API_SERVER_URI = "http://syau.devapp1.slidev.org:8080/api/rest/v1";
+    public static final String SECURITY_SERVER_URI = "http://syau.devapp1.slidev.org:8080/api/rest";
 
     public static final String SESSION_CHECK_URL = "system/session/check";
     public static final String GET_ROLES_URL = "admin/roles";
@@ -92,6 +92,8 @@ public class Constants {
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
+    public static final String ATTR_TEACHER_ID = "teacherId";
+    public static final String ATTR_SECTION_ID = "sectionId";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
