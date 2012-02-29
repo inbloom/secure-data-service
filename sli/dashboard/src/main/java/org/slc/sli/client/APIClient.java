@@ -19,6 +19,7 @@ public interface APIClient {
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds);
     public List<GenericEntity> getCustomData(final String token, String key);
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds);
+    public List<GenericEntity> getStudentAttendance(final String token, String studentId);
     public List<GenericEntity> getParentEducationalOrganizations(final String token, GenericEntity educationalOrganization);
     public List<GenericEntity> getAssociatedEducationalOrganizations(final String token, GenericEntity school);
 }

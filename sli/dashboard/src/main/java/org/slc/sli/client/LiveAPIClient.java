@@ -414,6 +414,20 @@ public class LiveAPIClient implements APIClient {
 
         }
     }
+
+    /**
+     * Simple method to return a list of attendance data.
+     * @return A list of attendance events for a student.
+     */
+    public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
+        String url = Constants.API_SERVER_URI + "v1/students/" + studentId + "/attendances";
+        try {
+            return createEntitiesFromAPI(url, token);
+        } catch (Exception e) {
+            logger.error("Couldn't retrieve attendance for id:" + studentId, e.getStackTrace());
+            return new ArrayList<GenericEntity>();
+        }
+    }
     
     private String getUsername() {
         return SecurityUtil.getPrincipal().getUsername().replace(" ", "");

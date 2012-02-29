@@ -69,12 +69,6 @@ public class BatchJobAssemblerTest {
 
     }
 
-    @Ignore
-    @Test
-    public void testAssembleJobWithWarnings() {
-        fail("Not yet implemented");
-    }
-
     @Test
     public void testAssembleJobWithErrors() throws IOException {
 
