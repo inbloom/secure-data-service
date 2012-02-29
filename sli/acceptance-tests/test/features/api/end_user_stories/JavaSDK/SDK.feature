@@ -42,7 +42,7 @@ Examples:
 
 
 
-Scenario Outline:  As a IT admin I should be able to create/read/edit/delete a student and association
+Scenario Outline:  As a IT admin I should be able to CRUD a student and association
      Given  I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SEA/LEA IDP"
     And the role attribute equals <AnyDefaultSLIRole>
@@ -98,11 +98,26 @@ Scenario Outline:  As a IT admin I should be able to create/read/edit/delete a s
 	# update a student
 	 When I navigate to GET "/students/ <'Mary Line' ID>"
 	    Then the "birthDate" should be "1998-01-22"
-    When I set the "birthDate" to "1997-01-22"
+     When I set the "birthDate" to "1997-01-22"
 	    And I navigate to PUT "/students/<' <'Mary Line' ID>'"
 	    Then I should receive a return code of 204
-    When I navigate to GET "/students/<'Mary Line' ID>"
+      When I navigate to GET "/students/<'Mary Line' ID>"
         Then the "birthDate" should be "1997-01-22"
+    
+    #delete student    
+      When I navigate to DELETE "/students/ <'Mary Line' ID>"  
+      	 Then I should receive a return code of 204
+	  When  I navigate to GET "/students/<'Mary Line' ID>"
+	     Then I should receive a return code of 404
+	  
+	  # check the association is gone as well  
+	  When I navigate to GET "getStudents" with URI "/student-sections-association/<'ImportantSection' ID>/targets" 
+		Then I should receive a collection of 6 student links
+		And I should find Student with <'John Doe' ID>
+		And I should find Student with <'Sean Deer' ID>
+		And I should find Student with <'Suzy Queue' ID>
+	 	And I should find Student with <'Dong Steve' ID>
+	 	And I should find Student with <'Jason Barker' ID> 
      
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |

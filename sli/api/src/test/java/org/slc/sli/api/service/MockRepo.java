@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.mongodb.DBObject;
 
+import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -87,7 +88,14 @@ public class MockRepo implements EntityRepository {
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
         return findByFields(collectionName, queryParameters, 0, 10);
     }
-    
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        Map<String, String> fields = query.getFields();
+        
+        return findByFields(collectionName, fields);
+    }
+
     @Override
     public Entity find(String entityType, String id) {
         return repo.get(entityType).get(id);
@@ -136,7 +144,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
-    
+
     private boolean matchesFields(Entity entity, Map<String, String> fields) {
         for (Map.Entry<String, String> field : fields.entrySet()) {
             Object value = entity.getBody().get(field.getKey());

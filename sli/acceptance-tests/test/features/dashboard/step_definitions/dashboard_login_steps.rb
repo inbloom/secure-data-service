@@ -65,9 +65,8 @@ Given /^I clicked the Submit button$/ do
   clickButton("submit", "name")
 end
 
-Then /^I am informed that "([^"]*)" does not exists$/ do |arg1|
-  assertText("Your login attempt was not successful")
-  assertText("Bad credentials")
+Then /^I am informed that "([^"]*)"$/ do |arg1|
+  assertText(arg1)
 end
 
 Then /^I am redirected to the SLI\-IDP Login page$/ do

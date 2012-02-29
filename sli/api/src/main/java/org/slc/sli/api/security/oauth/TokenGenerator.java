@@ -3,6 +3,8 @@ package org.slc.sli.api.security.oauth;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
+
 /**
  * 
  * @author pwolf
@@ -10,29 +12,10 @@ import java.util.Random;
  */
 public class TokenGenerator {
 
-    private static char[] validChars = null;
+    private static final char[] DEFAULT_CODEC = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            .toCharArray();
     
     private static Random random = new SecureRandom();
-
-    static {
-        validChars = new char[62];
-
-        // upper case
-        for (int i = 0; i < 26; i++) {
-            validChars[i] = (char) (97 + i);
-        }
-
-        // lower case
-        for (int i = 0; i < 26; i++) {
-            validChars[i + 26] = (char) (65 + i);
-        }
-
-        // digits
-        for (int i = 0; i < 10; i++) {
-            validChars[i + 52] = (char) (48 + i);
-        }
-
-    }
 
     /**
      * Generates a random string containing characters a-z, A-Z, 0-9
@@ -41,12 +24,24 @@ public class TokenGenerator {
      * @return a securely random string
      */
     public static String generateToken(int length) {
-        
-        StringBuffer id = new StringBuffer(length);
-        for (int i = 0; i < length; i++) {
-            id.append(validChars[random.nextInt(validChars.length)]);
-        }
-        return id.toString();
+        byte[] verifierBytes = new byte[length];
+        random.nextBytes(verifierBytes);
+        return getAuthorizationCodeString(verifierBytes);
     }
+    
+    /**
+     * Grabbed this out of {@link RandomValueAuthorizationCodeServices}
+     * 
+     * @param verifierBytes The bytes.
+     * @return The string.
+     */
+    protected static String getAuthorizationCodeString(byte[] verifierBytes) {
+        char[] chars = new char[verifierBytes.length];
+        for (int i = 0; i < verifierBytes.length; i++) {
+            chars[i] = DEFAULT_CODEC[((verifierBytes[i] & 0xFF) % DEFAULT_CODEC.length)];
+        }
+        return new String(chars);
+    }
+
 
 }

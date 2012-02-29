@@ -129,7 +129,7 @@ public class AssessmentEntityTest {
     private void checkValidAssessmentNeutralRecord(NeutralRecord assessmentNeutralRecord) {
 
         assertEquals("assessment", assessmentNeutralRecord.getRecordType());
-        assertEquals("TAKSReading3", assessmentNeutralRecord.getLocalId());
+        assertEquals("TAKS 3rd Grade Reading", assessmentNeutralRecord.getLocalId());
         assertEquals("TAKS", assessmentNeutralRecord.getAttributes().get("assessmentTitle"));
 
         List assessmentIdentificationCodeList = (List) assessmentNeutralRecord.getAttributes().get(
