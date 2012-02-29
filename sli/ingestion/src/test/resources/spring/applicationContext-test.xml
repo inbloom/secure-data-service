@@ -151,6 +151,4 @@
     </property>
   </bean>
 
-  <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
-
 </beans>
