@@ -24,6 +24,7 @@ public class RESTClient {
 
     /** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
+    private String securityUrl;
 
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
 
@@ -51,7 +52,9 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
+    	logger.info("Session check URL = " + Constants.SESSION_CHECK_URL);
         String jsonText = makeJsonRequest(Constants.SESSION_CHECK_URL, token);
+        logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
     }
@@ -68,16 +71,15 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public String makeJsonRequest(String path, String token) {
-        System.out.println("IN MAKEJSONREQUEST");
         RestTemplate template = new RestTemplate();
-        URLBuilder url = new URLBuilder(Constants.SECURITY_SERVER_URI);
+        URLBuilder url = new URLBuilder(getSecurityUrl()+Constants.API_PREFIX);
         url.addPath(path);
         if (token != null) {
             url.addQueryParam(API_SESSION_KEY, token);
         }
-        System.out.println("Accessing API at: " + url.toString());
+        logger.info("Accessing API at: " + url.toString());
         String jsonText = template.getForObject(url.toString(), String.class);
-        System.out.println("JSON response for roles: " + jsonText);
+        logger.info("JSON response for roles: " + jsonText);
         return jsonText;
     }
 
@@ -99,7 +101,11 @@ public class RESTClient {
         return null;
     }
 
+	public String getSecurityUrl() {
+		return securityUrl;
+	}
 
-
-
+	public void setSecurityUrl(String securityUrl) {
+		this.securityUrl = securityUrl;
+	}
 }
