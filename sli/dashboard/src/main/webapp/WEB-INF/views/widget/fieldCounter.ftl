@@ -7,7 +7,5 @@
      widgetFactory
   -->
 
-
-<#assign fieldCounter = widgetFactory.createFieldCounter(field, student, attendance)>
-
-<span class="count-black">30</span>
+<#assign fieldCounter = widgetFactory.createFieldCounter(field, student)>
+<span class="count-${fieldCounter.getColor()}">${fieldCounter.getText()}</span>
