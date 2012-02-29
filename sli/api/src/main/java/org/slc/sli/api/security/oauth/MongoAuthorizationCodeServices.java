@@ -87,8 +87,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         });
     }
     
-    protected void create(String clientId, String samlId, String redirectUri) {
+    protected void create(String clientId, String samlId) {
         final EntityBody authorizationCode = new EntityBody();
+        String redirectUri = clientDetailService.loadClientByClientId(clientId).getWebServerRedirectUri();
         long expiration = AUTHORIZATION_CODE_VALIDITY * 1000L;
         authorizationCode.put("expiration", new Date().getTime() + expiration);
         authorizationCode.put("redirectUri", redirectUri);
