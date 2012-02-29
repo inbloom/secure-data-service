@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.QueryBuilder;
+
 import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
@@ -538,4 +541,26 @@ public class BasicService implements EntityService {
 
         return queryBuilder.build();
     }
+
+	public EntityBody getCustom(String id) {
+		  checkAccess(Right.READ_GENERAL, id);
+		  
+		  // TODO clearly, this is tightly coupling our auth implementation and we should use something to abstract how this client ID comes into existance.
+		  OAuth2Authentication authn = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+		  String clientId = authn.getClientAuthentication().getClientId();
+		  
+		  // assuming we can be "smart about this?  Perhaps put this into the entity definition.
+		  String customCollectionName = collectionName + "Custom";
+		  
+		  EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+		  queryBuilder.addField( "clientId", clientId );
+		  queryBuilder.addField( "entityId", id );
+		  
+		  EntityQuery query = queryBuilder.build(); 
+		  
+	      Entity entity = getRepo().find(customCollectionName, query.getFields() );
+	      
+	      // Not sure if this is correct, perhaps there's a custom entity converter or set of treatments?  I want to keep this simple. :)
+	      return makeEntityBody ( entity );
+	}
 }

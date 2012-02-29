@@ -26,6 +26,7 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.CustomResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,7 +41,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SchoolResource {
+public class SchoolResource  {
     
     /**
      * Logging utility.
@@ -361,4 +362,11 @@ public class SchoolResource {
         return this.crudDelegate.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
+    
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.CUSTOM )
+    
+    public CustomResource getCustomResource(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId ) {
+    	return crudDelegate.getCustomResource( schoolId , ResourceNames.SCHOOLS);
+    }
+    
 }

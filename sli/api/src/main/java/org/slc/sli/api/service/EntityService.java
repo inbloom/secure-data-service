@@ -150,5 +150,14 @@ public interface EntityService {
      * @return the definition of the entity
      */
     public EntityDefinition getEntityDefinition();
+
+    
+    /**
+     * Returns the entity body of the custom entity.
+     * @param id
+     * @param type
+     * @return
+     */
+	public EntityBody getCustom(String id);
     
 }

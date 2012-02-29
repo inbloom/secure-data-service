@@ -486,5 +486,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         //return map
         return associationQueryParameters;
     }
+
+	@Override
+	public CustomResource getCustomResource(String id, String resourceName ) {
+		  EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+          
+		return new CustomResource( id, entityDef );
+	}
     
 }
