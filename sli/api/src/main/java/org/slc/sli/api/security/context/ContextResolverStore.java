@@ -104,8 +104,6 @@ public class ContextResolverStore {
      * <p/>
      * The association path will be traversed from from source to target to see if the context path exists.
      */
-    @PostConstruct
-    @Autowired
     public void init() {
 
         loadResolvers(buildTeacherResolvers());
@@ -125,6 +123,10 @@ public class ContextResolverStore {
     }
 
     public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
+
+        if( contexts.isEmpty() ) {
+            init();
+        }
 
         EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
         return resolver == null ? defaultEntityContextResolver : resolver;
