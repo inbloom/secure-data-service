@@ -13,17 +13,18 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #staff data
-  id = 11                                       if human_readable_id == "ENTITY COUNT"
-  id = "0e26de79-222a-4d67-9201-5113ad50a03b"   if human_readable_id == "ENTITY ID"
-  id = "269be4c9-a806-4051-a02d-15a7af3ffe3e"   if human_readable_id == "ENTITY ID FOR UPDATE"
-  id = "c13cf9a6-6779-4de6-8b48-f3207952bfb8"   if human_readable_id == "ENTITY ID FOR DELETE"
-  id = "staff"                                  if human_readable_id == "ENTITY TYPE"
-  id = "staff"                                  if human_readable_id == "ENTITY URI"
+  id = 13                                       if human_readable_id == "ENTITY COUNT"
+  id = "4f0c9368-8488-7b01-0000-000059f9ba56"   if human_readable_id == "ENTITY ID"
+  id = "d66fb6fd-691d-fde1-7f5f-efed78f7e1dc"   if human_readable_id == "ENTITY ID FOR UPDATE"
+  id = "2d7583b1-f8ec-45c9-a6da-acc4e6fde458"   if human_readable_id == "ENTITY ID FOR DELETE"
+  id = "educationOrganization"                  if human_readable_id == "ENTITY TYPE"
+  id = "educationOrganizations"                 if human_readable_id == "ENTITY URI"
   
   #update related field data
-  id = "highestLevelOfEducationCompleted"       if human_readable_id == "UPDATE FIELD"
-  id = "Bachelor's"                             if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "Master's"                               if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "nameOfInstitution"                      if human_readable_id == "UPDATE FIELD"
+  id = "Krypton School District"                if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "Bananas School District"                if human_readable_id == "UPDATE FIELD NEW VALID VALUE"
+  id = "organizationCategories"                 if human_readable_id == "REQUIRED FIELD" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
@@ -44,14 +45,9 @@ end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffUniqueStateId" => "EMPLOYEE123456789",
-    "sex" => "Male",
-    "hispanicLatinoEthnicity" => false,
-    "highestLevelOfEducationCompleted" => "Bachelor's",
-    "name" => {
-      "firstName" => "Teaches",
-      "middleName" => "D.",
-      "lastSurname" => "Students"
-    }
+    "organizationCategories" => ["State Education Agency"],
+    "stateOrganizationId" => "15",
+    "nameOfInstitution" => "Gotham City School District", 
+    "address" => []
   }
 end

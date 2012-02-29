@@ -162,7 +162,7 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests] do
+                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests] do
   displayFailureReport()
 end
 
@@ -182,11 +182,8 @@ end
 
 desc "Run V1 Education Organization Tests"
 task :v1EducationOrganizationTests => [:realmInit] do
-  #drop data, re add fixture data
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  #add smallville (no drop)
   setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  #run test
   runTests("test/features/apiV1/entities/educationOrganization")
 end
 
