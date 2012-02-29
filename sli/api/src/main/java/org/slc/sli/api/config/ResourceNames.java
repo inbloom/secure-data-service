@@ -7,7 +7,7 @@ package org.slc.sli.api.config;
  * @author kmyers
  *
  */
-public class ResourceNames {
+public final class ResourceNames {
 
     public static final String AGGREGATIONS = "aggregations";
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";
