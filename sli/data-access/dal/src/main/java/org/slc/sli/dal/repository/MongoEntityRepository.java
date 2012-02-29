@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
@@ -41,18 +41,20 @@ public class MongoEntityRepository implements EntityRepository {
 
     private MongoTemplate template;
 
+    /**
+     * Used for Spring bean property injection.
+     * @author Thomas Shewchuk tshewchuk@wgen.net 2/28/2012 (PI3 US1226)
+     */
     public void setTemplate(MongoTemplate template) {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate() {
-        return this.template;
-    }
-
     @Autowired
     private IdConverter idConverter;
+
     @Autowired
     private EntityValidator validator;
+
     @Override
     public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
@@ -73,15 +75,15 @@ public class MongoEntityRepository implements EntityRepository {
         //find and return an entity
         return template.find(query, Entity.class, collectionName);
     }
-    
+
     public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
         //turn query parameters into a Mongo-specific query
         Query mongoQuery = convertToQuery(query);
-        
+
         //find and return an entity
         return template.find(mongoQuery, Entity.class, collectionName);
     }
-    
+
     /**
      * Converts a EntityQuery to a MongoQuery
      * @param query
@@ -95,12 +97,12 @@ public class MongoEntityRepository implements EntityRepository {
         if (query.getIncludeFields() != null) {
             mongoQuery.fields().include(mongoBody + query.getIncludeFields());
         }
-        
+
         // Exclude fields
         if (query.getExcludeFields() != null) {
             mongoQuery.fields().exclude(mongoBody + query.getExcludeFields());
         }
-        
+
         // Sorting
         if (query.getSortBy() != null) {
             if (query.getSortOrder() != null) {
@@ -127,7 +129,7 @@ public class MongoEntityRepository implements EntityRepository {
         final String mongoId = "_id";
         if (fields.containsKey(mongoId)) {
             String id = fields.get(mongoId);
-            
+
             Object databaseId = idConverter.toDatabaseId(id);
             if (databaseId == null) {
                 LOG.debug("Unable to process id {}", new Object[] { id });
@@ -136,7 +138,7 @@ public class MongoEntityRepository implements EntityRepository {
             mongoQuery.addCriteria(Criteria.where(mongoId).is(databaseId));
             fields.remove(mongoId);
         }
-        
+
         // Query fields
 
         for (Map.Entry<String, String> entry : query.getFields().entrySet()) {
@@ -148,12 +150,12 @@ public class MongoEntityRepository implements EntityRepository {
         }
         return mongoQuery;
     }
-    
+
     /**
      * Constructs a mongo-specific Query object from a map of key/value pairs. Contains special cases when the key is "_id", "includeFields",
      * "excludeFields", "skip", and "limit". All other keys are added to the query as criteria specifying a field to search for (in the entity's
-     * body). 
-     * 
+     * body).
+     *
      * @param queryParameters
      *              all parameters to be included in query
      * @param converter
@@ -218,14 +220,14 @@ public class MongoEntityRepository implements EntityRepository {
 
         return query;
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String collectionName, int skip, int max) {
         List<Entity> results = template.find(new Query().skip(skip).limit(max), Entity.class, collectionName);
         logResults(collectionName, results);
         return results;
     }
-    
+
     @Override
     public boolean update(String collection, Entity entity) {
         Assert.notNull(entity, "The given entity must not be null!");
@@ -233,9 +235,9 @@ public class MongoEntityRepository implements EntityRepository {
         if (id.equals(""))
             return false;
         validator.validate(entity);
-        
+
         updateTimestamp(entity);
-        
+
         Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 Entity.class, collection);
         if (found != null) {
@@ -246,46 +248,46 @@ public class MongoEntityRepository implements EntityRepository {
         LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         return create(type, body, new HashMap<String, Object>(), collectionName);
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
-        
+
         addTimestamps(entity);
-        
+
         template.save(entity, collectionName);
         LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });
         return entity;
     }
-    
+
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
         // String now = DateTimeUtil.getNowInUTC();
         Date now = DateTimeUtil.getNowInUTC();
-        
+
         Map<String, Object> metaData = entity.getMetaData();
         metaData.put(EntityMetadataKey.CREATED.getKey(), now);
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-    
+
     /** Update the updated timestamp on the document metadata. */
     private void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-    
+
     @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals(""))
@@ -295,52 +297,52 @@ public class MongoEntityRepository implements EntityRepository {
         LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
         return findByPaths(collectionName, convertBodyToPaths(fields), skip, max);
     }
-    
+
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
         Query query = new Query();
-        
+
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths), skip, max);
     }
-    
+
     @Override
     public void deleteAll(String collectionName) {
         template.remove(new Query(), collectionName);
         LOG.info("delete all entities in collection {}", collectionName);
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String collectionName) {
         return findByQuery(collectionName, new Query());
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
         return findByPaths(collectionName, convertBodyToPaths(fields));
     }
-    
+
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
         Query query = new Query();
-        
+
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
     }
-    
+
     @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         if (query == null)
             query = new Query();
-        
+
         query.skip(skip).limit(max);
-        
+
         return findByQuery(collectionName, query);
     }
-    
+
     protected Iterable<Entity> findByQuery(String collectionName, Query query) {
         List<Entity> results = template.find(query, Entity.class, collectionName);
         logResults(collectionName, results);
@@ -362,7 +364,7 @@ public class MongoEntityRepository implements EntityRepository {
         }
         return collection.count(query.getQueryObject());
     }
-    
+
     @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
         if (query == null) {
@@ -375,16 +377,16 @@ public class MongoEntityRepository implements EntityRepository {
         }
         return ids;
     }
-    
+
     private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {
             Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
-        
+
         return query;
     }
-    
+
     private void logResults(String collectioName, List<Entity> results) {
         if (results == null) {
             LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
@@ -392,15 +394,15 @@ public class MongoEntityRepository implements EntityRepository {
             LOG.debug("find entities in collection {} with total numbers is {}",
                     new Object[] { collectioName, results.size() });
         }
-        
+
     }
-    
+
     private Map<String, String> convertBodyToPaths(Map<String, String> body) {
         Map<String, String> paths = new HashMap<String, String>();
         for (Map.Entry<String, String> field : body.entrySet()) {
             paths.put("body." + field.getKey(), field.getValue());
         }
-        
+
         return paths;
     }
 

@@ -34,10 +34,6 @@ public class NeutralRecordRepository {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate() {
-        return this.template;
-    }
-
     public NeutralRecord find(String collection, String id) {
         LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
         Map<String, String> query = new HashMap<String, String>();
