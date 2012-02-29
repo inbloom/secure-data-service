@@ -51,7 +51,6 @@ public class ParameterConstants {
     public static final String BELL_SCHEDULE_ID = "bellScheduleId";
     public static final String COURSE_ID = "courseId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
-    public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
     public static final String SCHOOL_ID = "schoolId";
