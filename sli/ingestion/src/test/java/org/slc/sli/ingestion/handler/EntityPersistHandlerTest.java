@@ -414,7 +414,6 @@ public class EntityPersistHandlerTest {
      * @author jtully 2/28/2012
      * Test of resolveInternalIds for reference fields of arbitrary name
      */
-    @SuppressWarnings("unchecked")
     @Test
     public void shouldNormalizeIdInNamedReferenceField() {
         //set up the variable names and values to test

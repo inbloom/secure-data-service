@@ -27,17 +27,14 @@ public class LiveAPIClient implements APIClient {
 
     private static Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
-    private static final String TARGETS = "/targets";
     private static final String SECTIONS_URL = Constants.API_SERVER_URI + "/sections/";
-    private static final String STUDENT_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/student-section-associations/";
+    private static final String STUDENT_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/studentSectionAssociations/";
     private static final String SCHOOLS_URL = Constants.API_SERVER_URI + "/schools/";
     private static final String STUDENTS_URL = Constants.API_SERVER_URI + "/students/";
     private static final String COURSES_URL = Constants.API_SERVER_URI + "/courses/";
     private static final String ED_ORG_URL = Constants.API_SERVER_URI + "/educationOrganizations/";
     private static final String HOME_URL = Constants.API_SERVER_URI + "/home";
-    private static final String TEACHER_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-section-associations/";
-    private static final String TEACHER_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/teacher-school-associations/";
-    private static final String SECTION_SCHOOL_ASSOC_URL = Constants.API_SERVER_URI + "/section-school-associations/";
+    private static final String TEACHER_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/teacherSectionAssociations/";
     private static final String STUDENT_ASSMT_ASSOC_URL = Constants.API_SERVER_URI
             + "/student-assessment-associations/";
     private static final String ASSMT_URL = Constants.API_SERVER_URI + "/assessments/";
@@ -138,6 +135,7 @@ public class LiveAPIClient implements APIClient {
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
         String parentEdOrgId = edOrg.getString(Constants.ATTR_PARENT_EDORG);
+        if (parentEdOrgId == null) { return null; }
         return getEducationalOrganization(parentEdOrgId, token);
     }
 
@@ -146,12 +144,12 @@ public class LiveAPIClient implements APIClient {
      */
     private List<String> getStudentIdsForSection(String id, String token) {
 
-        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + id + TARGETS, token);
+        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + '?' + Constants.ATTR_SECTION_ID + '=' + id, token);
 
         List<String> studentIds = new ArrayList<String>();
 
         for (GenericEntity response : responses) {
-            studentIds.add(response.getString(Constants.ATTR_ID));
+            studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
         }
         return studentIds;
     }
@@ -253,11 +251,14 @@ public class LiveAPIClient implements APIClient {
      */
     private List<GenericEntity> getSectionsForTeacher(String id, String token) {
 
-        List<GenericEntity> responses = createEntitiesFromAPI(TEACHER_SECTION_ASSOC_URL + id + TARGETS, token);
+        List<GenericEntity> responses = createEntitiesFromAPI(TEACHER_SECTION_ASSOC_URL + "?" + Constants.ATTR_TEACHER_ID + '=' + id, token);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
 
+        // TODO: for a more efficient implementation, build a comma-delimited list of section ids, 
+        //       make one single api call, and then loop through the response JSONArray and parse  
+        //       out the section entities one by one. 
         for (GenericEntity response : responses) {
-            sections.add(getSection(parseId((response.getMap(Constants.ATTR_LINK))), token));
+            sections.add(getSection(response.getString(Constants.ATTR_SECTION_ID), token));
         }
 
         return sections;
@@ -280,22 +281,6 @@ public class LiveAPIClient implements APIClient {
         HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
         getSchoolSectionsMappings(sections, token, schoolMap, sectionIDToSchoolIDMap);
-
-        // Then create schools and associate the first one to all sections
-        String teacherId = getId(token);
-        String url = TEACHER_SCHOOL_ASSOC_URL + teacherId + TARGETS;
-        List<GenericEntity> responses = createEntitiesFromAPI(url, token);
-        for (int i = 0; i < responses.size(); i++) {
-            GenericEntity response = responses.get(i);
-            String schoolId = parseId(response.getMap(Constants.ATTR_LINK));
-            GenericEntity school = getSchool(schoolId, token);
-            schoolMap.put(schoolId, school);
-            if (i == 0) {
-                for (int j = 0; j < sections.size(); j++) {
-                    sectionIDToSchoolIDMap.put(sections.get(j).get(Constants.ATTR_ID).toString(), schoolId);
-                }
-            }
-        }
 
         // Now associate course and school.
         // There is no direct course-school association in ed-fi, so in dashboard
