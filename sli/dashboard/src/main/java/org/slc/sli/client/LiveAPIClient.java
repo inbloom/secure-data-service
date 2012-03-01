@@ -15,6 +15,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.util.URLBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -38,6 +40,8 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
 
+    @Autowired
+    @Value("${api.server.url}")
     private String apiUrl;
 
     private RESTClient restClient;
