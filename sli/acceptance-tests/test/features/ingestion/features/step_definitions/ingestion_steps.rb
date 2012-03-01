@@ -50,14 +50,10 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
     ctl_file.each_line do |line|
       entries = line.chomp.split ","
       if entries.length < 3
-        puts "DEBUG:  line with less then 3 values: " + line.chomp;
+        new_ctl_file.puts line.chomp
+        next
       end
       payload_file = entries[2]
-      puts "DEBUG:   #{zip_dir}     #{payload_file}";
-      hash = Digest::MD5.file(zip_dir + payload_file)
-      puts "DEBUG:"
-      puts hash
-      puts hash.inspect
       begin
         md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
         if entries[3] != md5.to_s
