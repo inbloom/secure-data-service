@@ -70,5 +70,6 @@ public class ParameterConstants {
     public static final String STUDENT_SECTION_ASSOCIATION_ID = "studentSectionAssociationId";
     public static final String STUDENT_SCHOOL_ASSOCIATION_ID = "studentSchoolAssociationId";
     public static final String SESSION_COURSE_ASSOCIATION_ID = "sessionCourseAssociationId";
+    public static final String STUDENT_ASSESSMENT_ASSOCIATION_ID = "studentAssessmentAssociationId";
 
 }
