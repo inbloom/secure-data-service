@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class QueryConverterTest {
     @Autowired
-    QueryConverter queryConverter;
+    BasicQueryConverter queryConverter;
     
     @Test
     public void testNull() {
@@ -33,47 +33,56 @@ public class QueryConverterTest {
     @Test
     public void testfindParamType() {
         // test student entity
-        assertEquals("NULL", queryConverter.findParamType("student", "nonexist.field"));
-        assertEquals("STRING", queryConverter.findParamType("student", "studentUniqueStateId"));
-        assertEquals("BOOLEAN", queryConverter.findParamType("student", "hispanicLatinoEthnicity"));
+        assertEquals("NULL", queryConverter.findParamType("student", "nonexist.field").getType());
+        assertEquals("STRING", queryConverter.findParamType("student", "studentUniqueStateId").getType());
+        assertEquals("BOOLEAN", queryConverter.findParamType("student", "hispanicLatinoEthnicity").getType());
         
         // test school entity
-        assertEquals("STRING", queryConverter.findParamType("school", "stateOrganizationId"));
-        assertEquals("STRING", queryConverter.findParamType("school", "nameOfInstitution"));
-        assertEquals("LIST", queryConverter.findParamType("school", "address"));
-        assertEquals("STRING", queryConverter.findParamType("school", "address.streetNumberName"));
-        assertEquals("TOKEN", queryConverter.findParamType("school", "address.addressType"));
-        assertEquals("STRING", queryConverter.findParamType("school", "telephone.telephoneNumber"));
+        assertEquals("STRING", queryConverter.findParamType("school", "stateOrganizationId").getType());
+        assertEquals("STRING", queryConverter.findParamType("school", "nameOfInstitution").getType());
+        assertEquals("LIST", queryConverter.findParamType("school", "address").getType());
+        assertEquals("STRING", queryConverter.findParamType("school", "address.streetNumberName").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("school", "address.addressType").getType());
+        assertEquals("STRING", queryConverter.findParamType("school", "telephone.telephoneNumber").getType());
         
         // test student school association entity
-        assertEquals("STRING", queryConverter.findParamType("studentSchoolAssociation", "studentId"));
-        assertEquals("STRING", queryConverter.findParamType("studentSchoolAssociation", "schoolId"));
-        assertEquals("DATE", queryConverter.findParamType("studentSchoolAssociation", "entryDate"));
-        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel"));
-        assertEquals("BOOLEAN", queryConverter.findParamType("studentSchoolAssociation", "repeatGradeIndicator"));
-        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "classOf"));
-        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "educationalPlans"));
+        assertEquals("STRING", queryConverter.findParamType("studentSchoolAssociation", "studentId").getType());
+        assertEquals("STRING", queryConverter.findParamType("studentSchoolAssociation", "schoolId").getType());
+        assertEquals("DATE", queryConverter.findParamType("studentSchoolAssociation", "entryDate").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel").getType());
+        assertEquals("BOOLEAN", queryConverter.findParamType("studentSchoolAssociation", "repeatGradeIndicator")
+                .getType());
+        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "classOf").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "educationalPlans").getType());
         assertEquals("TOKEN",
-                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.GraduationPlanType"));
+                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.GraduationPlanType").getType());
         assertEquals("DOUBLE",
-                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.totalCreditsRequired.credit"));
-        assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation",
-                "graduationPlan.totalCreditsRequired.creditType"));
-        assertEquals("DOUBLE", queryConverter.findParamType("studentSchoolAssociation",
-                "graduationPlan.totalCreditsRequired.creditConversion"));
+                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.totalCreditsRequired.credit")
+                        .getType());
+        assertEquals(
+                "TOKEN",
+                queryConverter.findParamType("studentSchoolAssociation",
+                        "graduationPlan.totalCreditsRequired.creditType").getType());
+        assertEquals(
+                "DOUBLE",
+                queryConverter.findParamType("studentSchoolAssociation",
+                        "graduationPlan.totalCreditsRequired.creditConversion").getType());
         
         // test assessment entity
-        assertEquals("STRING", queryConverter.findParamType("assessment", "assessmentTitle"));
-        assertEquals("TOKEN", queryConverter.findParamType("assessment", "academicSubject"));
-        assertEquals("TOKEN", queryConverter.findParamType("assessment", "assessmentCategory"));
-        assertEquals("TOKEN", queryConverter.findParamType("assessment", "contentStandard"));
-        assertEquals("INTEGER", queryConverter.findParamType("assessment", "version"));
+        assertEquals("STRING", queryConverter.findParamType("assessment", "assessmentTitle").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "academicSubject").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "assessmentCategory").getType());
+        assertEquals("TOKEN", queryConverter.findParamType("assessment", "contentStandard").getType());
+        assertEquals("INTEGER", queryConverter.findParamType("assessment", "version").getType());
         
         // test student assessment association
-        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationDate"));
-        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationEndDate"));
-        assertEquals("TOKEN", queryConverter.findParamType("studentAssessmentAssociation", "retestIndicator"));
-        assertEquals("STRING", queryConverter.findParamType("studentAssessmentAssociation", "scoreResults.result"));
+        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationDate")
+                .getType());
+        assertEquals("DATE", queryConverter.findParamType("studentAssessmentAssociation", "administrationEndDate")
+                .getType());
+        assertEquals("TOKEN", queryConverter.findParamType("studentAssessmentAssociation", "retestIndicator").getType());
+        assertEquals("STRING", queryConverter.findParamType("studentAssessmentAssociation", "scoreResults.result")
+                .getType());
         
     }
     
