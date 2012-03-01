@@ -14,8 +14,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
   id = 13                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 5                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = "67ce204b-9999-4a11-aacd-000000000000"   if human_readable_id == "ASSOCIATION ID"
   id = "67ce204b-9999-4a11-aacd-000000000001"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "67ce204b-9999-4a11-aacd-000000000002"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
