@@ -143,7 +143,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(map);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
             for (Map.Entry<String, Object> entry : ((Map<String, Object>) value).entrySet()) {
                 cloneEntity(map, entry.getKey(), entry.getValue());
@@ -155,7 +155,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(list);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
             for (Object child : (List) value) {
                 cloneEntity(list, null, child);
@@ -166,7 +166,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(value);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
         }
     }
