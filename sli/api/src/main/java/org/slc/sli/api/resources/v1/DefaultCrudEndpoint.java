@@ -204,8 +204,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     ids.append((String) entityBody.get(idKey));
                     ids.append(",");
                 }
-
+                
                 String entityIds = ids.toString();
+                logger.debug("entityIds = " + entityIds);
+
+                if (entityIds.length() == 0) {
+                    return Response.ok(finalResults).build();
+                }
                 entityIds = entityIds.substring(0, entityIds.length() - 1); //remove trailing comma
                 
                 queryParameters.put("_id", entityIds);
