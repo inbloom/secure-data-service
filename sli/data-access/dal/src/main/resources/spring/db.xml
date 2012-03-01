@@ -58,7 +58,7 @@
 
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
-    <property name="template" ref="entityMongoTemplate" />
+    <property name="template" ref="mongoTemplate" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.dal" />
