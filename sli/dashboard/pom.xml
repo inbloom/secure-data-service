@@ -186,6 +186,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+		    <groupId>orb.scribe</groupId>
+		    <artifactId>scribe</artifactId>
+		    <version>1.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
