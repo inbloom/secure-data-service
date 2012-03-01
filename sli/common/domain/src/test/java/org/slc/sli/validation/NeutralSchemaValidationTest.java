@@ -344,6 +344,61 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
+	
+	
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyEntity("staff", "269be4c9-a806-4051-a02d-15a7af3ffe3e");
+        this.addDummyEntity("staff", "f0e41d87-92d4-4850-9262-ed2f2723159b");
+        this.addDummyEntity("staff", "858bf25e-51b8-450a-ade6-adda0a570d9e");
+        this.addDummyEntity("staff", "55015e96-56dd-4d13-a091-5cef847ca085");
+        this.addDummyEntity("staff", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
+        this.addDummyEntity("staff", "0e26de79-222a-4d67-9201-5113ad50a03b");
+        this.addDummyEntity("educationOrganization", "4f0c9368-8488-7b01-0000-000059f9ba56");
+        this.addDummyEntity("educationOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
+        
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/staff_educationOrganization_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                this.mapValidation((Map<String, Object>) obj.get("body"), "staffEducationOrganizationAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyCollection("staff");
+        this.addDummyCollection("educationOrganization");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/staff_educationOrganization_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                this.mapValidation((Map<String, Object>) obj.get("body"), "staffEducationOrganizationAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
 
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
