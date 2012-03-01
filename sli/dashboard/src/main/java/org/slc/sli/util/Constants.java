@@ -12,7 +12,6 @@ public class Constants {
     public static final String API_PREFIX = "api/rest/v1";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-    public static final String GET_ROLES_URL = "admin/roles";
 
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
