@@ -87,3 +87,22 @@ function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, vie
     });
 }
 
+function studentProfilePopup(id){
+	var studentProfileUrl = "studentprofile?id="+id;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange=function()
+	  {
+	  if (xmlHttp.readyState==4 && xmlHttp.status==200)
+	    {
+		  var respText =xmlHttp.responseText;
+		  document.getElementById("InnerStudentProfile").innerHTML = respText;
+	    
+	    }
+	  };
+	xmlHttp.open("GET", studentProfileUrl, true);
+	xmlHttp.send();
+	
+	centerPopup();
+	loadPopup();
+}
+
