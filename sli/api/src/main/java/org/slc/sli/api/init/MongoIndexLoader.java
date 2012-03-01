@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.init;
+package org.slc.sli.api.init;
 
 import java.io.BufferedReader;
 import java.io.File;
