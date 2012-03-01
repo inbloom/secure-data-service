@@ -167,6 +167,20 @@ task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1Teache
   displayFailureReport()
 end
 
+desc "Run V1 Student Assessment Association Tests"
+task :v1StudentAssessmentAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("student", "student_fixture.json")
+  setFixture("assessment", "assessment_fixture.json")
+  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
+  #add smallville (no drop)
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
+  setFixture("studentAssessmentAssociation", "smallville_student_assessment_fixture.json", "test/data/smallville", false)
+  #run test
+  runTests("test/features/apiV1/associations/studentAssessmentAssociation")
+end
+
 desc "Run V1 Student Section Association Tests"
 task :v1StudentSectionAssociationTests => [:realmInit] do
   #drop data, re add fixture data
