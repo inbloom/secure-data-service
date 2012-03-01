@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -31,11 +32,12 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentSchoolAssociationEntityTest {
 
+    @InjectMocks
     @Autowired
     private EntityValidator validator;
-    
-    @Autowired
-    private EntityRepository repo;
+
+    @Mock
+    private EntityRepository mockRepository;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentSchoolAssociation>"
@@ -62,10 +64,10 @@ public class StudentSchoolAssociationEntityTest {
             + " </EducationalPlans>"
             + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
     
-    //@Before
-    //public void setup() {
-    //    MockitoAnnotations.initMocks(this);
-   // }
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     private void checkValidSSANeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
@@ -105,14 +107,9 @@ public class StudentSchoolAssociationEntityTest {
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
         
         // mock repository will simulate "finding" the references
-        Entity studentEntity = mock(Entity.class);
-        Entity schoolEntity = mock(Entity.class);
-        
-        Mockito.when(studentEntity.getEntityId()).thenReturn("900000001");
-        Mockito.when(schoolEntity.getEntityId()).thenReturn("990000001");
-        
-        repo.update("student", studentEntity);
-        repo.update("school", schoolEntity);
+        Entity returnEntity = mock(Entity.class);
+        Mockito.when(mockRepository.find("school", "990000001")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.find("student", "900000001")).thenReturn(returnEntity);
         
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
     }

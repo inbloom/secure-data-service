@@ -92,7 +92,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     
     public String create(EntityBody content) {
         
-        validateAssociationContent(content);
+        //validateAssociationContent(content);
         return super.create(content);
     }
     
@@ -248,6 +248,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * content
      * under appropriate ID fields.
      * 
+     * Deprecated because all validation is done by neutral schemas and not in this layer.
      * 
      * @param content
      *            key/value association data
@@ -255,6 +256,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @throws EntityValidationException
      *             if referential information is not valid
      */
+    @Deprecated
     private boolean validateAssociationContent(EntityBody content) throws EntityValidationException {
         
         // new list to hold validation errors
@@ -285,6 +287,9 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * the ID value,
      * and then checks that the ID exists in the mongo collection for that entity type.
      * 
+     * THis method is deprecated because reference integrity is not checked by association functionality
+     * but instead by direct reference functionality. Associations just have direct references.
+     * 
      * @param entityDefinition
      *            type of entity. Used to determine which collection in mongo to query
      * @param content
@@ -295,6 +300,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @param errorList
      *            list of errors to write to if a problem is discovered
      */
+    @Deprecated
     private void checkEntityExists(EntityDefinition entityDefinition, EntityBody content, ParentChild relationship,
             List<ValidationError> errorList) {
         
