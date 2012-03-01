@@ -104,6 +104,23 @@ public class NeutralSchemaValidationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStudentAssessmentAssociation() throws Exception {
+        addDummyEntity("student", "7afddec3-89ec-402c-8fe6-cced79ae3ef5");
+        addDummyEntity("student", "1023bfc9-5cb8-4126-ae6a-4fefa74682c8");
+        addDummyEntity("student", "034e6e7f-9da2-454a-b67c-b95bd9f36433");
+        addDummyEntity("student", "bda1a4df-c155-4897-85c2-953926a3ebd8");
+        addDummyEntity("student", "54c6546e-7998-4c6b-ad5c-b8d72496bf78");
+        addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        addDummyEntity("student", "e1af7127-743a-4437-ab15-5b0dacd1bde0");
+        addDummyEntity("student", "61f13b73-92fa-4a86-aaab-84999c511148");
+        addDummyEntity("student", "289c933b-ca69-448c-9afd-2c5879b7d221");
+        addDummyEntity("student", "c7146300-5bb9-4cc6-8b95-9e401ce34a03");
+        addDummyEntity("assessment", "6c572483-fe75-421c-9588-d82f1f5f3af5");
+        addDummyEntity("assessment", "6a53f63e-deb8-443d-8138-fc5a7368239c");
+        addDummyEntity("assessment", "7b2e6133-4224-4890-ac02-73962eb09645");
+        addDummyEntity("assessment", "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6");
+        addDummyEntity("assessment", "a22532c4-6455-41da-b24d-4f93224f526d");
+        addDummyEntity("assessment", "b5f684d4-9a12-40c3-a59e-0c0d1b971a1e");
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
@@ -121,6 +138,30 @@ public class NeutralSchemaValidationTest {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentAssessmentAssociation() throws Exception {
+        addDummyCollection("student");
+        addDummyCollection("assessment");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/student_assessment_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidTeacherSectionAssociation() throws Exception {
