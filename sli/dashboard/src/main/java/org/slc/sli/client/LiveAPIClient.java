@@ -28,13 +28,13 @@ public class LiveAPIClient implements APIClient {
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String SECTIONS_URL = "/sections/";
-    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations/";
+    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations";
     private static final String SCHOOLS_URL = "/schools/";
     private static final String STUDENTS_URL = "/students/";
     private static final String COURSES_URL = "/courses/";
     private static final String ED_ORG_URL = "/educationOrganizations/";
     private static final String HOME_URL = "/home";
-    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations/";
+    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
 
