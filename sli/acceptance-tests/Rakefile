@@ -167,7 +167,7 @@ task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1Teache
   displayFailureReport()
 end
 
-desc "Run V1 School Session Association Tests"
+desc "Run V1 Student Section Association Tests"
 task :v1StudentSectionAssociationTests => [:realmInit] do
   #drop data, re add fixture data
   setFixture("student", "student_fixture.json")
