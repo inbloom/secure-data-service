@@ -52,7 +52,9 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
       payload_file = entries[2]
       puts "DEBUG:   #{zip_dir}     #{payload_file}";
       hash = Digest::MD5.file(zip_dir + payload_file)
-      puts "DEBUG:   #{hash}     #{hash.inspect}"
+      puts "DEBUG:"
+      puts hash
+      puts hash.inspect
       begin
         md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
         if entries[3] != md5.to_s
