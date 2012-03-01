@@ -1,12 +1,15 @@
 class Oauth
 
-  attr_accessor :entry_url, :authorize_url, :client_id, :client_secret, :redirect_uri, :token, :code
+  attr_accessor :entry_url, :client_id, :client_secret, :redirect_uri, :token, :code
 
   def initialize()
     @client_id = "#{APP_CONFIG['client_id']}"
     @client_secret = "#{APP_CONFIG['client_secret']}"
-    @redirect_uri = "#{APP_CONFIG['redirect_uri']}"
-    @authorize_url =  get_client().auth_code.authorize_url(:redirect_uri => @redirect_uri)
+  end
+
+
+  def authorize_url
+    get_client().auth_code.authorize_url(:redirect_uri => @redirect_uri)
   end
 
   def enabled()
