@@ -21,6 +21,17 @@ When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
 Then I should be redirected to the Dashboard landing page
 
+Scenario: Valid user login
+
+Given I have an open web browser
+Given the server is in "live" mode
+When I navigate to the Dashboard home page
+When I select "New York Realm " and click go
+When I login as "mario.sanchez" "mario.sanchez1234"
+Then I should be redirected to the Dashboard landing page
+#And I clicked the Submit button
+#And I wait for "2" seconds
+Then I should be redirected to the Dashboard landing page
 
 Scenario: Invalid user login
 

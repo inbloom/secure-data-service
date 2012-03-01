@@ -120,7 +120,8 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
-        Entity newEntity = new MongoEntity(type, generateId(), body, null);
+        String id = generateId();
+        Entity newEntity = new MongoEntity(type, id, body, null);
         update(collectionName, newEntity);
         return newEntity;
     }
@@ -147,8 +148,14 @@ public class MockRepo implements EntityRepository {
 
     private boolean matchesFields(Entity entity, Map<String, String> fields) {
         for (Map.Entry<String, String> field : fields.entrySet()) {
-            Object value = entity.getBody().get(field.getKey());
-            if (value == null || !value.toString().equals(field.getValue())) {
+            Object value;
+            if (field.getKey().equals("_id")) {
+                value = entity.getEntityId();
+            } else {
+                value = entity.getBody().get(field.getKey());
+            }
+            
+            if (value == null || !field.getValue().contains(value.toString())) {
                 return false;
             }
         }
@@ -190,7 +197,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn;
     }
-    
+
     @Override
     public long count(String collectionName, Query query) {
         return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();

@@ -57,7 +57,7 @@ end
 
 def getStudentsWithELLLozenge()
   studentTable = @driver.find_element(:id, "studentList");
-  student_cells = studentTable.find_elements(:xpath, "//td[@class='name']")
+  student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
   students_with_lozenges = []
   i = 0

@@ -9,10 +9,9 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_SERVER_URI = "http://syau.devapp1.slidev.org:8080/api/rest/v1";
-    public static final String SECURITY_SERVER_URI = "http://syau.devapp1.slidev.org:8080/api/rest";
+    public static final String API_PREFIX = "api/rest/v1";
 
-    public static final String SESSION_CHECK_URL = "system/session/check";
+    public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
     public static final String GET_ROLES_URL = "admin/roles";
 
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
@@ -32,6 +31,7 @@ public class Constants {
      */
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
+    public static final String VIEW_TYPE_STUDENT_PROFILE_PAGE = "studentProfilePage";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
     public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";
@@ -97,7 +97,9 @@ public class Constants {
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_SECTION_ID = "sectionId";
 
-    // Program Participation Constants
+    public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
+    
+    //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
 
     /**
