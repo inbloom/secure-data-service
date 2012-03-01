@@ -1,10 +1,15 @@
 package org.slc.sli.controller;
 
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +28,13 @@ public class GenericController {
 
     private static final String LAYOUT = "layout/";
 
+    private PopulationManager populationManager;
+    
+    @Autowired
+    public void setPopulationManager(PopulationManager populationManager) {
+        this.populationManager = populationManager;
+    }
+    
     /**
      * Controller for student profile
      * 
@@ -42,11 +54,16 @@ public class GenericController {
         pageMap.put("Grades and Credits", Arrays.asList("test", "csi", "test"));
         pageMap.put("Advanced Academics", Arrays.asList("test", "csi"));
         
-        
+        GenericEntity student = populationManager.getStudent(SecurityUtil.getToken(), id);
+        String name = ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
+                      + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+        model.addAttribute("student", name);
+
         //model.addAttribute("panelIds", panelIds);
         model.addAttribute("pageMap", pageMap);
 
         return new ModelAndView(LAYOUT + "studentProfile", model);
+
     }
     
 }

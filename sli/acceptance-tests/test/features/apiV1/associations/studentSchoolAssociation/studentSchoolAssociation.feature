@@ -1,4 +1,4 @@
-Feature: As an SLI application, I want to be able to manage school session associations.
+Feature: As an SLI application, I want to be able to manage associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
   
@@ -67,13 +67,13 @@ Scenario: Read associations for endpoint2
 Scenario: Read entities associated to endpoint1
     When I navigate to GET "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200
-     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 2>" entities
+     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ENDPOINT2 TYPE>"
 
 Scenario: Read entities associated to endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
-     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
+     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 2>" entities
      And each entity's "entityType" should be "<ENDPOINT1 TYPE>"
 
 Scenario: Update association
@@ -85,13 +85,6 @@ Scenario: Update association
     Then I should receive a return code of 204
      And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
      And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
-
-Scenario: Delete association
-   Given format "application/json"
-    When I navigate to DELETE "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
-    Then I should receive a return code of 204
-     And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
-     And I should receive a return code of 404
 
 Scenario: Non-happy path: Attempt to create association with invalid reference for endpoint1
    Given a valid association json document for a "<ASSOCIATION TYPE>"
@@ -132,3 +125,10 @@ Scenario: Non-happy path: Attempt to update endpoint2 to an invalid reference
 Scenario: Non-happy path: Attempt to delete a non-existing association
     When I navigate to DELETE "/<ASSOCIATION URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
+
+Scenario: Delete association
+   Given format "application/json"
+    When I navigate to DELETE "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
+     And I should receive a return code of 404

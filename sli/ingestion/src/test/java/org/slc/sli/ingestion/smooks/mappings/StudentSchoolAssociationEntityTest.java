@@ -1,15 +1,23 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
+import static org.mockito.Mockito.mock;
+
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
@@ -25,6 +33,9 @@ public class StudentSchoolAssociationEntityTest {
 
     @Autowired
     private EntityValidator validator;
+    
+    @Autowired
+    private EntityRepository repo;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentSchoolAssociation>"
@@ -50,6 +61,11 @@ public class StudentSchoolAssociationEntityTest {
             + "   <EducationalPlan>Full Time Employment</EducationalPlan>"
             + " </EducationalPlans>"
             + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
+    
+    //@Before
+    //public void setup() {
+    //    MockitoAnnotations.initMocks(this);
+   // }
 
     private void checkValidSSANeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
@@ -87,6 +103,17 @@ public class StudentSchoolAssociationEntityTest {
         String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        
+        // mock repository will simulate "finding" the references
+        Entity studentEntity = mock(Entity.class);
+        Entity schoolEntity = mock(Entity.class);
+        
+        Mockito.when(studentEntity.getEntityId()).thenReturn("900000001");
+        Mockito.when(schoolEntity.getEntityId()).thenReturn("990000001");
+        
+        repo.update("student", studentEntity);
+        repo.update("school", schoolEntity);
+        
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
     }
 
