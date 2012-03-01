@@ -160,7 +160,7 @@ public class LiveAPIClient implements APIClient {
      */
     /* This version works with v0 of the API, which will be removed by the end of sprint 3.3 */
     private List<String> getStudentIdsForSection(String id, String token) {
-        List<GenericEntity> responses = createEntitiesFromAPI(Constants.SECURITY_SERVER_URI + "/student-section-associations/" + id + "/targets", token);
+        List<GenericEntity> responses = createEntitiesFromAPI(restClient.getSecurityUrl()+Constants.API_PREFIX + "/student-section-associations/" + id + "/targets", token);
         List<String> studentIds = new ArrayList<String>();
         for (GenericEntity response : responses) {
             studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
