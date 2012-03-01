@@ -108,26 +108,6 @@ public class StudentListContentController extends DashboardController {
 //            List<GenericEntity> attendance = populationManager.getAttendance(SecurityUtil.getToken(), studentSummaries);
 //            model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver(studentSummaries, attendance));
             
-        /*
-            List<StudentFilter> studentFilterConfig = configManager.getStudentFilterConfig(user.getUsername());
-            model.addAttribute("studentFilters",studentFilterConfig);
-
-            if (filterIndex == null) { filterIndex = 0; }
-            String studentFilterName = "";
-            if (studentFilterConfig != null) {
-                studentFilterName = studentFilterConfig.get(filterIndex).getName();
-            }
-
-            List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig, studentFilterName);
-            List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
-
-            StudentResolver studentResolver = new StudentResolver (students, programs);
-            studentResolver.filterStudents (studentFilterName);
-            
-            model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
-
-
-            */
                         
         }
 
