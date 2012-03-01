@@ -177,9 +177,6 @@ public class BasicQueryConverter implements QueryConverter {
         NeutralSchema schema = schemaRepo.getSchema(entityType);
         for (String field : nestedFields) {
             schema = getNestedSchema(schema, field);
-            if (schema != null && schema.getSchemaType() == NeutralSchemaType.COMPLEX) {
-                schema = schemaRepo.getSchema(schema.getType());
-            }
             if (schema != null) {
                 LOG.info("nested schema type is {}", schema.getSchemaType());
             } else
