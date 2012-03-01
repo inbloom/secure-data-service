@@ -6,6 +6,7 @@ import java.util.List;
 import freemarker.ext.beans.BeansWrapper;
 
 //import org.slc.sli.view.AttendanceResolver;
+import org.slc.sli.view.AttendanceResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -105,8 +106,7 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
             // Get attendance
-//            List<GenericEntity> attendance = populationManager.getAttendance(SecurityUtil.getToken(), studentSummaries);
-//            model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver(studentSummaries, attendance));
+            model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
             
         /*
             List<StudentFilter> studentFilterConfig = configManager.getStudentFilterConfig(user.getUsername());

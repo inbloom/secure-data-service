@@ -185,6 +185,12 @@ public class NeutralSchemaValidationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSessionCourseAssociation() throws Exception {
+        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
+        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
+        addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
+        addDummyEntity("course", "93d33f0b-0f2e-43a2-b944-7d182253a79a");
+        addDummyEntity("course", "a7444741-8ba1-424e-b83f-df88c57f8b8c");
+        
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
@@ -338,6 +344,61 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
+	
+	
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testValidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyEntity("staff", "269be4c9-a806-4051-a02d-15a7af3ffe3e");
+        this.addDummyEntity("staff", "f0e41d87-92d4-4850-9262-ed2f2723159b");
+        this.addDummyEntity("staff", "858bf25e-51b8-450a-ade6-adda0a570d9e");
+        this.addDummyEntity("staff", "55015e96-56dd-4d13-a091-5cef847ca085");
+        this.addDummyEntity("staff", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
+        this.addDummyEntity("staff", "0e26de79-222a-4d67-9201-5113ad50a03b");
+        this.addDummyEntity("educationOrganization", "4f0c9368-8488-7b01-0000-000059f9ba56");
+        this.addDummyEntity("educationOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
+        
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/staff_educationOrganization_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                this.mapValidation((Map<String, Object>) obj.get("body"), "staffEducationOrganizationAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyCollection("staff");
+        this.addDummyCollection("educationOrganization");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/staff_educationOrganization_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                this.mapValidation((Map<String, Object>) obj.get("body"), "staffEducationOrganizationAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
 
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();

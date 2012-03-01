@@ -670,15 +670,21 @@
       </xs:annotation>
       <xs:complexType>
          <xs:sequence>
-            <xs:element name="studentId" type="xs:string">
+            <xs:element name="studentId" type="reference">
                <xs:annotation>
                   <xs:documentation>Student enrolled in the school.
                   </xs:documentation>
+                  <xs:appinfo>
+                    <sli:ReferenceType>student</sli:ReferenceType>
+                  </xs:appinfo>
                </xs:annotation>
             </xs:element>
-            <xs:element name="schoolId" type="xs:string">
+            <xs:element name="schoolId" type="reference">
                <xs:annotation>
                   <xs:documentation>School enrolling the student.</xs:documentation>
+                  <xs:appinfo>
+                    <sli:ReferenceType>school</sli:ReferenceType>
+                  </xs:appinfo>
                </xs:annotation>
             </xs:element>
             <xs:element name="entryDate" type="xs:date" minOccurs="0">

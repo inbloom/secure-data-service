@@ -52,8 +52,8 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-    	logger.info("Session check URL = " + Constants.SESSION_CHECK_URL);
-        String jsonText = makeJsonRequest(Constants.SESSION_CHECK_URL, token);
+    	logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
+        String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
@@ -72,7 +72,7 @@ public class RESTClient {
      */
     public String makeJsonRequest(String path, String token) {
         RestTemplate template = new RestTemplate();
-        URLBuilder url = new URLBuilder(getSecurityUrl()+Constants.API_PREFIX);
+        URLBuilder url = new URLBuilder(getSecurityUrl());
         url.addPath(path);
         if (token != null) {
             url.addQueryParam(API_SESSION_KEY, token);
