@@ -48,6 +48,9 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
+      if line.chomp.length == 0
+        next
+      end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
