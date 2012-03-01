@@ -25,20 +25,21 @@ import org.slc.sli.util.URLBuilder;
  */
 public class LiveAPIClient implements APIClient {
 
-    private static Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
+    private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
-    private static final String SECTIONS_URL = Constants.API_SERVER_URI + "/sections/";
-    private static final String STUDENT_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/studentSectionAssociations/";
-    private static final String SCHOOLS_URL = Constants.API_SERVER_URI + "/schools/";
-    private static final String STUDENTS_URL = Constants.API_SERVER_URI + "/students/";
-    private static final String COURSES_URL = Constants.API_SERVER_URI + "/courses/";
-    private static final String ED_ORG_URL = Constants.API_SERVER_URI + "/educationOrganizations/";
-    private static final String HOME_URL = Constants.API_SERVER_URI + "/home";
-    private static final String TEACHER_SECTION_ASSOC_URL = Constants.API_SERVER_URI + "/teacherSectionAssociations/";
-    private static final String STUDENT_ASSMT_ASSOC_URL = Constants.API_SERVER_URI
-            + "/student-assessment-associations/";
-    private static final String ASSMT_URL = Constants.API_SERVER_URI + "/assessments/";
-
+    private static final String SECTIONS_URL = "/sections/";
+    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations/";
+    private static final String SCHOOLS_URL = "/schools/";
+    private static final String STUDENTS_URL = "/students/";
+    private static final String COURSES_URL = "/courses/";
+    private static final String ED_ORG_URL = "/educationOrganizations/";
+    private static final String HOME_URL = "/home";
+    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations/";
+    private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
+    private static final String ASSMT_URL = "/assessments/";
+    
+    private String apiUrl; 
+    
     private RESTClient restClient;
     private Gson gson;
 
@@ -141,9 +142,9 @@ public class LiveAPIClient implements APIClient {
         return getEducationalOrganization(parentEdOrgId, token);
     }
 
-    /**
+    // TODO: This version works with v1 of the API, which is not ready. 
+    /** 
      * Get a list of student ids belonging to a section
-     */
     private List<String> getStudentIdsForSection(String id, String token) {
 
         List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + '?'
@@ -151,6 +152,16 @@ public class LiveAPIClient implements APIClient {
 
         List<String> studentIds = new ArrayList<String>();
 
+        for (GenericEntity response : responses) {
+            studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
+        }
+        return studentIds;
+    }
+     */
+    /* This version works with v0 of the API, which will be removed by the end of sprint 3.3 */
+    private List<String> getStudentIdsForSection(String id, String token) {
+        List<GenericEntity> responses = createEntitiesFromAPI(Constants.SECURITY_SERVER_URI + "/student-section-associations/" + id + "/targets", token);
+        List<String> studentIds = new ArrayList<String>();
         for (GenericEntity response : responses) {
             studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
         }
@@ -370,7 +381,7 @@ public class LiveAPIClient implements APIClient {
      * @return A list of attendance events for a student.
      */
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
-        String url = Constants.API_SERVER_URI + "v1/students/" + studentId + "/attendances";
+        String url = getApiUrl() + "v1/students/" + studentId + "/attendances";
         try {
             return createEntitiesFromAPI(url, token);
         } catch (Exception e) {
@@ -392,7 +403,7 @@ public class LiveAPIClient implements APIClient {
      */
     private GenericEntity createEntityFromAPI(String url, String token) {
 
-        GenericEntity e = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), GenericEntity.class);
+        GenericEntity e = gson.fromJson(restClient.makeJsonRequestWHeaders(getApiUrl() + url, token), GenericEntity.class);
 
         return e;
     }
@@ -442,4 +453,11 @@ public class LiveAPIClient implements APIClient {
         this.restClient = restClient;
     }
 
+	public String getApiUrl() {
+		return apiUrl + Constants.API_PREFIX;
+	}
+
+	public void setApiUrl(String apiUrl) {
+		this.apiUrl = apiUrl;
+	}
 }
