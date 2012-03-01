@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.handler;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,9 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Handles the persisting of Entity objects
@@ -130,68 +134,103 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         Map<String, String> filterFields = new HashMap<String, String>();
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
 
+        Query query = new Query();
         resolveSearchCriteria(collection, filterFields, externalSearchCriteria);
+        addSearchPathsToQuery(query, filterFields);
+        resolveJoinCriteria(query, externalSearchCriteria, errorReport);
 
-        Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
+        Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
-        found = resolveJoinCriteria(found, externalSearchCriteria);
         if (found == null || !found.iterator().hasNext()) {
             errorReport.error(
-                    "Cannot find Using Map [" + collection + "] record using the folowing filter: " + filterFields.toString(),
+                    "Cannot find Using Map [" + collection + "] record using the folowing filter: " + filterFields.toString() + " " + query.getQueryObject().toString(),
                     this);
 
             return null;
         }
 
-        return found.iterator().next().getEntityId();
+        Entity entity = found.iterator().next();
+
+        return entity.getEntityId();
     }
 
-    private Iterable<Entity> resolveJoinCriteria(Iterable<Entity> found,  Map<?, ?> externalSearchCriteria) {
+    private void resolveJoinCriteria(Query query,  Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
         ArrayList<Entity> newFound = new ArrayList<Entity>();
 
-        for (Entity entity : found) {
-    		boolean matchAllCriteria = true;
+
     		for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
-	    		if (Map.class.isInstance(searchCriteriaEntry.getValue()) && matchAllCriteria) {
+	    		if (Map.class.isInstance(searchCriteriaEntry.getValue())) {
 
-	    		//finds the needed reference
+
 	    		 StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
-	       	 	 String pathCollection = tokenizer.nextToken();
-	       	 	 Map<String, String> filterReferenceFields = new HashMap<String, String>();
+	       	 	 String pathCollection = tokenizer.nextToken().toLowerCase();
+
 	       	 	 String referencePath = tokenizer.nextToken();
 
-	       	 	 filterReferenceFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), entity.getBody().get(referencePath).toString());
-	       	     resolveSearchCriteria(pathCollection, filterReferenceFields, (Map<?, ?>) searchCriteriaEntry.getValue());
+	       	 	 Map<String, String> tempFilter = new HashMap<String, String>();
+	       	 	 tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+	       	     resolveSearchCriteria(pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue());
 
-	             Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, filterReferenceFields);
+	             Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
-		             if (referenceFound == null || !found.iterator().hasNext()) {
-		            	 matchAllCriteria = false;
-		             }
+	             if (referenceFound == null || !referenceFound.iterator().hasNext()) {
+	                 errorReport.error(
+	                         "Cannot find[" + pathCollection + "] record using the folowing filter: " + tempFilter.toString(),
+	                         this);
+	             }
+
+	             Map<String, String> orFilter = new HashMap<String, String>();
+
+	             for(Entity found : referenceFound){
+	            	 orFilter.put(referencePath, found.getEntityId());
+
+	             }
+
+	             addOrToQuery(query, orFilter);
+
 	    		}
     		}
-
-    	    if(matchAllCriteria){
-    			newFound.add(entity);
-    		}
-    	}
-		return newFound;
-
 	}
 
 	private void resolveSearchCriteria(String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria) {
          for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
-        	 if (String.class.isInstance(searchCriteriaEntry.getValue())){
+        	 StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
+    		 String pathCollection = tokenizer.nextToken().toLowerCase();
+    		 String path = tokenizer.nextToken();
 
-        		 StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
-        	 	 String pathCollection = tokenizer.nextToken();
-        	 	filterFields.put(tokenizer.nextToken(), searchCriteriaEntry.getValue().toString());
-
-        	 }
-    	 }
+    		 if(pathCollection.equals(collection)){
+    			 resolveSearchCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
+	    	 }
+        }
     }
+
+	private void resolveSearchCriteria(Map<String, String> filterFields, String key, Object value) {
+		if (String.class.isInstance(value)){
+
+			StringTokenizer tokenizer = new StringTokenizer(key, "#");
+	   		 String pathCollection = tokenizer.nextToken();
+	   		 String newPath = tokenizer.nextToken();
+			filterFields.put(newPath, value.toString());
+
+		} else if (Map.class.isInstance(value)){
+
+			for (Map.Entry<?, ?> searchCriteriaEntry : ((Map<?, ?>) value).entrySet()) {
+
+	    		 resolveSearchCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
+		    }
+
+		} else if (List.class.isInstance(value)){
+
+			for (Object object : (List) value){
+
+				resolveSearchCriteria(filterFields, key, object);
+		    }
+
+		}
+
+	}
 
 	/**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
@@ -302,5 +341,23 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
+    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
+        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
+            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
+            query.addCriteria(criteria);
+        }
+
+        return query;
+    }
+
+	private void addOrToQuery(Query query, Map<String, String> orFilter) {
+        List<Query> queries = new ArrayList<Query>();
+		for (Map.Entry<String, String> field : orFilter.entrySet()) {
+        	queries.add(new Query(Criteria.where(field.getKey()).is(field.getValue())));
+        }
+		query.or(queries.toArray(new Query[0]));
+	}
+
 
 }
