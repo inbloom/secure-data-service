@@ -1,5 +1,7 @@
 package org.slc.sli.dal.init;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,8 +34,12 @@ public class MongoIndexLoader implements InitializingBean {
             LOG.debug("Creating compound index on attendanceEvent collection");
             IndexDefinition indexDefinition = new Index().on("body.eventDate", ASCENDING)
                     .on("body.studentId", ASCENDING).on("body.attendanceEventCategory", ASCENDING).unique();
-            mongoTemplate.ensureIndex(indexDefinition, ATTENDANCE_EVENT_COLLECTION);
-            LOG.debug("Successfully created compound index on attendanceEvent collection");
+            try {
+                mongoTemplate.ensureIndex(indexDefinition, ATTENDANCE_EVENT_COLLECTION);
+                LOG.debug("Successfully created compound index on attendanceEvent collection");
+            } catch(Exception e) {
+                LOG.warn("There was an error creating index");
+            }            
         }
     }
 }
