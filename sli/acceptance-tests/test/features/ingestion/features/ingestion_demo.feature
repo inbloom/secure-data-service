@@ -52,7 +52,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "PI3-SPRINT1-V2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-    And "12" seconds have elapsed
+    And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 52    |
