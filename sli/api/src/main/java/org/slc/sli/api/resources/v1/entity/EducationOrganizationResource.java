@@ -161,4 +161,54 @@ public class EducationOrganizationResource {
         return this.crudDelegate.update(ResourceNames.EDUCATION_ORGANIZATIONS, educationOrganizationId, newEntityBody, headers, uriInfo);
     }
     
+
+    /**
+     * Returns each $$staffEducationOrganizationAssociations$$ that
+     * references the given $$educationOrganizations$$
+     * 
+     * @param educationOrganizationId
+     *            The Id of the School.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+    public Response getStaffEducationOrganizationAssociations(@PathParam(ParameterConstants.EDUCATION_ORGANIZATION_ID) final String educationOrganizationId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "educationOrganizationReference", educationOrganizationId, headers, uriInfo);
+    }
+    
+
+    /**
+     * Returns each $$staff$$ associated to the given education organization through
+     * a $$staffEducationOrganizationAssociations$$ 
+     * 
+     * @param educationOrganizationId
+     *            The Id of the School.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.STAFF)
+    public Response getStaffEducationOrganizationAssociationStaff(@PathParam(ParameterConstants.EDUCATION_ORGANIZATION_ID) final String educationOrganizationId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "educationOrganizationReference", educationOrganizationId, 
+                "staffReference", ResourceNames.STAFF, headers, uriInfo);
+    }
 }

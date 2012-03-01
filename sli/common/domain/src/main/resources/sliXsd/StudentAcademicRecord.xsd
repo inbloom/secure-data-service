@@ -166,16 +166,22 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseId" type="xs:string">
+				<xs:element name="courseId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the course that is offered.
 						</xs:documentation>
+						<xs:appinfo>
+                            <sli:ReferenceType>course</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="sessionId" type="xs:string">
+				<xs:element name="sessionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the session the course is offered.
 						</xs:documentation>
+						<xs:appinfo>
+                            <sli:ReferenceType>session</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>

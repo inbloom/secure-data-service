@@ -651,7 +651,8 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staffEducationOrgAssignmentAssociation">
+ -->
+	<xs:complexType name="staffEducationOrganizationAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the education
 				organization to which a staff
@@ -659,18 +660,24 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffReference" type="xs:string">
+			<xs:element name="staffReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The staff assigned to the education organization.
 					</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>staff</sli:ReferenceType>
+                        </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationReference" type="xs:string">
+			<xs:element name="educationOrganizationReference" type="reference">
 				<xs:annotation>
 					<xs:documentation>The educational organization to which the staff
 						memeber
 						provides services
 					</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="staffClassification" type="staffClassificationType">
@@ -706,7 +713,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
- -->
+    
 	<xs:element name="teacherSchoolAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the school(s) to which a
