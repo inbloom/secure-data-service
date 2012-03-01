@@ -96,7 +96,9 @@ public class Constants {
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_SECTION_ID = "sectionId";
 
-    // Program Participation Constants
+    public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
+    
+    //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
 
     /**
