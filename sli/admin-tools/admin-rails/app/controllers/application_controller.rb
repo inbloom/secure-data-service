@@ -1,7 +1,7 @@
 require "active_resource/base"
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+ # protect_from_forgery
   before_filter :handle_oauth
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
@@ -43,11 +43,16 @@ class ApplicationController < ActionController::Base
     "http://" + request.host_with_port + request.fullpath
   end
 
+  def redirect_uri
+    "http://" + request.host_with_port + "/callback"
+  end
+
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth == nil 
       oauth = Oauth.new()
+      oauth.redirect_uri = redirect_uri
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
@@ -55,7 +60,6 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
-        SessionResource.auth_id = 'notused'
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])

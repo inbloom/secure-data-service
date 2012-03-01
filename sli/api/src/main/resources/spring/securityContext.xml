@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -13,6 +15,8 @@
                         http://www.springframework.org/schema/context/spring-context.xsd
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd
                         http://www.springframework.org/schema/security/oauth2 
                         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
@@ -42,18 +46,33 @@
 
 
 
-	<!-- TECHNICAL DEBT: This Authentication Manager will need to be replaced 
-		with discovery service and SSO. -->
+	<!-- Only here because Spring oauth requires an authentication manager. -->
 	<security:authentication-manager>
-		<security:authentication-provider
-			user-service-ref="">
-			<security:user-service>
-				<security:user name="linda.kim" password="linda.kim1234"
-					authorities="EDUCATOR" />
-				<security:user name="demo" password="demo1234"
-					authorities="ADMIN_ACCESS, FULL_ACCESS" />
-			</security:user-service>
-		</security:authentication-provider>
+
 	</security:authentication-manager>
+	
+
+    <!-- Beans referenced by Authorization and Resource Services -->
+    <bean id="oauth2ProtectedResourceFilter"
+        class="org.springframework.security.oauth2.provider.filter.OAuth2ProtectedResourceFilter" />
+    <bean id="oauth2ExceptionHandlerFilter"
+        class="org.springframework.security.oauth2.provider.filter.OAuth2ExceptionHandlerFilter" />
+    <oauth2:expression-handler id="oauth2ExpressionHandler" />
+
+    <!-- OAuth 2.0 Authorization Server configuration -->
+    <oauth2:authorization-server
+        client-details-service-ref="sliClientDetailService"
+        token-services-ref="OAuthSessionService">
+        <oauth2:authorization-code services-ref="mongoAuthorizationCodeServices" />
+        <oauth2:refresh-token />
+    </oauth2:authorization-server>
+
+    <security:global-method-security
+        pre-post-annotations="enabled" proxy-target-class="true">
+        <security:expression-handler ref="oauth2ExpressionHandler" />
+    </security:global-method-security>
+
+    <context:component-scan base-package="org.slc.sli.api.security.oauth" />
+    <context:annotation-config />
 
 </beans>

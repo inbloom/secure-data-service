@@ -5,21 +5,17 @@ require_relative '../../utils/sli_utils.rb'
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 
-When /^I navigate to the Dashboard Live home page$/ do
-  url = "https://"+ PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode']
-  print url
-  @driver.get url
-end
-
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
-  realm_select = @driver.find_element(:name=> "realmId")
+  
+ realm_select = @driver.find_element(:name=> "realmId")
+
   
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
-    if (e1 == arg1)
-      e1.select()
+    if (e1.text == arg1)
+      e1.click()
       break
     end
   end
@@ -35,8 +31,8 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
 end
 
 Then /^I should be redirected to the app selection page$/ do
-  expected_url = "http://" + PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode'] + PropLoader.getProps['dashboard_app_selector_page']
-  print expected_url
+  expected_url = getBaseUrl() + PropLoader.getProps['dashboard_app_selector_page']
+  puts "Expected URL = " + expected_url + ", Current URL = " + @driver.current_url 
   assert(@driver.current_url == expected_url)
 end
 
@@ -61,7 +57,7 @@ end
 
 def getStudentsWithELLLozenge()
   studentTable = @driver.find_element(:id, "studentList");
-  student_cells = studentTable.find_elements(:xpath, "//td[@class='name']")
+  student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
   students_with_lozenges = []
   i = 0

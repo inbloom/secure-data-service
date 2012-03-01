@@ -45,7 +45,6 @@ public class RolesAndPermissionsResource {
      */
     @GET
     @Path("/roles")
-    @PreAuthorize("hasRole('READ_ROLES')")
     public List<Map<String, Object>> getRolesAndPermissions() {
         List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
         List<Role> roles = roleAccessor.fetchAllRoles();

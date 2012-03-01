@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
+import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,12 +163,16 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
-        
+
+        EntityQuery query = createQuery(queryParameters);
+
         List<EntityBody> results = new ArrayList<EntityBody>();
         
-        //for each entity found in the collection matching query parameters
-        for (Entity entity : this.repo.findAll(this.collectionName, queryParameters)) {
-            //add a new body containing that data
+        // for each entity found in the collection matching query parameters
+        for (Entity entity : this.repo.findAll(this.collectionName, query)) {
+            //TODO! This doesn't work correctly now
+            //checkAccess(Right.READ_GENERAL, entity.getEntityId());
+            // add a new body containing that data
             results.add(makeEntityBody(entity));
         }
         
@@ -182,6 +186,9 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids, String sortBy, SortOrder sortOrder) {
+        if (!ids.iterator().hasNext()) {
+            return Collections.emptyList();
+        }
         
         checkRights(Right.READ_GENERAL);
         
@@ -206,9 +213,8 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else {
-            throw new AccessDeniedException("No access to any requested entities");
         }
+        return Collections.emptyList();
     }
     
     @Override
@@ -473,5 +479,65 @@ public class BasicService implements EntityService {
     
     protected EntityRepository getRepo() {
         return repo;
+    }
+
+    /**
+     * This should have its own class (QueryConverter)
+     * TODO refactor
+     * @param queryParameters
+     * @return
+     */
+    protected EntityQuery createQuery(Map<String, String> queryParameters) {
+        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+
+        if (queryParameters == null) {
+            return queryBuilder.build();
+        }
+
+        //read each entry in map
+        for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
+            String key = entry.getKey();
+
+            if (key.equals("includeFields")) { //specific field(s) to include in result set
+                String includeFields = entry.getValue();
+                if (includeFields != null) {
+                    queryBuilder.setIncludeFields(includeFields);
+                }
+            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
+                String excludeFields = entry.getValue();
+                if (excludeFields != null) {
+                    queryBuilder.setExcludeFields(excludeFields);
+                }
+            } else if (key.equals("offset")) { //skip to record X instead of starting at the beginning
+                String offset = entry.getValue();
+                if (offset != null) {
+                    queryBuilder.setOffset(Integer.parseInt(offset));
+                }
+            } else if (key.equals("limit")) { //display X results instead of all of them
+                String limit = entry.getValue();
+                if (limit != null) {
+                    queryBuilder.setLimit(Integer.parseInt(limit));
+                }
+            } else if (key.equals("sort-by")) { // sort by a field
+                String sortBy = entry.getValue();
+                if (sortBy != null) {
+                    queryBuilder.setSortBy(sortBy);
+                }
+            } else if (key.equals("sort-order")) { // define the sort order (ascending or descending)
+                String sortOrder = entry.getValue();
+                if (sortOrder != null) {
+                    EntityQuery.SortOrder order =
+                            sortOrder.equals("ascending") ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
+                    queryBuilder.setSortOrder(order);
+                }
+            } else { //query param on record
+                String value = entry.getValue();
+                if (value != null) {
+                    queryBuilder.addField(key, value);
+                }
+            }
+        }
+
+        return queryBuilder.build();
     }
 }

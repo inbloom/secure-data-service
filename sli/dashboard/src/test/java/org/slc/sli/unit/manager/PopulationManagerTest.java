@@ -1,11 +1,23 @@
 package org.slc.sli.unit.manager;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * 
@@ -16,10 +28,26 @@ import org.slc.sli.manager.EntityManager;
 @PrepareForTest(EntityManager.class)
 public class PopulationManagerTest {
     
-    
+    private PopulationManager manager;
+    private EntityManager mockEntity;
+
+    @Before
+    public void setUp() throws Exception {
+        manager = new PopulationManager();
+        mockEntity = mock(EntityManager.class);
+        manager.setEntityManager(mockEntity);
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        manager = null;
+        mockEntity = null;
+    }
+
     /*
-     * Test that the assessmentFamilyMap is populated from values in entityManager.
-     */
+    * Test that the assessmentFamilyMap is populated from values in entityManager.
+    */
     /*
     @Test
     public void testAssessmentFamilyMapFromInit() throws Exception {
@@ -163,5 +191,36 @@ public class PopulationManagerTest {
         List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
         assertEquals(8, metaData.size()); // mock data has now 8 families: ISAT Reading, ISAT Writing, DIBELS Next, TRC, AP English, ACT, SAT, and PSAT
     }
-  */  
+  */
+
+    @Test
+    public void testGetAttendance() throws Exception {
+        List<String> studentIds = new ArrayList<String>();
+        studentIds.add("0");
+        studentIds.add("1");
+        List<GenericEntity> attendance = new ArrayList<GenericEntity>();
+        attendance.add(new GenericEntity());
+        attendance.add(new GenericEntity());
+        when(mockEntity.getAttendance(null, "0")).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        assertNotNull(studentAttendance);
+    }
+
+    @Test
+    public void testGetAttendanceWithBadStudent() throws Exception {
+        List<String> studentIds = new ArrayList<String>();
+        studentIds.add("0");
+        studentIds.add("1");
+        List<GenericEntity> attendance = new ArrayList<GenericEntity>();
+        attendance.add(new GenericEntity());
+        attendance.add(new GenericEntity());
+        when(mockEntity.getAttendance(null, "0")).thenReturn(null);
+        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+
+
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        assertNotNull(studentAttendance);
+    }
 }

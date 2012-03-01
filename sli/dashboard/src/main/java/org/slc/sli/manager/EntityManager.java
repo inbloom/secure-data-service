@@ -190,6 +190,16 @@ public class EntityManager extends Manager {
     public List<GenericEntity> getCustomData(String token, String key) {
         return apiClient.getCustomData(token, key);
     }
+
+    /**
+     * Retrieves a list of attendance objects for a single student.
+     * @param token The current authentication token.
+     * @param studentId The studentID that you want to get your attendance objects for.
+     * @return a list of attendance objects
+     */
+    public List<GenericEntity> getAttendance(final String token, final String studentId) {
+        return apiClient.getStudentAttendance(token, studentId);
+    }
     
     /**
      * Get the list of entities identified by the entity id list and authorized for the security token

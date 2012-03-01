@@ -1,6 +1,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,10 @@ import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
@@ -21,6 +24,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.util.datetime.DateTimeUtil;
@@ -39,6 +43,7 @@ public class MongoEntityRepository implements EntityRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
     
     @Autowired
+    @Qualifier("mongoTemplate")
     private MongoTemplate template;
     
     @Autowired
@@ -56,44 +61,129 @@ public class MongoEntityRepository implements EntityRepository {
     
     @Override
     public Entity find(String collectionName, Map<String, String> queryParameters) {
-        //turn query parameters into a Mongo-specific query
+        // turn query parameters into a Mongo-specific query
         Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
         
-        //find and return an entity
+        // find and return an entity
         return template.findOne(query, Entity.class, collectionName);
     }
     
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-        //turn query parameters into a Mongo-specific query
+        // turn query parameters into a Mongo-specific query
         Query query = MongoEntityRepository.createQuery(queryParameters, this.idConverter);
         
-        //find and return an entity
+        // find and return an entity
         return template.find(query, Entity.class, collectionName);
     }
     
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        //turn query parameters into a Mongo-specific query
+        Query mongoQuery = convertToQuery(query);
+        
+        //find and return an entity
+        return template.find(mongoQuery, Entity.class, collectionName);
+    }
+    
     /**
-     * Constructs a mongo-specific Query object from a map of key/value pairs. Contains special cases when the key is "_id", "includeFields",
-     * "excludeFields", "skip", and "limit". All other keys are added to the query as criteria specifying a field to search for (in the entity's
-     * body). 
+     * Converts a EntityQuery to a MongoQuery
+     * @param query
+     * @return
+     */
+    protected Query convertToQuery(EntityQuery query) {
+        Query mongoQuery = new Query();
+        final String mongoBody = "body.";
+
+        // Include fields
+        if (query.getIncludeFields() != null) {
+            mongoQuery.fields().include(mongoBody + query.getIncludeFields());
+        }
+        
+        // Exclude fields
+        if (query.getExcludeFields() != null) {
+            mongoQuery.fields().exclude(mongoBody + query.getExcludeFields());
+        }
+        
+        // Sorting
+        if (query.getSortBy() != null) {
+            if (query.getSortOrder() != null) {
+                Order sortOrder = query.getSortOrder().equals(EntityQuery.SortOrder.ascending) ? Order.ASCENDING : Order.DESCENDING;
+                mongoQuery.sort().on(mongoBody + query.getSortBy(), sortOrder);
+            } else { //default to ascending order
+                mongoQuery.sort().on(mongoBody + query.getSortBy(), Order.ASCENDING);
+            }
+        }
+
+        // Limit
+        if (query.getLimit() != 0) {
+            mongoQuery.limit(query.getLimit());
+        }
+
+        // Offset
+        if (query.getOffset() != 0) {
+            mongoQuery.skip(query.getOffset());
+        }
+
+        Map<String, String> fields = query.getFields();
+        
+        // _id field
+        final String mongoId = "_id";
+        
+        if (fields.containsKey(mongoId)) {
+            String id = fields.get(mongoId);
+            
+            if (id != null) {
+                String[] ids = id.split(",");
+                List<Object> databaseIds = new ArrayList<Object>();
+                for (String entityId : ids) {
+                    Object databaseId = idConverter.toDatabaseId(entityId);
+                    if (databaseId == null) {
+                        LOG.debug("Unable to process id {}", new Object[] { entityId });
+                    }
+                    databaseIds.add(databaseId);
+                }
+                mongoQuery.addCriteria(Criteria.where(mongoId).in(databaseIds));
+            }
+            fields.remove(mongoId);
+        }
+
+        // Query fields
+        for (Map.Entry<String, String> entry : query.getFields().entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (value != null) {
+                mongoQuery.addCriteria(Criteria.where(mongoBody + key).is(value));
+            }
+        }
+        return mongoQuery;
+    }
+    
+    /**
+     * Constructs a mongo-specific Query object from a map of key/value pairs. Contains special
+     * cases when the key is "_id", "includeFields",
+     * "excludeFields", "skip", and "limit". All other keys are added to the query as criteria
+     * specifying a field to search for (in the entity's
+     * body).
      * 
      * @param queryParameters
-     *              all parameters to be included in query
+     *            all parameters to be included in query
      * @param converter
-     *              used to convert human readable IDs into GUIDs (if queryParameters contains "_id" key)
-     * @return query object compatible with Mongo containing all parameters specified in the original map
+     *            used to convert human readable IDs into GUIDs (if queryParameters contains "_id"
+     *            key)
+     * @return query object compatible with Mongo containing all parameters specified in the
+     *         original map
      */
     private static Query createQuery(Map<String, String> queryParameters, IdConverter converter) {
         Query query = new Query();
-        
+
         if (queryParameters == null) {
             return query;
         }
-        
+
         //read each entry in map
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
-            
+
             //id field needs to be translated
             if (key.equals("_id")) {
                 String id = entry.getValue();
@@ -105,7 +195,7 @@ public class MongoEntityRepository implements EntityRepository {
                     }
                     query.addCriteria(Criteria.where(entry.getKey()).is(databaseId));
                 }
-            } else if (key.equals("includeFields")) { //specific field(s) to include in result set
+            } else if (key.equals("includeFields")) { // specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     for (String includeField : includeFields.split(",")) {
@@ -113,7 +203,8 @@ public class MongoEntityRepository implements EntityRepository {
                         query.fields().include("body." + includeField);
                     }
                 }
-            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
+            } else if (key.equals("excludeFields")) { // specific field(s) to exclude from result
+                                                      // set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     for (String excludeField : excludeFields.split(",")) {
@@ -121,24 +212,25 @@ public class MongoEntityRepository implements EntityRepository {
                         query.fields().exclude("body." + excludeField);
                     }
                 }
-            } else if (key.equals("skip")) { //skip to record X instead of starting at the beginning
+            } else if (key.equals("skip")) { // skip to record X instead of starting at the
+                                             // beginning
                 String skip = entry.getValue();
                 if (skip != null) {
                     query.skip(Integer.parseInt(skip));
                 }
-            } else if (key.equals("limit")) { //display X results instead of all of them
+            } else if (key.equals("limit")) { // display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     query.limit(Integer.parseInt(limit));
                 }
-            } else { //query param on record
+            } else { // query param on record
                 String value = entry.getValue();
                 if (value != null) {
                     query.addCriteria(Criteria.where("body." + key).is(value));
                 }
             }
         }
-        
+
         return query;
     }
     
@@ -269,7 +361,14 @@ public class MongoEntityRepository implements EntityRepository {
         logResults(collectionName, results);
         return results;
     }
-    
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        Entity entity = this.template.findOne(query, Entity.class, collectionName);
+        logResults(collectionName, Arrays.asList(entity));
+        return entity;
+    }
+
     @Override
     public long count(String collectionName, Query query) {
         DBCollection collection = template.getCollection(collectionName);
@@ -319,4 +418,5 @@ public class MongoEntityRepository implements EntityRepository {
         
         return paths;
     }
+
 }

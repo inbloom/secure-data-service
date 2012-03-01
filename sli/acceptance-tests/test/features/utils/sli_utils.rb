@@ -321,3 +321,66 @@ module CreateEntityHash
     return data
   end
 end
+
+module EntityProvider
+  def self.verify_entities_match(expected, response)
+    if expected.is_a?(Hash) 
+      expected.each { |key, value| verify_entities_match(value, response[key]) }
+    elsif expected.is_a?(Array)
+      assert( expected.size == response.size )
+      expected.zip(response).each { |ex, res| verify_entities_match(ex, res) }
+    else
+      assert( expected == response )
+    end
+  end
+
+  def self.get_new_entity(type)
+    case type
+    when 'attendance', 'v1attendance'
+      { 
+        "attendanceEvent" =>  
+        [
+          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
+            "attendanceEventCategory" => "Tardy", "studentId" => "00000000000001" }
+        ]
+      }
+    end
+  end
+
+  def self.get_entity_uri(type)
+    case type
+    when 'attendance'
+      "/attendances"
+    when 'v1attendance'
+      "/v1/attendances"
+    end
+  end
+
+  def self.get_existing_entity(type)
+    case type
+    when 'attendance', 'v1attendance'
+      { 
+        "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
+        "attendanceEvent" =>  
+        [
+          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
+            "attendanceEventCategory" => "Tardy", "studentId" => "00000000000002" }
+        ]
+      }
+    end
+  end
+
+  def self.get_updated_entity(type)
+    case type
+    when 'attendance', 'v1attendance'
+      { 
+        "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
+        "attendanceEvent" =>  
+        [
+          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
+            "attendanceEventCategory" => "In Attendance", "studentId" => "00000000000002" }
+        ]
+      }
+    end
+  end
+end

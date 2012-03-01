@@ -24,6 +24,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 /**
  * Prototype new api end points and versioning base class
@@ -82,7 +83,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Creates a new entity in a specific location or collection.
      * 
-     * @param resourceName
+     * @param collectionName
      *      where the entity should be located
      * @param newEntityBody 
      *      new map of keys/values for entity
@@ -191,30 +192,35 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 //query parameters for association and resolution lookups
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                Map<String, String> associationQueryParameters = 
+                Map<String, String> associationQueryParameters =
                        createAssociationQueryParameters(queryParameters, key, value, idKey);
                 
                 //final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
-                
+
+                StringBuilder ids = new StringBuilder();
                 //for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationQueryParameters)) {
-                    
-                    //prepare to query for specific ID referenced by the association
-                    queryParameters.put("_id", (String) entityBody.get(idKey));
-                    
-                    //lookup endpoint from association. should just return 1 result
-                    for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
-                        //if links should be included then put them in the entity body
-                        if (shouldIncludeLinks) {
-                            String id = (String) result.get("id");
-                            result.put(ResourceConstants.LINKS, getLinks(uriInfo, endpointEntity, id, result, entityDefs));
-                        }
-                        finalResults.add(result);
+                    ids.append((String) entityBody.get(idKey));
+                    ids.append(",");
+                }
+                
+                String entityIds = ids.toString();
+                logger.debug("entityIds = " + entityIds);
+
+                if (entityIds.length() == 0) {
+                    return Response.ok(finalResults).build();
+                }
+                entityIds = entityIds.substring(0, entityIds.length() - 1); //remove trailing comma
+                
+                queryParameters.put("_id", entityIds);
+                for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
+                    //if links should be included then put them in the entity body
+                    if (shouldIncludeLinks) {
+                        String id = (String) result.get("id");
+                        result.put(ResourceConstants.LINKS, getLinks(uriInfo, endpointEntity, id, result, entityDefs));
                     }
-                    
-                    //remove the reference to "_id" for the next iteration of the loop
-                    queryParameters.remove("_id");
+                    finalResults.add(result);
                 }
                 
                 return Response.ok(finalResults).build();
@@ -237,52 +243,48 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     @Override
     public Response read(final String resourceName, final String idList, final HttpHeaders headers, final UriInfo uriInfo) {
-        //return this.read(collectionName, "_id", idList, headers, uriInfo);
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                // split list of IDs into individual ID(s)
-                String[] ids = idList.split(",");
-                
-                // validate the number of input IDs is lower than the max acceptable amount
-                if (ids.length > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
-                    Response.Status errorStatus = Response.Status.PRECONDITION_FAILED;
-                    String errorMessage = "Too many GUIDs: " + ids.length + " (input) vs "
+                int idLength = idList.split(",").length;
+
+                if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
+                    Status errorStatus = Status.PRECONDITION_FAILED;
+                    String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
                             + DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS + " (allowed)";
                     return Response
                             .status(errorStatus)
                             .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
                                     errorMessage)).build();
                 }
-                
-                boolean multipleIds = (ids.length > 1);
-                List<EntityBody> results = new ArrayList<EntityBody>();
+
+                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
+                queryParameters.put("_id", idList);
+
+                //final/resulting information
+                List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
                 
-                // loop through all input ID(s)
-                for (String id : ids) {
-                    // ID is a valid entity from the collection
-                    if (entityDef.isOfType(id)) {
-                        EntityBody entityBody = entityDef.getService().get(id, ResourceUtil.convertToMap(uriInfo.getQueryParameters()));
-                        //if links should be included then put them in the entity body
+                for (EntityBody result : entityDef.getService().list(queryParameters)) {
+                    if (result != null) {
                         if (shouldIncludeLinks) {
-                            entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                            result.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, (String)
+                                    result.get("id"), result, entityDefs));
                         }
-                        results.add(entityBody);
-                    } else if (multipleIds) { // ID not found but multiple IDs searched for
-                        results.add(null);
-                    } else { // ID not found and only one ID being searched for
-                        return Response.status(Status.NOT_FOUND).build();
                     }
+                    finalResults.add(result);
                 }
-                
-                // get a response appropriate for the GET request
-                Object responseBodyEntity = multipleIds ? results : results.get(0);
-                
+
                 // Return results as an array if multiple IDs were requested (comma separated list),
                 // single entity otherwise
-                return Response.ok(responseBodyEntity).build();
+                if (finalResults.isEmpty()) {
+                    return Response.status(Status.NOT_FOUND).build();
+                } else if (finalResults.size() == 1) {
+                    return Response.ok(finalResults.get(0)).build();
+                } else {
+                    return Response.ok(finalResults).build();
+                }
             }
         });
     }
@@ -345,7 +347,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Reads all entities from a specific location or collection.
      * 
-     * @param resourceName
+     * @param collectionName
      *      where the entity should be located
      * @param headers 
      *      HTTP header information (which includes request headers) 

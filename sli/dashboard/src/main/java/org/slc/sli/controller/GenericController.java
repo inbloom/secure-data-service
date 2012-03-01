@@ -1,5 +1,15 @@
 package org.slc.sli.controller;
 
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +28,13 @@ public class GenericController {
 
     private static final String LAYOUT = "layout/";
 
+    private PopulationManager populationManager;
+    
+    @Autowired
+    public void setPopulationManager(PopulationManager populationManager) {
+        this.populationManager = populationManager;
+    }
+    
     /**
      * Controller for student profile
      * 
@@ -26,19 +43,27 @@ public class GenericController {
      */
     @RequestMapping(value = "/student", method = RequestMethod.GET)
     public ModelAndView handleStudentProfile(@RequestParam String id,
-                                             @RequestParam("pid") String[] panelIds,
-                                             ModelMap model) {
-           
-        // print out params, for debugging
-        System.out.println("Student id: " + id);
-        for (String panelId : panelIds) {
-            System.out.println("Panel id: " + panelId);
-        }
+                                             @RequestParam("pid") String[] panelIds) {
         
-        // set up model map
-        model.addAttribute("panelIds", panelIds);
+        // set up model map - hardcoded for now
+        ModelMap model = new ModelMap();
+        Map<String, List<String>> pageMap = new LinkedHashMap<String, List<String>>();
+        pageMap.put("Overview", Arrays.asList("csi", "csi"));
+        pageMap.put("Attendance and Discipline", Arrays.asList("test", "csi", "test"));
+        pageMap.put("Assessments", Arrays.asList("csi", "csi"));
+        pageMap.put("Grades and Credits", Arrays.asList("test", "csi", "test"));
+        pageMap.put("Advanced Academics", Arrays.asList("test", "csi"));
         
-        return new ModelAndView(LAYOUT + "studentProfile");
+        GenericEntity student = populationManager.getStudent(SecurityUtil.getToken(), id);
+        String name = ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
+                      + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+        model.addAttribute("student", name);
+
+        //model.addAttribute("panelIds", panelIds);
+        model.addAttribute("pageMap", pageMap);
+
+        return new ModelAndView(LAYOUT + "studentProfile", model);
+
     }
     
 }

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.mongodb.DBObject;
 
+import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -87,7 +88,14 @@ public class MockRepo implements EntityRepository {
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
         return findByFields(collectionName, queryParameters, 0, 10);
     }
-    
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        Map<String, String> fields = query.getFields();
+        
+        return findByFields(collectionName, fields);
+    }
+
     @Override
     public Entity find(String entityType, String id) {
         return repo.get(entityType).get(id);
@@ -112,7 +120,8 @@ public class MockRepo implements EntityRepository {
     
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
-        Entity newEntity = new MongoEntity(type, generateId(), body, null);
+        String id = generateId();
+        Entity newEntity = new MongoEntity(type, id, body, null);
         update(collectionName, newEntity);
         return newEntity;
     }
@@ -136,11 +145,17 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
-    
+
     private boolean matchesFields(Entity entity, Map<String, String> fields) {
         for (Map.Entry<String, String> field : fields.entrySet()) {
-            Object value = entity.getBody().get(field.getKey());
-            if (value == null || !value.toString().equals(field.getValue())) {
+            Object value;
+            if (field.getKey().equals("_id")) {
+                value = entity.getEntityId();
+            } else {
+                value = entity.getBody().get(field.getKey());
+            }
+            
+            if (value == null || !field.getValue().contains(value.toString())) {
                 return false;
             }
         }
@@ -182,7 +197,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn;
     }
-    
+
     @Override
     public long count(String collectionName, Query query) {
         return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();
@@ -372,6 +387,11 @@ public class MockRepo implements EntityRepository {
             ids.add(e.getEntityId());
         }
         return ids;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        throw new UnsupportedOperationException("Not implemented here yet, implement me! (We're agile. And toasted.");
     }
     
 }

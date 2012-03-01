@@ -5,6 +5,8 @@ import java.util.List;
 
 import freemarker.ext.beans.BeansWrapper;
 
+//import org.slc.sli.view.AttendanceResolver;
+import org.slc.sli.view.AttendanceResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -92,7 +94,7 @@ public class StudentListContentController extends DashboardController {
                 studentFilterName = studentFilterConfig.get(filterIndex).getName();
             }
 
-            // get student, program, and assessment result data
+            // get student, program, attendance, and assessment result data
             List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig);
             StudentResolver studentResolver = new StudentResolver(studentSummaries);
             studentResolver.filterStudents(studentFilterName);
@@ -100,8 +102,11 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
 
             // insert the assessments object into the modelmap
-            List<GenericEntity> assmts = populationManager.getAssessments(user.getUsername(), studentSummaries);
+            List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
+            
+            // Get attendance
+            model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
             
         /*
             List<StudentFilter> studentFilterConfig = configManager.getStudentFilterConfig(user.getUsername());

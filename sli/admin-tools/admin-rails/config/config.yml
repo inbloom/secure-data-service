@@ -1,12 +1,14 @@
 development:
     api_base: https://devapp1.slidev.org/api/rest
-    #api_base: http://localhost:8080/api/rest
+    #api_base: http://local.slidev.org:8080/api/rest
     #client_id: Eg6eseKRzN
     #client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    #redirect_uri: http://localhost:3000/callback
 test:
     api_base: https://devapp1.slidev.org/api/rest
 deployment:
     api_base: https://devapp1.slidev.org/api/rest
 integration:
     api_base: https://testapi1.slidev.org/api/rest
+    client_id: zl9FejUhnV
+    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
+test:

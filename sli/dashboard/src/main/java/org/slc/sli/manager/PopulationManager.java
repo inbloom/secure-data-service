@@ -79,18 +79,35 @@ public class PopulationManager {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
-        
-        // Add programs and student assessment results to summaries
+        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
+
+
+        // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
+            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
         }
         
         return studentSummaries;
     }
-    
-    
+
+    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
+        // Get attendance
+        Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
+        for (String studentId : studentIds) {
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
+            studentAttendanceMap.put(studentId, studentAttendance);
+        }
+        return studentAttendanceMap;
+    }
+
+    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
+        return entityManager.getAttendance(token, studentId);
+    }
+
+
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -185,5 +202,19 @@ public class PopulationManager {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
+
+    public List<GenericEntity> getAttendance(String token, List<GenericEntity> studentSummaries) {
+        return null;
+    }
+
     
+    public GenericEntity getStudent(String token, String studentId) {
+        return entityManager.getStudent(token, studentId);
+    }
+    
+
 }
+
+
+

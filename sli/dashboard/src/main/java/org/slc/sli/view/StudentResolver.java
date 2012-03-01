@@ -47,7 +47,14 @@ public class StudentResolver {
             
             return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
                  + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
-        } 
+        }
+        
+        if(dataPointName.equals(Constants.ATTR_NAME_WITH_LINK)) {
+            return "<a id=\"student_profile\" onClick=\"studentProfilePopup("+ student.get(Constants.ATTR_ID)+")\">" + 
+            		 ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "  +
+                     ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME) + "</a>";
+        }
+        
         return "";
     }
 

@@ -166,16 +166,22 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseId" type="xs:string">
+				<xs:element name="courseId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the course that is offered.
 						</xs:documentation>
+						<xs:appinfo>
+                            <sli:ReferenceType>course</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="sessionId" type="xs:string">
+				<xs:element name="sessionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the session the course is offered.
 						</xs:documentation>
+						<xs:appinfo>
+                            <sli:ReferenceType>session</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -425,18 +431,24 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentId" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The student enrolled in the section.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="sectionId" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The section the student is enrolled in.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
+                <xs:element name="studentId" type="reference">
+                    <xs:annotation>
+                        <xs:documentation>The student enrolled in the section.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>student</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="sectionId" type="reference">
+                    <xs:annotation>
+                        <xs:documentation>The section the student is enrolled in.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>section</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
 				<xs:element name="beginDate" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Month, day and year of the student's entry or

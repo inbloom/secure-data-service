@@ -16,6 +16,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.EntityQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -121,7 +122,12 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
+        @Override
+        public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+            return null;
+        }
+
         @Override
         public Iterable<Entity> findAll(String collectioName) {
             // TODO Auto-generated method stub
@@ -202,6 +208,12 @@ public class ReferenceSchemaTest {
 
         @Override
         public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public Entity findOne(String collectionName, Query query) {
             // TODO Auto-generated method stub
             return null;
         }

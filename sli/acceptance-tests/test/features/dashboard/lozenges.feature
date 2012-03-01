@@ -1,5 +1,3 @@
-#@wip
-
 Feature: Program Participation and Student Info on List (i.e., Lozenges) (US443)
 
 As an educator, I want to see general student demographic data for 

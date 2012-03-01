@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.domain.EntityQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -47,13 +48,12 @@ public class IngestionDummyEntityRepository implements EntityRepository {
 
     @Override
     public boolean update(String collection, Entity entity) {
-        // TODO Auto-generated method stub
-        return false;
+        addEntity(collection, entity.getEntityId(), entity);
+        return true;
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -132,6 +132,17 @@ public class IngestionDummyEntityRepository implements EntityRepository {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
         // TODO Auto-generated method stub
         return null;
     }

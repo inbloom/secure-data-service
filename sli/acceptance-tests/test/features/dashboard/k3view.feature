@@ -1,5 +1,3 @@
-#@wip
-
 Feature: K-3 student list view
 
 As a SEA/LEA user, I want to see the K-4 student list view

@@ -72,3 +72,16 @@ Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, hre
   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
 end
 
+When /^I PUT the entity to "([^"]*)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPut(url, data)
+  assert(@res != nil, "Response from rest-client PUT is nil")
+  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
+end
+
+When /^I POST the entity to "([^"]*)"$/ do |url|
+  data = prepareData(@format, @result)
+  restHttpPost(url, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
+

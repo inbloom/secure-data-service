@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
+import org.slc.sli.domain.EntityQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +21,16 @@ import org.slc.sli.domain.EntityRepository;
 public class DummyEntityRepository implements EntityRepository {
     
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
+    
+    public void clean() {
+        entities = new HashMap<String, Map<String, Entity>>();
+    }
+
+    public void addCollection(String collection) {
+        if (!entities.containsKey(collection)) {
+            entities.put(collection, new HashMap<String, Entity>());
+        }
+    }
     
     public void addEntity(String collection, String id, Entity entity) {
         if (!entities.containsKey(collection)) {
@@ -134,6 +144,17 @@ public class DummyEntityRepository implements EntityRepository {
     @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
         // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
         return null;
     }
     
