@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class SamlAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
 
-        String clientId = request.getParameter("client_id");
+        String clientId = URLEncoder.encode(request.getParameter("client_id"), "utf-8");
         //String relay = request.getParameter("RelayState");
         
         String url = "/api/disco/list?clientId=" + clientId;
