@@ -172,3 +172,27 @@ h1
     border: 1px solid #EEEEEE;
 }
 
+
+
+.header
+{
+    font-size:24px;
+    
+}
+
+.panel
+{
+    font-size: 24px;
+    border: 1px solid #000000;
+    margin-bottom: 10px;
+}
+
+.csi
+{
+    height: 150px;
+}
+    
+.csi .col1
+{
+    width: 
+}

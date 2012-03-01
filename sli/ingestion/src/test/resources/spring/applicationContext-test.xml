@@ -41,7 +41,7 @@
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*AesCipher" />
   </context:component-scan>
-  
+
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
@@ -150,12 +150,4 @@
       <ref bean="entityPersistHandler" />
     </property>
   </bean>
-
-  <bean id="testAvroRecordValidator" class="org.slc.sli.ingestion.landingzone.validation.AvroRecordValidator" />
-  
-  <bean id="mongoIndexLoader" class="org.slc.sli.ingestion.init.MongoIndexLoader">
-    <constructor-arg ref="mongoTemplate" />
-    <constructor-arg value="classpath:indexDefinitions" />
-  </bean>
-
 </beans>

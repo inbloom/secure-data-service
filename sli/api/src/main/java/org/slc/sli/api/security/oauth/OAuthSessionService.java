@@ -4,8 +4,6 @@ import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
@@ -37,13 +35,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
     private EntityRepository repo;
     
     @Autowired
-    private EntityDefinitionStore store;
-    
-    @Autowired
     private TokenStore mongoTokenStore;
-
-    @Autowired
-    private RolesToRightsResolver resolver;
     
     @PostConstruct
     public void init() {
@@ -59,75 +51,10 @@ public class OAuthSessionService extends RandomValueTokenServices {
         Iterable<Entity> results = repo.findByQuery(OAUTH_ACCESS_TOKEN_COLLECTION, new Query(Criteria.where("body.token").is(accessTokenValue)), 0, 1);
         for (Entity oauth2Session : results) {
             
-            //Since our granted authorities come from the securityContext.xml, they're not getting 
-            //transformed into actual SLI Rights.  Here we recreate a UsernamePasswordAuthenticationToken with the SLI Rights
             OAuth2Authentication auth = (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
             return auth;
         }
         return null;
     }
-    
-    /**
-     * Method called by SAML consumer. Performs a lookup in Mongo to find
-     * OAuth2Authentication object corresponding to the original SAML message
-     * ID, and stores information about the authenticated user into that object.
-     * The returned String is NOT url encoded.
-     * 
-     * @param originalMsgId
-     *            Unique identifier of SAML message sent to disco.
-     * @param credential
-     *            String representing Identity Provider issuer.
-     * @param principal
-     *            SLIPrincipal representing the authenticated user.
-     * @return String representing the composed redirect URI with verification
-     *         code and request token as parameters in link.
-     */
-    public String userAuthenticated(String originalMsgId, String issuer, SLIPrincipal principal) {
-    /*    Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                new Query(Criteria.where("body.samlMessageId").is(originalMsgId)), 0, 1);
-        if (results != null) {
-            for (Entity oauthSession : results) {
-                // StringBuilder url = new StringBuilder();
-                
-                Map<String, Object> body = oauthSession.getBody();
-                
-                EntityBody sliPrincipal = OAuthTokenUtil.mapSliPrincipal(principal);
-                body.put("userAuthn", sliPrincipal);
-                
-                getService().update(oauthSession.getEntityId(), (EntityBody) body);
-                
-                // it might be pertinent to do more in terms of checking the
-                // client and user authentication objects for
-                // consistency/validity
-                @SuppressWarnings("unchecked")
-                Map<String, Object> clientAuthentication = (Map<String, Object>) body.get("clientAuthn");
-                
-                String clientRedirectUri = (String) clientAuthentication.get("redirectUri");
-                Map<String, Object> parameterMap = new HashMap<String, Object>();
-                parameterMap.put("state", (String) body.get("requestToken"));
-                parameterMap.put("code", (String) body.get("verificationCode"));
-                // String requestToken = (String) body.get("requestToken");
-                // String verificationCode = (String) body.get("verificationCode");
-                
-                // URI url = UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap);
-                // url.append(clientRedirectUri);
-                // url.append("?requestToken=" + requestToken);
-                // url.append("&verificationCode=" + verificationCode);
-                // return url.toString();
-                return UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap).toString();
-            }
-        }*/
-        return null;
-    }
-
-    
-    /**
-     * Gets the EntityService associated with the OAuth 2.0 session collection.
-     * 
-     * @return Instance of EntityService for performing collection operations.
-     */
-    private EntityService getService() {
-        EntityDefinition defn = store.lookupByResourceName(OAUTH_ACCESS_TOKEN_COLLECTION);
-        return defn.getService();
-    }
+     
 }
