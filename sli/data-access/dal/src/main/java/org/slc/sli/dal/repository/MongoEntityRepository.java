@@ -13,7 +13,6 @@ import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
@@ -129,20 +128,26 @@ public class MongoEntityRepository implements EntityRepository {
 
         // _id field
         final String mongoId = "_id";
+
         if (fields.containsKey(mongoId)) {
             String id = fields.get(mongoId);
 
-            Object databaseId = idConverter.toDatabaseId(id);
-            if (databaseId == null) {
-                LOG.debug("Unable to process id {}", new Object[] { id });
-                return null;
+            if (id != null) {
+                String[] ids = id.split(",");
+                List<Object> databaseIds = new ArrayList<Object>();
+                for (String entityId : ids) {
+                    Object databaseId = idConverter.toDatabaseId(entityId);
+                    if (databaseId == null) {
+                        LOG.debug("Unable to process id {}", new Object[] { entityId });
+                    }
+                    databaseIds.add(databaseId);
+                }
+                mongoQuery.addCriteria(Criteria.where(mongoId).in(databaseIds));
             }
-            mongoQuery.addCriteria(Criteria.where(mongoId).is(databaseId));
             fields.remove(mongoId);
         }
 
         // Query fields
-
         for (Map.Entry<String, String> entry : query.getFields().entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

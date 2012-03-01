@@ -161,10 +161,6 @@
     </property>
   </bean>
 
-  <bean id="mongoIndexLoader" class="org.slc.sli.ingestion.init.MongoIndexLoader">
-    <constructor-arg ref="mongoTemplate" />
-    <constructor-arg value="classpath:indexDefinitions" />
-  </bean>
 </beans>
 
 
