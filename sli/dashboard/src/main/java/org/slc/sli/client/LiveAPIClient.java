@@ -161,7 +161,7 @@ public class LiveAPIClient implements APIClient {
      */
     /* This version works with v0 of the API, which will be removed by the end of sprint 3.3 */
     private List<String> getStudentIdsForSection(String id, String token) {
-        List<GenericEntity> responses = createEntitiesFromAPI(restClient.getSecurityUrl()+Constants.API_PREFIX + "/student-section-associations/" + id + "/targets", token);
+        List<GenericEntity> responses = createEntitiesFromAPI(restClient.getSecurityUrl()+ "api/rest/student-section-associations/" + id + "/targets", token);
         List<String> studentIds = new ArrayList<String>();
         for (GenericEntity response : responses) {
             studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
@@ -383,7 +383,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
-        String url = getApiUrl() + "v1/students/" + studentId + "/attendances";
+        String url = "/students/" + studentId + "/attendances";
         try {
             return createEntitiesFromAPI(url, token);
         } catch (Exception e) {
@@ -425,7 +425,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         // Parse JSON
-        List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), new ArrayList<Map>().getClass());
+        List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(getApiUrl() + url, token), new ArrayList<Map>().getClass());
 
         for (Map<String, Object> map : maps) {
             entityList.add(new GenericEntity(map));
