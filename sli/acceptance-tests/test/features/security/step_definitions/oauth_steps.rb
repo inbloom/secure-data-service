@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'json'
+#require 'json'
 require 'oauth2'
 require 'mongo'
 require_relative '../../utils/sli_utils.rb'

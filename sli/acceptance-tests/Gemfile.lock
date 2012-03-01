@@ -18,9 +18,9 @@ GEM
       multipart-post (~> 1.1)
       rack (~> 1.1)
     ffi (1.0.11)
-    gherkin (2.6.9)
+    gherkin (2.6.8)
       json (>= 1.4.6)
-    json (1.6.3)
+    json (1.6.2)
     mime-types (1.17.2)
     mongo (1.5.2)
       bson (= 1.5.2)
@@ -46,6 +46,7 @@ PLATFORMS
 DEPENDENCIES
   builder
   cucumber
+  json (= 1.6.2)
   mongo
   oauth2
   rest-client
