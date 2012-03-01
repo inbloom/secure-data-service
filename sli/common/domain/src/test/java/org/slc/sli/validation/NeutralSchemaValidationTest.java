@@ -328,6 +328,9 @@ public class NeutralSchemaValidationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSectionAssessmentAssociation() throws Exception {
+        addDummyEntity("section", "cb7a932f-2d44-800c-d574-cdb25a29fc76");
+        addDummyEntity("assessment", "dd916592-7dfe-4e27-a8ac-bec5f4b757b7");
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
