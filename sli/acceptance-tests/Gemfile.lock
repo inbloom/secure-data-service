@@ -46,7 +46,6 @@ PLATFORMS
 DEPENDENCIES
   builder
   cucumber
-  json
   mongo
   oauth2
   rest-client
