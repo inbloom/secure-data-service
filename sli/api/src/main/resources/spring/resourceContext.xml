@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		">
 
-<!-- 
-	<bean id="studentResource" class="org.slc.sli.api.resources.StudentResource">
-		<property name="studentService" ref="studentTorqueService" />
-	</bean>
- -->
- 	
-	<bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
-	</bean>
-	
-	
-	
-	<bean id="aggregationLoader" class="org.slc.sli.api.init.AggregationLoader">
-		<constructor-arg ref="mongoTemplate" />
-		<constructor-arg value="classpath:aggregationDefinitions" />
-	</bean>
-  
-  	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
-	</bean>
- 
+  <!-- <bean id="studentResource" class="org.slc.sli.api.resources.StudentResource"> <property name="studentService" ref="studentTorqueService" 
+    /> </bean> -->
+
+  <bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
+  </bean>
+
+  <bean id="aggregationLoader" class="org.slc.sli.api.init.AggregationLoader">
+    <constructor-arg ref="mongoTemplate" />
+    <constructor-arg value="classpath:aggregationDefinitions" />
+  </bean>
+
+  <bean id="mongoIndexLoader" class="org.slc.sli.api.init.MongoIndexLoader">
+    <constructor-arg ref="mongoTemplate" />
+    <constructor-arg value="classpath:indexDefinitions" />
+  </bean>
+
+  <bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
+  </bean>
+
 </beans>

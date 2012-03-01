@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.init;
+package org.slc.sli.api.init;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,17 +24,17 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  * 
  */
 public class MongoIndexLoader {
+    
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexLoader.class);
-    private File basePath;
-    private MongoTemplate template;
-    
     private static final String[] MONGO_INDEX_FOLDERS = new String[] { "attendanceEvent" + File.separator };
-    
     private static final FileFilter JAVASCRIPT_FILE_FILTER = new FileFilter() {
         public boolean accept(File pathname) {
             return pathname.getName().endsWith(".js");
         }
     };
+    
+    private File basePath;
+    private MongoTemplate template;
     
     public MongoIndexLoader(MongoTemplate template, URI path) {
         this.basePath = new File(path);
@@ -90,7 +90,7 @@ public class MongoIndexLoader {
      */
     public boolean loadJavascriptFile(File file) {
         
-        LOG.debug("Loading definition file: " + file.getAbsolutePath());
+        LOG.debug("Loading index file: " + file.getAbsolutePath());
         
         try {
             StringBuffer fileData = new StringBuffer("");
@@ -106,7 +106,7 @@ public class MongoIndexLoader {
             return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(fileData.toString()) + "\"}")
                     .ok();
         } catch (IOException ioe) {
-            LOG.debug("Failed to load definition file: " + file.getAbsolutePath());
+            LOG.debug("Failed to load index file: " + file.getAbsolutePath());
             return false;
         }
     }

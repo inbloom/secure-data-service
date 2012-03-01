@@ -86,7 +86,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
         boolean valid = false;
         try {
             Iterator iterator = getSignature(samlDocument).getSignedInfo().getReferences().iterator();
-            for (; iterator.hasNext();) {
+            while (iterator.hasNext()) {
                 Reference ref = ((Reference) iterator.next());
                 valid = ref.validate(valContext);
             }
@@ -148,7 +148,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
             return (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) || (algName.equalsIgnoreCase("RSA") && algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1));
         }
         
-        public class SimpleKeySelectorResult implements KeySelectorResult {
+        public static class SimpleKeySelectorResult implements KeySelectorResult {
             private Key k;
             
             public SimpleKeySelectorResult(PublicKey k) {

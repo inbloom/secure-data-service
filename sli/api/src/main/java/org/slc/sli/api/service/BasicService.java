@@ -163,13 +163,15 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
-        
+
         EntityQuery query = createQuery(queryParameters);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
         
         // for each entity found in the collection matching query parameters
         for (Entity entity : this.repo.findAll(this.collectionName, query)) {
+            //TODO! This doesn't work correctly now
+            //checkAccess(Right.READ_GENERAL, entity.getEntityId());
             // add a new body containing that data
             results.add(makeEntityBody(entity));
         }
