@@ -16,6 +16,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = 2349                                       if human_readable_id == "ASSOCIATION COUNT"
   id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID"
   id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
