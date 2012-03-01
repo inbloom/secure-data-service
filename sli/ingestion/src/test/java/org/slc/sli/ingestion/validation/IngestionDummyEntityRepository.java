@@ -48,13 +48,12 @@ public class IngestionDummyEntityRepository implements EntityRepository {
 
     @Override
     public boolean update(String collection, Entity entity) {
-        // TODO Auto-generated method stub
-        return false;
+        addEntity(collection, entity.getEntityId(), entity);
+        return true;
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -162,7 +162,7 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests,
+                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
 					 :v1StaffEdOrgAssociationTests] do
   displayFailureReport()
 end
@@ -188,6 +188,34 @@ task :v1SchoolSessionAssociationTests => [:realmInit] do
   setFixture("schoolSessionAssociation", "smallville_school_session_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/schoolSessionAssociation")
+end
+
+desc "Run V1 Student School Association Tests"
+task :v1StudentSchoolAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("school", "school_fixture.json")
+  setFixture("student", "student_fixture.json")
+  setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
+  #add smallville (no drop)
+  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("studentSchoolAssociation", "smallville_student_school_association_fixture.json", "test/data/smallville", false)
+  #run test
+  runTests("test/features/apiV1/associations/studentSchoolAssociation")
+end
+
+desc "Run V1 Session Course Association Tests"
+task :v1SessionCourseAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
+  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
+  #add smallville (no drop)
+  setFixture("session", "smallville_session_fixture.json", "test/data/smallville", false)
+  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
+  setFixture("sessionCourseAssociation", "smallville_session_course_association_fixture.json", "test/data/smallville", false)
+  #run test
+  runTests("test/features/apiV1/associations/sessionCourseAssociation")
 end
 
 desc "Run V1 Education Organization Tests"
