@@ -9,7 +9,7 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_PREFIX = "api/rest/v1/";
+    public static final String API_PREFIX = "api/rest/v1";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
     public static final String GET_ROLES_URL = "admin/roles";
