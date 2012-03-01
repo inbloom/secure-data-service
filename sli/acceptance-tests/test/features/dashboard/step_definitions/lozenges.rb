@@ -39,7 +39,7 @@ end
 
 def getStudentCell (student_name)
   studentTable = @driver.find_element(:id, "studentList");
-  all_tds = studentTable.find_elements(:xpath, "//td[@class='name']")
+  all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
 
   studentCell = nil
   all_tds.each do |td|
