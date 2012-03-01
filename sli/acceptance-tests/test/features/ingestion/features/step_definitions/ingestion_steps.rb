@@ -28,6 +28,11 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
+  ### Original code before the md5 changes:
+  # path_name = file_name[0..-5]
+  # runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{@local_file_store_path}#{path_name}/*")
+  # @source_file_name = file_name
+
   path_name = file_name[0..-5]
   
   # copy everything into a new directory (to avoid touching git tracked files)
@@ -48,9 +53,16 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
+      if line.chomp.length == 0
+        next
+      end
       entries = line.chomp.split ","
+      if entries.length < 3
+        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
+        new_ctl_file.puts line.chomp
+        next
+      end
       payload_file = entries[2]
-      puts "DEBUG:   #{zip_dir}     #{payload_file}"
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
         puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
