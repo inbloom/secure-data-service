@@ -15,6 +15,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.util.URLBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -27,17 +29,19 @@ public class LiveAPIClient implements APIClient {
 
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
-    private static final String SECTIONS_URL = "/sections";
-    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations";
-    private static final String SCHOOLS_URL = "/schools";
-    private static final String STUDENTS_URL = "/students";
-    private static final String COURSES_URL = "/courses";
-    private static final String ED_ORG_URL = "/educationOrganizations";
-    private static final String HOME_URL = "/home";
-    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations";
-    private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations";
-    private static final String ASSMT_URL = "/assessments";
+    private static final String SECTIONS_URL = "/sections/";
+    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations/";
+    private static final String SCHOOLS_URL = "/schools/";
+    private static final String STUDENTS_URL = "/students/";
+    private static final String COURSES_URL = "/courses/";
+    private static final String ED_ORG_URL = "/educationOrganizations/";
+    private static final String HOME_URL = "/home/";
+    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations/";
+    private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
+    private static final String ASSMT_URL = "/assessments/";
 
+    @Autowired
+    @Value("${api.server.url}")
     private String apiUrl;
 
     private RESTClient restClient;
@@ -173,14 +177,14 @@ public class LiveAPIClient implements APIClient {
      * Get one student
      */
     private GenericEntity getStudent(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token);
     }
 
     /**
      * Get one school
      */
     private GenericEntity getSchool(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + SCHOOLS_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + SCHOOLS_URL + id, token);
     }
 
     /**
@@ -188,7 +192,7 @@ public class LiveAPIClient implements APIClient {
      */
     private GenericEntity getSection(String id, String token) {
 
-        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + '/' + id, token);
+        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token);
         section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
 
         // if no section name, fill in with section code
@@ -203,28 +207,28 @@ public class LiveAPIClient implements APIClient {
      * Get one course
      */
     private GenericEntity getCourse(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + COURSES_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + COURSES_URL + id, token);
     }
 
     /**
      * Get one ed-org
      */
     private GenericEntity getEducationalOrganization(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + ED_ORG_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + ED_ORG_URL + id, token);
     }
 
     /**
      * Get one student-assessment association
      */
     private GenericEntity getStudentAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + id, token);
     }
 
     /**
      * Get one assessment
      */
     private GenericEntity getAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + ASSMT_URL + '/' + id, token);
+        return createEntityFromAPI(getApiUrl() + ASSMT_URL + id, token);
     }
 
     /**
@@ -372,7 +376,7 @@ public class LiveAPIClient implements APIClient {
                 Map<String, String> query = new HashMap<String, String>();
                 query.put(Constants.ATTR_SCHOOL_ID, (String) section.get(Constants.ATTR_SCHOOL_ID));
                 schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID),
-                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + '/' + section.get(Constants.ATTR_SCHOOL_ID), token));
+                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token));
             }
 
         }
@@ -385,11 +389,12 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
+        logger.info("Getting attendance for ID: " + studentId);
         String url = "/students/" + studentId + "/attendances";
         try {
             return createEntitiesFromAPI(getApiUrl() + url, token);
         } catch (Exception e) {
-            logger.error("Couldn't retrieve attendance for id:" + studentId, e.getStackTrace());
+            logger.error("Couldn't retrieve attendance for id:" + studentId);
             return new ArrayList<GenericEntity>();
         }
     }
