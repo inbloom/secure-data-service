@@ -287,7 +287,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests,:MostRecentResultTests] do
 displayFailureReport()
 end
 
@@ -536,6 +536,11 @@ end
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
     runTests("test/features/dashboard/dashboard_login.feature")
+end
+
+desc "Run Dashboard most recent result acceptance tests"
+task :MostRecentResultTests do
+    runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
 end
 ############################################################
 # Dashboard tests end
