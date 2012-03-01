@@ -63,23 +63,39 @@ public class DiscoController {
      * @throws IOException
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "RelayState", required = false) String relayState,
-            @RequestParam(value = "RealmName", required = false) String realmName, 
-            @RequestParam(value = "clientId", required = true) String clientId, Model model) throws IOException {
+    public String listRealms(@RequestParam(value = "RelayState", required = false) final String relayState,
+            @RequestParam(value = "RealmName", required = false) final String realmName, 
+            @RequestParam(value = "clientId", required = true) final String clientId, final Model model) throws IOException {
         
-        Map<String, String> map = SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
+            Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
-            public Map<String, String> execute() {
+            public Object execute() {
                 Iterable<String> realmList = service.list(0, 100);
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = service.get(realmId);
                     map.put(node.get("id").toString(), node.get("state").toString());
+                    if (realmName != null && realmName.length() > 0) {
+                        if (realmName.equals(node.get("state"))) {
+                            try {
+                                return ssoInit(node.get("id").toString(), relayState, clientId, model);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
-                return map;
+                return null;
             }
+            
         });
         
+        if (result instanceof String) {
+            return (String) result;
+        }
+        
+        Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
         model.addAttribute("relayState", relayState != null ? relayState : "");
