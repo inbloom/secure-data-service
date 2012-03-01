@@ -142,9 +142,9 @@ public class LiveAPIClient implements APIClient {
         return getEducationalOrganization(parentEdOrgId, token);
     }
 
-    /**
+    // TODO: This version works with v1 of the API, which is not ready. 
+    /** 
      * Get a list of student ids belonging to a section
-     */
     private List<String> getStudentIdsForSection(String id, String token) {
 
         List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + '?'
@@ -152,6 +152,16 @@ public class LiveAPIClient implements APIClient {
 
         List<String> studentIds = new ArrayList<String>();
 
+        for (GenericEntity response : responses) {
+            studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
+        }
+        return studentIds;
+    }
+     */
+    /* This version works with v0 of the API, which will be removed by the end of sprint 3.3 */
+    private List<String> getStudentIdsForSection(String id, String token) {
+        List<GenericEntity> responses = createEntitiesFromAPI(Constants.SECURITY_SERVER_URI + "/student-section-associations/" + id + "/targets", token);
+        List<String> studentIds = new ArrayList<String>();
         for (GenericEntity response : responses) {
             studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
         }
