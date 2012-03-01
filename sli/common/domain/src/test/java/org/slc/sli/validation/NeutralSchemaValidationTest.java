@@ -144,6 +144,12 @@ public class NeutralSchemaValidationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testValidSessionCourseAssociation() throws Exception {
+        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
+        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
+        addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
+        addDummyEntity("course", "93d33f0b-0f2e-43a2-b944-7d182253a79a");
+        addDummyEntity("course", "a7444741-8ba1-424e-b83f-df88c57f8b8c");
+        
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
