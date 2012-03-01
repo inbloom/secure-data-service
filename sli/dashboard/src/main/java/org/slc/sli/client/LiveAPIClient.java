@@ -168,7 +168,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> responses = createEntitiesFromAPI(restClient.getSecurityUrl()+ "api/rest/student-section-associations/" + id + "/targets", token);
         List<String> studentIds = new ArrayList<String>();
         for (GenericEntity response : responses) {
-            studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
+            studentIds.add(parseId(response.getMap(Constants.ATTR_LINK)));
         }
         return studentIds;
     }

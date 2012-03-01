@@ -1,4 +1,5 @@
-Feature: As an SLI application, I want to be able to manage associations.
+@wip
+Feature: As an SLI application, I want to be able to manage section assessment associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
   
@@ -77,6 +78,7 @@ Scenario: Read entities associated to endpoint2
      And each entity's "entityType" should be "<ENDPOINT1 TYPE>"
 
 Scenario: Update association
+   Given format "application/json"
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
     Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
     When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
@@ -86,6 +88,7 @@ Scenario: Update association
      And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
 
 Scenario: Delete association
+   Given format "application/json"
     When I navigate to DELETE "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
     Then I should receive a return code of 204
      And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
