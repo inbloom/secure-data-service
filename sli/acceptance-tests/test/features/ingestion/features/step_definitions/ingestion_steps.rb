@@ -50,17 +50,14 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
     ctl_file.each_line do |line|
       entries = line.chomp.split ","
       if entries.length < 3
+        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
         new_ctl_file.puts line.chomp
         next
       end
       payload_file = entries[2]
-      begin
-        md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
-        if entries[3] != md5.to_s
-          puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
-        end
-      rescue
-        md5 = entries[3]
+      md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
+      if entries[3] != md5.to_s
+        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
       end
       # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
       entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
