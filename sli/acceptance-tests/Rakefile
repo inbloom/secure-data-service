@@ -162,8 +162,18 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests] do
+                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests,
+					 :v1StaffEdOrgAssociationTests] do
   displayFailureReport()
+end
+
+desc "Run V1 Staff Education Organization Association Tests"
+task :v1StaffEdOrgAssociationTests => [:realmInit] do
+  setFixture("staff", "staff_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
+  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/staffEducationOrganizationAssociation")
 end
 
 desc "Run V1 School Session Association Tests"
