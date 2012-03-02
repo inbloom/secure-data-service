@@ -352,8 +352,7 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
-	
-	
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStaffEducationOrganizationAssociation() throws Exception {
