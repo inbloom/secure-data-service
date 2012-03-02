@@ -39,16 +39,11 @@ class ApplicationController < ActionController::Base
     request.url
   end
 
-  def redirect_uri
-    request.base_url + "/callback"
-  end
-
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth == nil 
       oauth = Oauth.new()
-      oauth.redirect_uri = redirect_uri
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
