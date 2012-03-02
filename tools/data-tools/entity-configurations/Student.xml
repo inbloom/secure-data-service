@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudent xsi:schemaLocation="http://ed-fi.org/0100 Interchange-Student.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Student id="ID_1">
+		<StudentUniqueStateId>a</StudentUniqueStateId>
+		<StudentIdentificationCode IdentificationSystem="Federal" AssigningOrganizationCode="a">
+			<IdentificationCode>a</IdentificationCode>
+		</StudentIdentificationCode>
+		<StudentIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+			<IdentificationCode>a</IdentificationCode>
+		</StudentIdentificationCode>
+		<Name Verification="Immigration document/visa">
+			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+			<FirstName>a</FirstName>
+			<MiddleName>a</MiddleName>
+			<LastSurname>a</LastSurname>
+			<GenerationCodeSuffix>III</GenerationCodeSuffix>
+			<MaidenName>a</MaidenName>
+		</Name>
+		<OtherName OtherNameType="Other Name">
+			<PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+			<FirstName>a</FirstName>
+			<MiddleName>a</MiddleName>
+			<LastSurname>a</LastSurname>
+			<GenerationCodeSuffix>II</GenerationCodeSuffix>
+		</OtherName>
+		<OtherName OtherNameType="Other Name">
+			<PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+			<FirstName>a</FirstName>
+			<MiddleName>a</MiddleName>
+			<LastSurname>a</LastSurname>
+			<GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+		</OtherName>
+		<Sex>Female</Sex>
+		<BirthData>
+			<BirthDate>1967-08-13</BirthDate>
+			<CityOfBirth>aa</CityOfBirth>
+			<StateOfBirthAbbreviation>WV</StateOfBirthAbbreviation>
+			<CountryOfBirthCode>MQ</CountryOfBirthCode>
+			<DateEnteredUS>1967-08-13</DateEnteredUS>
+			<MultipleBirthStatus>true</MultipleBirthStatus>
+		</BirthData>
+		<Address AddressType="Temporary">
+			<StreetNumberName>a</StreetNumberName>
+			<ApartmentRoomSuiteNumber>a</ApartmentRoomSuiteNumber>
+			<BuildingSiteNumber>a</BuildingSiteNumber>
+			<City>aa</City>
+			<StateAbbreviation>MT</StateAbbreviation>
+			<PostalCode>a</PostalCode>
+			<NameOfCounty>a</NameOfCounty>
+			<CountyFIPSCode>aaa</CountyFIPSCode>
+			<CountryCode>OM</CountryCode>
+			<Latitude>a</Latitude>
+			<Longitude>a</Longitude>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+		</Address>
+		<Address AddressType="Other">
+			<StreetNumberName>a</StreetNumberName>
+			<ApartmentRoomSuiteNumber>a</ApartmentRoomSuiteNumber>
+			<BuildingSiteNumber>a</BuildingSiteNumber>
+			<City>aa</City>
+			<StateAbbreviation>AR</StateAbbreviation>
+			<PostalCode>a</PostalCode>
+			<NameOfCounty>a</NameOfCounty>
+			<CountyFIPSCode>aaa</CountyFIPSCode>
+			<CountryCode>CV</CountryCode>
+			<Latitude>a</Latitude>
+			<Longitude>a</Longitude>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+		</Address>
+		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Work">
+			<EmailAddress>aaaaaaa</EmailAddress>
+		</ElectronicMail>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>aaaaaaa</EmailAddress>
+		</ElectronicMail>
+		<ProfileThumbnail>a</ProfileThumbnail>
+		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+		<OldEthnicity>Black, Not Of Hispanic Origin</OldEthnicity>
+		<Race>
+			<RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+			<RacialCategory>American Indian - Alaskan Native</RacialCategory>
+		</Race>
+		<EconomicDisadvantaged>true</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+		<StudentCharacteristics>
+			<Characteristic>Immigrant</Characteristic>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</StudentCharacteristics>
+		<StudentCharacteristics>
+			<Characteristic>Unschooled Refugee</Characteristic>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</StudentCharacteristics>
+		<LimitedEnglishProficiency>Limited Monitored 2</LimitedEnglishProficiency>
+		<Languages>
+			<Language>Icelandic</Language>
+			<Language>Efik</Language>
+		</Languages>
+		<HomeLanguages>
+			<Language>Hindi</Language>
+			<Language>Kashmiri</Language>
+		</HomeLanguages>
+		<Disabilities>
+			<Disability>Specific Learning Disability</Disability>
+			<DisabilityDiagnosis>a</DisabilityDiagnosis>
+			<OrderOfDisability>0</OrderOfDisability>
+		</Disabilities>
+		<Disabilities>
+			<Disability>Emotional Disturbance</Disability>
+			<DisabilityDiagnosis>a</DisabilityDiagnosis>
+			<OrderOfDisability>0</OrderOfDisability>
+		</Disabilities>
+		<Section504Disabilities>
+			<Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+			<Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+		</Section504Disabilities>
+		<DisplacementStatus>a</DisplacementStatus>
+		<ProgramParticipations>
+			<Program>Career and Technical Education</Program>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</ProgramParticipations>
+		<ProgramParticipations>
+			<Program>Health Services Program</Program>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</ProgramParticipations>
+		<LearningStyles>
+			<VisualLearning>0</VisualLearning>
+			<AuditoryLearning>0</AuditoryLearning>
+			<TactileLearning>0</TactileLearning>
+		</LearningStyles>
+		<CohortYears CohortYearType="Third grade">
+			<SchoolYear>2028-2029</SchoolYear>
+		</CohortYears>
+		<CohortYears CohortYearType="First grade">
+			<SchoolYear>2007-2008</SchoolYear>
+		</CohortYears>
+		<StudentIndicators>
+			<IndicatorGroup>a</IndicatorGroup>
+			<IndicatorName>a</IndicatorName>
+			<Indicator>a</Indicator>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</StudentIndicators>
+		<StudentIndicators>
+			<IndicatorGroup>a</IndicatorGroup>
+			<IndicatorName>a</IndicatorName>
+			<Indicator>a</Indicator>
+			<BeginDate>1967-08-13</BeginDate>
+			<EndDate>1967-08-13</EndDate>
+			<DesignatedBy>a</DesignatedBy>
+		</StudentIndicators>
+		<LoginId>a</LoginId>
+	</Student>
+</InterchangeStudent>
