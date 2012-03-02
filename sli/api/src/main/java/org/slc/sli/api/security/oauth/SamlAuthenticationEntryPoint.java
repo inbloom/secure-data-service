@@ -23,14 +23,22 @@ public class SamlAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-
-        String clientId = URLEncoder.encode(request.getParameter("client_id"), "utf-8");
-        //String relay = request.getParameter("RelayState");
         
-        String url = "/api/disco/list?clientId=" + clientId;
+        String url = "/api/disco/list";
+        String clientId = request.getParameter("client_id");
+        String realmName = request.getParameter("RealmName");
         
-        if (request.getParameter("RealmName") != null) {
-            url += "&RealmName=" + URLEncoder.encode(request.getParameter("RealmName"), "utf-8");
+        if (clientId != null) {
+            url += "?clientId=" + URLEncoder.encode(clientId, "utf-8");
+        }
+       
+        if (realmName != null) {
+            if (clientId != null) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            url += "RealmName=" + URLEncoder.encode(realmName, "utf-8");
         }
         
         response.sendRedirect(url);
