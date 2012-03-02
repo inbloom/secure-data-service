@@ -3,6 +3,8 @@ GEM
   specs:
     addressable (2.2.7)
     bson (1.5.2)
+    bson_ext (1.5.2)
+      bson (= 1.5.2)
     builder (3.0.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
@@ -53,6 +55,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   builder
   cucumber
   json (= 1.6.2)
