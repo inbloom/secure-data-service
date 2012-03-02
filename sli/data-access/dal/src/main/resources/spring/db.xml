@@ -16,15 +16,17 @@
 
   <tx:annotation-driven />
 
-  <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location" value="classpath:config/${sli.env}/data-access/db.properties" />
+  <bean id="placeholderConfig"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location"
+      value="classpath:config/${sli.env}/data-access/db.properties" />
   </bean>
 
 
   <!-- MONGODB CONFIG -->
 
-  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" host="${sli.mongodb.host}"
-    port="${sli.mongodb.port}" />
+  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
+    host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
   <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
   <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
@@ -54,6 +56,10 @@
     </property>
   </bean>
 
-  <bean id="mongoEntityRepository" name="validationRepo" class="org.slc.sli.dal.repository.MongoEntityRepository"></bean>
+  <bean id="mongoEntityRepository" name="validationRepo"
+    class="org.slc.sli.dal.repository.MongoEntityRepository">
+    <property name="template" ref="mongoTemplate" />
+  </bean>
+
   <context:component-scan base-package="org.slc.sli.dal" />
 </beans>

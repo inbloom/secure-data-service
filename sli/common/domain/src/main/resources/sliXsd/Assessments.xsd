@@ -541,24 +541,18 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentId" type="reference">
+				<xs:element name="studentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the student associated with the
 							assessment.
 						</xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>student</sli:ReferenceType>
-                        </xs:appinfo>
                     </xs:annotation>
 				</xs:element>
-				<xs:element name="assessmentId" type="reference">
+				<xs:element name="assessmentId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the assessment taken by the
 							student.
 						</xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>assessment</sli:ReferenceType>
-                        </xs:appinfo>
                     </xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -674,7 +668,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 	
-	<!-- <xs:element name="sectionAssessmentAssociation">
+	<xs:element name="sectionAssessmentAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a section
 				with an administered assessment.
@@ -682,23 +676,28 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="sectionId" type="xs:string">
+				<xs:element name="sectionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the section associated with the
 							assessment.
 						</xs:documentation>
-					</xs:annotation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>section</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
 				</xs:element>
-				<xs:element name="assessmentId" type="xs:string">
+				<xs:element name="assessmentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the assessment taken by the
 							section.
 						</xs:documentation>
-					</xs:annotation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>assessment</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	 -->
 
 </xs:schema>
