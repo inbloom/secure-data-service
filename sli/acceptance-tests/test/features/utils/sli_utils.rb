@@ -1,4 +1,4 @@
-
+require File.expand_path('../common_stepdefs.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 

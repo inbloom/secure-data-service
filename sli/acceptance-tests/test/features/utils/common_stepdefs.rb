@@ -10,8 +10,7 @@ Given /^I have access to all [^"]*$/ do
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].should include(fmt)
-  @format = fmt
+  @format = fmt if ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].include?(fmt)
 end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
