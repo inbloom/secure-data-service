@@ -280,7 +280,9 @@ public class BasicService implements EntityService {
         }
         
         // Blank out fields inaccessible to the user
-        filterFields(toReturn, "");
+        // @@@ Temporarily comment this out because this apparently would filter out fields even for Educators who should have access    
+        // @@@ , to unblock teams requiring their users to have access to these fields (03/02/2012)  
+        // filterFields(toReturn, "");
         
         return toReturn;
     }
