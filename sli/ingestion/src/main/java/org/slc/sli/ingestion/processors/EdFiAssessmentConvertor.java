@@ -3,8 +3,14 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +30,12 @@ import org.slc.sli.ingestion.util.FileUtils;
  */
 @Component
 public class EdFiAssessmentConvertor {
+    private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
+    private static final String ASSESSMENT = "assessment";
+    private static final String ASSESSMENT_FAMILY = "AssessmentFamily";
     private static final Logger LOG = LoggerFactory.getLogger(EdFiAssessmentConvertor.class);
     private final FileUtils fileUtils;
+    private final List<String> inspectRecordTypes = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY);
     
     @Autowired
     public EdFiAssessmentConvertor(FileUtils fileUtils) {
@@ -36,10 +46,16 @@ public class EdFiAssessmentConvertor {
     public void doConversion(IngestionFileEntry fileEntry) throws IOException {
         LOG.debug("Converting ingested ed fi file {}", fileEntry);
         NeutralRecordFileReader reader = new NeutralRecordFileReader(fileEntry.getNeutralRecordFile());
-        List<NeutralRecord> edfiRecords = new ArrayList<NeutralRecord>();
+        Map<String, List<NeutralRecord>> edfiRecords = new HashMap<String, List<NeutralRecord>>();
+        for (String type : inspectRecordTypes) {
+            edfiRecords.put(type, new ArrayList<NeutralRecord>());
+        }
         try {
             while (reader.hasNext()) {
-                edfiRecords.add(reader.next());
+                NeutralRecord record = reader.next();
+                if (edfiRecords.keySet().contains(record.getRecordType())) {
+                    edfiRecords.get(record.getRecordType()).add(record);
+                }
             }
         } finally {
             reader.close();
@@ -66,8 +82,35 @@ public class EdFiAssessmentConvertor {
      *            the set of edfi assessments
      * @return the corresponding set of sli assessments
      */
-    protected List<NeutralRecord> convert(List<NeutralRecord> orig) {
-        return orig;
+    protected List<NeutralRecord> convert(Map<String, List<NeutralRecord>> orig) {
+        Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
+        List<NeutralRecord> assessments = orig.get(ASSESSMENT);
+        for (NeutralRecord record : assessments) {
+            List<String> familyHierarchy = resolveFamily(record, assessmentFamilies, new HashSet<Object>());
+            record.setAttributeField("assessmentFamilyHierarchyName", StringUtils.join(familyHierarchy, "."));
+        }
+        return assessments;
     }
     
+    private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> familyRecords) {
+        // instance #1754 I wish Java had function literals...
+        Map<Object, NeutralRecord> assessmentFamilies = new HashMap<Object, NeutralRecord>();
+        for (NeutralRecord record : familyRecords) {
+            assessmentFamilies.put(record.getLocalId(), record);
+        }
+        return assessmentFamilies;
+    }
+    
+    private List<String> resolveFamily(NeutralRecord rec, Map<Object, NeutralRecord> families, Set<Object> visited) {
+        Object familyId = rec.getLocalParentIds().get(ASSESSMENT_FAMILY);
+        NeutralRecord family = families.get(familyId);
+        List<String> hierarchy = new ArrayList<String>();
+        ;
+        if (family != null && !visited.contains(family)) {
+            visited.add(family);
+            hierarchy = resolveFamily(family, families, visited);
+            hierarchy.add(family.getAttributes().get(ASSESSMENT_FAMILY_TITLE).toString());
+        }
+        return hierarchy;
+    }
 }
