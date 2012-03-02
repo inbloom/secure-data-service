@@ -56,8 +56,8 @@ public class NeutralRecordsMergeProcessor implements Processor {
                 try {
                     assessmentConvertor.doConversion(file);
                 } catch (IOException e) {
-                    String errorText = "Exception occurred while converting assessments: "+file.getFileName();
-                    LOG.error(errorText,e);
+                    String errorText = "Exception occurred while converting assessments: " + file.getFileName();
+                    LOG.error(errorText, e);
                     job.getErrorReport().error(errorText, NeutralRecordsMergeProcessor.class);
                 }
             }
