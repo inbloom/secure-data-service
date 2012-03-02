@@ -34,9 +34,10 @@ public class LiveAPIClient implements APIClient {
     private static final String SCHOOLS_URL = "/schools/";
     private static final String STUDENTS_URL = "/students/";
     private static final String COURSES_URL = "/courses/";
+    private static final String TEACHERS_URL = "/teachers/";
     private static final String ED_ORG_URL = "/educationOrganizations/";
     private static final String HOME_URL = "/home/";
-    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations/";
+    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
 
@@ -272,8 +273,7 @@ public class LiveAPIClient implements APIClient {
 
         // TODO: Change this (and similar places where you ask for associations) to a properly-built 
         //       query. Probably with a "createEntitiesWithQuery" method. 
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHER_SECTION_ASSOC_URL + "?"
-                + Constants.ATTR_TEACHER_ID + '=' + id, token);
+        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC_URL, token);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
 
         // TODO: for a more efficient implementation, build a comma-delimited list of section ids,
@@ -411,6 +411,7 @@ public class LiveAPIClient implements APIClient {
      * @return the entity
      */
     private GenericEntity createEntityFromAPI(String url, String token) {
+        logger.info("Querying API: " + url);
 
         GenericEntity e = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), GenericEntity.class);
 
@@ -432,6 +433,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         // Parse JSON
+        logger.info("Querying API for list: " + url);
         List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), new ArrayList<Map>().getClass());
 
         for (Map<String, Object> map : maps) {
