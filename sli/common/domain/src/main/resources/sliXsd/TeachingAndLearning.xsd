@@ -11,14 +11,20 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="teacherId" type="xs:string">
+				<xs:element name="teacherId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The teacher assigned to the section.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>teacher</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="sectionId" type="xs:string">
+				<xs:element name="sectionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The section the teacher is assigned to.</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>section</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="classroomPosition" type="classroomPositionType">
