@@ -97,9 +97,10 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-
+	/* TODO: Make the actual API Call */
         // make a call to student-assessments, with the student id
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
+        // List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
+	List<GenericEntity> responses = new ArrayList<GenericEntity>();;
 
         // for each link in the returned list, make the student-assessment call for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
@@ -108,6 +109,7 @@ public class LiveAPIClient implements APIClient {
         }
 
         return studentAssmts;
+
     }
 
     /**
@@ -148,28 +150,16 @@ public class LiveAPIClient implements APIClient {
         return getEducationalOrganization(parentEdOrgId, token);
     }
 
-    // TODO: This version works with v1 of the API, which is not ready.
     /**
      * Get a list of student ids belonging to a section
+     */
     private List<String> getStudentIdsForSection(String id, String token) {
 
-        List<GenericEntity> responses = createEntitiesFromAPI(STUDENT_SECTION_ASSOC_URL + '?'
-                + Constants.ATTR_SECTION_ID + '=' + id, token);
-
+        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id + STUDENT_SECTION_ASSOC_URL, token);
         List<String> studentIds = new ArrayList<String>();
 
         for (GenericEntity response : responses) {
             studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
-        }
-        return studentIds;
-    }
-     */
-    /* This version works with v0 of the API, which will be removed by the end of sprint 3.3 */
-    private List<String> getStudentIdsForSection(String id, String token) {
-        List<GenericEntity> responses = createEntitiesFromAPI(restClient.getSecurityUrl()+ "api/rest/student-section-associations/" + id + "/targets", token);
-        List<String> studentIds = new ArrayList<String>();
-        for (GenericEntity response : responses) {
-            studentIds.add(parseId(response.getMap(Constants.ATTR_LINK)));
         }
         return studentIds;
     }
@@ -271,8 +261,6 @@ public class LiveAPIClient implements APIClient {
      */
     private List<GenericEntity> getSectionsForTeacher(String id, String token) {
 
-        // TODO: Change this (and similar places where you ask for associations) to a properly-built 
-        //       query. Probably with a "createEntitiesWithQuery" method. 
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC_URL, token);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
 

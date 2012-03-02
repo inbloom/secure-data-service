@@ -1654,7 +1654,7 @@
 
   <!-- Start Student Attendance mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:expression property="recordType">'attendanceEvent'
+    <jb:expression property="recordType">'attendance'
 		</jb:expression>
     <jb:wiring property="attributes" beanIdRef="attendanceEventAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="studentAttendanceIntegrityCheck" />

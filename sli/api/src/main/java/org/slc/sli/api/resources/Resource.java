@@ -529,7 +529,6 @@ public class Resource {
                     targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
         } else {
             links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
-            links.addAll(ResourceUtil.getReferenceLinks(uriInfo, this.entityDefs, defn, entityBody));
         }
         return links;
     }

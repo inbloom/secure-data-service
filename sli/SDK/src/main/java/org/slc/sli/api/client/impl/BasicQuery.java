@@ -20,23 +20,34 @@ public class BasicQuery implements Query {
     private static final String MAX_RESULTS_KEY = "max-results";
     
     /** Represents an empty query with no query parameters */
-    public static final Query EMPTY_QUERY = new BasicQuery();
+    public static final Query EMPTY_QUERY = Builder.create().build();
+    public static final Query TARGETS_QUERY = Builder.create().targets().build();
     
     private Map<String, Object> params;
+    private boolean useTargets = false;
     
     /**
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
-    public class Builder {
+    public static class Builder {
         private final Map<String, Object> params = new HashMap<String, Object>();
+        private boolean useTargets = false;
         
         /**
          * Instantiate a new builder
          * 
          * @return Builder instance.
          */
-        public Builder create() {
+        public static Builder create() {
             return new Builder();
+        }
+        
+        /**
+         * Indicate we want the targets of an association.
+         */
+        public Builder targets() {
+            useTargets = true;
+            return this;
         }
         
         /**
@@ -96,6 +107,7 @@ public class BasicQuery implements Query {
         public Query build() {
             BasicQuery rval = new BasicQuery();
             rval.params = params;
+            rval.useTargets = useTargets;
             return rval;
         }
     }
@@ -103,6 +115,11 @@ public class BasicQuery implements Query {
     @Override
     public Map<String, Object> getParameters() {
         return params;
+    }
+    
+    @Override
+    public boolean targets() {
+        return useTargets;
     }
     
 }

@@ -41,8 +41,13 @@ public class GenericEntityFromJson implements JsonDeserializer<Entity> {
         
         Map<String, Object> data = processObject(obj.getAsJsonObject());
         
-        // EntityTypes are upper case, plural instances of the 'entityType' JSON value.
-        return new GenericEntity(EntityType.valueOf(t.toUpperCase() + "S"), data);
+        EntityType entityType = EntityType.byType(t);
+        
+        if (entityType != null) {
+            return new GenericEntity(entityType, data);
+        } else {
+            return new GenericEntity(EntityType.GENERIC, data);
+        }
     }
     
     private Map<String, Object> processObject(final JsonObject obj) {

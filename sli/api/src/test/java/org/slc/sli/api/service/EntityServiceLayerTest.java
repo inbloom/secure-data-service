@@ -2,7 +2,7 @@ package org.slc.sli.api.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -36,6 +36,7 @@ import org.slc.sli.api.service.AssociationService.EntityIdList;
 import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.EntityRepository;
+
 //import org.slc.sli.validation.EntityValidationException;
 
 /**
@@ -212,18 +213,22 @@ public class EntityServiceLayerTest {
         student1.put("name.firstName", "Bonzo");
         student1.put("name", createMap("middleName", "1"));
         student1.put("lastName", "Madrid");
+        student1.put("studentUniqueStateId", "0");
         EntityBody student2 = new EntityBody();
         student2.put("firstName", "Petra");
         student2.put("lastName", "Arkanian");
         student2.put("name", createMap("middleName", "2"));
+        student2.put("studentUniqueStateId", "1");
         EntityBody student3 = new EntityBody();
         student3.put("firstName", "Andrew");
         student3.put("lastName", "Wiggen");
         student3.put("name", createMap("middleName", "3"));
+        student3.put("studentUniqueStateId", "3");
         EntityBody student4 = new EntityBody();
         student4.put("firstName", "Julian");
         student4.put("lastName", "Delphiki");
         student4.put("name", createMap("middleName", "4"));
+        student4.put("studentUniqueStateId", "4");
         String id1 = studentService.create(student1);
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
@@ -305,7 +310,7 @@ public class EntityServiceLayerTest {
                 .hasNext());
         
         EntityIdList idList2 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4,
-                "name.firstName=Bonzo", null, null);
+                "studentUniqueStateId=0", null, null);
         assertEquals(Arrays.asList(id1), iterableToList(idList2));
         assertEquals(4, idList2.getTotalCount());
         assertFalse(studentSchoolAssociationService
@@ -317,7 +322,7 @@ public class EntityServiceLayerTest {
                         SortOrder.ascending));
         
         EntityIdList idList3 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, null,
-                "name.middleName", SortOrder.descending);
+                "studentUniqueStateId", SortOrder.descending);
         assertEquals(Arrays.asList(id4, id3, id2, id1), iterableToList(idList3));
         assertEquals(4, idList3.getTotalCount());
         
@@ -329,7 +334,11 @@ public class EntityServiceLayerTest {
     }
     
     // test referential validation for association creation
-    /* TODO: Uncomment once direct references enabled.
+    /* Test is now an acceptance/integration test.
+     * References now require:
+     * 1. XSD
+     * 2. EntityDefinitions
+     * 3. ReferenceSchema (a NeutralSchema)
     @Test(expected = EntityValidationException.class)
     public void testCreateAssocValidate() {
         EntityBody student1 = new EntityBody();
@@ -347,7 +356,6 @@ public class EntityServiceLayerTest {
         assoc1.put("startDate", (new Date()).getTime());
         studentSchoolAssociationService.create(assoc1);
     }
-    */
     
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
@@ -380,6 +388,7 @@ public class EntityServiceLayerTest {
         // studentSchoolAssociationService.get(assocId);
         studentSchoolAssociationService.get(assoc2Id);
     }
+    */
     
     private <T> List<T> iterableToList(Iterable<T> itr) {
         List<T> result = new ArrayList<T>();

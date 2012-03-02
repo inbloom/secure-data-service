@@ -1,9 +1,12 @@
+require File.expand_path('../common_stepdefs.rb', __FILE__)
+require 'rubygems'
+require 'bundler/setup'
+
 require 'rest-client'
 require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
-require_relative 'common_stepdefs'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']

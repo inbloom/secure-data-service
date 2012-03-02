@@ -5,7 +5,7 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<xs:element name="attendanceEvent">
+	<xs:element name="attendance">
 		<xs:annotation>
 			<xs:documentation>
 				This event entity represents the recording of whether a student is in
