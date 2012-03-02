@@ -18,8 +18,8 @@ public class EdFiEntityXMLGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/teacher.config";
-        String output = "/Users/yzhang/Documents/teacher.xml";
+        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/test.config";
+        String output = "/Users/yzhang/Documents/test.xml";
 
         if (args.length != 2) {
             System.out
