@@ -9,22 +9,22 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName              |
 	   | student                     |
-	   | attendanceEvent             |
+	   | attendance                  |
 When zip file is scp to ingestion landing zone
 	And "15" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | student                     | 52    |
-	   | attendanceEvent             | 11544 |
+	   | attendance                  | 11544 |
 	 And I check to find if record is in collection:
 	   | collectionName              | expectedRecordCount | searchParameter               | searchValue     |
-	   | attendanceEvent             | 11544               | body.educationalEnvironment   | Classroom       |
-	   | attendanceEvent             | 1187                | body.attendanceEventCategory  | Excused Absence |
-	   | attendanceEvent             | 10357               | body.attendanceEventCategory  | In Attendance   |
-	   | attendanceEvent             | 52                  | body.eventDate                | 2011-09-01      |
-	   | attendanceEvent             | 0                   | body.eventDate                | 2011-09-03      |
-	   | attendanceEvent             | 0                   | body.eventDate                | 2012-07-01      |
-	   | attendanceEvent             | 52                  | body.eventDate                | 2012-07-02      |
+	   | attendance                  | 11544               | body.educationalEnvironment   | Classroom       |
+	   | attendance                  | 1187                | body.attendanceEventCategory  | Excused Absence |
+	   | attendance                  | 10357               | body.attendanceEventCategory  | In Attendance   |
+	   | attendance                  | 52                  | body.eventDate                | 2011-09-01      |
+	   | attendance                  | 0                   | body.eventDate                | 2011-09-03      |
+	   | attendance                  | 0                   | body.eventDate                | 2012-07-01      |
+	   | attendance                  | 52                  | body.eventDate                | 2012-07-02      |
 	   
 	And I should see "Processed 11596 records." in the resulting batch job file
 
@@ -34,13 +34,13 @@ When zip file is scp to ingestion landing zone
 	And "5" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
-	   | attendanceEvent             | 11596 |
+	   | attendance                  | 11596 |
 	 And I check to find if record is in collection:
 	   | collectionName              | expectedRecordCount | searchParameter               | searchValue     |
-	   | attendanceEvent             | 11596               | body.educationalEnvironment   | Classroom       |
-	   | attendanceEvent             | 1191                | body.attendanceEventCategory  | Excused Absence |
-	   | attendanceEvent             | 10405               | body.attendanceEventCategory  | In Attendance   |
-	   | attendanceEvent             | 52                  | body.eventDate                | 2012-07-09      |
+	   | attendance                  | 11596               | body.educationalEnvironment   | Classroom       |
+	   | attendance                  | 1191                | body.attendanceEventCategory  | Excused Absence |
+	   | attendance                  | 10405               | body.attendanceEventCategory  | In Attendance   |
+	   | attendance                  | 52                  | body.eventDate                | 2012-07-09      |
 	   
 	 And I should see "Processed 52 records." in the resulting batch job file
 	 
