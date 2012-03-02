@@ -211,6 +211,25 @@ public class NeutralSchemaValidationTest {
         readAndValidateFixtureData("src/test/resources/staff_educationOrganization_association_fixture_neutral.json", "staffEducationOrganizationAssociation");
     }
 
+    @Test
+    public void testValidStudentSchoolAssociation() throws Exception {
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
+        this.addDummyEntity("student", "e0e99028-6360-4247-ae48-d3bb3ecb606a");
+
+        readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json", "studentSchoolAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentSchoolAssociation() throws Exception {
+        this.addDummyCollection("student");
+        this.addDummyCollection("school");
+
+        readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json", "studentSchoolAssociation");
+    }
+
     @SuppressWarnings("unchecked")
     private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
         BufferedReader reader = null;
