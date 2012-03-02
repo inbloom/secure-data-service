@@ -3,28 +3,32 @@ package org.slc.sli.security;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.web.util.WebUtils;
 
 import org.slc.sli.client.RESTClient;
-import org.slc.sli.util.URLBuilder;
-import org.slc.sli.util.URLHelper;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -40,6 +44,13 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final String SESSION_ID_KEY = "sliSessionId";
     private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
 
+    private String callbackUrl = "http://local.slidev.org:8000/dashboard/callback";
+    
+    private String clientId = "fm67sH6vZZ";
+    
+    private String clientSecret = "sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4";
+    
+    private static final String OAUTH_TOKEN = "OAuthToken";
 
     private RESTClient restClient;
 
@@ -54,37 +65,37 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     /**
      * Redirects user to login URL
      */
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
-        Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
-
-        // Check if incoming request has a sessionId
-        if (sessionId == null) {
-            Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
-
-            // Check if cookie from idp exists
-            if (openAmCookie != null) {
-                sessionId = openAmCookie.getValue();
-
-            } else {
-                JsonObject jsonSession = this.restClient.sessionCheck(null);
-
-                //Redirect to idp, if user is not authenticated
-                if (!jsonSession.get("authenticated").getAsBoolean()) {
-                    String baseUrl = jsonSession.get("redirect_user").getAsString();
-                    String requestedURL = URLHelper.getUrl(request);
-                    LOG.debug("Using return URL of: " + requestedURL);
-                    URLBuilder url = new URLBuilder(baseUrl);
-                    url.addQueryParam("RelayState", requestedURL);
-                    response.sendRedirect(url.toString());
-                }
-            }
-        }
-
-        addAuthentication((String) sessionId);
-        response.sendRedirect(request.getRequestURI());
-    }
+//    @Override
+//    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+//
+//        Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
+//
+//        // Check if incoming request has a sessionId
+//        if (sessionId == null) {
+//            Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
+//
+//            // Check if cookie from idp exists
+//            if (openAmCookie != null) {
+//                sessionId = openAmCookie.getValue();
+//
+//            } else {
+//                JsonObject jsonSession = this.restClient.sessionCheck(null);
+//
+//                //Redirect to idp, if user is not authenticated
+//                if (!jsonSession.get("authenticated").getAsBoolean()) {
+//                    String baseUrl = jsonSession.get("redirect_user").getAsString();
+//                    String requestedURL = URLHelper.getUrl(request);
+//                    LOG.debug("Using return URL of: " + requestedURL);
+//                    URLBuilder url = new URLBuilder(baseUrl);
+//                    url.addQueryParam("RelayState", requestedURL);
+//                    response.sendRedirect(url.toString());
+//                }
+//            }
+//        }
+//
+//        addAuthentication((String) sessionId);
+//        response.sendRedirect(request.getRequestURI());
+//    }
 
     private void addAuthentication(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
@@ -110,5 +121,29 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         }
     }
 
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+        System.out.println("TEMP -------- NEW COMMENCE");
+        HttpSession session = request.getSession();
+        if (session.getAttribute(OAUTH_TOKEN) == null) {
+            session.setAttribute("ENTRY_URL", request.getRequestURL());
+            
+            System.out.println("TEMP - Client ID " + clientId);
+            System.out.println("TEMP - Client Secret " + clientSecret);
+            System.out.println("TEMP - Callback URL " + callbackUrl);
+            OAuthService service = new ServiceBuilder().provider(SliApi.class).
+                    apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
+                    build();
+            
+            //The request token doesn't matter for OAuth 2.0 which is why it's null
+            String authUrl = service.getAuthorizationUrl(null);
+            System.out.println("TEMP - Our Authorization URL Is " + authUrl);
+            response.sendRedirect(authUrl);
+        } else {
+            
+        }
+        
+    }
 }
 

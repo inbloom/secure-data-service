@@ -19,7 +19,7 @@ body {
 <body>
 	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/api/disco/sso" method="GET" commandName="dummy">
-		<input type="hidden" name="RelayState" value="${relayState}" />
+		<input type="hidden" name="redirect_uri" value="${redirect_uri}" />
 		<input type="hidden" name="clientId" value="${clientId}" />
 		Please choose your State/District:
 		<form:select path="" name="realmId" items="${realms}" />

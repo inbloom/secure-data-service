@@ -44,4 +44,5 @@
 	</bean>
 
     <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
+    
 </beans>

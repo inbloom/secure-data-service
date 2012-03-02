@@ -24,9 +24,9 @@ public class SamlAuthenticationEntryPoint implements AuthenticationEntryPoint {
             throws IOException, ServletException {
 
         String clientId = URLEncoder.encode(request.getParameter("client_id"), "utf-8");
-        //String relay = request.getParameter("RelayState");
+        String relay = request.getParameter("redirect_uri");
         
-        String url = "/api/disco/list?clientId=" + clientId;
+        String url = "/api/disco/list?clientId=" + clientId + "&redirect_uri=" + relay;
         
         response.sendRedirect(url);
         return;
