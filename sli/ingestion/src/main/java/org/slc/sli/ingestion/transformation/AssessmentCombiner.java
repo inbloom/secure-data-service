@@ -33,8 +33,44 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
     @Override
     public void transform() {
-        LOG.debug("Transforming data.");
+        LOG.debug("Transforming data: Injecting schoolIds of all schools that teacher is a part of into teacher record");
 
+        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
+        String key;
+        
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : this.collections.get("teacher").entrySet()) {
+            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+            
+            //get the key of parent
+            Map<String, Object> attrs = neutralRecord.getAttributes();
+            key = (String) attrs.get("body.staffUniqueStateId");
+            
+            //find children from database
+            Map<String, String> paths = new HashMap<String, String>();
+            paths.put("body.teacherId", key);
+            
+            Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("teacherSchoolAssociation", paths);
+            Iterator<NeutralRecord> iter = data.iterator();
+            
+            NeutralRecord tempNr;
+            String schoolId;
+            Map<String, Object> associationAttrs;
+            Map<String, Object> schoolIds = new HashMap<String, Object>();
+            
+            while (iter.hasNext()) {
+                tempNr = iter.next();
+                associationAttrs = tempNr.getAttributes();
+                schoolId = (String) associationAttrs.get("body.schoolId");
+                
+                schoolIds.put("schoolId", schoolId);
+            }
+            
+            neutralRecord.setAttributes(schoolIds);
+            newCollection.put(neutralRecord.getLocalId(), neutralRecord);
+        }
+        
+        this.collections.put("modifiedTeacher", newCollection);
+        
     }
 
     @Override
@@ -42,10 +78,10 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         LOG.debug("Loading data for transformation.");
 
         this.addCollection("teacher");
-        this.addCollection("student");
-        this.addCollection("section");
+        this.addCollection("teacherSchoolAssociation");
 
         LOG.debug("Teacher is loaded into local storage.  Total Count = " + this.collections.get("teacher").size());
+        LOG.debug("TeacherSchoolAssociation is loaded into local storage.  Total Count = " + this.collections.get("teacherSchoolAssociation").size());
 
     }
 
@@ -108,7 +144,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
             status = this.persist();
 
         } catch (Exception e) {
-            LOG.error("IOException", e);
+            LOG.error("Exception", e);
 
             errorReport.fatal("Could not transform data.", AssessmentCombiner.class);
         }
