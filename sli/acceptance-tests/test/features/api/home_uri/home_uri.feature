@@ -22,7 +22,7 @@ Scenario: Home URI returns valid links for user 'aggregator'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'aggregator' ID>"
-    And I should receive a link named "getEducationOrganizationsAssigned" with URI "/staff-educationOrganization-associations/<'aggregator' ID>"
+    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'aggregator' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'aggregator' ID>/targets"
 
 Scenario: Home URI returns valid links for user 'administrator'
@@ -32,7 +32,7 @@ Scenario: Home URI returns valid links for user 'administrator'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'administrator' ID>"
-    And I should receive a link named "getEducationOrganizationsAssigned" with URI "/staff-educationOrganization-associations/<'administrator' ID>"
+    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'administrator' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'administrator' ID>/targets"
 
 Scenario: Home URI returns valid links for user 'leader'
@@ -42,7 +42,7 @@ Scenario: Home URI returns valid links for user 'leader'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'leader' ID>"
-    And I should receive a link named "getEducationOrganizationsAssigned" with URI "/staff-educationOrganization-associations/<'leader' ID>"
+    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'leader' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'leader' ID>/targets"
 
 Scenario: Home URI returns appropriate links for 'baduser'
@@ -52,7 +52,7 @@ Scenario: Home URI returns appropriate links for 'baduser'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'baduser' ID>"
-    And I should receive a link named "getEducationOrganizationsAssigned" with URI "/staff-educationOrganization-associations/<'baduser' ID>"
+    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'baduser' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'baduser' ID>/targets"
   When I navigate to GET "/staff-educationOrganization-associations/<'baduser' ID>"
   Then I should receive a return code of 403
