@@ -265,7 +265,9 @@ public class BasicQueryConverter implements QueryConverter {
     
     private Object convertToType(String type, String value) {
         try {
-            if (type.equals("INT") || type.equals("INTEGER")) {
+            if (type.equals("REFERENCE")) {
+                return value;
+            } else if (type.equals("INT") || type.equals("INTEGER")) {
                 return Integer.parseInt(value);
             } else if (type.equals("BOOLEAN")) {
                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
