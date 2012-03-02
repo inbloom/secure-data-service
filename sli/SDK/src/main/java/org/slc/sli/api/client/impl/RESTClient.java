@@ -86,7 +86,7 @@ public class RESTClient {
      */
     public ClientResponse getRequest(final URL url) throws MalformedURLException, URISyntaxException {
         
-        return getRequestWithHeaders(url, null);
+        return getRequestWithHeaders(url, getSessionHeader());
     }
     
     /**
@@ -100,7 +100,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse getRequestWithHeaders(final URL url, final Map<String, Object> headers)
+    public ClientResponse getRequestWithHeaders(final URL url, final Map<String, List<String>> headers)
             throws URISyntaxException {
         
         if (sessionToken == null) {
@@ -108,11 +108,17 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        builder.accept(MediaType.APPLICATION_JSON);
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        
         ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
         return client.handle(request);
     }
-    
     
     /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
@@ -126,7 +132,7 @@ public class RESTClient {
     public ClientResponse postRequest(final URL url, final String json) throws URISyntaxException,
     MalformedURLException {
         
-        return postRequestWithHeaders(url, json, null);
+        return postRequestWithHeaders(url, json, getSessionHeader());
     }
     
     /**
@@ -143,7 +149,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse postRequestWithHeaders(final URL url, final String json,
-            final Map<String, Object> headers)
+            final Map<String, List<String>> headers)
                     throws URISyntaxException, MalformedURLException {
         
         if (sessionToken == null) {
@@ -151,9 +157,16 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        
+        builder.accept(MediaType.APPLICATION_JSON);
         builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
-
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        
         ClientRequest request = builder.build(url.toURI(), HttpMethod.POST);
         return client.handle(request);
     }
@@ -168,7 +181,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
-        return putRequestWithHeaders(url, json, null);
+        return putRequestWithHeaders(url, json, getSessionHeader());
     }
     
     /**
@@ -185,7 +198,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse putRequestWithHeaders(final URL url, final String json,
-            final Map<String, Object> headers)
+            final Map<String, List<String>> headers)
                     throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
@@ -193,8 +206,15 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        
+        builder.accept(MediaType.APPLICATION_JSON);
         builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
         
         ClientRequest request = builder.build(url.toURI(), HttpMethod.PUT);
         return client.handle(request);
@@ -208,7 +228,7 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      */
     public ClientResponse deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
-        return deleteRequestWithHeaders(url, null);
+        return deleteRequestWithHeaders(url, getSessionHeader());
     }
     
     /**
@@ -223,7 +243,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
+    public ClientResponse deleteRequestWithHeaders(final URL url, final Map<String, List<String>> headers)
             throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
@@ -231,7 +251,14 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        builder.accept(MediaType.APPLICATION_JSON);
+        if (headers != null) {
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        
         ClientRequest request = builder.build(url.toURI(), HttpMethod.DELETE);
         return client.handle(request);
     }
@@ -270,21 +297,17 @@ public class RESTClient {
     }
     
     /**
-     * Get a ClientRequest.Builder with common properties already set.
+     * Create a header map containing the sessionId token key/value pair.
      * 
-     * @param headers
      * @return
      */
-    private ClientRequest.Builder getCommonRequestBuilder(final Map<String, Object> headers) {
-        ClientRequest.Builder builder = new ClientRequest.Builder();
-        builder.accept(MediaType.APPLICATION_JSON);
-        if (headers != null) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                builder.header(entry.getKey(), entry.getValue());
-            }
-        }
-        builder.header(API_SESSION_KEY, sessionToken);
-        return builder;
+    private Map<String, List<String>> getSessionHeader() {
+        Map<String, List<String>> rval = new HashMap<String, List<String>>();
+        
+        List<String> value = new LinkedList<String>();
+        value.add(sessionToken);
+        rval.put(API_SESSION_KEY, value);
+        
+        return rval;
     }
-    
 }

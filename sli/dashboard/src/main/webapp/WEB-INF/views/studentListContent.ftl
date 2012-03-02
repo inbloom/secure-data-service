@@ -37,13 +37,13 @@
 <#-- TODO: Handle programatically -->
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
-  <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
+  <th id="listHeader.${displaySet.getDisplayName()}" colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
 </#list>
 </tr>
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <th>${field.getDisplayName()}</th>
+    <th id="listHeader.${displaySet.getDisplayName()}.${field.getDisplayName()}">${field.getDisplayName()}</th>
   </#list>
 </#list>
 </tr>
@@ -54,7 +54,7 @@
 <tr class="listRow">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <td class="${field.getValue()}">
+    <td id="${students.getStudentName(student)}.${field.getValue()}" class="${field.getValue()}">
 
       <#-- lozenges in front -->
       <#if field.getLozenges()?? &&
@@ -73,6 +73,14 @@
         <#else>
           ${assessments.get(field, student)}
         </#if>
+
+      <#-- attendance results -->
+            <#elseif field.getType() = "attendance">
+              <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+                <#include "widget/" + field.getVisual() + ".ftl">
+              <#else>
+                ${attendance.get(field, student)}
+              </#if>
        
       <#else>
         <#-- No resolver found. Report an error. -->

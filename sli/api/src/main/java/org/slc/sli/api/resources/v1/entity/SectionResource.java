@@ -182,7 +182,7 @@ public class SectionResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
-    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
+    public Response getStudentSectionAssociations(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "sectionId", sectionId, headers,
                 uriInfo);
@@ -203,11 +203,111 @@ public class SectionResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS + "/"
-            + PathConstants.SECTIONS)
-    public Response getSchoolSessionAssociationSessions(
+            + PathConstants.STUDENTS)
+    public Response getStudentSectionAssociationStudents(
             @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "sectionId", sectionId, "studentId",
                 ResourceNames.STUDENTS, headers, uriInfo);
+    }
+    
+    /**
+     * Returns each $$teacherSectionAssociations$$ that
+     * references the given $$sections$$
+     * 
+     * @param sectionId
+     *            The id of the $$students$$.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS)
+    public Response getTeacherSectionAssociations(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "sectionId", sectionId, headers,
+                uriInfo);
+    }
+
+    /**
+     * Returns each $$teachers$$ associated to the given section through
+     * a $$teacherSectionAssociations$$
+     *
+     * @param sectionId
+     *            The id of the $$sections$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/"
+            + PathConstants.TEACHERS)
+    public Response getTeacherSectionAssociationTeachers(
+            @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "sectionId", sectionId, "teacherId",
+                ResourceNames.TEACHERS, headers, uriInfo);
+    }
+
+    /**
+     * Returns each $$sectionAssessmentAssociations$$ that
+     * references the given $$sections$$
+     *
+     * @param sectionId
+     *            The id of the $$students$$.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
+    public Response getSectionAssessmentAssociations(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
+                                                  @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "sectionId", sectionId, headers,
+                uriInfo);
+    }
+
+    /**
+     * Returns each $$assessments$$ associated to the given section through
+     * a $$sectionAssessmentAssociations$$
+     *
+     * @param sectionId
+     *            The id of the $$sections$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
+            + PathConstants.ASSESSMENTS)
+    public Response getSectionAssessmentAssociationAssessments(
+            @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "sectionId", sectionId, "assessmentId",
+                ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
 }

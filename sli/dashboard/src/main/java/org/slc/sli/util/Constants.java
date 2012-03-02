@@ -9,29 +9,29 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_SERVER_URI = "https://devapp1.slidev.org/api/rest";
-    public static final String SECURITY_SERVER_URI = "https://devapp1.slidev.org/api/rest";
+    public static final String API_PREFIX = "api/rest/v1";
 
-    public static final String SESSION_CHECK_URL = "system/session/check";
+    public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
     public static final String GET_ROLES_URL = "admin/roles";
 
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
 
-/*
-                       \"name\": \"limitedEnglishProficiency\",
-                        \"name\": \"ELL_FORMER\",
-                        \"name\": \"504\",
-                        \"name\": \"504_FORMER\",
-                        \"name\": \"IEP\",
-                        \"name\": \"IEP_FORMER\",
-                        \"name\": \"LEA\",
-                        \"name\": \"RPT\",
-                        \"name\": \"RED\",
-                        \"name\": \"schoolFoodServiceEligibility\",
-*/
+    /*
+     * \"name\": \"limitedEnglishProficiency\",
+     * \"name\": \"ELL_FORMER\",
+     * \"name\": \"504\",
+     * \"name\": \"504_FORMER\",
+     * \"name\": \"IEP\",
+     * \"name\": \"IEP_FORMER\",
+     * \"name\": \"LEA\",
+     * \"name\": \"RPT\",
+     * \"name\": \"RED\",
+     * \"name\": \"schoolFoodServiceEligibility\",
+     */
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
+    public static final String VIEW_TYPE_STUDENT_PROFILE_PAGE = "studentProfilePage";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
     public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";
@@ -45,7 +45,8 @@ public class Constants {
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
-    
+    public static final String MM_KEY_ATTENDANCE = "attendances";
+
     // entity attributes
     public static final String ATTR_COURSES = "courses";
     public static final String ATTR_SCHOOL_ID = "schoolId";
@@ -91,6 +92,12 @@ public class Constants {
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
+    public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
+    public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
+    public static final String ATTR_TEACHER_ID = "teacherId";
+    public static final String ATTR_SECTION_ID = "sectionId";
+
+    public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
@@ -99,8 +106,7 @@ public class Constants {
      * Contains the possible values for FRE participation
      */
     public static enum FREParticipation {
-        FREE("Free"),
-        REDUCED_PRICE("Reduced Price");
+        FREE("Free"), REDUCED_PRICE("Reduced Price");
 
         private final String value;
 
@@ -108,12 +114,10 @@ public class Constants {
             this.value = value;
         }
 
-
         public String getValue() {
             return value;
         }
 
     }
-
 
 }

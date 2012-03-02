@@ -35,12 +35,8 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + current_url
-  end
-  
   def current_url
-    "http://" + request.host_with_port + request.fullpath
+    request.url
   end
 
   def handle_oauth
@@ -55,13 +51,12 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
-        SessionResource.auth_id = 'notused'
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url  
+        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure" 
       end
     else
       logger.info { "OAuth disabled."}

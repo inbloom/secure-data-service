@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'bundler/setup'
 require 'rest-client'
 require 'json'
 require 'builder'
