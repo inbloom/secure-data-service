@@ -20,7 +20,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
- * using a Mongo "sandbox" DB, for use by the Ingestion Aggregation/Splitting transformers.
+ * using a Mongo Staging DB, for use for staging data for intermediate operations.
  *
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
  *
