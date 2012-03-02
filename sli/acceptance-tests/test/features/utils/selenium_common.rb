@@ -3,8 +3,11 @@ def webdriverDebugMessage(driver, message="Webdriver could not achieve expected 
 end
 
 Given /^I have an open web browser$/ do
-  @driver = Selenium::WebDriver.for :firefox
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['network.http.prompt-temp-redirect'] = false
+  @driver = Selenium::WebDriver.for :firefox, :profile => profile
   @driver.manage.timeouts.implicit_wait = 2 # seconds
+  @driverk
 end
 
 When /^I wait for a second$/ do
