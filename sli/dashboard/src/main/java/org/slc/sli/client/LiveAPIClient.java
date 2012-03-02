@@ -98,16 +98,17 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
 
-        // make a call to student-assessments, with the student id
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
-
-        // for each link in the returned list, make the student-assessment call for the result data
-        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
-        for (GenericEntity response : responses) {
-            studentAssmts.add(getStudentAssessment(parseId(response.getMap(Constants.ATTR_LINK)), token));
-        }
-
-        return studentAssmts;
+//        // make a call to student-assessments, with the student id
+//        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
+//
+//        // for each link in the returned list, make the student-assessment call for the result data
+//        List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
+//        for (GenericEntity response : responses) {
+//            studentAssmts.add(getStudentAssessment(parseId(response.getMap(Constants.ATTR_LINK)), token));
+//        }
+//
+//        return studentAssmts;
+        return new ArrayList<GenericEntity>();
     }
 
     /**

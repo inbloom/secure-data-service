@@ -32,7 +32,7 @@ public class WidgetFactory {
     }
     
     public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver) {
-        return new FieldCounter(field, student, resolver.getAbscenceCountResolverForStudent((GenericEntity) student));
+        return new FieldCounter(field, student, resolver.getAbscenceCountResolverForStudent(student));
     }
 
 }
