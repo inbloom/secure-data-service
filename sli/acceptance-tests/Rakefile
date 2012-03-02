@@ -613,6 +613,12 @@ desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
     runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
 end
+
+desc "Run dashboard attendance related tests"
+task :dashboardAttendance do 
+  runTests("test/features/dashboard/attendance.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################
