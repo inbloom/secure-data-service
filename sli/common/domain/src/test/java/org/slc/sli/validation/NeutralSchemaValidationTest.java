@@ -355,6 +355,30 @@ public class NeutralSchemaValidationTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSectionAssessmentAssociation() throws Exception {
+        addDummyCollection("section");
+        addDummyCollection("assessment");
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "src/test/resources/section_assessment_association_fixture_neutral.json"));
+            String school;
+            while ((school = reader.readLine()) != null) {
+                ObjectMapper oRead = new ObjectMapper();
+                Map<String, Object> obj = oRead.readValue(school, Map.class);
+                mapValidation((Map<String, Object>) obj.get("body"), "sectionAssessmentAssociation");
+            }
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     public void testValidStaffEducationOrganizationAssociation() throws Exception {
         this.addDummyEntity("staff", "269be4c9-a806-4051-a02d-15a7af3ffe3e");
         this.addDummyEntity("staff", "f0e41d87-92d4-4850-9262-ed2f2723159b");
