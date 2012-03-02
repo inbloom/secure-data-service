@@ -271,6 +271,51 @@ Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
   end
 end
 
+Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
+  conn = Mongo::Connection.new(INGESTION_DB)
+  db = conn[INGESTION_DB_NAME]
+  collection = db.collection(collection)
+  
+  @record = collection.find_one({searchTerm => value})
+  @record.should_not == nil
+  conn.close
+end
+
+Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
+  object = @record
+  field.split('.').each do |f|
+    if /(.+)\[(\d+)\]/.match f
+      f = $1
+      i = $2.to_i
+      object[f].should be_a Array
+      object[f][i].should_not == nil
+      object = object[f][i]
+    else
+      object[f].should_not == nil
+      object = object[f]
+    end
+  end
+  object.should == value
+end
+
+Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, value| 
+  object = @record
+  field.split('.').each do |f|
+    if /(.+)\[(\d+)\]/.match f
+      f = $1
+      i = $2.to_i
+      object[f].should be_a Array
+      object[f][i].should_not == nil
+      object = object[f][i]
+    else
+      object[f].should_not == nil
+      object = object[f]
+    end
+  endt = object[f]
+  end
+  object.should_not == value
+end
+
 ############################################################
 # END
 ############################################################
