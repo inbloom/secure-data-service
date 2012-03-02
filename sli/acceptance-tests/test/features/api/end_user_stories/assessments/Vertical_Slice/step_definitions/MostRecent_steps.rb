@@ -59,9 +59,9 @@ Then /^I should see a field "([^"]*)" in this table$/ do |fieldName|
 end
 
 Then /^I should see  "([^"]*)" in student field$/ do |studentName|
-  student = @driver.find_element(:id, studentName+".name")
+  student = @driver.find_element(:id, studentName+".name_w_link")
   student.should_not be_nil
-  student.text.should == studentName
+  student.text.should include studentName
   @studentName = studentName
 end
 
