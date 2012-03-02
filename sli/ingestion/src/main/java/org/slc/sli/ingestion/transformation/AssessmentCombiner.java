@@ -75,19 +75,19 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
     @Override
     public void loadData() {
-        LOG.debug("Loading data for transformation.");
+        LOG.info("Loading data for transformation.");
 
         this.addCollection("teacher");
         this.addCollection("teacherSchoolAssociation");
 
-        LOG.debug("Teacher is loaded into local storage.  Total Count = " + this.collections.get("teacher").size());
-        LOG.debug("TeacherSchoolAssociation is loaded into local storage.  Total Count = " + this.collections.get("teacherSchoolAssociation").size());
+        LOG.info("Teacher is loaded into local storage.  Total Count = " + this.collections.get("teacher").size());
+        LOG.info("TeacherSchoolAssociation is loaded into local storage.  Total Count = " + this.collections.get("teacherSchoolAssociation").size());
 
     }
 
     @Override
     public String persist() {
-        LOG.debug("Persisting transformed data to storage.");
+        LOG.info("Persisting transformed data to storage.");
 
         for (Map.Entry<String, HashMap<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
 
