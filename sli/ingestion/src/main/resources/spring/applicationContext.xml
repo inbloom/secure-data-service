@@ -161,6 +161,18 @@
     </property>
   </bean>
 
+  <bean id="MethodInvokingFactoryBean" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass">
+			<value>org.slc.sli.ingestion.transformation.TransformationFactory</value>
+		</property>
+		<property name="targetMethod">
+			<value>setNeutralRecordMongoAccess</value>
+		</property>
+		<property name="arguments">
+			<bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" />
+		</property>
+  </bean>
+
 </beans>
 
 

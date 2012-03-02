@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -24,12 +23,15 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
     
     private Map<String, HashMap<Object, NeutralRecord>> collections = new HashMap<String, HashMap<Object, NeutralRecord>>();
     
-    @Autowired
-    private NeutralRecordMongoAccess repository;
-    
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+
     private String jobId;
     
     
+    public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
+
     @Override
     public void transform() {
         LOG.debug("Transforming data.");
@@ -63,7 +65,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
      * @param collectionName
      */
     private void addCollection(String collectionName) {
-        Iterable<NeutralRecord> data = repository.getRecordRepository().findAll(collectionName);
+        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findAll(collectionName);
         Iterator<NeutralRecord> iter = data.iterator();
         
         HashMap<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
@@ -112,6 +114,8 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         
     }
 
-    
+    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
     
 }
