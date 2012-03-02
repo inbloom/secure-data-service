@@ -3,6 +3,8 @@ GEM
   specs:
     addressable (2.2.7)
     bson (1.5.2)
+    bson_ext (1.5.2)
+      bson (= 1.5.2)
     builder (3.0.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
@@ -30,8 +32,17 @@ GEM
       faraday (~> 0.7)
       multi_json (~> 1.0)
     rack (1.4.1)
+    rake (0.9.2.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rspec (2.8.0)
+      rspec-core (~> 2.8.0)
+      rspec-expectations (~> 2.8.0)
+      rspec-mocks (~> 2.8.0)
+    rspec-core (2.8.0)
+    rspec-expectations (2.8.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.8.0)
     rubyzip (0.9.6.1)
     selenium-webdriver (2.20.0)
       childprocess (>= 0.2.5)
@@ -44,10 +55,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   builder
   cucumber
   json (= 1.6.2)
   mongo
   oauth2
+  rake
   rest-client
+  rspec
   selenium-webdriver
