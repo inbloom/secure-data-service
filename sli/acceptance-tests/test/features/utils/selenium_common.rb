@@ -26,7 +26,7 @@ AfterStep('@pause') do
 end 
 
 def assertWithWait(msg, &blk)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 2)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 5)
   begin
     wait.until {yield}
   rescue
