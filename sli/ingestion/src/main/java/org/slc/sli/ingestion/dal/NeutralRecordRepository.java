@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import org.slc.sli.ingestion.NeutralRecord;
@@ -25,6 +26,7 @@ import org.slc.sli.ingestion.NeutralRecord;
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
  *
  */
+@Component
 public class NeutralRecordRepository {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 

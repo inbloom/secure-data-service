@@ -7,13 +7,14 @@ import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.milyn.javabean.context.BeanContext;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -26,6 +27,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
+
+    private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
     private final String beanId;
     private final NeutralRecordFileWriter nrfWriter;
@@ -65,24 +68,35 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
 
-        BeanContext beanContext = executionContext.getBeanContext();
-        NeutralRecord neutralRecord = (NeutralRecord) beanContext.getBean(beanId);
-        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+        NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
 
-        if (executionContext.getTerminationError() != null) {
+        Throwable terminationError = executionContext.getTerminationError();
+        if (terminationError == null) {
+
+            // scrub empty strings in NeutralRecord
+            neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+
+            // Write NeutralRecord to file
+            nrfWriter.writeRecord(neutralRecord);
+
+            // write NeutralRecord to mongodb staging database
+            nrMongoStagingWriter.writeResource(neutralRecord);
+
+        } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error(executionContext.getTerminationError().getMessage());
+            LOG.error(terminationError.getMessage());
             LOG.error("Invalid Neutral Record: " + neutralRecord.toString());
 
             if (errorReport != null) {
-                errorReport.error(executionContext.getTerminationError().getMessage(), SmooksEdFiVisitor.class);
+                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
-        } else {
 
-            // Write Neutral Record
-            nrfWriter.writeRecord(neutralRecord);
         }
+    }
+
+    public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
+        this.nrMongoStagingWriter = nrMongoStagingWriter;
     }
 
 }
