@@ -97,7 +97,6 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-
 	/* TODO: Make the actual API Call */
         // make a call to student-assessments, with the student id
         // List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
