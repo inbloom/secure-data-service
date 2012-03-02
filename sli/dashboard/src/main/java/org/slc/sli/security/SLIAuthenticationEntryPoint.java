@@ -1,6 +1,7 @@
 package org.slc.sli.security;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -19,8 +20,6 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -124,24 +123,34 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        System.out.println("TEMP -------- NEW COMMENCE");
+        System.out.println("TEMP -------- NEW COMMENCE, REQUEST URL " + request.getRequestURL());
+        System.out.println("TEMP ---------- QUERY STRING " + request.getQueryString());
+        Enumeration<String> attrNames = request.getAttributeNames();
+        OAuthService service = new ServiceBuilder().provider(SliApi.class).
+                apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
+                build();
+
         HttpSession session = request.getSession();
-        if (session.getAttribute(OAUTH_TOKEN) == null) {
+        if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
+            System.out.println("TEMP - Code is " + request.getParameter("code"));
+            Verifier verifier = new Verifier(request.getParameter("code"));
+            Token accessToken = service.getAccessToken(null, verifier);
+            System.out.println("TEMP - The access token is " + accessToken);
+            session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+        } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute("ENTRY_URL", request.getRequestURL());
             
             System.out.println("TEMP - Client ID " + clientId);
             System.out.println("TEMP - Client Secret " + clientSecret);
             System.out.println("TEMP - Callback URL " + callbackUrl);
-            OAuthService service = new ServiceBuilder().provider(SliApi.class).
-                    apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
-                    build();
             
             //The request token doesn't matter for OAuth 2.0 which is why it's null
             String authUrl = service.getAuthorizationUrl(null);
             System.out.println("TEMP - Our Authorization URL Is " + authUrl);
             response.sendRedirect(authUrl);
         } else {
-            
+            System.out.println("There's an Oauth token " + session.getAttribute(OAUTH_TOKEN));
+            this.restClient.sessionCheck(session.getAttribute(OAUTH_TOKEN).toString());
         }
         
     }
