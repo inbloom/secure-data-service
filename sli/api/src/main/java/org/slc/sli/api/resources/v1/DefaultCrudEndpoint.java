@@ -23,8 +23,6 @@ import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
 
-//import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
-
 /**
  * Prototype new api end points and versioning base class
  * 
@@ -215,7 +213,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
                     //if links should be included then put them in the entity body
                     if (shouldIncludeLinks) {
-                        String id = (String) result.get("id");
                         result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     }
                     finalResults.add(result);
