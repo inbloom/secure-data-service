@@ -1,4 +1,3 @@
-@wip
 Feature: As an SLI application, I want to be able to manage student assessment associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
@@ -68,13 +67,13 @@ Scenario: Read associations for endpoint2
 Scenario: Read entities associated to endpoint1
     When I navigate to GET "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200
-     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
+     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 2>" entities
      And each entity's "entityType" should be "<ENDPOINT2 TYPE>"
 
 Scenario: Read entities associated to endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
-     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 2>" entities
+     And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ENDPOINT1 TYPE>"
 
 Scenario: Update association

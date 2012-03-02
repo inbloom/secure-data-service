@@ -12,12 +12,12 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  #teacher section association data
+  #student assessment association data
   id = 314                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 2                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "1e0ddefb-6b61-4f7d-b8c3-33bb5676115a"   if human_readable_id == "ASSOCIATION ID"
   id = "c8672d3b-0953-4ad7-a1b5-d5395bc0150a"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "e473d7ea-fd97-4e78-9997-a80be89614cf"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
@@ -51,10 +51,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
-  
-  #other
-  id = "67ce204b-9999-4a11-aaaf-000000000254"   if human_readable_id == "Bradley Pearson"
-  id = "dd916592-7d7e-5d27-a8ac-bec5fcb757f6"   if human_readable_id == "Writing Achievement Assessment Test"
   
   #return the translated value
   id

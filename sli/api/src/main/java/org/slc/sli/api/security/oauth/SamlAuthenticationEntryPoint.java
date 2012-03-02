@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author pwolf
  *
+ * Handles redirecting an unauthenticated user to disco
  */
 @Component
 public class SamlAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -27,6 +28,10 @@ public class SamlAuthenticationEntryPoint implements AuthenticationEntryPoint {
         //String relay = request.getParameter("RelayState");
         
         String url = "/api/disco/list?clientId=" + clientId;
+        
+        if (request.getParameter("RealmName") != null) {
+            url += "&RealmName=" + URLEncoder.encode(request.getParameter("RealmName"), "utf-8");
+        }
         
         response.sendRedirect(url);
         return;
