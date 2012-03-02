@@ -34,26 +34,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Scope("request")
 @RequestMapping("/disco")
 public class DiscoController {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(DiscoController.class);
-    
+
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     private MongoAuthorizationCodeServices authCodeService;
-    
+
     @Autowired
     private SamlHelper saml;
-    
+
     private EntityService service;
-    
+
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
         service = def.getService();
     }
-    
+
     /**
      * Calls api to list available realms and injects into model
      * 
@@ -66,8 +66,8 @@ public class DiscoController {
     public String listRealms(@RequestParam(value = "RelayState", required = false) final String relayState,
             @RequestParam(value = "RealmName", required = false) final String realmName, 
             @RequestParam(value = "clientId", required = true) final String clientId, final Model model) throws IOException {
-        
-            Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
+
+        Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
                 Iterable<String> realmList = service.list(0, 100);
@@ -86,28 +86,28 @@ public class DiscoController {
                         }
                     }
                 }
-                return null;
+                return map;
             }
-            
+
         });
-        
+
         if (result instanceof String) {
             return (String) result;
         }
-        
+
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
         model.addAttribute("relayState", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
-        
+
         if (relayState == null) {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
         }
-        
+
         return "realms";
     }
-    
+
     /**
      * Redirects user to the sso init url given valid id
      * 
@@ -127,7 +127,7 @@ public class DiscoController {
                 if (eb == null) {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
-                
+
                 @SuppressWarnings("unchecked")
                 Map<String, String> idpData = (Map<String, String>) eb.get("idp");
                 return (String) idpData.get("redirectEndpoint");
@@ -136,13 +136,13 @@ public class DiscoController {
         if (endpoint == null) {
             throw new IllegalArgumentException("Realm " + realmId + " doesn't have an endpoint");
         }
-        
+
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
-        
+
         authCodeService.create(clientId, tuple.getLeft());
         LOG.debug("redirecting to: " + endpoint);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
-    
+
 }
