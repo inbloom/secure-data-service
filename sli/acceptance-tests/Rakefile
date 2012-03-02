@@ -468,7 +468,7 @@ end
 desc "Run Assessment User Story Tests"
 task :endUserStoryAssessmentTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/api/end_user_stories/assessments")
+  runTests("test/features/api/end_user_stories/assessments/assessment.feature")
 end
 
 ############################################################
