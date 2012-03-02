@@ -356,7 +356,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests, :encryptionTests] do
 displayFailureReport()
 end
 
@@ -416,6 +416,11 @@ task :validationTests => [:realmInit] do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("student", "student_fixture.json")
   runTests("test/features/api/validation")
+end
+
+desc "Run Encryption Tests"
+task :encryptionTests => [:realmInit] do
+  runTests("test/features/api/encryption")
 end
 
 desc "Run V1 Validation Tests"
