@@ -3,7 +3,7 @@ require 'json'
 require 'builder'
 require 'rexml/document'
 include REXML
-require_relative '../../utils/sli_utils.rb'
+require File.expand_path("../../../utils/common", __FILE__)
 
 Transform /^\/(<[^"]*>)$/ do |uri_placeholder|
   uri = "/v1/" + Transform(uri_placeholder)
