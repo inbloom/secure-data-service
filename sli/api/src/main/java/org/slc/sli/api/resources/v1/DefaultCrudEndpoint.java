@@ -24,7 +24,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 /**
  * Prototype new api end points and versioning base class
