@@ -15,15 +15,17 @@ import static org.mockito.Mockito.when;
  */
 public class FieldCounterTest {
     private FieldCounter counter;
+
     
     @Before
     public void setUp() throws Exception {
         AggregateResolver mockResolver = mock(AggregateResolver.class);
-        when(mockResolver.getCountForPath("path.path")).thenReturn(30);
-        Field f = new Field();
-        f.setValue("path.path");
+        Field mockField = new Field();
+        mockField.setValue("path.path");
+        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
+
         
-        counter = new FieldCounter(f, null, mockResolver);
+        counter = new FieldCounter(mockField, null, mockResolver);
     }
 
     @After
