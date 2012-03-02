@@ -21,7 +21,7 @@ class EntitiesController < ApplicationController
         Entity.format = ActiveResource::Formats::JsonFullFormat
       else
         logger.debug {"Full json support off"}
-        Entity.format = ActiveResource::Formats::JsonFormat
+        Entity.format = ActiveResource::Formats::JsonLinkFormat
       end
     end
   

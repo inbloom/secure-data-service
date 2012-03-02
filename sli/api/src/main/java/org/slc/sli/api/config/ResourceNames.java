@@ -67,6 +67,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, "getCourseSectionAssociation");
         
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
+        SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, "getCohort");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSES, "getCourse");
