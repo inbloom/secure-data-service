@@ -30,6 +30,7 @@ public class Constants {
      */
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
+    public static final String VIEW_TYPE_STUDENT_PROFILE_PAGE = "studentProfilePage";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
     public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";

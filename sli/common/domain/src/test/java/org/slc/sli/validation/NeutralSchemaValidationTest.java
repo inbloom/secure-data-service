@@ -165,6 +165,11 @@ public class NeutralSchemaValidationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testValidTeacherSectionAssociation() throws Exception {
+        addDummyEntity("teacher", "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94");
+        addDummyEntity("section", "4efb4262-bc49-f388-0000-0000c9355700");
+        addDummyEntity("section", "58c9ef19-c172-4798-8e6e-c73e68ffb5a3");
+        addDummyEntity("section", "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431");
+        
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(
@@ -347,8 +352,7 @@ public class NeutralSchemaValidationTest {
             }
         }
     }
-	
-	
+
     @SuppressWarnings("unchecked")
     @Test
     public void testValidStaffEducationOrganizationAssociation() throws Exception {

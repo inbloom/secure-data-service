@@ -163,8 +163,47 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					           :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests] do
+					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests] do
   displayFailureReport()
+end
+
+desc "Run V1 Teacher Section Association Tests"
+task :v1TeacherSectionAssociationTests => [:realmInit] do
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("teacher", "smallville_teachers_fixture.json", "test/data/smallville", false)
+  setFixture("section", "section_fixture.json")
+  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
+  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "smallville_teacher_sections_fixture.json", "test/data/smallville", false)
+  runTests("test/features/apiV1/associations/teacherSectionAssociation")
+end
+
+desc "Run V1 Section Assessment Association Tests"
+task :v1SectionAssessmentAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("section", "section_fixture.json")
+  setFixture("assessment", "assessment_fixture.json")
+  setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
+  #add smallville (no drop)
+  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
+  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
+  setFixture("sectionAssessmentAssociation", "smallville_section_assessment_fixture.json", "test/data/smallville", false)
+  #run test
+  runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
+end
+
+desc "Run V1 Student Assessment Association Tests"
+task :v1StudentAssessmentAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("student", "student_fixture.json")
+  setFixture("assessment", "assessment_fixture.json")
+  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
+  #add smallville (no drop)
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
+  setFixture("studentAssessmentAssociation", "smallville_student_assessment_fixture.json", "test/data/smallville", false)
+  #run test
+  runTests("test/features/apiV1/associations/studentAssessmentAssociation")
 end
 
 desc "Run V1 Student Section Association Tests"
@@ -440,7 +479,7 @@ end
 desc "Run Assessment User Story Tests"
 task :endUserStoryAssessmentTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/api/end_user_stories/assessments")
+  runTests("test/features/api/end_user_stories/assessments/assessment.feature")
 end
 
 ############################################################
@@ -533,6 +572,7 @@ end
 desc "Run Dashboard YY Tests"
 task :dashboardTests do
   runTests("test/features/dashboard")
+  runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
 
 end
 
@@ -550,6 +590,11 @@ end
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
     runTests("test/features/dashboard/dashboard_login.feature")
+end
+
+desc "Run Dashboard most recent result acceptance tests"
+task :MostRecentResultTests do
+    runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
 end
 ############################################################
 # Dashboard tests end
