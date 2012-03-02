@@ -4,7 +4,8 @@ Feature: As an SLI application, I want to be able to manage students
 
 Background: Logged in as a super-user and using the small data set
 	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students
+	 	And I have access to all students
+		And the "student" collection is empty
 
 Scenario: Create a new student JSON
      Given format "application/json"

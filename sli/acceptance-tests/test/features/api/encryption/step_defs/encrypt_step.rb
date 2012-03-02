@@ -19,6 +19,13 @@ end
 ############################################################
 # GIVEN
 ############################################################
+Given /^the "([^\"]*)" collection is empty$/ do |collection|
+  conn = Mongo::Connection.new(API_DB)
+  db = conn[API_DB_NAME]
+  col = db.collection(collection)
+  col.remove({})
+end
+
 Given /^a fully populated student record$/ do
   record = <<-EOF
   {
@@ -149,9 +156,9 @@ end
 Then /^I find a mongo record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
   conn = Mongo::Connection.new(API_DB)
   db = conn[API_DB_NAME]
-  collection = db.collection(collection)
+  col = db.collection(collection)
   
-  @record = collection.find_one({searchTerm => value})
+  @record = col.find_one({searchTerm => value})
   @record.should_not == nil
   conn.close
 end
