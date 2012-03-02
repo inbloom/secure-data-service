@@ -167,6 +167,16 @@ task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1Teache
   displayFailureReport()
 end
 
+desc "Run V1 Teacher School Association Tests"
+task :v1TeacherSchoolAssociationTests => [:realmInit] do
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("teacher", "smallville_teachers_fixture.json", "test/data/smallville", false)
+  setFixture("school", "school_fixture.json")
+  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/teacherSchoolAssociation")
+end
+
 desc "Run V1 Teacher Section Association Tests"
 task :v1TeacherSectionAssociationTests => [:realmInit] do
   setFixture("teacher", "teacher_fixture.json")
@@ -323,6 +333,7 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance","attendance","attendance_fixture.json")
 end
 
@@ -390,6 +401,7 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
 end
 
@@ -603,6 +615,12 @@ desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
     runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
 end
+
+desc "Run dashboard attendance related tests"
+task :dashboardAttendance do 
+  runTests("test/features/dashboard/attendance.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################

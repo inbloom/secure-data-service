@@ -38,6 +38,15 @@ public class ReferenceSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.REFERENCE;
     }
+    
+    /**
+     * Identifies what resource this schema references.
+     * 
+     * @return a collection/resource name this reference refers to
+     */
+    public String getResourceName() {
+        return super.getAppInfo().getReferenceType();
+    }
 
     /**
      * Validates the given entity

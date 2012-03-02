@@ -35,5 +35,5 @@ public interface EntityDefinitionStore {
      *            the definition to look up
      * @return the linked entity definitions
      */
-    public Collection<AssociationDefinition> getLinked(EntityDefinition defn);
+    public Collection<EntityDefinition> getLinked(EntityDefinition defn);
 }
