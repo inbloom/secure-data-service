@@ -94,7 +94,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
-              	<value>${smooks.targetselector.xml.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
               </list>
             </constructor-arg>
@@ -105,7 +105,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
-              	<value>${smooks.targetselector.xml.student.assessment}</value>
+                <value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
               </list>
             </constructor-arg>
@@ -252,6 +252,9 @@
       <ref bean="smooksConfigMap" />
     </property>
     <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter">
+      <bean id="nrMongoStagingWriter" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" />
+    </property>
   </bean>
 
 </beans>

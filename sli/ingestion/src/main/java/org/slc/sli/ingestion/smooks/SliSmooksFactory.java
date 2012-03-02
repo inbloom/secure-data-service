@@ -6,10 +6,13 @@ import java.util.Map;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Factory class for Smooks
@@ -21,6 +24,7 @@ public class SliSmooksFactory {
 
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
+    private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
     public Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
             throws IOException, SAXException {
@@ -46,6 +50,7 @@ public class SliSmooksFactory {
 
             // just one visitor instance that can be added with multiple target selectors
             Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, fileWriter, errorReport);
+            ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
 
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
@@ -60,5 +65,9 @@ public class SliSmooksFactory {
 
     public void setBeanId(String beanId) {
         this.beanId = beanId;
+    }
+
+    public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
+        this.nrMongoStagingWriter = nrMongoStagingWriter;
     }
 }

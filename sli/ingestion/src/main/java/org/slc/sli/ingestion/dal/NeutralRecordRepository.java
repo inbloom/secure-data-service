@@ -14,17 +14,19 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
- * using a Mongo "sandbox" DB, for use by the Ingestion Aggregation/Splitting transformers.
+ * using a Mongo Staging DB, for use for staging data for intermediate operations.
  *
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
  *
  */
+@Component
 public class NeutralRecordRepository {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 

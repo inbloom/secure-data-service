@@ -25,7 +25,11 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         if (map.containsKey("body")) {
             body.putAll((Map<String, ?>) map.get("body"));
         }
-        String id = body.get("localId").toString();
+        
+        String id = null;
+        if (body.get("localId") != null) {
+            id = body.get("localId").toString(); 
+        }
         body.remove("localId");
 
         NeutralRecord neutralRecord = new NeutralRecord();
