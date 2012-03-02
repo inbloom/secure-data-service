@@ -363,10 +363,13 @@ module EntityProvider
     when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
-        "eventDate" => "2012-02-24", 
-        "attendanceEventType" => "Daily Attendance", 
-        "attendanceEventCategory" => "Tardy",
-        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
+        "attendanceEvent" =>  
+        [
+          { "eventDate" => "2012-02-24", 
+            "attendanceEventType" => "Daily Attendance", 
+            "attendanceEventCategory" => "Tardy",
+            "studentId" => "6a53f63e-deb8-443d-8138-fc5a7368239c" }
+        ]
       }
     end
   end
@@ -376,10 +379,13 @@ module EntityProvider
     when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
-        "eventDate" => "2012-02-24",
-        "attendanceEventType" => "Daily Attendance", 
-        "attendanceEventCategory" => "In Attendance",
-        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
+        "attendanceEvent" =>  
+        [
+          { "eventDate" => "2012-02-24",
+            "attendanceEventType" => "Daily Attendance", 
+            "attendanceEventCategory" => "In Attendance",
+            "studentId" => "6a53f63e-deb8-443d-8138-fc5a7368239c" }
+        ]
       }
     end
   end

@@ -333,6 +333,7 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance","attendance","attendance_fixture.json")
 end
 
@@ -400,6 +401,7 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
 end
 
