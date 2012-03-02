@@ -12,12 +12,12 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  #teacher section association data
+  #student section association data
   id = 185                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 16                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 16                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 16                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "67ce204b-9999-4a11-aaae-000000000000"   if human_readable_id == "ASSOCIATION ID"
   id = "67ce204b-9999-4a11-aaae-000000000001"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "67ce204b-9999-4a11-aaae-000000000002"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
@@ -25,7 +25,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "studentSectionAssociation"              if human_readable_id == "ASSOCIATION TYPE"
   id = "studentSectionAssociations"             if human_readable_id == "ASSOCIATION URI"
   
-  #teacher related data
+  #student related data
   id = "studentId"                              if human_readable_id == "ENDPOINT1 FIELD"
   id = "67ce204b-9999-4a11-aaaf-000000000940"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStudent"                             if human_readable_id == "ENDPOINT1 LINK NAME" 
@@ -51,10 +51,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
-  
-  #other
-  id = "67ce204b-9999-4a11-aaaf-000000000254"   if human_readable_id == "Bradley Pearson"
-  id = "67ce204b-9999-4a11-aaac-000000000000"   if human_readable_id == "math-8-6-1"
   
   #return the translated value
   id

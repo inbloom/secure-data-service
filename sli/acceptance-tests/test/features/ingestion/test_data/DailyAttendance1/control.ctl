@@ -1,2 +1,0 @@
-edfi-xml,Student,StudentEntity.xml,03946f781a9c9f80c421005a208fb08b
-edfi-xml,Attendance,StudentAttendance.xml,38b4778513f387fdb7182bf460910722
