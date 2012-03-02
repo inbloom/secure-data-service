@@ -6,13 +6,19 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
@@ -27,8 +33,12 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSectionAssociationEntityTest {
 
+    @InjectMocks
     @Autowired
-    EntityValidator validator;
+    private EntityValidator validator;
+
+    @Mock
+    private EntityRepository mockRepository;
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Ed-Fi/Interchange-StaffAssociation.xsd\">"
 
@@ -93,14 +103,19 @@ public class TeacherSectionAssociationEntityTest {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSectionAssociation";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        
+        // mock repository will simulate "finding" the references
+        Entity returnEntity = mock(Entity.class);
+        Mockito.when(mockRepository.find("teacher", "333333332")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.find("section", "123456111")).thenReturn(returnEntity);
+        
+        EntityTestUtils.mapValidation(record.getAttributes(), "teacherSectionAssociation", validator);
+    }
 
-        Entity e = mock(Entity.class);
-
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("teacherSectionAssociation");
-
-        Assert.assertTrue(validator.validate(e));
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test(expected = EntityValidationException.class)

@@ -27,31 +27,36 @@
     <div class="panel">
        <#include "../panel/csi.ftl">
     </div>
-        
+
+  
+    <#-- create tab div -->
     <div id="tabs">
+    <ul>
+      
+    <#-- create individual tabs -->
+    <#list viewConfigs as tab>
+      <li><a href="#tabs-${tab_index}">${tab.name}</a></li>
+    </#list>
+      
+    </ul>
+      
+    <#-- create tab pages -->
+    <#list viewConfigs as tab>
+      <div id="tabs-${tab_index}">
+      
+      <#-- create panels -->
+      <#list tab.getDisplaySet() as panel>
         
-      <#-- tabs -->
-      <ul>
-        <#list pageMap?keys as key>
-          <li><a href="#tabs-${key_index}">${key}</a></li>
-        </#list>
-      </ul>
-        
-      <#-- tab content -->
-      <#list pageMap?keys as key>
-        <div id="tabs-${key_index}">
-                    
-          <#-- panels -->                    
-          <#list pageMap[key] as panelId>
-            <div class="panel">
-              <#include "../panel/" + panelId + ".ftl">
-            </div>
-          </#list>
-                    
+        <div class="panel">
+          <#include "../panel/" + panel.displayName + ".ftl">
         </div>
+        
       </#list>
-            
-    </div>
+      
+      </div>
+        
+    </#list>
+     
   </div>
 </div>
 
