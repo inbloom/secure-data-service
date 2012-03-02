@@ -5,9 +5,10 @@ class EntitiesController < ApplicationController
   skip_before_filter :set_params, :only => [:index]  
   
   def set_params
+    logger.debug {"Setting parameters...."}
     split_path = params[:other].split('/')
     redirect_to "entities/#{split_path.first}" if split_path.size == 1
-    id_index = split_path.index {|path| /[0-9]/ =~ path}
+    id_index = split_path.index {|path| /[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}/ =~ path}
     params[:type] = split_path.slice(0...id_index).join('/')
     params[:id] = split_path.slice(id_index...split_path.size).join('/')
   end
