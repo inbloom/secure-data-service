@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.AssessmentCombiner;
@@ -25,7 +25,7 @@ public class TransformationProcessor implements Processor {
     
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
     
-    private NeutralRecordRepository repository;
+    private NeutralRecordMongoAccess repository;
     
     /**
      * Camel Exchange process callback method
@@ -52,14 +52,14 @@ public class TransformationProcessor implements Processor {
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        Combiner<NeutralRecordRepository, String> strategy = new AssessmentCombiner();
+        Combiner<NeutralRecordMongoAccess, String> strategy = new AssessmentCombiner();
         strategy.setJobId(jobId);
         strategy.handle(this.repository);
 
 
     }
     
-    public void setNeutralRecordRepository(NeutralRecordRepository repository) {
+    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess repository) {
         this.repository = repository;
     }
     

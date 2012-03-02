@@ -13,7 +13,7 @@ import org.slc.sli.ingestion.ResourceWriter;
  *
  */
 @Component
-public class NeutralRecordMongoWriter implements ResourceWriter<NeutralRecord> {
+public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     @Autowired
     NeutralRecordRepository neutralRecordRepository;
@@ -25,6 +25,10 @@ public class NeutralRecordMongoWriter implements ResourceWriter<NeutralRecord> {
 
         neutralRecordRepository.create(neutralRecord);
 
+    }
+    
+    public NeutralRecordRepository getRecordRepository() {
+        return this.neutralRecordRepository;
     }
 
 }

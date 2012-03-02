@@ -12,7 +12,6 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoWriter;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**

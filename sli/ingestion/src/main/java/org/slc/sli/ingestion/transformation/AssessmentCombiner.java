@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -18,14 +18,14 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author ifaybyshev
  *
  */
-public class AssessmentCombiner extends AbstractCombiner<NeutralRecordRepository, String> {
+public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAccess, String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
     private Map<String, HashMap<Object, NeutralRecord>> collections = new HashMap<String, HashMap<Object, NeutralRecord>>();
     
     @Autowired
-    private NeutralRecordRepository repository;
+    private NeutralRecordMongoAccess repository;
     
     private String jobId;
     
@@ -63,7 +63,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordRepository
      * @param collectionName
      */
     private void addCollection(String collectionName) {
-        Iterable<NeutralRecord> data = repository.findAll(collectionName);
+        Iterable<NeutralRecord> data = repository.getRecordRepository().findAll(collectionName);
         Iterator<NeutralRecord> iter = data.iterator();
         
         HashMap<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
@@ -81,7 +81,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordRepository
      * Transforms items inside staging database 
      */
     @Override
-    String doHandling(NeutralRecordRepository item, ErrorReport errorReport) {
+    String doHandling(NeutralRecordMongoAccess item, ErrorReport errorReport) {
         LOG.info("Starting Transforming Assessments: Combining");
         
         String status = "FAIL";
