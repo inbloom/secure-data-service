@@ -36,11 +36,11 @@ class ApplicationController < ActionController::Base
   end
   
   def current_url
-    "http://" + request.host_with_port + request.fullpath
+    request.url
   end
 
   def redirect_uri
-    "http://" + request.host_with_port + "/callback"
+    request.base_url + "/callback"
   end
 
   def handle_oauth
