@@ -16,15 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 /**
  * Prototype new api end points and versioning base class
@@ -139,8 +136,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody entityBody : entityDef.getService().list(queryParameters)) {
                     //if links should be included then put them in the entity body
                     if (shouldIncludeLinks) {
-                        String id = (String) entityBody.get("id");
-                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, entityBody, uriInfo));
                     }
                     //add entity to resulting response
                     results.add(entityBody);
@@ -217,8 +213,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
                     //if links should be included then put them in the entity body
                     if (shouldIncludeLinks) {
-                        String id = (String) result.get("id");
-                        result.put(ResourceConstants.LINKS, getLinks(uriInfo, endpointEntity, id, result, entityDefs));
+                        result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     }
                     finalResults.add(result);
                 }
@@ -269,8 +264,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody result : entityDef.getService().list(queryParameters)) {
                     if (result != null) {
                         if (shouldIncludeLinks) {
-                            result.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, (String)
-                                    result.get("id"), result, entityDefs));
+                            result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, result, uriInfo));
                         }
                     }
                     finalResults.add(result);
@@ -368,8 +362,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody entityBody : entityDef.getService().list(ResourceUtil.convertToMap(uriInfo.getQueryParameters()))) {
                     //if links should be included then put them in the entity body
                     if (shouldIncludeLinks) {
-                        String id = (String) entityBody.get("id");
-                        entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody, entityDefs));
+                        entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, entityBody, uriInfo));
                     }
                     results.add(entityBody);
                 }
@@ -394,44 +387,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             "Invalid resource path: " + resourceName)).build();
         }
         return logic.run(entityDef);
-    }
-    
-    /**
-     * Gets the links that should be included for the given resource
-     * 
-     * @param uriInfo
-     *            the uri info for the request
-     * @param defn
-     *            the definition of the resource to look up the links for
-     * @param id
-     *            the id of the resource to include in the links
-     * @param entityBody
-     *            the entity making the links for
-     * @return the list of links that the resource should include
-     */
-    private static List<EmbeddedLink> getLinks(final UriInfo uriInfo, final EntityDefinition defn, final String id,
-            final EntityBody entityBody, final EntityDefinitionStore entityDefs) {
-        List<EmbeddedLink> links = ResourceUtil.getSelfLinkForEntity(uriInfo, id, defn);
-        if (defn instanceof AssociationDefinition) {
-            AssociationDefinition assocDef = (AssociationDefinition) defn;
-            EntityDefinition sourceEntity = assocDef.getSourceEntity();
-            String sourceId = (String) entityBody.get(assocDef.getSourceKey());
-            if (sourceId != null) {
-                links.add(new EmbeddedLink(assocDef.getSourceLink(), sourceEntity.getType(), ResourceUtil.getURI(
-                        uriInfo, PathConstants.V1, sourceEntity.getResourceName(), sourceId).toString()));
-            }
-            EntityDefinition targetEntity = assocDef.getTargetEntity();
-            String targetId = (String) entityBody.get(assocDef.getTargetKey());
-            if (targetId != null) {
-                links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(
-                        uriInfo, PathConstants.V1, targetEntity.getResourceName(), targetId).toString()));
-            }
-            
-        } else {
-            links.addAll(ResourceUtil.getAssociationLinksForEntity(entityDefs, defn, id, uriInfo));
-            links.addAll(ResourceUtil.getReferenceLinks(uriInfo, entityDefs, defn, entityBody));
-        }
-        return links;
     }
     
     /**

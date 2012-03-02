@@ -11,7 +11,7 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
 	   | student                     |
 	   | attendance                  |
 When zip file is scp to ingestion landing zone
-	And "15" seconds have elapsed
+	And "60" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | student                     | 52    |
@@ -31,7 +31,7 @@ Then I should see following map of entry counts in the corresponding collections
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceAppend.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
-	And "5" seconds have elapsed
+	And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | attendance                  | 11596 |

@@ -4,6 +4,7 @@ I would like to implement context-based permissions, so that when a SEA/LEA end 
 
 #School
 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get own School
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -34,6 +35,7 @@ Examples:
 
 #Teacher
 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get self (Teacher)
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -76,6 +78,7 @@ Examples:
 #| "idp2" | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
 | "idp1" | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get Teacher in own School
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -132,6 +135,7 @@ Examples:
 #| "idp2" | "ejane"    | "ejane1234"   | "Elizabeth Jane" |
 #| "idp1" | "jdoe"     | "jdoe1234"    | "Ted Bear"       | #disabled, would get shared sections
 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get own Section
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -193,6 +197,7 @@ Examples:
 | "idp1" | "tbear"    | "tbear1234"    | "FHS-Math101"    |
 | "idp1" | "john_doe" | "john_doe1234" | "FHS-English101" |
 
+@wip
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
