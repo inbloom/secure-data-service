@@ -17,7 +17,7 @@ Scenario: Sorting a collection of student school association links by entryGrade
 
 Scenario: Sorting a collection of student entities links obtained via a hop by firstName, descending
 	Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
+		And parameter "sort-by" is "studentUniqueStateId"
 		And parameter "sort-order" is "descending"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a collection
@@ -37,7 +37,7 @@ Scenario: Sorting a collection of full student school association entities
 
 Scenario: Sorting a collection of full student entities obtained via a hop
 	Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
+		And parameter "sort-by" is "studentUniqueStateId"
 		And parameter "sort-order" is "ascending"
 		And parameter "full-entities" is "true"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
@@ -64,7 +64,7 @@ Scenario: Paging request the first two results from an API request
 
 Scenario: Paging request the first two results from an API request using /targets
     Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
+		And parameter "sort-by" is "studentUniqueStateId"
 		And parameter "sort-order" is "ascending"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a collection with 2 elements

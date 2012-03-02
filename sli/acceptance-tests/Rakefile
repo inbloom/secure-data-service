@@ -163,7 +163,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1TeacherSchoolAssociationTests] do
+					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests] do
   displayFailureReport()
 end
 
@@ -555,8 +555,15 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests] do
-  puts "Completed Dashboard tests"
+task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+  
 end
 
 desc "Run Dashboard population widget Tests"
@@ -579,12 +586,12 @@ task :dashboardLozengesTests do
   runTests("test/features/dashboard/lozenges.feature")
 end
 
-desc "Run Dashboard YY Tests"
-task :dashboardTests do
-  runTests("test/features/dashboard")
-  runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-
-end
+# desc "Run Dashboard YY Tests"
+# task :dashboardTests do
+#   runTests("test/features/dashboard")
+#   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
+# 
+# end
 
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
