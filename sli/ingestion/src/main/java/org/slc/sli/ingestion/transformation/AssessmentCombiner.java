@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
@@ -23,6 +24,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordRepository
     
     private Map<String, HashMap<Object, NeutralRecord>> collections = new HashMap<String, HashMap<Object, NeutralRecord>>();
     
+    @Autowired
     private NeutralRecordRepository repository;
     
     private String jobId;
