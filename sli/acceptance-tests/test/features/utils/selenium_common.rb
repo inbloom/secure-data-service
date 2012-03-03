@@ -30,9 +30,8 @@ AfterStep do |scenario|
 	if ENV['SCREENSHOTS']
 		@count = @count + 1
 		#filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
-		filename = scenario.title + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
-		filename = filename.gsub(' ', '_').gsub(',', '')
-	#	puts filename
+		filename = scenario.line.to_s() + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
+		#filename = filename.gsub(' ', '_').gsub(',', '')
 		system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
 	end
 end
