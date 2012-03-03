@@ -25,6 +25,18 @@ AfterStep('@pause') do
   STDIN.getc  
 end 
 
+AfterStep do |scenario|
+	@count ||= 0
+	if ENV['SCREENSHOTS']
+		@count = @count + 1
+		#filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
+		filename = scenario.title + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
+		filename = filename.gsub(' ', '_').gsub(',', '')
+	#	puts filename
+		system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
+	end
+end
+
 def assertWithWait(msg, &blk)
   wait = Selenium::WebDriver::Wait.new(:timeout => 5)
   begin
