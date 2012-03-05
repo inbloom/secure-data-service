@@ -27,7 +27,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         super(neutralRecordMongoAccess);
     }
-    
+
     /**
      * Transforms items inside staging database
      *
