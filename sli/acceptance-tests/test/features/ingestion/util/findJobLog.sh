@@ -4,7 +4,7 @@ findJobLog()
 {
 ssh ingestion@testing1.slidev.org << EOF
 cd lz/inbound
-ls job-*.log
+ls
 exit
 EOF
 }
