@@ -8,22 +8,21 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.util.URLBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- *
+ * 
  * API Client class used by the Dashboard to make calls to the API service.
- *
+ * 
  * @author svankina
- *
+ * 
  */
 public class LiveAPIClient implements APIClient {
 
@@ -97,19 +96,16 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-	/* TODO: Make the actual API Call */
         // make a call to student-assessments, with the student id
-        // List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + studentId, token);
-	List<GenericEntity> responses = new ArrayList<GenericEntity>();;
+        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId
+                + "/studentAssessmentAssociations", token);
 
         // for each link in the returned list, make the student-assessment call for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
-        for (GenericEntity response : responses) {
-            studentAssmts.add(getStudentAssessment(parseId(response.getMap(Constants.ATTR_LINK)), token));
+        for (GenericEntity assessment : responses) {
+            studentAssmts.add(assessment);
         }
-
         return studentAssmts;
-
     }
 
     /**
@@ -154,8 +150,9 @@ public class LiveAPIClient implements APIClient {
      * Get a list of student ids belonging to a section
      */
     private List<String> getStudentIdsForSection(String id, String token) {
-
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id + STUDENT_SECTION_ASSOC_URL, token);
+        
+        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id
+                + STUDENT_SECTION_ASSOC_URL, token);
         List<String> studentIds = new ArrayList<String>();
 
         for (GenericEntity response : responses) {
@@ -224,7 +221,7 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Get the user's unique identifier
-     *
+     * 
      * @param token
      * @return
      */
@@ -245,7 +242,7 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Given a link in the API response, extract the entity's unique id
-     *
+     * 
      * @param link
      * @return
      */
@@ -260,8 +257,9 @@ public class LiveAPIClient implements APIClient {
      * Get a list of sections, given a teacher id
      */
     private List<GenericEntity> getSectionsForTeacher(String id, String token) {
-
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC_URL, token);
+        
+        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id
+                + TEACHER_SECTION_ASSOC_URL, token);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
 
         // TODO: for a more efficient implementation, build a comma-delimited list of section ids,
@@ -276,7 +274,7 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Get a list of schools, given a list of sections
-     *
+     * 
      * @param sections
      * @param token
      * @return
@@ -372,15 +370,17 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Simple method to return a list of attendance data.
-     *
+     * 
      * @return A list of attendance events for a student.
      */
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
         logger.info("Getting attendance for ID: " + studentId);
-        String url = "/students/" + studentId + "/attendances";
+        String url = "/attendances/" + "?studentId=" + studentId;
         try {
-            return createEntitiesFromAPI(getApiUrl() + url, token);
+            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
+            logger.debug(attendances.toString());
+            return attendances;
         } catch (Exception e) {
             logger.error("Couldn't retrieve attendance for id:" + studentId);
             return new ArrayList<GenericEntity>();
@@ -393,7 +393,7 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Creates a generic entity from an API call
-     *
+     * 
      * @param url
      * @param token
      * @return the entity
@@ -409,7 +409,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Retrieves an entity list from the specified API url
      * and instantiates from its JSON representation
-     *
+     * 
      * @param token
      *            - the principle authentication token
      * @param url
@@ -441,7 +441,7 @@ public class LiveAPIClient implements APIClient {
 
     /**
      * Getter and Setter used by Spring to instantiate the live/test api class
-     *
+     * 
      * @return
      */
     public RESTClient getRestClient() {

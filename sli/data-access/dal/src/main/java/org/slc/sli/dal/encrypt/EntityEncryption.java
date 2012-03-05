@@ -64,6 +64,7 @@ public class EntityEncryption {
         for (Entry<String, Object> piiField : piiMap.entrySet()) {
             Object fieldValue = body.get(piiField.getKey());
             if (fieldValue == null) {
+                LOG.debug("PII field was null: " + piiField.getKey());
                 continue;
             } else if (fieldValue instanceof Map) {
                 if (!(piiField.getValue() instanceof Map)) {
@@ -73,6 +74,7 @@ public class EntityEncryption {
                 encryptInPlace((Map<String, Object>) piiField.getValue(), (Map<String, Object>) fieldValue, op);
             } else if (fieldValue instanceof List) {
                 List<Object> list = (List<Object>) fieldValue;
+                LOG.debug("En/decrypting PII list: " + piiField.getKey() + ", size=" + list.size());
                 for (int i = 0; i < list.size(); i++) {
                     Object item = list.get(i);
                     if (item instanceof Map) {
@@ -98,10 +100,12 @@ public class EntityEncryption {
                                 newValue = item;
                             }
                         }
+                        LOG.debug("En/decrypting PII list field: " + piiField.getKey() + ", item=" + i + ", old="
+                                + item + ", new=" + newValue);
                         list.set(i, newValue);
                     }
                 }
-                return;
+                continue;
             } else {
                 Object newValue;
                 if (Operation.ENCRYPT == op) {
@@ -120,6 +124,7 @@ public class EntityEncryption {
                         newValue = fieldValue;
                     }
                 }
+                LOG.debug("En/decrypting PII value: " + piiField.getKey() + ", old=" + fieldValue + ", new=" + newValue);
                 body.put(piiField.getKey(), newValue);
             }
             

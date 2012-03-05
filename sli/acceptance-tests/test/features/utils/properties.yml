@@ -23,3 +23,4 @@ ingestion_server_url: "testing1.slidev.org"
 ingestion_mode: "local"
 
 DB_HOST: "localhost"
+api_database_name : "sli"
