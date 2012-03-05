@@ -460,4 +460,59 @@ public class EntityPersistHandlerTest {
         Assert.assertEquals("reference Id was not normalized correctly", internalId, idValue);
     }
 
+    /**
+     */
+    public NeutralRecordEntity createTeacherSchoolAssociationEntity(String studentId) {
+        // Create neutral record for entity.
+        NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setAssociation(true);
+        neutralRecord.setRecordType("teacherSchoolAssociation");
+        Map<String, Object> localParentIds = new HashMap<String, Object>();
+        localParentIds.put("Teacher", studentId);
+        localParentIds.put("School", SCHOOL_ID);
+        neutralRecord.setLocalParentIds(localParentIds);
+        Map<String, Object> field = new HashMap<String, Object>();
+        field.put("teacherId", studentId);
+        field.put("schoolId", SCHOOL_ID);
+        neutralRecord.setAttributes(field);
+
+        // Create and return new entity from neutral record.
+        return new NeutralRecordEntity(neutralRecord);
+    }
+
+    /**
+     */
+    @Test
+    public void testCreateTeacherSchoolAssociationEntity() {
+        MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+
+        // Create a new student-school association entity, and test creating it in the data store.
+        NeutralRecordEntity foundTeacher = new NeutralRecordEntity(null);
+        foundTeacher.setEntityId(INTERNAL_STUDENT_ID);
+
+        LinkedList<Entity> teacherList = new LinkedList<Entity>();
+        teacherList.add(foundTeacher);
+
+        // Teacher search.
+        Map<String, String> teacherFilterFields = new HashMap<String, String>();
+        teacherFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
+        teacherFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
+        when(entityRepository.findByPaths("teacher", teacherFilterFields)).thenReturn(teacherList);
+
+        // School search.
+        NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
+        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
+
+        LinkedList<Entity> schoolList = new LinkedList<Entity>();
+        schoolList.add(foundSchool);
+        when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
+
+        NeutralRecordEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID);
+        entityPersistHandler.setEntityRepository(entityRepository);
+        entityPersistHandler.doHandling(teacherSchoolAssociationEntity, new FaultsReport());
+        verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
+                teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),
+                teacherSchoolAssociationEntity.getType());
+    }
+
 }
