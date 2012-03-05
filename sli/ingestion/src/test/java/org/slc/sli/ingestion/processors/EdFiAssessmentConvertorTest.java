@@ -5,6 +5,7 @@ package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,30 +25,30 @@ public class EdFiAssessmentConvertorTest {
     public void test() {
         EdFiAssessmentConvertor convertor = new EdFiAssessmentConvertor(null);
         NeutralRecord dibels6th = new NeutralRecord();
-        dibels6th.setAttributeField("id", "dibels6");
+        dibels6th.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibels6"));
         dibels6th.setAttributeField("AssessmentFamilyTitle", "DIBELS 6th Edition");
         dibels6th.setRecordType("AssessmentFamily");
         NeutralRecord dibelsNext = new NeutralRecord();
-        dibelsNext.setAttributeField("id", "dibelsNext");
+        dibelsNext.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibelsNext"));
         dibelsNext.setAttributeField("AssessmentFamilyTitle", "DIBELS Next");
         dibelsNext.setRecordType("AssessmentFamily");
         NeutralRecord dibelsNextK = new NeutralRecord();
-        dibelsNextK.setAttributeField("id", "dibelsNextK");
+        dibelsNextK.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibelsNextK"));
         dibelsNextK.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Kindergarten");
         dibelsNextK.setRecordType("AssessmentFamily");
         dibelsNextK.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext1 = new NeutralRecord();
-        dibelsNext1.setAttributeField("id", "dibelsNext1");
+        dibelsNext1.setAttributeField("AssessmentFamilyIdentificationCode",makeId( "dibelsNext1"));
         dibelsNext1.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 1");
         dibelsNext1.setRecordType("AssessmentFamily");
         dibelsNext1.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext2 = new NeutralRecord();
-        dibelsNext2.setAttributeField("id", "dibelsNext2");
+        dibelsNext2.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibelsNext2"));
         dibelsNext2.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 2");
         dibelsNext2.setRecordType("AssessmentFamily");
         dibelsNext2.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext3 = new NeutralRecord();
-        dibelsNext3.setAttributeField("id", "dibelsNext3");
+        dibelsNext3.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibelsNext3"));
         dibelsNext3.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 3");
         dibelsNext3.setRecordType("AssessmentFamily");
         dibelsNext3.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
@@ -77,6 +78,14 @@ public class EdFiAssessmentConvertorTest {
                     record.getAttributes().get("assessmentFamilyHierarchyName"));
         }
         
+    }
+    
+    private List<Map<String, Object>> makeId(String id) {
+        List<Map<String, Object>> idList = new ArrayList<Map<String,Object>>();
+        Map<String, Object> idMap = new HashMap<String, Object>();
+        idMap.put("ID", id);
+        idList.add(idMap);
+        return idList;
     }
     
 }
