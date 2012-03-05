@@ -102,13 +102,6 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createTestCourseSectionAssociation(String courseId, String sectionId) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("courseId", courseId);
-        entity.put("sectionId", sectionId);
-        return entity;
-    }
-    
     public Map<String, Object> createTestAssociation(String studentId, String schoolId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
@@ -299,33 +292,6 @@ public class ResourceTest {
             assertEquals(Status.NOT_FOUND.getStatusCode(), r4.getStatus());
         }
         
-    }
-    
-    /**
-     * Known technical-debt, this is to be replaced by internal field course.sectionId.
-     */
-    @Test
-    public void testCourseSectionFunctionality() {
-        
-        String assocationUri = ResourceTest.COURSE_SECTION_ASSOCIATION_URI;
-        
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        String courseId = this.createEntity("courses", ids);
-        String sectionId = this.createEntity("sections", ids);
-        
-        Response createAssociationResponse = api.createEntity(assocationUri, new EntityBody(
-                createTestCourseSectionAssociation(courseId, sectionId)), uriInfo);
-        assertNotNull(createAssociationResponse);
-        String associationId = parseIdFromLocation(createAssociationResponse);
-        
-        // test school session association
-        Response tsaResponse = api.getEntity(assocationUri, associationId, null, null, 0, 10, false, uriInfo);
-        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
-        assertNotNull(tssAssocBody);
-        assertEquals(associationId, tssAssocBody.get("id"));
-        assertEquals(courseId, tssAssocBody.get("courseId"));
-        assertEquals(sectionId, tssAssocBody.get("sectionId"));
     }
     
     @Test
