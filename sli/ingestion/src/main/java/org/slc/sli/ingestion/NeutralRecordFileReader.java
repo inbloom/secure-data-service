@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class NeutralRecordFileReader implements Iterator {
         }
 
         if (avroRecord.get("localParentIds") != null) {
-            nr.setLocalParentIds(unencodeMap((Map<Utf8, Utf8>) avroRecord.get("localParentIds")));
+            nr.setLocalParentIds(jsonToMap(avroRecord.get("localParentIds")));
         }
 
         nr.setAttributesCrc(getStringNullable(avroRecord, "attributesCrc"));

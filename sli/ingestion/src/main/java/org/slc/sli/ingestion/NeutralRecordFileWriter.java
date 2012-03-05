@@ -111,7 +111,7 @@ public class NeutralRecordFileWriter {
 
         // populate localParentIds if present
         if (record.getLocalParentIds() != null && record.getLocalParentIds().size() > 0) {
-            avroRecord.put("localParentIds", encodeMap(record.getLocalParentIds()));
+            avroRecord.put("localParentIds", new Utf8(maptoJson(record.getLocalParentIds())));
         } else {
             avroRecord.put("localParentIds", null);
         }
