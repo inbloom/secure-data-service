@@ -721,19 +721,20 @@ end
 desc "Import Unified Data Set"
 task :importUnifiedData do
   testHash = Hash[
-    "assessment" => "unified_data/uds_assessments.json",
-    "attendance" => "unified_data/uds_attendance.json",
-    "section" => "unified_data/uds_sections.json",
-    "course" => "unified_data/uds_courses.json",
-    "school" => "unified_data/uds_schools.json",
-    "student" => "unified_data/uds_students.json",
-    "teacher" => "unified_data/uds_teachers.json",
-    "studentSchoolAssociation" => "unified_data/uds_student_school_associations.json",
-    "teacherSectionAssociation" => "unified_data/uds_teacher_section_associations.json",
+    "assessment"                   => "unified_data/uds_assessments.json",
+    "attendance"                   => "unified_data/uds_attendance.json",
+    "section"                      => "unified_data/uds_sections.json",
+    "course"                       => "unified_data/uds_courses.json",
+    "school"                       => "unified_data/uds_schools.json",
+    "student"                      => "unified_data/uds_students.json",
+    "teacher"                      => "unified_data/uds_teachers.json",
+    "studentSchoolAssociation"     => "unified_data/uds_student_school_associations.json",
+    "teacherSectionAssociation"    => "unified_data/uds_teacher_section_associations.json",
     "studentAssessmentAssociation" => "unified_data/uds_student_assessment_associations.json",
-    "studentSectionAssociation" => "unified_data/uds_student_section_associations.json",
-    "teacherSchoolAssociation" => "unified_data/uds_teacher_school_associations.json",
-    "educationOrganization" => "unified_data/uds_education_organizations.json",
+    "studentSectionAssociation"    => "unified_data/uds_student_section_associations.json",
+    "teacherSchoolAssociation"     => "unified_data/uds_teacher_school_associations.json",
+    "educationOrganization"        => "unified_data/uds_education_organizations.json"
+
   ]
   setMultipleFixtureFiles(testHash)
 end
