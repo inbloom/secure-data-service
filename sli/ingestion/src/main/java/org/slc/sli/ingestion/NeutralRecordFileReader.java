@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,8 +14,6 @@ import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.util.Utf8;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +57,6 @@ public class NeutralRecordFileReader implements Iterator {
      *            - the avroRecord, parsed against the defined schema.
      * @return
      * @throws IOException
-     * @throws JsonMappingException
-     * @throws JsonParseException
      */
     protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) throws IOException {
         NeutralRecord nr = new NeutralRecord();
@@ -76,7 +73,7 @@ public class NeutralRecordFileReader implements Iterator {
         }
 
         if (avroRecord.get("localParentIds") != null) {
-            nr.setLocalParentIds(unencodeMap((Map<Utf8, Utf8>) avroRecord.get("localParentIds")));
+            nr.setLocalParentIds(jsonToMap(avroRecord.get("localParentIds")));
         }
 
         nr.setAttributesCrc(getStringNullable(avroRecord, "attributesCrc"));

@@ -1,9 +1,12 @@
+require File.expand_path('../common_stepdefs.rb', __FILE__)
+require 'rubygems'
+require 'bundler/setup'
+
 require 'rest-client'
 require 'json'
 require 'builder'
 require 'rexml/document'
 require 'yaml'
-require_relative 'common_stepdefs'
 include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -338,11 +341,10 @@ module EntityProvider
     case type
     when 'attendance', 'v1attendance'
       { 
-        "attendanceEvent" =>  
-        [
-          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
-            "attendanceEventCategory" => "Tardy", "studentId" => "00000000000001" }
-        ]
+        "eventDate" => "2012-02-24", 
+        "attendanceEventType" => "Daily Attendance", 
+        "attendanceEventCategory" => "Tardy", 
+        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
       }
     end
   end
@@ -361,11 +363,10 @@ module EntityProvider
     when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
-        "attendanceEvent" =>  
-        [
-          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
-            "attendanceEventCategory" => "Tardy", "studentId" => "00000000000002" }
-        ]
+        "eventDate" => "2012-02-24", 
+        "attendanceEventType" => "Daily Attendance", 
+        "attendanceEventCategory" => "Tardy",
+        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
       }
     end
   end
@@ -375,11 +376,10 @@ module EntityProvider
     when 'attendance', 'v1attendance'
       { 
         "id" => "4beb72d4-0f76-4071-92b4-61982dba7a7b",
-        "attendanceEvent" =>  
-        [
-          { "eventDate" => "2012-02-24", "attendanceEventType" => "Daily Attendance", 
-            "attendanceEventCategory" => "In Attendance", "studentId" => "00000000000002" }
-        ]
+        "eventDate" => "2012-02-24",
+        "attendanceEventType" => "Daily Attendance", 
+        "attendanceEventCategory" => "In Attendance",
+        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
       }
     end
   end

@@ -96,7 +96,7 @@ public class TeacherSchoolAssociationResource {
      *                 item is accessable.}
      */
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, newEntityBody, headers, uriInfo);
@@ -156,7 +156,7 @@ public class TeacherSchoolAssociationResource {
      */
     @PUT
     @Path("{" + ParameterConstants.TEACHER_SCHOOL_ASSOC_ID + "}")
-    @Consumes({ MediaType.APPLICATION_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.TEACHER_SCHOOL_ASSOC_ID) final String teacherSchoolAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {

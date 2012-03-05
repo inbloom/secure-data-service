@@ -1,5 +1,6 @@
 package org.slc.sli.view;
 
+import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
@@ -32,15 +33,15 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
     }
 
     @Override
-    public int getCountForPath(String path) {
+    public int getCountForPath(Field configField) {
         //TODO: This should be a lot more generic.
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
         for (Map attendance : attendances) {
+            logger.debug("Attendance: " + attendance);
             String value = (String) attendance.get(CATEGORY);
             if (value.contains(compareValue)) { ++count; }
         }
-        logger.debug(student.toString());
         return count;
     }
 }

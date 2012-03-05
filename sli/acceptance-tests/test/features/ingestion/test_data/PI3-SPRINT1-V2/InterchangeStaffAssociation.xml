@@ -224,7 +224,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 923</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -238,7 +238,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 142</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -252,7 +252,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 143</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -266,7 +266,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 144</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -280,7 +280,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -294,7 +294,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
         <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -308,7 +308,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -322,7 +322,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -336,7 +336,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>7th Grade English - Sec. 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -350,7 +350,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>7th Grade English - Sec. 2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -364,7 +364,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -378,7 +378,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -392,7 +392,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -406,7 +406,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -420,7 +420,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Reading Group - Red</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -434,7 +434,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Reading Group - Blue</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -448,7 +448,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Reading Group - Green</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -462,7 +462,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -476,7 +476,7 @@
     </TeacherReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
