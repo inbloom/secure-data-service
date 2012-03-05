@@ -72,33 +72,37 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public String makeJsonRequest(String path, String token) {
-        RestTemplate template = new RestTemplate();
-        URLBuilder url = new URLBuilder(getSecurityUrl());
-        url.addPath(path);
-        if (token != null) {
-            url.addQueryParam(API_SESSION_KEY, token);
-        }
-        logger.info("Accessing API at: " + url.toString());
-        String jsonText = template.getForObject(url.toString(), String.class);
-        logger.info("JSON response for roles: " + jsonText);
-        return jsonText;
+        return makeJsonRequestWHeaders(path, token);
+//        RestTemplate template = new RestTemplate();
+//        URLBuilder url = new URLBuilder(getSecurityUrl());
+//        url.addPath(path);
+//        if (token != null) {
+//            url.addQueryParam(API_SESSION_KEY, token);
+//        }
+//        logger.info("Accessing API at: " + url.toString());
+//        String jsonText = template.getForObject(url.toString(), String.class);
+//        logger.info("JSON response for roles: " + jsonText);
+//        return jsonText;
     }
 
 
-    public String makeJsonRequestWHeaders(String url, String token) {
+    public String makeJsonRequestWHeaders(String path, String token) {
         RestTemplate template = new RestTemplate();
 
         if (token != null) {
             //url.addQueryParam(API_SESSION_KEY, token);
+            URLBuilder url = new URLBuilder(getSecurityUrl());
+            url.addPath(path);
+
             HttpHeaders headers = new HttpHeaders();
 //            headers.add(API_SESSION_KEY, token);
             headers.add("Authorization", "Bearer" + token);
             HttpEntity entity = new HttpEntity(headers);
             logger.debug("Accessing API at: " + url);
-            HttpEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
+            HttpEntity<String> response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
             return response.getBody();
         }
-        logger.debug("Token is null in call to RESTClient for url" + url);
+        logger.debug("Token is null in call to RESTClient for path" + path);
 
         return null;
     }

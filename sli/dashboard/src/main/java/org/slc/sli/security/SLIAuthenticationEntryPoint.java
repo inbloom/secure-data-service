@@ -1,7 +1,6 @@
 package org.slc.sli.security;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -103,18 +102,23 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
-            JsonElement nameElement = json.get("full_name");
-            principal.setName(nameElement.getAsString());
+            principal.setName("Fake-Name");
             principal.setId(token);
-            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
-            Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-
-            // Add authorities to user principal
-            while (authIterator.hasNext()) {
-                JsonElement nextElement = authIterator.next();
-                authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
-            }
+            authList.add(new GrantedAuthorityImpl("READ_GENERAL"));
+//            SLIPrincipal principal = new SLIPrincipal();
+//            JsonElement nameElement = json.get("full_name");
+//            principal.setName(nameElement.getAsString());
+//            principal.setId(token);
+//            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
+//            Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
+//            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
+//
+//            // Add authorities to user principal
+//            while (authIterator.hasNext()) {
+//                JsonElement nextElement = authIterator.next();
+//                authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
+//            }
 
             SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
@@ -125,18 +129,19 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             throws IOException, ServletException {
         System.out.println("TEMP -------- NEW COMMENCE, REQUEST URL " + request.getRequestURL());
         System.out.println("TEMP ---------- QUERY STRING " + request.getQueryString());
-        Enumeration<String> attrNames = request.getAttributeNames();
         OAuthService service = new ServiceBuilder().provider(SliApi.class).
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
 
         HttpSession session = request.getSession();
+        Object token = session.getAttribute(OAUTH_TOKEN);
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
             System.out.println("TEMP - Code is " + request.getParameter("code"));
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
             System.out.println("TEMP - The access token is " + accessToken);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+            response.sendRedirect((String) session.getAttribute("ENTRY_URL"));
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute("ENTRY_URL", request.getRequestURL());
             
@@ -149,9 +154,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             System.out.println("TEMP - Our Authorization URL Is " + authUrl);
             response.sendRedirect(authUrl);
         } else {
-            System.out.println("There's an Oauth token " + session.getAttribute(OAUTH_TOKEN));
-            this.restClient.sessionCheck(session.getAttribute(OAUTH_TOKEN).toString());
+            System.out.println("There's an Oauth token " + token);
+//            JsonObject jsonSession = this.restClient.sessionCheck(null);
         }
+        addAuthentication((String) token);
+        response.sendRedirect(request.getRequestURI());
+
         
     }
 }
