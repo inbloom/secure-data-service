@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +57,7 @@ public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
     private static final int MAX_RESULT_SIZE = 9999;
-
+    
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
@@ -501,36 +500,36 @@ public class BasicService implements EntityService {
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
 
-            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { //specific field(s) to include in result set
+            if (key.equals("includeFields")) { //specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     queryBuilder.setIncludeFields(includeFields);
                 }
-            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { //specific field(s) to exclude from result set
+            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     queryBuilder.setExcludeFields(excludeFields);
                 }
-            } else if (key.equals(ParameterConstants.OFFSET)) { //skip to record X instead of starting at the beginning
+            } else if (key.equals("offset")) { //skip to record X instead of starting at the beginning
                 String offset = entry.getValue();
                 if (offset != null) {
                     queryBuilder.setOffset(Integer.parseInt(offset));
                 }
-            } else if (key.equals(ParameterConstants.LIMIT)) { //display X results instead of all of them
+            } else if (key.equals("limit")) { //display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     queryBuilder.setLimit(Integer.parseInt(limit));
                 }
-            } else if (key.equals(ParameterConstants.SORT_BY)) { // sort by a field
+            } else if (key.equals("sort-by")) { // sort by a field
                 String sortBy = entry.getValue();
                 if (sortBy != null) {
                     queryBuilder.setSortBy(sortBy);
                 }
-            } else if (key.equals(ParameterConstants.SORT_ORDER)) { // define the sort order (ascending or descending)
+            } else if (key.equals("sort-order")) { // define the sort order (ascending or descending)
                 String sortOrder = entry.getValue();
                 if (sortOrder != null) {
                     EntityQuery.SortOrder order =
-                            sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
+                            sortOrder.equals("ascending") ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
                     queryBuilder.setSortOrder(order);
                 }
             } else { //query param on record
