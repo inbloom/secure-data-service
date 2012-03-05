@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -155,6 +155,11 @@ end
 desc "Run Ingestion Daily Attendance Tests"
 task :ingestionAttendanceTests do
   runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
+end
+
+desc "Run Ingestion Assessment Tests"
+task :ingestionAssessmentTests do
+  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
 end
 
 ########

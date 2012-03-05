@@ -24,48 +24,48 @@ public class EdFiAssessmentConvertorTest {
     public void test() {
         EdFiAssessmentConvertor convertor = new EdFiAssessmentConvertor(null);
         NeutralRecord dibels6th = new NeutralRecord();
-        dibels6th.setLocalId("dibels6");
+        dibels6th.setAttributeField("id", "dibels6");
         dibels6th.setAttributeField("AssessmentFamilyTitle", "DIBELS 6th Edition");
         dibels6th.setRecordType("AssessmentFamily");
         NeutralRecord dibelsNext = new NeutralRecord();
-        dibelsNext.setLocalId("dibelsNext");
+        dibelsNext.setAttributeField("id", "dibelsNext");
         dibelsNext.setAttributeField("AssessmentFamilyTitle", "DIBELS Next");
         dibelsNext.setRecordType("AssessmentFamily");
         NeutralRecord dibelsNextK = new NeutralRecord();
-        dibelsNextK.setLocalId("dibelsNextK");
+        dibelsNextK.setAttributeField("id", "dibelsNextK");
         dibelsNextK.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Kindergarten");
         dibelsNextK.setRecordType("AssessmentFamily");
-        dibelsNextK.setLocalParentIds(makeParentFamily("dibelsNext"));
+        dibelsNextK.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext1 = new NeutralRecord();
-        dibelsNext1.setLocalId("dibelsNext1");
+        dibelsNext1.setAttributeField("id", "dibelsNext1");
         dibelsNext1.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 1");
         dibelsNext1.setRecordType("AssessmentFamily");
-        dibelsNext1.setLocalParentIds(makeParentFamily("dibelsNext"));
+        dibelsNext1.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext2 = new NeutralRecord();
-        dibelsNext2.setLocalId("dibelsNext2");
+        dibelsNext2.setAttributeField("id", "dibelsNext2");
         dibelsNext2.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 2");
         dibelsNext2.setRecordType("AssessmentFamily");
-        dibelsNext2.setLocalParentIds(makeParentFamily("dibelsNext"));
+        dibelsNext2.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext3 = new NeutralRecord();
-        dibelsNext3.setLocalId("dibelsNext3");
+        dibelsNext3.setAttributeField("id", "dibelsNext3");
         dibelsNext3.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 3");
         dibelsNext3.setRecordType("AssessmentFamily");
-        dibelsNext3.setLocalParentIds(makeParentFamily("dibelsNext"));
+        dibelsNext3.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord kboy = new NeutralRecord();
         kboy.setLocalId("kboy");
         kboy.setRecordType("assessment");
         kboy.setAttributeField("assessmentTitle", "K-BOY");
-        kboy.setLocalParentIds(makeParentFamily("dibelsNextK"));
+        kboy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         NeutralRecord kmoy = new NeutralRecord();
         kmoy.setLocalId("kmoy");
         kmoy.setRecordType("assessment");
         kmoy.setAttributeField("assessmentTitle", "K-MOY");
-        kmoy.setLocalParentIds(makeParentFamily("dibelsNextK"));
+        kmoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         NeutralRecord keoy = new NeutralRecord();
         keoy.setLocalId("keoy");
         keoy.setRecordType("assessment");
         keoy.setAttributeField("assessmentTitle", "K-EOY");
-        keoy.setLocalParentIds(makeParentFamily("dibelsNextK"));
+        keoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         Map<String, List<NeutralRecord>> records = new HashMap<String, List<NeutralRecord>>();
         records.put("assessment", Arrays.asList(kboy, kmoy, keoy));
         records.put("AssessmentFamily", Arrays.asList(dibels6th, dibelsNext, dibelsNext1, dibelsNext2, dibelsNext3, dibelsNextK));
@@ -77,10 +77,4 @@ public class EdFiAssessmentConvertorTest {
         
     }
 
-    private Map<String, Object> makeParentFamily(String family) {
-        Map<String, Object> nextKParents = new HashMap<String, Object>();
-        nextKParents.put("AssessmentFamily", family);
-        return nextKParents;
-    }
-    
 }

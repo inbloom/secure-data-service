@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.util.FileUtils;
  */
 @Component
 public class EdFiAssessmentConvertor {
+    private static final String PARENT_ASSESSMENT_FAMILY_ID = "parentAssessmentFamilyId";
     private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "AssessmentFamily";
@@ -53,12 +54,15 @@ public class EdFiAssessmentConvertor {
         try {
             while (reader.hasNext()) {
                 NeutralRecord record = reader.next();
+                LOG.debug("Recieved neutral record {}", record);
                 if (edfiRecords.keySet().contains(record.getRecordType())) {
                     edfiRecords.get(record.getRecordType()).add(record);
                 }
             }
         } finally {
-            reader.close();
+            if (reader != null) {
+                reader.close();
+            }
         }
         List<NeutralRecord> sliRecords = convert(edfiRecords);
         File tempFile = fileUtils.createTempFile();
@@ -84,10 +88,13 @@ public class EdFiAssessmentConvertor {
      */
     protected List<NeutralRecord> convert(Map<String, List<NeutralRecord>> orig) {
         Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
+        LOG.debug("Assessment family map is {}", assessmentFamilies);
         List<NeutralRecord> assessments = orig.get(ASSESSMENT);
         for (NeutralRecord record : assessments) {
+            LOG.debug("converting assessment {}", record);
             List<String> familyHierarchy = resolveFamily(record, assessmentFamilies, new HashSet<Object>());
             record.setAttributeField("assessmentFamilyHierarchyName", StringUtils.join(familyHierarchy, "."));
+            record.getAttributes().remove(PARENT_ASSESSMENT_FAMILY_ID);
         }
         return assessments;
     }
@@ -96,16 +103,15 @@ public class EdFiAssessmentConvertor {
         // instance #1754 I wish Java had function literals...
         Map<Object, NeutralRecord> assessmentFamilies = new HashMap<Object, NeutralRecord>();
         for (NeutralRecord record : familyRecords) {
-            assessmentFamilies.put(record.getLocalId(), record);
+            assessmentFamilies.put(record.getAttributes().get("id"), record);
         }
         return assessmentFamilies;
     }
     
     private List<String> resolveFamily(NeutralRecord rec, Map<Object, NeutralRecord> families, Set<Object> visited) {
-        Object familyId = rec.getLocalParentIds().get(ASSESSMENT_FAMILY);
+        Object familyId = rec.getAttributes().get(PARENT_ASSESSMENT_FAMILY_ID);
         NeutralRecord family = families.get(familyId);
         List<String> hierarchy = new ArrayList<String>();
-        ;
         if (family != null && !visited.contains(family)) {
             visited.add(family);
             hierarchy = resolveFamily(family, families, visited);
