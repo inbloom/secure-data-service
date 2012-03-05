@@ -101,24 +101,24 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
-            SLIPrincipal principal = new SLIPrincipal();
-            principal.setName("Linda Kim");
-            principal.setId(token);
-            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-            authList.add(new GrantedAuthorityImpl("Educator"));
 //            SLIPrincipal principal = new SLIPrincipal();
-//            JsonElement nameElement = json.get("full_name");
-//            principal.setName(nameElement.getAsString());
+//            principal.setName("Linda Kim");
 //            principal.setId(token);
-//            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
-//            Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
 //            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-//
-//            // Add authorities to user principal
-//            while (authIterator.hasNext()) {
-//                JsonElement nextElement = authIterator.next();
-//                authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
-//            }
+//            authList.add(new GrantedAuthorityImpl("Educator"));
+            SLIPrincipal principal = new SLIPrincipal();
+            JsonElement nameElement = json.get("full_name");
+            principal.setName(nameElement.getAsString());
+            principal.setId(token);
+            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
+            Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
+            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
+
+            // Add authorities to user principal
+            while (authIterator.hasNext()) {
+                JsonElement nextElement = authIterator.next();
+                authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
+            }
 
             SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
