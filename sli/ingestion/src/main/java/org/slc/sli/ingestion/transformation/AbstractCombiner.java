@@ -1,5 +1,10 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
@@ -18,6 +23,18 @@ public abstract class AbstractCombiner<T, O> implements TransformationStrategy<T
     Validator<T> preValidator;
 
     Validator<T> postValidator;
+    
+    protected Map<String, Map<Object, NeutralRecord>> collections = new HashMap<String, Map<Object, NeutralRecord>>();
+    
+    protected NeutralRecordMongoAccess neutralRecordMongoAccess;
+    
+    public AbstractCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
+    
+    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
     
     abstract O doHandling(T item, ErrorReport errorReport);
 

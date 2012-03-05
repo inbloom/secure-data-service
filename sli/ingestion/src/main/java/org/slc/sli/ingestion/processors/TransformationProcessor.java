@@ -10,8 +10,8 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.transformation.Combiner;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
+import org.slc.sli.ingestion.transformation.TransformationStrategy;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -52,7 +52,7 @@ public class TransformationProcessor implements Processor {
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        Combiner<NeutralRecordMongoAccess, String> strategy = (Combiner<NeutralRecordMongoAccess, String>) TransformationFactory
+        TransformationStrategy<NeutralRecordMongoAccess, String> strategy = (TransformationStrategy<NeutralRecordMongoAccess, String>) TransformationFactory
                 .getTransformationStrategy(TransformationFactory.ASSESSMENT_COMBINER);
         strategy.setJobId(jobId);
         strategy.handle(this.neutralRecordMongoAccess);

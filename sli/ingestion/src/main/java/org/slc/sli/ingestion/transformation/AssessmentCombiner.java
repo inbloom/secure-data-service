@@ -19,18 +19,15 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  */
 public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAccess, String> {
 
+
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
-
-    private Map<String, Map<Object, NeutralRecord>> collections = new HashMap<String, Map<Object, NeutralRecord>>();
-
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     private String jobId;
 
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+        super(neutralRecordMongoAccess);
     }
-
+    
     /**
      * Transforms items inside staging database
      *
@@ -159,10 +156,6 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
     public void setJobId(String id) {
         this.jobId = id;
 
-    }
-
-    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
 
 }
