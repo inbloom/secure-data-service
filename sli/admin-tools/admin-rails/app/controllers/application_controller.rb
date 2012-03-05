@@ -1,4 +1,5 @@
 require "active_resource/base"
+require "oauth_helper"
 
 class ApplicationController < ActionController::Base
  # protect_from_forgery
@@ -43,7 +44,7 @@ class ApplicationController < ActionController::Base
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth == nil 
-      oauth = Oauth.new()
+      oauth = OauthHelper::Oauth.new()
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
