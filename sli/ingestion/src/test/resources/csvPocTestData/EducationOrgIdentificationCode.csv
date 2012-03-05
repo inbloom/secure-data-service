@@ -1,0 +1,13 @@
+ParentJoinKey,	JoinKey, 	EducationOrgIdCode
+2,				6,			IL1_1					
+2,				7,			IL1_2
+2,				8,			IL1_3
+3,				9,			IL2_1
+3,				10,			IL2_2
+3,				11,			IL2_3
+4,				12,			NY1_1					
+4,				13,			NY1_2
+4,				14,			NY1_3
+5,				15,			NY2_1
+5,				16,			NY2_2
+5,				17,			NY2_3

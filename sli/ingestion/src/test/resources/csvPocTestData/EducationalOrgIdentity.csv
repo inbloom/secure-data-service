@@ -1,0 +1,5 @@
+ParentJoinKey,	JoinKey, 	StateOrgId,		EducationOrgIdentificationCode
+1,				2,			IL1,			#EducationOrgIdentificationCode		
+1,				3,			IL2,			#EducationOrgIdentificationCode
+2,				4,			NY1,			#EducationOrgIdentificationCode		
+2,				5,			NY2,			#EducationOrgIdentificationCode
