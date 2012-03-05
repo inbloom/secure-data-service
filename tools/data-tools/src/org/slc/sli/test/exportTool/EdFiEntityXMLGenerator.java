@@ -18,10 +18,16 @@ public class EdFiEntityXMLGenerator {
      * @param args
      */
     public static void main(String[] args) {
+<<<<<<< HEAD
     	String configFile= "/Users/lchen/workspace/sli/tools/data-tools/entity-configurations/test.config";
        // String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/teacher.config";
         String output = "/Users/lchen/workspace/sli/tools/data-tools/entity-configurations/test.xml";
 /*
+=======
+        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/test.config";
+        String output = "/Users/yzhang/Documents/test.xml";
+
+>>>>>>> bfc838356b954309a9fe96b229701a8ba35408c1
         if (args.length != 2) {
             System.out
                     .println("Usage:\njava -classpath .:../lib/jtds-1.2.5.jar org.slc.sli.test.exportTool.EdFiEntityXMLGenerator ../entity-configurations/Course.config course.xml");

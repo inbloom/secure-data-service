@@ -31,9 +31,6 @@ import org.slc.sli.validation.schema.NeutralSchemaValidator;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class NeutralSchemaValidationTest {
     @Autowired
-    private EntityValidator validator;
-
-    @Autowired
     private SchemaRepository schemaRepo;
     
     @Autowired
@@ -44,64 +41,21 @@ public class NeutralSchemaValidationTest {
         repo.clean();
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidSchool() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/school_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "school");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/school_fixture_neutral.json", "school");
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidStudent() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/student_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "student");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/student_fixture_neutral.json", "student");
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidAssessment() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/assessment_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "assessment");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/assessment_fixture_neutral.json", "assessment");
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidStudentAssessmentAssociation() throws Exception {
         addDummyEntity("student", "7afddec3-89ec-402c-8fe6-cced79ae3ef5");
@@ -121,130 +75,71 @@ public class NeutralSchemaValidationTest {
         addDummyEntity("assessment", "a22532c4-6455-41da-b24d-4f93224f526d");
         addDummyEntity("assessment", "b5f684d4-9a12-40c3-a59e-0c0d1b971a1e");
 
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/student_assessment_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/student_assessment_association_fixture_neutral.json", "studentAssessmentAssociation");
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     @ExpectedException(value = EntityValidationException.class)
     public void testInvalidStudentAssessmentAssociation() throws Exception {
         addDummyCollection("student");
         addDummyCollection("assessment");
 
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/student_assessment_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "studentAssessmentAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/student_assessment_association_fixture_neutral.json", "studentAssessmentAssociation");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidTeacherSectionAssociation() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/teacher_section_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "teacherSectionAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testValidSessionCourseAssociation() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/session_course_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "sessionCourseAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testValidTeacher() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/teacher_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "teacher");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        addDummyEntity("teacher", "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94");
+        addDummyEntity("section", "4efb4262-bc49-f388-0000-0000c9355700");
+        addDummyEntity("section", "58c9ef19-c172-4798-8e6e-c73e68ffb5a3");
+        addDummyEntity("section", "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431");
+
+        readAndValidateFixtureData("src/test/resources/teacher_section_association_fixture_neutral.json", "teacherSectionAssociation");
     }
 
-    @SuppressWarnings("unchecked")
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidTeacherSectionAssociation() throws Exception {
+        addDummyCollection("teacher");
+        addDummyCollection("section");
+
+        readAndValidateFixtureData("src/test/resources/teacher_section_association_fixture_neutral.json", "teacherSectionAssociation");
+    }
+
+    @Test
+    public void testValidSessionCourseAssociation() throws Exception {
+        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
+        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
+        addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
+        addDummyEntity("course", "93d33f0b-0f2e-43a2-b944-7d182253a79a");
+        addDummyEntity("course", "a7444741-8ba1-424e-b83f-df88c57f8b8c");
+
+        readAndValidateFixtureData("src/test/resources/session_course_association_fixture_neutral.json", "sessionCourseAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSessionCourseAssociation() throws Exception {
+        addDummyCollection("session");
+        addDummyCollection("course");
+
+        readAndValidateFixtureData("src/test/resources/session_course_association_fixture_neutral.json", "sessionCourseAssociation");
+    }
+
+    @Test
+    public void testValidTeacher() throws Exception {
+        readAndValidateFixtureData("src/test/resources/teacher_fixture_neutral.json", "teacher");
+    }
+
     @Test
     public void testValidSection() throws Exception {
         addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
         addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
         addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
 
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/section_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "section");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @ExpectedException(value = EntityValidationException.class)
     public void testInvalidSection() throws Exception {
@@ -252,23 +147,9 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("session");
         addDummyCollection("course");
 
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src/test/resources/section_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "section");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testValidStudentSectionAssociation() throws Exception {
         addDummyEntity("section", "cb7a932f-2d44-800c-d574-cdb25a29fc76");
@@ -277,40 +158,125 @@ public class NeutralSchemaValidationTest {
         addDummyEntity("student", "54c6548e-1196-86ca-ad5c-b8d72496bf78");
         addDummyEntity("student", "a63ee073-cd6c-9a12-a124-fa6a1b4dfc7c");
         addDummyEntity("student", "51dbb0cd-4f25-2d58-b587-5fac7605e4b3");
-        
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/student_section_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "studentSectionAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+
+        readAndValidateFixtureData("src/test/resources/student_section_association_fixture_neutral.json", "studentSectionAssociation");
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     @ExpectedException(value = EntityValidationException.class)
     public void testInvalidStudentSectionAssociation() throws Exception {
         addDummyCollection("section");
         addDummyCollection("student");
 
+        readAndValidateFixtureData("src/test/resources/student_section_association_fixture_neutral.json", "studentSectionAssociation");
+    }
+
+    @Test
+    public void testValidSectionAssessmentAssociation() throws Exception {
+        addDummyEntity("section", "cb7a932f-2d44-800c-d574-cdb25a29fc76");
+        addDummyEntity("assessment", "dd916592-7dfe-4e27-a8ac-bec5f4b757b7");
+
+        readAndValidateFixtureData("src/test/resources/section_assessment_association_fixture_neutral.json", "sectionAssessmentAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSectionAssessmentAssociation() throws Exception {
+        addDummyCollection("section");
+        addDummyCollection("assessment");
+
+        readAndValidateFixtureData("src/test/resources/section_assessment_association_fixture_neutral.json", "sectionAssessmentAssociation");
+    }
+
+    @Test
+    public void testValidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyEntity("staff", "269be4c9-a806-4051-a02d-15a7af3ffe3e");
+        this.addDummyEntity("staff", "f0e41d87-92d4-4850-9262-ed2f2723159b");
+        this.addDummyEntity("staff", "858bf25e-51b8-450a-ade6-adda0a570d9e");
+        this.addDummyEntity("staff", "55015e96-56dd-4d13-a091-5cef847ca085");
+        this.addDummyEntity("staff", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
+        this.addDummyEntity("staff", "0e26de79-222a-4d67-9201-5113ad50a03b");
+        this.addDummyEntity("educationOrganization", "4f0c9368-8488-7b01-0000-000059f9ba56");
+        this.addDummyEntity("educationOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
+
+        readAndValidateFixtureData("src/test/resources/staff_educationOrganization_association_fixture_neutral.json", "staffEducationOrganizationAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStaffEducationOrganizationAssociation() throws Exception {
+        this.addDummyCollection("staff");
+        this.addDummyCollection("educationOrganization");
+
+        readAndValidateFixtureData("src/test/resources/staff_educationOrganization_association_fixture_neutral.json", "staffEducationOrganizationAssociation");
+    }
+
+    @Test
+    public void testValidStudentSchoolAssociation() throws Exception {
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
+        this.addDummyEntity("student", "e0e99028-6360-4247-ae48-d3bb3ecb606a");
+
+        readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json", "studentSchoolAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentSchoolAssociation() throws Exception {
+        this.addDummyCollection("student");
+        this.addDummyCollection("school");
+
+        readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json", "studentSchoolAssociation");
+    }
+
+    @Test
+    public void testValidSchoolSessionAssociation() throws Exception {
+        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
+        this.addDummyEntity("session", "cb1fb2d3-a906-446a-bdfd-06ad23823265");
+        this.addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
+        this.addDummyEntity("session", "f5f042f8-9617-4a7b-bcee-5ff157240594");
+
+        readAndValidateFixtureData("src/test/resources/school_session_association_fixture_neutral.json", "schoolSessionAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSchoolSessionAssociation() throws Exception {
+        this.addDummyCollection("session");
+        this.addDummyCollection("school");
+
+        readAndValidateFixtureData("src/test/resources/school_session_association_fixture_neutral.json", "schoolSessionAssociation");
+    }
+
+    @Test
+    public void testValidTeacherSchoolAssociation() throws Exception {
+        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
+        this.addDummyEntity("teacher", "8e5b2d0e-959c-42ef-b3df-9b83cba85a33");
+        this.addDummyEntity("teacher", "a249d5d9-f149-d348-9b10-b26d68e7cb9c");
+
+        readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidTeacherSchoolAssociation() throws Exception {
+        this.addDummyCollection("teacher");
+        this.addDummyCollection("school");
+
+        readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/student_section_association_fixture_neutral.json"));
+            reader = new BufferedReader(new FileReader(fixtureFile));
             String school;
             while ((school = reader.readLine()) != null) {
                 ObjectMapper oRead = new ObjectMapper();
                 Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "studentSectionAssociation");
+                this.mapValidation((Map<String, Object>) obj.get("body"), collection);
             }
         } finally {
             if (reader != null) {
@@ -319,25 +285,6 @@ public class NeutralSchemaValidationTest {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testValidSectionAssessmentAssociation() throws Exception {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "src/test/resources/section_assessment_association_fixture_neutral.json"));
-            String school;
-            while ((school = reader.readLine()) != null) {
-                ObjectMapper oRead = new ObjectMapper();
-                Map<String, Object> obj = oRead.readValue(school, Map.class);
-                mapValidation((Map<String, Object>) obj.get("body"), "sectionAssessmentAssociation");
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-    }
 
     private void mapValidation(Map<String, Object> obj, String schemaName) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();

@@ -203,7 +203,18 @@ public class PopulationManager {
         this.entityManager = entityManager;
     }
 
+
     public List<GenericEntity> getAttendance(String token, List<GenericEntity> studentSummaries) {
         return null;
     }
+
+    
+    public GenericEntity getStudent(String token, String studentId) {
+        return entityManager.getStudent(token, studentId);
+    }
+    
+
 }
+
+
+

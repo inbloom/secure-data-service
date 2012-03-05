@@ -6,6 +6,10 @@ import java.net.URL;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.sun.jersey.api.client.ClientResponse;
 
 import org.slc.sli.api.client.Entity;
@@ -142,10 +146,33 @@ public final class BasicClient implements SLIClient {
         
         ClientResponse response = restClient.getRequest(builder.build());
         
-        entity = gson.fromJson(response.getEntity(String.class), Entity.class);
-        
         EntityCollection r = new EntityCollection();
-        r.add(entity);
+        
+        // TODO - create a generic error handling method.
+        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
+            
+            try {
+                JsonElement element = gson.fromJson(response.getEntity(String.class), JsonElement.class);
+                
+                if (element instanceof JsonArray) {
+                    r.fromJsonArray(element.getAsJsonArray());
+                    
+                } else if (element instanceof JsonObject) {
+                    entity = gson.fromJson(element, Entity.class);
+                    r.add(entity);
+                    
+                } else {
+                    // not what was expected....
+                    System.err.println("Unexpected ReST response:" + element.getAsString());
+                }
+            } catch (JsonSyntaxException e) {
+                // invalid Json, or non-Json response?
+                System.err.println("Unexpected ReST response:" + response.getEntity(String.class));
+            }
+        } else {
+            System.err.println("Failed REST call:" + response.getStatus());
+        }
+        
         return r;
     }
     

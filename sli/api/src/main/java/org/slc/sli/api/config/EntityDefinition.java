@@ -1,10 +1,12 @@
 package org.slc.sli.api.config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.EntityRepository;
@@ -61,6 +63,22 @@ public class EntityDefinition {
                 }
             }
         }
+    }
+    
+    /**
+     * Returns the names of all fields that are reference fields associated to a particular collection.
+     * 
+     * @param resource the desired collection 
+     * @return
+     */
+    public Iterable<String> getReferenceFieldNames(String resource) {
+        ArrayList<String> fieldNames = new ArrayList<String>();
+        for (Entry<String, ReferenceSchema> referenceField : this.referenceFields.entrySet()) {
+            if (referenceField.getValue().getResourceName().equals(resource)) {
+                fieldNames.add(referenceField.getKey());
+            }
+        }
+        return fieldNames;
     }
     
     /**
