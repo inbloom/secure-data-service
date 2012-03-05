@@ -12,8 +12,9 @@ import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.BasicLink;
 
 /**
- * Adapter for special handling of Entity Links.  A link as a resource name and a URL.
- *
+ * Adapter for special handling of Entity Links. A link is a resource name and a URL. This
+ * adapter marshals and unmarshals Link objects to/from JSON.
+ * 
  * @author asaarela
  */
 public class BasicLinkJsonTypeAdapter extends TypeAdapter<Link> {

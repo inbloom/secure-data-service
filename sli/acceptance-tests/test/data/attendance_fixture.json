@@ -1,1 +1,1 @@
-{"_id":{"$binary":"cUB2D9Ry60t7erotmGG0kg==", "$type" : "03" },"type":"attendance","body": { "attendanceEvent": [ { "eventDate":"2012-02-24","attendanceEventType":"Daily Attendance","attendanceEventCategory":"Tardy","studentId":"00000000000002" } ]},"tenantId":"Zork"}
+{"_id":{"$binary":"cUB2D9Ry60t7erotmGG0kg==", "$type" : "03" },"type":"attendance","body": { "eventDate":"2012-02-24","attendanceEventType":"Daily Attendance","attendanceEventCategory":"Tardy","studentId":"7a86a6a7-1f80-4581-b037-4a9328b9b650" },"tenantId":"Zork"}

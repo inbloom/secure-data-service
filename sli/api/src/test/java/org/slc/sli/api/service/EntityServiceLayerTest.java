@@ -2,7 +2,7 @@ package org.slc.sli.api.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -334,27 +334,28 @@ public class EntityServiceLayerTest {
     }
     
     // test referential validation for association creation
-    /*
-     * TODO: Uncomment once direct references enabled.
-     * 
-     * @Test(expected = EntityValidationException.class)
-     * public void testCreateAssocValidate() {
-     * EntityBody student1 = new EntityBody();
-     * student1.put("firstName", "Bonzo");
-     * student1.put("lastName", "Madrid");
-     * String id1 = studentService.create(student1);
-     * 
-     * EntityBody school = new EntityBody();
-     * school.put("name", "Battle School");
-     * schoolService.create(school);
-     * 
-     * EntityBody assoc1 = new EntityBody();
-     * // assoc1.put("schoolId", schoolId);
-     * assoc1.put("studentId", id1);
-     * assoc1.put("startDate", (new Date()).getTime());
-     * studentSchoolAssociationService.create(assoc1);
-     * }
-     */
+    /* Test is now an acceptance/integration test.
+     * References now require:
+     * 1. XSD
+     * 2. EntityDefinitions
+     * 3. ReferenceSchema (a NeutralSchema)
+    @Test(expected = EntityValidationException.class)
+    public void testCreateAssocValidate() {
+        EntityBody student1 = new EntityBody();
+        student1.put("firstName", "Bonzo");
+        student1.put("lastName", "Madrid");
+        String id1 = studentService.create(student1);
+        
+        EntityBody school = new EntityBody();
+        school.put("name", "Battle School");
+        schoolService.create(school);
+        
+        EntityBody assoc1 = new EntityBody();
+        // assoc1.put("schoolId", schoolId);
+        assoc1.put("studentId", id1);
+        assoc1.put("startDate", (new Date()).getTime());
+        studentSchoolAssociationService.create(assoc1);
+    }
     
     // test delete source entity also remove association entity
     @Test(expected = EntityNotFoundException.class)
@@ -387,6 +388,7 @@ public class EntityServiceLayerTest {
         // studentSchoolAssociationService.get(assocId);
         studentSchoolAssociationService.get(assoc2Id);
     }
+    */
     
     private <T> List<T> iterableToList(Iterable<T> itr) {
         List<T> result = new ArrayList<T>();

@@ -42,7 +42,7 @@
   </mongo:mapping-converter>
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-  <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" /> 
 <!--   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
     <property name="keyStore" value="${sli.encryption.keyStore}" />
     <property name="propertiesFile" value="${sli.encryption.properties}" />

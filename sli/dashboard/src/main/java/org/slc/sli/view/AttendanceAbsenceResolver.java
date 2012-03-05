@@ -38,10 +38,10 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
         for (Map attendance : attendances) {
+            logger.debug("Attendance: " + attendance);
             String value = (String) attendance.get(CATEGORY);
             if (value.contains(compareValue)) { ++count; }
         }
-        logger.debug(student.toString());
         return count;
     }
 }

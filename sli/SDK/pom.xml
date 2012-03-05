@@ -23,6 +23,12 @@
             <artifactId>jersey-bundle</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-apache-client</artifactId>
+            <version>1.9.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
