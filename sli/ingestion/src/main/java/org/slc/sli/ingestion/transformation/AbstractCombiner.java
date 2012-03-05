@@ -13,7 +13,7 @@ import org.slc.sli.ingestion.validation.Validator;
  * @param <T>
  * @param <O>
  */
-public abstract class AbstractCombiner<T, O> implements Combiner<T, O> {
+public abstract class AbstractCombiner<T, O> implements TransformationStrategy<T, O> {
 
     Validator<T> preValidator;
 
