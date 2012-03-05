@@ -1,11 +1,11 @@
-Feature: Daily Attendance Ingestion Test
+Feature: Transformed Assessment Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
-Given I post "assessmentMetadata.zip" file as the payload of the ingestion job
+Given I post "assessmentMetaData.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName              |
 	   | assessment                  |

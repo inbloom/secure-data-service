@@ -16,7 +16,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * @author nbrown
- *
+ * 
  */
 public class EdFiAssessmentConvertorTest {
     
@@ -68,13 +68,15 @@ public class EdFiAssessmentConvertorTest {
         keoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         Map<String, List<NeutralRecord>> records = new HashMap<String, List<NeutralRecord>>();
         records.put("assessment", Arrays.asList(kboy, kmoy, keoy));
-        records.put("AssessmentFamily", Arrays.asList(dibels6th, dibelsNext, dibelsNext1, dibelsNext2, dibelsNext3, dibelsNextK));
+        records.put("AssessmentFamily",
+                Arrays.asList(dibels6th, dibelsNext, dibelsNext1, dibelsNext2, dibelsNext3, dibelsNextK));
         List<NeutralRecord> sliAssessments = convertor.convert(records);
         assertEquals(3, sliAssessments.size());
-        for(NeutralRecord record : sliAssessments){
-            assertEquals("DIBELS Next.DIBELS Next Kindergarten", record.getAttributes().get("assessmentFamilyHierarchyName"));
+        for (NeutralRecord record : sliAssessments) {
+            assertEquals("DIBELS Next.DIBELS Next Kindergarten",
+                    record.getAttributes().get("assessmentFamilyHierarchyName"));
         }
         
     }
-
+    
 }
