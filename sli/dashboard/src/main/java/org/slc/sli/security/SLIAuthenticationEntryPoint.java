@@ -102,10 +102,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
-            principal.setName("Fake-Name");
+            principal.setName("Linda Kim");
             principal.setId(token);
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-            authList.add(new GrantedAuthorityImpl("READ_GENERAL"));
+            authList.add(new GrantedAuthorityImpl("Educator"));
 //            SLIPrincipal principal = new SLIPrincipal();
 //            JsonElement nameElement = json.get("full_name");
 //            principal.setName(nameElement.getAsString());
@@ -141,7 +141,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Token accessToken = service.getAccessToken(null, verifier);
             System.out.println("TEMP - The access token is " + accessToken);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            response.sendRedirect((String) session.getAttribute("ENTRY_URL"));
+            System.out.println("Redirecting to " + session.getAttribute("ENTRY_URL"));
+            response.sendRedirect(session.getAttribute("ENTRY_URL").toString());
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute("ENTRY_URL", request.getRequestURL());
             
