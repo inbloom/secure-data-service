@@ -43,12 +43,8 @@ public class RESTClient {
      * Construct a new RESTClient instance, using the JSON message converter.
      */
     protected RESTClient() {
-        
         ApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
         config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        
-        // TODO - implement SSL configuration here...
-        
         client = ApacheHttpClient.create(config);
     }
     
@@ -248,8 +244,10 @@ public class RESTClient {
      *            user password.
      * @param realm
      *            IDP authentication realm.
+     * @return
+     *         String containing the sessionToken for the authenticated user.
      */
-    public void openSession(final String host, final int port, final String user, final String password,
+    public String openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
         String protocol = "";
@@ -305,6 +303,8 @@ public class RESTClient {
             // in as 'password'.
             sessionToken = password;
         }
+        
+        return sessionToken;
     }
     
     /**

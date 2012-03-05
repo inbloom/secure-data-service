@@ -26,8 +26,11 @@ public interface SLIClient {
      *            Password for this user.
      * @param realm
      *            IDP realm the user is associated with.
+     * @return
+     *         String containing the sessionId for the authenticated user, or null if
+     *         authentication fails.
      */
-    public abstract void connect(final String host, final int port, final String user, final String password,
+    public abstract String connect(final String host, final int port, final String user, final String password,
             final String realm);
     
     /**
@@ -69,7 +72,7 @@ public interface SLIClient {
      */
     public abstract ClientResponse read(EntityCollection entities, final EntityType type, final Query query)
             throws MalformedURLException,
-    URISyntaxException;
+            URISyntaxException;
     
     /**
      * Update operation
