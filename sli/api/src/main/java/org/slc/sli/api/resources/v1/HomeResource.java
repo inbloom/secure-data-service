@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.util.ResourceConstants;
@@ -69,12 +70,12 @@ public class HomeResource {
             String userId = pair.getLeft();
             EntityDefinition defn = pair.getRight();
 
+            EntityBody body = new EntityBody();
+            body.put("id", userId);
+
             // prepare a list of links with the self link
-            List<EmbeddedLink> links = ResourceUtil.getSelfLinkForEntity(uriInfo, userId, defn);
-
-            // add links for all of the entity's associations for this ID
-            links.addAll(ResourceUtil.getAssociationLinksForEntity(this.entityDefs, defn, userId, uriInfo));
-
+            List<EmbeddedLink> links = ResourceUtil.getAssociationAndReferenceLinksForEntity(this.entityDefs, defn, body, uriInfo);
+            
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
             linksMap.put(ResourceConstants.LINKS, links);

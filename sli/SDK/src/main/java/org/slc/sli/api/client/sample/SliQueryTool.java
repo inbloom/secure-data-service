@@ -3,6 +3,8 @@ package org.slc.sli.api.client.sample;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.jersey.api.client.ClientResponse;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
@@ -24,27 +26,39 @@ public class SliQueryTool {
      */
     public static void main(final String[] args) throws Exception {
         
-        if (args.length != 2) {
-            System.err.println("Usage: SliQueryTool <session token id> <teacher id>");
+        if (args.length != 5) {
+            System.err.println("Usage: SliQueryTool <user> <password> <host> <port> <teacher id>");
             return;
         }
         
         // for now, just hard code everything
         
         // Connect to local host.
-        SLIClient client = BasicClient.Builder.create().user("administrator").password(args[0]).build();
+        SLIClient client = BasicClient.Builder.create().user(args[0]).password(args[1]).host(args[2])
+                .port(Integer.parseInt(args[3])).build();
         
-        EntityCollection collection = client.read(EntityType.SCHOOLS, args[1], BasicQuery.EMPTY_QUERY);
+        EntityCollection collection = new EntityCollection();
         
+        ClientResponse response = client.read(collection, EntityType.STUDENT_SECTION_ASSOCIATIONS, args[4],
+                BasicQuery.EMPTY_QUERY);
+        
+        if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
+            System.err.println(response.getEntity(String.class));
+            return;
+        }
+
         for (int i = 0; i < collection.size(); ++i) {
             
             Entity entityEntry = collection.get(i);
-            System.err.println("EntityType:" + entityEntry.getEntityType().getURL());
+            System.err.println("EntityType:" + entityEntry.getEntityType().getEntityType());
             
             System.err.println("Links:");
             List<Link> links = entityEntry.getLinks();
-            for (Link linkEntry : links) {
-                System.err.println("\trel:" + linkEntry.getLinkName() + " href:" + linkEntry.getResourceURL());
+            
+            if (links != null) {
+                for (Link linkEntry : links) {
+                    System.err.println("\trel:" + linkEntry.getLinkName() + " href:" + linkEntry.getResourceURL());
+                }
             }
             
             System.err.println("\nProperties:");
@@ -55,6 +69,12 @@ public class SliQueryTool {
     private static void printMapOfMaps(final Map<String, Object> map) {
         
         System.err.print("\n{");
+        
+        if (map == null) {
+            System.err.println("}\n");
+            return;
+        }
+        
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             
             if (entry.getKey().equals(Entity.LINKS_KEY)) {

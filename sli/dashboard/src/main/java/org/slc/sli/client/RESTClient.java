@@ -107,11 +107,11 @@ public class RESTClient {
         return null;
     }
 
-	public String getSecurityUrl() {
-		return securityUrl;
-	}
+    public String getSecurityUrl() {
+        return securityUrl;
+    }
 
-	public void setSecurityUrl(String securityUrl) {
-		this.securityUrl = securityUrl;
-	}
+    public void setSecurityUrl(String securityUrl) {
+        this.securityUrl = securityUrl;
+    }
 }

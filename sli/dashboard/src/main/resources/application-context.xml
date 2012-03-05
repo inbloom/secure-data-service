@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 >
 
-    <context:property-placeholder location="classpath:${env}.properties" ignore-resource-not-found="false" />
+    <context:property-placeholder location="classpath:${env}.properties,classpath:local.properties" ignore-resource-not-found="true" />
 
     
     <!-- managers -->

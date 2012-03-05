@@ -108,8 +108,8 @@ public class ContextResolverStore {
 
     }
 
-    private synchronized void loadResolvers(List<EntityContextResolver> teacherResolvers) {
-        for (EntityContextResolver resolver : teacherResolvers) {
+    private synchronized void loadResolvers(List<EntityContextResolver> resolvers) {
+        for (EntityContextResolver resolver : resolvers) {
             EntityContextResolver putResult = contexts.put(this.getContextKey(resolver), resolver);
             if (putResult != null) {
                 throw new EntityExistsException();

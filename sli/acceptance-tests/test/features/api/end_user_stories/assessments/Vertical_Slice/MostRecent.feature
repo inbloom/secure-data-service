@@ -1,4 +1,3 @@
-@wip
 Feature: Display simple assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -16,12 +15,14 @@ Scenario: Displaying simple ISAT reading results for all students
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-	And the configuration file "assessmentFamily" is like "ISAT Reading for Grades 3-8"
+	And the view configuration file set "field.value" is "ISAT Reading.Scale score"
+	And the view configuration file set "field.timeslot" is "MOST_RECENT_RESULT"
 	
-    Then for each student I search for "Assessment" where "assessmentTitle" is "Grade 3 2010 ISAT Writing"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "percentile"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "other"  
+	Then I should see a table heading "ISAT Reading"
+	And I should see a field "SS" in this table
+	And I should see  "Delilah Sims" in student field
+	And I should see his/her ISAT Reading Scale Score is "223"
+	
 
 Scenario: Displaying most recent ISAT writing results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -31,9 +32,10 @@ Scenario: Displaying most recent ISAT writing results for all students
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-	And in the configuration file "assessmentFamilyHierarchy" is "ISAT Writing for Grades 3-8"
-	And in the configuration file "rule" is "Most Recent"
+	And the view configuration file set "field.value" is "ISAT Writing.Scale score"
+	And the view configuration file set "field.timeslot" is "MOST_RECENT_RESULT"
     
-    When I find the "Assessment" where the "assessmentTitle" is "Grade 3 2010 ISAT Writing" and the "assessmentFamilyHierarchy" is like "ISAT Writing for Grades 3-8*"
-    Then for each student I find the "most recent" "studentAssessmentAssociation"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
+    Then I should see a table heading "ISAT Writing (most recent)"
+	And I should see a field "SS" in this table
+	And I should see  "Delilah Sims" in student field
+	And I should see his/her ISAT Writing Scale Score is "265"

@@ -34,26 +34,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Scope("request")
 @RequestMapping("/disco")
 public class DiscoController {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(DiscoController.class);
-    
+
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     private MongoAuthorizationCodeServices authCodeService;
-    
+
     @Autowired
     private SamlHelper saml;
-    
+
     private EntityService service;
-    
+
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
         service = def.getService();
     }
-    
+
     /**
      * Calls api to list available realms and injects into model
      * 
@@ -63,35 +63,51 @@ public class DiscoController {
      * @throws IOException
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) String relayState,
-            @RequestParam(value = "RealmName", required = false) String realmName, 
-            @RequestParam(value = "clientId", required = true) String clientId, Model model) throws IOException {
-        
-        Map<String, String> map = SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
+    public String listRealms(@RequestParam(value = "RelayState", required = false) final String relayState,
+            @RequestParam(value = "RealmName", required = false) final String realmName, 
+            @RequestParam(value = "clientId", required = true) final String clientId, final Model model) throws IOException {
+
+        Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
-            public Map<String, String> execute() {
+            public Object execute() {
                 Iterable<String> realmList = service.list(0, 100);
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = service.get(realmId);
                     map.put(node.get("id").toString(), node.get("state").toString());
+                    if (realmName != null && realmName.length() > 0) {
+                        if (realmName.equals(node.get("state"))) {
+                            try {
+                                return ssoInit(node.get("id").toString(), relayState, clientId, model);
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
                 return map;
             }
+
         });
-        
+
+        if (result instanceof String) {
+            return (String) result;
+        }
+
+        Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
         model.addAttribute("redirect_uri", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
-        
+
         if (relayState == null) {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
         }
-        
+
         return "realms";
     }
-    
+
     /**
      * Redirects user to the sso init url given valid id
      * 
@@ -111,7 +127,7 @@ public class DiscoController {
                 if (eb == null) {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
-                
+
                 @SuppressWarnings("unchecked")
                 Map<String, String> idpData = (Map<String, String>) eb.get("idp");
                 return (String) idpData.get("redirectEndpoint");
@@ -120,13 +136,13 @@ public class DiscoController {
         if (endpoint == null) {
             throw new IllegalArgumentException("Realm " + realmId + " doesn't have an endpoint");
         }
-        
+
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
-        
+
         authCodeService.create(clientId, tuple.getLeft());
         LOG.debug("redirecting to: " + endpoint);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
-    
+
 }

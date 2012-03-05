@@ -1,4 +1,5 @@
 require "active_resource/base"
+require "oauth_helper"
 
 class ApplicationController < ActionController::Base
  # protect_from_forgery
@@ -35,19 +36,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + current_url
-  end
-  
   def current_url
-    "http://" + request.host_with_port + request.fullpath
+    request.url
   end
 
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth == nil 
-      oauth = Oauth.new()
+      oauth = OauthHelper::Oauth.new()
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
@@ -60,7 +57,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url  
+        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure" 
       end
     else
       logger.info { "OAuth disabled."}
