@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -12,10 +13,13 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -222,5 +226,71 @@ public class PopulationManagerTest {
 
         Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
         assertNotNull(studentAttendance);
+    }
+    
+    @Test
+    public void testGetStudentHistoricalAssessments() throws Exception {
+        String token = "token", subjectArea = "Math";
+        final String STUDENT_ID = "123456";
+        final String COURSE_ID = "56789";
+        final String SESSION_ID = "9999";
+        
+        //create the course
+        GenericEntity courseEntity = new GenericEntity();
+        courseEntity.put("courseId", COURSE_ID);
+        courseEntity.put("courseTitle", "Math 1");
+        //create the accociation
+        GenericEntity assocEntity = new GenericEntity();
+        assocEntity.put("finalLettergrade", "A");
+        assocEntity.put("studentId", STUDENT_ID);
+        //create the section
+        GenericEntity sectionEntity = new GenericEntity();
+        sectionEntity.put("sessionId", SESSION_ID);
+        //create the session
+        GenericEntity sessionEntity = new GenericEntity();
+        sessionEntity.put("schoolYear", "2009-2010");
+        
+        //add the courses
+        List<GenericEntity> courses = new ArrayList<GenericEntity>();
+        courses.add(courseEntity);
+        //add the associations
+        List<GenericEntity> studentCourseAssocs = new ArrayList<GenericEntity>();
+        studentCourseAssocs.add(assocEntity);
+        //add the sections
+        List<GenericEntity> sections = new ArrayList<GenericEntity>();
+        sections.add(sectionEntity);
+        //add the students
+        List<String> students = new ArrayList<String>();
+        students.add(STUDENT_ID);
+        
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("subjectArea", subjectArea);
+        params.put("includeFields", "courseId,courseTitle");
+        
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("courseId", COURSE_ID);
+        params1.put("includeFields", "finalLetterGradeEarned,studentId");
+        
+        Map<String, String> params2 = new HashMap<String, String>();
+        params2.put("courseId", COURSE_ID);
+        params2.put("includeFields", "sessionId");
+        
+        Map<String, String> params3 = new HashMap<String, String>();
+        params3.put("includeFields", "schoolYear");
+        
+        when(mockEntity.getCourses(token, STUDENT_ID, params)).thenReturn(courses);
+        when(mockEntity.getStudentTranscriptAssociations(token, STUDENT_ID, params1)).thenReturn(studentCourseAssocs);
+        when(mockEntity.getSections(token, STUDENT_ID, params2)).thenReturn(sections);
+        when(mockEntity.getEntity(token, "sessions",SESSION_ID, params3)).thenReturn(sessionEntity);
+        
+        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, subjectArea);
+        
+        assertEquals("Should have one result", 1, results.size());
+        assertTrue("", results.keySet().contains(STUDENT_ID));
+        assertEquals("Letter grade should be A", "A", results.get(STUDENT_ID).get(0).get("finalLettergrade"));
+        assertEquals("Student Id should be 123456", STUDENT_ID, results.get(STUDENT_ID).get(0).get("studentId"));
+        assertEquals("Course title should match", "Math 1", results.get(STUDENT_ID).get(0).get("courseTitle"));
+        assertEquals("subject area should match", "Math", results.get(STUDENT_ID).get(0).get("subjectArea"));
+        assertEquals("school year should match", "2009-2010", results.get(STUDENT_ID).get(0).get("schoolYear"));
     }
 }

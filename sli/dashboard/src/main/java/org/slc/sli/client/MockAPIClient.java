@@ -5,11 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
 
 import com.google.gson.Gson;
 
@@ -242,6 +239,27 @@ public class MockAPIClient implements APIClient {
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
         return url.getFile();
+    }
+
+    @Override
+    public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getStudentTranscriptAssociations(String token, String studentId,
+            Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getSections(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
+        return null;
     }
 
 }

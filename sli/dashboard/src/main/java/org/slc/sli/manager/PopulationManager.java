@@ -98,7 +98,9 @@ public class PopulationManager {
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
         for (String studentId : studentIds) {
             List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
-            studentAttendanceMap.put(studentId, studentAttendance);
+            
+            if (studentAttendance != null && !studentAttendance.isEmpty())
+                studentAttendanceMap.put(studentId, studentAttendance);
         }
         return studentAttendanceMap;
     }
@@ -196,7 +198,114 @@ public class PopulationManager {
         return assmtIds;
     }
     
+    /**
+     * Returns a list of historical data for a given subject area
+     * @param token Security token
+     * @param studentIds List of student ids
+     * @param subjectArea The subject area to search for
+     * @return
+     */
+    public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds, String subjectArea) {
+        Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("subjectArea", subjectArea);
+        params.put("includeFields", "courseId,courseTitle");
+        
+        for (String studentId : studentIds) {
+            //get the corses in the subject area for the f=given student
+            List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
+            
+            for (GenericEntity course : courses) {
+                //get the studentCourseAssociation for the given student and course
+                List<GenericEntity> associations = getStudentCourseAssociations(token, studentId, course.getString("courseId"));
+                
+                //get the school year
+                String schoolYear = getSchoolYear(token, studentId, course.getString("courseId"));
+                
+                for (GenericEntity association : associations) {
+                    //add in the extra data
+                    association.put("courseTitle", course.getString("courseTitle"));
+                    association.put("subjectArea", subjectArea);
+                    association.put("schoolYear", schoolYear);
+                    
+                    if (results.get(studentId) != null) {
+                        results.get(studentId).add(association);
+                    } else {
+                        List<GenericEntity> list = new ArrayList<GenericEntity>();
+                        list.add(association);
+                        
+                        results.put(studentId, list);
+                    }
+                }
+            }
+        }
+        
+        return results;
+    }
     
+    /**
+     * Returns a list of studentCourseAssociations for a given student and course Id
+     * @param token Security token
+     * @param studentId The student Id
+     * @param courseId The course Id
+     * @return
+     */
+    protected List<GenericEntity> getStudentCourseAssociations(final String token, final String studentId, String courseId) {
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", courseId);
+        params.put("includeFields", "finalLetterGradeEarned,studentId");
+        
+        return entityManager.getStudentTranscriptAssociations(token, studentId, params);
+    }
+    
+    /**
+     * Returns the school year for a given student and a course
+     * @param token Security token
+     * @param studentId The student Id
+     * @param courseId The course Id
+     * @return
+     */
+    protected String getSchoolYear(final String token, final String studentId, final String courseId) {
+        Set<String> schoolYears = new HashSet<String>();
+        String schoolYear = null;
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("includeFields", "schoolYear");
+        
+        //get the sections
+        List<GenericEntity> sections = getSections(token, studentId, courseId);
+        
+        for (GenericEntity section : sections) {
+            GenericEntity entity = entityManager.getEntity(token, "sessions", section.getString("sessionId"), params);
+            schoolYears.add(entity.getString("schoolYear"));
+        }
+        
+        if (!schoolYears.isEmpty()) {
+            schoolYear = schoolYears.iterator().next();
+        }
+        
+        return schoolYear;
+    }
+    
+    /**
+     * Returns a list of sections for the given student and course
+     * @param token Security token
+     * @param studentId The student Id
+     * @param courseId The course Id
+     * @return
+     */
+    protected List<GenericEntity> getSections(final String token, final String studentId, final String courseId) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", courseId);
+        params.put("includeFields", "sessionId");
+        
+        return entityManager.getSections(token, studentId, params);
+    }
 
     
     public void setEntityManager(EntityManager entityManager) {
