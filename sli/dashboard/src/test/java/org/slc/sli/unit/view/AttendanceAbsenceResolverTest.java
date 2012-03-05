@@ -3,6 +3,7 @@ package org.slc.sli.unit.view;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AttendanceAbsenceResolver;
 
@@ -40,7 +41,7 @@ public class AttendanceAbsenceResolverTest {
             attendances.add(getValidAttendanceObject());  
         }
         mockStudent.put("attendances", attendances);
-        assert (resolver.getCountForPath(null) == 20);
+        assert (resolver.getCountForPath(new Field()) == 20);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class AttendanceAbsenceResolverTest {
             attendances.add(getInvalidAttendanceObject());
         }
         mockStudent.put("attendances", attendances);
-        assert (resolver.getCountForPath(null) == 20);
+        assert (resolver.getCountForPath(new Field()) == 20);
     }
 
     private Map getValidAttendanceObject() {

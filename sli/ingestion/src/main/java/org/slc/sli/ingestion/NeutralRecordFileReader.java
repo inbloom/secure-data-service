@@ -57,8 +57,6 @@ public class NeutralRecordFileReader implements Iterator {
      *            - the avroRecord, parsed against the defined schema.
      * @return
      * @throws IOException
-     * @throws JsonMappingException
-     * @throws JsonParseException
      */
     protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) throws IOException {
         NeutralRecord nr = new NeutralRecord();
