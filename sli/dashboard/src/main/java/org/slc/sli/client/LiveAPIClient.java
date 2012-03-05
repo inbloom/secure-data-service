@@ -78,7 +78,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> ids) {
-        if (ids == null) {
+        if (ids == null || ids.size() == 0) {
             return null;
         }
 
