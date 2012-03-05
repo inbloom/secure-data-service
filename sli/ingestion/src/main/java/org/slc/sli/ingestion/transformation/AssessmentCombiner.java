@@ -21,7 +21,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
 
-    private Map<String, HashMap<Object, NeutralRecord>> collections = new HashMap<String, HashMap<Object, NeutralRecord>>();
+    private Map<String, Map<Object, NeutralRecord>> collections = new HashMap<String, Map<Object, NeutralRecord>>();
 
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
@@ -29,6 +29,49 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
+
+    /**
+     * Transforms items inside staging database
+     *
+     * TODO: shouldn't this method be a part of the AbstractCombiner?
+     */
+    @Override
+    String doHandling(NeutralRecordMongoAccess item, ErrorReport errorReport) {
+        LOG.info("Starting Transforming Assessments: Combining");
+
+        String status = "FAIL";
+
+        try {
+
+            // load collections to memory from Mongo
+            loadData();
+
+            // perform transformations of the data in local storage
+            transform();
+
+            // persist transformed data to storage (i.e. db)
+            status = persist();
+
+        } catch (Exception e) {
+            LOG.error("Exception", e);
+
+            errorReport.fatal("Could not transform data.", AssessmentCombiner.class);
+        }
+
+        return status;
+    }
+
+    @Override
+    public void loadData() {
+        LOG.info("Loading data for transformation.");
+
+        addCollection("teacher");
+        LOG.info("Teacher is loaded into local storage.  Total Count = " + collections.get("teacher").size());
+
+        addCollection("teacherSchoolAssociation");
+        LOG.info("TeacherSchoolAssociation is loaded into local storage.  Total Count = "
+                + collections.get("teacherSchoolAssociation").size());
     }
 
     @Override
@@ -41,15 +84,16 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("teacher").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
-            //get the key of parent
+            // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
             key = (String) attrs.get("body.staffUniqueStateId");
 
-            //find children from database
+            // find children from database
             Map<String, String> paths = new HashMap<String, String>();
             paths.put("body.teacherId", key);
 
-            Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("teacherSchoolAssociation", paths);
+            Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths(
+                    "teacherSchoolAssociation", paths);
             Iterator<NeutralRecord> iter = data.iterator();
 
             NeutralRecord tempNr;
@@ -74,22 +118,10 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
     }
 
     @Override
-    public void loadData() {
-        LOG.info("Loading data for transformation.");
-
-        addCollection("teacher");
-        addCollection("teacherSchoolAssociation");
-
-        LOG.info("Teacher is loaded into local storage.  Total Count = " + collections.get("teacher").size());
-        LOG.info("TeacherSchoolAssociation is loaded into local storage.  Total Count = " + collections.get("teacherSchoolAssociation").size());
-
-    }
-
-    @Override
     public String persist() {
         LOG.info("Persisting transformed data to storage.");
 
-        for (Map.Entry<String, HashMap<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
+        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
 
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
 
@@ -112,7 +144,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findAll(collectionName);
         Iterator<NeutralRecord> iter = data.iterator();
 
-        HashMap<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
+        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
         while (iter.hasNext()) {
@@ -121,35 +153,6 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         }
 
         collections.put(collectionName, collection);
-    }
-
-    /*
-     * Transforms items inside staging database
-     */
-    @Override
-    String doHandling(NeutralRecordMongoAccess item, ErrorReport errorReport) {
-        LOG.info("Starting Transforming Assessments: Combining");
-
-        String status = "FAIL";
-
-        try {
-
-            // Load data into local storage (memory)
-            loadData();
-
-            // perform transformations of the data in local storage
-            transform();
-
-            // persist transformed data to storage (i.e. db)
-            status = persist();
-
-        } catch (Exception e) {
-            LOG.error("Exception", e);
-
-            errorReport.fatal("Could not transform data.", AssessmentCombiner.class);
-        }
-
-        return status;
     }
 
     @Override
