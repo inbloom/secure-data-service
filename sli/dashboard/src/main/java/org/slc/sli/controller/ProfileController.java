@@ -40,8 +40,8 @@ public class ProfileController extends DashboardController {
         List<String> ids = new LinkedList<String>();
         ids.add(id);
         GenericEntity student = populationManager.getStudent(SecurityUtil.getToken(), id);
-        String name = ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "  +
-                      ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+        String name = ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "
+                      + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
         model.addAttribute("student", name);
         return new ModelAndView("studentProfile");
     }
