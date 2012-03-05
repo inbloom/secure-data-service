@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * AttendanceContextResolver
+ * TeacherAttendanceContextResolver
  * Determine security authorization.
  * Finds the Attendance records a user has context to access.
  */
@@ -52,7 +52,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
         List<String> attendanceIds = new ArrayList<String>();
         Iterable<Entity> entities = this.repository.findByQuery(EntityNames.ATTENDANCE,
-                new Query(Criteria.where("body.attendanceEvent.studentId").in(ids)), 0, 9999);
+                new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);
 
         for (Entity e : entities) {
             attendanceIds.add(e.getEntityId());
@@ -63,12 +63,12 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     private List<String> findIdsFromAssociation(List<String> ids, String sourceType, String targetType, AssociationDefinition definition) {
         List<String> associationIds = new ArrayList<String>();
-        
+
         List<String> keys = getAssocKeys(sourceType, definition);
         String sourceKey = keys.get(0);
         String targetKey = keys.get(1);
 
-        Iterable<Entity> entities = this.repository.findByQuery(definition.getStoredCollectionName(), 
+        Iterable<Entity> entities = this.repository.findByQuery(definition.getStoredCollectionName(),
                 new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
 
         for (Entity e : entities) {
