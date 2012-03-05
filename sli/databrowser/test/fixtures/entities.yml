@@ -7,7 +7,7 @@
 one:
     rel: Greg
     href: "blah blah"
-    id: 1
+    id: 11111111-1111-1111-1111-111111111111
     name:
         firstName: Greg
         lastSurname: Dude
@@ -26,7 +26,7 @@ one:
         
 #
 two:
-    id: 2
+    id: 22222222-2222-2222-2222-222222222222
     rel: Peter
     href: "blah blah"
     name:

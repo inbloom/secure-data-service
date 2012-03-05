@@ -14,3 +14,4 @@ target
 sli/dashboard/maven-eclipse.xml
 sli/ingestion/src/main/resources/ingestion-dev.properties
 Demo/EdFiSampleData/
+sli/dashboard/src/main/resources/local.properties
