@@ -432,9 +432,20 @@ task :assessmentTests => [:realmInit] do
 end
 
 desc "Run Attendance Tests"
-task :attendanceTests => [:realmInit] do
+task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
+  
+end
+
+desc "Run Attendance CRUD Tests"
+task :attendanceCrudTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
+  runFixtureAndTests("test/features/api/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
+end
+
+desc "Run Attendance Security Tests"
+task :attendanceSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/entities/attendance/attendance_security.feature")
 end
 
 desc "Run Validation Tests"
@@ -601,7 +612,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests, :dashboardAttendance] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
