@@ -191,9 +191,10 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public void connect(final String host, final int port, final String user, final String password, final String realm) {
+    public String connect(final String host, final int port, final String user, final String password,
+            final String realm) {
         restClient = new RESTClient();
-        restClient.openSession(host, port, user, password, realm);
+        return restClient.openSession(host, port, user, password, realm);
     }
     
     /*
