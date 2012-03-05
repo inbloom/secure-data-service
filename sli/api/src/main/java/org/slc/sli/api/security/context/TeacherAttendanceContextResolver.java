@@ -45,7 +45,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         AssociationDefinition teacherSectionDef = (AssociationDefinition) definitionStore
                 .lookupByResourceName(ResourceNames.TEACHER_SECTION_ASSOCIATIONS);
         AssociationDefinition sectionStudentDef = (AssociationDefinition) definitionStore
-                .lookupByResourceName(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS);
+                .lookupByResourceName(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
 
         ids = findIdsFromAssociation(ids, EntityNames.TEACHER, EntityNames.SECTION, teacherSectionDef);
         ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
