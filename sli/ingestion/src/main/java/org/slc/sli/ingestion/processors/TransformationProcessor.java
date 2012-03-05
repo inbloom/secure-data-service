@@ -16,17 +16,17 @@ import org.slc.sli.util.performance.Profiled;
 
 /**
  * Camel interface for processing Transformation of data.
- * 
+ *
  * @author ifaybyshev
  *
  */
 @Component
 public class TransformationProcessor implements Processor {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
-    
+
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     /**
      * Camel Exchange process callback method
      *
@@ -46,21 +46,21 @@ public class TransformationProcessor implements Processor {
 
     /**
      * Invokes transformations strategies
-     * 
+     *
      * @param job
      */
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        Combiner<NeutralRecordMongoAccess, String> strategy = (Combiner<NeutralRecordMongoAccess, String>) TransformationFactory.getTransformationStrategy(TransformationFactory.getAssessmentCombiner());
+        Combiner<NeutralRecordMongoAccess, String> strategy = (Combiner<NeutralRecordMongoAccess, String>) TransformationFactory
+                .getTransformationStrategy(TransformationFactory.ASSESSMENT_COMBINER);
         strategy.setJobId(jobId);
         strategy.handle(this.neutralRecordMongoAccess);
 
-
     }
-    
+
     public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
-    
+
 }
