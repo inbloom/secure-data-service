@@ -85,7 +85,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> students = new ArrayList<GenericEntity>();
 
         for (String id : ids) {
-            students.add(getStudent(id, token));
+            students.add(getStudent(token, id));
         }
 
         return students;
@@ -164,7 +164,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get one student
      */
-    private GenericEntity getStudent(String id, String token) {
+    public GenericEntity getStudent(String token, String id) {
         return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token);
     }
 
