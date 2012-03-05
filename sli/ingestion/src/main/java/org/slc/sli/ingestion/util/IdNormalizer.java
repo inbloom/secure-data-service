@@ -23,7 +23,7 @@ public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final String REGION_ID = "dc=slidev,dc=net";
+    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
@@ -106,7 +106,7 @@ public class IdNormalizer {
              StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
              String pathCollection = tokenizer.nextToken().toLowerCase();
 
-             if (pathCollection.equals(collection)) {
+             if (pathCollection.equals(collection) && searchCriteriaEntry.getValue() != null) {
 
                 resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
                 addSearchPathsToQuery(query, filterFields);
@@ -167,10 +167,14 @@ public class IdNormalizer {
         String referencePath = tokenizer.nextToken();
 
         Map<String, String> tempFilter = new HashMap<String, String>();
-        tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         Query referenceQuery = new Query();
         resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, errorReport);
 
+        if (tempFilter.isEmpty()) {
+
+            return;
+        }
+        tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {

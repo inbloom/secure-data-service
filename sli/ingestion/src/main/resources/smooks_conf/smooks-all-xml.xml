@@ -428,7 +428,7 @@
     <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
   </jb:bean>
   <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency/EducationOrgIdentificationCode">
     <jb:value property="identificationSystem" data="EducationOrgIdentificationCode/@IdentificationSystem" />
     <jb:value property="ID" data="EducationOrgIdentificationCode/Id" />
   </jb:bean>
@@ -520,7 +520,7 @@
     <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
   </jb:bean>
   <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    createOnElement="InterchangeEducationOrganization/LocalEducationAgency/EducationOrgIdentificationCode">
     <jb:value property="identificationSystem" data="EducationOrgIdentificationCode/@IdentificationSystem" />
     <jb:value property="ID" data="EducationOrgIdentificationCode/Id" />
   </jb:bean>
@@ -806,7 +806,7 @@
   </jb:bean>
 
   <jb:bean beanId="StudentSectionAssociation_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
-    <jb:value property="Student#metaData.externalId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="Student#metaData.externalId" data="StudentSectionAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="StudentSectionAssociation_SectionReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
@@ -822,6 +822,16 @@
 
     <jb:bean beanId="StudentSectionAssociation_SectionReference_School" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
            <jb:value property="School#metaData.externalId" data="StudentSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" />
+           <jb:wiring property="School#educationOrgIdentificationCode" beanIdRef="StudentSectionAssociation_SectionReference_School_EdOrgidentificationCodeList" />
+  </jb:bean>
+
+    <jb:bean beanId="StudentSectionAssociation_SectionReference_School_EdOrgidentificationCodeList" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
+        <jb:wiring beanIdRef="StudentSectionAssociation_SectionReference_School_EdOrgidentificationCode" />
+    </jb:bean>
+
+    <jb:bean beanId="StudentSectionAssociation_SectionReference_School_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode">
+       <jb:value property="School#body.educationOrgIdentificationCode.ID" data="StudentSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/ID" />
+       <jb:value property="School#body.educationOrgIdentificationCode.identificationSystem" data="StudentSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
     </jb:bean>
 
     <jb:bean beanId="StudentSectionAssociation_SectionReference_Course" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSectionAssociation">
@@ -973,6 +983,16 @@
 
     <jb:bean beanId="TeacherSectionAssociation_SectionReference_School" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
            <jb:value property="School#metaData.externalId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" />
+           <jb:wiring property="School#educationOrgIdentificationCode" beanIdRef="TeacherSectionAssociation_SectionReference_School_EdOrgidentificationCodeList" />
+  </jb:bean>
+
+    <jb:bean beanId="TeacherSectionAssociation_SectionReference_School_EdOrgidentificationCodeList" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+        <jb:wiring beanIdRef="TeacherSectionAssociation_SectionReference_School_EdOrgidentificationCode" />
+    </jb:bean>
+
+    <jb:bean beanId="TeacherSectionAssociation_SectionReference_School_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode">
+       <jb:value property="School#body.educationOrgIdentificationCode.ID" data="TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/ID" />
+       <jb:value property="School#body.educationOrgIdentificationCode.identificationSystem" data="TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
     </jb:bean>
 
     <jb:bean beanId="TeacherSectionAssociation_SectionReference_Course" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
