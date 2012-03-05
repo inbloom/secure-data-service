@@ -7,7 +7,7 @@ class SessionResource < ActiveResource::Base
 
     def headers
       if !access_token.nil?
-        @headers = {"Authorization" => "Bearer#{self.access_token}"}
+        @headers = {"Authorization" => "Bearer #{self.access_token}"}
       else
         @headers = {}
       end
