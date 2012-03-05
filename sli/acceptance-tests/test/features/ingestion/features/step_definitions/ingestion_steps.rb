@@ -140,7 +140,8 @@ When /^a batch job log has been created$/ do
     
     iters.times do |i|
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if @findJobLog.index('No such file or directory') != nil
+      if @findJobLog.index('No such file or directory') == nil
+        puts @findJobLog
         found = true 
         break
       else
