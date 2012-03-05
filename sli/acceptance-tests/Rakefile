@@ -177,6 +177,22 @@ task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1Teache
   displayFailureReport()
 end
 
+desc "Run V1 Direct References Tests"
+task :v1DirectReferencesTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Transcript Association Tests"
+task :v1StudentTranscriptAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("course", "course_fixture.json")
+  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
+  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
+end
+
 desc "Run V1 Teacher School Association Tests"
 task :v1TeacherSchoolAssociationTests => [:realmInit] do
   setFixture("teacher", "teacher_fixture.json")
@@ -394,7 +410,7 @@ task :sectionTests => [:realmInit] do
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
-
+0
 desc "Run School Tests"
 task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")

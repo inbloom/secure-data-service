@@ -25,6 +25,23 @@ end
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
   @landing_zone_path = INGESTION_LANDING_ZONE
   puts "Landing Zone = " + @landing_zone_path
+  
+  # clear out LZ before proceeding
+  if (INGESTION_MODE == 'remote')
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/clearLZ.sh");
+    @resultClearingLZ = runShellCommand(File.dirname(__FILE__) + "/../../util/clearLZ.sh")
+    puts @resultClearingLZ
+  else
+    Dir.foreach(@landing_zone_path) do |file|
+      if /.*.log$/.match file
+        FileUtils.rm_r @landing_zone_path+file
+      end
+      if /.done$/.match file
+        FileUtils.rm_r @landing_zone_path+file
+      end
+    end
+  end
+  
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
@@ -102,6 +119,52 @@ end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
+end
+
+def dirContainsBatchJobLog?(dir)
+  Dir.foreach(dir) do |file|  
+    if /^job-.*.log$/.match file
+      return true
+    end    
+  end
+  return false
+end
+
+When /^a batch job log has been created$/ do
+  intervalTime = 5 #seconds
+  maxTimeout = 240 #seconds
+  iters = maxTimeout/intervalTime
+  found = false
+  if (INGESTION_MODE == 'remote')
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
+    
+    iters.times do |i|
+      @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
+      if @findJobLog.index('No such file or directory') == nil
+        puts @findJobLog
+        found = true 
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    iters.times do |i|
+      if dirContainsBatchJobLog? @landing_zone_path
+        found = true 
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+  
+  if found
+    assert(true, "")
+  else
+    assert(false, "Either batch log was never created, or it took more than #{maxTimeout}")
+  end
+  
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
