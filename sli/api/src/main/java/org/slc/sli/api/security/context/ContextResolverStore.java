@@ -38,6 +38,8 @@ public class ContextResolverStore {
     private DefaultEntityContextResolver defaultEntityContextResolver;
     @Autowired
     private DenyAllContextResolver denyAllContextResolver;
+    @Autowired
+    private TeacherAttendanceContextResolver teacherAttendanceContextResolver;
 
     /* Educator context */
     private List<EntityContextResolver> buildTeacherResolvers() {
@@ -55,7 +57,8 @@ public class ContextResolverStore {
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
                         .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SESSION)
-                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build()
+                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build(),
+                teacherAttendanceContextResolver
 
         );
 
