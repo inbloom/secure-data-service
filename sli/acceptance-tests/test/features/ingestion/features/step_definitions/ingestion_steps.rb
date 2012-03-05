@@ -140,8 +140,9 @@ When /^a batch job log has been created$/ do
     
     iters.times do |i|
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /^job-.*.log$/.match @findJobLog
+      if /job-.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true 
         break
       else
@@ -151,6 +152,7 @@ When /^a batch job log has been created$/ do
   else
     iters.times do |i|
       if dirContainsBatchJobLog? @landing_zone_path
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
         found = true 
         break
       else
