@@ -15,7 +15,7 @@ class EntityTest < ActiveSupport::TestCase
   test "simple value generator with valid" do
     v = Entity.value_for_simple_view(VIEW_CONFIG['teacher'].first, @teacher_fixtures['one'])
     assert_not_nil(v)
-    assert_equal(v, 1)
+    assert_equal(v, '11111111-1111-1111-1111-111111111111')
   end
 
   test "simple value generator with nested type" do
@@ -64,14 +64,14 @@ class EntityTest < ActiveSupport::TestCase
   
   test "get students" do
     Entity.url_type = "students"
-    Entity._format = ActiveResource::Formats::JsonFormat
+    Entity._format = ActiveResource::Formats::JsonLinkFormat
     students = Entity.all
     assert_equal(students.size, @student_fixtures.size)
   end
   
   test "get teachers" do
     Entity.url_type = "teachers"
-    Entity._format = ActiveResource::Formats::JsonFormat
+    Entity._format = ActiveResource::Formats::JsonLinkFormat
     students = Entity.all
     assert_equal(students.size, @teacher_fixtures.size)
   end
