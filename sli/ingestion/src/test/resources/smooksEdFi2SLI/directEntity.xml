@@ -9,6 +9,10 @@
 
     <json:reader rootName="json" />
 
+    <jb:bean beanId="directEntities" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="directEntity" />
+    </jb:bean>
+
     <jb:bean beanId="directEntity" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:wiring property="body" beanIdRef="directEntityBody" />
     </jb:bean>

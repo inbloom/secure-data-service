@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,8 +24,9 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private Map<String, Smooks> smooksConfigs;
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Entity handle(NeutralRecord item, ErrorReport errorReport) {
+    public List<? extends Entity> handle(NeutralRecord item, ErrorReport errorReport) {
 
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
@@ -37,7 +39,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             e.printStackTrace();
         }
 
-        return result.getBean(Entity.class);
+        return result.getBean(List.class);
     }
 
     public Map<String, Smooks> getSmooksConfigs() {

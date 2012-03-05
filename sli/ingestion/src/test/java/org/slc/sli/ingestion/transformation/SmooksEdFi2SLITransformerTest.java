@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -30,9 +32,10 @@ public class SmooksEdFi2SLITransformerTest {
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
 
-        Entity result = transformer.handle(directlyMapped);
+        List<? extends Entity> result = transformer.handle(directlyMapped);
 
         Assert.assertNotNull(result);
-        Assert.assertEquals("Test String", result.getBody().get("field1"));
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals("Test String", result.get(0).getBody().get("field1"));
     }
 }
