@@ -65,7 +65,8 @@ public class EntityConfigParser {
             boolean foundFirst = false;
 
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
+                if (line.trim().isEmpty())
+                    continue;
 
                 Matcher sectionMatcher = sectionPattern.matcher(line);
                 boolean result = sectionMatcher.matches();
@@ -110,7 +111,8 @@ public class EntityConfigParser {
                 this.edfiEntity.end = this.sectionPairs.get(sectionName);
             } else if (sectionName.equals("mainTemplate")) {
                 this.edfiEntity.template = this.sectionPairs.get(sectionName);
-                parseTemplate(this.edfiEntity.template, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedPlaceholders);
+                parseTemplate(this.edfiEntity.template, this.edfiEntity.valuePlaceholders,
+                        this.edfiEntity.embeddedPlaceholders);
             } else if (sectionName.equals("mainQuery")) {
                 this.edfiEntity.query = this.sectionPairs.get(sectionName);
                 parseQuery(this.edfiEntity.query, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
@@ -139,9 +141,9 @@ public class EntityConfigParser {
                             parent = temp;
                     }
 
-//                    System.out.println("template: " + name);
+                    // System.out.println("template: " + name);
 
-                    if(!parent.embeddedElementMap.containsKey(name)) {
+                    if (!parent.embeddedElementMap.containsKey(name)) {
                         parent.embeddedElementMap.put(name, embedded);
                     }
 
@@ -165,14 +167,14 @@ public class EntityConfigParser {
 
                         EmbeddedElement parent = null;
 
-//                        System.out.println("query: " + name);
+                        // System.out.println("query: " + name);
 
                         for (EmbeddedElement temp : this.allElements.values()) {
                             if (temp.embeddedPlaceholders.contains(name))
                                 parent = temp;
                         }
 
-                        if(!parent.embeddedElementMap.containsKey(name)) {
+                        if (!parent.embeddedElementMap.containsKey(name)) {
                             parent.embeddedElementMap.put(name, embedded);
                         }
                     }
@@ -183,28 +185,12 @@ public class EntityConfigParser {
         return;
     }
 
-//    public void generatePlaceholders() {
-////        parseTemplate(this.edfiEntity.template, this.edfiEntity.valuePlaceholders, this.edfiEntity.embeddedPlaceholders);
-//
-////        parseQuery(this.edfiEntity.query, this.edfiEntity.columnNames, this.edfiEntity.joinKeys);
-//
-////        for (String elementName : this.edfiEntity.embeddedElementMap.keySet()) {
-////            EmbeddedElement element = this.edfiEntity.embeddedElementMap.get(elementName);
-////            parseTemplate(element.template, element.valuePlaceholders, element.embeddedPlaceholders);
-////            parseQuery(element.query, element.columnNames, element.joinKeys);
-////        }
-//
-////        System.out.println(this.edfiEntity.embeddedElementPlaceholders.size());
-////        System.out.println(this.edfiEntity.EmbeddedElements.keySet().size());
-//        return;
-//    }
-
     private void parseTemplate(String template, List<String> valueHolders, List<String> embeddedHolders) {
         Matcher valuePlaceholderMatcher = valuePlaceholderPattern.matcher(template);
         while (valuePlaceholderMatcher.find()) {
             String valuePlaceholder = valuePlaceholderMatcher.group(1);
-//            System.out.println(valuePlaceholder);
-            if(!valueHolders.contains(valuePlaceholder)) {
+            // System.out.println(valuePlaceholder);
+            if (!valueHolders.contains(valuePlaceholder)) {
                 valueHolders.add(valuePlaceholder);
             }
         }
@@ -212,7 +198,7 @@ public class EntityConfigParser {
         Matcher embeddedPlaceholderMatcher = embeddedPlaceholderPattern.matcher(template);
         while (embeddedPlaceholderMatcher.find()) {
             String embeddedPlaceholder = embeddedPlaceholderMatcher.group(1);
-//            System.out.println(embeddedPlaceholder);
+            // System.out.println(embeddedPlaceholder);
             if (!embeddedHolders.contains(embeddedPlaceholder)) {
                 embeddedHolders.add(embeddedPlaceholder);
             }
@@ -221,16 +207,16 @@ public class EntityConfigParser {
 
     private void parseQuery(String query, List<String> columns, List<String> joinKeys) {
         String tempQuery = query.replaceAll("\\-{2,}(.*)", "");
-//        System.out.println(tempQuery);
+        // System.out.println(tempQuery);
 
         tempQuery = tempQuery.replaceAll("\\n", " ");
-//        System.out.println(tempQuery);
+        // System.out.println(tempQuery);
 
         Matcher selectLineMatcher = selectLinePattern.matcher(tempQuery);
         if (selectLineMatcher.find()) {
             String selectLine = selectLineMatcher.group(1);
-//            System.out.println(selectLine);
-//            System.out.println("=========================================");
+            // System.out.println(selectLine);
+            // System.out.println("=========================================");
             String[] selectedColumns = selectLine.split(",");
             for (String selectedColumn : selectedColumns) {
                 String trimedSelectedColumn = selectedColumn.trim();
@@ -240,25 +226,24 @@ public class EntityConfigParser {
                     String column = columnMatcher.group(1);
                     if (!columns.contains(column))
                         columns.add(column);
-//                    System.out.println(column);
+                    // System.out.println(column);
                 }
             }
         }
-
 
         Matcher joinLineMatcher = joinLinePattern.matcher(query);
         while (joinLineMatcher.find()) {
             String orderBy = joinLineMatcher.group(1);
             String[] localJoinKeys = orderBy.split(",");
 
-//            System.out.println("+++++++++++++++++++++++++++++");
+            // System.out.println("+++++++++++++++++++++++++++++");
             for (String localKey : localJoinKeys) {
                 localKey = localKey.trim();
                 Matcher keyMatcher = joinKeyPattern.matcher(localKey);
                 if (keyMatcher.find()) {
                     String temp = keyMatcher.group(1);
-//                    System.out.println(temp);
-                    if(!joinKeys.contains(temp))
+                    // System.out.println(temp);
+                    if (!joinKeys.contains(temp))
                         joinKeys.add(temp);
                 }
             }
@@ -281,12 +266,39 @@ public class EntityConfigParser {
             for (String embeddedPlaceHolder : element.embeddedPlaceholders) {
                 if (!element.embeddedElementMap.containsKey(embeddedPlaceHolder)) {
                     foundError = true;
-                    System.err.println("Section name: " + element.name + "\tMissing embedded section: " + embeddedPlaceHolder);
+                    System.err.println("Section name: " + element.name + "\tMissing embedded section: "
+                            + embeddedPlaceHolder);
                 }
             }
 
             // joinKeys
-            //for (String )
+            for (EmbeddedElement embeddedElement : element.embeddedElementMap.values()) {
+
+                if (embeddedElement.joinKeys.size() > element.joinKeys.size()) {
+                    foundError = true;
+                    System.err.println("Section " + embeddedElement.name + " has more join keys than parent section "
+                            + element.name);
+                } else {
+                    for (int i = 0; i < embeddedElement.joinKeys.size(); i++) {
+                        String keyInEmbedded = embeddedElement.joinKeys.get(i);
+                        String keyInElement = element.joinKeys.get(i);
+
+                        if (!keyInEmbedded.equals(keyInElement)) {
+                            foundError = true;
+                            System.err.println("Section name: " + element.name + "\tSubsection: "
+                                    + embeddedElement.name + "\tMissing join key: " + keyInEmbedded);
+                        }
+                    }
+                }
+            }
+
+            // JoinKeys in query
+            for (String key : element.joinKeys) {
+            	if (!element.columnNames.contains(key)) {
+            		foundError = true;
+            		System.err.println("Section name:" + element.name + " join key " + key + " is not a part of the selected column");
+            	}
+            }
         }
         return foundError;
     }

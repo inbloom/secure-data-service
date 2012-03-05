@@ -12,7 +12,6 @@ public class Constants {
     public static final String API_PREFIX = "api/rest/v1";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-    public static final String GET_ROLES_URL = "admin/roles";
 
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
@@ -31,6 +30,7 @@ public class Constants {
      */
     // view config strings - TODO: should these be changed to enums?
     public static final String VIEW_TYPE_STUDENT_LIST = "listOfStudents";
+    public static final String VIEW_TYPE_STUDENT_PROFILE_PAGE = "studentProfilePage";
     public static final String FIELD_TYPE_ASSESSMENT = "assessment";
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
     public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";

@@ -5,6 +5,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,15 @@ public class ContextResolverStore {
     private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
 
     @Autowired
-    private DefaultEntityContextResolver defaultEntityContextResolver;
-
-    @Autowired
     private EntityDefinitionStore definitionStore;
 
     @Autowired
     private EntityRepository repository;
+
+    @Autowired
+    private DefaultEntityContextResolver defaultEntityContextResolver;
+    @Autowired
+    private DenyAllContextResolver denyAllContextResolver;
 
     /* Educator context */
     private List<EntityContextResolver> buildTeacherResolvers() {
@@ -108,8 +111,8 @@ public class ContextResolverStore {
 
     }
 
-    private synchronized void loadResolvers(List<EntityContextResolver> teacherResolvers) {
-        for (EntityContextResolver resolver : teacherResolvers) {
+    private synchronized void loadResolvers(List<EntityContextResolver> resolvers) {
+        for (EntityContextResolver resolver : resolvers) {
             EntityContextResolver putResult = contexts.put(this.getContextKey(resolver), resolver);
             if (putResult != null) {
                 throw new EntityExistsException();
@@ -123,8 +126,13 @@ public class ContextResolverStore {
             init();
         }
 
+        if (sourceType.equals(SecurityUtil.SYSTEM_ENTITY)) {
+            return new FullContextResolver(repository, definitionStore.lookupByResourceName(targetType));
+        }
+
         EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
-        return resolver == null ? defaultEntityContextResolver : resolver;
+        return resolver == null ? defaultEntityContextResolver : resolver; //TODO replace with denyAllContextResolver
+
     }
 
     public EntityContextResolver getContextResolver(Entity principalEntity, Entity requestEntity) {
@@ -145,6 +153,10 @@ public class ContextResolverStore {
 
     public AssociativeContextBuilder makeAssoc() {
         return new AssociativeContextBuilder();
+    }
+
+    private FullContextBuilder makeFullContext() {
+        return new FullContextBuilder();
     }
 
     public Map<String, EntityContextResolver> getContexts() {
@@ -197,4 +209,37 @@ public class ContextResolverStore {
             return assocContext;
         }
     }
+
+    public class FullContextBuilder {
+        private String source;
+        private String target;
+
+        private EntityDefinitionStore entityDefs;
+        private EntityRepository repo;
+
+        public FullContextBuilder() {
+            entityDefs = definitionStore;
+            repo = repository;
+        }
+
+        public FullContextBuilder setTarget(String target) {
+            this.target = target;
+            return this;
+        }
+
+        public FullContextResolver build() {
+            FullContextResolver fullContext = new FullContextResolver();
+            fullContext.setSource(source);
+            fullContext.setTarget(target);
+            fullContext.setRepository(repo);
+            fullContext.setDefinition(entityDefs.lookupByResourceName(target));
+            return fullContext;
+        }
+
+        public FullContextBuilder setSource(String source) {
+            this.source = source;
+            return this;
+        }
+    }
+
 }

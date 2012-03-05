@@ -3,7 +3,6 @@ package org.slc.sli.view.widget;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.AttendanceResolver;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -32,7 +31,7 @@ public class WidgetFactory {
     }
     
     public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver) {
-        return new FieldCounter(field, student, resolver.getAbscenceCountResolverForStudent((GenericEntity) student));
+        return new FieldCounter(field, student, resolver.getAbscenceCountResolverForStudent(student));
     }
 
 }

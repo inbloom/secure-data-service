@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +24,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.v1.PathConstants;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -36,6 +40,11 @@ import org.slc.sli.validation.schema.ReferenceSchema;
  */
 public class ResourceUtil {
 
+    /**
+     * Logging utility.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceUtil.class);
+    
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
      * a self link, all other parameters can be null.
@@ -117,20 +126,23 @@ public class ResourceUtil {
         LinkedList<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
 
         // look up all associations for supplied entity
-        Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
+        Collection<EntityDefinition> entitiesThatReferenceDefinition = entityDefs.getLinked(defn);
 
         // loop through all associations to supplied entity type
-        for (AssociationDefinition assoc : associations) {
-            if (assoc.getSourceEntity().equals(defn)) {
-                links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), ResourceUtil.getURI(uriInfo,
-                        assoc.getResourceName(), id).toString()));
-                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), ResourceUtil
-                        .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
-            } else if (assoc.getTargetEntity().equals(defn)) {
-                links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), ResourceUtil.getURI(uriInfo,
-                        assoc.getResourceName(), id).toString()));
-                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil
-                        .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
+        for (EntityDefinition definition : entitiesThatReferenceDefinition) {
+            if (definition instanceof AssociationDefinition) {
+                AssociationDefinition assoc = (AssociationDefinition) definition;
+                if (assoc.getSourceEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), ResourceUtil.getURI(uriInfo,
+                            assoc.getResourceName(), id).toString()));
+                    links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), ResourceUtil
+                            .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
+                } else if (assoc.getTargetEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), ResourceUtil.getURI(uriInfo,
+                            assoc.getResourceName(), id).toString()));
+                    links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), ResourceUtil
+                            .getURI(uriInfo, assoc.getResourceName(), id).toString() + "/targets"));
+                }
             }
         }
         return links;
@@ -146,79 +158,79 @@ public class ResourceUtil {
      *            entity whose associations are being looked up
      * @param links
      *            list to add associations links to
-     * @param id
-     *            specific ID to append to links to create specific lookup link
+     * @param entityBody
+     *            object whose links to/from are being requested
      * @param uriInfo
      *            base URI
      */
-    public static List<EmbeddedLink> getAssociationLinksForEntity(final EntityDefinitionStore entityDefs,
-            final EntityDefinition defn, final String id, final UriInfo uriInfo) {
+    public static List<EmbeddedLink> getAssociationAndReferenceLinksForEntity(final EntityDefinitionStore entityDefs,
+            final EntityDefinition defn, final EntityBody entityBody, final UriInfo uriInfo) {
 
-        LinkedList<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+        String id = (String) entityBody.get("id");
 
-        // look up all associations for supplied entity
-        Collection<AssociationDefinition> associations = entityDefs.getLinked(defn);
-
-        // loop through all associations to supplied entity type
-        for (AssociationDefinition assoc : associations) {
-            if (assoc.getSourceEntity().equals(defn)) {
-                links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
+        //start with self link
+        List<EmbeddedLink> links = ResourceUtil.getSelfLinkForEntity(uriInfo, id, defn);
+        
+        //loop through all reference fields on supplied entity type
+        for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
+            //see what GUID is stored in the reference field
+            String referenceGuid = (String) entityBody.get(referenceField.getKey());
+            //if a value (GUID) was stored there
+            if (referenceGuid != null) {
+                String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue().getResourceName());
+                String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
                 
-                links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getTargetEntity().getResourceName()).toString()));
-                
-            } else if (assoc.getTargetEntity().equals(defn)) {
-                links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
-                
-                links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), 
-                        getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getSourceEntity().getResourceName()).toString()));
+                links.add(new EmbeddedLink(linkName, "type", 
+                        getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
             }
         }
+        
+        if (defn instanceof AssociationDefinition) {
+            //cast
+            AssociationDefinition assoc = (AssociationDefinition) defn;
+            String linkName = null;
+
+            linkName = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getSourceEntity().getResourceName());
+            links.add(new EmbeddedLink(linkName, assoc.getSourceEntity().getType(), 
+                    getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName())).toString()));
+
+            linkName = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getTargetEntity().getResourceName());
+            links.add(new EmbeddedLink(linkName, assoc.getTargetEntity().getType(), 
+                    getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName())).toString()));
+        } 
+        
+        // loop through all entities with references to supplied entity type
+        for (EntityDefinition definition : entityDefs.getLinked(defn)) {
+            //if the entity that has a reference to the defn parameter is an association
+            if (definition instanceof AssociationDefinition) {
+                AssociationDefinition assoc = (AssociationDefinition) definition;
+                if (assoc.getSourceEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), 
+                            getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
+                    
+                    links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), assoc.getTargetEntity().getType(), 
+                            getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getTargetEntity().getResourceName()).toString()));
+                    
+                } else if (assoc.getTargetEntity().equals(defn)) {
+                    links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), 
+                            getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
+                    
+                    links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), assoc.getSourceEntity().getType(), 
+                            getURI(uriInfo, PathConstants.V1, defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()), assoc.getSourceEntity().getResourceName()).toString()));
+                }
+            }
+            
+            //loop through all reference fields, display as ? links
+            for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
+                links.add(new EmbeddedLink(ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName()), "type", 
+                        getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(definition.getResourceName())).toString() + "?" + referenceFieldName + "=" + id));
+            }
+        }
+        
+        
         return links;
     }
     
-
-    /**
-     * Returns a list of links that are referenced by the specified entity body.
-     *
-     * @param uriInfo
-     *            The base URI
-     * @param store 
-     *            All entity definitions
-     * @param definition
-     *            entity whose references (away from) are being generated
-     * @param body
-     *            instance of the definition that contains values
-     *            
-     * @return A list of links pointing to the referenced IDs
-     */
-    public static List<EmbeddedLink> getReferenceLinks(final UriInfo uriInfo, EntityDefinitionStore store, EntityDefinition definition, EntityBody body) {
-        
-        //new list to store links
-        List<EmbeddedLink> links = new ArrayList<EmbeddedLink>();
-        
-        //loop for all fields on the entity that are reference fields
-        for (Map.Entry<String, ReferenceSchema> entry : definition.getReferenceFields().entrySet()) {
-            //get what value is stored in the reference field
-            Object value = body.get(entry.getKey());
-            
-            //if the reference field contains a value
-            if (value != null && value instanceof String) {
-                //cast object to a string because all references are strings
-                String id = (String) value;
-                //determine what (collection) is being referenced 
-                String reference = entry.getValue().getAppInfo().getReferenceType();
-                //determine how the API exposes that (collection)
-                String resourceName = store.lookupByEntityType(reference).getResourceName();
-                //add a new link to the collection for the associated ID
-                links.add(new EmbeddedLink(entry.getKey(), reference, ResourceUtil.getURI(uriInfo, resourceName, id).toString()));
-            }
-        }
-
-        return links;
-    }
 
 
     /**
@@ -292,7 +304,9 @@ public class ResourceUtil {
         UriBuilder builder = uriInfo.getBaseUriBuilder();
         
         for (String path : paths) {
-            builder.path(path);
+            if (path != null) {
+                builder.path(path);
+            }
         }
         
         return builder.build();

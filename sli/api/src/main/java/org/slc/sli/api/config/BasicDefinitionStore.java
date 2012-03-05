@@ -1,6 +1,8 @@
 package org.slc.sli.api.config;
 
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.ReferenceSchema;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Default implementation of the entity definition store
@@ -43,8 +46,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
-    private Map<String, String> entityResourceNameMapping = new HashMap<String, String>();
-    private Map<EntityDefinition, Collection<AssociationDefinition>> links = new HashMap<EntityDefinition, Collection<AssociationDefinition>>();
+    private Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
     
     @Autowired
     private DefinitionFactory factory;
@@ -59,33 +61,38 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     
     @Override
     public EntityDefinition lookupByEntityType(String entityType) {
-        return mapping.get(entityResourceNameMapping.get(entityType));
+        return mapping.get(ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(entityType));
     }
     
     @Override
-    public Collection<AssociationDefinition> getLinked(EntityDefinition defn) {
+    public Collection<EntityDefinition> getLinked(EntityDefinition defn) {
         return links.get(defn);
     }
-    
+
     @PostConstruct
     @Autowired
     public void init() {
         
         // adding the entity definitions
-        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.ASSESSMENT_FAMILY, ResourceNames.ASSESSMENT_FAMILIES).buildAndRegister(this);
+        EntityDefinition attendances = factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
+        EntityDefinition bellSchedule = factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
+        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
+        EntityDefinition disciplineRecord = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
+        EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
+                .buildAndRegister(this);
+        EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
+        EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(this);
-        EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
-                .buildAndRegister(this);
+
+        factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation")
@@ -93,44 +100,35 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .from(student, "getStudent", "getStudents").to(school, "getSchool", "getSchools")
                 .calledFromSource("getStudentSchoolAssociations").calledFromTarget("getStudentSchoolAssociations")
                 .build();
-        addAssocDefinition(studentSchoolAssociation);
+        addDefinition(studentSchoolAssociation);
         
         AssociationDefinition teacherSectionAssociation = factory.makeAssoc("teacherSectionAssociation")
                 .exposeAs(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).storeAs("teacherSectionAssociation")
                 .from(teacher, "getTeacher", "getTeachers").to(section, "getSection", "getSections")
                 .calledFromSource("getTeacherSectionAssociations").calledFromTarget("getTeacherSectionAssociations")
                 .build();
-        addAssocDefinition(teacherSectionAssociation);
+        addDefinition(teacherSectionAssociation);
         
         AssociationDefinition studentAssessmentAssociation = factory.makeAssoc("studentAssessmentAssociation")
                 .exposeAs(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS).storeAs("studentAssessmentAssociation")
                 .from(student, "getStudent", "getStudents").to(assessment, "getAssessment", "getAssessments")
                 .calledFromSource("getStudentAssessmentAssociations")
                 .calledFromTarget("getStudentAssessmentAssociations").build();
-        addAssocDefinition(studentAssessmentAssociation);
+        addDefinition(studentAssessmentAssociation);
         
         AssociationDefinition studentSectionAssociation = factory.makeAssoc("studentSectionAssociation")
                 .exposeAs(ResourceNames.STUDENT_SECTION_ASSOCIATIONS).storeAs("studentSectionAssociation")
                 .from(student, "getStudent", "getStudents").to(section, "getSection", "getSections")
                 .calledFromSource("getStudentSectionAssociations").calledFromTarget("getStudentSectionAssociations")
                 .build();
-        addAssocDefinition(studentSectionAssociation);
+        addDefinition(studentSectionAssociation);
         
         AssociationDefinition teacherSchoolAssociation = factory.makeAssoc("teacherSchoolAssociation")
                 .exposeAs(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).storeAs("teacherSchoolAssociation")
                 .from(teacher, "getTeacher", "getTeachers").to(school, "getSchool", "getSchools")
                 .calledFromSource("getTeacherSchoolAssociations").calledFromTarget("getTeacherSchoolAssociations")
                 .build();
-        addAssocDefinition(teacherSchoolAssociation);
-        
-        AssociationDefinition educationOrganizationSchoolAssociation = factory
-                .makeAssoc("educationOrganizationSchoolAssociation")
-                .exposeAs(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS)
-                .storeAs("educationOrganizationSchoolAssociation")
-                .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
-                .to(school, "getSchool", "getSchools").calledFromSource("getSchoolsAssigned")
-                .calledFromTarget("getEducationOrganizationsAssigned").build();
-        addAssocDefinition(educationOrganizationSchoolAssociation);
+        addDefinition(teacherSchoolAssociation);
         
         AssociationDefinition staffEducationOrganizationAssociation = factory.makeAssoc("staffEducationOrganizationAssociation")
                 .exposeAs(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
@@ -139,14 +137,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations", "educationOrganizationReference")
                 .calledFromSource("getStaffEducationOrganizationAssociations")
                 .calledFromTarget("getStaffEducationOrganizationAssociations").build();
-        addAssocDefinition(staffEducationOrganizationAssociation);
+        addDefinition(staffEducationOrganizationAssociation);
         
         AssociationDefinition sectionAssessmentAssociation = factory.makeAssoc("sectionAssessmentAssociation")
                 .exposeAs(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).storeAs("sectionAssessmentAssociation")
                 .from(section, "getSection", "getSections").to(assessment, "getAssessment", "getAssessments")
                 .calledFromSource("getSectionAssessmentAssociations")
                 .calledFromTarget("getSectionAssessmentAssociations").build();
-        addAssocDefinition(sectionAssessmentAssociation);
+        addDefinition(sectionAssessmentAssociation);
         
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation")
@@ -157,31 +155,28 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .to(educationOrganization, "getEducationOrganizationChild", "getEducationOrganizationChilds",
                         "educationOrganizationChildId").calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
-        addAssocDefinition(educationOrganizationAssociation);
+        addDefinition(educationOrganizationAssociation);
         
         AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation")
                 .exposeAs(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).storeAs("schoolSessionAssociation")
                 .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
                 .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
                 .build();
-        addAssocDefinition(schoolSessionAssociation);
-        
+        addDefinition(schoolSessionAssociation);
+
         AssociationDefinition sessionCourseAssociation = factory.makeAssoc("sessionCourseAssociation")
                 .exposeAs(ResourceNames.SESSION_COURSE_ASSOCIATIONS).storeAs("sessionCourseAssociation")
                 .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
                 .calledFromSource("getSessionCourseAssociations").calledFromTarget("getSessionCourseAssociations")
                 .build();
-        addAssocDefinition(sessionCourseAssociation);
-        
-        // TODO: Known technical-debt to be replaced by internal reference
-        // fields (such as
-        // section.courseId)
-        AssociationDefinition courseSectionAssociation = factory.makeAssoc("courseSectionAssociation")
-                .exposeAs("course-section-associations").storeAs("courseSectionAssociation")
-                .from(course, "getCourse", "getCourses").to(section, "getSection", "getSections")
-                .calledFromSource("getCourseSectionAssociations").calledFromTarget("getCourseSectionAssociations")
+        addDefinition(sessionCourseAssociation);
+
+        AssociationDefinition studentTranscriptAssociation = factory.makeAssoc("studentTranscriptAssociation")
+                .exposeAs(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS).storeAs("studentTranscriptAssociation")
+                .from(student, "getStudent", "getStudents").to(course, "getCourse", "getCourses")
+                .calledFromSource("getStudentTranscriptAssociations").calledFromTarget("getStudentTranscriptAssociations")
                 .build();
-        addAssocDefinition(courseSectionAssociation);
+        addDefinition(studentTranscriptAssociation);
         
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
@@ -196,28 +191,44 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(factory.makeEntity("oauthAuthorizationCode").build());
         addDefinition(factory.makeEntity("oauth_access_token").build());
         addDefinition(factory.makeEntity("oauth_refresh_token").build());
+        
+        this.registerDirectReferences();
     }
     
-    private void add(EntityDefinition defn) {
-        defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
-        entityResourceNameMapping.put(defn.getType(), defn.getResourceName());
-        this.mapping.put(defn.getResourceName(), defn);
+    /**
+     * done last to avoid existence issues
+     * 
+     */
+    private void registerDirectReferences() {
+
+        //
+        LOG.debug("Registering direct entity references");
+        
+        //loop for each entity that is defined
+        for (EntityDefinition referringDefinition : this.mapping.values()) {
+            //loop for each reference field on the entity
+            for (Entry<String, ReferenceSchema> fieldSchema : referringDefinition.getReferenceFields().entrySet()) {
+                ReferenceSchema schema = fieldSchema.getValue(); //access to the reference schema
+                String resource  = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
+                EntityDefinition referencedEntity = this.mapping.get(resource);
+                
+                LOG.debug("* New reference: " + referringDefinition.getStoredCollectionName() + "." + fieldSchema.getKey() 
+                        + " -> " + schema.getResourceName() + "._id");
+                
+                //add reference between the two entities
+                this.links.get(referencedEntity).add(referringDefinition);
+            }
+        }
+        
+        //print stats
+        LOG.debug("" + this.links.size() + " direct references loaded.");
     }
     
     public void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
-        add(defn);
-        links.put(defn, new LinkedHashSet<AssociationDefinition>());
-    }
-    
-    public void addAssocDefinition(AssociationDefinition defn) {
-        LOG.debug("adding assoc for {}", defn.getResourceName());
-        add(defn);
-        EntityDefinition sourceEntity = defn.getSourceEntity();
-        EntityDefinition targetEntity = defn.getTargetEntity();
-        links.get(sourceEntity).add(defn);
-        links.get(targetEntity).add(defn);
-        mapping.get(sourceEntity.getResourceName()).addLinkedAssoc(defn);
-        mapping.get(targetEntity.getResourceName()).addLinkedAssoc(defn);
+        defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
+        ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
+        this.mapping.put(defn.getResourceName(), defn);
+        this.links.put(defn, new LinkedHashSet<EntityDefinition>());
     }
 }

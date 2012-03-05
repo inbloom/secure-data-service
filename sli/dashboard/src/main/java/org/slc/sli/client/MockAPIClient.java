@@ -45,6 +45,11 @@ public class MockAPIClient implements APIClient {
     }
     
     @Override
+    public GenericEntity getStudent(final String token, String studentId) {
+        return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
+    }
+    
+    @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
@@ -186,6 +191,35 @@ public class MockAPIClient implements APIClient {
         }
         
         return filteredEntities;
+    }
+    
+    /**
+     * Get the entity identified by the entity id and authorized for the security token
+     * 
+     * @param token
+     *            - the principle authentication token
+     * @param filePath
+     *            - the file containing the JSON entities representation
+     * @param id
+     *            - the entity id
+     * @return entity
+     *         - the entity entity
+     */
+    public GenericEntity getEntity(final String token, String filePath, String id) {
+        
+        // Get all the entities for the user identified by token
+        List<GenericEntity> entities = fromFile(filePath);
+        
+        // Select entity identified by id
+        if (id != null) {
+            for (GenericEntity entity : entities) {
+                if (id.equals(entity.get(Constants.ATTR_ID))) {
+                    return entity;
+                }
+            }
+        }
+        
+        return null;
     }
 
     /**

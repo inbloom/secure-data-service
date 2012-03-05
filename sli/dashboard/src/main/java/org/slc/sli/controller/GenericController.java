@@ -1,14 +1,9 @@
 package org.slc.sli.controller;
 
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,24 +12,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
+
 /**
+ * Controller for all types of requests. 
+ * NOTE: This controller was introduced after the student list and app selector controllers. 
  * 
  * @author dwu
- *
  */
 @Controller
 @RequestMapping(value = "/service/layout/")
 public class GenericController {
 
-    private static final String LAYOUT = "layout/";
-
+    private static final String LAYOUT_DIR = "layout/";
+    private static final String TABBED_ONE_COL = "tabbed_one_col";
+    
+    private ConfigManager configManager;
     private PopulationManager populationManager;
     
-    @Autowired
-    public void setPopulationManager(PopulationManager populationManager) {
-        this.populationManager = populationManager;
-    }
-    
+
     /**
      * Controller for student profile
      * 
@@ -42,28 +43,32 @@ public class GenericController {
      * @return
      */
     @RequestMapping(value = "/student", method = RequestMethod.GET)
-    public ModelAndView handleStudentProfile(@RequestParam String id,
-                                             @RequestParam("pid") String[] panelIds) {
+    public ModelAndView handleStudentProfile(@RequestParam String id) {
         
-        // set up model map - hardcoded for now
+        // get the list of all available viewConfigs
+        List<ViewConfig> viewConfigs = configManager.getConfigsWithType(SecurityUtil.getToken(), Constants.VIEW_TYPE_STUDENT_PROFILE_PAGE);
+        
+        // set up model map
         ModelMap model = new ModelMap();
-        Map<String, List<String>> pageMap = new LinkedHashMap<String, List<String>>();
-        pageMap.put("Overview", Arrays.asList("csi", "csi"));
-        pageMap.put("Attendance and Discipline", Arrays.asList("test", "csi", "test"));
-        pageMap.put("Assessments", Arrays.asList("csi", "csi"));
-        pageMap.put("Grades and Credits", Arrays.asList("test", "csi", "test"));
-        pageMap.put("Advanced Academics", Arrays.asList("test", "csi"));
-        
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, viewConfigs);
+
+        // get core student info
         GenericEntity student = populationManager.getStudent(SecurityUtil.getToken(), id);
         String name = ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
                       + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
         model.addAttribute("student", name);
 
-        //model.addAttribute("panelIds", panelIds);
-        model.addAttribute("pageMap", pageMap);
-
-        return new ModelAndView(LAYOUT + "studentProfile", model);
+        return new ModelAndView(LAYOUT_DIR + TABBED_ONE_COL, model);
 
     }
     
+    @Autowired
+    public void setPopulationManager(PopulationManager populationManager) {
+        this.populationManager = populationManager;
+    }
+    
+    @Autowired
+    public void setConfigManager(ConfigManager configManager) {
+        this.configManager = configManager;
+    }
 }

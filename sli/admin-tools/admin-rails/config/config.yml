@@ -8,5 +8,11 @@ test:
     api_base: https://devapp1.slidev.org/api/rest
 deployment:
     api_base: https://devapp1.slidev.org/api/rest
+    client_id: BsgPgjFApl
+    client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
+    redirect_uri: https://devadmin1.slidev.org/callback
 integration:
     api_base: https://testapi1.slidev.org/api/rest
+    client_id: zl9FejUhnV
+    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
+    redirect_uri: https://testadmin1.slidev.org/callback

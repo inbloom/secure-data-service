@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
- * Client representation of a URL link as provided by the SLI API ReSTful service. Each
+ * Client representation of a URL link resource as provided by the SLI API ReSTful service. Each
  * link has a name (for example, 'getStudents') and an associated URL.
  * 
  * @author asaarela
@@ -22,15 +22,15 @@ public interface Link {
     public static final String LINK_HREF_KEY = "href";
     
     /**
-     * Get the name of this link.
+     * Get the resource name of this link.
      * 
-     * @return String link name
+     * @return String link resource name
      */
     @XmlElement(name = "rel")
     public String getLinkName();
     
     /**
-     * Get the link Resource.
+     * Get the link URL.
      * 
      * @Return Resource URL.
      */

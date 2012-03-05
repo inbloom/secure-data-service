@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class MongoIndexLoader implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexLoader.class);
     private static final Order ASCENDING = Order.ASCENDING;
-    private static final String ATTENDANCE_EVENT_COLLECTION = "attendanceEvent";
+    private static final String ATTENDANCE_EVENT_COLLECTION = "attendance";
     
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
@@ -29,11 +29,15 @@ public class MongoIndexLoader implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (this.mongoTemplate != null) {
             
-            LOG.debug("Creating compound index on attendanceEvent collection");
+            LOG.debug("Creating compound index on attendance collection");
             IndexDefinition indexDefinition = new Index().on("body.eventDate", ASCENDING)
                     .on("body.studentId", ASCENDING).on("body.attendanceEventCategory", ASCENDING).unique();
-            mongoTemplate.ensureIndex(indexDefinition, ATTENDANCE_EVENT_COLLECTION);
-            LOG.debug("Successfully created compound index on attendanceEvent collection");
+            try {
+                mongoTemplate.ensureIndex(indexDefinition, ATTENDANCE_EVENT_COLLECTION);
+                LOG.debug("Successfully created compound index on attendance collection");
+            } catch (Exception e) {
+                LOG.warn("There was an error creating index");
+            }
         }
     }
 }

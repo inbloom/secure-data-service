@@ -111,8 +111,9 @@ public class EntityManager extends Manager {
      *         - the student entity
      */
     public GenericEntity getStudent(final String token, String studentId) {
-        return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
+        return apiClient.getStudent(token, studentId);
     }
+    
     
     /**
      * Get the list of student program entities identified by the student id list and authorized for the

@@ -723,16 +723,22 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="teacherId" type="xs:string">
+				<xs:element name="teacherId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The teacher providing services to the school.
 						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>teacher</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="schoolId" type="xs:string">
+				<xs:element name="schoolId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The school where the teacher provides services.
 						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>school</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="programAssignment" type="programAssignmentType">

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.dal.encrypt.Cipher;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
@@ -28,9 +29,13 @@ public class BasicQueryConverter implements QueryConverter {
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
             Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
+    private static final String ENCRYPTION_ERROR = "Unable to perform requested operation on field ";
     
     @Autowired
     SchemaRepository schemaRepo;
+    
+    @Autowired
+    Cipher cipher;
     
     @Override
     public Query stringToQuery(String entityType, String queryString) {
@@ -51,48 +56,74 @@ public class BasicQueryConverter implements QueryConverter {
                     if (query.contains(">=")) {
                         String[] keyAndValue = getKeyAndValue(query, ">=");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0])
-                                    .gte(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            if (type.isPii()) {
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).gte(
+                                    convertToType(type.getType(), keyAndValue[1]));
                         }
                     } else if (query.contains("<=")) {
                         String[] keyAndValue = getKeyAndValue(query, "<=");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0])
-                                    .lte(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            if (type.isPii()) {
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).lte(
+                                    convertToType(type.getType(), keyAndValue[1]));
                         }
                         
                     } else if (query.contains("!=")) {
                         String[] keyAndValue = getKeyAndValue(query, "!=");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0]).ne(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            Object searchValue = convertToType(type.getType(), keyAndValue[1]);
+                            if (type.isPii()) {
+                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).ne(searchValue);
                         }
                     } else if (query.contains("=~")) {
                         String[] keyAndValue = getKeyAndValue(query, "=~");
+                        ParamType type = findParamType(entityType, keyAndValue[0]);
+                        if (type.isPii()) {
+                            throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                        }
                         if (keyAndValue != null) {
                             criteria = Criteria.where("body." + keyAndValue[0]).regex(keyAndValue[1]);
                         }
                     } else if (query.contains("=")) {
                         String[] keyAndValue = getKeyAndValue(query, "=");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0]).is(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            Object searchValue = convertToType(type.getType(), keyAndValue[1]);
+                            if (type.isPii()) {
+                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).is(searchValue);
                         }
                         
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0]).lt(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            if (type.isPii()) {
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).lt(
+                                    convertToType(type.getType(), keyAndValue[1]));
                         }
                         
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
                         if (keyAndValue != null) {
-                            String type = findParamType(entityType, keyAndValue[0]);
-                            criteria = Criteria.where("body." + keyAndValue[0]).gt(convertToType(type, keyAndValue[1]));
+                            ParamType type = findParamType(entityType, keyAndValue[0]);
+                            if (type.isPii()) {
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            }
+                            criteria = Criteria.where("body." + keyAndValue[0]).gt(
+                                    convertToType(type.getType(), keyAndValue[1]));
                         }
                     } else
                         throw new RuntimeException("Unknown query operation: " + query);
@@ -102,13 +133,13 @@ public class BasicQueryConverter implements QueryConverter {
             }
             
         } catch (RuntimeException e) {
-            LOG.debug("error parsing query String {}", queryString);
-            throw new QueryParseException(queryString);
+            LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
+            throw new QueryParseException(e.getMessage(), queryString);
         }
         
         if (sortBy != null && !sortBy.trim().isEmpty()) {
-            String type = findParamType(entityType, sortBy);
-            if (!"NULL".equals(type)) {
+            ParamType type = findParamType(entityType, sortBy);
+            if (!"NULL".equals(type.getType()) && !type.isPii()) {
                 
                 if (sortOrder == null) {
                     sortOrder = SortOrder.ascending;
@@ -123,30 +154,54 @@ public class BasicQueryConverter implements QueryConverter {
         return mongoQuery;
     }
     
-    @Override
-    public String findParamType(String entityType, String queryField) {
+    protected static class ParamType {
+        final String type;
+        final boolean pii;
+        
+        public ParamType(String type, boolean pii) {
+            this.type = type;
+            this.pii = pii;
+        }
+        
+        public String getType() {
+            return type;
+        }
+        
+        public boolean isPii() {
+            return pii;
+        }
+    }
+    
+    public ParamType findParamType(String entityType, String queryField) {
         String[] nestedFields = queryField.split("\\.");
         NeutralSchema schema = schemaRepo.getSchema(entityType);
         for (String field : nestedFields) {
             schema = getNestedSchema(schema, field);
-            if (schema != null && schema.getSchemaType() == NeutralSchemaType.COMPLEX) {
-                schema = schemaRepo.getSchema(schema.getType());
-            }
             if (schema != null) {
                 LOG.info("nested schema type is {}", schema.getSchemaType());
             } else
                 LOG.info("nested schema type is {}", "NULL");
         }
         if (schema == null) {
-            return "NULL";
+            return new ParamType("NULL", false);
         } else if (schema.getSchemaType() == NeutralSchemaType.LIST) {
             for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                if (possibleSchema.isSimple())
-                    return possibleSchema.getSchemaType().toString();
+                if (possibleSchema.isSimple()) {
+                    return new ParamType(possibleSchema.getSchemaType().toString(), isSchemaPii(possibleSchema));
+                }
             }
-            return "LIST";
+            return new ParamType("LIST", isSchemaPii(schema));
         }
-        return schema.getSchemaType().toString();
+        return new ParamType(schema.getSchemaType().toString(), isSchemaPii(schema));
+    }
+    
+    private static boolean isSchemaPii(NeutralSchema schema) {
+        if (schema == null)
+            return false;
+        if (schema.getAppInfo() == null) {
+            return false;
+        }
+        return schema.getAppInfo().isPersonallyIdentifiableInfo();
     }
     
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
@@ -210,13 +265,15 @@ public class BasicQueryConverter implements QueryConverter {
     
     private Object convertToType(String type, String value) {
         try {
-            if (type.equals("INT") || type.equals("INTEGER")) {
+            if (type.equals("REFERENCE")) {
+                return value;
+            } else if (type.equals("INT") || type.equals("INTEGER")) {
                 return Integer.parseInt(value);
             } else if (type.equals("BOOLEAN")) {
                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
                     return Boolean.parseBoolean(value);
                 else
-                    throw new QueryParseException("");
+                    throw new RuntimeException("Invalid boolean value");
             } else if (type.equals("STRING") || type.equals("NULL")) {
                 return value;
             } else if (type.equals("TOKEN")) {
@@ -237,7 +294,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
         } catch (Exception e) {
-            throw new QueryParseException("");
+            throw new RuntimeException(e);
         }
         
     }

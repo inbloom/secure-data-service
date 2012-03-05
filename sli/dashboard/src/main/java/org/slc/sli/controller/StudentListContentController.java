@@ -2,6 +2,7 @@ package org.slc.sli.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -66,8 +67,8 @@ public class StudentListContentController extends DashboardController {
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
-        List<String> uids = null;
-        if (population != null) {
+        List<String> uids = new ArrayList<String>();
+        if (population != null && !population.isEmpty()) {
             uids = Arrays.asList(population.split(","));
         }
         
@@ -108,26 +109,6 @@ public class StudentListContentController extends DashboardController {
             // Get attendance
             model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
             
-        /*
-            List<StudentFilter> studentFilterConfig = configManager.getStudentFilterConfig(user.getUsername());
-            model.addAttribute("studentFilters",studentFilterConfig);
-
-            if (filterIndex == null) { filterIndex = 0; }
-            String studentFilterName = "";
-            if (studentFilterConfig != null) {
-                studentFilterName = studentFilterConfig.get(filterIndex).getName();
-            }
-
-            List<GenericEntity> students = populationManager.getStudentInfo(SecurityUtil.getToken(), uids, viewConfig, studentFilterName);
-            List<GenericEntity> programs = populationManager.getStudentProgramAssociations(user.getUsername(), uids);
-
-            StudentResolver studentResolver = new StudentResolver (students, programs);
-            studentResolver.filterStudents (studentFilterName);
-            
-            model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
-
-
-            */
                         
         }
 
