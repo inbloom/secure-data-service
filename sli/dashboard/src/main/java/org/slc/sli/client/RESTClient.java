@@ -52,7 +52,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-    	logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
+        logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
         String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
@@ -101,11 +101,11 @@ public class RESTClient {
         return null;
     }
 
-	public String getSecurityUrl() {
-		return securityUrl;
-	}
+    public String getSecurityUrl() {
+        return securityUrl;
+    }
 
-	public void setSecurityUrl(String securityUrl) {
-		this.securityUrl = securityUrl;
-	}
+    public void setSecurityUrl(String securityUrl) {
+        this.securityUrl = securityUrl;
+    }
 }
