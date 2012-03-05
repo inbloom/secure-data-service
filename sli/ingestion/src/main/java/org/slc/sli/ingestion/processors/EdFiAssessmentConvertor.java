@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.util.FileUtils;
  */
 @Component
 public class EdFiAssessmentConvertor {
+    private static final String ASSESSMENT_FAMILY_IDENTIFICATION_CODE = "AssessmentFamilyIdentificationCode";
     private static final String PARENT_ASSESSMENT_FAMILY_ID = "parentAssessmentFamilyId";
     private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
     private static final String ASSESSMENT = "assessment";
@@ -103,7 +104,14 @@ public class EdFiAssessmentConvertor {
         // instance #1754 I wish Java had function literals...
         Map<Object, NeutralRecord> assessmentFamilies = new HashMap<Object, NeutralRecord>();
         for (NeutralRecord record : familyRecords) {
-            assessmentFamilies.put(record.getAttributes().get("id"), record);
+            @SuppressWarnings("unchecked")
+            List<Map<?, ?>> identities = (List<Map<?, ?>>) record.getAttributes().get(
+                    ASSESSMENT_FAMILY_IDENTIFICATION_CODE);
+            for (Map<?, ?> identity : identities) {
+                if (identity != null) {
+                    assessmentFamilies.put(identity.get("ID"), record);
+                }
+            }
         }
         return assessmentFamilies;
     }
