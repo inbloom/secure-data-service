@@ -20,7 +20,8 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
 /**
- * 
+ * Controller for all types of requests. 
+ * NOTE: This controller was introduced after the student list and app selector controllers. 
  * 
  * @author dwu
  */
