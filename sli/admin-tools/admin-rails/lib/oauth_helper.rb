@@ -1,3 +1,5 @@
+module OauthHelper
+
 class Oauth
 
   attr_accessor :entry_url, :client_id, :client_secret, :token, :code
@@ -35,5 +37,7 @@ class Oauth
     @token = token.token
     return @token
   end
+
+end
 
 end
