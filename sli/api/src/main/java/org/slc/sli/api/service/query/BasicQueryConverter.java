@@ -58,7 +58,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).gte(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -68,7 +68,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).lte(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -88,7 +88,7 @@ public class BasicQueryConverter implements QueryConverter {
                         String[] keyAndValue = getKeyAndValue(query, "=~");
                         ParamType type = findParamType(entityType, keyAndValue[0]);
                         if (type.isPii()) {
-                            new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                         }
                         if (keyAndValue != null) {
                             criteria = Criteria.where("body." + keyAndValue[0]).regex(keyAndValue[1]);
@@ -109,7 +109,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -120,7 +120,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -133,8 +133,8 @@ public class BasicQueryConverter implements QueryConverter {
             }
             
         } catch (RuntimeException e) {
-            LOG.debug("error parsing query String {}", queryString);
-            throw new QueryParseException(queryString);
+            LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
+            throw new QueryParseException(e.getMessage(), queryString);
         }
         
         if (sortBy != null && !sortBy.trim().isEmpty()) {
@@ -273,7 +273,7 @@ public class BasicQueryConverter implements QueryConverter {
                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
                     return Boolean.parseBoolean(value);
                 else
-                    throw new QueryParseException("");
+                    throw new RuntimeException("Invalid boolean value");
             } else if (type.equals("STRING") || type.equals("NULL")) {
                 return value;
             } else if (type.equals("TOKEN")) {
@@ -294,7 +294,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
         } catch (Exception e) {
-            throw new QueryParseException("");
+            throw new RuntimeException(e);
         }
         
     }
