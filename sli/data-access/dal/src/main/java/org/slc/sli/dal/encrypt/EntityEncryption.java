@@ -205,40 +205,4 @@ public class EntityEncryption {
             return schema.getAppInfo().isPersonallyIdentifiableInfo() ? true : null;
         }
     }
-    
-    // TODO REMOVE DEBUG CODE
-    @SuppressWarnings("unchecked")
-    public static void printMap(String depth, Object v) {
-        if (v instanceof Map) {
-            System.err.println(depth + "{");
-            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) v).entrySet()) {
-                printMap(depth + "\t", entry);
-            }
-            System.err.println(depth + "}");
-        } else if (v instanceof List) {
-            System.err.println(depth + "[");
-            for (Object item : (List<Object>) v) {
-                printMap(depth + "\t", item);
-            }
-            System.err.println(depth + "]");
-        } else if (v instanceof Map.Entry) {
-            Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) v;
-            System.err.print(depth + entry.getKey() + " : ");
-            if (entry.getValue() instanceof Map) {
-                System.err.println("{");
-                printMap(depth + "\t", entry.getValue());
-                System.err.println(depth + "}");
-            } else if (entry.getValue() instanceof List) {
-                System.err.println("[");
-                for (Object e : (List<Object>) entry.getValue()) {
-                    printMap(depth + "\t", e);
-                }
-                System.err.println(depth + "]");
-            } else {
-                System.err.println(entry.getValue());
-            }
-        } else {
-            System.err.println(depth + v);
-        }
-    }
 }

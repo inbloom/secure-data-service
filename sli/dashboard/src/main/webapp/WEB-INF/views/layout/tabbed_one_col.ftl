@@ -18,7 +18,7 @@
     
   <div id="banner">
     <h1>
-      SLI Dashboard - Student Profile
+      SLI Dashboard
     </h1>
   </div>
     
