@@ -41,7 +41,7 @@ public class TransformationProcessor implements Processor {
 
         performDataTransformations(job.getId());
 
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_MODEL_TRANSFORMATION.name());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.MERGE_REQUEST.name());
     }
 
     /**

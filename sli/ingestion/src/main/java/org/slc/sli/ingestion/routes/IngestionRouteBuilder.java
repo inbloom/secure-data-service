@@ -21,7 +21,6 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
-import org.slc.sli.ingestion.processors.DataModelTransformationProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -52,9 +51,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     TransformationProcessor transformationProcessor;
-    
-    @Autowired
-    DataModelTransformationProcessor dataModelTransformationProcessor;
     
     @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
@@ -122,17 +118,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)
-            
-                //transformation workflow - camel routing
             .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-            .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_MODEL_TRANSFORMATION.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data Model Transformation.")
-                .process(dataModelTransformationProcessor)
-                .to(workItemQueueUri)
-                
             .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
                 .process(nrMergeProcessor)
                 .to(workItemQueueUri)
