@@ -11,7 +11,7 @@ Scenario: Ingested Student data should be encrypted
         | collectionName              |
         | student                     |   
 	When zip file is scp to ingestion landing zone
-		And "5" seconds have elapsed
+		And a batch job log has been created
 	Then I should see "Processed 1 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |
