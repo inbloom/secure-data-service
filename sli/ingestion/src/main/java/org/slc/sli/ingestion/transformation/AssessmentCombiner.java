@@ -27,7 +27,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         super(neutralRecordMongoAccess);
     }
-    
+
     /**
      * Transforms items inside staging database
      *
@@ -83,7 +83,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            key = (String) attrs.get("body.staffUniqueStateId");
+            key = (String) attrs.get("staffUniqueStateId");
 
             // find children from database
             Map<String, String> paths = new HashMap<String, String>();
@@ -101,7 +101,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
             while (iter.hasNext()) {
                 tempNr = iter.next();
                 associationAttrs = tempNr.getAttributes();
-                schoolId = (String) associationAttrs.get("body.schoolId");
+                schoolId = (String) associationAttrs.get("schoolId");
 
                 schoolIds.put("schoolId", schoolId);
             }
