@@ -10,7 +10,7 @@ Given I post "assessmentMetaData.zip" file as the payload of the ingestion job
 	   | collectionName              |
 	   | assessment                  |
 When zip file is scp to ingestion landing zone
-	And "10" seconds have elapsed
+	And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName              | count |
 	   | assessment                  | 1     |
