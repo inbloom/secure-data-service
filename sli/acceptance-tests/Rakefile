@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -157,6 +157,11 @@ task :ingestionAttendanceTests do
   runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
 end
 
+desc "Run Ingestion Assessment Tests"
+task :ingestionAssessmentTests do
+  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -170,6 +175,22 @@ task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1Teache
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
 					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests] do
   displayFailureReport()
+end
+
+desc "Run V1 Direct References Tests"
+task :v1DirectReferencesTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Transcript Association Tests"
+task :v1StudentTranscriptAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("course", "course_fixture.json")
+  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
+  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
 end
 
 desc "Run V1 Teacher School Association Tests"
@@ -389,7 +410,7 @@ task :sectionTests => [:realmInit] do
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
-
+0
 desc "Run School Tests"
 task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
@@ -426,6 +447,12 @@ end
 
 desc "Run Encryption Tests"
 task :encryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
   runTests("test/features/api/encryption")
 end
 
