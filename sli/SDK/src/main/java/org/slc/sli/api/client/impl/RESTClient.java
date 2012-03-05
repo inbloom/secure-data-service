@@ -1,6 +1,7 @@
 package org.slc.sli.api.client.impl;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
@@ -10,12 +11,12 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
+import com.sun.jersey.client.apache.ApacheHttpClient;
+import com.sun.jersey.client.apache.config.ApacheHttpClientConfig;
+import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +37,19 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     private String sessionToken = null;
     private String apiServerUri;
-    private Client client = null;
+    private ApacheHttpClient client = null;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
      */
     protected RESTClient() {
         
-        ClientConfig config = new DefaultClientConfig();
+        ApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
         config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         
         // TODO - implement SSL configuration here...
         
-        client = Client.create(config);
+        client = ApacheHttpClient.create(config);
     }
     
     /**
@@ -251,13 +252,59 @@ public class RESTClient {
     public void openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
-        apiServerUri = "http://" + host + ":" + port + "/" + Constants.API_SERVER_PATH;
+        String protocol = "";
+        if (host.equalsIgnoreCase("localhost")) {
+            protocol = "http://";
+        } else {
+            protocol = "https://";
+        }
+        apiServerUri = protocol + host + ":" + port + "/" + Constants.API_SERVER_PATH;
         
-        // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from LuckyStrike.
-        // For now generate a token via a Rest Console in a web browser and pass the resulting token
-        // in as 'password'.
-        sessionToken = password;
+        /**
+         * TODO -- determine if we can pass credentials as part of clientState and bypass
+         * hitting the IDP directly.
+         * 
+         * ApacheHttpClientState clientState = (ApacheHttpClientState) client.getProperties().get(
+         * ApacheHttpClientConfig.PROPERTY_HTTP_STATE);
+         * 
+         * if (clientState == null) {
+         * clientState = new ApacheHttpClientState();
+         * }
+         * clientState.setCredentials(realm, "devdanil.slidev.org", 8080, user, password);
+         * 
+         * client.getProperties().put(ApacheHttpClientConfig.PROPERTY_HTTP_STATE, clientState);
+         */
         
+        // Attempt to authenticate
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        builder.accept(MediaType.TEXT_PLAIN);
+        
+        // TODO - figure out a way to find the correct IDP.
+        String url = "http://devdanil.slidev.org:8080/idp/identity/authenticate?username=" + user + "&password="
+                + password;
+        
+        ClientRequest request;
+        String rstring = "";
+        try {
+            request = builder.build(new URI(url), HttpMethod.POST);
+            ClientResponse response = client.handle(request);
+            rstring = response.getEntity(String.class);
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        if (rstring.startsWith("token.id=")) {
+            sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
+        } else {
+            
+            // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from
+            // LuckyStrike.
+            // For now generate a token via a Rest Console in a web browser and pass the resulting
+            // token
+            // in as 'password'.
+            sessionToken = password;
+        }
     }
     
     /**

@@ -168,7 +168,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests] do
+					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests] do
   displayFailureReport()
 end
 
@@ -346,6 +346,12 @@ desc "Run V1 Home URI Tests"
 task :v1homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/home_uri")
+end
+
+desc "Run V1 Hierachy Traversal Tests"
+task :v1HierarchyTraversalTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
 end
 
 ############################################################
@@ -575,7 +581,7 @@ task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashb
   else
     raise "Tests have failed"
   end
-  
+
 end
 
 desc "Run Dashboard population widget Tests"
@@ -602,7 +608,7 @@ end
 # task :dashboardTests do
 #   runTests("test/features/dashboard")
 #   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-# 
+#
 # end
 
 desc "Run Dashboard user based view selection tests"
@@ -627,7 +633,7 @@ task :MostRecentResultTests do
 end
 
 desc "Run dashboard attendance related tests"
-task :dashboardAttendance do 
+task :dashboardAttendance do
   runTests("test/features/dashboard/attendance.feature")
 end
 
