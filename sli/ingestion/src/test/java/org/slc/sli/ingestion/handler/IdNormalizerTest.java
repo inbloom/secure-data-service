@@ -44,7 +44,6 @@ public class IdNormalizerTest {
 
     //Mock entityRepository data
     private LinkedList<Entity> schoolList;
-    private LinkedList<Entity> sectionList;
     //private ErrorReport errorReport;
 
     private static final String REGION_ID = "dc=slidev,dc=net";
@@ -68,10 +67,7 @@ public class IdNormalizerTest {
         when(school.getEntityId()).thenReturn("aSchoolId");
         schoolList.add(school);
 
-        Map<String, String> schoolFilter = new HashMap<String, String>();
-        schoolFilter.put("metaData.externalId", "aSchoolId");
-        schoolFilter.put("metaData." + EntityMetadataKey.ID_NAMESPACE.getKey() , REGION_ID);
-        when(mockedEntityRepository.findByPaths("school", schoolFilter)).thenReturn(schoolList);
+        when(mockedEntityRepository.findByPaths(Mockito.eq("school"), Mockito.any(Map.class))).thenReturn(schoolList);
     }
 
     @Test
