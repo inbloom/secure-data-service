@@ -1110,16 +1110,16 @@
 
   <jb:bean beanId="courseAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
     <jb:value property="courseTitle" data="Course/CourseTitle" />
-    <jb:value property="numberOfParts" data="Course/NumberOfParts" />
+    <jb:value property="numberOfParts" data="Course/NumberOfParts" decoder="Integer"/>
     <!-- CourseCode -->
     <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
     <jb:value property="courseLevel" data="Course/CourseLevel" />
     <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
-    <jb:wiring property="gradesOffered" beanIdRef="GradesOfferedArray" />
+    <jb:value property="gradesOffered" data="Course/GradesOffered/GradeLevel" />
     <jb:value property="subjectArea" data="Course/SubjectArea" />
     <jb:value property="courseDescription" data="Course/CourseDescription" />
     <jb:value property="dateCourseAdopted" data="Course/DateCourseAdopted" />
-    <jb:value property="highSchoolCourseRequirement" data="Course/HighSchoolCourseRequirement" />
+    <jb:value property="highSchoolCourseRequirement" data="Course/HighSchoolCourseRequirement" decoder="Boolean"/>
     <jb:value property="courseGPAApplicability" data="Course/CourseGPAApplicability" />
     <jb:value property="courseDefinedBy" data="Course/CourseDefinedBy" />
     <!-- MinimumAvailableCredit -->
@@ -1142,21 +1142,17 @@
     <jb:value data="Course/CourseLevelCharacteristics/CourseLevelCharacteristic" />
   </jb:bean>
 
-  <jb:bean beanId="GradesOfferedArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
-    <jb:value data="Course/GradesOffered/GradeLevel" />
-  </jb:bean>
-
   <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
 
-    <jb:value property="credit" data="Course/MinimumAvailableCredit/Credit" />
+    <jb:value property="credit" data="Course/MinimumAvailableCredit/Credit" decoder="Double" />
     <jb:value property="creditType" data="Course/MinimumAvailableCredit/@CreditType" />
-    <jb:value property="creditConversion" data="Course/MinimumAvailableCredit/@CreditConversion" />
+    <jb:value property="creditConversion" data="Course/MinimumAvailableCredit/@CreditConversion" decoder="Double" />
   </jb:bean>
 
   <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
-    <jb:value property="credit" data="Course/MaximumAvailableCredit/Credit" />
+    <jb:value property="credit" data="Course/MaximumAvailableCredit/Credit" decoder="Double"/>
     <jb:value property="creditType" data="Course/MaximumAvailableCredit/@CreditType" />
-    <jb:value property="creditConversion" data="Course/MaximumAvailableCredit/@CreditConversion" />
+    <jb:value property="creditConversion" data="Course/MaximumAvailableCredit/@CreditConversion" decoder="Double"/>
   </jb:bean>
 
   <!-- ObjectiveAssessment Mapping -->
