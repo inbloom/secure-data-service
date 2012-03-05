@@ -83,7 +83,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            key = (String) attrs.get("body.staffUniqueStateId");
+            key = (String) attrs.get("staffUniqueStateId");
 
             // find children from database
             Map<String, String> paths = new HashMap<String, String>();
@@ -96,17 +96,16 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
             NeutralRecord tempNr;
             String schoolId;
             Map<String, Object> associationAttrs;
-            Map<String, Object> schoolIds = new HashMap<String, Object>();
 
             while (iter.hasNext()) {
                 tempNr = iter.next();
                 associationAttrs = tempNr.getAttributes();
-                schoolId = (String) associationAttrs.get("body.schoolId");
+                schoolId = (String) associationAttrs.get("schoolId");
 
-                schoolIds.put("schoolId", schoolId);
+                attrs.put("schoolId", schoolId);
             }
 
-            neutralRecord.setAttributes(schoolIds);
+            neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
 
