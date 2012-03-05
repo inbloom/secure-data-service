@@ -15,7 +15,7 @@ class EntitiesControllerTest < ActionController::TestCase
   end
 
   test "get full teacher objects through association" do
-    get :show, other: "teacher-school-associations/1".to_param
+    get :show, other: "teacher-school-associations/11111111-1111-1111-1111-111111111111".to_param
     assert_response :success
   end
   

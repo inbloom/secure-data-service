@@ -15,7 +15,7 @@ class EntityTest < ActiveSupport::TestCase
   test "simple value generator with valid" do
     v = Entity.value_for_simple_view(VIEW_CONFIG['teacher'].first, @teacher_fixtures['one'])
     assert_not_nil(v)
-    assert_equal(v, 1)
+    assert_equal(v, '11111111-1111-1111-1111-111111111111')
   end
 
   test "simple value generator with nested type" do
