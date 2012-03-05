@@ -426,6 +426,12 @@ end
 
 desc "Run Encryption Tests"
 task :encryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
   runTests("test/features/api/encryption")
 end
 
