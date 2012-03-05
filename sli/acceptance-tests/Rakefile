@@ -689,6 +689,7 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
+    "attendance" => "attendance_fixture.json",
     "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
     "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
     "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
