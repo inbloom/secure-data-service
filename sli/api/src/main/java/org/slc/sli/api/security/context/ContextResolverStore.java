@@ -54,8 +54,8 @@ public class ContextResolverStore {
                         .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SECTION)
                         .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
-                        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
+                //makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
+                //        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SESSION)
                         .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build(),
                 teacherAttendanceContextResolver

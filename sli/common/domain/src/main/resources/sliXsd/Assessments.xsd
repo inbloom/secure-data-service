@@ -40,55 +40,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="assessmentPerformanceLevel">
-		<xs:annotation>
-			<xs:documentation>Definition of the performance levels and the
-				associated cut scores. Three styles are supported:
-				1. Specification
-				of performance level by min and max score
-				2. Specification of
-				performance level by cut score - min only
-				3. Specification of
-				performance level without any mapping to scores
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="performanceLevelDescriptor" type="performanceLevelDescriptor">
-				<xs:annotation>
-					<xs:documentation>The performance level(s) defined for the
-						assessment.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessmentReportingMethod" type="assessmentReportingMethodType">
-				<xs:annotation>
-					<xs:documentation>The method that the administrator of the
-						assessment uses to report the performance and achievement of all
-						students. It may be a qualitative method such as performance level
-						descriptors or a quantitative method such as a numerical grade or
-						cut score. More than one type of reporting method may be used.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="minimumScore" type="xs:int" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The minimum score required to make the indicated
-						level of performance.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="maximumScore" type="xs:int" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The maximum score to make the indicated level of
-						performance.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-
-
 	<xs:complexType name="scoreResult">
 		<xs:annotation>
 			<xs:documentation>A meaningful raw score or statistical expression of
@@ -291,6 +242,11 @@
 					<xs:annotation>
 						<xs:documentation>This entity represents subtests that assess specific learning objectives. 
 						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="assessmentItem" type="assessmentItem" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>References individual test items, if appropriate.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -564,78 +520,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	
-	<xs:complexType name="performanceLevelDescriptor">
-		<xs:annotation>
-			<xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment.  </xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="complexObjectType">
-				<xs:sequence>
-					<xs:element name="codeValue" type="codeValue" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to a Performance Level, </xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="description" type="description">
-						<xs:annotation>
-							<xs:documentation>The description of the Performance Level, for example.
-									Passing
-									Standard
-									Commended
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="performanceBaseConversion" type="performanceBaseType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A conversion of the level to a standard set of performance levels.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
-	<xs:complexType name="objectiveAssessment">
-		<xs:annotation>
-			<xs:documentation>This entity represents subtests that assess specific learning objectives.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="complexObjectType">
-				<xs:sequence>
-					<xs:element name="identificationCode" type="identificationCode">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="maxRawScore" type="xs:int" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The maximum raw score achievable across all assessment items that are correct and scored at the maximum.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="assessmentPerformanceLevel" type="assessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Definition of the performance levels and the associated cut scores.  Three styles are supported:
-							   1. Specification of performance level by min and max score
-							   2. Specification of performance level by cut score - min only
-							   3. Specification of performance level without any mapping to scores</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="percentOfAssessment" type="percent" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The percent of the assessment that tests this objective.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="nomenclature" type="nomenclature" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Reflects the specific nomenclature used for this level of ObjectiveAssessment.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 	
 	<xs:complexType name="assessmentPeriodDescriptor">
 		<xs:annotation>
