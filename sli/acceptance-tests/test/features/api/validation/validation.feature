@@ -159,10 +159,8 @@ Scenario: Given a school entity with no associations, when a GET is performed wi
 	And I should receive an ID for the newly created school
 	When I navigate to GET "/teacher-school-associations/<'Previous School' ID>"
 	Then I should receive a return code of 200
-	And a collection of size 0
 	When I navigate to GET "/teacher-school-associations/<'Previous School' ID>/targets"
 	Then I should receive a return code of 200
-	And a collection of size 0
 
 
 
