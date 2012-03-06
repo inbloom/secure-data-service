@@ -152,7 +152,7 @@ public class LiveAPIClient implements APIClient {
     private List<String> getStudentIdsForSection(String id, String token) {
         
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id
-                + STUDENT_SECTION_ASSOC_URL, token);
+                + STUDENT_SECTION_ASSOC_URL + "students", token);
         List<String> studentIds = new ArrayList<String>();
 
         for (GenericEntity response : responses) {
@@ -459,7 +459,7 @@ public class LiveAPIClient implements APIClient {
         url.append(getApiUrl());
         url.append("/students/");
         url.append(studentId);
-        url.append("/studentCourseAssociations/courses");
+        url.append("/studentTranscriptAssociations/courses");
         //add the query string
         if  (!params.isEmpty()) {
             url.append("?");
@@ -490,7 +490,7 @@ public class LiveAPIClient implements APIClient {
         url.append(getApiUrl());
         url.append("/students/");
         url.append(studentId);
-        url.append("/studentCourseAssociations");
+        url.append("/studentTranscriptAssociations");
         //add the query string
         if  (!params.isEmpty()) {
             url.append("?");

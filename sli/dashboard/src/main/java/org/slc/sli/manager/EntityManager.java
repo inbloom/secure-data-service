@@ -244,7 +244,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
-        return null;
+        return apiClient.getEntity(token, type, id, params);
     }
     
     /**
