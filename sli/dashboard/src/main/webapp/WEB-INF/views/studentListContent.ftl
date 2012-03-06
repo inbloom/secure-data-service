@@ -78,7 +78,7 @@
             <#elseif field.getType() = "attendance">
               <#if field.getVisual()?? && (field.getVisual()?length > 0)>
                 <#include "widget/" + field.getVisual() + ".ftl">
-              <#else>
+              <#elseif attendance??>
                 ${attendance.get(field, student)}
               </#if>
        
