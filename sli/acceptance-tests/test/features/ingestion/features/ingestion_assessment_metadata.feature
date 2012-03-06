@@ -18,6 +18,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | collectionName              | expectedRecordCount | searchParameter                       | searchValue                                      |
 	   | assessment                  | 3                   | body.assessmentFamilyHierarchyName    | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
 
+	And I should see "Processed 3 records." in the resulting batch job file
 
 
 	

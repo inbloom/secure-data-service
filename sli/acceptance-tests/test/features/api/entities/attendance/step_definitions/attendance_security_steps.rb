@@ -31,7 +31,8 @@ Given /^I teach (the student "[^"]*")$/ do |arg1|
 end
 
 When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
-  restHttpGet("/students/"+arg1,"application/vnd.slc+json")
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/students/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

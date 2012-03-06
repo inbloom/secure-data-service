@@ -361,10 +361,25 @@ public class PopulationManager {
     public List<GenericEntity> getAttendance(String token, List<GenericEntity> studentSummaries) {
         return null;
     }
-
     
+    /**
+     * Get student entity
+     * @param token
+     * @param studentId
+     * @return
+     */
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
+    }
+    
+    /**
+     * Get student with additional info for CSI panel
+     * @param token
+     * @param studentId
+     * @return
+     */
+    public GenericEntity getStudentForCSIPanel(String token, String studentId) {
+        return entityManager.getStudentForCSIPanel(token, studentId);
     }
     
     /**
@@ -379,8 +394,6 @@ public class PopulationManager {
         }
         
     }
-    
-
 }
 
 

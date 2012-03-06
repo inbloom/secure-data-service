@@ -4,78 +4,55 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
-require_relative '../../common.rb'
+require_relative '../../../utils/api_utils.rb'
 
+###############################################################################
+# TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
+###############################################################################
 
-Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+"dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if arg2 == "'Mathematics Achievement Assessment Test' ID"
-  id = arg1+"29f044bd-1449-4fb7-8e9a-5e2cf9ad252a" if arg2 == "'Mathematics Assessment 2' ID"
-  id = arg1+"542b0b38-ea57-4d81-aa9c-b55a629a3bd6" if arg2 == "'Mathematics Assessment 3' ID"
-  id = arg1+"6c572483-fe75-421c-9588-d82f1f5f3af5" if arg2 == "'Writing Advanced Placement Test' ID"
-  id = arg1+"df897f7a-7ac4-42e4-bcbc-8cc6fd88b91a" if arg2 == "'Writing Assessment II' ID"
-  id = arg1+"11111111-1111-1111-1111-111111111111" if arg2 == "'NonExistentAssessment' ID" or arg2 == "'WrongURI' ID"
-  id = arg1+@newId                                 if arg2 == "'newly created assessment' ID"
-  id = arg1                                        if arg2 == "'NoGUID' ID" 
+Transform /^<([^"]*)>$/ do |human_readable_id|
+
+  #assessment data
+  id = 16                                       if human_readable_id == "ENTITY COUNT"
+  id = "6c572483-fe75-421c-9588-d82f1f5f3af5"   if human_readable_id == "ENTITY ID"
+  id = "df897f7a-7ac4-42e4-bcbc-8cc6fd88b91a"   if human_readable_id == "ENTITY ID FOR UPDATE"
+  id = "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"   if human_readable_id == "ENTITY ID FOR DELETE"
+  id = "assessment"                             if human_readable_id == "ENTITY TYPE"
+  id = "assessments"                            if human_readable_id == "ENTITY URI"
+  
+  #update related field data
+  id = "assessmentTitle"                        if human_readable_id == "UPDATE FIELD"
+  id = "Writing Advanced Placement Test"        if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "Advanced Placement Test - Subject: Writing"      if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  
+  #general
+  id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "self"                                   if human_readable_id == "SELF LINK NAME" 
+  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
+  id = "Validation failed"                      if human_readable_id == "VALIDATION"
+  
+  #other
+  id = ""                                       if human_readable_id == "BLANK"
+  
+  #return the translated value
   id
 end
 
-Transform /^([^"]*)<([^"]*)>\/targets$/ do |arg1, arg2|
-  id = arg1+"6c572483-fe75-421c-9588-d82f1f5f3af5/targets" if arg2 == "'Writing Advanced Placement Test' ID"
-  id
-end
+###############################################################################
+# GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
+###############################################################################
 
-Given /^"([^"]*)" is "([^"]*)"$/ do |key, value|
-  @data = {} if !defined? @data
-  if key == "assessmentIdentificationCode"
-    @data[key] = [Hash["identificationSystem"=>"School","ID"=>value]]
-  elsif key == "version"
-    @data[key] = Integer(value)
-  else
-    @data[key] = value
-  end
-end
-
-Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
-  if key == "assessmentIdentificationCode"
-    assert(@result[key][0]['ID'] == value, "Expected value of #{value} but received #{@result[key][0]['ID']} in the response body")
-  elsif key == "version"
-    assert(@result[key] == Integer(value),"Expected value of #{value} but received #{@result[key]}")
-  else
-    assert(@result[key] == value, "Expected value of #{value} but received #{@result[key]}")
-  end
-end
-
-When /^I set the "([^"]*)" to "([^"]*)"$/ do |key, value|
-  @result[key] = value
-end
-
-
-When /^I navigate to POST "([^"]*)"$/ do |arg1|
-  if @format == "application/json"
-    data = @data.to_json 
-  elsif @format == "application/xml"
-    builder = Builder::XmlMarkup.new(:indent=>2)   
-  else
-    assert(false, "Unsupported MIME type")
-  end
-
-  restHttpPost(arg1, data)    
-  assert(@res != nil, "Response from rest-client POST is nil")
-
-end
-
-
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
-  data = prepareData(@format, @result)
-  restHttpPut(url, data)
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
-end
-
-
-When /^I attempt to update "([^"]*<[^"]*>)"$/ do |url|
-  @result = {}
-  data = prepareData(@format, @result)
-  restHttpPut(url, data)
-  assert(@res != nil, "Response from rest-client PUT is nil")
+Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
+  @fields = {
+    "assessmentTitle" => "Mathematics Achievement Assessment Test",
+    "assessmentIdentificationCode" => [{
+      "identificationSystem" => "School",
+      "ID" => "01234B"
+    }],
+    "academicSubject" => "Mathematics",
+    "assessmentCategory" => "Achievement test",
+    "gradeLevelAssessed" => "Adult Education",
+    "contentStandard" => "LEA Standard",
+    "version" => 2
+  }
 end

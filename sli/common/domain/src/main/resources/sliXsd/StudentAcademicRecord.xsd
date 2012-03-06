@@ -4,7 +4,6 @@
 	attributeFormDefault="qualified">
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
-<!-- 
 	<xs:element name="course">
 		<xs:annotation>
 			<xs:documentation>This educational entity represents the organization
@@ -142,7 +141,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-  -->
 	<xs:element name="sessionCourseAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course

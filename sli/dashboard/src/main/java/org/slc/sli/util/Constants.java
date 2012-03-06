@@ -101,7 +101,8 @@ public class Constants {
     public static final String ATTR_SESSION_ID = "sessionId";
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
-    
+    public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
+
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";

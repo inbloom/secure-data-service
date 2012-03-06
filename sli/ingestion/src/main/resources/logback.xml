@@ -60,10 +60,6 @@
       <appender-ref ref="FILE"/>
   </root>
 
-  <root level="error">
-      <appender-ref ref="STDOUT"/>
-  </root>
-
    <logger name="org.slc.sli.ingestion.util.ExecutionMonitor" level="DEBUG" >
       <appender-ref ref="STDOUT"/>
       <appender-ref ref="FILE"/>
