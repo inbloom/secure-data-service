@@ -77,6 +77,7 @@ public class StudentAssessmentAssociationResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+
         return this.crudDelegate.readAll(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, headers, uriInfo);
     }
 

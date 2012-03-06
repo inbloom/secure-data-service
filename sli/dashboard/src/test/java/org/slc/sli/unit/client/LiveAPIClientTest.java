@@ -1,10 +1,13 @@
 package org.slc.sli.unit.client;
 
 import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +33,8 @@ public class LiveAPIClientTest {
     	appContext = new ClassPathXmlApplicationContext("application-context.xml");
     	client = (LiveAPIClient) appContext.getBean("apiClient");
         mockRest = mock(RESTClient.class);
+        
+        client.setRestClient(mockRest);
     }
 
     @After
@@ -54,5 +59,89 @@ public class LiveAPIClientTest {
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));
+    }
+    
+    @Test
+    public void testGetCourses() {
+        String url = client.getApiUrl() + "/students/56789/studentCourseAssociations/courses?subjectArea=math&includeFields=courseId,courseTitle";
+        String token = "token";
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("subjectArea", "math");
+        params.put("includeFields", "courseId,courseTitle");
+        
+        String json = "[{courseId: \"123456\",courseTitle:\"Math 1\"},{courseId: \"987654\",courseTitle:\"French 1\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        
+        List<GenericEntity> courses = client.getCourses(token, "56789", params);
+        assertEquals("Size should match", 2, courses.size());
+        assertEquals("course id should match", "123456", courses.get(0).get("courseId"));
+        assertEquals("course title should match", "Math 1", courses.get(0).get("courseTitle"));
+    }
+    
+    @Test
+    public void testGetStudentTranscriptAssociations() {
+        String url = client.getApiUrl() + "/students/56789/studentCourseAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
+        String token = "token";
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", "123456");
+        params.put("includeFields", "finalLetterGradeEarned,studentId");
+        
+        String json = "[{finalLetterGradeEarned: \"A\",studentId:\"56789\"},{finalLetterGradeEarned: \"C\",studentId:\"56789\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        
+        List<GenericEntity> assocs = client.getStudentTranscriptAssociations(token, "56789", params);
+        assertEquals("Size should match", 2, assocs.size());
+        assertEquals("student id should match", "56789", assocs.get(0).get("studentId"));
+        assertEquals("finalLetterGradeEarned should match", "A", assocs.get(0).get("finalLetterGradeEarned"));
+    }
+    
+    @Test
+    public void testGetSections() {
+        String url = client.getApiUrl() + "/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
+        String token = "token";
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", "123456");
+        params.put("includeFields", "sessionId");
+        
+        String json = "[{sessionId:\"98765\"},{sessionId:\"99999\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        
+        List<GenericEntity> assocs = client.getSections(token, "56789", params);
+        assertEquals("Size should match", 2, assocs.size());
+        assertEquals("student id should match", "98765", assocs.get(0).get("sessionId"));
+    }
+    
+    @Test
+    public void testGetEntity() {
+        String url = client.getApiUrl() + "/sessions/56789?includeFields=schoolYear,term";
+        String token = "token";
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("includeFields", "schoolYear,term");
+        
+        String json = "{schoolYear:\"2008-2009\",term:\"Fall Semester\"}";
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        
+        GenericEntity entity = client.getEntity(token, "sessions", "56789", params);
+        assertNotNull("should not be null", entity);
+        assertEquals("school year should match", "2008-2009", entity.get("schoolYear"));
+        assertEquals("term should match", "Fall Semester", entity.get("term"));
+    }
+    
+    @Test
+    public void testBuildQueryString() {
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", "123456");
+        params.put("includeFields", "finalLetterGradeEarned,studentId");
+        
+        //String query = client.b
     }
 }
