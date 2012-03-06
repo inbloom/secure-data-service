@@ -2,7 +2,7 @@ require "active_resource/base"
 require "oauth_helper"
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # protect_from_forgery
   before_filter :handle_oauth
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
