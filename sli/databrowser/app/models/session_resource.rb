@@ -33,13 +33,13 @@ end
 
 class SessionResource < ActiveResource::Base
   cattr_accessor :auth_id, :url_type, :access_token
-  self.format = ActiveResource::Formats::JsonFormat
+  self.format = ActiveResource::Formats::JsonLinkFormat
   self.logger = Rails.logger
   class << self
     
     def headers
-      if !auth_id.nil? and !self.access_token.nil?
-        @headers = {"Authorization" => "Bearer #{self.access_token}", "sessionId" => self.auth_id}
+      if !self.access_token.nil?
+        @headers = {"Authorization" => "Bearer #{self.access_token}"}
       else
         @headers = {}
       end

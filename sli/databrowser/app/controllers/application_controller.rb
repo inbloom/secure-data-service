@@ -2,7 +2,7 @@ require "active_resource/base"
 require "oauth_helper"
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # protect_from_forgery
   before_filter :handle_oauth
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
@@ -25,6 +25,20 @@ class ApplicationController < ActionController::Base
     SessionResource.auth_id = nil
     flash[:error] = "There was a problem in the API."
     redirect_to :back
+  end
+  
+  def callback
+    #TODO: disable redirects to other domains
+    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
+    return
+    if params[:state]
+      redirectUrl = CGI::unescape(params[:state])
+      redirect_to redirectUrl
+      return
+    end
+    respond_to do |format|
+      format.html {render :text => "", :status => :no_content}
+    end
   end
 
 
@@ -50,19 +64,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def callback
-    #TODO: disable redirects to other domains
-    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
-    return
-    if params[:state]
-      redirectUrl = CGI::unescape(params[:state])
-      redirect_to redirectUrl
-      return
-    end
-    respond_to do |format|
-      format.html {render :text => "", :status => :no_content}
-    end
-  end
+
   
   def current_url
     request.url
