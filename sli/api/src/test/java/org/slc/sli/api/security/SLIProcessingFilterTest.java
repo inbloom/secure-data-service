@@ -64,13 +64,26 @@ public class SLIProcessingFilterTest {
     }
 
     @Test
-    public void testSessionInParamFail() throws Exception {
+    public void testSessionInHeader() throws Exception {
+        request.addHeader("sessionId", Mocker.VALID_TOKEN);
+        filter.doFilter(request, response, chain);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Assert.assertNotNull("Authentication can't be null", auth);
+    }
 
+    @Test
+    public void testSessionInHeaderNull() throws Exception {
+        request.addHeader("sessionId", Mocker.INVALID_TOKEN);
+        filter.doFilter(request, response, chain);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Assert.assertNull("Authentication must be null", auth);
+    }
+        
+    @Test
+    public void testSessionInParamFail() throws Exception {
         request.setParameter("sessionId", Mocker.VALID_TOKEN);
         filter.doFilter(request, response, chain);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         Assert.assertNull("Authentication must be null", auth);
     }
 }
