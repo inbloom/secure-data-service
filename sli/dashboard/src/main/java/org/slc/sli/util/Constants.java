@@ -95,7 +95,7 @@ public class Constants {
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_SECTION_ID = "sectionId";
-
+    public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     //Program Participation Constants

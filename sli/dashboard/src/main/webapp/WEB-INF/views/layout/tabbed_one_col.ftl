@@ -7,6 +7,8 @@
         DashboardUtil.makeTabs("#tabs");
     });
 </script>
+<script type="text/javascript" src="/dashboard/static/js/lozengeWidget.js"></script>
+<script type="text/javascript" src="/dashboard/static/js/3p/raphael-min.js"></script>
 </head>
 <body>
 
