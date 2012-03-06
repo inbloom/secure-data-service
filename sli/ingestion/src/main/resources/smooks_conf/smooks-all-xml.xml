@@ -1303,9 +1303,10 @@
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
-    <!-- <jb:wiring property="assessmentItemReferences" beanIdRef="assessmentItemReferenceTypeArray" /> <jb:wiring property="objectiveAssessmentReferences"
-      beanIdRef="objectiveAssessmentReferenceTypeArray" /> <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType"
-      /> <jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" /> -->
+    <!--<jb:wiring property="assessmentItemReferences" beanIdRef="assessmentItemReferenceTypeArray" /> -->
+    <!-- <jb:wiring property="objectiveAssessmentReferences" beanIdRef="objectiveAssessmentReferenceTypeArray" />-->
+    <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType" />
+    <!--<jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" />-->
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -1379,26 +1380,26 @@
   </jb:bean>
 
   <jb:bean beanId="assessmentFamilyReferenceType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference">
+    createOnElement="InterchangeAssessmentMetadata/Assessment/">
     <jb:value property="id" data="AssessmentFamilyReference/@id" />
     <jb:value property="ref" data="AssessmentFamilyReference/@ref" />
     <jb:wiring property="assessmentFamilyIdentity" beanIdRef="assessmentFamilyIdentityType" />
   </jb:bean>
   <jb:bean beanId="assessmentFamilyIdentityType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity">
-    <jb:wiring property="assessmentFamilyIdentificationCodes" beanIdRef="assessmentFamilyIdentificationCodeTypeArray" />
-    <jb:value property="assessmentFamilyTitle" data="AssessmentFamilyIdentity/AssessmentFamilyTitle" />
-    <jb:value property="version" data="AssessmentFamilyIdentity/Version" />
+    createOnElement="InterchangeAssessmentMetadata/Assessment">
+    <jb:wiring property="assessmentFamilyIdentificationCode" beanIdRef="assessmentFamilyIdentificationCodeTypeArray" />
+    <jb:value property="assessmentFamilyTitle" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyTitle" />
+    <jb:value property="version" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/Version" />
   </jb:bean>
   <jb:bean beanId="assessmentFamilyIdentificationCodeTypeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity">
+    createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:wiring beanIdRef="assessmentFamilyIdentificationCodeType" />
   </jb:bean>
   <jb:bean beanId="assessmentFamilyIdentificationCodeType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode">
-    <jb:value property="identificationSystem" data="AssessmentFamilyIdentificationCode/@IdentificationSystem" />
-    <jb:value property="assigningOrganizationCode" data="AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID" data="AssessmentFamilyIdentificationCode/ID" />
+    <jb:value property="identificationSystem" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/@IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/@AssigningOrganizationCode" />
+    <jb:value property="ID" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="sectionReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1468,7 +1469,7 @@
 
     <!-- jb:value property="sourceId" data="" / -->
     <!-- jb:value property="jobId" data="" / -->
-    <jb:expression property="recordType">'AssessmentFamily'
+    <jb:expression property="recordType">'assessmentFamily'
 		</jb:expression>
 
     <jb:value property="localId" data="AssessmentFamily/AssessmentFamilyTitle" />

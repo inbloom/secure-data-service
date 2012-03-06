@@ -96,6 +96,7 @@
               <list>
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment.family}</value>
               </list>
             </constructor-arg>
           </bean>
