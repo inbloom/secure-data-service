@@ -132,8 +132,11 @@ public class EntityManager extends Manager {
         student.put(Constants.ATTR_SECTION_ID, sectionId);
         student.put(Constants.ATTR_TEACHER_ID, apiClient.getTeacherIdForSection(sectionId, token));
         GenericEntity program = getProgram(token, studentId);
-        student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
-
+        if (program != null) {
+            student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
+        } else {
+            student.put(Constants.ATTR_PROGRAMS, new ArrayList());
+        }
         return student;
     }
     
@@ -223,6 +226,51 @@ public class EntityManager extends Manager {
      */
     public List<GenericEntity> getAttendance(final String token, final String studentId) {
         return apiClient.getStudentAttendance(token, studentId);
+    }
+    
+    /**
+     * Returns a list of courses for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
+        return apiClient.getCourses(token, studentId, params);
+    }
+    
+    /**
+     * Returns a list of studentCourseAssociations for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params) {
+        return apiClient.getStudentTranscriptAssociations(token, studentId, params);
+    }
+    
+    /**
+     * Returns a list of sections for the given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
+        return apiClient.getSections(token, studentId, params);
+    }
+    
+    /**
+     * Returns an entity for the given type, id and params
+     * @param token Security token
+     * @param type Type of the entity 
+     * @param id The id of the entity
+     * @param params param map
+     * @return
+     */
+    public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
+        return apiClient.getEntity(token, type, id, params);
     }
     
     /**

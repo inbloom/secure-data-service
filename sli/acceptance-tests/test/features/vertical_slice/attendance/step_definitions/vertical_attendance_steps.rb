@@ -6,6 +6,10 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 
 $ingestion_job_success = false
 
+Given /^I am using the data store "([^"]*)"$/ do |arg1|
+  @local_file_store_path = File.dirname(__FILE__) + arg1
+end
+
 Then /^the ingestion job should be successful$/ do
   $ingestion_job_success = true
 end

@@ -13,15 +13,19 @@ import org.slc.sli.api.client.Query;
  */
 public class BasicQuery implements Query {
     
+    
+    private static final String SORT_BY_KEY = "sort-by";
     private static final String SORT_ORDER_KEY = "sort-order";
     private static final String SORT_ASCENDING = "ascending";
     private static final String SORT_DESCENDING = "descending";
     private static final String START_INDEX_KEY = "start-index";
     private static final String MAX_RESULTS_KEY = "max-results";
+    private static final String FULL_ENTITIES_KEY = "full-entities";
     
     /** Represents an empty query with no query parameters */
     public static final Query EMPTY_QUERY = Builder.create().build();
     public static final Query TARGETS_QUERY = Builder.create().targets().build();
+    public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
     
     private Map<String, Object> params;
     private boolean useTargets = false;
@@ -109,6 +113,38 @@ public class BasicQuery implements Query {
             rval.params = params;
             rval.useTargets = useTargets;
             return rval;
+        }
+        
+        /**
+         * @param sortField
+         */
+        public Builder sortBy(String sortField) {
+            params.put(SORT_BY_KEY, sortField);
+            return this;
+        }
+        
+        /**
+         * @param startIndex
+         */
+        public Builder startIndex(int startIndex) {
+            params.put(START_INDEX_KEY, startIndex);
+            return this;
+        }
+        
+        /**
+         * Return full entities, not just links.
+         */
+        public Builder fullEntities() {
+            params.put(FULL_ENTITIES_KEY, true);
+            return this;
+        }
+        
+        /**
+         * @param maxResults
+         */
+        public Builder maxResults(int maxResults) {
+            params.put(MAX_RESULTS_KEY, maxResults);
+            return this;
         }
     }
     

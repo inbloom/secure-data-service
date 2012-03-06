@@ -17,6 +17,27 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
             <xs:maxLength value="60" />
         </xs:restriction>
     </xs:simpleType>
+    
+	<xs:simpleType name="itemCategoryType">
+		<xs:annotation>
+			<xs:documentation>Category or type of the assessment item.  For example:
+Multiple choice
+Analytic
+Prose
+....
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Analytic"/>
+			<xs:enumeration value="List Question"/>
+			<xs:enumeration value="Math Matrix"/>
+			<xs:enumeration value="Matching"/>
+			<xs:enumeration value="Multiple Choice"/>
+			<xs:enumeration value="Prose"/>
+			<xs:enumeration value="Rubric"/>
+			<xs:enumeration value="True-False"/>
+		</xs:restriction>
+	</xs:simpleType>
 
     <xs:simpleType name="educationOrgIdentificationSystemType">
         <xs:annotation>

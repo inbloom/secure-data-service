@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
@@ -36,12 +37,14 @@ public class GenericEntityFromJson implements JsonDeserializer<Entity> {
             final JsonDeserializationContext context) throws JsonParseException {
         
         JsonObject obj = element.getAsJsonObject();
+        EntityType entityType = null;
         
-        String t = obj.get(ENTITY_TYPE_KEY).getAsString();
+        if (obj.has(ENTITY_TYPE_KEY)) {
+            String t = obj.get(ENTITY_TYPE_KEY).getAsString();
+            entityType = EntityType.byType(t);
+        }
         
         Map<String, Object> data = processObject(obj.getAsJsonObject());
-        
-        EntityType entityType = EntityType.byType(t);
         
         if (entityType != null) {
             return new GenericEntity(entityType, data);
@@ -83,7 +86,10 @@ public class GenericEntityFromJson implements JsonDeserializer<Entity> {
         } else if (element instanceof JsonPrimitive) {
             rval = processPrimitive(element.getAsJsonPrimitive());
             
-        } else {
+        } else if (element instanceof JsonNull) {
+            rval = null;
+            
+        } else if (element instanceof JsonArray) {
             rval = processArray(key, element.getAsJsonArray());
             
         }

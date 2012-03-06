@@ -105,7 +105,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userId", principal.getExternalId());
                 authorizationCode.put("userRoles", StringUtils.collectionToCommaDelimitedString(principal.getRoles()));
                 authorizationCode.put("userRealm", principal.getRealm());
-                
+                authorizationCode.put("userName", principal.getName());
+
                 getService().update(id, authorizationCode);
                 return authorizationCode;
             }
@@ -138,6 +139,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             SLIPrincipal user = userLocator.locate(body.get("userRealm").toString(), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
+            user.setRoles(new ArrayList<String>(roleNamesSet));
+            user.setName((String) body.get("userName"));
+
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);
             Set<GrantedAuthority> authoritiesSet = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
