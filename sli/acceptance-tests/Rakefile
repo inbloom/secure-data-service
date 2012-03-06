@@ -173,7 +173,8 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests] do
+                     :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests] do
   displayFailureReport()
 end
 
@@ -702,7 +703,8 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
-    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
+    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

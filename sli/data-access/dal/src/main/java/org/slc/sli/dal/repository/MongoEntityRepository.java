@@ -96,12 +96,16 @@ public class MongoEntityRepository implements EntityRepository {
 
         // Include fields
         if (query.getIncludeFields() != null) {
-            mongoQuery.fields().include(mongoBody + query.getIncludeFields());
+            for (String includeField : query.getIncludeFields().split(",")) {
+                mongoQuery.fields().include(mongoBody + includeField);
+            }
         }
 
         // Exclude fields
         if (query.getExcludeFields() != null) {
-            mongoQuery.fields().exclude(mongoBody + query.getExcludeFields());
+            for (String excludeField : query.getExcludeFields().split(",")) {
+                mongoQuery.fields().exclude(mongoBody + excludeField);
+            }
         }
 
         // Sorting

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.dal.encrypt.Cipher;
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
@@ -34,8 +34,8 @@ public class BasicQueryConverter implements QueryConverter {
     @Autowired
     SchemaRepository schemaRepo;
     
-    @Autowired
-    Cipher cipher;
+    @Autowired(required = false)
+    EntityEncryption encryptor;
     
     @Override
     public Query stringToQuery(String entityType, String queryString) {
@@ -79,8 +79,8 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
-                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            if (type.isPii() && encryptor != null) {
+                                searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(searchValue);
                         }
@@ -98,8 +98,8 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
-                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            if (type.isPii() && encryptor != null) {
+                                searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).is(searchValue);
                         }
