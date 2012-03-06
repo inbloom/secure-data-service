@@ -8,8 +8,8 @@ package org.slc.sli.ingestion.transformation;
 public interface Transmogrifier {
 
     /**
-     * perform transmogrification
+     * Execute all transformations.
      */
-    void execute();
+    void executeTransformations();
 
 }

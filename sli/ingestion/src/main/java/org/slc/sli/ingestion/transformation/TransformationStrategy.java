@@ -6,20 +6,11 @@ package org.slc.sli.ingestion.transformation;
 public interface TransformationStrategy {
 
     /**
-     * Transformation of data
-     */
-    void transform();
-
-    /**
-     * Loading data into local storage
-     */
-    void loadData();
-
-    /**
-     * Persisting transformed data (either file or database)
+     * Perform a specific transformation on the batch job with provided id.
      *
-     * @return String status
+     * @param batchJobId
      */
-    String persist();
+    // TODO provide return type? ErrorReport?
+    void perform(String batchJobId);
 
 }
