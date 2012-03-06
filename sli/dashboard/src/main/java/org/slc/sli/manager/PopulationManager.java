@@ -37,21 +37,10 @@ public class PopulationManager {
     @Autowired
     private EntityManager entityManager;
     
-    private Map<String, GenericEntity> assessmentFamilyMap;
-    
     public PopulationManager() { 
-        assessmentFamilyMap = new HashMap<String, GenericEntity>();
+        
     }
-    
-    /**
-     * Get the assessment family lookup map
-     * 
-     * @return assessmentFamilyMap
-     *         - the assessment family map
-     */
-    public Map<String, GenericEntity> getAssessmentFamilyMap() {
-        return this.assessmentFamilyMap;
-    }
+
     
     /**
      * Get the list of student summaries identified by the student id list and authorized for the
@@ -160,7 +149,7 @@ public class PopulationManager {
     }
 
     /**
-     * Get meta data about the assessments
+     * Get assessments from the api, given student assessment data
      * 
      * @param username
      * @param studentAssessments
