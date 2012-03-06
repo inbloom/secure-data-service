@@ -78,7 +78,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> ids) {
-        if (ids == null) {
+        if (ids == null || ids.size() == 0) {
             return null;
         }
 
@@ -367,7 +367,52 @@ public class LiveAPIClient implements APIClient {
 
         }
     }
+    
+    /**
+     * Returns the homeroom section for the student
+     * @param studentId
+     * @param token
+     * @return
+     */
+    public String getHomeRoomForStudent(String studentId, String token) {
+        String url = getApiUrl() + STUDENT_SECTION_ASSOC_URL + "/" + studentId;
+        List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);  
+        
+        if (sectionStudentAssociations.size() == 1) {
+            return sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+        }
+        
+        for (GenericEntity secStudentAssociation : sectionStudentAssociations) {
+            if ((Boolean) secStudentAssociation.get("homeRoomIndicator")) {
+                return secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+            }
+        }
+        
+        return null;   
+    }    
 
+    
+    /**
+     * Returns the primary staff associated with the section.
+     * @param sectionId
+     * @param token
+     * @return
+     */
+    public String getTeacherIdForSection(String sectionId, String token) {
+        String url = getApiUrl() + TEACHER_SECTION_ASSOC_URL + "/" + sectionId;
+        List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token);
+        for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
+            
+            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals("Teacher of Record")) {
+                String teacherUrl = getApiUrl() + TEACHERS_URL + "/" + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                GenericEntity teacher =  createEntityFromAPI(teacherUrl, token);
+                return teacher.getString(Constants.ATTR_ID);
+            }
+        }
+    
+        return null;
+    }
+    
     /**
      * Simple method to return a list of attendance data.
      * 

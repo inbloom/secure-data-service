@@ -12,7 +12,6 @@ public class Constants {
     public static final String API_PREFIX = "api/rest/v1";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-    public static final String GET_ROLES_URL = "admin/roles";
 
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
@@ -96,7 +95,7 @@ public class Constants {
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_SECTION_ID = "sectionId";
-
+    public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     //Program Participation Constants

@@ -45,6 +45,26 @@ public class ParameterConstants {
     public static final String EXCLUDE_FIELDS = "excludeFields";
 
     /**
+     * Query parameter for sorting.
+     */
+    public static final String SORT_BY = "sortBy";
+
+    /**
+     * Query parameter for sort order.
+     */
+    public static final String SORT_ORDER = "sortOrder";
+
+    /**
+     * Query parameter for order ascending.
+     */
+    public static final String SORT_ASCENDING = "ascending";
+
+    /**
+     * Query parameter for order descending.
+     */
+    public static final String SORT_DESCENDING = "descending";
+
+    /**
      * Entity/Association IDs
      */
     public static final String ASSESSMENT_ID = "assessmentId";
@@ -72,5 +92,6 @@ public class ParameterConstants {
     public static final String SESSION_COURSE_ASSOCIATION_ID = "sessionCourseAssociationId";
     public static final String STUDENT_ASSESSMENT_ASSOCIATION_ID = "studentAssessmentAssociationId";
     public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
 
 }
