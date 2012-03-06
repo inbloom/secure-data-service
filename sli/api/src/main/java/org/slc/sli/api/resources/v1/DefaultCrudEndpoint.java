@@ -131,14 +131,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 //add additional query key/value pair
                 queryParameters.put(key, value);
 
-                long totalCountTo = 0;
-                long totalCountFor = 0;
+                long totalCount = 0;
                 if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    totalCountTo = associationDefinition.getService().countAssociationsTo(value, query);
-                    totalCountFor = associationDefinition.getService().countAssociationsFor(value, query);
+                    totalCount = associationDefinition.getService().countAssociationsTo(value, query);
                 }
-                System.out.println("totalCountTo=" + totalCountTo + ", totalCountFor=" + totalCountFor);
 
                 //a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
@@ -156,7 +153,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 Response.ResponseBuilder responseBuilder;
                 responseBuilder = Response.ok(results);
-                return addPagingHeaders(responseBuilder, totalCountTo, uriInfo).build();
+                return addPagingHeaders(responseBuilder, totalCount, uriInfo).build();
                 
                 //turn results into response
 //                return Response.ok(results).build();
@@ -406,7 +403,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     private static Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
             final ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-        System.out.println("@WDS | entity is association? " + (entityDef instanceof AssociationDefinition));
         if (entityDef == null) {
             return Response
                     .status(Status.NOT_FOUND)
