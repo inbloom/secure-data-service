@@ -36,8 +36,8 @@ public class ContextResolverStore {
 
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
-    @Autowired
-    private DenyAllContextResolver denyAllContextResolver;
+    // @Autowired
+    // private DenyAllContextResolver denyAllContextResolver;
     @Autowired
     private TeacherAttendanceContextResolver teacherAttendanceContextResolver;
 
@@ -54,8 +54,8 @@ public class ContextResolverStore {
                         .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SECTION)
                         .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
-                        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
+                //makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
+                //        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
                 makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SESSION)
                         .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build(),
                 teacherAttendanceContextResolver
@@ -158,6 +158,7 @@ public class ContextResolverStore {
         return new AssociativeContextBuilder();
     }
 
+    @SuppressWarnings("unused")
     private FullContextBuilder makeFullContext() {
         return new FullContextBuilder();
     }

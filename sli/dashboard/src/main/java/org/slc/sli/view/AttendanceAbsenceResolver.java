@@ -15,11 +15,12 @@ import java.util.Map;
  */
 public class AttendanceAbsenceResolver implements AggregateResolver {
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
-    public static final String CATEGORY = "attendanceEventCategory";
+
 
     private GenericEntity student;
     
-    private final String compareValue = "Absence";
+    private final String COMPARE_VALUE = "Absence";
+    public static final String CATEGORY = "attendanceEventCategory";
 
     public AttendanceAbsenceResolver(GenericEntity student) {
         this.student = student;
@@ -40,7 +41,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         for (Map attendance : attendances) {
             logger.debug("Attendance: " + attendance);
             String value = (String) attendance.get(CATEGORY);
-            if (value.contains(compareValue)) { ++count; }
+            if (value.contains(COMPARE_VALUE)) { ++count; }
         }
         return count;
     }

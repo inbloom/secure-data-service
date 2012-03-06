@@ -98,7 +98,7 @@ public class DiscoController {
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
-        model.addAttribute("relayState", relayState != null ? relayState : "");
+        model.addAttribute("redirect_uri", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
 
         if (relayState == null) {
@@ -118,7 +118,7 @@ public class DiscoController {
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
     public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId,
-            @RequestParam(value = "RelayState", required = false) String appRelayState, 
+            @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
             @RequestParam(value = "clientId", required = true) final String clientId, Model model) throws IOException {
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
