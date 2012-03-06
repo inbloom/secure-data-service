@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.JsonObject;
@@ -77,8 +78,12 @@ public class RESTClient {
             headers.add(API_SESSION_KEY, token);
             HttpEntity entity = new HttpEntity(headers);
             logger.debug("Accessing API at: " + url);
-            HttpEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
-            return response.getBody();
+            try {
+                HttpEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
+                return response.getBody();
+            } catch (HttpClientErrorException e) {
+                logger.debug("Http Error : " + e.getStatusCode());
+            }
         }
         logger.debug("Token is null in call to RESTClient for url" + url);
 

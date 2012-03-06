@@ -20,6 +20,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 
 /**
@@ -209,12 +210,16 @@ public class PopulationManager {
      * @param subjectArea The subject area to search for
      * @return
      */
-    public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds, String subjectArea) {
+    public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds, String selectedCourse) {
         Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
+        
+        //get the subject area
+        String subjectArea = getSubjectArea(SecurityUtil.getToken(), selectedCourse);
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_SUBJECTAREA, subjectArea);
+        if (subjectArea != null)
+            params.put(Constants.ATTR_SUBJECTAREA, subjectArea);
         params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_COURSE_TITLE);
         
         for (String studentId : studentIds) {
@@ -254,6 +259,43 @@ public class PopulationManager {
                     }
                 }
             }
+        }
+        
+        return results;
+    }
+    
+    /**
+     * Get the subject area for the selected  course
+     * @param token Security token
+     * @param selectedCourse The id for the selected course
+     * @return
+     */
+    protected String getSubjectArea(final String token, String selectedCourse) {
+        String subjectArea = null;
+        Map<String, String> params = new HashMap<String, String>();
+        
+        GenericEntity entity = entityManager.getEntity(token, "courses", selectedCourse, params);
+        
+        if (entity != null) {
+            subjectArea = entity.getString("subjectArea");
+        }
+        
+        return subjectArea;
+    }
+    
+    public SortedSet<String> sortByGradeLevel(final String token, Map<String, List<GenericEntity>> historicalData) {
+        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
+        
+        for (Map.Entry<String, List<GenericEntity>> studentData : historicalData.entrySet()) {
+            List<GenericEntity> list = studentData.getValue();
+            
+            //get the assessment list
+            for (GenericEntity entity : list) {
+                results.add(entity.getString("gradeLevelWhenTaken"));
+            }
+            
+            //sort by the school year
+            Collections.sort(list, new GradeLevelComparator());
         }
         
         return results;
@@ -301,7 +343,7 @@ public class PopulationManager {
         //build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE);
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE + ",gradeLevelWhenTaken");
         
         return entityManager.getStudentTranscriptAssociations(token, studentId, params);
     }
@@ -315,7 +357,7 @@ public class PopulationManager {
      */
     protected String getSchoolYear(final String token, final String studentId, final String courseId) {
         SortedSet<String> schoolYears = new TreeSet<String>();
-        String schoolYear = null;
+        String schoolYear = "";
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
@@ -326,7 +368,8 @@ public class PopulationManager {
         
         for (GenericEntity section : sections) {
             GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_SESSIONS, section.getString(Constants.ATTR_SESSION_ID), params);
-            schoolYears.add(entity.getString(Constants.ATTR_SCHOOL_YEAR));
+            if (entity != null && entity.getString(Constants.ATTR_SCHOOL_YEAR) != null)
+                schoolYears.add(entity.getString(Constants.ATTR_SCHOOL_YEAR));
         }
         
         //if we have a school year, then pick the last(latest) from the sorted map
@@ -390,7 +433,28 @@ public class PopulationManager {
     class SchoolYearComparator implements Comparator<GenericEntity> {
 
         public int compare(GenericEntity e1, GenericEntity e2) {
+            if (e1.getString("schoolYear") == null || e2.getString("schoolYear") == null) {
+                return 0;
+            }
+            
             return e2.getString("schoolYear").compareTo(e1.getString("schoolYear"));
+        }
+        
+    }
+    
+    /**
+     * Compare two GenericEntities by grade level
+     * @author srupasinghe
+     *
+     */
+    class GradeLevelComparator implements Comparator<GenericEntity> {
+
+        public int compare(GenericEntity e1, GenericEntity e2) {
+            if (e1.getString("gradeLevelWhenTaken") == null || e2.getString("gradeLevelWhenTaken") == null) {
+                return 0;
+            }
+            
+            return e2.getString("gradeLevelWhenTaken").compareTo(e1.getString("gradeLevelWhenTaken"));
         }
         
     }
