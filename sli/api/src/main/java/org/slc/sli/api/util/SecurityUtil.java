@@ -1,15 +1,14 @@
 package org.slc.sli.api.util;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.enums.Right;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Holder for security utilities
@@ -20,12 +19,13 @@ import org.slc.sli.domain.enums.Right;
 public class SecurityUtil {
 
     private static final Authentication        FULL_ACCESS_AUTH;
+    public static final String SYSTEM_ENTITY = "system_entity";
 
     private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
-        system.setEntity(new MongoEntity("system_entity", new HashMap<String, Object>()));
+        system.setEntity(new MongoEntity(SYSTEM_ENTITY, new HashMap<String, Object>()));
 
         FULL_ACCESS_AUTH = new PreAuthenticatedAuthenticationToken(system, "API", Arrays.asList(Right.FULL_ACCESS));
     }

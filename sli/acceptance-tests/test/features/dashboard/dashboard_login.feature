@@ -54,6 +54,7 @@ And I navigate to the Dashboard home page
 When I select "Illinois Realm" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I access "/simon"
+And I wait for "2" seconds
 Then I am informed that "HTTP Status 403 - Access is denied"
 
 Scenario: hitting static URL

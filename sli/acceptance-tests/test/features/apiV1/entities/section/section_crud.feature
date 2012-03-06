@@ -1,119 +1,75 @@
-Feature: As an SLI application, I want to be able to manage sections
-    As a client application using SLI
-    I want to have create, read, update, and delete functionality for a section.
-
-Background: Logged in as a super-user and using the small data set
+Feature: As an SLI application, I want to be able to manage section entities.
+This means I want to be able to perform CRUD on all entities.
+and verify that the correct links are made available.
+  
+Background: Nothing yet
     Given I am logged in using "demo" "demo1234"
-    Given I have access to all sections
+      And I have access to all data
+      And format "application/vnd.slc+json"
 
-#### Happy Path 
-Scenario Outline: Create a new section
-    Given format "<format>"
-      And the "uniqueSectionCode" is "SpanishB09"
-      And the "sequenceOfCourse" is "1"
-      And the "educationalEnvironment" is "Off-school center"
-      And the "mediumOfInstruction" is "Independent study"
-      And the "populationServed" is "Regular Students"
-      And the "schoolId" is "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" is "<'FALL 2011 (SESSION)' ID>"
-      And the "courseId" is "<'FRENCH 1 (COURSE)' ID>"
-    When I navigate to POST "/v1/sections/" 
+Scenario: Create a valid entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
-      And I should receive an ID for the newly created section
-    When I navigate to GET "/v1/sections/<'newly created section' ID>"
-     Then the "uniqueSectionCode" should be "SpanishB09"
-      And the "sequenceOfCourse" should be "1"
-      And the "educationalEnvironment" should be "Off-school center"
-      And the "mediumOfInstruction" should be "Independent study"
-      And the "populationServed" should be "Regular Students"
-      And the "schoolId" should be "<'APPLE ELEMENTARY (SCHOOL)' ID>"
-      And the "sessionId" should be "<'FALL 2011 (SESSION)' ID>"
-      And the "courseId" should be "<'FRENCH 1 (COURSE)' ID>"
-    Examples:
-    		| format                     |
-    		| application/json 			 |
-
-Scenario Outline: Read a section by id
-    Given format "<format>"
-    When I navigate to GET "/v1/sections/<'chemistryF11' ID>"
+     And I should receive an ID for the newly created entity
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
-    	And the "sequenceOfCourse" should be "1"
-     	And the "educationalEnvironment" should be "Classroom"
-     	And the "mediumOfInstruction" should be "Virtual_on_line_distance_learning"
-     	And the "populationServed" should be "Bilingual_students"
-        And I should receive a link named "getTeacherSectionAssociations" with URI "/v1/sections/<'chemistryF11' ID>/teacherSectionAssociations"
-	    And I should receive a link named "getStudentSectionAssociations" with URI "/v1/sections/<'chemistryF11' ID>/studentSectionAssociations"
-   	    And I should receive a link named "getTeachers" with URI "/v1/sections/<'chemistryF11' ID>/teacherSectionAssociations/teachers"
-	    And I should receive a link named "getStudents" with URI "/v1/sections/<'chemistryF11' ID>/studentSectionAssociations/students"
-	    And I should receive a link named "self" with URI "/v1/sections/<'chemistryF11' ID>"
-    Examples:
-    		| format                 |
-    		| application/vnd.slc+json       |
+     And the response should contain the appropriate fields and values
 
-Scenario Outline: Update an existing section
-    Given format "<format>"
-      When I navigate to GET "/v1/sections/<'biologyF09' ID>"
-   Then I should receive a return code of 200
-     And the "sequenceOfCourse" should be "1"
-  When I set the "sequenceOfCourse" to "2"
-    When I navigate to PUT "/v1/sections/<'biologyF09' ID>"
+Scenario: Read all entities
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+     And I should receive a collection of "<ENTITY COUNT>" entities
+     And each entity's "entityType" should be "<ENTITY TYPE>"
+
+Scenario: Read an entity and confirm presentation of links
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID>"
+    Then I should receive a return code of 200
+     And "entityType" should be "<ENTITY TYPE>"
+     And I should receive a link named "<SELF LINK NAME>" with URI "/<ENTITY URI>/<ENTITY ID>"
+
+Scenario: Update entity
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
+    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then I should receive a return code of 204
-    When I navigate to GET "/v1/sections/<'biologyF09' ID>"
-     And the "sequenceOfCourse" should be "2"
-    Examples:
-		| format                 |
-		| application/json       |
-        
-Scenario Outline: Delete an existing section
-    Given format "<format>"
-    When I navigate to DELETE "/v1/sections/<'biologyF09' ID>"
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+     And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
+
+Scenario: Delete entity
+   Given format "application/json"
+    When I navigate to DELETE "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
     Then I should receive a return code of 204
-    When I navigate to GET "/v1/sections/<'biologyF09' ID>"
-    Then I should receive a return code of 404
-    Examples:
-		| format                 |
-		| application/json       |
-    
-    
-###Links
-@wip
-Scenario: Section Resource links to teacher section association
-   Given format "application/vnd.slc+json"
-   When I navigate to GET /v1/sections/<'biology567' ID>
-   Then I should receive a return code of 200
-      And I should receive a link named "getTeacherSectionAssociations" with URI "/v1/sections/<'biology567' ID>/teacherSectionAssociations"
-	  And I should receive a link named "getStudentSectionAssociations" with URI "/v1/sections/<'biology567' ID>/studentSectionAssociations"
-   	  And I should receive a link named "getTeachers" with URI "/v1/sections/<'biology567' ID>/teacherSectionAssociations/teachers"
-	  And I should receive a link named "getStudents" with URI "/v1/sections/<'biology567' ID>/studentSectionAssociations/students"
-	  And I should receive a link named "self" with URI "/v1/sections/<'biology567' ID>"
-    
-### Error handling
-Scenario: Attempt to read a non-existing section
-    Given format "application/json"
-    When I navigate to GET "/v1/sections/<'Invalid' ID>"
-    Then I should receive a return code of 404      
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+     And I should receive a return code of 404
 
-Scenario: Attempt to delete a non-existing section
-    Given format "application/json"
-    When I navigate to DELETE "/v1/sections/<'Invalid' ID>"
-    Then I should receive a return code of 404      
+Scenario: Non-happy path: Attempt to create invalid entity
+   Given an invalid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
 
-Scenario: Update a non-existing section
-    Given format "application/json"
-    When I navigate to PUT "/v1/sections/<'Invalid' ID>"
-    Then I should receive a return code of 404      
-    
-Scenario: Fail when asking for an unsupported format "text/plain"
-    Given format "text/plain"
-    When I navigate to GET "/v1/sections/<'physicsS08' ID>"
-    Then I should receive a return code of 406
-    
-Scenario: Fail if going to the wrong URI
-    Given format "application/json"
-    When I navigate to GET "/v1/section/<'physicsS08' ID>"
+Scenario: Non-happy path: Attempt to read a non-existing entity
+    When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
-    
- Scenario: Attempt to read the base section resource with no GUID
-    Given format "application/json"
-    When I navigate to GET "/sections/"
-    Then I should receive a return code of 405
+ 
+Scenario: Non-happy path: Attempt to update an entity to an invalid state
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    When I set the "<REQUIRED FIELD>" to "<BLANK>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to update a non-existing entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
+    When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to delete a non-existing entity
+    When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+

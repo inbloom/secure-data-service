@@ -78,6 +78,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                     URLBuilder url = new URLBuilder(baseUrl);
                     url.addQueryParam("RelayState", requestedURL);
                     response.sendRedirect(url.toString());
+                    return;
                 }
             }
         }

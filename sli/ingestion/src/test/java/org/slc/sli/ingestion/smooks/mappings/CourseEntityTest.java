@@ -47,7 +47,7 @@ public class CourseEntityTest {
                 + "        AssigningOrganizationCode=\"orgCode\">"
                 + "        <ID>science7</ID>"
                 + "    </CourseCode>"
-                + "    <CourseCode IdentificationSystem=\"LEA course code2\""
+                + "    <CourseCode IdentificationSystem=\"LEA course code\""
                 + "        AssigningOrganizationCode=\"orgCode2\">"
                 + "        <ID>science72</ID>"
                 + "    </CourseCode>"
@@ -56,12 +56,12 @@ public class CourseEntityTest {
                 + "        <CourseLevelCharacteristic>Advanced</CourseLevelCharacteristic>"
                 + "    </CourseLevelCharacteristics>"
                 + "    <GradesOffered>"
-                + "        <GradeLevel>Seventh grade</GradeLevel>"
+                + "        <GradeLevel>Third grade</GradeLevel>"
                 + "    </GradesOffered>"
                 + "    <SubjectArea>Science</SubjectArea>"
                 + "    <CourseDescription>A seventh grade science course</CourseDescription>"
                 + "    <DateCourseAdopted>2012-02-01</DateCourseAdopted>"
-                + "    <HighSchoolCourseRequirement>True</HighSchoolCourseRequirement>"
+                + "    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>"
                 + "    <CourseGPAApplicability>Applicable</CourseGPAApplicability>"
                 + "    <CourseDefinedBy>LEA</CourseDefinedBy>"
                 + "    <MinimumAvailableCredit CreditType=\"Carnegie unit\""
@@ -72,7 +72,7 @@ public class CourseEntityTest {
                 + "        CreditConversion=\"1.0\">"
                 + "        <Credit>2.0</Credit>"
                 + "    </MaximumAvailableCredit>"
-                + "    <CareerPathway>Science Technology Engineering and Mathematics</CareerPathway>"
+                + "    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>"
                 + "    <EducationOrganizationReference>"
                 + "        <EducationalOrgIdentity>"
                 + "            <StateOrgId>Gary's Code Generator</StateOrgId>"
@@ -98,7 +98,7 @@ public class CourseEntityTest {
         String targetSelector = "csv-record";
 
         String courseCsv = "Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
-                + "A seventh grade science course,2012-02-01,True,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
+                + "A seventh grade science course,2012-02-01,true,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
                 + "Science Technology Engineering and Mathematics";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -122,7 +122,7 @@ public class CourseEntityTest {
                 + "        AssigningOrganizationCode=\"orgCode\">"
                 + "        <ID>science7</ID>"
                 + "    </CourseCode>"
-                + "    <CourseCode IdentificationSystem=\"LEA course code2\""
+                + "    <CourseCode IdentificationSystem=\"LEA course code\""
                 + "        AssigningOrganizationCode=\"orgCode2\">"
                 + "        <ID>science72</ID>"
                 + "    </CourseCode>"
@@ -136,7 +136,7 @@ public class CourseEntityTest {
                 + "    <SubjectArea>Science</SubjectArea>"
                 + "    <CourseDescription>A seventh grade science course</CourseDescription>"
                 + "    <DateCourseAdopted>2012-02-01</DateCourseAdopted>"
-                + "    <HighSchoolCourseRequirement>True</HighSchoolCourseRequirement>"
+                + "    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>"
                 + "    <CourseGPAApplicability>Applicable</CourseGPAApplicability>"
                 + "    <CourseDefinedBy>LEA</CourseDefinedBy>"
                 + "    <MinimumAvailableCredit CreditType=\"Carnegie unit\""
@@ -179,7 +179,7 @@ public class CourseEntityTest {
         if (courseCodeList.size() > 1) {
             // TODO: remove if block when we support lists in CSV
             Map courseCodeMap2 = (Map) courseCodeList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "identificationSystem", "LEA course code2");
+            EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "identificationSystem", "LEA course code");
             EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "assigningOrganizationCode", "orgCode2");
             EntityTestUtils.assertObjectInMapEquals(courseCodeMap2, "ID", "science72");
         }
@@ -190,9 +190,10 @@ public class CourseEntityTest {
         assertEquals(1, courseLevelCharacteristicList.size());
         assertEquals("Advanced", courseLevelCharacteristicList.get(0));
 
-        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
-        assertEquals(1, gradesOfferedList.size());
-        assertEquals("Seventh grade", gradesOfferedList.get(0));
+        assertEquals("Seventh grade", neutralRecord.getAttributes().get("gradesOffered"));
+//        String gradesOfferedList = neutralRecord.getAttributes().get("gradesOffered");
+//        assertEquals(1, gradesOfferedList.size());
+//        assertEquals("Seventh grade", gradesOfferedList.get(0));
 
         assertEquals("Science", neutralRecord.getAttributes().get("subjectArea"));
 
@@ -200,7 +201,7 @@ public class CourseEntityTest {
 
         assertEquals("2012-02-01", neutralRecord.getAttributes().get("dateCourseAdopted"));
 
-        assertEquals("True", neutralRecord.getAttributes().get("highSchoolCourseRequirement"));
+        assertEquals(true, neutralRecord.getAttributes().get("highSchoolCourseRequirement"));
 
         assertEquals("Applicable", neutralRecord.getAttributes().get("courseGPAApplicability"));
 
@@ -208,13 +209,13 @@ public class CourseEntityTest {
 
         Map minCreditMap = (Map) neutralRecord.getAttributes().get("minimumAvailableCredit");
         EntityTestUtils.assertObjectInMapEquals(minCreditMap, "creditType", "Carnegie unit");
-        EntityTestUtils.assertObjectInMapEquals(minCreditMap, "creditConversion", "1.0");
-        EntityTestUtils.assertObjectInMapEquals(minCreditMap, "credit", "1.0");
+        EntityTestUtils.assertObjectInMapEquals(minCreditMap, "creditConversion", 1.0);
+        EntityTestUtils.assertObjectInMapEquals(minCreditMap, "credit", 1.0);
 
         Map maxCreditMap = (Map) neutralRecord.getAttributes().get("maximumAvailableCredit");
         EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "creditType", "Carnegie unit");
-        EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "creditConversion", "1.0");
-        EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "credit", "2.0");
+        EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "creditConversion", 1.0);
+        EntityTestUtils.assertObjectInMapEquals(maxCreditMap, "credit", 2.0);
 
         assertEquals("Science Technology Engineering and Mathematics",
                 neutralRecord.getAttributes().get("careerPathway"));
