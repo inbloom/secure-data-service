@@ -1,72 +1,75 @@
-Feature: As an SLI application, I want to be able to manage courses of instruction
-  This means I want to be able to perform CRUD on courses
-
-Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all courses
-
-### Happy Path
-Scenario: Create a new course
-  Given format "application/json"
-    And I have data for the course "<new-course: Chinese 1>"
-  When I navigate to POST "/v1/courses"
-  Then I should receive a return code of 201
-    And I should receive an ID for the newly created course
-  When I navigate to GET "/v1/courses/<newly created ID>"
-  Then I should receive a return code of 200
-    And the response entity should match "<new-course: Chinese 1>"
-    
-Scenario: Read base resource
-    Given format "application/json"
-    When I navigate to GET "/v1/courses"
-    Then I should receive a return code of 200
-
-Scenario: Read a course by ID
-  Given format "application/json"
-  When I navigate to GET "/v1/courses/<id: 'Spanish 1 Course'>"
-  Then I should receive a return code of 200
-    And I should see the "courseDescription" is "Intro to Spanish"
-    And I should see the "courseCode.id" is "SP1"
-
-Scenario: Update an existing course
-  Given format "application/json"
-  When I navigate to GET "/v1/courses/<id: 'Russian 1 Course'>"
-  Then I should receive a return code of 200
-  When I set the "maximumAvailableCredit" to "3.0"
-    And I navigate to PUT "/v1/courses/<id: 'Russian 1 Course'>"
-  Then I should receive a return code of 204
-  When I navigate to GET "/v1/courses/<id: 'Russian 1 Course'>"
-  Then I should see the "maximumAvailableCredit" is 3.0
-
-Scenario: Delete an existing course
-  Given format "application/json"
-  When I navigate to DELETE "/v1/courses/<id: 'Russian 1 Course'>"
-  Then I should receive a return code of 204
-  When I navigate to GET "/v1/courses/<id: 'Russian 1 Course'>"
-  Then I should receive a return code of 404
-
-### Unhappy Path
-Scenario: Attempt to read a non-existing course
-  Given format "application/json"
-  When I navigate to GET "/v1/courses/<non-existent ID>"
-  Then I should receive a return code of 404
-
-Scenario: Attempt to update a non-existing course
-  Given format "application/json"
-  When I attempt to update "/v1/courses/<non-existent ID>"
-  Then I should receive a return code of 404
-
-Scenario: Attempt to delete a non-existing course
-  Given format "application/json"
-  When I navigate to DELETE "/v1/courses/<non-existent ID>"
-  Then I should receive a return code of 404
+Feature: As an SLI application, I want to be able to manage course entities.
+This means I want to be able to perform CRUD on all entities.
+and verify that the correct links are made available.
   
-Scenario: Fail when asking for an unsupported format "text/plain"
-    Given format "text/plain"
-    When I navigate to GET "/v1/courses/<id: 'Russian 1 Course'>"
-    Then I should receive a return code of 406
-    
-Scenario: Fail if going to the wrong URI
-	Given format "application/json"
-	When I navigate to GET "/v1/course/<id: 'using a wrong URI'>"
-     Then I should receive a return code of 404
+Background: Nothing yet
+    Given I am logged in using "demo" "demo1234"
+      And I have access to all data
+      And format "application/vnd.slc+json"
+
+Scenario: Create a valid entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+     And I should receive an ID for the newly created entity
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+     And the response should contain the appropriate fields and values
+
+Scenario: Read all entities
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+     And I should receive a collection of "<ENTITY COUNT>" entities
+     And each entity's "entityType" should be "<ENTITY TYPE>"
+
+Scenario: Read an entity and confirm presentation of links
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID>"
+    Then I should receive a return code of 200
+     And "entityType" should be "<ENTITY TYPE>"
+     And I should receive a link named "<SELF LINK NAME>" with URI "/<ENTITY URI>/<ENTITY ID>"
+
+Scenario: Update entity
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
+    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+     And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
+
+Scenario: Delete entity
+   Given format "application/json"
+    When I navigate to DELETE "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+     And I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to create invalid entity
+   Given an invalid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to read a non-existing entity
+    When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+ 
+Scenario: Non-happy path: Attempt to update an entity to an invalid state
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    When I set the "<REQUIRED FIELD>" to "<BLANK>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to update a non-existing entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
+    When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to delete a non-existing entity
+    When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+

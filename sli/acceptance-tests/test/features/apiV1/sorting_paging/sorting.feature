@@ -7,8 +7,8 @@ Background:
 
 Scenario: Sorting a collection of student school association links by entryGradeLevel, ascending
 	Given format "application/json"
-		And parameter "sort-by" is "entryGradeLevel"
-		And parameter "sort-order" is "ascending"
+		And parameter "sortBy" is "entryGradeLevel"
+		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations"
 	Then I should receive a collection
 		And the link at index 0 should point to an entity with id "094b9681-4fbc-4d59-a05d-87f6f5d0b759"
@@ -18,8 +18,8 @@ Scenario: Sorting a collection of student school association links by entryGrade
 
 Scenario: Sorting a collection of student entities links obtained via a hop by firstName, descending
 	Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
-		And parameter "sort-order" is "descending"
+		And parameter "sortBy" is "name.firstName"
+		And parameter "sortOrder" is "descending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
 	Then I should receive a collection
 		And the link at index 0 should point to an entity with id "e0e99028-6360-4247-ae48-d3bb3ecb606a"
@@ -27,8 +27,8 @@ Scenario: Sorting a collection of student entities links obtained via a hop by f
 
 Scenario: Sorting a collection of full student school association entities
 	Given format "application/json"
-		And parameter "sort-by" is "entryGradeLevel"
-		And parameter "sort-order" is "descending"
+		And parameter "sortBy" is "entryGradeLevel"
+		And parameter "sortOrder" is "descending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations"
 	Then I should receive a collection
 		And the link at index 0 should have "entryGradeLevel" equal to "Third grade"
@@ -37,8 +37,8 @@ Scenario: Sorting a collection of full student school association entities
 
 Scenario: Sorting a collection of full student entities obtained via a hop
 	Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
-		And parameter "sort-order" is "ascending"
+		And parameter "sortBy" is "name.firstName"
+		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
 	Then I should receive a collection
 		And the link at index 0 should have "name.firstName" equal to "Darkseid"
@@ -46,12 +46,12 @@ Scenario: Sorting a collection of full student entities obtained via a hop
 
 Scenario: Paging request the first two results from an API request
     Given format "application/json"
-		And parameter "sort-by" is "entryGradeLevel"
-		And parameter "sort-order" is "ascending"
+		And parameter "sortBy" is "entryGradeLevel"
+		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations"
 	Then I should receive a collection with 3 elements
- 	Given parameter "start-index" is "0"
-		And parameter "max-results" is "2"
+ 	Given parameter "offset" is "0"
+		And parameter "limit" is "2"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations"
 	Then I should receive a collection with 2 elements
 		And the link at index 0 should point to an entity with id "094b9681-4fbc-4d59-a05d-87f6f5d0b759"
@@ -62,8 +62,8 @@ Scenario: Paging request the first two results from an API request
 
 Scenario: Paging request the first two results from an API request via a hop
     Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
-		And parameter "sort-order" is "ascending"
+		And parameter "sortBy" is "name.firstName"
+		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
 	Then I should receive a collection with 2 elements
  	Given parameter "offset" is "0"
@@ -77,8 +77,8 @@ Scenario: Paging request the first two results from an API request via a hop
 
 Scenario: Request the last and middle page of results from a API request
     Given format "application/json"
-		And parameter "sort-by" is "entryGradeLevel"
-		And parameter "sort-order" is "ascending"
+		And parameter "sortBy" is "entryGradeLevel"
+		And parameter "sortOrder" is "ascending"
 		And parameter "offset" is "1"
 		And parameter "limit" is "2"
 	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations"

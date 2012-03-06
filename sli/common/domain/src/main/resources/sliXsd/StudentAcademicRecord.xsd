@@ -4,7 +4,6 @@
 	attributeFormDefault="qualified">
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
-<!-- 
 	<xs:element name="course">
 		<xs:annotation>
 			<xs:documentation>This educational entity represents the organization
@@ -142,7 +141,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-  -->
 	<xs:element name="sessionCourseAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
@@ -214,8 +212,8 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-<!-- 
-	<xs:element name="studentTranscriptsAssociation">
+
+	<xs:element name="studentTranscriptAssociation">
 		<xs:annotation>
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
@@ -319,21 +317,29 @@
 							performance levels.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseId" type="xs:string">
+				<xs:element name="courseId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The course recorded in the Course transcript
 							entry,</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>course</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentId" type="xs:string">
+				<xs:element name="studentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The Student that took the reported instruction.
 						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>student</sli:ReferenceType>
+                        </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	
+<!--
 	<xs:element name="gradebookEntry">
 		<xs:annotation>
 			<xs:documentation>This entity represents a teacher’s assignment,

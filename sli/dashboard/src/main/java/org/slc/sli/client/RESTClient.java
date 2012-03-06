@@ -1,10 +1,8 @@
 package org.slc.sli.client;
 
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -13,8 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import org.slc.sli.util.URLBuilder;
-import org.slc.sli.util.Constants;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 /**
  *
  * @author pwolf
@@ -30,20 +29,6 @@ public class RESTClient {
 
 
     /**
-     * Get the Roles and Rights information from the API
-     *
-     * @param token
-     *            the sessionId
-     * @return JsonArray object as described by API documentation
-     * @throws NoSessionException
-     */
-    public JsonArray getRoles(String token) {
-        String jsonText = makeJsonRequest(Constants.GET_ROLES_URL, token);
-        JsonParser parser = new JsonParser();
-        return parser.parse(jsonText).getAsJsonObject().getAsJsonArray();
-    }
-
-    /**
      * Call the session/check API
      *
      * @param token
@@ -52,7 +37,7 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-    	logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
+        logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
         String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
@@ -101,11 +86,11 @@ public class RESTClient {
         return null;
     }
 
-	public String getSecurityUrl() {
-		return securityUrl;
-	}
+    public String getSecurityUrl() {
+        return securityUrl;
+    }
 
-	public void setSecurityUrl(String securityUrl) {
-		this.securityUrl = securityUrl;
-	}
+    public void setSecurityUrl(String securityUrl) {
+        this.securityUrl = securityUrl;
+    }
 }

@@ -20,7 +20,8 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 
 /**
- * 
+ * Controller for all types of requests. 
+ * NOTE: This controller was introduced after the student list and app selector controllers. 
  * 
  * @author dwu
  */
@@ -28,8 +29,9 @@ import org.slc.sli.util.SecurityUtil;
 @RequestMapping(value = "/service/layout/")
 public class GenericController {
 
-    private static final String LAYOUT = "layout/";
-
+    private static final String LAYOUT_DIR = "layout/";
+    private static final String TABBED_ONE_COL = "tabbed_one_col";
+    
     private ConfigManager configManager;
     private PopulationManager populationManager;
     
@@ -56,7 +58,7 @@ public class GenericController {
                       + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
         model.addAttribute("student", name);
 
-        return new ModelAndView(LAYOUT + "studentProfile", model);
+        return new ModelAndView(LAYOUT_DIR + TABBED_ONE_COL, model);
 
     }
     

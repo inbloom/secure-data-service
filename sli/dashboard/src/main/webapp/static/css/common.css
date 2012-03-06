@@ -183,13 +183,19 @@ h1
 .panel
 {
     font-size: 24px;
-    border: 1px solid #000000;
     margin-bottom: 10px;
 }
 
-.csi
+.panelHeader
+{
+    margin: 5px;
+}
+
+.csi, 
+.test
 {
     height: 150px;
+    border: 1px solid #000000;
 }
     
 .csi .col1

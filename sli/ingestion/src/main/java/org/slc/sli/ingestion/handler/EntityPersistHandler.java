@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.handler;
 
 import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.util.IdNormalizer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -138,9 +140,20 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
                 fieldName = collection + "Id";
             }
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
-            String externalId = externalIdEntry.getValue().toString();
 
-            String internalId = resolveInternalId(collection, idNamespace, externalId, errorReport);
+            String internalId = "";
+
+            //Allows a reference to be configured as a String or a Map of search criteria, used to make the transition to search criteria smoother
+            if (Map.class.isInstance(externalIdEntry.getValue())) {
+
+                Map<?, ?> externalSearchCriteria = (Map<?, ?>) externalIdEntry.getValue();
+                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, idNamespace, externalSearchCriteria, errorReport);
+
+            } else {
+
+                String externalId = externalIdEntry.getValue().toString();
+                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, idNamespace, externalId, errorReport);
+            }
 
             if (errorReport.hasErrors()) {
                 // Stop processing.
@@ -148,38 +161,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
             }
             entity.setAttributeField(fieldName, internalId);
         }
-    }
-
-    /**
-     * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
-     * store.
-     *
-     * @param collection
-     *            Referenced collection
-     * @param idNamespace
-     *            ID namespace that uniquely identifies external ID
-     * @param externalId
-     *            External ID to be resolved
-     * @param errorReport
-     *            Error reporting
-     * @return Resolved internal ID
-     */
-    public String resolveInternalId(String collection, String idNamespace, String externalId, ErrorReport errorReport) {
-        Map<String, String> filterFields = new HashMap<String, String>();
-
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
-
-        Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
-        if (found == null || !found.iterator().hasNext()) {
-            errorReport.error(
-                    "Cannot find [" + collection + "] record using the following filter: " + filterFields.toString(),
-                    this);
-
-            return null;
-        }
-
-        return found.iterator().next().getEntityId();
     }
 
     /**
@@ -268,5 +249,4 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-
 }
