@@ -36,8 +36,8 @@ public class ContextResolverStore {
 
     @Autowired
     private DefaultEntityContextResolver defaultEntityContextResolver;
-    @Autowired
-    private DenyAllContextResolver denyAllContextResolver;
+    // @Autowired
+    // private DenyAllContextResolver denyAllContextResolver;
     @Autowired
     private TeacherAttendanceContextResolver teacherAttendanceContextResolver;
 
@@ -158,6 +158,7 @@ public class ContextResolverStore {
         return new AssociativeContextBuilder();
     }
 
+    @SuppressWarnings("unused")
     private FullContextBuilder makeFullContext() {
         return new FullContextBuilder();
     }
