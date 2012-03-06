@@ -4,94 +4,51 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
-require_relative '../../common.rb'
+require_relative '../../../utils/api_utils.rb'
 
-# transform <Place Holder Id>
-Transform /^<.+>$/ do |template|
-  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e" if template == "<'FALL 2011 SESSION' ID>"
-  id = "bbea7ac0-a016-4ece-bb1b-47b1fc251d56" if template == "<'SPRING 2011 SESSION' ID>"
-  id = "11111111-1111-1111-1111-111111111111" if template == "<non-existent ID>"
-  id = @newId if template == "<newly created ID>"
+###############################################################################
+# TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
+###############################################################################
+
+Transform /^<([^"]*)>$/ do |human_readable_id|
+
+  #session data
+  id = 6                                        if human_readable_id == "ENTITY COUNT"
+  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e"   if human_readable_id == "ENTITY ID"
+  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e"   if human_readable_id == "ENTITY ID FOR UPDATE"
+  id = "bbea7ac0-a016-4ece-bb1b-47b1fc251d56"   if human_readable_id == "ENTITY ID FOR DELETE"
+  id = "session"                                if human_readable_id == "ENTITY TYPE"
+  id = "sessions"                               if human_readable_id == "ENTITY URI"
+  
+  #update related field data
+  id = "totalInstructionalDays"                 if human_readable_id == "UPDATE FIELD"
+  id = "90"                                     if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "17"                                     if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  
+  #general
+  id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "self"                                   if human_readable_id == "SELF LINK NAME" 
+  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
+  id = "Validation failed"                      if human_readable_id == "VALIDATION"
+  
+  #other
+  id = ""                                       if human_readable_id == "BLANK"
+  
+  #return the translated value
   id
 end
 
-# transform /path/<Place Holder Id>
-Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
-  uri + Transform(template)
-end
+###############################################################################
+# GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
+###############################################################################
 
-# transform /path/<Place Holder Id>/targets
-Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
-  Transform(uri + template) + "/targets"
-end
-
-When /^I navigate to POST "([^\"]+)"$/ do |url|
-  data = prepareData(@format, @fields)
-  puts "about to post: #{data}"
-  restHttpPost(url, data)
-  assert(@res != nil, "Response from rest-client POST is nil")
-end
-
-When /^I navigate to PUT "([^"]*<[^"]*>)"$/ do |url|
-  @result.update(@fields)
-  data = prepareData(@format, @result)
-  restHttpPut(url, data)
-  assert(@res != nil, "Response from rest-client PUT is nil")
-  assert(@res.body == nil || @res.body.length == 0, "Response body from rest-client PUT is not nil")
-end
-
-Given /^"([^"]*)" is "([^"]*|<[^"]*>)"$/ do |key, value|
-  if !defined? @fields
-    @fields = {}
-  end
-  @fields[key] = value
-end
-
-Given /^"([^"]*)" is (\d+)$/ do |key, value|
-  if !defined? @fields
-    @fields = {}
-  end
-  @fields[key] = value.to_i
-end
-
-When /^I set "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
-  step "\"#{arg1}\" is \"#{arg2}\""
-end
-
-When /^I set "([^"]*)" to (\d+)$/ do |arg1, arg2|
-  step "\"#{arg1}\" is #{arg2}"
-end
-
-Then /^I should receive a collection of (\d+) links$/ do |size|
-  assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
-  assert(@result.length == Integer(size), "Expected response of size #{size}, received #{@result.length}");
-
-  @ids = Array.new
-    @result.each do |link|
-      if link["link"]["rel"]=="self"
-        @ids.push(link["id"])
-      end
-    end
-end
-
-Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
-  @result[key].should_not == nil
-  assert(@result[key] == value, "Expected value \"#{key}\" != \"#{@result[key]}\"")
-end
-
-Then /^"([^"]*)" should be (\d+)$/ do |key, value|
-  @result[key].should_not == nil
-  assert(@result[key].to_i == value.to_i, "Expected value #{value} != #{@result[key]}")
-end
-
-Then /^I should have a link with ID "([^"]*)"$/ do |linkid|
-  found = false
-  @ids.each do |crnt_id|
-    if crnt_id == linkid
-      found = true
-    end
-  end
-
-  assert(found, "Link ID not found.")
+Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
+  @fields = {
+    "sessionName" => "Spring 2012",
+    "schoolYear" => "2011-2012",
+    "term" => "Spring Semester",
+    "beginDate" => "2012-01-01",
+    "endDate" => "2012-06-31",
+    "totalInstructionalDays" => 80
+  }
 end
