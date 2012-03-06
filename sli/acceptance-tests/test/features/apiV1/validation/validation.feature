@@ -159,11 +159,9 @@ Scenario: Given a school entity with no associations, when a GET is performed wi
 	And I should receive an ID for the newly created school
 	When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
 	Then I should receive a return code of 403
-	And a collection of size 0
 	When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
 	Then I should receive a return code of 403
-	And a collection of size 0
-
+	
 
 
 
