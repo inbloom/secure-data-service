@@ -68,7 +68,7 @@ public class SLIProcessingFilterTest {
     @Test
     public void testSessionInParam() throws Exception {
 
-        request.setParameter("sessionId", Mocker.VALID_TOKEN);
+        request.addHeader("sessionId", Mocker.VALID_TOKEN);
         filter.doFilter(request, response, chain);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -79,7 +79,7 @@ public class SLIProcessingFilterTest {
     @Test
     public void testSessionInParamFail() throws Exception {
 
-        request.setParameter("sessionId", Mocker.INVALID_TOKEN);
+        request.addHeader("sessionId", Mocker.INVALID_TOKEN);
         filter.doFilter(request, response, chain);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
