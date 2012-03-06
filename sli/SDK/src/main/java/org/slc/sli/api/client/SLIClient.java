@@ -2,6 +2,7 @@ package org.slc.sli.api.client;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -91,5 +92,20 @@ public interface SLIClient {
      * @return Response to the delete request.
      */
     public abstract ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException;
+    
+    /**
+     * Perform a get operation against a generic resource. This is useful when following links
+     * returned by other resources, for example.
+     * 
+     * @param entities
+     *            Entities returned by the API in response to this request.
+     * @param resourceURL
+     *            URL to get
+     * @param query
+     *            Query to append to the resource.
+     * @return ClientResponse from the ReST call.
+     */
+    public abstract ClientResponse getResource(EntityCollection entities, URL resourceURL, Query query)
+            throws MalformedURLException, URISyntaxException;
     
 }

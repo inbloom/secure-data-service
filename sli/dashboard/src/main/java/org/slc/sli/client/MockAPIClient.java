@@ -302,4 +302,25 @@ public class MockAPIClient implements APIClient {
         return url.getFile();
     }
 
+    @Override
+    public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getStudentTranscriptAssociations(String token, String studentId,
+            Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getSections(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
+        return null;
+    }
+
 }

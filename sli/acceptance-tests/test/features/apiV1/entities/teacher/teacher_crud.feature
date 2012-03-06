@@ -1,114 +1,75 @@
-Feature: As an SLI application, I want to be able to manage teachers
-   As a client application using SLI
-   I want create, read, update, and delete functionality for a teacher
-   So I can manage them.
- 
-Background: Logged in as a super-user and using the small data set
-   Given I am logged in using "demo" "demo1234"
-   Given I have access to all teachers
- 
-### Happy Path
- 
-Scenario: Create a new teacher in JSON format
-   Given format "application/json"
-      And the "name" is "Rafe" "Hairfire" "Esquith"
-      And the "birthDate" is "1954-08-31"
-      And the "sex" is "Male"
-      And the "yearsOfPriorTeachingExperience" is "32"
-      And the "staffUniqueStateId" is "12345678"
-      And the "highlyQualifiedTeacher" status is "true"
-      And the "highestLevelOfEducationCompleted" is "Master's"
-   When I navigate to POST "/v1/teachers/"
-   Then I should receive a return code of 201
-      And I should receive an ID for the newly created teacher
-   When I navigate to GET "/v1/teachers/<'newly created teacher' ID>"
-   Then the "name" should be "Rafe" "Hairfire" "Esquith"
-      And the "birthDate" should be "1954-08-31"
-      And the "sex" should be "Male"
-      And the "yearsOfPriorTeachingExperience" should be "32"
-      And the "staffUniqueStateId" should be "12345678"
-      And the "highlyQualifiedTeacher" status should be "true"
-      And the "highestLevelOfEducationCompleted" should be "Master's"
-      
-Scenario: Read base resource
-    Given format "application/json"
-    When I navigate to GET "/v1/teachers"
-    Then I should receive a return code of 200
-              
-Scenario: Read a teacher by ID in JSON format
-   Given format "application/vnd.slc+json"
-   When I navigate to GET "/v1/teachers/<'Macey' ID>"
-   Then I should receive a return code of 200
-      And the "name" should be "Macey" "Mae" "Finch"
-      And the "sex" should be "Female"
-      And the "birthDate" should be "1956-08-14"
-      And the "yearsOfPriorTeachingExperience" should be "22"
-      And the "staffUniqueStateId" should be "<'Macey Home State' ID>"
-      And the "highlyQualifiedTeacher" status should be "false"
-      And the "highestLevelOfEducationCompleted" should be "Bachelor's"
-      And I should receive a link named "getTeacherSectionAssociations" with URI "/v1/teachers/<'Macey' ID>/teacherSectionAssociations"
-      And I should receive a link named "getSections" with URI "/v1/teachers/<'Macey' ID>/teacherSectionAssociations/sections"
-      And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1/teachers/<'Macey' ID>/teacherSchoolAssociations"
-      And I should receive a link named "getSchools" with URI "/v1/teachers/<'Macey' ID>/teacherSchoolAssociations/schools"
-      And I should receive a link named "self" with URI "/v1/teachers/<'Macey' ID>"
-
-
-Scenario: Update an existing teacher in JSON format
-   Given format "application/json"
-   When I navigate to GET "/v1/teachers/<'Belle' ID>"
-   Then I should receive a return code of 200   
-     And the "highlyQualifiedTeacher" status should be "false"
-  When I set the "highlyQualifiedTeacher" status to "true"
-   And I navigate to PUT "/v1/teachers/<'Belle' ID>"
-   Then I should receive a return code of 204
-   When I navigate to GET "/v1/teachers/<'Belle' ID>"
-   Then I should receive a return code of 200   
-     And the "highlyQualifiedTeacher" status should be "true"
-      
-Scenario: Delete an existing teacher in JSON format
-   Given format "application/json"
-   When I navigate to DELETE "/v1/teachers/<'Christian' ID>"
-   Then I should receive a return code of 204
-   When I navigate to GET "/v1/teachers/<'Christian' ID>"
-   Then I should receive a return code of 404
- 
- 
- 
-### Error Handling
-Scenario: Attempt to read a non-existent teacher
-   Given format "application/json"
-   When I navigate to GET "/v1/teachers/<Unknown>"
-   Then I should receive a return code of 404
-
-Scenario: Attempt to delete a non-existent teacher
-   Given format "application/json"
-   When I navigate to DELETE "/v1/teachers/<Unknown>"
-   Then I should receive a return code of 404
-
-Scenario: Attempt to update a non-existent teacher
-   Given format "application/json"
-   When I navigate to PUT "/v1/teachers/<Unknown>"
-   Then I should receive a return code of 404
-
-# does not appy for v1 handled by 'Scenario: Read base resource'   
-#Scenario: Attempt to read the base teacher resource with no GUID
-#  Given format "application/json"
-#  When I navigate to GET "/v1/teachers"
-#  Then I should receive a return code of 405
+Feature: As an SLI application, I want to be able to manage teacher entities.
+This means I want to be able to perform CRUD on all entities.
+and verify that the correct links are made available.
   
-Scenario: Fail when asking for an unsupported format "text/plain"
-  Given format "text/plain"
-  When I navigate to GET "/v1/teachers/<'Macey' ID>"
-  Then I should receive a return code of 406
+Background: Nothing yet
+    Given I am logged in using "demo" "demo1234"
+      And I have access to all data
+      And format "application/vnd.slc+json"
 
-Scenario: Fail if going to the wrong URI
-    Given format "application/json"
-    When I navigate to GET "/teacher/<'Macey' ID>"
+Scenario: Create a valid entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+     And I should receive an ID for the newly created entity
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+     And the response should contain the appropriate fields and values
+
+Scenario: Read all entities
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+     And I should receive a collection of "<ENTITY COUNT>" entities
+     And each entity's "entityType" should be "<ENTITY TYPE>"
+
+Scenario: Read an entity and confirm presentation of links
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID>"
+    Then I should receive a return code of 200
+     And "entityType" should be "<ENTITY TYPE>"
+     And I should receive a link named "<SELF LINK NAME>" with URI "/<ENTITY URI>/<ENTITY ID>"
+
+Scenario: Update entity
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
+    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+     And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
+
+Scenario: Delete entity
+   Given format "application/json"
+    When I navigate to DELETE "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+     And I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to create invalid entity
+   Given an invalid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to read a non-existing entity
+    When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
-    
-       
-
-       
-       
-	
  
+Scenario: Non-happy path: Attempt to update an entity to an invalid state
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    When I set the "<REQUIRED FIELD>" to "<BLANK>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to update a non-existing entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
+    When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to delete a non-existing entity
+    When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
