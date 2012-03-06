@@ -54,6 +54,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Value("${oauth.client.secret}")
     private String clientSecret;
     
+    @Value("${api.server.url}")
+    private String apiUrl;
+    
     private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
     private static final String ENTRY_URL = "ENTRY_URL";
 
@@ -129,6 +132,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
+        SliApi.setBaseUrl(apiUrl);
         OAuthService service = new ServiceBuilder().provider(SliApi.class).
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
@@ -138,10 +142,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         Object token = session.getAttribute(OAUTH_TOKEN);
         LOG.debug("Oauth token in session - " + session.getAttribute(OAUTH_TOKEN) + " and access code - " + request.getParameter("code") + " and request URL is " + request.getRequestURL());
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
-            System.out.println("TEMP - The code is " + request.getParameter("code") + ", the page is " + request.getRequestURL());
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
-            System.out.println("TEMP - got a token " + accessToken);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
             response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
@@ -180,5 +182,15 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
     }
+    
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+    
+    public String getApiUrl() {
+        return this.apiUrl;
+    }
+    
+    
 }
 
