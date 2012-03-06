@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -47,7 +47,7 @@ public class FullContextResolverTest {
         EntityDefinition definition = Mockito.mock(EntityDefinition.class);
         resolver.setDefinition(definition);
 
-        EntityRepository repository = Mockito.mock(EntityRepository.class);
+        Repository<Entity> repository = Mockito.mock(Repository.class);
         when(repository.findAll(any(String.class), anyInt(), anyInt()))
                 .thenReturn(new ArrayList<Entity>());
         resolver.setRepository(repository);
@@ -72,7 +72,7 @@ public class FullContextResolverTest {
 
         Entity entity = Mockito.mock(Entity.class);
         when(entity.getEntityId()).thenReturn(FOO);
-        EntityRepository repository = Mockito.mock(EntityRepository.class);
+        Repository<Entity> repository = Mockito.mock(Repository.class);
         when(repository.findAll(any(String.class), anyInt(), anyInt()))
                 .thenReturn(Arrays.<Entity>asList(entity));
         resolver.setRepository(repository);
@@ -102,7 +102,7 @@ public class FullContextResolverTest {
 
     @Test
     public void testSetRepository() throws Exception {
-        EntityRepository repository = Mockito.mock(EntityRepository.class);
+        Repository<Entity> repository = Mockito.mock(Repository.class);
         when(repository.findAll(any(String.class), anyInt(), anyInt()))
                 .thenReturn(new ArrayList<Entity>());
         resolver.setRepository(repository);

@@ -2,7 +2,7 @@ package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class FullContextResolver implements EntityContextResolver {
 
     private String source;
     private String target;
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     private EntityDefinition definition;
 
-    public FullContextResolver(EntityRepository repository, EntityDefinition entityDefinition) {
+    public FullContextResolver(Repository<Entity> repository, EntityDefinition entityDefinition) {
         this.repository = repository;
         this.definition = entityDefinition;
     }
@@ -56,7 +56,7 @@ public class FullContextResolver implements EntityContextResolver {
         this.target = targetType;
     }
 
-    public void setRepository(EntityRepository repo) {
+    public void setRepository(Repository<Entity> repo) {
         this.repository = repo;
     }
 

@@ -10,7 +10,6 @@ import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -29,7 +28,9 @@ import org.slc.sli.ingestion.NeutralRecord;
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
-    private MongoTemplate template;
+    NeutralRecordRepository() {
+        super.setClass(NeutralRecord.class);
+    }
 
     @Override
     public NeutralRecord find(String collection, String id) {

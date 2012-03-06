@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 
 /**
  *

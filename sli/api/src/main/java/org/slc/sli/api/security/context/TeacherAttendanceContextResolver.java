@@ -5,7 +5,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,7 +24,7 @@ import java.util.List;
 public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private EntityDefinitionStore definitionStore;
 
@@ -89,7 +89,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         }
     }
 
-    public void setRepository(EntityRepository repository) {
+    public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
 

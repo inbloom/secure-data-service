@@ -218,7 +218,7 @@ public class ContextResolverStore {
         private String target;
 
         private EntityDefinitionStore entityDefs;
-        private EntityRepository repo;
+        private Repository<Entity> repo;
 
         public FullContextBuilder() {
             entityDefs = definitionStore;
