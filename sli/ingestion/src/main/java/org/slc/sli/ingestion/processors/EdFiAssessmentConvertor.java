@@ -30,14 +30,18 @@ import org.slc.sli.ingestion.util.FileUtils;
  */
 @Component
 public class EdFiAssessmentConvertor {
+    private static final String PERIOD_CODE_VALUE = "codeValue";
+    private static final String PERIOD_DESCRIPTOR_REF = "periodDescriptorRef";
     private static final String ASSESSMENT_FAMILY_IDENTIFICATION_CODE = "AssessmentFamilyIdentificationCode";
     private static final String PARENT_ASSESSMENT_FAMILY_ID = "parentAssessmentFamilyId";
     private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "AssessmentFamily";
+    private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final Logger LOG = LoggerFactory.getLogger(EdFiAssessmentConvertor.class);
     private final FileUtils fileUtils;
-    private final List<String> inspectRecordTypes = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY);
+    private final List<String> inspectRecordTypes = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY,
+            ASSESSMENT_PERIOD_DESCRIPTOR);
     
     @Autowired
     public EdFiAssessmentConvertor(FileUtils fileUtils) {
@@ -89,6 +93,8 @@ public class EdFiAssessmentConvertor {
      */
     protected List<NeutralRecord> convert(Map<String, List<NeutralRecord>> orig) {
         Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
+        Map<Object, NeutralRecord> assessmentPeriodDescriptors = getAssessmentPeriodDescriptorMap(orig
+                .get(ASSESSMENT_PERIOD_DESCRIPTOR));
         LOG.debug("Assessment family map is {}", assessmentFamilies);
         List<NeutralRecord> assessments = orig.get(ASSESSMENT);
         for (NeutralRecord record : assessments) {
@@ -96,14 +102,20 @@ public class EdFiAssessmentConvertor {
             List<String> familyHierarchy = resolveFamily(record, assessmentFamilies, new HashSet<Object>());
             record.setAttributeField("assessmentFamilyHierarchyName", StringUtils.join(familyHierarchy, "."));
             record.getAttributes().remove(PARENT_ASSESSMENT_FAMILY_ID);
+            Object periodRef = record.getAttributes().get(PERIOD_DESCRIPTOR_REF);
+            if (periodRef != null) {
+                Map<String, Object> periodDescriptor = assessmentPeriodDescriptors.get(periodRef).getAttributes();
+                record.setAttributeField(ASSESSMENT_PERIOD_DESCRIPTOR, periodDescriptor);
+            }
+            record.getAttributes().remove(PERIOD_DESCRIPTOR_REF);
         }
         return assessments;
     }
     
-    private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> familyRecords) {
+    private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> records) {
         // instance #1754 I wish Java had function literals...
         Map<Object, NeutralRecord> assessmentFamilies = new HashMap<Object, NeutralRecord>();
-        for (NeutralRecord record : familyRecords) {
+        for (NeutralRecord record : records) {
             @SuppressWarnings("unchecked")
             List<Map<?, ?>> identities = (List<Map<?, ?>>) record.getAttributes().get(
                     ASSESSMENT_FAMILY_IDENTIFICATION_CODE);
@@ -114,6 +126,15 @@ public class EdFiAssessmentConvertor {
             }
         }
         return assessmentFamilies;
+    }
+    
+    private Map<Object, NeutralRecord> getAssessmentPeriodDescriptorMap(List<NeutralRecord> records) {
+        // instance #1755 I wish Java had function literals...
+        Map<Object, NeutralRecord> periods = new HashMap<Object, NeutralRecord>();
+        for (NeutralRecord record : records) {
+            periods.put(record.getAttributes().get(PERIOD_CODE_VALUE), record);
+        }
+        return periods;
     }
     
     private List<String> resolveFamily(NeutralRecord rec, Map<Object, NeutralRecord> families, Set<Object> visited) {
