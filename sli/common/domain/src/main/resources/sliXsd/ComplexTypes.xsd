@@ -333,6 +333,150 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	
+	<xs:complexType name="restraintEvent">
+		<xs:annotation>
+			<xs:documentation>This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="restraintEventIdentifier" type="restraintEventIdentifier">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a restraint event by a school, school system, a state, or other agency or entity.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="eventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day and year of the restraint event.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The setting where the restraint was exercised.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="restraintEventReasons" type="restraintEventReasonsType">
+						<xs:annotation>
+							<xs:documentation>A categorization of the circumstances or reason for the restraint.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="studentReference" type="reference">
+						<xs:annotation>
+							<xs:documentation>Reference to student that was restrained.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="programReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The special education program associated with the restraint event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolReference" type="reference">
+						<xs:annotation>
+							<xs:documentation>The school where the restraint event occurred.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="restraintEventReasonsType">
+		<xs:annotation>
+			<xs:documentation>The categorization of the circumstances or reason for the restraint. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="restraintEventReason" type="restraintEventReasonItemType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The categorization of the circumstances or reason for the restraint. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="studentAcademicRecord">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents the cumulative record of academic achievement for a student.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="cumulativeCreditsEarned" type="credits" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The cumulative number of credits an individual earns by completing courses or examinations during his or her enrollment in the current school as well as those credits transferred from schools in which the individual had been previously enrolled.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cumulativeCreditsAttempted" type="credits" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The cumulative number of credits an individual attempts to earn by taking courses during his or her enrollment in the current school as well as those credits transferred from schools in which the individual had been previously enrolled.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cumulativeGradePointsEarned" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The cumulative number of grade points an individual earns by successfully completing courses or examinations during his or her enrollment in the current school as well as those transferred from schools in which the individual had been previously enrolled.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cumulativeGradePointAverage" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A measure of average performance in all courses taken by an individual during his or her school career as determined for record-keeping purposes. This is obtained by dividing the total grade points received by the total number of credits attempted. This usually includes grade points received and credits attempted in his or her current school as well as those transferred from schools in which the individual was previously enrolled.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="gradeValueQualifier" type="gradeValueQualifier" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The scale of equivalents, if applicable, for grades awarded as indicators of performance in schoolwork. For example, numerical equivalents for letter grades used in determining a student's Grade Point Average (A=4, B=3, C=2, D=1 in a four-point system) or letter equivalents for percentage grades (90-100%=A, 80-90%=B, etc.).
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="classRanking" type="classRanking" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The academic rank information of a student in relation to his or her graduating class.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="academicHonors" type="academicHonor" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Academic distinctions earned by or awarded to the student.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="recognitions" type="recognition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Recognitions given to the student for accomplishments in a co-curricular, or extra-curricular activity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="projectedGraduationDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The month and year the student is projected to graduate.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="studentReference" type="reference">
+						<xs:annotation>
+							<xs:documentation>Identifies the student that is associated wth the Student Academic Record.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sessionReference" type="reference">
+						<xs:annotation>
+							<xs:documentation>The session associated with the session.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="reportCardReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Report cards for the student.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="diplomaReference" type="reference" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Diploma(s) earned by the student.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<xs:complexType name="telephone">
 		<xs:annotation>
@@ -575,6 +719,43 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name="academicWeek">
+		<xs:annotation>
+			<xs:documentation>This entity represents the academic weeks for a school year, optionally captured to support analyses.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="weekIdentifier" type="weekIdentifier">
+						<xs:annotation>
+							<xs:documentation>The school label for the week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="beginDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The start date for the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The end date for the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalInstructionalDays" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The total instructional days during the academic week.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="calendarDateReference" type="reference" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Days associated with the grading period.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<xs:complexType name="credits">
 		<xs:annotation>
@@ -611,6 +792,57 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="diploma">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents the conferring or certification by an educational organization that the student has successfully completed a particular course of study.  It represents the electronic version of its physical document counterpart.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="diplomaAwardDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The month, day, and year on which the student met  graduation requirements and was awarded a diploma.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="diplomaLevel" type="diplomaLevelType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The level of diploma/credential that is awarded to a student in recognition of his/her completion of the curricular requirements.
+Minimum high school program
+Recommended high school program
+Distinguished Achievement Program</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="diplomaType" type="diplomaType">
+						<xs:annotation>
+							<xs:documentation>The type of diploma/credential that is awarded to a student in recognition of his/her completion of the curricular requirements.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cteCompleter" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicated a student who reached a state–defined threshold of vocational education and who attained a high school diploma or its recognized state equivalent or GED.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="academicHonor" type="academicHonor" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Academic distinctions earned by or awarded to the student.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="recognition" type="recognition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Recognitions given to the student for accomplishments in a co-curricular, or extra-curricular activity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="schoolReference" type="reference">
+						<xs:annotation>
+							<xs:documentation>The school that offers the diploma.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="learningObjectiveIdentityType">
@@ -652,6 +884,53 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="gradingPeriod">
+		<xs:annotation>
+			<xs:documentation>
+				This entity represents the time span for which grades are reported.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="gradingPeriod" type="gradingPeriodType">
+						<xs:annotation>
+							<xs:documentation>
+								The name of the period for which grades are reported
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="beginDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>
+								Month, day, and year of the first day of the grading period.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="endDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>
+								Month, day, and year of the last day of the grading period.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalInstructionalDays">
+						<xs:annotation>
+							<xs:documentation>
+								Total days available for educational instruction during the grading period.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="learningObjective">
@@ -862,6 +1141,35 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="calendarDate">
+		<xs:annotation>
+			<xs:documentation>This entity represents a day in the school calendar.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="date" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The month, day and year of the calendar date.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="calendarEvent" type="calendarEventType">
+						<xs:annotation>
+							<xs:documentation>The type of scheduled or unscheduled event for the day.  For example:
+Instructional day
+Teacher only day
+Holiday
+Make-up day
+Weather day
+Student late arrival/early dismissal
+...
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="classRanking">
