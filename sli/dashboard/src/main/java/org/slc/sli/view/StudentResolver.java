@@ -50,7 +50,7 @@ public class StudentResolver {
         }
         
         if (dataPointName.equals(Constants.ATTR_NAME_WITH_LINK)) {
-            return "<a id=\"student_profile\" onClick=\"studentProfilePopup(" + student.get(Constants.ATTR_ID) + ")\">"
+            return "<a id=\"student_profile\" href=\"/dashboard/service/layout/student?id=" + student.get(Constants.ATTR_ID) + "\">"
                     + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "
                     + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME) + "</a>";
         }
