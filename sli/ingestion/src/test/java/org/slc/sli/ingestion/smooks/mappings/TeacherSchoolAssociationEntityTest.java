@@ -10,14 +10,20 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
@@ -31,8 +37,13 @@ import org.slc.sli.validation.EntityValidator;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherSchoolAssociationEntityTest {
+
+    @InjectMocks
     @Autowired
-    EntityValidator validator;
+    private EntityValidator validator;
+
+    @Mock
+    private EntityRepository mockRepository;
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
             + "<TeacherSchoolAssociation>"
@@ -58,21 +69,24 @@ public class TeacherSchoolAssociationEntityTest {
             + "</TeacherSchoolAssociation>"
             + "</InterchangeStaffAssociation>";
 
-    @Test
-    public void testValidTeacherSectionAssociation() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
+    @Test
+    public void testValidTeacherSchoolAssociation() throws Exception {
+        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStaffAssociation/TeacherSchoolAssociation";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                xmlTestData);
-
-        Entity e = mock(Entity.class);
-
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("teacherSchoolAssociation");
-
-        EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "teacherSchoolAssociation", validator);
+        NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
+        
+        // mock repository will simulate "finding" the references
+        Entity returnEntity = mock(Entity.class);
+        Mockito.when(mockRepository.find("teacher", "333333332")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.find("school", "123456111")).thenReturn(returnEntity);
+        
+        EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
     }
 
     @Test(expected = EntityValidationException.class)

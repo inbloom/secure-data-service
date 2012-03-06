@@ -99,11 +99,11 @@ public class AssociationURLCreatorTest {
                 .calledFromTarget("getEducationOrganizationsAssigned").build();
 
         // create the mock collection for staffedorg association
-        Collection<AssociationDefinition> staffEdOrgAssocColl = new ArrayList<AssociationDefinition>();
+        Collection<EntityDefinition> staffEdOrgAssocColl = new ArrayList<EntityDefinition>();
         staffEdOrgAssocColl.add(staffEdOrgAssoc);
 
         // create the mock collection for edorgschool association
-        Collection<AssociationDefinition> edOrgSchoolAssocColl = new ArrayList<AssociationDefinition>();
+        Collection<EntityDefinition> edOrgSchoolAssocColl = new ArrayList<EntityDefinition>();
         edOrgSchoolAssocColl.add(educationOrganizationSchoolAssoc);
 
         // mock the EntityDefinitionStore

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
@@ -37,7 +36,7 @@ public class ConfigManagerTest {
     public void testGetConfigSet() {
 
         ViewConfigSet configSet = configManager.getConfigSet("lkim");
-        assertEquals(1, configSet.getViewConfig().size());
+        assertEquals(6, configSet.getViewConfig().size());
         assertEquals("IL_3-8_ELA", configSet.getViewConfig().get(0).getName());
     }
 

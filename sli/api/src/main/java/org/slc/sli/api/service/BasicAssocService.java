@@ -39,13 +39,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
     @Autowired
     QueryConverter queryConverter;
     
-    private EntityDefinition sourceDefn;
-    private EntityDefinition targetDefn;
-    private String sourceKey;
-    private String targetKey;
+    private final EntityDefinition sourceDefn;
+    private final EntityDefinition targetDefn;
+    private final String sourceKey;
+    private final String targetKey;
     
-    public BasicAssocService(String collectionName, List<Treatment> treatments, EntityDefinition sourceDefn,
-            String sourceKey, EntityDefinition targetDefn, String targetKey) {
+    public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn,
+            final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
         super(collectionName, treatments);
         this.sourceDefn = sourceDefn;
         this.targetDefn = targetDefn;
@@ -54,60 +54,61 @@ public class BasicAssocService extends BasicService implements AssociationServic
     }
     
     @Override
-    public Iterable<String> getAssociationsFor(String id, int start, int numResults, String queryString, String sortBy,
-            SortOrder sortOrder) {
+    public Iterable<String> getAssociationsFor(final String id, final int start, final int numResults, final String queryString, final String sortBy,
+            final SortOrder sortOrder) {
         List<String> results = new ArrayList<String>();
-        results.addAll(this.getAssociationsList(sourceDefn, id, sourceKey, start, numResults, queryString, sortBy,
+        results.addAll(getAssociationsList(sourceDefn, id, sourceKey, start, numResults, queryString, sortBy,
                 sortOrder));
-        results.addAll(this.getAssociationsList(targetDefn, id, targetKey, start, numResults, queryString, sortBy,
+        results.addAll(getAssociationsList(targetDefn, id, targetKey, start, numResults, queryString, sortBy,
                 sortOrder));
         return results;
     }
     
     @Override
-    public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString,
-            String sortBy, SortOrder sortOrder) {
+    public Iterable<String> getAssociationsWith(final String id, final int start, final int numResults, final String queryString,
+            final String sortBy, final SortOrder sortOrder) {
         return getAssociations(sourceDefn, id, sourceKey, start, numResults, queryString, sortBy, sortOrder);
     }
     
     @Override
-    public Iterable<String> getAssociationsTo(String id, int start, int numResults, String queryString, String sortBy,
-            SortOrder sortOrder) {
+    public Iterable<String> getAssociationsTo(final String id, final int start, final int numResults, final String queryString, final String sortBy,
+            final SortOrder sortOrder) {
         return getAssociations(targetDefn, id, targetKey, start, numResults, queryString, sortBy, sortOrder);
     }
     
     @Override
-    public EntityIdList getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
-            String sortBy, SortOrder sortOrder) {
+    public EntityIdList getAssociatedEntitiesWith(final String id, final int start, final int numResults, final String queryString,
+            final String sortBy, final SortOrder sortOrder) {
         return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, start, numResults, queryString, sortBy,
                 sortOrder);
     }
     
     @Override
-    public EntityIdList getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
-            String sortBy, SortOrder sortOrder) {
+    public EntityIdList getAssociatedEntitiesTo(final String id, final int start, final int numResults, final String queryString,
+            final String sortBy, final SortOrder sortOrder) {
         return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, start, numResults, queryString, sortBy,
                 sortOrder);
     }
     
-    public String create(EntityBody content) {
+    @Override
+    public String create(final EntityBody content) {
         
         //validateAssociationContent(content);
         return super.create(content);
     }
     
     @Override
-    public long countAssociationsWith(String id, String queryString) {
+    public long countAssociationsWith(final String id, final String queryString) {
         return countAssociationsTo(id, queryString) + countAssociationsFor(id, queryString);
     }
     
     @Override
-    public long countAssociationsTo(String id, String queryString) {
+    public long countAssociationsTo(final String id, final String queryString) {
         return getAssociationCount(targetDefn, id, targetKey, queryString);
     }
     
     @Override
-    public long countAssociationsFor(String id, String queryString) {
+    public long countAssociationsFor(final String id, final String queryString) {
         return getAssociationCount(sourceDefn, id, sourceKey, queryString);
     }
     
@@ -128,14 +129,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<String> getAssociations(EntityDefinition type, String id, String key, int start, int numResults,
-            String queryString, String sortBy, SortOrder sortOrder) {
+    private Iterable<String> getAssociations(final EntityDefinition type, final String id, final String key, final int start, final int numResults,
+            final String queryString, final String sortBy, final SortOrder sortOrder) {
         LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
-        return this.getAssociationsList(type, id, key, start, numResults, queryString, sortBy, sortOrder);
+        return getAssociationsList(type, id, key, start, numResults, queryString, sortBy, sortOrder);
     }
     
-    private List<String> getAssociationsList(EntityDefinition type, String id, String key, int start, int numResults,
-            String queryString, String sortBy, SortOrder sortOrder) {
+    private List<String> getAssociationsList(final EntityDefinition type, final String id, final String key, final int start, final int numResults,
+            final String queryString, final String sortBy, final SortOrder sortOrder) {
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, start, numResults, queryString, sortBy,
                 sortOrder);
@@ -162,8 +163,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private EntityIdList getAssociatedEntities(EntityDefinition type, String id, String key, String otherEntityKey,
-            int start, int numResults, String queryString, String sortBy, SortOrder sortOrder) {
+    private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey,
+            final int start, final int numResults, final String queryString, final String sortBy, final SortOrder sortOrder) {
         LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         
@@ -217,29 +218,31 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private Iterable<Entity> getAssociationObjects(EntityDefinition type, String id, String key, int start,
-            int numResults, String queryString, String sortBy, SortOrder sortOrder) {
+    private Iterable<Entity> getAssociationObjects(final EntityDefinition type, final String id, final String key, final int start,
+            final int numResults, final String queryString, final String sortBy, final SortOrder sortOrder) {
         EntityBody existingEntity = type.getService().get(id);
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
         }
         Query query = queryConverter
-                .stringToQuery(this.getEntityDefinition().getType(), queryString, sortBy, sortOrder);
-        if (query == null)
+                .stringToQuery(getEntityDefinition().getType(), queryString, sortBy, sortOrder);
+        if (query == null) {
             query = new Query(Criteria.where("body." + key).is(id));
-        else
+        } else {
             query.addCriteria(Criteria.where("body." + key).is(id));
+        }
         
         Iterable<Entity> entityObjects = getRepo().findByQuery(getCollectionName(), query, start, numResults);
         return entityObjects;
     }
     
-    private long getAssociationCount(EntityDefinition type, String id, String key, String queryString) {
-        Query query = queryConverter.stringToQuery(this.getEntityDefinition().getType(), queryString, null, null);
-        if (query == null)
+    private long getAssociationCount(final EntityDefinition type, final String id, final String key, final String queryString) {
+        Query query = queryConverter.stringToQuery(getEntityDefinition().getType(), queryString, null, null);
+        if (query == null) {
             query = new Query(Criteria.where("body." + key).is(id));
-        else
+        } else {
             query.addCriteria(Criteria.where("body." + key).is(id));
+        }
         return getRepo().count(getCollectionName(), query);
     }
     
@@ -263,13 +266,13 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<ValidationError> errorList = new ArrayList<ValidationError>();
         
         // determine if this is a parent child association
-        boolean parentChild = (this.sourceDefn == this.targetDefn);
+        boolean parentChild = sourceDefn == targetDefn;
         
         // check for source and target entities in data store, log errors to list if/when
         // appropriate
-        this.checkEntityExists(this.sourceDefn, content, (parentChild ? ParentChild.PARENT : ParentChild.NONE),
+        checkEntityExists(sourceDefn, content, parentChild ? ParentChild.PARENT : ParentChild.NONE,
                 errorList);
-        this.checkEntityExists(this.targetDefn, content, (parentChild ? ParentChild.CHILD : ParentChild.NONE),
+        checkEntityExists(targetDefn, content, parentChild ? ParentChild.CHILD : ParentChild.NONE,
                 errorList);
         
         // if error list is not empty
@@ -317,11 +320,12 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
     }
     
-    private boolean checkEntityExistsInMongo(String collectionName, String id) {
+    private boolean checkEntityExistsInMongo(final String collectionName, final String id) {
         try {
             Entity entity = getRepo().find(collectionName, id);
-            if (entity == null)
+            if (entity == null) {
                 return false;
+            }
         } catch (RuntimeException e) {
             return false;
         }
@@ -339,7 +343,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            Parent, child
      * @return entity type with "Id" or other qualifiers added
      */
-    private static String getFieldName(String entityType, ParentChild relationship) {
+    private static String getFieldName(final String entityType, final ParentChild relationship) {
         
         // if no parent child relationship applies
         if (relationship == ParentChild.NONE) {
@@ -348,12 +352,12 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         // field names for edorg-edorg associations say edorg, then parent/child then ID
         if (entityType.equals("educationOrganization")) {
-            return entityType + ((relationship == ParentChild.PARENT) ? "Parent" : "Child") + "Id";
+            return entityType + (relationship == ParentChild.PARENT ? "Parent" : "Child") + "Id";
         }
         
         // insert any other like-like associations' specific field name(s) logic here:
         
         // default
-        return entityType + ((relationship == ParentChild.PARENT) ? "Parent" : "Child") + "Id";
+        return entityType + (relationship == ParentChild.PARENT ? "Parent" : "Child") + "Id";
     }
 }

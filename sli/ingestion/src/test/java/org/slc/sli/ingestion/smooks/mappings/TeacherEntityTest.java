@@ -134,6 +134,7 @@ public class TeacherEntityTest {
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "teacher", validator);
     }
 
+
     @Test
     public void csvTeacherTest() throws Exception {
 
@@ -277,10 +278,10 @@ public class TeacherEntityTest {
         List credentialFieldList = (List) credentialsMap.get("credentialField");
         assertNotNull(credentialFieldList);
         assertEquals(2, credentialFieldList.size());
-        Map credentialFieldMapDescription = (Map) credentialFieldList.get(1);
+        Map credentialFieldMapDescription = (Map) credentialFieldList.get(0);
         assertNotNull(credentialFieldMapDescription);
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMapDescription, "description", "Computer Science certificate");
-        Map credentialFieldMapCodeValue = (Map) credentialFieldList.get(0);
+        Map credentialFieldMapCodeValue = (Map) credentialFieldList.get(1);
         assertNotNull(credentialFieldMapCodeValue);
         EntityTestUtils.assertObjectInMapEquals(credentialFieldMapCodeValue, "codeValue", "C110AW");
 

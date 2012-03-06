@@ -2,9 +2,6 @@ package org.slc.sli.api.security.oauth;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;

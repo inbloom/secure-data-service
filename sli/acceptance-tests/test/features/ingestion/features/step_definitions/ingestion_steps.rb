@@ -25,6 +25,23 @@ end
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
   @landing_zone_path = INGESTION_LANDING_ZONE
   puts "Landing Zone = " + @landing_zone_path
+  
+  # clear out LZ before proceeding
+  if (INGESTION_MODE == 'remote')
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/clearLZ.sh");
+    @resultClearingLZ = runShellCommand(File.dirname(__FILE__) + "/../../util/clearLZ.sh")
+    puts @resultClearingLZ
+  else
+    Dir.foreach(@landing_zone_path) do |file|
+      if /.*.log$/.match file
+        FileUtils.rm_r @landing_zone_path+file
+      end
+      if /.done$/.match file
+        FileUtils.rm_r @landing_zone_path+file
+      end
+    end
+  end
+  
 end
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
@@ -102,6 +119,54 @@ end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
+end
+
+def dirContainsBatchJobLog?(dir)
+  Dir.foreach(dir) do |file|  
+    if /^job-.*.log$/.match file
+      return true
+    end    
+  end
+  return false
+end
+
+When /^a batch job log has been created$/ do
+  intervalTime = 5 #seconds
+  maxTimeout = 240 #seconds
+  iters = maxTimeout/intervalTime
+  found = false
+  if (INGESTION_MODE == 'remote')
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
+    
+    iters.times do |i|
+      @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
+      if /job-.*.log/.match @findJobLog
+        puts "Result of find job log: " + @findJobLog
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        found = true 
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    iters.times do |i|
+      if dirContainsBatchJobLog? @landing_zone_path
+        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        found = true 
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+  
+  if found
+    assert(true, "")
+  else
+    assert(false, "Either batch log was never created, or it took more than #{maxTimeout}")
+  end
+  
 end
 
 When /^zip file is scp to ingestion landing zone$/ do
@@ -269,6 +334,51 @@ Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
        raise "File " + @error_status_filename + "can't be opened"
     end
   end
+end
+
+Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
+  conn = Mongo::Connection.new(INGESTION_DB)
+  db = conn[INGESTION_DB_NAME]
+  collection = db.collection(collection)
+  
+  @record = collection.find_one({searchTerm => value})
+  @record.should_not == nil
+  conn.close
+end
+
+Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
+  object = @record
+  field.split('.').each do |f|
+    if /(.+)\[(\d+)\]/.match f
+      f = $1
+      i = $2.to_i
+      object[f].should be_a Array
+      object[f][i].should_not == nil
+      object = object[f][i]
+    else
+      object[f].should_not == nil
+      object = object[f]
+    end
+  end
+  object.should == value
+end
+
+Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, value| 
+  object = @record
+  field.split('.').each do |f|
+    if /(.+)\[(\d+)\]/.match f
+      f = $1
+      i = $2.to_i
+      object[f].should be_a Array
+      object[f][i].should_not == nil
+      object = object[f][i]
+    else
+      object[f].should_not == nil
+      object = object[f]
+    end
+  endt = object[f]
+  end
+  object.should_not == value
 end
 
 ############################################################

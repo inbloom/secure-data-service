@@ -5,11 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
 
 import com.google.gson.Gson;
 
@@ -45,6 +43,11 @@ public class MockAPIClient implements APIClient {
     
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+    
+    @Override
+    public GenericEntity getStudent(final String token, String studentId) {
+        return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
     }
     
     @Override
@@ -189,6 +192,61 @@ public class MockAPIClient implements APIClient {
         }
         
         return filteredEntities;
+    }
+    
+    /**
+     * Get the entity identified by the entity id and authorized for the security token
+     * 
+     * @param token
+     *            - the principle authentication token
+     * @param filePath
+     *            - the file containing the JSON entities representation
+     * @param id
+     *            - the entity id
+     * @return entity
+     *         - the entity entity
+     */
+    public GenericEntity getEntity(final String token, String filePath, String id) {
+        
+        // Get all the entities for the user identified by token
+        List<GenericEntity> entities = fromFile(filePath);
+        
+        // Select entity identified by id
+        if (id != null) {
+            for (GenericEntity entity : entities) {
+                if (id.equals(entity.get(Constants.ATTR_ID))) {
+                    return entity;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    
+    public String getHomeRoomForStudent(String studentId, String token) {
+        List<GenericEntity> hierarchy = getSchools(token, null);
+        System.out.println(hierarchy);
+        for (GenericEntity school : hierarchy) {
+            List<LinkedHashMap> courses = school.getList("courses");
+            for (LinkedHashMap course : courses) {
+                System.out.println(course);
+                List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get("sections");
+                for (LinkedHashMap section: sections) {
+                    List<String> studentUIDs = (List<String>) section.get("studentUIDs");
+                    if (studentUIDs.contains(studentId)) {
+                        System.out.println(section.get("sectionName"));
+                        return (String) section.get("sectionName");
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+    
+    public String getTeacherIdForSection(String sectionId, String token) {
+        return token;
     }
 
     /**

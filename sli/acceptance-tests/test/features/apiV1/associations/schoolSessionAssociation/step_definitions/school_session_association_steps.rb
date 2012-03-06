@@ -16,8 +16,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = 13                                       if human_readable_id == "ASSOCIATION COUNT"
   id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 5                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "67ce204b-9999-4a11-aacd-000000000000"   if human_readable_id == "ASSOCIATION ID"
   id = "67ce204b-9999-4a11-aacd-000000000001"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "67ce204b-9999-4a11-aacd-000000000002"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
@@ -51,10 +51,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
-  
-  #other
-  id = "41baa245-ceea-4336-a9dd-0ba868526b9b"  if human_readable_id == "'Algebra Alternative' ID"
-  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e"  if human_readable_id == "'Fall 2011 Session' ID"
   
   #return the translated value
   id

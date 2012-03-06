@@ -53,7 +53,7 @@ public class InstitutionalHierarchyManager extends Manager {
         // traverse the ancestor chain from each school and find ed orgs that the school is reachable from
         for (int i = 0; i < schools.size(); i++) {
             GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
-            while(edOrg != null) {
+            while (edOrg != null) {
                 String edOrgId = edOrg.getString(Constants.ATTR_ID);
                 // insert ed-org id to - edOrg mapping 
                 edOrgIdMap.put(edOrgId, edOrg);

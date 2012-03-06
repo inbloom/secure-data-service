@@ -216,7 +216,7 @@ public class PopulationManagerTest {
         List<GenericEntity> attendance = new ArrayList<GenericEntity>();
         attendance.add(new GenericEntity());
         attendance.add(new GenericEntity());
-        when(mockEntity.getAttendance(null, "0")).thenReturn(null);
+        when(mockEntity.getAttendance(null, "0")).thenReturn(new ArrayList<GenericEntity>());
         when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
 
 

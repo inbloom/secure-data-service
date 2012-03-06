@@ -3731,6 +3731,15 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
 			<xs:maxLength value="1024"/>
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:simpleType name="uuidType">
+		<xs:annotation>
+			<xs:documentation>A universally (practically) unique identifier (UUID) in canonical form</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+		    <xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
 	
 	<xs:simpleType name="reference">
         <xs:annotation>
@@ -3738,6 +3747,7 @@ xmlns:sli="http://slc-sli/ed-org/0.1" >
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
+            <!-- Is this correct? A UUID has 32 digits + 4 hyphens = 36 characters -->
             <xs:maxLength value="30"/>
         </xs:restriction>
     </xs:simpleType>

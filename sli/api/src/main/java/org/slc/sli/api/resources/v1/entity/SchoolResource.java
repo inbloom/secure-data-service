@@ -190,7 +190,7 @@ public class SchoolResource {
     
 
     /**
-     * teaher school associations - teacher lookup
+     * teacher school associations - teacher lookup
      * 
      * @param schoolId
      *            The Id of the School.
@@ -209,46 +209,6 @@ public class SchoolResource {
         return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
     }
 
-    
-    /**
-     * School edorg associations
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-    public Response getSchoolEdorgAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
-    }
-
-    /**
-     * school edorg associations - edorg lookup
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
-    public Response getSchoolEdorgAssociationEdorgs(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "educationOrganizationId", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
-    }
     
     /**
      * student school associations

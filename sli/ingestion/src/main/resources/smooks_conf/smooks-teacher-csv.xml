@@ -141,8 +141,8 @@
   </jb:bean>
   <jb:bean beanId="teacherCredentialFieldDescriptorArray" class="java.util.ArrayList"
     createOnElement="csv-record">
-    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorCodeValue" />
     <jb:wiring beanIdRef="teacherCredentialFieldDescriptorDescription" />
+    <jb:wiring beanIdRef="teacherCredentialFieldDescriptorCodeValue" />
   </jb:bean>
 
   <jb:bean beanId="teacherCredentialFieldDescriptorCodeValue" class="java.util.HashMap"

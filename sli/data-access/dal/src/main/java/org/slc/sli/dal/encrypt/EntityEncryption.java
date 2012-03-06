@@ -52,6 +52,22 @@ public class EntityEncryption {
         return clonedEntity;
     }
     
+    public String encryptSingleValue(Object value) {
+        return aes.encrypt(value);
+    }
+    
+    public Object decryptSingleValue(Object value) {
+        if (!(value instanceof String)) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+        }
+        Object decrypted = aes.decrypt((String) value);
+        if (decrypted == null) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            return value;
+        }
+        return decrypted;
+    }
+    
     private static enum Operation {
         ENCRYPT, DECRYPT;
     }
@@ -64,6 +80,7 @@ public class EntityEncryption {
         for (Entry<String, Object> piiField : piiMap.entrySet()) {
             Object fieldValue = body.get(piiField.getKey());
             if (fieldValue == null) {
+                LOG.debug("PII field was null: " + piiField.getKey());
                 continue;
             } else if (fieldValue instanceof Map) {
                 if (!(piiField.getValue() instanceof Map)) {
@@ -73,6 +90,7 @@ public class EntityEncryption {
                 encryptInPlace((Map<String, Object>) piiField.getValue(), (Map<String, Object>) fieldValue, op);
             } else if (fieldValue instanceof List) {
                 List<Object> list = (List<Object>) fieldValue;
+                LOG.debug("En/decrypting PII list: " + piiField.getKey() + ", size=" + list.size());
                 for (int i = 0; i < list.size(); i++) {
                     Object item = list.get(i);
                     if (item instanceof Map) {
@@ -98,10 +116,12 @@ public class EntityEncryption {
                                 newValue = item;
                             }
                         }
+                        LOG.debug("En/decrypting PII list field: " + piiField.getKey() + ", item=" + i + ", old="
+                                + item + ", new=" + newValue);
                         list.set(i, newValue);
                     }
                 }
-                return;
+                continue;
             } else {
                 Object newValue;
                 if (Operation.ENCRYPT == op) {
@@ -120,6 +140,7 @@ public class EntityEncryption {
                         newValue = fieldValue;
                     }
                 }
+                LOG.debug("En/decrypting PII value: " + piiField.getKey() + ", old=" + fieldValue + ", new=" + newValue);
                 body.put(piiField.getKey(), newValue);
             }
             
@@ -143,7 +164,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(map);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
             for (Map.Entry<String, Object> entry : ((Map<String, Object>) value).entrySet()) {
                 cloneEntity(map, entry.getKey(), entry.getValue());
@@ -155,7 +176,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(list);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
             for (Object child : (List) value) {
                 cloneEntity(list, null, child);
@@ -166,7 +187,7 @@ public class EntityEncryption {
             } else if (parent instanceof List) {
                 ((List) parent).add(value);
             } else {
-                throw new IllegalArgumentException("Bug");
+                throw new IllegalArgumentException("Data is not valid");
             }
         }
     }
@@ -198,42 +219,6 @@ public class EntityEncryption {
                 return null;
             }
             return schema.getAppInfo().isPersonallyIdentifiableInfo() ? true : null;
-        }
-    }
-    
-    // TODO REMOVE DEBUG CODE
-    @SuppressWarnings("unchecked")
-    public static void printMap(String depth, Object v) {
-        if (v instanceof Map) {
-            System.err.println(depth + "{");
-            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) v).entrySet()) {
-                printMap(depth + "\t", entry);
-            }
-            System.err.println(depth + "}");
-        } else if (v instanceof List) {
-            System.err.println(depth + "[");
-            for (Object item : (List<Object>) v) {
-                printMap(depth + "\t", item);
-            }
-            System.err.println(depth + "]");
-        } else if (v instanceof Map.Entry) {
-            Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) v;
-            System.err.print(depth + entry.getKey() + " : ");
-            if (entry.getValue() instanceof Map) {
-                System.err.println("{");
-                printMap(depth + "\t", entry.getValue());
-                System.err.println(depth + "}");
-            } else if (entry.getValue() instanceof List) {
-                System.err.println("[");
-                for (Object e : (List<Object>) entry.getValue()) {
-                    printMap(depth + "\t", e);
-                }
-                System.err.println(depth + "]");
-            } else {
-                System.err.println(entry.getValue());
-            }
-        } else {
-            System.err.println(depth + v);
         }
     }
 }

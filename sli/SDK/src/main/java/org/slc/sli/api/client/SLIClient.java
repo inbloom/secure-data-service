@@ -26,8 +26,11 @@ public interface SLIClient {
      *            Password for this user.
      * @param realm
      *            IDP realm the user is associated with.
+     * @return
+     *         String containing the sessionId for the authenticated user, or null if
+     *         authentication fails.
      */
-    public abstract void connect(final String host, final int port, final String user, final String password,
+    public abstract String connect(final String host, final int port, final String user, final String password,
             final String realm);
     
     /**
@@ -42,28 +45,34 @@ public interface SLIClient {
     /**
      * Read operation by ID.
      * 
+     * @param entities
+     *            Entities returned by the API.
      * @param type
      *            The type of entity
      * @param id
      *            The ID of the entity to read.
      * @param query
      *            Query parameters.
-     * @return EntityCollection collection of entities of EntityType that match the query.
+     * @return ClientResponse from the ReST call.
      */
-    public abstract EntityCollection read(final EntityType type, final String id, final Query query)
-            throws MalformedURLException, URISyntaxException;
+    public abstract ClientResponse read(EntityCollection entities, final EntityType type, final String id,
+            final Query query)
+                    throws MalformedURLException, URISyntaxException;
     
     /**
      * Read operation
      * 
+     * @param entities
+     *            Entities returned by the API.
      * @param type
      *            The type of entity
      * @param query
      *            Query parameters.
-     * @return EntityCollection collection of entities of EntityType that match the query.
+     * @return ClientResponse from the ReST call.
      */
-    public abstract EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
-    URISyntaxException;
+    public abstract ClientResponse read(EntityCollection entities, final EntityType type, final Query query)
+            throws MalformedURLException,
+            URISyntaxException;
     
     /**
      * Update operation

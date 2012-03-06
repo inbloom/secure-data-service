@@ -41,18 +41,18 @@ public class ReferenceSchemaTest {
     private ReferenceSchema spySchema;
     private ValidationRepo repo = new ValidationRepo();
     private static final String UUID = "123456789";
-    private static final String COLLECTION = "section";
-    private static final String FIELDNAME = "courseId";
+    private static final String REFERENCED_COLLECTION = "section";
+    private static final String REFERENCE_FIELDNAME = "courseId";
     
     @Before
     public void setup() {
         Entity entity = mock(Entity.class);
         when(entity.getEntityId()).thenReturn(UUID);
         
-        repo.addEntity(COLLECTION, entity);
+        repo.addEntity(REFERENCED_COLLECTION, entity);
         
         AppInfo info = mock(AppInfo.class);
-        when(info.getReferenceType()).thenReturn(COLLECTION);
+        when(info.getReferenceType()).thenReturn(REFERENCED_COLLECTION);
         
         spySchema = spy(schema);
         when(spySchema.getAppInfo()).thenReturn(info);
@@ -61,15 +61,14 @@ public class ReferenceSchemaTest {
     @Test
     public void testReferenceValidation() throws IllegalArgumentException {
         List<ValidationError> errors = new ArrayList<ValidationError>();
-        
-        assertTrue("Reference entity validation failed", spySchema.validate(FIELDNAME, UUID, errors, repo));
+        assertTrue("Reference entity validation failed", spySchema.validate(REFERENCE_FIELDNAME, UUID, errors, repo));
     }
     
     @Test
     public void testInvalidReferenceValidation() throws IllegalArgumentException {
         List<ValidationError> errors = new ArrayList<ValidationError>();
         
-        assertFalse("Invalid Reference entity validation failed", spySchema.validate(FIELDNAME, "45679", errors, repo));
+        assertFalse("Invalid Reference entity validation failed", spySchema.validate(REFERENCE_FIELDNAME, "45679", errors, repo));
     }
     
     /**

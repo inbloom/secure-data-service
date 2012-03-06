@@ -16,6 +16,8 @@ public interface APIClient {
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
 
     public List<GenericEntity> getStudents(final String token, List<String> studentIds);
+    
+    public GenericEntity getStudent(String token, String id);
 
     public List<GenericEntity> getStudentAssessments(final String token, String studentId);
 
@@ -28,4 +30,8 @@ public interface APIClient {
     public List<GenericEntity> getStudentAttendance(final String token, String studentId);
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
+    
+    public String getTeacherIdForSection(String sectionId, String token);
+    
+    public String getHomeRoomForStudent(String studentId, String token);
 }

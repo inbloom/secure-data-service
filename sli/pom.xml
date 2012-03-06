@@ -235,6 +235,13 @@
 				<scope>test</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>SDK</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
 			<!-- Spring Framework -->
 
 			<!-- Spring Core dependency -->

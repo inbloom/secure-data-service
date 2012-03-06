@@ -111,8 +111,32 @@ public class EntityManager extends Manager {
      *         - the student entity
      */
     public GenericEntity getStudent(final String token, String studentId) {
-        return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
+        return apiClient.getStudent(token, studentId);
     }
+    
+    
+    
+    /**
+     * Get the student entity along with additional info needed for CSI panel
+     * 
+     * @param token
+     *            - the principle authentication token
+     * @param studentId
+     *            - the student id
+     * @return student
+     *         - the student entity
+     */
+    public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
+        GenericEntity student = getStudent(token, studentId);
+        String sectionId = apiClient.getHomeRoomForStudent(studentId, token);
+        student.put(Constants.ATTR_SECTION_ID, sectionId);
+        student.put(Constants.ATTR_TEACHER_ID, apiClient.getTeacherIdForSection(sectionId, token));
+        GenericEntity program = getProgram(token, studentId);
+        student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
+
+        return student;
+    }
+    
     
     /**
      * Get the list of student program entities identified by the student id list and authorized for the
