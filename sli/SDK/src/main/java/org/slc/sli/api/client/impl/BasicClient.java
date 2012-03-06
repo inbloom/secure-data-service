@@ -148,6 +148,36 @@ public final class BasicClient implements SLIClient {
         if (id != null) {
             builder.id(id);
         }
+        
+        return getResource(entities, builder.build(), query);
+    }
+    
+    
+    @Override
+    public ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException {
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
+        return restClient.putRequest(url, gson.toJson(e));
+    }
+    
+    @Override
+    public ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException {
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
+        return restClient.deleteRequest(url);
+    }
+    
+    @Override
+    public String connect(final String host, final int port, final String user, final String password,
+            final String realm) {
+        restClient = new RESTClient();
+        return restClient.openSession(host, port, user, password, realm);
+    }
+    
+    @Override
+    public ClientResponse getResource(EntityCollection entities, URL resourceURL, Query query)
+            throws MalformedURLException, URISyntaxException {
+        entities.clear();
+        
+        URLBuilder builder = URLBuilder.create(resourceURL.toString());
         builder.query(query);
         
         ClientResponse response = restClient.getRequest(builder.build());
@@ -175,26 +205,6 @@ public final class BasicClient implements SLIClient {
             }
         }
         return response;
-    }
-    
-    
-    @Override
-    public ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, gson.toJson(e));
-    }
-    
-    @Override
-    public ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.deleteRequest(url);
-    }
-    
-    @Override
-    public String connect(final String host, final int port, final String user, final String password,
-            final String realm) {
-        restClient = new RESTClient();
-        return restClient.openSession(host, port, user, password, realm);
     }
     
     /*
