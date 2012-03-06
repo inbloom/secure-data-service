@@ -79,7 +79,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
+                            if (type.isPii() && encryptor != null) {
                                 searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(searchValue);
@@ -98,7 +98,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
+                            if (type.isPii() && encryptor != null) {
                                 searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).is(searchValue);
