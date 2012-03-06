@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.processors;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -7,25 +10,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
-import org.slc.sli.ingestion.transformation.TransformationStrategy;
+import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.util.performance.Profiled;
 
 /**
- * Camel interface for processing Transformation of data.
+ * Camel processor for transformation of data.
  *
- * @author ifaybyshev
+ * @author dduran
  *
  */
 @Component
 public class TransformationProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
-
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     /**
      * Camel Exchange process callback method
@@ -52,15 +52,22 @@ public class TransformationProcessor implements Processor {
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        TransformationStrategy<NeutralRecordMongoAccess, String> strategy = (TransformationStrategy<NeutralRecordMongoAccess, String>) TransformationFactory
-                .getTransformationStrategy(TransformationFactory.ASSESSMENT_COMBINER);
-        strategy.setJobId(jobId);
-        strategy.handle(this.neutralRecordMongoAccess);
+        Collection<String> collectionNames = defineCollectionsInJob();
+
+        Transmogrifier transmogrifier = TransformationFactory.createTransmogrifier(collectionNames, jobId);
+
+        transmogrifier.execute();
 
     }
 
-    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    private Collection<String> defineCollectionsInJob() {
+
+        // TODO: provide proper implementation
+
+        Collection<String> collectionNames = new ArrayList<String>();
+        collectionNames.add(TransformationFactory.ASSESSMENT_COMBINER);
+
+        return collectionNames;
     }
 
 }

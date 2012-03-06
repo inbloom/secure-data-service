@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
@@ -10,25 +13,41 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 public class TransformationFactory {
 
+    // TODO can we make this a service instead of passing it through every layer?
     private static NeutralRecordMongoAccess neutralRecordMongoAccess;
 
+    // TODO: can we use enums?
     public static final String ASSESSMENT_COMBINER = "AssessmentCombiner";
 
-    // TODO: what is the pivot that our strategy should depend on? maybe the input should be the all
-    // the collections involved in this job? can we use enums here? perhaps the return type should
-    // actually be Set<TransformationStrategy> ?
-    public static TransformationStrategy<?, ?> getTransformationStrategy(String name) {
+    /**
+     * Create a transmogrifier based on a jobId and collection names that, when executed, will
+     * perform all transformations required for this job.
+     *
+     * @param collectionNames
+     * @param jobId
+     * @return
+     */
+    public static Transmogrifier createTransmogrifier(Collection<String> collectionNames, String jobId) {
 
-        if (name.equals(TransformationFactory.ASSESSMENT_COMBINER)) {
-            return new AssessmentCombiner(neutralRecordMongoAccess);
+        Collection<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionNames);
+
+        return TransmogrifierImpl.createInstance(neutralRecordMongoAccess, jobId, transformationStrategies);
+    }
+
+    private static Collection<TransformationStrategy> deriveTransformsRequired(Collection<String> collectionNames) {
+
+        Collection<TransformationStrategy> transformationStrategies = new ArrayList<TransformationStrategy>();
+
+        // TODO: again, can we use enums / enumset ?
+        if (collectionNames.contains(TransformationFactory.ASSESSMENT_COMBINER)) {
+            transformationStrategies.add(new AssessmentCombiner(neutralRecordMongoAccess));
         }
 
-        return null;
-
+        return transformationStrategies;
     }
 
-    static void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+    // invoked via spring
+    public static void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         TransformationFactory.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
-
 }

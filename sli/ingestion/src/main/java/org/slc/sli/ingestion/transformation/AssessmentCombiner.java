@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Transformer for Assessment Entities
@@ -17,56 +16,30 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author ifaybyshev
  *
  */
-public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAccess, String> {
-
+public class AssessmentCombiner implements TransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
 
     private String jobId;
 
+    private final Map<String, Map<Object, NeutralRecord>> collections;
+
+    // TODO can we make this a service instead of passing it through every layer?
+    private final NeutralRecordMongoAccess neutralRecordMongoAccess;
+
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        super(neutralRecordMongoAccess);
-    }
-
-    /**
-     * Transforms items inside staging database
-     *
-     * TODO: shouldn't this method be a part of the AbstractCombiner?
-     */
-    @Override
-    String doHandling(NeutralRecordMongoAccess item, ErrorReport errorReport) {
-        LOG.info("Starting Transforming Assessments: Combining");
-
-        String status = "FAIL";
-
-        try {
-
-            // load collections to memory from Mongo
-            loadData();
-
-            // perform transformations of the data in local storage
-            transform();
-
-            // persist transformed data to storage (i.e. db)
-            status = persist();
-
-        } catch (Exception e) {
-            LOG.error("Exception", e);
-
-            errorReport.fatal("Could not transform data.", AssessmentCombiner.class);
-        }
-
-        return status;
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+        this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
     @Override
     public void loadData() {
         LOG.info("Loading data for transformation.");
 
-        addCollection("teacher");
+        loadCollectionFromDb("teacher");
         LOG.info("Teacher is loaded into local storage.  Total Count = " + collections.get("teacher").size());
 
-        addCollection("teacherSchoolAssociation");
+        loadCollectionFromDb("teacherSchoolAssociation");
         LOG.info("TeacherSchoolAssociation is loaded into local storage.  Total Count = "
                 + collections.get("teacherSchoolAssociation").size());
     }
@@ -136,7 +109,7 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
      *
      * @param collectionName
      */
-    private void addCollection(String collectionName) {
+    private void loadCollectionFromDb(String collectionName) {
         Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findAll(collectionName);
         Iterator<NeutralRecord> iter = data.iterator();
 
@@ -151,7 +124,6 @@ public class AssessmentCombiner extends AbstractCombiner<NeutralRecordMongoAcces
         collections.put(collectionName, collection);
     }
 
-    @Override
     public void setJobId(String id) {
         this.jobId = id;
 
