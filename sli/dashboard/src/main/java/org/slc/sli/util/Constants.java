@@ -95,8 +95,17 @@ public class Constants {
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_SECTION_ID = "sectionId";
+    public static final String ATTR_SUBJECTAREA = "subjectArea";
+    public static final String ATTR_COURSE_TITLE = "courseTitle";
+    public static final String ATTR_SCHOOL_YEAR = "schoolYear";
+    public static final String ATTR_SESSION_ID = "sessionId";
+    public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
+    public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
+
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
+    
+    public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
     //Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
