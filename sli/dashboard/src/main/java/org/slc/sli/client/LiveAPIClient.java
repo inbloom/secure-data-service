@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class LiveAPIClient implements APIClient {
 
+
+    public static final String ATTENDANCES_URL = "/attendances/";
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String SECTIONS_URL = "/sections/";
@@ -367,7 +369,52 @@ public class LiveAPIClient implements APIClient {
 
         }
     }
+    
+    /**
+     * Returns the homeroom section for the student
+     * @param studentId
+     * @param token
+     * @return
+     */
+    public String getHomeRoomForStudent(String studentId, String token) {
+        String url = getApiUrl() + STUDENT_SECTION_ASSOC_URL + "/" + studentId;
+        List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);  
+        
+        if (sectionStudentAssociations.size() == 1) {
+            return sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+        }
+        
+        for (GenericEntity secStudentAssociation : sectionStudentAssociations) {
+            if ((Boolean) secStudentAssociation.get("homeRoomIndicator")) {
+                return secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+            }
+        }
+        
+        return null;   
+    }    
 
+    
+    /**
+     * Returns the primary staff associated with the section.
+     * @param sectionId
+     * @param token
+     * @return
+     */
+    public String getTeacherIdForSection(String sectionId, String token) {
+        String url = getApiUrl() + TEACHER_SECTION_ASSOC_URL + "/" + sectionId;
+        List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token);
+        for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
+            
+            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals("Teacher of Record")) {
+                String teacherUrl = getApiUrl() + TEACHERS_URL + "/" + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                GenericEntity teacher =  createEntityFromAPI(teacherUrl, token);
+                return teacher.getString(Constants.ATTR_ID);
+            }
+        }
+    
+        return null;
+    }
+    
     /**
      * Simple method to return a list of attendance data.
      * 
@@ -376,7 +423,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
         logger.info("Getting attendance for ID: " + studentId);
-        String url = "/attendances/" + "?studentId=" + studentId;
+        String url = ATTENDANCES_URL + "?" + Constants.ATTR_STUDENT_ID + "=" + studentId;
         try {
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
             logger.debug(attendances.toString());
@@ -420,12 +467,15 @@ public class LiveAPIClient implements APIClient {
     private List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
+        String e = restClient.makeJsonRequestWHeaders(url, token);
         // Parse JSON
         logger.info("Querying API for list: " + url);
         List<Map> maps = gson.fromJson(restClient.makeJsonRequestWHeaders(url, token), new ArrayList<Map>().getClass());
 
-        for (Map<String, Object> map : maps) {
-            entityList.add(new GenericEntity(map));
+        if (maps != null) {
+            for (Map<String, Object> map : maps) {
+                entityList.add(new GenericEntity(map));
+            }
         }
 
         return entityList;
@@ -437,6 +487,143 @@ public class LiveAPIClient implements APIClient {
             builder.addQueryParam(entry.getKey(), entry.getValue());
         }
         return gson.fromJson(restClient.makeJsonRequestWHeaders(builder.toString(), token), GenericEntity.class);
+    }
+    
+    /**
+     * Returns a list of courses for a given student and query params
+     * i.e students/{studentId}/studentCourseAssociations/courses?subejctArea="math"&includeFields=courseId,courseTitle
+     * 
+     * @param token Securiy token
+     * @param studentId The student Id
+     * @param params Query params
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        //build the url
+        url.append(getApiUrl());
+        url.append("/students/");
+        url.append(studentId);
+        url.append("/studentTranscriptAssociations/courses");
+        //add the query string
+        if  (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        //get the entities 
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        
+        return entities;
+    }
+    
+    /**
+     * Returns a list of student course associations for a
+     * given student and query params
+     * i.e students/{studentId}/studentCourseAssociations?courseId={courseId}&includeFields=finalLettergrade,studentId
+     * 
+     * @param token Securiy token
+     * @param studentId The student Id
+     * @param params Query params
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        //build the url
+        url.append(getApiUrl());
+        url.append("/students/");
+        url.append(studentId);
+        url.append("/studentTranscriptAssociations");
+        //add the query string
+        if  (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        //get the entities 
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        
+        return entities;
+    }
+    
+    /**
+     * Returns an entity for the given type, id and params
+     * @param token Security token
+     * @param type Type of the entity 
+     * @param id The id of the entity
+     * @param params param map
+     * @return
+     */
+    @Override
+    public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        //build the url
+        url.append(getApiUrl());
+        url.append("/");
+        url.append(type);
+        url.append("/");
+        url.append(id);
+        //add the query string
+        if  (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        return createEntityFromAPI(url.toString(), token);
+    }
+    
+    /**
+     * Returns a list of sections for the given student and params
+     * @param token
+     * @param studentId
+     * @param params
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        //build the url
+        url.append(getApiUrl());
+        url.append("/students/");
+        url.append(studentId);
+        url.append("/studentSectionAssociations/sections");
+        //add the query string
+        if  (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        //get the entities 
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        
+        return entities;
+    }
+    
+    /**
+     * Builds a query string from the given param map
+     * @param params The param map
+     * @return
+     */
+    protected String buildQueryString(Map<String, String> params) {
+        StringBuilder query = new StringBuilder();
+        String separator = "";
+        
+        for (Map.Entry<String, String> e : params.entrySet()) {
+            query.append(separator);
+            separator = "&";
+            
+            query.append(e.getKey());
+            query.append("=");
+            query.append(e.getValue());
+        }
+        
+        return query.toString();
     }
 
     /**

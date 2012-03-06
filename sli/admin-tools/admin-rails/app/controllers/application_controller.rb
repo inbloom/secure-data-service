@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
-    if oauth.enabled
+    if oauth.enabled?
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
