@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.Map;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -32,7 +34,9 @@ public class MongoTokenStore implements TokenStore {
 
     @Autowired
     private EntityDefinitionStore store;
-
+    
+    @Autowired
+    private OAuthTokenUtil util;
     
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = OAuthTokenUtil.getOAuthAccessTokenCollectionName();
 
@@ -48,7 +52,7 @@ public class MongoTokenStore implements TokenStore {
                 new Query(Criteria.where("body.token").is(token.getValue())), 0, 1);
        
         for (Entity oauth2Session : results) {
-            return (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
+            return util.createOAuth2Authentication((Map) oauth2Session.getBody().get("authentication"));
         }
         return null;
     }
@@ -63,7 +67,7 @@ public class MongoTokenStore implements TokenStore {
                 new Query(Criteria.where("body.refreshToken").is(token.getValue())), 0, 1);
        
         for (Entity oauth2Session : results) {
-            return (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
+            return util.createOAuth2Authentication((Map) oauth2Session.getBody().get("authentication"));
         }
         return null;
     }
@@ -79,8 +83,8 @@ public class MongoTokenStore implements TokenStore {
         final EntityBody body = new EntityBody();
         body.put("token", tokenValue);
         body.put("refreshToken", token.getRefreshToken().getValue());
-        body.put("tokenBlob", OAuthTokenUtil.serialize(token));
-        body.put("authenticationBlob", OAuthTokenUtil.serialize(authentication));
+        body.put("accessToken", OAuthTokenUtil.serializeAccessToken(token));
+        body.put("authentication", OAuthTokenUtil.serializeOauth2Auth(authentication));
         final EntityService service = getAccessTokenService();
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
 
@@ -103,7 +107,7 @@ public class MongoTokenStore implements TokenStore {
                 new Query(Criteria.where("body.token").is(tokenValue)), 0, 1);
        
         for (Entity oauth2Session : results) {
-            return (OAuth2AccessToken) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("tokenBlob"));
+            return OAuthTokenUtil.deserializeAccessToken((Map) oauth2Session.getBody().get("accessToken"));
         }
         return null;
     }
@@ -131,8 +135,8 @@ public class MongoTokenStore implements TokenStore {
         String token = refreshToken.getValue();
         final EntityBody body = new EntityBody();
         body.put("token", token);
-        body.put("authenticationBlob", OAuthTokenUtil.serialize(authentication));
-        body.put("refreshTokenBlob", OAuthTokenUtil.serialize(refreshToken));
+        body.put("authentication", OAuthTokenUtil.serializeOauth2Auth(authentication));
+        body.put("refreshToken", OAuthTokenUtil.serializeRefreshToken(refreshToken));
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
             @Override
             public Boolean execute() {
@@ -152,7 +156,7 @@ public class MongoTokenStore implements TokenStore {
                 new Query(Criteria.where("body.token").is(tokenValue)), 0, 1);
        
         for (Entity oauth2Session : results) {
-            return (ExpiringOAuth2RefreshToken) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("refreshTokenBlob"));
+            return (ExpiringOAuth2RefreshToken) OAuthTokenUtil.deserializeRefreshToken((Map) oauth2Session.getBody().get("refreshToken"));
         }
         return null;
     }
