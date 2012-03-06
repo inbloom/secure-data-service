@@ -1823,4 +1823,57 @@
     <jb:value property="studentId"
       data="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
+
+  <!-- Start StudentTranscriptAssociation mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:expression property="recordType">'studentTranscriptAssociation'</jb:expression>
+    <jb:expression property="association">true</jb:expression>
+    <jb:wiring property="localParentIds" beanIdRef="studentTranscriptAssociationParentIds" />
+    <jb:wiring property="attributes" beanIdRef="studentTranscriptAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentTranscriptAssociationParentIds" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="Student" data="CourseTranscript/StudentUniqueStateId" />
+    <jb:value property="Course" data="CourseTranscript/CourseCode" />
+  </jb:bean>
+
+  <jb:bean beanId="studentTranscriptAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="courseAttemptResult" data="CourseAttemptResult" />
+    <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />
+    <jb:wiring property="creditsEarned" beanIdRef="CreditsEarnedValue" />
+    <jb:wiring property="additionalCreditsEarned" beanIdRef="additionalCreditsArray" />
+    <jb:value property="gradeLevelWhenTaken" data="GradeLevelWhenTaken" />
+    <jb:value property="methodCreditEarned" data="MethodCreditEarned" />
+    <jb:value property="finalLetterGradeEarned" data="FinalLetterGradeEarned" />
+    <jb:value property="finalNumericGradeEarned" data="FinalNumericGradeEarned"
+      decoder="Integer" />
+    <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
+    <jb:value property="gradeType" data="GradeType" />
+  </jb:bean>    
+
+  <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="credit" data="CourseTranscript/CreditsAttempted/Credit" 
+      decoder="Double" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsEarnedValue" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="credit" data="CourseTranscript/CreditsEarned/Credit" 
+      decoder="Double" />
+  </jb:bean>
+
+  <jb:bean beanId="additionalCreditsArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:wiring beanIdRef="additionalCredit" />
+  </jb:bean>
+  <jb:bean beanId="additionalCredit" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Float" />
+    <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
+  </jb:bean>
+
 </smooks-resource-list>
