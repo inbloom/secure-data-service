@@ -19,12 +19,14 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.client.RESTClient;
 
@@ -35,6 +37,7 @@ import org.slc.sli.client.RESTClient;
  * @author dkornishev
  *
  */
+@Component
 public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
@@ -42,13 +45,17 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final String SESSION_ID_KEY = "sliSessionId";
     private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
 
-    private String callbackUrl = "http://local.slidev.org:8000/dashboard/callback";
+    @Value("${oauth.redirect}")
+    private String callbackUrl;
     
-    private String clientId = "fm67sH6vZZ";
+    @Value("${oauth.client.id}")
+    private String clientId;
     
-    private String clientSecret = "sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4";
+    @Value("${oauth.client.secret}")
+    private String clientSecret;
     
-    private static final String OAUTH_TOKEN = "OAuthToken";
+    private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    private static final String ENTRY_URL = "ENTRY_URL";
 
     private RESTClient restClient;
 
@@ -101,11 +108,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
-//            SLIPrincipal principal = new SLIPrincipal();
-//            principal.setName("Linda Kim");
-//            principal.setId(token);
-//            LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-//            authList.add(new GrantedAuthorityImpl("Educator"));
             SLIPrincipal principal = new SLIPrincipal();
             JsonElement nameElement = json.get("full_name");
             principal.setName(nameElement.getAsString());
@@ -127,41 +129,53 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        System.out.println("TEMP -------- NEW COMMENCE, REQUEST URL " + request.getRequestURL());
-        System.out.println("TEMP ---------- QUERY STRING " + request.getQueryString());
         OAuthService service = new ServiceBuilder().provider(SliApi.class).
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
+        
 
         HttpSession session = request.getSession();
         Object token = session.getAttribute(OAUTH_TOKEN);
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
-            System.out.println("TEMP - Code is " + request.getParameter("code"));
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
-            System.out.println("TEMP - The access token is " + accessToken);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            System.out.println("Redirecting to " + session.getAttribute("ENTRY_URL"));
-            response.sendRedirect(session.getAttribute("ENTRY_URL").toString());
+            response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
-            session.setAttribute("ENTRY_URL", request.getRequestURL());
-            
-            System.out.println("TEMP - Client ID " + clientId);
-            System.out.println("TEMP - Client Secret " + clientSecret);
-            System.out.println("TEMP - Callback URL " + callbackUrl);
+            session.setAttribute(ENTRY_URL, request.getRequestURL());
             
             //The request token doesn't matter for OAuth 2.0 which is why it's null
             String authUrl = service.getAuthorizationUrl(null);
-            System.out.println("TEMP - Our Authorization URL Is " + authUrl);
             response.sendRedirect(authUrl);
         } else {
-            System.out.println("There's an Oauth token " + token);
-//            JsonObject jsonSession = this.restClient.sessionCheck(null);
+            LOG.debug("Using access token " + token);
         }
         addAuthentication((String) token);
         response.sendRedirect(request.getRequestURI());
-
-        
+    }
+    
+    public String getClientId() {
+        return clientId;
+    }
+    
+    public String getClientSecret() {
+        return clientSecret;
+    }
+    
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+    
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+    
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+    
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 }
 
