@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import com.mongodb.DBObject;
 
-import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.SmartQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -20,16 +20,16 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
 
 /**
- * Mock implementation of the EntityRepository for unit testing.
+ * Mock implementation of the Repository<Entity> for unit testing.
  * 
  */
 @Component
 @Primary
-public class MockRepo implements EntityRepository {
+public class MockRepo implements Repository<Entity> {
     private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
     
@@ -90,7 +90,7 @@ public class MockRepo implements EntityRepository {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+    public Iterable<Entity> findAll(String collectionName, SmartQuery query) {
         Map<String, String> fields = query.getFields();
         
         return findByFields(collectionName, fields);

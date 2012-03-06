@@ -6,7 +6,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +34,7 @@ public class ContextResolverStore {
     private EntityDefinitionStore definitionStore;
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     /* Educator context */
     private List<EntityContextResolver> buildTeacherResolvers() {
@@ -159,7 +159,7 @@ public class ContextResolverStore {
         private String target;
         private List<AssociationDefinition> associationPath = new ArrayList<AssociationDefinition>();
         private EntityDefinitionStore entityDefs;
-        private EntityRepository repo;
+        private Repository<Entity> repo;
 
         public AssociativeContextBuilder() {
             entityDefs = definitionStore;

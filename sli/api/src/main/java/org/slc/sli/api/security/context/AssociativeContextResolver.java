@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Resolves Context based permissions.
@@ -19,7 +19,7 @@ import org.slc.sli.domain.EntityRepository;
 @Component
 public class AssociativeContextResolver implements EntityContextResolver {
 
-    private EntityRepository            repository;
+    private Repository<Entity>            repository;
 
     private String                      sourceType;
     private String                      targetType;
@@ -96,7 +96,7 @@ public class AssociativeContextResolver implements EntityContextResolver {
         this.associativeContextPath = associativeContextPath;
     }
 
-    public void setRepository(EntityRepository repository) {
+    public void setRepository(Repository repository) {
         this.repository = repository;
     }
 }

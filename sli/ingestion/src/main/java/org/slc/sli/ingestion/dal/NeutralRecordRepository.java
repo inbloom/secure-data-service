@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
@@ -25,15 +26,12 @@ import org.slc.sli.ingestion.NeutralRecord;
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
  *
  */
-public class NeutralRecordRepository {
+public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     private MongoTemplate template;
 
-    public void setTemplate(MongoTemplate template) {
-        this.template = template;
-    }
-
+    @Override
     public NeutralRecord find(String collection, String id) {
         LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
         Map<String, String> query = new HashMap<String, String>();
@@ -41,99 +39,17 @@ public class NeutralRecordRepository {
         return find(collection, query);
     }
 
-    public NeutralRecord find(String collection, Map<String, String> queryParameters) {
-        // turn query parameters into a Neutral-specific query
-        Query query = NeutralRecordRepository.createQuery(queryParameters);
-
-        // find and return an NeutralRecord
-        return template.findOne(query, NeutralRecord.class, collection);
-    }
-
-    public Iterable<NeutralRecord> findAll(String collection, Map<String, String> queryParameters) {
-        // turn query parameters into a Neutral-specific query
-        Query query = NeutralRecordRepository.createQuery(queryParameters);
-
-        // find and return an NeutralRecord
-        return template.find(query, NeutralRecord.class, collection);
-    }
-
-    /**
-     * Constructs a Neutral-specific Query object from a map of key/value pairs. Contains special
-     * cases when the key is "_id", "includeFields",
-     * "excludeFields", "skip", and "limit". All other keys are added to the query as criteria
-     * specifying a field to search for (in the NeutralRecord's
-     * body).
-     *
-     * @param queryParameters
-     *            all parameters to be included in query
-     *            used to convert human readable IDs into GUIDs (if queryParameters contains "_id"
-     *            key)
-     * @return query object compatible with Neutral containing all parameters specified in the
-     *         original map
-     */
-    private static Query createQuery(Map<String, String> queryParameters) {
-        Query query = new Query();
-
-        if (queryParameters == null) {
-            return query;
-        }
-
-        // read each entry in map
-        for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
-            String key = entry.getKey();
-
-            // id field needs to be translated
-            String id;
-            if (key.equals("body.localId")) {
-                id = entry.getValue();
-                if (id == null) {
-                    LOG.debug("Unable to process id {}", new Object[] { id });
-                    return null;
-                }
-                query.addCriteria(Criteria.where(entry.getKey()).is(id));
-            } else if (key.equals("includeFields")) { // specific field(s) to include in result set
-                String includeFields = entry.getValue();
-                if (includeFields != null) {
-                    for (String includeField : includeFields.split(",")) {
-                        LOG.debug("Including field " + includeField + " in resulting body");
-                        query.fields().include("body." + includeField);
-                    }
-                }
-            } else if (key.equals("excludeFields")) { // specific field(s) to exclude from result
-                                                      // set
-                String excludeFields = entry.getValue();
-                if (excludeFields != null) {
-                    for (String excludeField : excludeFields.split(",")) {
-                        LOG.debug("Excluding field " + excludeField + " from resulting body");
-                        query.fields().exclude("body." + excludeField);
-                    }
-                }
-            } else if (key.equals("skip")) { // skip to record X instead of starting at the
-                                             // beginning
-                String skip = entry.getValue();
-                if (skip != null) {
-                    query.skip(Integer.parseInt(skip));
-                }
-            } else if (key.equals("limit")) { // display X results instead of all of them
-                String limit = entry.getValue();
-                if (limit != null) {
-                    query.limit(Integer.parseInt(limit));
-                }
-            } else { // query param on record
-                String value = entry.getValue();
-                if (value != null) {
-                    query.addCriteria(Criteria.where("body." + key).is(value));
-                }
-            }
-        }
-
-        return query;
-    }
-
+    @Override
     public Iterable<NeutralRecord> findAll(String collection, int skip, int max) {
         List<NeutralRecord> results = template.find(new Query().skip(skip).limit(max), NeutralRecord.class, collection);
         logResults(collection, results);
         return results;
+    }
+
+    @Override
+    public boolean update(String collection, NeutralRecord object) {
+        //TODO: Add implementation for Transformer.
+        return update(object);
     }
 
     public boolean update(NeutralRecord neutralRecord) {
@@ -154,6 +70,12 @@ public class NeutralRecordRepository {
         return result.getN() == 1;
     }
 
+    @Override
+    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+        //TODO: Add implementation for Transformer.
+        return null;
+    }
+
     public NeutralRecord create(NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord.getAttributes(), "The given Neutral Record must not be null!");
 
@@ -164,6 +86,7 @@ public class NeutralRecordRepository {
         return neutralRecord;
     }
 
+    @Override
     public boolean delete(String collection, String id) {
         if (id.equals(""))
             return false;
@@ -173,35 +96,42 @@ public class NeutralRecordRepository {
         return deleted != null;
     }
 
+    @Override
     public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields, int skip, int max) {
         return findByPaths(collection, convertBodyToPaths(fields), skip, max);
     }
 
+    @Override
     public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths, int skip, int max) {
         Query query = new Query();
 
         return findByQuery(collection, addSearchPathsToQuery(query, paths), skip, max);
     }
 
+    @Override
     public void deleteAll(String collection) {
         template.remove(new Query(), collection);
         LOG.info("delete all entities in collection {}", collection);
     }
 
+    @Override
     public Iterable<NeutralRecord> findAll(String collection) {
         return findByQuery(collection, new Query());
     }
 
+    @Override
     public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields) {
         return findByPaths(collection, convertBodyToPaths(fields));
     }
 
+    @Override
     public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths) {
         Query query = new Query();
 
         return findByQuery(collection, addSearchPathsToQuery(query, paths));
     }
 
+    @Override
     public Iterable<NeutralRecord> findByQuery(String collection, Query query, int skip, int max) {
         if (query == null)
             query = new Query();
@@ -211,12 +141,14 @@ public class NeutralRecordRepository {
         return findByQuery(collection, query);
     }
 
+    @Override
     protected Iterable<NeutralRecord> findByQuery(String collection, Query query) {
         List<NeutralRecord> results = template.find(query, NeutralRecord.class, collection);
         logResults(collection, results);
         return results;
     }
 
+    @Override
     public long count(String collection, Query query) {
         DBCollection dBcollection = template.getCollection(collection);
         if (collection == null) {
@@ -225,6 +157,7 @@ public class NeutralRecordRepository {
         return dBcollection.count(query.getQueryObject());
     }
 
+    @Override
     public Iterable<String> findIdsByQuery(String collection, Query query, int skip, int max) {
         if (query == null) {
             query = new Query();
@@ -253,14 +186,5 @@ public class NeutralRecordRepository {
                     new Object[] { collection, results.size() });
         }
 
-    }
-
-    private Map<String, String> convertBodyToPaths(Map<String, String> body) {
-        Map<String, String> paths = new HashMap<String, String>();
-        for (Map.Entry<String, String> field : body.entrySet()) {
-            paths.put("body." + field.getKey(), field.getValue());
-        }
-
-        return paths;
     }
 }

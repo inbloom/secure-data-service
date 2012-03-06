@@ -3,12 +3,12 @@ package org.slc.sli.ingestion.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.SmartQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Mock entity repository for testing purposes
@@ -17,7 +17,7 @@ import org.slc.sli.domain.EntityRepository;
  *
  */
 @Component
-public class IngestionDummyEntityRepository implements EntityRepository {
+public class IngestionDummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
 
@@ -137,7 +137,7 @@ public class IngestionDummyEntityRepository implements EntityRepository {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+    public Iterable<Entity> findAll(String collectionName, SmartQuery query) {
         return null;
     }
 

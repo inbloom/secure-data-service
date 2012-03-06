@@ -8,7 +8,7 @@ import java.util.Map;
  * @author srupasinghe
  *
  */
-public class EntityQuery {
+public class SmartQuery {
     protected String includeFields;
     protected String excludeFields;
     protected int offset;
@@ -17,8 +17,8 @@ public class EntityQuery {
     protected SortOrder sortOrder;
     protected Map<String, String> fields = new HashMap<String, String>();
     
-    public static EntityQueryBuilder makeQuery() {
-        return new EntityQueryBuilder();
+    public static SmartQueryBuilder makeQuery() {
+        return new SmartQueryBuilder();
     }
 
     /**
@@ -56,49 +56,49 @@ public class EntityQuery {
     }
 
     /**
-     * Builder for EntityQuery
+     * Builder for SmartQuery
      * @author srupasinghe
      *
      */
-    public static class EntityQueryBuilder {
-        private EntityQuery query = new EntityQuery();
+    public static class SmartQueryBuilder {
+        private SmartQuery query = new SmartQuery();
         
-        public EntityQueryBuilder setIncludeFields(String includeFields) {
+        public SmartQueryBuilder setIncludeFields(String includeFields) {
             query.includeFields = includeFields;
             return this;
         }
         
-        public EntityQueryBuilder setExcludeFields(String excludeFields) {     
+        public SmartQueryBuilder setExcludeFields(String excludeFields) {     
             query.excludeFields = excludeFields;
             return this;
         }
         
-        public EntityQueryBuilder setOffset(int offset) {
+        public SmartQueryBuilder setOffset(int offset) {
             query.offset = offset;
             return this;
         }
         
-        public EntityQueryBuilder setLimit(int limit) {
+        public SmartQueryBuilder setLimit(int limit) {
             query.limit = limit;
             return this;
         }
         
-        public EntityQueryBuilder setSortBy(String sortBy) {
+        public SmartQueryBuilder setSortBy(String sortBy) {
             query.sortBy = sortBy;
             return this;
         }
         
-        public EntityQueryBuilder setSortOrder(SortOrder sortOrder) {
+        public SmartQueryBuilder setSortOrder(SortOrder sortOrder) {
             query.sortOrder = sortOrder;
             return this;
         }
         
-        public EntityQueryBuilder addField(String field, String value) {
+        public SmartQueryBuilder addField(String field, String value) {
             query.fields.put(field, value);
             return this;
         }
         
-        public EntityQuery build() {
+        public SmartQuery build() {
             return query;
         }
     }

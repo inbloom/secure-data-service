@@ -3,7 +3,7 @@ package org.slc.sli.api.security.resolve.impl;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class MongoUserLocator implements UserLocator {
     private static final List<String> ENTITY_NAMES = Arrays.asList("teacher", "staff");
 
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
 
     @Override
     public SLIPrincipal locate(String realm, String externalUserId) {
@@ -52,7 +52,7 @@ public class MongoUserLocator implements UserLocator {
         return user;
     }
 
-    public void setRepo(EntityRepository repo) {
+    public void setRepo(Repository repo) {
         this.repo = repo;
     }
 }

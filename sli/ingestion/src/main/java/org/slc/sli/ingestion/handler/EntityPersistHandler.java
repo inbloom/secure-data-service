@@ -10,7 +10,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
@@ -34,7 +34,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     // Hard-code region ID here for now, until it is set for real!
     private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
-    private EntityRepository entityRepository;
+    private Repository<Entity> entityRepository;
 
     private MessageSource messageSource;
 
@@ -257,7 +257,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         return messageSource.getMessage(code, args, "#?" + code + "?#", null);
     }
 
-    public void setEntityRepository(EntityRepository entityRepository) {
+    public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 

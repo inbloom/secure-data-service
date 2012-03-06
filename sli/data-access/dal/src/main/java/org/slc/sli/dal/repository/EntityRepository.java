@@ -8,6 +8,6 @@ package org.slc.sli.dal.repository;
  *
  */
 @Deprecated
-public interface EntityRepository extends org.slc.sli.domain.EntityRepository {
+public interface EntityRepository extends org.slc.sli.domain.Repository {
     
 }

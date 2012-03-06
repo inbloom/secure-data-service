@@ -23,7 +23,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.util.MD5;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  *
@@ -42,7 +42,7 @@ public class StudentIngestionCamelTest {
     private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    private EntityRepository studentRepository;
+    private Repository<Entity> studentRepository;
 
     private static String studentEntityType = "student";
 
