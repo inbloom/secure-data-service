@@ -244,6 +244,7 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-11</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -260,6 +261,7 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra-10</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -276,6 +278,7 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Geometry-10</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
