@@ -152,11 +152,11 @@ public class LiveAPIClient implements APIClient {
     private List<String> getStudentIdsForSection(String id, String token) {
         
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id
-                + STUDENT_SECTION_ASSOC_URL + "students", token);
+                + STUDENT_SECTION_ASSOC_URL, token);
         List<String> studentIds = new ArrayList<String>();
 
         for (GenericEntity response : responses) {
-            studentIds.add(response.getString(Constants.ATTR_ID));
+            studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
         }
         return studentIds;
     }
