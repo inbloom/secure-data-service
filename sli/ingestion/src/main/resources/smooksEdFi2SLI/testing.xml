@@ -6,7 +6,13 @@
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/smooks-core-1.3.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.3.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
- 
+
     <core:filterSettings type="SAX" />
- 
+
+<json:reader rootName="order" keyWhitspaceReplacement="-">
+    <json:keyMap>
+        <json:key from="date&amp;time" to="date-and-time" />
+    </json:keyMap>
+</json:reader>
+
 </smooks-resource-list>

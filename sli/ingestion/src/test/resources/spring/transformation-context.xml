@@ -12,12 +12,21 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/directEntity.xml" />
             </bean>
         </entry>
+        <entry key="assessment">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer">
         <property name="smooksConfigs" ref="smooksConfigs" />
     </bean>
 
+  <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+   <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
+  <bean id="repo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />
+  <bean id="entityRepository" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 </beans>
 
 
