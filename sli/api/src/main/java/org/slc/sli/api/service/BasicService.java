@@ -103,9 +103,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
         
-        if (!(defn instanceof AssociationDefinition)) {
-            removeEntityWithAssoc(id);
-        }
+        this.cascadeDelete(id);
     }
     
     @Override
@@ -302,19 +300,25 @@ public class BasicService implements EntityService {
         return sanitized;
     }
     
-    private void removeEntityWithAssoc(String sourceId) {
-        Map<String, String> fields = new HashMap<String, String>();
-        fields.put(defn.getType() + "Id", sourceId);
-        
-        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
-            String assocCollection = assocDef.getStoredCollectionName();
-            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
-            Iterator<Entity> foundEntities;
-            if (iterable != null) {
-                foundEntities = iterable.iterator();
-                while (foundEntities.hasNext()) {
-                    Entity assocEntity = foundEntities.next();
-                    repo.delete(assocCollection, assocEntity.getEntityId());
+    /**
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId 
+     * has already been deleted.
+     * 
+     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
+     */
+    private void cascadeDelete(String sourceId) {
+      //loop for every EntityDefinition that references the deleted entity's type
+        for (EntityDefinition referencingEntity: this.defn.getReferencingEntities()) {
+            //loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
+                EntityService referencingEntityService = referencingEntity.getService();
+                Map<String, String> referenceQuery = new HashMap<String, String>();
+                referenceQuery.put(referenceField, sourceId);
+                //list all entities that have the deleted entity's ID in their reference field
+                for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
+                    String idToBeDeleted = (String) entityBody.get("id");
+                    //delete that entity as well
+                    referencingEntityService.delete(idToBeDeleted);
                 }
             }
         }
