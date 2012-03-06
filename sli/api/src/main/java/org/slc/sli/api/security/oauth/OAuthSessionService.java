@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.util.OAuthTokenUtil;
@@ -34,6 +36,9 @@ public class OAuthSessionService extends RandomValueTokenServices {
     @Autowired
     private TokenStore mongoTokenStore;
     
+    @Autowired
+    private OAuthTokenUtil util;
+    
     @PostConstruct
     public void init() {
         setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
@@ -47,9 +52,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
             throws AuthenticationException {
         Iterable<Entity> results = repo.findByQuery(OAUTH_ACCESS_TOKEN_COLLECTION, new Query(Criteria.where("body.token").is(accessTokenValue)), 0, 1);
         for (Entity oauth2Session : results) {
-            
-            OAuth2Authentication auth = (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
-            return auth;
+            Map data = (Map) oauth2Session.getBody().get("authentication");
+            return util.createOAuth2Authentication(data);
         }
         return null;
     }
