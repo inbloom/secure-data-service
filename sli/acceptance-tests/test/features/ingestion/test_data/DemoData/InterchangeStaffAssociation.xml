@@ -320,10 +320,12 @@
         <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
+    <!-- References Mrs. Kim's Homeroom -->
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>

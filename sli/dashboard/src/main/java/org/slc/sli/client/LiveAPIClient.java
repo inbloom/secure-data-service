@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class LiveAPIClient implements APIClient {
 
+
+    public static final String ATTENDANCES_URL = "/attendances/";
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String SECTIONS_URL = "/sections/";
@@ -421,7 +423,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
         logger.info("Getting attendance for ID: " + studentId);
-        String url = "/attendances/" + "?studentId=" + studentId;
+        String url = ATTENDANCES_URL + "?" + Constants.ATTR_STUDENT_ID + "=" + studentId;
         try {
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
             logger.debug(attendances.toString());

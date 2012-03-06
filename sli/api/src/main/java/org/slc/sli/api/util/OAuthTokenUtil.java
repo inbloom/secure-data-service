@@ -107,6 +107,45 @@ public class OAuthTokenUtil {
         return reconstituteAuth(principal, data);
     }
     
+    public static OAuth2Authentication reconstituteAuth(SLIPrincipal principal,
+            Map data) {
+        Set<String> scope = listToSet((List) data.get("scope"));
+        Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
+        Collection<GrantedAuthority> clientAuthorities = deserializeAuthorities(listToSet((List) data.get("clientAuthorities")));
+        Collection<GrantedAuthority> userAuthorities = deserializeAuthorities(listToSet((List) data.get("userAuthorities")));
+        ClientToken client = new ClientToken((String) data.get("clientId"), 
+                resourceIds, 
+                (String) data.get("clientSecret"), 
+                scope, 
+                clientAuthorities);
+        UnconfirmedAuthorizationCodeClientToken token = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), 
+                client.getClientSecret(), 
+                scope, 
+                (String) data.get("state"), 
+                (String) data.get("requestedRedirect"));
+        PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, token, userAuthorities);
+        return new OAuth2Authentication(client, user);
+    }
+    
+    public static EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
+        EntityBody body = new EntityBody();
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        body.put("realm", principal.getRealm());
+        body.put("externalId", principal.getExternalId());
+        body.put("name", principal.getName());
+        body.put("roles", principal.getRoles());
+        body.put("clientId", auth.getClientAuthentication().getClientId());
+        body.put("clientSecret", auth.getClientAuthentication().getClientSecret());
+        body.put("scope", auth.getClientAuthentication().getScope());
+        body.put("userAuthorities", serializeAuthorities(auth.getUserAuthentication().getAuthorities()));
+        body.put("clientAuthorities", serializeAuthorities(auth.getClientAuthentication().getAuthorities()));
+        body.put("resourceIds", auth.getClientAuthentication().getResourceIds());
+        UnconfirmedAuthorizationCodeClientToken token = (UnconfirmedAuthorizationCodeClientToken) auth.getUserAuthentication().getCredentials();
+        body.put("state", token.getState());
+        body.put("requestedRedirect", token.getRequestedRedirect());
+        return body;
+    }
+    
     public static EntityBody serializeAccessToken(OAuth2AccessToken token) {
         EntityBody body = new EntityBody();
         body.put("type", token.getTokenType());
@@ -138,7 +177,7 @@ public class OAuthTokenUtil {
     
     public static OAuth2RefreshToken deserializeRefreshToken(Map data) {
         OAuth2RefreshToken toReturn;
-        if (data.containsKey("refreshTokenExpiration")) {
+        if (data.containsKey("expiration")) {
             toReturn = new ExpiringOAuth2RefreshToken((String) data.get("value"), 
                     (Date) data.get("expiration"));
         } else {
@@ -146,46 +185,6 @@ public class OAuthTokenUtil {
         }
         return toReturn;
     }
-
-    public static EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
-        EntityBody body = new EntityBody();
-        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-        body.put("realm", principal.getRealm());
-        body.put("externalId", principal.getExternalId());
-        body.put("name", principal.getName());
-        body.put("roles", principal.getRoles());
-        body.put("clientId", auth.getClientAuthentication().getClientId());
-        body.put("clientSecret", auth.getClientAuthentication().getClientSecret());
-        body.put("scope", auth.getClientAuthentication().getScope());
-        body.put("userAuthorities", serializeAuthorities(auth.getUserAuthentication().getAuthorities()));
-        body.put("clientAuthorities", serializeAuthorities(auth.getClientAuthentication().getAuthorities()));
-        body.put("resourceIds", auth.getClientAuthentication().getResourceIds());
-        UnconfirmedAuthorizationCodeClientToken token = (UnconfirmedAuthorizationCodeClientToken) auth.getUserAuthentication().getCredentials();
-        body.put("state", token.getState());
-        body.put("requestedRedirect", token.getRequestedRedirect());
-        return body;
-    }
-    
-    public static OAuth2Authentication reconstituteAuth(SLIPrincipal principal,
-            Map data) {
-        Set<String> scope = listToSet((List) data.get("scope"));
-        Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
-        Collection<GrantedAuthority> clientAuthorities = deserializeAuthorities(listToSet((List) data.get("clientAuthorities")));
-        Collection<GrantedAuthority> userAuthorities = deserializeAuthorities(listToSet((List) data.get("userAuthorities")));
-        ClientToken client = new ClientToken((String) data.get("clientId"), 
-                resourceIds, 
-                (String) data.get("clientSecret"), 
-                scope, 
-                clientAuthorities);
-        UnconfirmedAuthorizationCodeClientToken token = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), 
-                client.getClientSecret(), 
-                scope, 
-                (String) data.get("state"), 
-                (String) data.get("requestedRedirect"));
-        PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, token, userAuthorities);
-        return new OAuth2Authentication(client, user);
-    }
-
 
     private static Set<String> listToSet(List list) {
         HashSet<String> set = new HashSet<String>();

@@ -29,9 +29,9 @@ public class LiveAPIClientTest {
 
     @Before
     public void setUp() throws Exception {
-    	// Get the initalized bean from spring config
-    	appContext = new ClassPathXmlApplicationContext("application-context.xml");
-    	client = (LiveAPIClient) appContext.getBean("apiClient");
+        // Get the initalized bean from spring config
+        appContext = new ClassPathXmlApplicationContext("application-context.xml");
+        client = (LiveAPIClient) appContext.getBean("apiClient");
         mockRest = mock(RESTClient.class);
         
         client.setRestClient(mockRest);
