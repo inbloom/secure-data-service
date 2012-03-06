@@ -307,7 +307,7 @@ public class PopulationManager {
         //build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE + ",gradeLevelWhenTaken");
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE);
         
         return entityManager.getStudentTranscriptAssociations(token, studentId, params);
     }
