@@ -12,6 +12,8 @@
     <beans:property name="clientSecret" value="${oauth.client.secret}" />
     <beans:property name="clientId" value="${oauth.client.id}" />
     <beans:property name="callbackUrl" value="${oauth.redirect}" />
+    <beans:property name="apiUrl" value="${api.server.url}" />
+    
 </beans:bean>
 
 </beans:beans>

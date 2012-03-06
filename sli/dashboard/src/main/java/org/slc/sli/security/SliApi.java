@@ -12,17 +12,16 @@ import org.scribe.utils.Preconditions;
  */
 public class SliApi extends DefaultApi20 {
     
-    private String apiUrl = "http://local.slidev.org:8080";
-    private String authorizeUrl = apiUrl + "/api/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
+    private static String apiUrl;
+    private String authorizeUrl = apiUrl.replaceAll("/$", "") + "/api/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
 
     @Override
     public String getAccessTokenEndpoint() {
-        return apiUrl + "/api/oauth/token?grant_type=authorization_code";
+        return apiUrl.replaceAll("/$", "") + "/api/oauth/token?grant_type=authorization_code";
     }
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        System.out.println("TEMP - In getAuthURL config has it as " + config.getApiKey() + " redirect URI " + config.getCallback());
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
         
         return String.format(authorizeUrl, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
@@ -31,6 +30,14 @@ public class SliApi extends DefaultApi20 {
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
       return new SliTokenExtractor();
+    }
+    
+    public String getApiUrl() {
+        return apiUrl;
+    }
+    
+    public static void setBaseUrl(String baseUrl) {
+        apiUrl = baseUrl;
     }
 
 }
