@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -16,11 +18,9 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  * @author ifaybyshev
  *
  */
-public class AssessmentCombiner implements TransformationStrategy {
+public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
-
-    private String jobId;
 
     private final Map<String, Map<Object, NeutralRecord>> collections;
 
@@ -110,23 +110,22 @@ public class AssessmentCombiner implements TransformationStrategy {
      * @param collectionName
      */
     private void loadCollectionFromDb(String collectionName) {
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findAll(collectionName);
-        Iterator<NeutralRecord> iter = data.iterator();
+
+        Criteria jobIdCriteria = Criteria.where("batchJobId").is(batchJobId);
+
+        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQuery(collectionName,
+                new Query(jobIdCriteria), 0, 0);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
+        Iterator<NeutralRecord> iter = data.iterator();
         while (iter.hasNext()) {
             tempNr = iter.next();
             collection.put(tempNr.getLocalId(), tempNr);
         }
 
         collections.put(collectionName, collection);
-    }
-
-    public void setJobId(String id) {
-        this.jobId = id;
-
     }
 
 }

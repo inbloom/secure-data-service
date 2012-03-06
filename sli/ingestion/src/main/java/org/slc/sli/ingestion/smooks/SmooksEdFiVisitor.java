@@ -77,7 +77,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
         NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
 
-        neutralRecord.setJobId(batchJobId);
+        neutralRecord.setBatchJobId(batchJobId);
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)

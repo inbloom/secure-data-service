@@ -93,8 +93,8 @@ public class NeutralRecordFileWriter {
         }
 
         // populate the jobId if present
-        if (record.getJobId() != null) {
-            avroRecord.put("jobId", new Utf8(record.getJobId()));
+        if (record.getBatchJobId() != null) {
+            avroRecord.put("jobId", new Utf8(record.getBatchJobId()));
         } else {
             avroRecord.put("jobId", null);
         }
