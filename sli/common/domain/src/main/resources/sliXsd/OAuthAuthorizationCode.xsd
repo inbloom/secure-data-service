@@ -83,6 +83,14 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element name="userName" type="xs:string" minOccurs="0"
+                    maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            User's name
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
