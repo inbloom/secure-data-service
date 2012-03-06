@@ -25,14 +25,6 @@ public class SliTokenExtractor  implements AccessTokenExtractor {
         JsonObject json = parser.parse(response).getAsJsonObject();
         LOG.debug("Response to extract token from - " + json);
         return new Token(json.get("access_token").getAsString(), "", response);
-
-//        Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
-//        if (matcher.find()) {
-//          String token = OAuthEncoder.decode(matcher.group(1));
-//          return new Token(token, "", response);
-//        } else {
-//          throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
-//        }
     }
     
 }
