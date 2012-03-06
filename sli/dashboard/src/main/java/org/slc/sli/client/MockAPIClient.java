@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -221,6 +222,32 @@ public class MockAPIClient implements APIClient {
         
         return null;
     }
+    
+    
+    public String getHomeRoomForStudent(String studentId, String token) {
+        List<GenericEntity> hierarchy = getSchools(token, null);
+        System.out.println(hierarchy);
+        for (GenericEntity school : hierarchy) {
+            List<LinkedHashMap> courses = school.getList("courses");
+            for (LinkedHashMap course : courses) {
+                System.out.println(course);
+                List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get("sections");
+                for (LinkedHashMap section: sections) {
+                    List<String> studentUIDs = (List<String>) section.get("studentUIDs");
+                    if (studentUIDs.contains(studentId)) {
+                        System.out.println(section.get("sectionName"));
+                        return (String) section.get("sectionName");
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+    
+    public String getTeacherIdForSection(String sectionId, String token) {
+        return token;
+    }
 
     /**
      * Retrieves an entity list from the specified file
@@ -273,6 +300,27 @@ public class MockAPIClient implements APIClient {
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
         return url.getFile();
+    }
+
+    @Override
+    public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getStudentTranscriptAssociations(String token, String studentId,
+            Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getSections(String token, String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
+        return null;
     }
 
 }

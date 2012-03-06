@@ -23,7 +23,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  */
 public class AssessmentFamilyTest {
     @Test
-    public void edfiXmlCourseTest() throws IOException, SAXException {
+    public void edfiXmlAssessmentFamilyTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -172,36 +172,6 @@ public class AssessmentFamilyTest {
             List secondDescriptionChoiceList = (List) secondAssesmentPeriod.get("Descriptions");
             if (!secondDescriptionChoiceList.isEmpty())
                 assertEquals("descript2", secondDescriptionChoiceList.get(0));
-        }
-
-        Map referenceMap = (Map) neutralRecord.getAttributes().get("AssessmentFamilyReference");
-        EntityTestUtils.assertObjectInMapEquals(referenceMap, "id", "tk31");
-        EntityTestUtils.assertObjectInMapEquals(referenceMap, "ref", "TAKSReading3-1");
-        assertNotNull("AssessmentFamilyReference map is null", referenceMap);
-        Map referenceIdentityMap = (Map) referenceMap.get("AssessmentFamilyIdentity");
-        assertNotNull("AssessmentFamilyIdentity map is null", referenceIdentityMap);
-
-        List referenceIdCodeList = (List) referenceIdentityMap.get("AssessmentFamilyIdentificationCode");
-        assertNotNull("AssessmentFamilyIdentificationCode list is null", referenceIdCodeList);
-        assertFalse("empty AssessmentFamilyIdentificationCode list", referenceIdCodeList.isEmpty());
-
-        Map firstRefIdCodeMap = (Map) referenceIdCodeList.get(0);
-        assertNotNull("first AssessmentFamilyIdentificationCode map is null", firstRefIdCodeMap);
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "ID", "firstRefId");
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "IdentificationSystem",
-                "firstRefIdentificationSystem");
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "AssigningOrganizationCode",
-                "firstRefAssigningOrganizationCode");
-
-        if (referenceIdCodeList.size() > 1) {
-            // TODO: remove if block when we support lists in CSV
-            Map secondRefIdCodeMap = (Map) referenceIdCodeList.get(1);
-            assertNotNull("first AssessmentFamilyIdentificationCode map is null", secondRefIdCodeMap);
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "ID", "secondRefId");
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "IdentificationSystem",
-                    "secondRefIdentificationSystem");
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "AssigningOrganizationCode",
-                    "secondRefAssigningOrganizationCode");
         }
     }
 }

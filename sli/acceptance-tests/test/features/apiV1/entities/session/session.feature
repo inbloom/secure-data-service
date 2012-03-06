@@ -1,79 +1,75 @@
-Feature: As an SLI application, I want to be able to manage sessions of instruction
-  This means I want to be able to perform CRUD on sessions
-
-Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all sessions
-
-Scenario: Create a new session
-  Given format "application/json"
-    And "sessionName" is "Spring 2012"
-    And "schoolYear" is "2011-2012"
-    And "term" is "Spring Semester"
-    And "beginDate" is "2012-01-01"
-    And "endDate" is "2012-06-31"
-    And "totalInstructionalDays" is 88
-  When I navigate to POST "/v1/sessions"
-  Then I should receive a return code of 201
-    And I should receive an ID for the newly created session
-  When I navigate to GET "/v1/sessions/<newly created ID>"
-  Then I should receive a return code of 200
-    And "sessionName" should be "Spring 2012"
-    And "schoolYear" should be "2011-2012"
-    And "term" should be "Spring Semester"
-    And "beginDate" should be "2012-01-01"
-    And "endDate" should be "2012-06-31"
-    And "totalInstructionalDays" should be 88
-    
-Scenario: Read base resource
-    Given format "application/json"
-    When I navigate to GET "/v1/sessions"
-    Then I should receive a return code of 200    
-
-Scenario: Read a session by ID
-  Given format "application/vnd.slc+json"
-  When I navigate to GET "/v1/sessions/<'FALL 2011 SESSION' ID>"
-  Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1/sessions/<'FALL 2011 SESSION' ID>"
-    And "sessionName" should be "Fall 2011"
-    And "schoolYear" should be "2011-2012"
-    And "term" should be "Fall Semester"
-    And "beginDate" should be "2011-09-01"
-    And "endDate" should be "2011-12-31"
-    And "totalInstructionalDays" should be 90
-
-Scenario: Update an existing session
-  Given format "application/json"
-  When I navigate to GET "/v1/sessions/<'FALL 2011 SESSION' ID>"
-  Then I should receive a return code of 200
-  When I set "totalInstructionalDays" to 17
-    And I navigate to PUT "/v1/sessions/<'FALL 2011 SESSION' ID>"
-  Then I should receive a return code of 204
+Feature: As an SLI application, I want to be able to manage session entities.
+This means I want to be able to perform CRUD on all entities.
+and verify that the correct links are made available.
   
-Scenario: Check the updated session  
-  Given format "application/vnd.slc+json"
-  When I navigate to GET "/v1/sessions/<'FALL 2011 SESSION' ID>"
-  Then I should receive a link named "self" with URI "/v1/sessions/<'FALL 2011 SESSION' ID>"
-    And "totalInstructionalDays" should be 17
+Background: Nothing yet
+    Given I am logged in using "demo" "demo1234"
+      And I have access to all data
+      And format "application/vnd.slc+json"
 
-Scenario: Delete an existing session
-  Given format "application/json"
-  When I navigate to DELETE "/v1/sessions/<'SPRING 2011 SESSION' ID>"
-  Then I should receive a return code of 204
-  When I navigate to GET "/v1/sessions/<'SPRING 2011 SESSION' ID>"
-  Then I should receive a return code of 404
-  
-Scenario: Attempt to read a non-existing session
-  Given format "application/json"
-  When I navigate to GET "/v1/sessions/<non-existent ID>"
-  Then I should receive a return code of 404
+Scenario: Create a valid entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 201
+     And I should receive an ID for the newly created entity
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+     And the response should contain the appropriate fields and values
 
-Scenario: Attempt to update a non-existing session
-  Given format "application/json"
-  When I navigate to GET "/v1/sessions/<non-existent ID>"
-  Then I should receive a return code of 404
+Scenario: Read all entities
+    When I navigate to GET "/<ENTITY URI>"
+    Then I should receive a return code of 200
+     And I should receive a collection of "<ENTITY COUNT>" entities
+     And each entity's "entityType" should be "<ENTITY TYPE>"
 
-Scenario: Attempt to delete a non-existing session
-  Given format "application/json"
-  When I navigate to GET "/v1/sessions/<non-existent ID>"
-  Then I should receive a return code of 404
+Scenario: Read an entity and confirm presentation of links
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID>"
+    Then I should receive a return code of 200
+     And "entityType" should be "<ENTITY TYPE>"
+     And I should receive a link named "<SELF LINK NAME>" with URI "/<ENTITY URI>/<ENTITY ID>"
+
+Scenario: Update entity
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
+    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+     And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
+
+Scenario: Delete entity
+   Given format "application/json"
+    When I navigate to DELETE "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+     And I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to create invalid entity
+   Given an invalid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to read a non-existing entity
+    When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+ 
+Scenario: Non-happy path: Attempt to update an entity to an invalid state
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    When I set the "<REQUIRED FIELD>" to "<BLANK>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
+
+Scenario: Non-happy path: Attempt to update a non-existing entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
+    When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
+Scenario: Non-happy path: Attempt to delete a non-existing entity
+    When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+

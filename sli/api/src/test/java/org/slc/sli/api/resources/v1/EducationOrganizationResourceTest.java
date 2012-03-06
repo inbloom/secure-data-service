@@ -2,7 +2,6 @@ package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -17,18 +16,22 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.v1.entity.EducationOrganizationResource;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -36,12 +39,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.entity.EducationOrganizationResource;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Unit tests for the resource representing an education organization
@@ -140,11 +139,16 @@ public class EducationOrganizationResourceTest {
         //delete it
         Response response = edOrgResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-          
-        //try to get it
-        Response getResponse = edOrgResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be NOT_FOUND", Status.NOT_FOUND.getStatusCode(), getResponse.getStatus());       
-        assertNull("Should not return an entity", getResponse.getEntity());
+        
+        try {
+            @SuppressWarnings("unused")
+            Response getResponse = edOrgResource.read(id, httpHeaders, uriInfo);
+            fail("should have thrown EntityNotFoundException");
+        } catch (EntityNotFoundException e) {
+            return;
+        } catch (Exception e) {
+            fail("threw wrong exception: " + e);
+        }
     }
     
     @Test

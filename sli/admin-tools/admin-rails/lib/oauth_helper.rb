@@ -15,7 +15,7 @@ class Oauth
     get_client().auth_code.authorize_url(:redirect_uri => @redirect_uri)
   end
 
-  def enabled()
+  def enabled?
     return @client_id != nil && @client_id != ""
   end
 
