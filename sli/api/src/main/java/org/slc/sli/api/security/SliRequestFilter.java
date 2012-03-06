@@ -1,13 +1,5 @@
 package org.slc.sli.api.security;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * A security filter responsible for checking SLI session
@@ -27,7 +26,6 @@ public class SliRequestFilter extends GenericFilterBean {
     
     private static final Logger LOG = LoggerFactory.getLogger(SliRequestFilter.class);
     
-    private static final String PARAM_SESSION = "sessionId";
     private static final String HEADER_SESSION_NAME = "sessionId";
     
     @Autowired
@@ -60,13 +58,7 @@ public class SliRequestFilter extends GenericFilterBean {
     
     private String getSessionIdFromRequest(HttpServletRequest req) {
         
-        String sessionId = req.getParameter(PARAM_SESSION);
-        
-        // Allow for sessionId to come in both request or header
-        if (sessionId == null) {
-            sessionId = req.getHeader(HEADER_SESSION_NAME);
-        }
-        
+        String sessionId = req.getHeader(HEADER_SESSION_NAME);
         LOG.debug("Session Id: " + sessionId);
         
         return sessionId;

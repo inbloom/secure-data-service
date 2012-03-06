@@ -24,7 +24,7 @@
 
     <jb:value property="courseTitle" data="csv-record/CourseTitle" />
 
-    <jb:value property="numberOfParts" data="csv-record/NumberOfParts" />
+    <jb:value property="numberOfParts" data="csv-record/NumberOfParts" decoder="Integer" />
 
     <!-- CourseCode -->
     <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
@@ -33,12 +33,12 @@
 
     <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
 
-    <jb:wiring property="gradesOffered" beanIdRef="GradesOfferedArray" />
+    <jb:value property="gradesOffered" data="csv-record/GradesOffered" />
 
     <jb:value property="subjectArea" data="csv-record/SubjectArea" />
     <jb:value property="courseDescription" data="csv-record/CourseDescription" />
     <jb:value property="dateCourseAdopted" data="csv-record/DateCourseAdopted" />
-    <jb:value property="highSchoolCourseRequirement" data="csv-record/HighSchoolCourseRequirement" />
+    <jb:value property="highSchoolCourseRequirement" data="csv-record/HighSchoolCourseRequirement" decoder="Boolean"/>
     <jb:value property="courseGPAApplicability" data="csv-record/CourseGPAApplicability" />
     <jb:value property="courseDefinedBy" data="csv-record/CourseDefinedBy" />
 
@@ -65,20 +65,16 @@
     <jb:value data="CourseLevelCharacteristics" />
   </jb:bean>
 
-  <jb:bean beanId="GradesOfferedArray" class="java.util.ArrayList" createOnElement="csv-record">
-    <jb:value data="csv-record/GradesOffered" />
-  </jb:bean>
-
   <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="csv-record">
-    <jb:value property="credit" data="csv-record/MinCredit" />
+    <jb:value property="credit" data="csv-record/MinCredit" decoder="Double" />
     <jb:value property="creditType" data="csv-record/MinCreditType" />
-    <jb:value property="creditConversion" data="csv-record/MinCreditConversion" />
+    <jb:value property="creditConversion" data="csv-record/MinCreditConversion" decoder="Double" />
   </jb:bean>
 
   <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="csv-record">
-    <jb:value property="credit" data="csv-record/MaxCredit" />
+    <jb:value property="credit" data="csv-record/MaxCredit" decoder="Double" />
     <jb:value property="creditType" data="csv-record/MaxCreditType" />
-    <jb:value property="creditConversion" data="csv-record/MaxCreditConversion" />
+    <jb:value property="creditConversion" data="csv-record/MaxCreditConversion" decoder="Double" />
   </jb:bean>
 
 

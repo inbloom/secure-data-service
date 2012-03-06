@@ -13,7 +13,7 @@ public class AttendanceResolver {
     }
 
     public AggregateResolver getAbscenceCountResolverForStudent(Map student) {
-        GenericEntity GEStudent = new GenericEntity(student);
-        return new AttendanceAbsenceResolver(GEStudent);
+        GenericEntity geStudent = new GenericEntity(student);
+        return new AttendanceAbsenceResolver(geStudent);
     }
 }

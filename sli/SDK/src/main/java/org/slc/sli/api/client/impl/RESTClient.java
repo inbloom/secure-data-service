@@ -1,8 +1,11 @@
 package org.slc.sli.api.client.impl;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.ws.rs.HttpMethod;
@@ -11,11 +14,15 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
+import com.sun.jersey.client.apache4.ApacheHttpClient4;
+import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
+import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +43,16 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     private String sessionToken = null;
     private String apiServerUri;
-    private Client client = null;
+    private ApacheHttpClient4 client = null;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
      */
     protected RESTClient() {
-        
-        ClientConfig config = new DefaultClientConfig();
+        ApacheHttpClient4Config config = new DefaultApacheHttpClient4Config();
         config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        
-        // TODO - implement SSL configuration here...
-        
-        client = Client.create(config);
+        config.getProperties().put(ApacheHttpClient4Config.PROPERTY_PREEMPTIVE_BASIC_AUTHENTICATION, Boolean.TRUE);
+        client = ApacheHttpClient4.create(config);
     }
     
     /**
@@ -247,17 +251,86 @@ public class RESTClient {
      *            user password.
      * @param realm
      *            IDP authentication realm.
+     * @return
+     *         String containing the sessionToken for the authenticated user.
      */
-    public void openSession(final String host, final int port, final String user, final String password,
+    public String openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
-        apiServerUri = "http://" + host + ":" + port + "/" + Constants.API_SERVER_PATH;
+        /**
+         * TODO - replace this with oauth when it's ready
+         */
         
-        // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from LuckyStrike.
-        // For now generate a token via a Rest Console in a web browser and pass the resulting token
-        // in as 'password'.
-        sessionToken = password;
+        String protocol = "";
+        if (host.equalsIgnoreCase("localhost")) {
+            protocol = "http://";
+        } else {
+            protocol = "https://";
+        }
+        apiServerUri = protocol + host + ":" + port + "/" + Constants.API_SERVER_PATH;
         
+        /**
+         * TODO -- determine if we can pass credentials as part of clientState and bypass
+         * hitting the IDP directly.
+         */
+        
+        // Find the IDP for the realm
+        ClientRequest.Builder builder = new ClientRequest.Builder();
+        String idp = "";
+        builder.accept(MediaType.TEXT_HTML);
+        try {
+            ClientConfig cc = new DefaultClientConfig();
+            cc.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, false);
+            Client c = Client.create(cc);
+            
+            ClientResponse response = c.handle(builder.build(new URI(protocol + host + ":" + port
+                    + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm)), HttpMethod.GET));
+            
+            String tmp = response.getHeaders().getFirst("Location");
+            
+            if (tmp != null) {
+                // find the idpEntityId
+                int start = tmp.indexOf("idpEntityID=");
+                int end = tmp.indexOf('&', start);
+                idp = URLDecoder.decode(tmp.substring(start + 12, end));
+            }
+            
+            c.destroy();
+            
+        } catch (ClientHandlerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        // Attempt to authenticate
+        builder = new ClientRequest.Builder();
+        builder.accept(MediaType.TEXT_PLAIN);
+        builder.entity("username=" + user + "&password=" + password,
+                MediaType.APPLICATION_FORM_URLENCODED);
+        
+        // String url = idp + "/identity/authenticate?username=" + user + "&password=" + password;
+        
+        ClientRequest request;
+        String rstring = "";
+        try {
+            request = builder.build(new URI(idp + "/identity/authenticate"), HttpMethod.POST);
+            ClientResponse response = client.handle(request);
+            rstring = response.getEntity(String.class);
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        if (rstring.startsWith("token.id=")) {
+            sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
+        } else {
+            sessionToken = null;
+        }
+        
+        return sessionToken;
     }
     
     /**

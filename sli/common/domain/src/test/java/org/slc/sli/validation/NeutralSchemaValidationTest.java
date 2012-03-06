@@ -42,6 +42,28 @@ public class NeutralSchemaValidationTest {
     }
 
     @Test
+    public void testValidEducationOrganization() throws Exception {
+        addDummyEntity("educationOrganization", "1d303c61-88d4-404a-ba13-d7c5cc324bc5");
+         
+        readAndValidateFixtureData("src/test/resources/educationOrganization_fixture_neutral.json", "educationOrganization");
+    }
+    
+    @Test
+    public void testValidStaff() throws Exception {
+        readAndValidateFixtureData("src/test/resources/staff_fixture_neutral.json", "staff");
+    }
+    
+    @Test
+    public void testValidSession() throws Exception {
+        readAndValidateFixtureData("src/test/resources/session_fixture_neutral.json", "session");
+    }
+    
+    @Test
+    public void testValidCourse() throws Exception {
+        readAndValidateFixtureData("src/test/resources/course_fixture_neutral.json", "course");
+    }
+
+    @Test
     public void testValidSchool() throws Exception {
         readAndValidateFixtureData("src/test/resources/school_fixture_neutral.json", "school");
     }
@@ -54,6 +76,31 @@ public class NeutralSchemaValidationTest {
     @Test
     public void testValidAssessment() throws Exception {
         readAndValidateFixtureData("src/test/resources/assessment_fixture_neutral.json", "assessment");
+    }
+    
+
+    @Test
+    public void testValidTeacher() throws Exception {
+        readAndValidateFixtureData("src/test/resources/teacher_fixture_neutral.json", "teacher");
+    }
+
+    @Test
+    public void testValidSection() throws Exception {
+        addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
+        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
+
+        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidSection() throws Exception {
+        addDummyCollection("school");
+        addDummyCollection("session");
+        addDummyCollection("course");
+
+        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
     }
     
     @Test
@@ -124,30 +171,6 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("course");
 
         readAndValidateFixtureData("src/test/resources/session_course_association_fixture_neutral.json", "sessionCourseAssociation");
-    }
-
-    @Test
-    public void testValidTeacher() throws Exception {
-        readAndValidateFixtureData("src/test/resources/teacher_fixture_neutral.json", "teacher");
-    }
-
-    @Test
-    public void testValidSection() throws Exception {
-        addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
-        addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
-        addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
-
-        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
-    }
-
-    @Test
-    @ExpectedException(value = EntityValidationException.class)
-    public void testInvalidSection() throws Exception {
-        addDummyCollection("school");
-        addDummyCollection("session");
-        addDummyCollection("course");
-
-        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
     }
 
     @Test

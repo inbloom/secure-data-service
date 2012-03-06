@@ -43,7 +43,7 @@ public final class BasicClient implements SLIClient {
         private int port = 8080;
         private String username;
         private String password;
-        private String realm;
+        private String realm = "sli";
         
         /**
          * Construct a new Builder.
@@ -66,7 +66,9 @@ public final class BasicClient implements SLIClient {
         
         /**
          * Initialize the builder connection port.
-         * @param port for the API server.
+         * 
+         * @param port
+         *            for the API server.
          * @return an SLIClientBuilder
          */
         public Builder port(final int port) {
@@ -76,6 +78,7 @@ public final class BasicClient implements SLIClient {
         
         /**
          * Initialize the builder user name.
+         * 
          * @param username
          * @return SLIClientBuilder
          */
@@ -86,7 +89,9 @@ public final class BasicClient implements SLIClient {
         
         /**
          * Initialize the builder user password.
-         * @param password user password.
+         * 
+         * @param password
+         *            user password.
          * @return SLIClientBuilder
          */
         public Builder password(final String password) {
@@ -96,7 +101,9 @@ public final class BasicClient implements SLIClient {
         
         /**
          * Initialize the user's IDP realm.
-         * @param ream Users IDP realm.
+         * 
+         * @param ream
+         *            Users IDP realm.
          * @return SLIClientBuilder
          */
         public Builder realm(final String realm) {
@@ -119,81 +126,85 @@ public final class BasicClient implements SLIClient {
     
     @Override
     public ClientResponse create(final Entity e) throws MalformedURLException, URISyntaxException {
-        
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.postRequest(url, gson.toJson(e));
     }
     
     @Override
-    public EntityCollection read(final EntityType type, final Query query) throws MalformedURLException,
-    URISyntaxException {
+    public ClientResponse read(EntityCollection entities, final EntityType type, final Query query)
+            throws MalformedURLException,
+            URISyntaxException {
         
-        return read(type, null, query);
+        return read(entities, type, null, query);
     }
     
     @Override
-    public EntityCollection read(final EntityType type, final String id, final Query query)
+    public ClientResponse read(EntityCollection entities, final EntityType type, final String id, final Query query)
             throws MalformedURLException, URISyntaxException {
         
-        Entity entity = null;
+        entities.clear();
         
-        // build the URL
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
         if (id != null) {
             builder.id(id);
         }
-        builder.query(query);
         
-        ClientResponse response = restClient.getRequest(builder.build());
-        
-        EntityCollection r = new EntityCollection();
-        
-        // TODO - create a generic error handling method.
-        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
-            
-            try {
-                JsonElement element = gson.fromJson(response.getEntity(String.class), JsonElement.class);
-                
-                if (element instanceof JsonArray) {
-                    r.fromJsonArray(element.getAsJsonArray());
-                    
-                } else if (element instanceof JsonObject) {
-                    entity = gson.fromJson(element, Entity.class);
-                    r.add(entity);
-                    
-                } else {
-                    // not what was expected....
-                    System.err.println("Unexpected ReST response:" + element.getAsString());
-                }
-            } catch (JsonSyntaxException e) {
-                // invalid Json, or non-Json response?
-                System.err.println("Unexpected ReST response:" + response.getEntity(String.class));
-            }
-        } else {
-            System.err.println("Failed REST call:" + response.getStatus());
-        }
-        
-        return r;
+        return getResource(entities, builder.build(), query);
     }
+    
     
     @Override
     public ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException {
-        
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.putRequest(url, gson.toJson(e));
     }
     
     @Override
     public ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException {
-        
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.deleteRequest(url);
     }
     
     @Override
-    public void connect(final String host, final int port, final String user, final String password, final String realm) {
+    public String connect(final String host, final int port, final String user, final String password,
+            final String realm) {
         restClient = new RESTClient();
-        restClient.openSession(host, port, user, password, realm);
+        return restClient.openSession(host, port, user, password, realm);
+    }
+    
+    @Override
+    public ClientResponse getResource(EntityCollection entities, URL resourceURL, Query query)
+            throws MalformedURLException, URISyntaxException {
+        entities.clear();
+        
+        URLBuilder builder = URLBuilder.create(resourceURL.toString());
+        builder.query(query);
+        
+        ClientResponse response = restClient.getRequest(builder.build());
+        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
+            
+            try {
+                JsonElement element = gson.fromJson(response.getEntity(String.class), JsonElement.class);
+                
+                if (element instanceof JsonArray) {
+                    entities.fromJsonArray(element.getAsJsonArray());
+                    
+                } else if (element instanceof JsonObject) {
+                    Entity entity = gson.fromJson(element, Entity.class);
+                    entities.add(entity);
+                    
+                } else {
+                    // not what was expected....
+                    response = new ClientResponse(ClientResponse.Status.INTERNAL_SERVER_ERROR.getStatusCode(), null,
+                            null, null);
+                }
+            } catch (JsonSyntaxException e) {
+                // invalid Json, or non-Json response?
+                response = new ClientResponse(ClientResponse.Status.INTERNAL_SERVER_ERROR.getStatusCode(), null, null,
+                        null);
+            }
+        }
+        return response;
     }
     
     /*
@@ -211,6 +222,5 @@ public final class BasicClient implements SLIClient {
         this();
         connect(host, port, user, password, realm);
     }
-    
     
 }

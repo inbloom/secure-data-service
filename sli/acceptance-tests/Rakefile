@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -157,6 +157,11 @@ task :ingestionAttendanceTests do
   runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
 end
 
+desc "Run Ingestion Assessment Tests"
+task :ingestionAssessmentTests do
+  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -168,8 +173,25 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests] do
+                     :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests] do
   displayFailureReport()
+end
+
+desc "Run V1 Direct References Tests"
+task :v1DirectReferencesTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Transcript Association Tests"
+task :v1StudentTranscriptAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("course", "course_fixture.json")
+  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
+  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
 end
 
 desc "Run V1 Teacher School Association Tests"
@@ -348,6 +370,12 @@ task :v1homeUriTests => [:realmInit] do
   runTests("test/features/apiV1/home_uri")
 end
 
+desc "Run V1 Hierachy Traversal Tests"
+task :v1HierarchyTraversalTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -383,7 +411,7 @@ task :sectionTests => [:realmInit] do
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
-
+0
 desc "Run School Tests"
 task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
@@ -405,9 +433,20 @@ task :assessmentTests => [:realmInit] do
 end
 
 desc "Run Attendance Tests"
-task :attendanceTests => [:realmInit] do
+task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
+  
+end
+
+desc "Run Attendance CRUD Tests"
+task :attendanceCrudTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
+  runFixtureAndTests("test/features/api/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
+end
+
+desc "Run Attendance Security Tests"
+task :attendanceSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/entities/attendance/attendance_security.feature")
 end
 
 desc "Run Validation Tests"
@@ -420,6 +459,12 @@ end
 
 desc "Run Encryption Tests"
 task :encryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
   runTests("test/features/api/encryption")
 end
 
@@ -568,14 +613,14 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests, :dashboardAttendance] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
-  
+
 end
 
 desc "Run Dashboard population widget Tests"
@@ -602,7 +647,7 @@ end
 # task :dashboardTests do
 #   runTests("test/features/dashboard")
 #   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-# 
+#
 # end
 
 desc "Run Dashboard user based view selection tests"
@@ -627,7 +672,7 @@ task :MostRecentResultTests do
 end
 
 desc "Run dashboard attendance related tests"
-task :dashboardAttendance do 
+task :dashboardAttendance do
   runTests("test/features/dashboard/attendance.feature")
 end
 
@@ -645,6 +690,7 @@ task :importSandboxData do
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
+    "attendance" => "attendance_fixture.json",
     "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
     "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
     "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
@@ -657,7 +703,8 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
-    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
+    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
@@ -685,7 +732,26 @@ task :importSandboxData do
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
 
+desc "Import Unified Data Set"
+task :importUnifiedData do
+  testHash = Hash[
+    "assessment"                   => "unified_data/uds_assessments.json",
+    "attendance"                   => "unified_data/uds_attendance.json",
+    "section"                      => "unified_data/uds_sections.json",
+    "course"                       => "unified_data/uds_courses.json",
+    "school"                       => "unified_data/uds_schools.json",
+    "student"                      => "unified_data/uds_students.json",
+    "teacher"                      => "unified_data/uds_teachers.json",
+    "studentSchoolAssociation"     => "unified_data/uds_student_school_associations.json",
+    "teacherSectionAssociation"    => "unified_data/uds_teacher_section_associations.json",
+    "studentAssessmentAssociation" => "unified_data/uds_student_assessment_associations.json",
+    "studentSectionAssociation"    => "unified_data/uds_student_section_associations.json",
+    "teacherSchoolAssociation"     => "unified_data/uds_teacher_school_associations.json",
+    "educationOrganization"        => "unified_data/uds_education_organizations.json"
 
+  ]
+  setMultipleFixtureFiles(testHash)
+end
 
 desc "Help information for this Rakefile"
 task :help do

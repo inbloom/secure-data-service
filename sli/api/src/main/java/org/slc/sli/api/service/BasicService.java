@@ -11,7 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +40,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.enums.Right;
-
 /**
  * Implementation of EntityService that can be used for most entities.
  * 
  * It is very important this bean prototype scope, since one service is needed per
  * entity/association.
- * 
- * Now Secured!
  */
 @Scope("prototype")
 @Component("basicService")
@@ -57,7 +55,7 @@ public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
     private static final int MAX_RESULT_SIZE = 9999;
-    
+
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
@@ -163,22 +161,48 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
-
-        EntityQuery query = createQuery(queryParameters);
-
-        List<EntityBody> results = new ArrayList<EntityBody>();
         
-        // for each entity found in the collection matching query parameters
-        for (Entity entity : this.repo.findAll(this.collectionName, query)) {
-            //TODO! This doesn't work correctly now
-            //checkAccess(Right.READ_GENERAL, entity.getEntityId());
-            // add a new body containing that data
-            results.add(makeEntityBody(entity));
+        checkRights(Right.READ_GENERAL);
+        List<String> allowed = findAccessible();
+        
+        if(allowed.isEmpty()) {
+            throw new AccessDeniedException("Access to resource denied.");
         }
         
+        EntityQuery query = createQuery(queryParameters);
+        if (allowed.size() > 0) {
+            query.getFields().put("_id", implode(allowed));
+        } 
+        
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+                
+        if(entities.size() == 0) {
+            throw new AccessDeniedException("Access to resource denied.");
+        }
+        
+        for (Entity entity : entities) {
+            results.add(makeEntityBody(entity));                
+        }        
         return results;
     }
     
+    private String implode(List<String> allowed) {
+        String commaDelimitedString = "";
+        for(String id : allowed) {
+            commaDelimitedString += id + ",";
+        }
+        return commaDelimitedString;
+    }
+    
+    private List<Entity> makeEntityList(Iterable<Entity> items) {
+        List<Entity> myList = new ArrayList<Entity>();
+        for(Entity item : items) {
+            myList.add(item);
+        }
+        return myList;
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
         return get(ids, null, null);
@@ -240,19 +264,29 @@ public class BasicService implements EntityService {
             for (String id : allowed) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
-            
             query = query.addCriteria(Criteria.where("_id").in(binIds));
+            
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
+        } else if (allowed.size() == -1) { // super list logic --> only true when using DefaultEntityContextResolver
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
         }
-        
-        List<String> results = new ArrayList<String>();
-        
-        Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
-        
-        for (Entity entity : entities) {
-            results.add(entity.getEntityId());
+        else {
+            return Collections.emptyList();
         }
-        
-        return results;
     }
     
     @Override
@@ -382,7 +416,7 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
                 defn.getType());
         
-        return resolver.findAccessible(principal.getEntity());
+        return resolver.findAccessible(principal.getEntity());   
     }
     
     /**
@@ -500,36 +534,36 @@ public class BasicService implements EntityService {
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
 
-            if (key.equals("includeFields")) { //specific field(s) to include in result set
+            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { //specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     queryBuilder.setIncludeFields(includeFields);
                 }
-            } else if (key.equals("excludeFields")) { //specific field(s) to exclude from result set
+            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { //specific field(s) to exclude from result set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     queryBuilder.setExcludeFields(excludeFields);
                 }
-            } else if (key.equals("offset")) { //skip to record X instead of starting at the beginning
+            } else if (key.equals(ParameterConstants.OFFSET)) { //skip to record X instead of starting at the beginning
                 String offset = entry.getValue();
                 if (offset != null) {
                     queryBuilder.setOffset(Integer.parseInt(offset));
                 }
-            } else if (key.equals("limit")) { //display X results instead of all of them
+            } else if (key.equals(ParameterConstants.LIMIT)) { //display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     queryBuilder.setLimit(Integer.parseInt(limit));
                 }
-            } else if (key.equals("sort-by")) { // sort by a field
+            } else if (key.equals(ParameterConstants.SORT_BY)) { // sort by a field
                 String sortBy = entry.getValue();
                 if (sortBy != null) {
                     queryBuilder.setSortBy(sortBy);
                 }
-            } else if (key.equals("sort-order")) { // define the sort order (ascending or descending)
+            } else if (key.equals(ParameterConstants.SORT_ORDER)) { // define the sort order (ascending or descending)
                 String sortOrder = entry.getValue();
                 if (sortOrder != null) {
                     EntityQuery.SortOrder order =
-                            sortOrder.equals("ascending") ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
+                            sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
                     queryBuilder.setSortOrder(order);
                 }
             } else { //query param on record
