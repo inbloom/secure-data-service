@@ -8,6 +8,49 @@
 
 	<xs:complexType name="complexObjectType" abstract="true">
 	</xs:complexType>
+	
+	<xs:complexType name="assessmentItem">
+		<xs:annotation>
+			<xs:documentation>This entity represents one of many single measures that make up an assessment. </xs:documentation>
+		</xs:annotation>
+				<xs:sequence>
+					<xs:element name="identificationCode" type="identificationCode">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a space, room, site, building, individual, organization, program, or institution by a school, school system, a state, or other agency or entity.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="itemCategory" type="itemCategoryType">
+						<xs:annotation>
+							<xs:documentation>Category or type of the assessment item.  For example:
+Multiple choice
+Analytic
+Prose
+....
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaxRawScore" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The maximum raw score achievable is all assessment items are correct and scored at the maximum.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="correctResponse" type="correctResponse">
+						<xs:annotation>
+							<xs:documentation>The correct response for the assessment item.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="learningStandardId" type="learningStandardId" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Learning Standard tested by this item.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nomenclature" type="nomenclature" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reflects the specific nomenclature used for AssessmentItem.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="name">
 		<xs:annotation>
