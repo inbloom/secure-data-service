@@ -48,6 +48,8 @@ public class EdFiProcessor implements Processor {
             if (job.getErrorReport().hasErrors()) {
                 exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
             }
+
+            // next route should be DATA_TRANSFORMATION
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
 
         } catch (Exception exception) {
