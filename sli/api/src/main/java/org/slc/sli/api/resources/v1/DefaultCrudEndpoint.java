@@ -1,27 +1,26 @@
 package org.slc.sli.api.resources.v1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Prototype new api end points and versioning base class
@@ -259,9 +258,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 //final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 boolean shouldIncludeLinks = shouldIncludeLinks(headers);
-                
-                
-                for (EntityBody result : entityDef.getService().list(queryParameters)) {
+
+                Iterable<EntityBody> entities;
+                if (idLength == 1) {
+                    entities = Arrays.asList(new EntityBody[]{ entityDef.getService().get(idList, queryParameters) });
+                } else {
+                    entities = entityDef.getService().list(queryParameters);
+                }
+
+                for (EntityBody result : entities) {
                     if (result != null) {
                         if (shouldIncludeLinks) {
                             result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, result, uriInfo));

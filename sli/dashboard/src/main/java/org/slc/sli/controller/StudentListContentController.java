@@ -2,6 +2,7 @@ package org.slc.sli.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -66,8 +67,8 @@ public class StudentListContentController extends DashboardController {
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
-        List<String> uids = null;
-        if (population != null) {
+        List<String> uids = new ArrayList<String>();
+        if (population != null && !population.isEmpty()) {
             uids = Arrays.asList(population.split(","));
         }
         

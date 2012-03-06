@@ -96,7 +96,7 @@
               <list>
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
-                <value>${smooks.targetselector.xml.assessment.family}</value>
+                <value>${smooks.targetselector.xml.assessmentFamily}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -108,6 +108,16 @@
               <list>
                 <value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
+              </list>
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key="#{T(org.slc.sli.ingestion.FileType).XML_COURSE_TRANSCRIPT}">
+          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
+            <constructor-arg value="${smooks.config.all.xml}" />
+            <constructor-arg>
+              <list>
+                <value>${smooks.targetselector.xml.student.courseTranscript}</value>
               </list>
             </constructor-arg>
           </bean>

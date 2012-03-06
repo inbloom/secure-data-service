@@ -16,7 +16,7 @@ import org.slc.sli.domain.MongoEntity;
  */
 public class EntityWriteConverter implements Converter<Entity, DBObject> {
     
-    @Autowired
+    @Autowired(required = false)
     EntityEncryption encrypt;
     
     @Override
@@ -28,7 +28,9 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
         } else {
             me = new MongoEntity(e.getType(), e.getEntityId(), e.getBody(), e.getMetaData());
         }
-        me.encrypt(encrypt);
+        if (encrypt != null) {
+            me.encrypt(encrypt);
+        }
         return me.toDBObject();
     }
     

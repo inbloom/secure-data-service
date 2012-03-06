@@ -56,7 +56,7 @@ public class TransformationProcessor implements Processor {
 
         Transmogrifier transmogrifier = TransformationFactory.createTransmogrifier(collectionNames, jobId);
 
-        transmogrifier.execute();
+        transmogrifier.executeTransformations();
 
     }
 

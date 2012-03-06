@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -16,13 +18,13 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  * @author ifaybyshev
  *
  */
-public class AssessmentCombiner implements TransformationStrategy {
+public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
 
-    private String jobId;
-
     private final Map<String, Map<Object, NeutralRecord>> collections;
+
+    private final Map<String, Map<Object, NeutralRecord>> transformedCollections;
 
     // TODO can we make this a service instead of passing it through every layer?
     private final NeutralRecordMongoAccess neutralRecordMongoAccess;
@@ -30,6 +32,7 @@ public class AssessmentCombiner implements TransformationStrategy {
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
     @Override
@@ -82,7 +85,7 @@ public class AssessmentCombiner implements TransformationStrategy {
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
 
-        collections.put("modifiedTeacher", newCollection);
+        transformedCollections.put("teacher", newCollection);
 
     }
 
@@ -90,7 +93,8 @@ public class AssessmentCombiner implements TransformationStrategy {
     public String persist() {
         LOG.info("Persisting transformed data to storage.");
 
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
+        // transformedCollections should have been populated in the transform() step.
+        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
 
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
 
@@ -110,23 +114,22 @@ public class AssessmentCombiner implements TransformationStrategy {
      * @param collectionName
      */
     private void loadCollectionFromDb(String collectionName) {
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findAll(collectionName);
-        Iterator<NeutralRecord> iter = data.iterator();
+
+        Criteria jobIdCriteria = Criteria.where("batchJobId").is(batchJobId);
+
+        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQuery(collectionName,
+                new Query(jobIdCriteria), 0, 0);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
+        Iterator<NeutralRecord> iter = data.iterator();
         while (iter.hasNext()) {
             tempNr = iter.next();
             collection.put(tempNr.getLocalId(), tempNr);
         }
 
         collections.put(collectionName, collection);
-    }
-
-    public void setJobId(String id) {
-        this.jobId = id;
-
     }
 
 }

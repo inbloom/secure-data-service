@@ -1,5 +1,6 @@
 require 'json'
 require 'mongo'
+require 'rest-client'
 require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
@@ -11,9 +12,21 @@ API_DB_NAME = PropLoader.getProps['api_database_name']
 ############################################################
 # TRANSFORM
 ############################################################
-Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+@newId                                   if arg2 == "'newly created student' ID"
+Transform /^<(.+)>$/ do |template|
+  id = template
+  id = @newId if template == "'newly created student' ID"
+  id = "d431ba09-c8ac-4139-beac-be28220633e6" if template == "'Krypton Middle School' ID"
   id
+end
+
+# transform /path/<Place Holder Id>
+Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
+  uri + Transform(template)
+end
+
+# transform /path/<Place Holder Id>/targets
+Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
+  Transform(uri + template) + "/targets"
 end
 
 ############################################################
@@ -24,6 +37,80 @@ Given /^the "([^\"]*)" collection is empty$/ do |collection|
   db = conn[API_DB_NAME]
   col = db.collection(collection)
   col.remove({})
+end
+
+Given /^no record exists in "([^\"]*)" with a "([^\"]*)" of "([^\"]*)"$/ do |collection, field, value|
+  conn = Mongo::Connection.new(API_DB)
+  db = conn[API_DB_NAME]
+  col = db.collection(collection)
+  resp = col.remove({field => value});
+  col.find({field => value}).count().should == 0
+end
+
+Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "=" "#{value}"}
+end
+
+Given /^parameter "([^\"]*)" is not "([^\"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "!=" "#{value}"}
+end
+
+Given /^parameter "([^"]*)" less than "([^"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "<" "#{value}"}
+end
+
+Given /^parameter "([^"]*)" greater than "([^"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" ">" "#{value}"}
+end
+
+Given /^parameter "([^"]*)" greater than or equal to "([^"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" ">=" "#{value}"}
+end
+
+Given /^parameter "([^"]*)" less than or equal to "([^"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "<=" "#{value}"}
+end
+
+Given /^parameter "([^"]*)" matches via regex "([^"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "=~" "#{value}"}
+end
+
+Given /^parameter "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |param, op, value|
+  if !defined? @queryParams
+    @queryParams = []
+  end
+  @queryParams.delete_if do |entry|
+    entry.start_with? param
+  end
+  @queryParams << URI.escape("#{param}#{op}#{value}")
+end
+
+Given /^student Rhonda Delagio exists$/ do
+  steps %Q{
+    Given no record exists in "student" with a "body.studentUniqueStateId" of "530425896"
+    Given a fully populated student record
+    When I navigate to POST "/students/"
+    Then I should receive a return code of 201
+    Then I should receive an ID for the newly created student
+  }
+end
+
+Given /^Ronda Delagio is associated with "([^\"]*)"\.$/ do |school_id|
+  @rhonda = @newId
+  record = %Q{
+    {
+      "studentId" : "#{@rhonda}",
+      "schoolId" : "#{school_id}",
+      "entryGradeLevel" : "First grade"
+    }
+  }
+  @data = JSON.parse(record)
+  steps %Q{
+    When I navigate to POST "/student-school-associations/"
+    Then I should receive a return code of 201
+    Then I should receive an ID for the newly created association
+  }
+  @rhondaAssoc = @newId
 end
 
 Given /^a fully populated student record$/ do
@@ -123,7 +210,6 @@ Given /^a fully populated student record$/ do
     EOF
     
     @data = JSON.parse(record)
-    puts @data.inspect
 end
 
 ############################################################
@@ -193,7 +279,30 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
       object[f].should_not == nil
       object = object[f]
     end
-  endt = object[f]
   end
   object.should_not == value
+end
+
+Then /^all students should have "([^\"]*)" equal to "([^\"]*)"$/ do |field, value|
+  @result.should be_a Array
+  @result.each do |entity|
+    object = entity
+    field.split(".").each do |f|
+      object[f].should_not == nil
+      object = object[f]
+    end
+    object.should == value
+  end
+end
+
+Then /^no student should have "([^"]*)" equal to "([^"]*)"$/ do |field, value|
+  @result.should be_a Array
+  @result.each do |entity|
+    object = entity
+    field.split(".").each do |f|
+      object[f].should_not == nil
+      object = object[f]
+    end
+    object.should_not == value
+  end
 end

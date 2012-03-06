@@ -43,6 +43,7 @@ public final class ResourceNames {
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staff-educationOrganization-associations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-associations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     
     
     public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
@@ -65,6 +66,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "getStaffEducationOrganizationAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, "getCourseSectionAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
         
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");

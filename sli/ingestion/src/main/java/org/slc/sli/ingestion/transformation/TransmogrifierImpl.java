@@ -13,7 +13,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 public final class TransmogrifierImpl implements Transmogrifier {
 
-    private final String jobId;
+    private final String batchJobId;
 
     private final Collection<TransformationStrategy> transformationStrategies;
 
@@ -21,7 +21,7 @@ public final class TransmogrifierImpl implements Transmogrifier {
     private TransmogrifierImpl(NeutralRecordMongoAccess neutralRecordMongoAccess, String jobId,
             Collection<TransformationStrategy> transformationStrategies) {
 
-        this.jobId = jobId;
+        this.batchJobId = jobId;
 
         // never have null collection
         if (transformationStrategies == null) {
@@ -34,26 +34,22 @@ public final class TransmogrifierImpl implements Transmogrifier {
      * Static factory method for creating a basic Transmogrifier
      *
      * @param neutralRecordMongoAccess
-     * @param jobId
+     * @param batchJobId
      * @param transformationStrategies
      * @return
      */
-    public static Transmogrifier createInstance(NeutralRecordMongoAccess neutralRecordMongoAccess, String jobId,
+    public static Transmogrifier createInstance(NeutralRecordMongoAccess neutralRecordMongoAccess, String batchJobId,
             Collection<TransformationStrategy> transformationStrategies) {
 
-        return new TransmogrifierImpl(neutralRecordMongoAccess, jobId, transformationStrategies);
+        return new TransmogrifierImpl(neutralRecordMongoAccess, batchJobId, transformationStrategies);
     }
 
     @Override
-    public void execute() {
+    public void executeTransformations() {
 
-        for (TransformationStrategy strategy : transformationStrategies) {
+        for (TransformationStrategy transformationStrategy : transformationStrategies) {
 
-            strategy.loadData();
-
-            strategy.transform();
-
-            strategy.persist();
+            transformationStrategy.perform(batchJobId);
         }
     }
 

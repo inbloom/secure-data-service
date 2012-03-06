@@ -50,4 +50,9 @@ public class TransformationFactory {
     public static void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         TransformationFactory.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
+
+    // invoked via spring
+    public static NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
+        return  neutralRecordMongoAccess;
+    }
 }
