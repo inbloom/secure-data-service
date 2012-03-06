@@ -1,89 +1,75 @@
-Feature: As an SLI application, I want to be able to manage schools
-    As a client application using SLI
-    I want to have create, read, update, and delete functionality for a school.
+Feature: As an SLI application, I want to be able to manage school entities.
+This means I want to be able to perform CRUD on all entities.
+and verify that the correct links are made available.
+  
+Background: Nothing yet
+    Given I am logged in using "demo" "demo1234"
+      And I have access to all data
+      And format "application/vnd.slc+json"
 
-Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all schools
-
-#### Happy Path 
-Scenario: Create a new school JSON
-    Given format "application/json"
-       And the "shortNameOfInstitution" is "SCTS"
-	  And the "nameOfInstitution" is "School Crud Test School"
-	  And the "webSite" is "www.scts.edu"
-    When I navigate to POST "/v1/schools/" 
+Scenario: Create a valid entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
-       And I should receive an ID for the newly created school
-    When I navigate to GET "/v1/schools/<'newly created school' ID>"
-    Then I should see the "shortNameOfInstitution" is "SCTS"
-      And I should see the "nameOfInstitution" is "School Crud Test School"
-      And I should see the "webSite" is "www.scts.edu"
-
-Scenario: Read base resource
-    Given format "application/json"
-    When I navigate to GET "/v1/schools"
+     And I should receive an ID for the newly created entity
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
-	  
-Scenario: Read a school by id
-    Given format "application/vnd.slc+json"
-    When I navigate to GET "/v1/schools/<'Apple Alternative Elementary School' ID>"
+     And the response should contain the appropriate fields and values
+
+Scenario: Read all entities
+    When I navigate to GET "/<ENTITY URI>"
     Then I should receive a return code of 200
-       And I should see the "nameOfInstitution" is "Apple Alternative Elementary School"
-       And I should see the "telephoneNumber" is "(785) 667-6006"
-       And I should receive a link named "self" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>"
-       And I should receive a link named "getTeacherSchoolAssociations" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/teacherSchoolAssociations"
-       And I should receive a link named "getTeachers" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/teacherSchoolAssociations/teachers"
-       And I should receive a link named "getStudents" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/studentSchoolAssociations/students"
-       And I should receive a link named "getStudentSchoolAssociations" with URI "/v1/schools/<'Apple Alternative Elementary School' ID>/studentSchoolAssociations"
+     And I should receive a collection of "<ENTITY COUNT>" entities
+     And each entity's "entityType" should be "<ENTITY TYPE>"
 
-Scenario: Update an existing school
-    Given format "application/json"
-    When I navigate to GET "/v1/schools/<'Yellow Middle School' ID>"
-    Then I should see the "nameOfInstitution" is "Yellow Middle School"
-    When I set the "nameOfInstitution" to "Yellow Middle and High School"
-    When I navigate to PUT "/v1/schools/<'Yellow Middle School' ID>"
+Scenario: Read an entity and confirm presentation of links
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID>"
+    Then I should receive a return code of 200
+     And "entityType" should be "<ENTITY TYPE>"
+     And I should receive a link named "<SELF LINK NAME>" with URI "/<ENTITY URI>/<ENTITY ID>"
+
+Scenario: Update entity
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
+    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then I should receive a return code of 204
-    When I navigate to GET "/v1/schools/<'Yellow Middle School' ID>"
- 	Then I should see the "nameOfInstitution" is "Yellow Middle and High School"
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+     And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
 
- 	 
-Scenario: Delete an existing school
-    Given format "application/json"
-    When I navigate to DELETE "/v1/schools/<'Delete Me Middle School' ID>"
+Scenario: Delete entity
+   Given format "application/json"
+    When I navigate to DELETE "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
     Then I should receive a return code of 204
-     When I navigate to GET "/v1/schools/<'Delete Me Middle School' ID>"
-     Then I should receive a return code of 404
-        
+     And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
+     And I should receive a return code of 404
 
-### Error handling
-Scenario: Attempt to read a non-existing school
-    Given format "application/json"
-    When I navigate to GET "/v1/schools/<'that doesn't exist' ID>"
-    Then I should receive a return code of 404      
+Scenario: Non-happy path: Attempt to create invalid entity
+   Given an invalid entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/<ENTITY URI>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
 
-Scenario: Attempt to delete a non-existing school
-    Given format "application/json"
-    When I navigate to DELETE "/v1/schools/<'that doesn't exist' ID>"
-    Then I should receive a return code of 404      
+Scenario: Non-happy path: Attempt to read a non-existing entity
+    When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+ 
+Scenario: Non-happy path: Attempt to update an entity to an invalid state
+   Given format "application/json"
+    When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    When I set the "<REQUIRED FIELD>" to "<BLANK>"
+     And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
+    Then I should receive a return code of 400
+     And the error message should indicate "<VALIDATION>"
 
-Scenario: Update a non-existing school
-    Given format "application/json"
-    When I attempt to update "/v1/schools/<'that doesn't exist' ID>"
-    Then I should receive a return code of 404      
-    
-Scenario: Fail when asking for an unsupported format "text/plain"
-    Given format "text/plain"
-    When I navigate to GET "/v1/schools/<'Apple Alternative Elementary School' ID>"
-    Then I should receive a return code of 406
-    
-Scenario: Fail if going to the wrong URI
-	Given format "application/json"
-	When I navigate to GET "/v1/school/<'using a wrong URI' ID>"
-     Then I should receive a return code of 404
+Scenario: Non-happy path: Attempt to update a non-existing entity
+   Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
+    When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
 
-# does not appy for v1 handled by 'Scenario: Read base resource'
-#Scenario: Attempt to read the base resource with no GUID
-#	Given format "application/json"
-#	When I navigate to GET "/v1/schools/<'with no GUID' ID>"
-#	Then I should receive a return code of 405
+Scenario: Non-happy path: Attempt to delete a non-existing entity
+    When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
+    Then I should receive a return code of 404
+
