@@ -52,6 +52,22 @@ public class EntityEncryption {
         return clonedEntity;
     }
     
+    public String encryptSingleValue(Object value) {
+        return aes.encrypt(value);
+    }
+    
+    public Object decryptSingleValue(Object value) {
+        if (!(value instanceof String)) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+        }
+        Object decrypted = aes.decrypt((String) value);
+        if (decrypted == null) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            return value;
+        }
+        return decrypted;
+    }
+    
     private static enum Operation {
         ENCRYPT, DECRYPT;
     }
