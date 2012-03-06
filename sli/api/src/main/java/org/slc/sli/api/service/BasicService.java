@@ -89,16 +89,17 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("KM Deleting {} in {}", new String[] { id, collectionName });
         
         checkAccess(Right.WRITE_GENERAL, id);
+        
+        this.cascadeDelete(id);
         
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         
-        this.cascadeDelete(id);
     }
     
     @Override
@@ -332,7 +333,7 @@ public class BasicService implements EntityService {
     
     /**
      * Deletes any object with a reference to the given sourceId. Assumes that the sourceId 
-     * has already been deleted.
+     * still exists so that authorization/context can be checked.
      * 
      * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
@@ -344,11 +345,15 @@ public class BasicService implements EntityService {
                 EntityService referencingEntityService = referencingEntity.getService();
                 Map<String, String> referenceQuery = new HashMap<String, String>();
                 referenceQuery.put(referenceField, sourceId);
-                //list all entities that have the deleted entity's ID in their reference field
-                for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
-                    String idToBeDeleted = (String) entityBody.get("id");
-                    //delete that entity as well
-                    referencingEntityService.delete(idToBeDeleted);
+                try {
+                  //list all entities that have the deleted entity's ID in their reference field
+                    for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
+                        String idToBeDeleted = (String) entityBody.get("id");
+                        //delete that entity as well
+                        referencingEntityService.delete(idToBeDeleted);
+                    }
+                } catch (AccessDeniedException ade) {
+                    LOG.debug("No " + referencingEntity.getResourceName() + " have " + referenceField + " = " + sourceId);
                 }
             }
         }
