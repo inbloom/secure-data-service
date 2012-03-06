@@ -24,12 +24,15 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private final Map<String, Map<Object, NeutralRecord>> collections;
 
+    private final Map<String, Map<Object, NeutralRecord>> transformedCollections;
+
     // TODO can we make this a service instead of passing it through every layer?
     private final NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
     @Override
@@ -82,7 +85,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
 
-        collections.put("modifiedTeacher", newCollection);
+        transformedCollections.put("teacher", newCollection);
 
     }
 
@@ -90,7 +93,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public String persist() {
         LOG.info("Persisting transformed data to storage.");
 
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
+        // transformedCollections should have been populated in the transform() step.
+        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
 
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
 
