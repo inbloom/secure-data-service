@@ -1,12 +1,17 @@
 package org.slc.sli.api.security.context;
 
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +40,54 @@ public class SectionSessionContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        return Arrays.asList((String) principal.getBody().get("sessionId"));
+        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
+
+        AssociationDefinition teacherSectionDef = (AssociationDefinition) definitionStore
+                .lookupByResourceName(ResourceNames.TEACHER_SECTION_ASSOCIATIONS);
+        AssociationDefinition sectionStudentDef = (AssociationDefinition) definitionStore
+                .lookupByResourceName(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
+
+        ids = findIdsFromAssociation(ids, EntityNames.TEACHER, EntityNames.SECTION, teacherSectionDef);
+        ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
+        ids = findIdsFromAssociation(ids, EntityNames.STUDENT, EntityNames.SECTION, sectionStudentDef);
+
+        List<String> sessionIds = new ArrayList<String>();
+        Iterable<Entity> entities = this.repository.findByQuery(EntityNames.SECTION,
+                new Query(Criteria.where("_id").in(ids)), 0, 9999);
+
+        for (Entity e : entities) {
+            sessionIds.add((String) e.getBody().get("sessionId"));
+        }
+
+        return sessionIds;
+    }
+
+    private List<String> findIdsFromAssociation(List<String> ids, String sourceType, String targetType, AssociationDefinition definition) {
+        List<String> associationIds = new ArrayList<String>();
+
+        List<String> keys = getAssocKeys(sourceType, definition);
+        String sourceKey = keys.get(0);
+        String targetKey = keys.get(1);
+
+        Iterable<Entity> entities = this.repository.findByQuery(definition.getStoredCollectionName(),
+                new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
+
+        for (Entity e : entities) {
+            associationIds.add((String) e.getBody().get(targetKey));
+        }
+
+        return associationIds;
+    }
+
+    private List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
+
+        if (ad.getSourceEntity().getType().equals(entityType)) {
+            return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
+        } else if (ad.getTargetEntity().getType().equals(entityType)) {
+            return Arrays.asList(ad.getTargetKey(), ad.getSourceKey());
+        } else {
+            throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
+        }
     }
 
     public void setRepository(EntityRepository repository) {
