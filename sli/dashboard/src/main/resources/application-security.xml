@@ -9,6 +9,9 @@
 
 <beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
     <beans:property name="restClient" ref="restClient" />
+    <beans:property name="clientSecret" value="${oauth.client.secret}" />
+    <beans:property name="clientId" value="${oauth.client.id}" />
+    <beans:property name="callbackUrl" value="${oauth.redirect}" />
 </beans:bean>
 
 </beans:beans>
