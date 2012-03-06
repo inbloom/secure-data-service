@@ -52,30 +52,41 @@ public class EdFiAssessmentConvertorTest {
         dibelsNext3.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 3");
         dibelsNext3.setRecordType("AssessmentFamily");
         dibelsNext3.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
+        NeutralRecord period = new NeutralRecord();
+        period.setRecordType("AssessmentPeriodDescriptor");
+        period.setLocalId("apd");
+        period.setAttributeField("codeValue", "APD");
+        period.setAttributeField("description", "A Test Period Descriptor");
         NeutralRecord kboy = new NeutralRecord();
         kboy.setLocalId("kboy");
         kboy.setRecordType("assessment");
         kboy.setAttributeField("assessmentTitle", "K-BOY");
         kboy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
+        kboy.setAttributeField("periodDescriptorRef", "APD");
         NeutralRecord kmoy = new NeutralRecord();
         kmoy.setLocalId("kmoy");
         kmoy.setRecordType("assessment");
         kmoy.setAttributeField("assessmentTitle", "K-MOY");
         kmoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
+        kmoy.setAttributeField("periodDescriptorRef", "APD");
         NeutralRecord keoy = new NeutralRecord();
         keoy.setLocalId("keoy");
         keoy.setRecordType("assessment");
         keoy.setAttributeField("assessmentTitle", "K-EOY");
         keoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
+        keoy.setAttributeField("periodDescriptorRef", "APD");
         Map<String, List<NeutralRecord>> records = new HashMap<String, List<NeutralRecord>>();
         records.put("assessment", Arrays.asList(kboy, kmoy, keoy));
         records.put("AssessmentFamily",
                 Arrays.asList(dibels6th, dibelsNext, dibelsNext1, dibelsNext2, dibelsNext3, dibelsNextK));
+        records.put("assessmentPeriodDescriptor", Arrays.asList(period));
         List<NeutralRecord> sliAssessments = convertor.convert(records);
         assertEquals(3, sliAssessments.size());
         for (NeutralRecord record : sliAssessments) {
             assertEquals("DIBELS Next.DIBELS Next Kindergarten",
                     record.getAttributes().get("assessmentFamilyHierarchyName"));
+            assertEquals("APD", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("codeValue"));
+            assertEquals("A Test Period Descriptor", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("description"));
         }
         
     }
