@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -26,13 +27,14 @@ public class SliSmooksFactory {
     private String beanId;
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
-    public Smooks createInstance(FileType fileType, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
             throws IOException, SAXException {
 
+        FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport);
+            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport, ingestionFileEntry.getBatchJobId());
 
         } else {
             errorReport.fatal("File type not supported : " + fileType, SliSmooksFactory.class);
@@ -41,7 +43,8 @@ public class SliSmooksFactory {
     }
 
     private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
-            ErrorReport errorReport) throws IOException, SAXException {
+            ErrorReport errorReport, String batchJobId) throws IOException, SAXException {
+
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
@@ -49,7 +52,7 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, fileWriter, errorReport);
+            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, null, fileWriter, errorReport);
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
 
             for (String targetSelector : targetSelectorList) {

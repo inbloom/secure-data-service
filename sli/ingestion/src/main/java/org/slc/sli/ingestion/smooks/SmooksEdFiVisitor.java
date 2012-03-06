@@ -31,23 +31,66 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
     private final String beanId;
+    private final String batchJobId;
     private final NeutralRecordFileWriter nrfWriter;
     private final ErrorReport errorReport;
 
-    private SmooksEdFiVisitor(String beanId, NeutralRecordFileWriter nrfWriter, ErrorReport errorReport) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
+            ErrorReport errorReport) {
         this.beanId = beanId;
+        this.batchJobId = batchJobId;
         this.nrfWriter = nrfWriter;
         this.errorReport = errorReport;
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter,
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
             ErrorReport errorReport) {
-        return new SmooksEdFiVisitor(beanId, nrfWriter, errorReport);
+        return new SmooksEdFiVisitor(beanId, batchJobId, nrfWriter, errorReport);
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter) {
-        return new SmooksEdFiVisitor(beanId, nrfWriter, null);
+    @Override
+    public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
+
+        Throwable terminationError = executionContext.getTerminationError();
+        if (terminationError == null) {
+
+            NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+
+            // Write NeutralRecord to file
+            nrfWriter.writeRecord(neutralRecord);
+
+            // write NeutralRecord to mongodb staging database
+            nrMongoStagingWriter.writeResource(neutralRecord);
+
+        } else {
+
+            // Indicate Smooks Validation Failure
+            LOG.error(terminationError.getMessage());
+
+            if (errorReport != null) {
+                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
+            }
+        }
     }
+
+    private NeutralRecord getProcessedNeutralRecord(ExecutionContext executionContext) {
+
+        NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
+
+        neutralRecord.setJobId(batchJobId);
+
+        // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
+        // files)
+        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+
+        return neutralRecord;
+    }
+
+    public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
+        this.nrMongoStagingWriter = nrMongoStagingWriter;
+    }
+
+    /* we are not using the below visitor hooks */
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
@@ -63,40 +106,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void onChildText(SAXElement element, SAXText childText, ExecutionContext executionContext) {
         // nothing
 
-    }
-
-    @Override
-    public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
-
-        NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
-
-        Throwable terminationError = executionContext.getTerminationError();
-        if (terminationError == null) {
-
-            // scrub empty strings in NeutralRecord
-            neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
-
-            // Write NeutralRecord to file
-            nrfWriter.writeRecord(neutralRecord);
-
-            // write NeutralRecord to mongodb staging database
-            nrMongoStagingWriter.writeResource(neutralRecord);
-
-        } else {
-
-            // Indicate Smooks Validation Failure
-            LOG.error(terminationError.getMessage());
-            LOG.error("Invalid Neutral Record: " + neutralRecord.toString());
-
-            if (errorReport != null) {
-                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
-            }
-
-        }
-    }
-
-    public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
-        this.nrMongoStagingWriter = nrMongoStagingWriter;
     }
 
 }

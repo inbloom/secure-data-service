@@ -31,37 +31,37 @@ import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
 
 /**
- * 
+ *
  * @author ablum
- * 
+ *
  */
 public class EntityTestUtils {
-    
+
     public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException {
         File outputFile = File.createTempFile("test", ".dat");
         outputFile.deleteOnExit();
         NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputFile);
-        
+
         Smooks smooks = new Smooks(smooksConfig);
-        
-        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", nrfWriter), targetSelector);
-        
+
+        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, nrfWriter, null), targetSelector);
+
         try {
             smooks.filterSource(new StreamSource(dataSource));
         } finally {
             nrfWriter.close();
         }
-        
+
         return new NeutralRecordFileReader(new File(outputFile.getAbsolutePath()));
     }
-    
+
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
-        
+
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-        
+
         try {
             Assert.assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
@@ -71,10 +71,10 @@ public class EntityTestUtils {
             Assert.fail();
         }
     }
-    
+
     /**
      * Utility to make checking values in a map less verbose.
-     * 
+     *
      * @param map
      *            The map containing the entry we want to check.
      * @param key
@@ -86,11 +86,11 @@ public class EntityTestUtils {
     public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
         assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
     }
-    
+
     /**
      * Utility to run smooks with provided configurations and return the first NeutralRecord (if
      * there is one)
-     * 
+     *
      * @param smooksXmlConfigFilePath
      *            path to smooks config xml
      * @param targetSelector
@@ -103,31 +103,31 @@ public class EntityTestUtils {
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData) throws IOException, SAXException {
-        
+
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
-        
+
         NeutralRecord neutralRecord = null;
         NeutralRecordFileReader nrfr = null;
         try {
             nrfr = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
-            
+
             Assert.assertTrue(nrfr.hasNext());
-            
+
             neutralRecord = nrfr.next();
         } finally {
             if (nrfr != null)
                 nrfr.close();
         }
-        
+
         return neutralRecord;
     }
-    
+
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-    
+
     /**
      * Reads the entire contents of a resource file found on the classpath and returns it as a
      * string.
-     * 
+     *
      * @param resourceName
      *            the name of the resource to locate on the classpath
      * @return the contents of the resource file
@@ -138,7 +138,7 @@ public class EntityTestUtils {
         InputStream stream = EntityTestUtils.getResourceAsStream(resourceName);
         if (stream == null)
             throw new FileNotFoundException("Could not find resource " + resourceName + " in the classpath");
-        
+
         try {
             return EntityTestUtils.convertStreamToString(stream);
         } finally {
@@ -150,10 +150,10 @@ public class EntityTestUtils {
             }
         }
     }
-    
+
     /**
      * Reads the contents of a stream in UTF-8 format and returns it as a string.
-     * 
+     *
      * @param stream
      *            the stream to read
      * @return the contents of the stream or an empty string if the stream has not content
@@ -171,7 +171,7 @@ public class EntityTestUtils {
             return "";
         }
     }
-    
+
     public static String delimit(String[] strings, String delimiter) {
         StringBuilder builder = new StringBuilder();
         for (String string : strings) {
@@ -181,11 +181,11 @@ public class EntityTestUtils {
         }
         return builder.toString();
     }
-    
+
     public static URL getResource(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResource(resourceName);
     }
-    
+
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }

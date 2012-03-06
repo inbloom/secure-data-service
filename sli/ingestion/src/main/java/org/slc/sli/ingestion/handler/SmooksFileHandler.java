@@ -63,7 +63,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
         
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(fileEntry.getFileType(), nrFileWriter, errorReport);
+        Smooks smooks = sliSmooksFactory.createInstance(fileEntry.getFileType(), null, nrFileWriter, errorReport);
         
         InputStream inputStream = new BufferedInputStream(new FileInputStream(fileEntry.getFile()));
         try {
