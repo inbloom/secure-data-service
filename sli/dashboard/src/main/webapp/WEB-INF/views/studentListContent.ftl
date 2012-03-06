@@ -5,6 +5,7 @@
      assessments: contains assessment information for the list of students. Should be AssessmentResolver object
      students: contains the list of students to be displayed. Should be StudentResolver object. 
      constants: the Constants util class
+     historicaldata : contains historical information for the list of students. Should be HistoricalDataResolver object
   -->
 
 <span id="viewSelectorSpan">
@@ -75,13 +76,28 @@
         </#if>
 
       <#-- attendance results -->
-            <#elseif field.getType() = "attendance">
-              <#if field.getVisual()?? && (field.getVisual()?length > 0)>
-                <#include "widget/" + field.getVisual() + ".ftl">
-              <#else>
-                ${attendance.get(field, student)}
-              </#if>
-       
+
+        <#elseif field.getType() = "attendance">
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${attendance.get(field, student)}
+          </#if>
+
+        <#elseif field.getType() = constants.FIELD_TYPE_HISTORICAL_COURSE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+              <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${historicaldata.getCourse(field, student)}
+          </#if>
+
+        <#elseif field.getType() = constants.FIELD_TYPE_HISTORICAL_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+              <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${historicaldata.getGrade(field, student)}
+          </#if>
+
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

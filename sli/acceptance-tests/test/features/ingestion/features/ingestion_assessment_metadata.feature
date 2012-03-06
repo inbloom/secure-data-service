@@ -15,8 +15,11 @@ Then I should see following map of entry counts in the corresponding collections
 	   | collectionName              | count |
 	   | assessment                  | 3     |
 	 And I check to find if record is in collection:
-	   | collectionName              | expectedRecordCount | searchParameter                       | searchValue                                      |
-	   | assessment                  | 3                   | body.assessmentFamilyHierarchyName    | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
+	   | collectionName              | expectedRecordCount | searchParameter                              | searchValue                                      |
+	   | assessment                  | 3                   | body.assessmentFamilyHierarchyName           | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
+	   | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | BOY                                              |
+	   | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | MOY                                              |
+	   | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | EOY                                              |
 
 	And I should see "Processed 3 records." in the resulting batch job file
 

@@ -535,4 +535,116 @@
     </SessionReference>
   </Section>
 
+  <Section>
+    <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Algebra-11</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-11</ID>
+        </CourseCode>
+        <Term>First Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>Algebra-10-A</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Algebra-10</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-10</ID>
+        </CourseCode>
+        <Term>First Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2010 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>Geometry-10-A</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Geometry-10</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Geometry-10</ID>
+        </CourseCode>
+        <Term>Second Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>Geometry-10-B</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Geometry-10</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Geometry-10</ID>
+        </CourseCode>
+        <Term>First Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2010 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
 </InterchangeMasterSchedule>

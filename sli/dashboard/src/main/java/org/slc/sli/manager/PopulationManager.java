@@ -38,20 +38,8 @@ public class PopulationManager {
     @Autowired
     private EntityManager entityManager;
     
-    private Map<String, GenericEntity> assessmentFamilyMap;
-    
     public PopulationManager() { 
-        assessmentFamilyMap = new HashMap<String, GenericEntity>();
-    }
-    
-    /**
-     * Get the assessment family lookup map
-     * 
-     * @return assessmentFamilyMap
-     *         - the assessment family map
-     */
-    public Map<String, GenericEntity> getAssessmentFamilyMap() {
-        return this.assessmentFamilyMap;
+        
     }
     
     /**
@@ -161,7 +149,7 @@ public class PopulationManager {
     }
 
     /**
-     * Get meta data about the assessments
+     * Get assessments from the api, given student assessment data
      * 
      * @param username
      * @param studentAssessments
@@ -400,10 +388,6 @@ public class PopulationManager {
         this.entityManager = entityManager;
     }
 
-
-    public List<GenericEntity> getAttendance(String token, List<GenericEntity> studentSummaries) {
-        return null;
-    }
     
     /**
      * Get student entity
@@ -441,7 +425,7 @@ public class PopulationManager {
         }
         
     }
-    
+
     /**
      * Compare two GenericEntities by grade level
      * @author srupasinghe
@@ -453,10 +437,9 @@ public class PopulationManager {
             if (e1.getString("gradeLevelWhenTaken") == null || e2.getString("gradeLevelWhenTaken") == null) {
                 return 0;
             }
-            
+
             return e2.getString("gradeLevelWhenTaken").compareTo(e1.getString("gradeLevelWhenTaken"));
-        }
-        
+        }        
     }
 }
 
