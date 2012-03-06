@@ -16,7 +16,6 @@ And I teach the student "Marvin Miller"
 When I make an API call to get the student "Marvin Miller"'s attendance events list
 Then I should receive a list containing the student "Marvin Miller"'s attendance events
 
-@wip
 Scenario: Unauthorized authenticated user tries to hit the attendance events list URL directly
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
