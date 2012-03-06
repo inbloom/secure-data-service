@@ -11,8 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +40,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.enums.Right;
-
 /**
  * Implementation of EntityService that can be used for most entities.
  * 
  * It is very important this bean prototype scope, since one service is needed per
  * entity/association.
- * 
- * Now Secured!
  */
 @Scope("prototype")
 @Component("basicService")
@@ -164,22 +161,48 @@ public class BasicService implements EntityService {
     
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
-
-        EntityQuery query = createQuery(queryParameters);
-
-        List<EntityBody> results = new ArrayList<EntityBody>();
         
-        // for each entity found in the collection matching query parameters
-        for (Entity entity : this.repo.findAll(this.collectionName, query)) {
-            //TODO! This doesn't work correctly now
-            //checkAccess(Right.READ_GENERAL, entity.getEntityId());
-            // add a new body containing that data
-            results.add(makeEntityBody(entity));
+        checkRights(Right.READ_GENERAL);
+        List<String> allowed = findAccessible();
+        
+        if(allowed.isEmpty()) {
+            throw new AccessDeniedException("Access to resource denied.");
         }
         
+        EntityQuery query = createQuery(queryParameters);
+        if (allowed.size() > 0) {
+            query.getFields().put("_id", implode(allowed));
+        } 
+        
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+                
+        if(entities.size() == 0) {
+            throw new AccessDeniedException("Access to resource denied.");
+        }
+        
+        for (Entity entity : entities) {
+            results.add(makeEntityBody(entity));                
+        }        
         return results;
     }
     
+    private String implode(List<String> allowed) {
+        String commaDelimitedString = "";
+        for(String id : allowed) {
+            commaDelimitedString += id + ",";
+        }
+        return commaDelimitedString;
+    }
+    
+    private List<Entity> makeEntityList(Iterable<Entity> items) {
+        List<Entity> myList = new ArrayList<Entity>();
+        for(Entity item : items) {
+            myList.add(item);
+        }
+        return myList;
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
         return get(ids, null, null);
@@ -241,19 +264,29 @@ public class BasicService implements EntityService {
             for (String id : allowed) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
-            
             query = query.addCriteria(Criteria.where("_id").in(binIds));
+            
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
+        } else if (allowed.size() == -1) { // super list logic --> only true when using DefaultEntityContextResolver
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
         }
-        
-        List<String> results = new ArrayList<String>();
-        
-        Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
-        
-        for (Entity entity : entities) {
-            results.add(entity.getEntityId());
+        else {
+            return Collections.emptyList();
         }
-        
-        return results;
     }
     
     @Override
@@ -383,7 +416,7 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
                 defn.getType());
         
-        return resolver.findAccessible(principal.getEntity());
+        return resolver.findAccessible(principal.getEntity());   
     }
     
     /**

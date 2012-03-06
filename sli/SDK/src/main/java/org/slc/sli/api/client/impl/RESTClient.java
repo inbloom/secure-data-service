@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.ws.rs.HttpMethod;
@@ -11,12 +13,16 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.client.apache.ApacheHttpClient;
-import com.sun.jersey.client.apache.config.ApacheHttpClientConfig;
-import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
+import com.sun.jersey.client.apache4.ApacheHttpClient4;
+import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
+import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +43,16 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     private String sessionToken = null;
     private String apiServerUri;
-    private ApacheHttpClient client = null;
+    private ApacheHttpClient4 client = null;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
      */
     protected RESTClient() {
-        ApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
+        ApacheHttpClient4Config config = new DefaultApacheHttpClient4Config();
         config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        client = ApacheHttpClient.create(config);
+        config.getProperties().put(ApacheHttpClient4Config.PROPERTY_PREEMPTIVE_BASIC_AUTHENTICATION, Boolean.TRUE);
+        client = ApacheHttpClient4.create(config);
     }
     
     /**
@@ -250,6 +257,10 @@ public class RESTClient {
     public String openSession(final String host, final int port, final String user, final String password,
             final String realm) {
         
+        /**
+         * TODO - replace this with oauth when it's ready
+         */
+        
         String protocol = "";
         if (host.equalsIgnoreCase("localhost")) {
             protocol = "http://";
@@ -261,30 +272,51 @@ public class RESTClient {
         /**
          * TODO -- determine if we can pass credentials as part of clientState and bypass
          * hitting the IDP directly.
-         * 
-         * ApacheHttpClientState clientState = (ApacheHttpClientState) client.getProperties().get(
-         * ApacheHttpClientConfig.PROPERTY_HTTP_STATE);
-         * 
-         * if (clientState == null) {
-         * clientState = new ApacheHttpClientState();
-         * }
-         * clientState.setCredentials(realm, "devdanil.slidev.org", 8080, user, password);
-         * 
-         * client.getProperties().put(ApacheHttpClientConfig.PROPERTY_HTTP_STATE, clientState);
          */
         
-        // Attempt to authenticate
+        // Find the IDP for the realm
         ClientRequest.Builder builder = new ClientRequest.Builder();
-        builder.accept(MediaType.TEXT_PLAIN);
+        String idp = "";
+        builder.accept(MediaType.TEXT_HTML);
+        try {
+            ClientConfig cc = new DefaultClientConfig();
+            cc.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, false);
+            Client c = Client.create(cc);
+            
+            ClientResponse response = c.handle(builder.build(new URI(protocol + host + ":" + port
+                    + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm)), HttpMethod.GET));
+            
+            String tmp = response.getHeaders().getFirst("Location");
+            
+            if (tmp != null) {
+                // find the idpEntityId
+                int start = tmp.indexOf("idpEntityID=");
+                int end = tmp.indexOf('&', start);
+                idp = URLDecoder.decode(tmp.substring(start + 12, end));
+            }
+            
+            c.destroy();
+            
+        } catch (ClientHandlerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
-        // TODO - figure out a way to find the correct IDP.
-        String url = "http://devdanil.slidev.org:8080/idp/identity/authenticate?username=" + user + "&password="
-                + password;
+        // Attempt to authenticate
+        builder = new ClientRequest.Builder();
+        builder.accept(MediaType.TEXT_PLAIN);
+        builder.entity("username=" + user + "&password=" + password,
+                MediaType.APPLICATION_FORM_URLENCODED);
+        
+        // String url = idp + "/identity/authenticate?username=" + user + "&password=" + password;
         
         ClientRequest request;
         String rstring = "";
         try {
-            request = builder.build(new URI(url), HttpMethod.POST);
+            request = builder.build(new URI(idp + "/identity/authenticate"), HttpMethod.POST);
             ClientResponse response = client.handle(request);
             rstring = response.getEntity(String.class);
         } catch (URISyntaxException e) {
@@ -295,13 +327,7 @@ public class RESTClient {
         if (rstring.startsWith("token.id=")) {
             sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
         } else {
-            
-            // TODO -- Log into the IDP and get a Session Token. Waiting on ReST call from
-            // LuckyStrike.
-            // For now generate a token via a Rest Console in a web browser and pass the resulting
-            // token
-            // in as 'password'.
-            sessionToken = password;
+            sessionToken = null;
         }
         
         return sessionToken;

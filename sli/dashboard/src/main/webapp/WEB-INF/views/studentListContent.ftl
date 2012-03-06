@@ -76,6 +76,7 @@
         </#if>
 
       <#-- attendance results -->
+
         <#elseif field.getType() = "attendance">
           <#if field.getVisual()?? && (field.getVisual()?length > 0)>
             <#include "widget/" + field.getVisual() + ".ftl">
@@ -96,6 +97,7 @@
           <#else>
             ${historicaldata.getGrade(field, student)}
           </#if>
+
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

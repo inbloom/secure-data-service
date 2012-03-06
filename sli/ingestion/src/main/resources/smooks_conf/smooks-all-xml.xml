@@ -1003,6 +1003,7 @@
     </jb:bean>
 
     <jb:bean beanId="TeacherSectionAssociation_SectionReference_Session" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
+    <jb:value property="Session#metaData.externalId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/Session" />
         <jb:value property="Session#body.schoolYear" data="TeacherSectionAssociation/SectionReference/SectionIdentity/SchoolYear" />
         <jb:value property="Session#body.term" data="TeacherSectionAssociation/SectionReference/SectionIdentity/Term" />
     </jb:bean>
@@ -1299,7 +1300,7 @@
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
-    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/> 
+    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/>
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -1487,7 +1488,7 @@
     <jb:value property="Nomenclature" data="AssessmentFamily/Nomenclature" />
     <jb:wiring property="AssessmentPeriods" beanIdRef="AssessmentFamily_AssessmentPeriodArray" />
 
-    <jb:value property="parentAssessmentFamilyId" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/> 
+    <jb:value property="parentAssessmentFamilyId" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/>
 
   </jb:bean>
 
@@ -1609,7 +1610,7 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:expression property="recordType">'studentAssessmentAssociation'
 		</jb:expression>
-    <jb:expression property="association">true</jb:expression>
+    <!-- <jb:expression property="association">true</jb:expression> -->
     <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
 
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
@@ -1833,7 +1834,7 @@
     <jb:wiring property="attributes" beanIdRef="studentTranscriptAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="studentTranscriptAssociationParentIds" class="java.util.HashMap" 
+  <jb:bean beanId="studentTranscriptAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="Student" data="CourseTranscript/StudentUniqueStateId" />
     <jb:value property="Course" data="CourseTranscript/CourseCode" />
@@ -1852,17 +1853,17 @@
       decoder="Integer" />
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
-  </jb:bean>    
+  </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:value property="credit" data="CourseTranscript/CreditsAttempted/Credit" 
+    <jb:value property="credit" data="CourseTranscript/CreditsAttempted/Credit"
       decoder="Double" />
   </jb:bean>
 
   <jb:bean beanId="CreditsEarnedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:value property="credit" data="CourseTranscript/CreditsEarned/Credit" 
+    <jb:value property="credit" data="CourseTranscript/CreditsEarned/Credit"
       decoder="Double" />
   </jb:bean>
 

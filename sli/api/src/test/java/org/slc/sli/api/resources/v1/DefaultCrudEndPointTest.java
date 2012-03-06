@@ -1,10 +1,11 @@
 package org.slc.sli.api.resources.v1;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,17 +18,21 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -35,11 +40,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import com.sun.jersey.api.uri.UriBuilderImpl;
+
 
 /**
  * Unit tests for the default crud endpoint
@@ -148,7 +150,6 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
-    @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
             //create one entity
@@ -158,12 +159,16 @@ public class DefaultCrudEndPointTest {
             //delete it
             Response response = crudEndPoint.delete(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-              
-            //try to get it
-            Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
-            assertEquals("Status code should be NOT_FOUND", Status.NOT_FOUND.getStatusCode(), getResponse.getStatus());            
-            List<EntityBody> results = (List<EntityBody>) getResponse.getEntity();
-            assertNull("Should not return an entity", results);
+
+            try {
+                @SuppressWarnings("unused")
+                Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+                fail("should have thrown EntityNotFoundException");
+            } catch (EntityNotFoundException e) {
+                return;
+            } catch (Exception e) {
+                fail("threw wrong exception: " + e);
+            }
         }
     }
     
@@ -266,6 +271,7 @@ public class DefaultCrudEndPointTest {
                 "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unused")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         //need to add to this test
         //MockRepo needs to be changed to get this test right
