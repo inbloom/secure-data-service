@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.DBCollection;
 
@@ -43,11 +42,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.clazz = clazz;
     }
 
-    @Autowired
     protected IdConverter idConverter;
 
+    public void setidConverter(IdConverter idConverter) {
+        this.idConverter = idConverter;
+    }
+
     @Override
-    abstract public T find(String collectionName, String id);
+    public abstract T find(String collectionName, String id);
 
     @Override
     public T find(String collectionName, Map<String, String> queryParameters) {
@@ -234,7 +236,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    abstract public boolean update(String collection, T object);
+    public abstract boolean update(String collection, T object);
 
     @Override
     public T create(String type, Map<String, Object> body) {
@@ -247,10 +249,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    abstract public T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
+    public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     @Override
-    abstract public boolean delete(String collectionName, String id);
+    public abstract boolean delete(String collectionName, String id);
 
     @Override
     public Iterable<T> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
@@ -320,7 +322,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    abstract public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
+    public abstract Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
 
     private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {

@@ -44,8 +44,11 @@
       ref="neutralRecordMappingConverter" />
   </bean>
 
+  <bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
+
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
+    <property name="idConverter" ref="neutralRecordMongoIdConverter" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
