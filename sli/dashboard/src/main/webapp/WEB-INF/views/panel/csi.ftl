@@ -23,9 +23,9 @@
 <col width="70"/>
 <col width="550"/>
 <col width="70"/>
-<tr><td height="1">Grade</td><td><#if student.cohortYears?size != 0>${student.cohortYears[0]} </#if></td> <td>ID</td><td>${student.id}</td><td>Home</td><td>${student.telephone[0].telephoneNumber}</td></tr>
-<tr><td>Class</td><td>${student.sectionId}</td><td>Teacher</td><td>${student.teacherId}</td><td>Address</td><td>${student.address[0].streetNumberName}<#if student.address[0].apartmentRoomSuiteNumber != "">, ${student.address[0].apartmentRoomSuiteNumber}</#if></td></tr>
-<tr><td>Email</td><td>${student.electronicMail[0].emailAddress}</td><td /><td /><td /><td>${student.address[0].city}, ${student.address[0].stateAbbreviation}, ${student.address[0].postalCode}</td></tr>
+<tr><td height="1">Grade</td><td><#if student.cohortYears?size != 0>${student.cohortYears[0]} </#if></td> <td>ID</td><td>${student.id}</td><td></td><td></td></tr>
+<tr><td>Class</td><td>${student.sectionId}</td><td>Teacher</td><td>${student.teacherId}</td><td></td><td></td></tr>
+<tr><td></td><td></td><td /><td /><td /><td></td></tr>
 </table>
 </div>
 </div>

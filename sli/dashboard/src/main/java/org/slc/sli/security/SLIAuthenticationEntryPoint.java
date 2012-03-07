@@ -145,7 +145,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+            Object entryUrl = session.getAttribute(ENTRY_URL);
+            if (entryUrl != null) {
+                response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+            }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());
             
