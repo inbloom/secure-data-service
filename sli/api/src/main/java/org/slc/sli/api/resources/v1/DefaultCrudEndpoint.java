@@ -475,8 +475,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         int limit = Integer.parseInt(queryParams.containsKey(ParameterConstants.LIMIT)
                 ? queryParams.getFirst(ParameterConstants.LIMIT) : ParameterConstants.DEFAULT_LIMIT);
 
-        System.out.println("offset=" + offset + ", limit=" + limit);
-
         int nextStart = offset + limit;
         if (nextStart < total) {
             String nextLink = info.getRequestUriBuilder().replaceQueryParam(ParameterConstants.OFFSET, nextStart)
