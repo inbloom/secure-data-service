@@ -70,41 +70,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         this.restClient = restClient;
     }
 
-    /**
-     * Redirects user to login URL
-     */
-//    @Override
-//    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-//
-//        Object sessionId = request.getSession().getAttribute(SESSION_ID_KEY);
-//
-//        // Check if incoming request has a sessionId
-//        if (sessionId == null) {
-//            Cookie openAmCookie = WebUtils.getCookie(request, OPENAM_COOKIE_NAME);
-//
-//            // Check if cookie from idp exists
-//            if (openAmCookie != null) {
-//                sessionId = openAmCookie.getValue();
-//
-//            } else {
-//                JsonObject jsonSession = this.restClient.sessionCheck(null);
-//
-//                //Redirect to idp, if user is not authenticated
-//                if (!jsonSession.get("authenticated").getAsBoolean()) {
-//                    String baseUrl = jsonSession.get("redirect_user").getAsString();
-//                    String requestedURL = URLHelper.getUrl(request);
-//                    LOG.debug("Using return URL of: " + requestedURL);
-//                    URLBuilder url = new URLBuilder(baseUrl);
-//                    url.addQueryParam("RelayState", requestedURL);
-//                    response.sendRedirect(url.toString());
-//                }
-//            }
-//        }
-//
-//        addAuthentication((String) sessionId);
-//        response.sendRedirect(request.getRequestURI());
-//    }
-
     private void addAuthentication(String token) {
         JsonObject json = this.restClient.sessionCheck(token);
         LOG.debug(json.toString());
@@ -133,6 +98,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         SliApi.setBaseUrl(apiUrl);
+        LOG.debug("Client ID is " + clientId + ", clientSecret is " + clientSecret + ", callbackUrl is " + callbackUrl);
         OAuthService service = new ServiceBuilder().provider(SliApi.class).
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
@@ -145,7 +111,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+            Object entryUrl = session.getAttribute(ENTRY_URL);
+            if (entryUrl != null) {
+                response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+            } else {
+                response.sendRedirect(request.getRequestURI());
+            }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());
             
@@ -154,9 +125,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             response.sendRedirect(authUrl);
         } else {
             LOG.debug("Using access token " + token);
+            addAuthentication((String) token);
+            response.sendRedirect(request.getRequestURI());
         }
-        addAuthentication((String) token);
-        response.sendRedirect(request.getRequestURI());
     }
     
     public String getClientId() {

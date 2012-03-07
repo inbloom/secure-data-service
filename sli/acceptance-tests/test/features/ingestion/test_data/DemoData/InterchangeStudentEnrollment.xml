@@ -832,6 +832,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>453827070</StudentUniqueStateId>
@@ -845,6 +846,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -858,6 +860,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>164420088</StudentUniqueStateId>
@@ -871,6 +874,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -884,6 +888,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
@@ -897,6 +902,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -910,6 +916,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -923,6 +930,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -936,6 +944,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -949,6 +958,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -962,6 +972,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -975,6 +986,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -988,6 +1000,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -1001,6 +1014,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -1014,6 +1028,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -1027,6 +1042,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -1040,6 +1056,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -1053,6 +1070,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -1066,6 +1084,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -1079,6 +1098,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -1092,6 +1112,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -1105,6 +1126,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -1118,6 +1140,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -1131,6 +1154,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -1144,6 +1168,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
+  	<HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>421216329</StudentUniqueStateId>

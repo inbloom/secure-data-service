@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -46,7 +45,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
     
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
-    private Map<EntityDefinition, Collection<EntityDefinition>> links = new HashMap<EntityDefinition, Collection<EntityDefinition>>();
     
     @Autowired
     private DefinitionFactory factory;
@@ -66,7 +64,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     
     @Override
     public Collection<EntityDefinition> getLinked(EntityDefinition defn) {
-        return links.get(defn);
+        return defn.getReferencingEntities();
     }
 
     @PostConstruct
@@ -75,15 +73,15 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // adding the entity definitions
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS).buildAndRegister(this);
-        EntityDefinition attendances = factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
-        EntityDefinition bellSchedule = factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
-        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
-        EntityDefinition disciplineRecord = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
-        EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
-        EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(this);
@@ -204,6 +202,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         //
         LOG.debug("Registering direct entity references");
         
+        int referencesLoaded = 0;
+        
         //loop for each entity that is defined
         for (EntityDefinition referringDefinition : this.mapping.values()) {
             //loop for each reference field on the entity
@@ -215,13 +215,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 LOG.debug("* New reference: " + referringDefinition.getStoredCollectionName() + "." + fieldSchema.getKey() 
                         + " -> " + schema.getResourceName() + "._id");
                 
-                //add reference between the two entities
-                this.links.get(referencedEntity).add(referringDefinition);
+                //tell the referenced entity that some entity definition refers to it
+                referencedEntity.addReferencingEntity(referringDefinition);
+                referencesLoaded++;
             }
         }
         
         //print stats
-        LOG.debug("" + this.links.size() + " direct references loaded.");
+        LOG.debug("" + referencesLoaded + " direct references loaded.");
     }
     
     public void addDefinition(EntityDefinition defn) {
@@ -229,6 +230,5 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
         ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
         this.mapping.put(defn.getResourceName(), defn);
-        this.links.put(defn, new LinkedHashSet<EntityDefinition>());
     }
 }
