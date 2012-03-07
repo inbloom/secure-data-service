@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,56 +40,67 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for transformation.");
 
-        loadCollectionFromDb("teacher");
-        LOG.info("Teacher is loaded into local storage.  Total Count = " + collections.get("teacher").size());
+        loadCollectionFromDb("assessment");
+        LOG.info("Assessment is loaded into local storage.  Total Count = " + collections.get("assessment").size());
 
-        loadCollectionFromDb("teacherSchoolAssociation");
-        LOG.info("TeacherSchoolAssociation is loaded into local storage.  Total Count = "
-                + collections.get("teacherSchoolAssociation").size());
+        loadCollectionFromDb("assessmentFamily");
+        LOG.info("AssessmentFamily is loaded into local storage.  Total Count = "
+                + collections.get("assessmentFamily").size());
     }
 
     @Override
     public void transform() {
-        LOG.debug("Transforming data: Injecting schoolIds of all schools that teacher is a part of into teacher record");
+        LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
 
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         String key;
 
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("teacher").entrySet()) {
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            key = (String) attrs.get("staffUniqueStateId");
+            key = (String) attrs.get("parentAssessmentFamilyId");
 
-            // find children from database
-            Map<String, String> paths = new HashMap<String, String>();
-            paths.put("body.teacherId", key);
+            ArrayList<Map<String, Object>> associationFamilyMap = getAssocationFamilyMap(key, new ArrayList<Map<String, Object>>());
 
-            Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths(
-                    "teacherSchoolAssociation", paths);
-            Iterator<NeutralRecord> iter = data.iterator();
-
-            NeutralRecord tempNr;
-            String schoolId;
-            Map<String, Object> associationAttrs;
-
-            while (iter.hasNext()) {
-                tempNr = iter.next();
-                associationAttrs = tempNr.getAttributes();
-                schoolId = (String) associationAttrs.get("schoolId");
-
-                attrs.put("schoolId", schoolId);
-            }
+            attrs.put("assessmentFamily", associationFamilyMap);
 
             neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
 
-        transformedCollections.put("teacher", newCollection);
-
+        transformedCollections.put("assessment", newCollection);
     }
 
+    
+    private ArrayList<Map<String, Object>> getAssocationFamilyMap(String key, ArrayList<Map<String, Object>> deepFamilyMap) {
+        
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
+
+        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("assessmentFamily", paths);
+        Iterator<NeutralRecord> iter = data.iterator();
+
+        NeutralRecord tempNr;
+        Map<String, Object> associationAttrs;
+
+        while (iter.hasNext()) {
+            tempNr = iter.next();
+            associationAttrs = tempNr.getAttributes();
+            deepFamilyMap.add(associationAttrs);
+            
+            //check if there are parent nodes
+            if (associationAttrs.containsKey("parentAssessmentFamilyId")) {
+                deepFamilyMap = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyId"), deepFamilyMap);
+            }
+            
+        }
+        
+        return deepFamilyMap;
+    }
+    
+    
     @Override
     public String persist() {
         LOG.info("Persisting transformed data to storage.");
