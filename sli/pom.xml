@@ -108,8 +108,8 @@
 			<id>dev</id>
 			<properties>
 				<sli.env>dev</sli.env>
-				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devKeyStore.jks</sli.encryption.keyStore>
-				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devEncryption.properties</sli.encryption.properties>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -128,8 +128,8 @@
 			<id>devapp1</id>
 			<properties>
 				<sli.env>devapp1</sli.env>
-				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devApp1KeyStore.jks</sli.encryption.keyStore>
-				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devApp1Encryption.properties</sli.encryption.properties>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 

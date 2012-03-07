@@ -5,13 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -91,18 +89,17 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("KM Deleting {} in {}", new String[] { id, collectionName });
         
         checkAccess(Right.WRITE_GENERAL, id);
+        
+        this.cascadeDelete(id);
         
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         
-        if (!(defn instanceof AssociationDefinition)) {
-            removeEntityWithAssoc(id);
-        }
     }
     
     @Override
@@ -165,7 +162,7 @@ public class BasicService implements EntityService {
         checkRights(Right.READ_GENERAL);
         List<String> allowed = findAccessible();
         
-        if(allowed.isEmpty()) {
+        if (allowed.isEmpty()) {
             throw new AccessDeniedException("Access to resource denied.");
         }
         
@@ -177,7 +174,7 @@ public class BasicService implements EntityService {
         List<EntityBody> results = new ArrayList<EntityBody>();
         List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
                 
-        if(entities.size() == 0) {
+        if (entities.size() == 0) {
             throw new AccessDeniedException("Access to resource denied.");
         }
         
@@ -189,7 +186,7 @@ public class BasicService implements EntityService {
     
     private String implode(List<String> allowed) {
         String commaDelimitedString = "";
-        for(String id : allowed) {
+        for (String id : allowed) {
             commaDelimitedString += id + ",";
         }
         return commaDelimitedString;
@@ -197,7 +194,7 @@ public class BasicService implements EntityService {
     
     private List<Entity> makeEntityList(Iterable<Entity> items) {
         List<Entity> myList = new ArrayList<Entity>();
-        for(Entity item : items) {
+        for (Entity item : items) {
             myList.add(item);
         }
         return myList;
@@ -283,8 +280,7 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        }
-        else {
+        } else {
             return Collections.emptyList();
         }
     }
@@ -335,19 +331,29 @@ public class BasicService implements EntityService {
         return sanitized;
     }
     
-    private void removeEntityWithAssoc(String sourceId) {
-        Map<String, String> fields = new HashMap<String, String>();
-        fields.put(defn.getType() + "Id", sourceId);
-        
-        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
-            String assocCollection = assocDef.getStoredCollectionName();
-            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
-            Iterator<Entity> foundEntities;
-            if (iterable != null) {
-                foundEntities = iterable.iterator();
-                while (foundEntities.hasNext()) {
-                    Entity assocEntity = foundEntities.next();
-                    repo.delete(assocCollection, assocEntity.getEntityId());
+    /**
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId 
+     * still exists so that authorization/context can be checked.
+     * 
+     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
+     */
+    private void cascadeDelete(String sourceId) {
+      //loop for every EntityDefinition that references the deleted entity's type
+        for (EntityDefinition referencingEntity : this.defn.getReferencingEntities()) {
+            //loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
+                EntityService referencingEntityService = referencingEntity.getService();
+                Map<String, String> referenceQuery = new HashMap<String, String>();
+                referenceQuery.put(referenceField, sourceId);
+                try {
+                  //list all entities that have the deleted entity's ID in their reference field
+                    for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
+                        String idToBeDeleted = (String) entityBody.get("id");
+                        //delete that entity as well
+                        referencingEntityService.delete(idToBeDeleted);
+                    }
+                } catch (AccessDeniedException ade) {
+                    LOG.debug("No " + referencingEntity.getResourceName() + " have " + referenceField + " = " + sourceId);
                 }
             }
         }

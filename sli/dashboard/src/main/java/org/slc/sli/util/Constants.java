@@ -35,6 +35,8 @@ public class Constants {
     public static final String FIELD_TYPE_STUDENT_INFO = "studentInfo";
     public static final String FIELD_LOZENGES_POSITION_FRONT = "pre";
     public static final String FIELD_LOZENGES_POSITION_BACK = "post";
+    public static final String FIELD_TYPE_HISTORICAL_GRADE = "historicalGrade";
+    public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
 
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
@@ -45,7 +47,8 @@ public class Constants {
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
     public static final String MM_KEY_ATTENDANCE = "attendances";
-
+    public static final String MM_KEY_HISTORICAL = "historicaldata";
+    
     // entity attributes
     public static final String ATTR_COURSES = "courses";
     public static final String ATTR_SCHOOL_ID = "schoolId";
@@ -102,6 +105,8 @@ public class Constants {
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
+    
+    public static final String HISTORICAL_DATA_VIEW = "Historical Data";
 
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     

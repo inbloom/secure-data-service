@@ -25,17 +25,17 @@ public class EntityDefinition {
     private final String resourceName;
     private final EntityService service;
     private final String collectionName;
-    private final List<AssociationDefinition> linkedAssociations;
+    private final List<EntityDefinition> referencingEntities; //entities that reference this entity
     private static EntityRepository defaultRepo;
     private NeutralSchema schema;
-    private LinkedHashMap<String, ReferenceSchema> referenceFields;
+    private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
-        this.linkedAssociations = new LinkedList<AssociationDefinition>();
+        this.referencingEntities = new LinkedList<EntityDefinition>();
     }
     
     /**
@@ -90,12 +90,17 @@ public class EntityDefinition {
         return this.referenceFields;
     }
 
-    public final void addLinkedAssoc(AssociationDefinition assocDefn) {
-        this.linkedAssociations.add(assocDefn);
+    public final void addReferencingEntity(EntityDefinition entityDefinition) {
+        this.referencingEntities.add(entityDefinition);
     }
 
-    public final Collection<AssociationDefinition> getLinkedAssoc() {
-        return this.linkedAssociations;
+    /**
+     * Returns a collection of all entities that reference this entity definition.
+     * 
+     * @return collection of all entities that reference this entity definition
+     */
+    public final Collection<EntityDefinition> getReferencingEntities() {
+        return this.referencingEntities;
     }
 
     public String getStoredCollectionName() {

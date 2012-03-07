@@ -29,7 +29,7 @@ public class BasicQueryConverter implements QueryConverter {
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
             Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
-    private static final String ENCRYPTION_ERROR = "Unable to perform requested operation on field ";
+    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
     
     @Autowired
     SchemaRepository schemaRepo;
@@ -139,7 +139,11 @@ public class BasicQueryConverter implements QueryConverter {
         
         if (sortBy != null && !sortBy.trim().isEmpty()) {
             ParamType type = findParamType(entityType, sortBy);
-            if (!"NULL".equals(type.getType()) && !type.isPii()) {
+            if (!"NULL".equals(type.getType())) {
+                
+                if (type.isPii()) {
+                    throw new SortingException("Unable to perform sort operation on PII field " + sortBy);
+                }
                 
                 if (sortOrder == null) {
                     sortOrder = SortOrder.ascending;
