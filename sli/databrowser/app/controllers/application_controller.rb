@@ -2,7 +2,7 @@ require "active_resource/base"
 require "oauth_helper"
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  # protect_from_forgery
   before_filter :handle_oauth
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure" 
+        redirect_to oauth.authorize_url
       end
     else
       logger.info { "OAuth disabled."}

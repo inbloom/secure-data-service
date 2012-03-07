@@ -35,13 +35,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the default crud endpoint
@@ -271,6 +264,7 @@ public class DefaultCrudEndPointTest {
                 "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unused")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         //need to add to this test
         //MockRepo needs to be changed to get this test right
