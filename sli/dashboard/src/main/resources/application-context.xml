@@ -14,10 +14,6 @@
 >
 
     <context:property-placeholder location="classpath:${env}.properties" ignore-resource-not-found="false" />
-    
-
-    
-     <util:properties id="appProperties" location="classpath:${env}.properties" />
    
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">

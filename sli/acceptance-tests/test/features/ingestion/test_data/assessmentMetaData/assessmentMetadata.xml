@@ -31,6 +31,9 @@
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentiy>
 		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>BOY</CodeValue>
+		</AssessmentPeriod>
 	</Assessment>
 
 	<Assessment id="DIBELS-Next-Kindergarten-1-MOY">
@@ -62,6 +65,9 @@
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentiy>
 		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>MOY</CodeValue>
+		</AssessmentPeriod>
 	</Assessment>
 
 	<Assessment id="DIBELS-Next-Kindergarten-1-EOY">
@@ -83,7 +89,7 @@
 		</AssessmentPerformanceLevel>
 		<ContentStandard>National Standard</ContentStandard>
 		<Version>1</Version>
-		<RevisionDate>2005-06-12</RevisionDate>
+		<RevisionDate>2005-05-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentiy>
@@ -93,6 +99,9 @@
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentiy>
 		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>EOY</CodeValue>
+		</AssessmentPeriod>
 	</Assessment>
 
 	<AssessmentFamily id="DIEBLS">
@@ -201,6 +210,30 @@
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
+	<AssessmentPeriodDescriptor id="apd_boy">
+		<CodeValue>BOY</CodeValue>
+		<ShortDescription>Beginning of the Year assessment period</ShortDescription>
+		<Description>Assessment period at the beginning of the school year</Description>
+		<BeginDate>2005-01-01</BeginDate>
+		<EndDate>2005-02-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_moy">
+		<CodeValue>MOY</CodeValue>
+		<ShortDescription>Middle of the Year assessment period</ShortDescription>
+		<Description>Assessment period in the middle of the school year</Description>
+		<BeginDate>2005-02-01</BeginDate>
+		<EndDate>2005-05-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_eoy">
+		<CodeValue>EOY</CodeValue>
+		<ShortDescription>End of the Year assessment period</ShortDescription>
+		<Description>Assessment period at the end of the school year</Description>
+		<BeginDate>2005-05-01</BeginDate>
+		<EndDate>2005-06-01</EndDate>
+	</AssessmentPeriodDescriptor>
+	
 	<!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> 
 		<PerformanceBaseConversion>Proficient</PerformanceBaseConversion> </PerformanceLevelDescriptor> -->
 </InterchangeAssessmentMetadata>

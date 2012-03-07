@@ -158,7 +158,7 @@ public class SmooksEdFi2SLITransformerTest {
    }
 
     @Test
-    public void testAssessmentValidation(){
+    public void testAssessmentValidation() {
         NeutralRecord assessment = new NeutralRecord();
         assessment.setRecordType("assessment");
         assessment.setAttributeField("assessmentTitle", "assessmentTitle");

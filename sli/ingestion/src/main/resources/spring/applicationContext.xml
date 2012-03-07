@@ -72,6 +72,9 @@
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
+  
+  <!-- Include resources from Transformation Component -->
+  <import resource="transformation-context.xml" />
 
   <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
     value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
