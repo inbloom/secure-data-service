@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Properties;
 
 public class Utility {
-    //private static String connectionString ="jdbc:jtds:sqlserver://10.81.1.33:1433/edfi;catalog=edfi";
-    private static String connString="jdbc:jtds:sqlserver://10.81.1.33:1433/edfi;catalog=edfi";
-	private static String userName = "sa";
+    private static String connectionString ="jdbc:jtds:sqlserver://10.81.1.33:1433/edfi;catalog=edfi";
+    private static String userName = "sa";
     private static String password = "benerator";
     private static boolean propertiesLoaded = false;
 
@@ -26,8 +25,7 @@ public class Utility {
         Properties prop = new Properties();
         try {
             prop.load(new FileInputStream("exportTool.properties"));
-            connString = prop.getProperty("connString");
-      //      connectionString = prop.getProperty("connectionString");
+            connectionString = prop.getProperty("connectionString");
             userName = prop.getProperty("userName");
             password = prop.getProperty("password");
 
@@ -46,8 +44,7 @@ public class Utility {
         Connection conn = null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            //conn = DriverManager.getConnection(connectionString, userName, password);
-            conn = DriverManager.getConnection(connString, userName, password);
+            conn = DriverManager.getConnection(connectionString, userName, password);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
