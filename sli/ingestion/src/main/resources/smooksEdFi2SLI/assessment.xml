@@ -13,7 +13,7 @@
         <jb:wiring beanIdRef="assessment" />
     </jb:bean>
 
-    <jb:bean beanId="assessment" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:bean beanId="assessment" class="org.slc.sli.ingestion.NeutralRecordEntity" createOnElement="json">
         <jb:wiring property="body" beanIdRef="assessmentBody" />
     </jb:bean>
 
