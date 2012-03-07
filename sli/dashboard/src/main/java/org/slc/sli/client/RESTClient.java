@@ -75,8 +75,14 @@ public class RESTClient {
 
         if (token != null) {
             //url.addQueryParam(API_SESSION_KEY, token);
-            URLBuilder url = new URLBuilder(getSecurityUrl());
-            url.addPath(path);
+            URLBuilder url = null;
+            if (!path.startsWith("http")) {
+                url = new URLBuilder(getSecurityUrl());
+                url.addPath(path);
+            }
+            else {
+                url = new URLBuilder(path);
+            }
 
             HttpHeaders headers = new HttpHeaders();
 //            headers.add(API_SESSION_KEY, token);
