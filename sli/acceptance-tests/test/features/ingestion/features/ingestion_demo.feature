@@ -21,24 +21,26 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | session                     |
         | assessment                  |
         | studentAssessmentAssociation|
+        | studentTranscriptAssociation|
 When zip file is scp to ingestion landing zone
 #    And "30" seconds have elapsed
 	And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 72    |
-        | studentSchoolAssociation    | 107    |
+        | studentSchoolAssociation    | 107   |
         | course                      | 14    |
         | educationOrganization       | 3     |
         | school                      | 5     |
         | section                     | 23    |
-        | studentSectionAssociation   | 143    |
+        | studentSectionAssociation   | 143   |
         | teacher                     | 4     |
         | teacherSchoolAssociation    | 6     |
         | teacherSectionAssociation   | 20    |
         | session                     | 6     |
         | assessment                  | 15    |
         | studentAssessmentAssociation| 100   |
+        | studentTranscriptAssociation| 40    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
@@ -69,6 +71,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 6     |
         | assessment                  | 15    |
         | studentAssessmentAssociation| 100   |
+        | studentTranscriptAssociation| 40    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
