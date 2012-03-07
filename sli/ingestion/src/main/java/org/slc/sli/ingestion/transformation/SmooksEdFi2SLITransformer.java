@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -19,6 +20,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author okrook
  *
  */
+@Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
