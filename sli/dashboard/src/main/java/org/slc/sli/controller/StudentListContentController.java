@@ -3,6 +3,8 @@ package org.slc.sli.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.SortedSet;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.config.LozengeConfig;
@@ -21,11 +24,13 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.HistoricalViewManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.AssessmentResolver;
+import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -55,7 +60,8 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, Integer viewIndex, Integer filterIndex,
+    public ModelAndView studentListContent(@RequestParam(required=false, value="courseId") String selectedCourseId,
+            String population, Integer viewIndex, Integer filterIndex,
                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
@@ -72,6 +78,11 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
+        Map<String, List<GenericEntity>> historicalData = populationManager.getStudentHistoricalAssessments(
+                SecurityUtil.getToken(), uids, selectedCourseId);
+
+        SortedSet<String> schoolYears = populationManager.applyShoolYear(SecurityUtil.getToken(), historicalData);
+        
 
         viewManager.setViewConfigs(viewConfigs);
         List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken());
@@ -83,6 +94,7 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
             // prepare student filter

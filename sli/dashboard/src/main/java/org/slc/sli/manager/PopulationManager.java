@@ -202,7 +202,7 @@ public class PopulationManager {
         Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
         
         //get the subject area
-        String subjectArea = getSubjectArea(SecurityUtil.getToken(), selectedCourse);
+        String subjectArea = getSubjectArea(token, selectedCourse);
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
@@ -271,6 +271,12 @@ public class PopulationManager {
         return subjectArea;
     }
     
+    /**
+     * 
+     * @param token
+     * @param historicalData
+     * @return
+     */
     public SortedSet<String> sortByGradeLevel(final String token, Map<String, List<GenericEntity>> historicalData) {
         SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
         

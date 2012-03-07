@@ -241,6 +241,7 @@ public class PopulationManagerTest {
         String token = "token", subjectArea = "Math";
         String studentId = "123456";
         String courseId = "56789";
+        String selectedCourseId = "5555";
         
         //create the course
         GenericEntity courseEntity = new GenericEntity();
@@ -250,6 +251,9 @@ public class PopulationManagerTest {
         GenericEntity assocEntity = new GenericEntity();
         assocEntity.put("finalLettergrade", "A");
         assocEntity.put("studentId", studentId);
+        //
+        GenericEntity subjectAreaEntity = new GenericEntity();
+        courseEntity.put("subjectArea", "Math");
         
         //add the courses
         List<GenericEntity> courses = new ArrayList<GenericEntity>();
@@ -271,8 +275,9 @@ public class PopulationManagerTest {
         
         when(mockEntity.getCourses(token, studentId, params)).thenReturn(courses);
         when(mockEntity.getStudentTranscriptAssociations(token, studentId, params1)).thenReturn(studentCourseAssocs);
+        when(mockEntity.getEntity(token, "courses", selectedCourseId, new HashMap<String, String>())).thenReturn(subjectAreaEntity);
         
-        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, subjectArea);
+        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, selectedCourseId);
         
         assertEquals("Should have one result", 1, results.size());
         assertTrue("Should have a key with the student Id", results.keySet().contains(studentId));
