@@ -68,6 +68,7 @@
 		<!-- Logging Framework Versions -->
 		<slf4j.version>1.6.2</slf4j.version>
 		<logback.version>0.9.29</logback.version>
+                <log4j.version>1.2.9</log4j.version>
 
 		<!-- Testing Framework Versions -->
 		<junit.version>4.9</junit.version>
@@ -628,47 +629,6 @@
 				<version>${hsqldb.version}</version>
 			</dependency>
 
-
-			<!-- Logging Framework -->
-
-			<!-- SLF4J dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<!-- SLF4J JCL dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<!-- SLF4J Log4J dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<!-- Logback(Log4J) Core dependency -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-
-			<!-- Logback(Log4J) Classic dependency -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-
-
 			<!-- Testing Framework -->
 
 			<!-- JUnit dependency -->
@@ -691,39 +651,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-
-		<!-- Logging Framework -->
-
-		<!-- SLF4J dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-
-		<!-- SLF4J JCL dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-
-		<!-- SLF4J Log4J dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-		</dependency>
-
-		<!-- Logback(Log4J) Core dependency -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-
-		<!-- Logback(Log4J) Classic dependency -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-
 
 		<!-- Testing Framework -->
 

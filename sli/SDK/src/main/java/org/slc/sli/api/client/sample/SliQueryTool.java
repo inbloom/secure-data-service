@@ -1,6 +1,7 @@
 package org.slc.sli.api.client.sample;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -19,6 +20,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
@@ -26,7 +29,6 @@ import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.api.client.impl.BasicLink;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.BasicQuery.Builder;
 
@@ -46,16 +48,12 @@ public class SliQueryTool {
                 .withDescription("The username to log in as").withLongOpt("user").create('u');
         options.addOption(option);
         
-        option = OptionBuilder.hasArg().isRequired().withArgName("password").withDescription("User password")
-                .withLongOpt("password").create('p');
-        options.addOption(option);
-        
         option = OptionBuilder.hasArg().isRequired(false).withArgName("host").withDescription("SLI API Hostname")
                 .withLongOpt("host").create('h');
         options.addOption(option);
         
         option = OptionBuilder.hasArg().isRequired(false).withArgName("port").withType(Integer.class)
-                .withDescription("SLI API port number").withLongOpt("port").create('P');
+                .withDescription("SLI API port number").withLongOpt("port").create('p');
         options.addOption(option);
         
         option = OptionBuilder.hasArg().isRequired(false).withArgName("realm").withDescription("Identity realm name")
@@ -102,20 +100,36 @@ public class SliQueryTool {
             // Connect to local host.
             @SuppressWarnings("null")
             String usr = cmdLine.getOptionValue('u');
-            String pwd = cmdLine.getOptionValue('p');
+            String pwd = "";
+            
+            Console c = System.console();
+            if (c != null) {
+                pwd = new String(c.readPassword("Password >"));
+            } else {
+                System.err.print("Password >");
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+                try {
+                    pwd = bufferedReader.readLine();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             
             BasicClient.Builder builder = BasicClient.Builder.create().user(usr).password(pwd);
             
             if (cmdLine.hasOption('h')) {
                 builder.host(cmdLine.getOptionValue('h'));
             }
-            if (cmdLine.hasOption('P')) {
-                String portStr = cmdLine.getOptionValue('P');
+            if (cmdLine.hasOption('p')) {
+                String portStr = cmdLine.getOptionValue('p');
                 builder.port(Integer.parseInt(portStr));
             }
             if (cmdLine.hasOption('r')) {
                 builder.realm(cmdLine.getOptionValue('r'));
             }
+            
+            Logger.getLogger("org.apache.http").setLevel(Level.FATAL);
             
             client = builder.build();
             
@@ -130,48 +144,76 @@ public class SliQueryTool {
     
     public void homeMenu() throws MalformedURLException, URISyntaxException {
         
-        EntityCollection collection = new EntityCollection();
-        ClientResponse response = client.read(collection, EntityType.HOME, BasicQuery.FULL_ENTITIES_QUERY);
-        
-        if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
-            System.err.println(response.getEntity(String.class));
-            System.exit(response.getStatus());
+        while (true) {
+            EntityCollection collection = new EntityCollection();
+            ClientResponse response = client.read(collection, EntityType.HOME, BasicQuery.FULL_ENTITIES_QUERY);
+            
+            if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
+                System.err.println(response.getEntity(String.class));
+                System.exit(response.getStatus());
+            }
+            
+            showLinks(0, collection.get(0).getLinks());
+            
+            selectLink(collection.get(0).getLinks());
         }
         
-        showLinksMenu(collection);
     }
     
-    private void showLinksMenu(EntityCollection collection) throws MalformedURLException, URISyntaxException {
+    private int showLinks(int start, List<Link> links) {
+        for (Link entry : links) {
+            System.err.println("\t" + ++start + ".) rel:" + entry.getLinkName() + "     href:"
+                    + entry.getResourceURL().toString());
+        }
+        return start;
+    }
+    
+    private void selectLink(List<Link> allLinks) throws MalformedURLException, URISyntaxException {
+        int next = allLinks.size();
+        System.err.println(++next + ".) Home");
+        System.err.println(++next + ".) Goto Resource");
+        System.err.println(++next + ".) Quit");
         
-        List<String> l = new LinkedList<String>();
-        List<Link> allLinks = new LinkedList<Link>();
-        
-        for (int i = 0; i < collection.size(); ++i) {
-            
-            Entity entityEntry = collection.get(i);
-            
-            System.err.println("Links:");
-            List<Link> links = entityEntry.getLinks();
-            
-            if (links != null) {
-                allLinks.addAll(links);
-                
-                for (Link linkEntry : links) {
-                    l.add("\t" + linkEntry.getLinkName() + " => "
-                            + linkEntry.getResourceURL());
-                }
-            }
+        System.err.print("> ");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        try {
+            line = bufferedReader.readLine();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         
-        l.add("Home");
-        l.add("Quit");
+        int idx = Integer.parseInt(line);
         
-        int idx = showMenu("Links", l.toArray(new String[0]));
-        
-        if (idx == l.size()) {
+        if (idx == next) {
             System.exit(0);
-        } else if (idx == l.size() - 1) {
-            homeMenu();
+        } else if (idx == next - 1) {
+            System.err.print("Resource URL> ");
+            bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            String url = "";
+            try {
+                url = bufferedReader.readLine();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+            if (!url.isEmpty()) {
+                EntityCollection newCollection = new EntityCollection();
+                ClientResponse response = client.getResource(newCollection, new URL(url),
+                        BasicQuery.FULL_ENTITIES_QUERY);
+                if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
+                    System.err.println(response.getEntity(String.class));
+                    return;
+                }
+                showEntities(newCollection);
+            }
+            
+        }
+        
+        if (idx == next - 2 || idx >= next) {
+            return;
         }
         
         followLinkMenu(allLinks.get(idx - 1));
@@ -191,14 +233,14 @@ public class SliQueryTool {
         options.add("Quit");
         
         Builder builder = BasicQuery.Builder.create().fullEntities();
+        String tmp = "?";
         
         while (true) {
-            int idx = showMenu("Link: " + link.getLinkName() + "(" + link.getResourceURL().toString() + ")",
+            int idx = showMenu("Link: " + link.getLinkName() + "(" + link.getResourceURL().toString() + ")" + tmp,
                     options.toArray(new String[0]));
             
             if (idx == options.size() - 1) {
-                homeMenu();
-                break;
+                return;
             } else if (idx == options.size()) {
                 System.exit(0);
             } else if (idx == 1) {
@@ -209,7 +251,7 @@ public class SliQueryTool {
                 if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
                     System.err.println("Failed to follow link (" + link.getLinkName() + "): "
                             + response.getEntity(String.class));
-                    homeMenu();
+                    return;
                 } else {
                     showEntities(results);
                 }
@@ -225,6 +267,7 @@ public class SliQueryTool {
                     System.err.print("Value > ");
                     String value = bufferedReader.readLine();
                     builder.filterEqual(queryField, value);
+                    tmp += "queryField=" + value + "&";
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -235,6 +278,7 @@ public class SliQueryTool {
                 try {
                     String sortField = bufferedReader.readLine();
                     builder.sortBy(sortField);
+                    tmp += "sort-by=" + sortField + "&";
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -260,6 +304,7 @@ public class SliQueryTool {
                 try {
                     int startIndex = Integer.parseInt(bufferedReader.readLine());
                     builder.startIndex(startIndex);
+                    tmp += "start-index=" + startIndex + "&";
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -270,6 +315,7 @@ public class SliQueryTool {
                 try {
                     int maxResults = Integer.parseInt(bufferedReader.readLine());
                     builder.maxResults(maxResults);
+                    tmp += "max-results=" + maxResults + "&";
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -284,6 +330,7 @@ public class SliQueryTool {
     private void showEntities(EntityCollection collection) throws MalformedURLException, URISyntaxException {
         
         List<Link> allLinks = new LinkedList<Link>();
+        int count = 0;
         
         for (int i = 0; i < collection.size(); ++i) {
             
@@ -295,46 +342,11 @@ public class SliQueryTool {
             printMapOfMaps(1, entityEntry.getData());
             System.err.println("}");
             
-            System.err.println("Links: {");
-            List<Link> links = entityEntry.getLinks();
-            if (links != null) {
-                allLinks.addAll(links);
-                for (Link linkEntry : links) {
-                    System.err.println("\trel:" + linkEntry.getLinkName() + " href:" + linkEntry.getResourceURL());
-                }
-            }
-            System.err.println("}");
-            
+            allLinks.addAll(entityEntry.getLinks());
+            showLinks(count, entityEntry.getLinks());
+            count = count + entityEntry.getLinks().size();
         }
-        
-        List<String> options = new LinkedList<String>();
-        options.add("Follow Link");
-        options.add("Home");
-        options.add("Quit");
-        
-        int idx = showMenu("Entity Options", options.toArray(new String[0]));
-        
-        if (idx == 1) {
-            if (allLinks.size() > 0) {
-                followLinkMenu(allLinks.get(idx - 1));
-            } else {
-                System.err.print("link URL > ");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-                try {
-                    String url = bufferedReader.readLine();
-                    followLinkMenu(new BasicLink("tmp", new URL(url)));
-                    
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                
-            }
-        } else if (idx == 2) {
-            homeMenu();
-        } else if (idx == 3) {
-            System.exit(0);
-        }
+        selectLink(allLinks);
     }
     
     /**
