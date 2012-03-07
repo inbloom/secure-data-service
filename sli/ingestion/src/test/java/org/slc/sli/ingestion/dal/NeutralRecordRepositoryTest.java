@@ -85,7 +85,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student);
-        NeutralRecord foundOne = repository.find("student", saved.getLocalId().toString());
+        NeutralRecord foundOne = repository.findByLocalId("student", saved.getLocalId().toString());
         assertNotNull(foundOne);
         assertEquals(foundOne.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
         assertEquals((found.getAttributes()).get("firstName"), "Jane");
@@ -140,7 +140,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(null);
-        NeutralRecord zombieStudent = repository.find("student", student2.getLocalId().toString());
+        NeutralRecord zombieStudent = repository.findByLocalId("student", student2.getLocalId().toString());
         assertNull(zombieStudent);
         WriteResult badResult = mock(WriteResult.class);
         when(badResult.getN()).thenReturn(0);

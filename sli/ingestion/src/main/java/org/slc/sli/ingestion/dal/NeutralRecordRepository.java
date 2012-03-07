@@ -32,11 +32,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         super.setClass(NeutralRecord.class);
     }
 
-    @Override
-    public NeutralRecord find(String collection, String id) {
-        LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
+    public NeutralRecord findByLocalId(String collection, String localId) {
+        LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, localId });
         Map<String, String> query = new HashMap<String, String>();
-        query.put("body.localId", id);
+        query.put("localId", localId);
         return find(collection, query);
     }
 

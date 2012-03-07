@@ -49,7 +49,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public abstract T find(String collectionName, String id);
+    public T find(String collectionName, String id) {
+        Object databaseId = idConverter.toDatabaseId(id);
+        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
+        return template.findById(databaseId, clazz, collectionName);
+    }
 
     @Override
     public T find(String collectionName, Map<String, String> queryParameters) {
