@@ -214,6 +214,9 @@ public class ContextResolverStore {
         }
     }
 
+    /**
+     * Builder pattern to grant context to all entities of a given type
+     */
     public class FullContextBuilder {
         private String source;
         private String target;
