@@ -188,6 +188,7 @@ public class PersistenceProcessor implements Processor {
                         
                         while (iterNrd.hasNext()) {
                             tempNr = iterNrd.next();
+                            tempNr.setRecordType(neutralRecord.getRecordType());
                             List<? extends Entity> result = transformer.handle(tempNr);
                             NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
                             entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
