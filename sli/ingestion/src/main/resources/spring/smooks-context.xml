@@ -97,6 +97,7 @@
               	<value>${smooks.targetselector.xml.assessment}</value>
               	<value>${smooks.targetselector.xml.assessmentFamily}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor/</value>
               </list>
             </constructor-arg>
           </bean>

@@ -1278,6 +1278,22 @@
     <jb:value property="codeValue" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
     <jb:value property="description" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
   </jb:bean>
+
+  <!-- AssessmentPeriodDescriptorType -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentPeriodDescriptor">
+    <jb:expression property="recordType">'assessmentPeriodDescriptor'</jb:expression>
+    <jb:value property="localId" data="InterchangeAssessmentMetadata/Assessment/AssessmentPeriodDescriptor@id" />
+    <jb:wiring property="attributes" beanIdRef="assessmentPeriodDescriptorAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="assessmentPeriodDescriptorAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentPeriodDescriptor">
+    <jb:value property="codeValue" data="AssessmentPeriodDescriptor/CodeValue" />
+    <jb:value property="description" data="AssessmentPeriodDescriptor/Description" />
+    <jb:value property="shortDescription" data="AssessmentPeriodDescriptor/ShortDescription" />
+    <jb:value property="beginDate" data="AssessmentPeriodDescriptor/BeginDate" />
+    <jb:value property="endDate" data="AssessmentPeriodDescriptor/EndDate" />
+  </jb:bean>
+  
   <!-- Assessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:expression property="recordType">'assessment'</jb:expression>
@@ -1299,8 +1315,8 @@
     <jb:value property="revisionDate" data="Assessment/RevisionDate" />
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
-    <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
-    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/>
+    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/> 
+    <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/> 
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
