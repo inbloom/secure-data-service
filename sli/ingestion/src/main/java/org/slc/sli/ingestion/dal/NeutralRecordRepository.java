@@ -37,7 +37,7 @@ public class NeutralRecordRepository {
     }
 
     public MongoTemplate getTemplate() {
-    	return template;
+        return template;
     }
 
     public NeutralRecord find(String collection, String id) {
