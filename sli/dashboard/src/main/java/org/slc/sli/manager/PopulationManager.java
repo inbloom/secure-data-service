@@ -41,6 +41,23 @@ public class PopulationManager {
         
     }
 
+    public SortedSet<String> sortByGradeLevel(final String token, Map<String, List<GenericEntity>> historicalData) {
+        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
+
+        for (Map.Entry<String, List<GenericEntity>> studentData : historicalData.entrySet()) {
+            List<GenericEntity> list = studentData.getValue();
+
+            //get the assessment list
+            for (GenericEntity entity : list) {
+                results.add(entity.getString("gradeLevelWhenTaken"));
+            }
+
+            //sort by the school year
+            Collections.sort(list, new GradeLevelComparator());
+        }
+
+        return results;
+    }
     
     /**
      * Get the list of student summaries identified by the student id list and authorized for the
@@ -378,6 +395,23 @@ public class PopulationManager {
             return e2.getString("schoolYear").compareTo(e1.getString("schoolYear"));
         }
         
+    }
+
+    /**
+     * Compare two GenericEntities by grade level
+     * @author srupasinghe
+     *
+     */
+    class GradeLevelComparator implements Comparator<GenericEntity> {
+
+        public int compare(GenericEntity e1, GenericEntity e2) {
+            if (e1.getString("gradeLevelWhenTaken") == null || e2.getString("gradeLevelWhenTaken") == null) {
+                return 0;
+            }
+
+            return e2.getString("gradeLevelWhenTaken").compareTo(e1.getString("gradeLevelWhenTaken"));
+        }
+
     }
 }
 

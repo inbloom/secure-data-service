@@ -30,7 +30,7 @@
   "birthData": {
     "birthDate": "2000-12-20"
   },
-  "cohortYear": "Eighth grade",
+  "cohortYears": ["Eighth grade"],
   "electronicMail":[{"emailAddressType":"Home/Personal",
                      "emailAddress":"jashley@test.edu"}],
   "telephone":[{"telephoneNumberType":"Home","telephoneNumber":"(111) 867-5309","primaryTelephoneNumberIndicator":true}],
