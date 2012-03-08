@@ -21,6 +21,7 @@ body {
 	<form:form action="/api/oauth/sso" method="GET" commandName="dummy">
 		<input type="hidden" name="RelayState" value="${relayState}" />
 		<input type="hidden" name="clientId" value="${clientId}" />
+		<input type="hidden" name="state" value="${state}" />
 		Please choose your State/District:
 		<form:select path="" name="realmId" items="${realms}" />
 		<input type="submit" value="Go" id="go" />
