@@ -189,7 +189,7 @@ public class SectionResource {
     }
 
     /**
-     * Returns each $$student$$ associated to the given section through
+     * Returns each $$students$$ associated to the given section through
      * a $$studentSectionAssociations$$
      * 
      * @param sectionId

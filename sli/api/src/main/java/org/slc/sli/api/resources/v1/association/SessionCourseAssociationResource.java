@@ -57,7 +57,7 @@ public class SessionCourseAssociationResource {
     }
 
     /**
-     * Returns all &&sessionCourseAssociations&& entities for which the logged in User has permission and context.
+     * Returns all $$sessionCourseAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -80,7 +80,7 @@ public class SessionCourseAssociationResource {
     }
 
     /**
-     * Create a new &&sessionCourseAssociations&& entity.
+     * Create a new $$sessionCourseAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -101,10 +101,10 @@ public class SessionCourseAssociationResource {
     }
 
     /**
-     * Get a single &&sessionCourseAssociations&& entity
+     * Get a single $$sessionCourseAssociations$$ entity
      * 
      * @param sessionCourseAssociationId
-     *            The Id of the &&sessionCourseAssociations&&.
+     *            The Id of the $$sessionCourseAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -120,10 +120,10 @@ public class SessionCourseAssociationResource {
     }
 
     /**
-     * Delete a &&sessionCourseAssociations&& entity
+     * Delete a $$sessionCourseAssociations$$ entity
      * 
      * @param sessionCourseAssociationId
-     *            The Id of the &&sessionCourseAssociations&&.
+     *            The Id of the $$sessionCourseAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -139,10 +139,10 @@ public class SessionCourseAssociationResource {
     }
 
     /**
-     * Update an existing &&sessionCourseAssociations&& entity.
+     * Update an existing $$sessionCourseAssociations$$ entity.
      * 
      * @param sessionCourseAssociationId
-     *            The id of the &&sessionCourseAssociations&&.
+     *            The id of the $$sessionCourseAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -163,7 +163,7 @@ public class SessionCourseAssociationResource {
     
     /**
      * Returns each $$sessions$$ that
-     * references the given &&sessionCourseAssociations&&
+     * references the given $$sessionCourseAssociations$$
      * 
      * @param sessionCourseAssociationId
      *            The Id of the sessionCourseAssociation.
@@ -191,7 +191,7 @@ public class SessionCourseAssociationResource {
  
     /**
      * Returns each $$courses$$ that
-     * references the given &&sessionCourseAssociations&&
+     * references the given $$sessionCourseAssociations$$
      * 
      * @param sessionCourseAssociationId
      *            The Id of the sessionCourseAssociation.

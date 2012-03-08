@@ -58,7 +58,7 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Returns all $$educationOrganizations$$ entities for which the logged in User has permission and context.
+     * Returns all $$educationalOrganizations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -81,7 +81,7 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Create a new $$educationOrganizations$$ entity.
+     * Create a new $$educationalOrganizations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -102,15 +102,15 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Get a single $$educationOrganizations$$ entity
+     * Get a single $$educationalOrganizations$$ entity
      * 
      * @param educationOrganizationId
-     *            The Id of the $$educationOrganizations$$.
+     *            The Id of the $$educationalOrganizations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$EDUCATION_ORGANIZATIONS$$ entity
+     * @return A single $$educationalOrganizations$$ entity
      */
     @GET
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}")
@@ -121,10 +121,10 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Delete a $$educationOrganizations$$ entity
+     * Delete a $$educationalOrganizations$$ entity
      * 
      * @param educationOrganizationId
-     *            The Id of the $$educationOrganizations$$.
+     *            The Id of the $$educationalOrganizations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -140,10 +140,10 @@ public class EducationOrganizationResource {
     }
 
     /**
-     * Update an existing $$educationOrganizations$$ entity.
+     * Update an existing $$educationalOrganizations$$ entity.
      * 
      * @param educationOrganizationId
-     *            The id of the $$educationOrganizations$$.
+     *            The id of the $$educationalOrganizations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -164,7 +164,7 @@ public class EducationOrganizationResource {
 
     /**
      * Returns each $$staffEducationOrganizationAssociations$$ that
-     * references the given $$educationOrganizations$$
+     * references the given $$educationalOrganizations$$
      * 
      * @param educationOrganizationId
      *            The Id of the School.

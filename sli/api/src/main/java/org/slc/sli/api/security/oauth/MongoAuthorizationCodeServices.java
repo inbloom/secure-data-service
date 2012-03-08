@@ -65,15 +65,14 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     private EntityDefinitionStore store;
     
     @Autowired
-    private SliClientDetailService clientDetailService;   
-    
+    private SliClientDetailService clientDetailService;
 
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
         assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
     }
     
-    protected void create(String clientId, String samlId) {
+    protected void create(String clientId, String state, String samlId) {
         final EntityBody authorizationCode = new EntityBody();
         String redirectUri = clientDetailService.loadClientByClientId(clientId).getWebServerRedirectUri();
         long expiration = AUTHORIZATION_CODE_VALIDITY * 1000L;
@@ -81,6 +80,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         authorizationCode.put("redirectUri", redirectUri);
         authorizationCode.put("clientId", clientId);
         authorizationCode.put("samlId", samlId);
+        authorizationCode.put("state", state);
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
             @Override
             public Boolean execute() {
@@ -114,6 +114,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         
         UriBuilder uri = UriBuilder.fromUri(authorizationCode.get("redirectUri").toString());
         uri.queryParam("code", authorizationCode.get("value"));
+        if (authorizationCode.get("state") != null) {
+            uri.queryParam("state", authorizationCode.get("state"));
+        }
         return uri.build().toString();
     }
     
