@@ -179,6 +179,8 @@ public class PersistenceProcessor implements Processor {
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
                         
+                        processedStagedCollections.add(neutralRecord.getRecordType());
+                        
                         NeutralRecordMongoAccess neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
                         
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
