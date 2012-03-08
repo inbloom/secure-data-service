@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.context;
+package org.slc.sli.api.security.context.resolver;
 
 import java.util.AbstractList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.slc.sli.domain.Entity;
  * Default context traversing implementation that allows access to everything
  */
 @Component
-public class DefaultEntityContextResolver implements EntityContextResolver {
+public class AllowAllEntityContextResolver implements EntityContextResolver {
     /**
      * List that always says 'YES' I have it
      */
@@ -38,6 +38,11 @@ public class DefaultEntityContextResolver implements EntityContextResolver {
             return -1;
         }
         
+        @Override
+        public String toString() {
+            return "SUPER LIST";
+        }
+        
     };
     
     @Override
@@ -46,13 +51,8 @@ public class DefaultEntityContextResolver implements EntityContextResolver {
     }
     
     @Override
-    public String getSourceType() {
-        return null;
+    public boolean canResolve(String fromEntityType, String toEntityType) {
+        //  TODO add public entities as target type here (i.e. bell schedules)
+        return false;
     }
-    
-    @Override
-    public String getTargetType() {
-        return null;
-    }
-    
 }
