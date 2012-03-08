@@ -16,4 +16,9 @@ public class AttendanceResolver {
         GenericEntity geStudent = new GenericEntity(student);
         return new AttendanceAbsenceResolver(geStudent);
     }
+    
+    public AggregateResolver getTardyCountResolverForStudent(Map student) {
+        GenericEntity geStudent = new GenericEntity(student);
+        return new AttendanceAbsenceResolver(geStudent);
+    }
 }
