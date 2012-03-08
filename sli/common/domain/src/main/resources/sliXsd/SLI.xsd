@@ -1694,6 +1694,103 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+ 
+	<xs:element name="teacher">
+		<xs:annotation>
+			<xs:documentation>This entity represents a person that is employed by
+				an LEA or other
+				educational unit engaged in student instruction. These persons are
+				instructional-type staff members. In the data model, a teacher
+				entity is a staff
+				member with additional properties.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="staff">
+					<xs:sequence>
+						<xs:element name="teacherUniqueStateId" type="uniqueStateIdentifier"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>An ID number maintained by the state that
+									uniquely
+									identifies this teacher.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="highlyQualifiedTeacher" type="xs:boolean"
+							minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>An indication of whether a teacher is
+									classified
+									as highly qualified for his/her assignment according to state
+									definition. This attribute indicates the teacher is highly
+									qualified for ALL sections being taught.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+    
+	<xs:element name="teacherSchoolAssociation">
+		<xs:annotation>
+			<xs:documentation>This association indicates the school(s) to which a
+				teacher provides
+				instructional services to.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="teacherId" type="reference">
+					<xs:annotation>
+						<xs:documentation>The teacher providing services to the school.
+						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>teacher</sli:ReferenceType>
+                        </xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="schoolId" type="reference">
+					<xs:annotation>
+						<xs:documentation>The school where the teacher provides services.
+						</xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>school</sli:ReferenceType>
+                        </xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="programAssignment" type="programAssignmentType">
+					<xs:annotation>
+						<xs:documentation>The name of the program for which the individual
+							is assigned;
+							for example: Regular education Title I-Academic Title I-Non-Academic
+							Special
+							Education Bilingual/English as a Second Language
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="instructionalGradeLevels" type="gradeLevelType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The set of grade levels for which the
+							individual's assignment
+							is responsible.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="academicSubjects" type="academicSubjectType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The teaching field taught by an individual, for
+							example
+							English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="teacherSectionAssociation">
 		<xs:annotation>
