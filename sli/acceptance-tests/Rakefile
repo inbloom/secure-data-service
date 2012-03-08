@@ -172,7 +172,7 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
+                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1ParentTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
                      :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests] do
   displayFailureReport()
@@ -369,6 +369,12 @@ end
 desc "Run V1 Assessment Tests"
 task :v1AssessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run V1 Parent Tests"
+task :v1ParentTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
 end
 
 desc "Run V1 Attendance Tests"
