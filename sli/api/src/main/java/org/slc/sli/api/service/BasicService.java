@@ -1,15 +1,5 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -37,6 +27,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -155,35 +155,47 @@ public class BasicService implements EntityService {
         
         return makeEntityBody(entity);
     }
-    
+
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
-        
+
         checkRights(Right.READ_GENERAL);
         List<String> allowed = findAccessible();
-        
+
         if (allowed.isEmpty()) {
-            throw new AccessDeniedException("Access to resource denied.");
+            return noEntitiesFound(queryParameters);
         }
-        
+
+        EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+
+        if (entities.size() == 0) {
+            return noEntitiesFound(queryParameters);
+        }
+
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        for (Entity entity : entities) {
+            results.add(makeEntityBody(entity));
+        }
+        return results;
+    }
+
+    private EntityQuery decorateQueryWithAccessibleIds(Map<String, String> queryParameters, List<String> allowed) {
         EntityQuery query = createQuery(queryParameters);
         if (allowed.size() > 0) {
             query.getFields().put("_id", implode(allowed));
-        } 
-        
-        List<EntityBody> results = new ArrayList<EntityBody>();
-        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
-                
-        if (entities.size() == 0) {
+        }
+        return query;
+    }
+
+    private Iterable<EntityBody> noEntitiesFound(Map<String, String> queryParameters) {
+        if (makeEntityList(repo.findAll(this.collectionName, queryParameters)).isEmpty()) {
+            return new ArrayList<EntityBody>();
+        } else {
             throw new AccessDeniedException("Access to resource denied.");
         }
-        
-        for (Entity entity : entities) {
-            results.add(makeEntityBody(entity));                
-        }        
-        return results;
     }
-    
+
     private String implode(List<String> allowed) {
         String commaDelimitedString = "";
         for (String id : allowed) {

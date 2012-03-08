@@ -14,7 +14,7 @@
   "birthData": {
     "birthDate": "2002-07-05"
   },
-  "cohortYear": "Second grade"
+  "cohortYears": ["Second grade"]
 },{
   "id": "943715230",
   "studentUniqueStateId": "943715230",
@@ -55,7 +55,7 @@
   "birthData": {
     "birthDate": "1995-06-25"
   },
-  "cohortYear": "First grade"
+  "cohortYears": ["First grade"]
 },{
   "id": "505331723",
   "studentUniqueStateId": "505331723",
@@ -71,7 +71,7 @@
   "birthData": {
     "birthDate": "2004-08-22"
   },
-  "cohortYear": "First grade"
+  "cohortYears": ["First grade"]
 },{
   "id": "530425896",
   "studentUniqueStateId": "530425896",
@@ -87,7 +87,7 @@
   "birthData": {
     "birthDate": "2006-07-02"
   },
-  "cohortYear": "Eighth grade"
+  "cohortYears": ["Eighth grade"]
 },{
   "id": "429526969",
   "studentUniqueStateId": "429526969",
@@ -103,7 +103,7 @@
   "birthData": {
     "birthDate": "1999-12-17"
   },
-  "cohortYear": "Twelfth grade"
+  "cohortYears": ["Twelfth grade"]
 },{
   "id": "178828452",
   "studentUniqueStateId": "178828452",
@@ -119,7 +119,7 @@
   "birthData": {
     "birthDate": "2001-10-04"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "525878920",
   "studentUniqueStateId": "525878920",
@@ -135,7 +135,7 @@
   "birthData": {
     "birthDate": "2004-12-04"
   },
-  "cohortYear": "Twelfth grade"
+  "cohortYears": ["Twelfth grade"]
 },{
   "id": "510152105",
   "studentUniqueStateId": "510152105",
@@ -151,7 +151,7 @@
   "birthData": {
     "birthDate": "1997-06-01"
   },
-  "cohortYear": "Sixth grade"
+  "cohortYears": ["Sixth grade"]
 },{
   "id": "802709591",
   "studentUniqueStateId": "802709591",
@@ -167,7 +167,7 @@
   "birthData": {
     "birthDate": "1997-03-07"
   },
-  "cohortYear": "Fifth grade"
+  "cohortYears": ["Fifth grade"]
 },{
   "id": "437680177",
   "studentUniqueStateId": "437680177",
@@ -183,7 +183,7 @@
   "birthData": {
     "birthDate": "2000-04-23"
   },
-  "cohortYear": "First grade"
+  "cohortYears": ["First grade"]
 },{
   "id": "170011136",
   "studentUniqueStateId": "170011136",
@@ -199,7 +199,7 @@
   "birthData": {
     "birthDate": "2001-01-23"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "547028299",
   "studentUniqueStateId": "547028299",
@@ -215,7 +215,7 @@
   "birthData": {
     "birthDate": "1999-11-15"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "258392050",
   "studentUniqueStateId": "258392050",
@@ -231,7 +231,7 @@
   "birthData": {
     "birthDate": "1994-01-09"
   },
-  "cohortYear": "Second grade"
+  "cohortYears": ["Second grade"]
 },{
   "id": "178875887",
   "studentUniqueStateId": "178875887",
@@ -247,7 +247,7 @@
   "birthData": {
     "birthDate": "2000-10-14"
   },
-  "cohortYear": "Eleventh grade"
+  "cohortYears": ["Eleventh grade"]
 },{
   "id": "100644447",
   "studentUniqueStateId": "100644447",
@@ -263,7 +263,7 @@
   "birthData": {
     "birthDate": "2006-06-02"
   },
-  "cohortYear": "Fourth grade"
+  "cohortYears": ["Fourth grade"]
 },{
   "id": "376191021",
   "studentUniqueStateId": "376191021",
@@ -279,7 +279,7 @@
   "birthData": {
     "birthDate": "1994-08-30"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "336344132",
   "studentUniqueStateId": "336344132",
@@ -295,7 +295,7 @@
   "birthData": {
     "birthDate": "2003-03-25"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "711411586",
   "studentUniqueStateId": "711411586",
@@ -311,7 +311,7 @@
   "birthData": {
     "birthDate": "2006-01-08"
   },
-  "cohortYear": "Twelfth grade"
+  "cohortYears": ["Twelfth grade"]
 },{
   "id": "131758477",
   "studentUniqueStateId": "131758477",
@@ -327,7 +327,7 @@
   "birthData": {
     "birthDate": "1997-07-22"
   },
-  "cohortYear": "Sixth grade"
+  "cohortYears": ["Sixth grade"]
 },{
   "id": "670703438",
   "studentUniqueStateId": "670703438",
@@ -343,7 +343,7 @@
   "birthData": {
     "birthDate": "2002-04-10"
   },
-  "cohortYear": "First grade"
+  "cohortYears": ["First grade"]
 },{
   "id": "851123275",
   "studentUniqueStateId": "851123275",
@@ -359,7 +359,7 @@
   "birthData": {
     "birthDate": "1999-06-13"
   },
-  "cohortYear": "Second grade"
+  "cohortYears": ["Second grade"]
 },{
   "id": "423037202",
   "studentUniqueStateId": "423037202",
@@ -375,7 +375,7 @@
   "birthData": {
     "birthDate": "1999-06-05"
   },
-  "cohortYear": "Fourth grade"
+  "cohortYears": ["Fourth grade"]
 },{
   "id": "250918988",
   "studentUniqueStateId": "250918988",
@@ -391,7 +391,7 @@
   "birthData": {
     "birthDate": "2005-04-06"
   },
-  "cohortYear": "Seventh grade"
+  "cohortYears": ["Seventh grade"]
 },{
   "id": "421216329",
   "studentUniqueStateId": "421216329",
@@ -407,7 +407,7 @@
   "birthData": {
     "birthDate": "1994-03-17"
   },
-  "cohortYear": "Second grade"
+  "cohortYears": ["Second grade"]
 },{
   "id": "111111111",
   "studentUniqueStateId": "111111111",
@@ -423,7 +423,7 @@
   "birthData": {
     "birthDate": "1994-03-17"
   },
-  "cohortYear": "Ninth grade"
+  "cohortYears": ["Ninth grade"]
 },{
   "id": "222222222",
   "studentUniqueStateId": "222222222",
@@ -439,7 +439,7 @@
   "birthData": {
     "birthDate": "1994-04-17"
   },
-  "cohortYear": "Third grade"
+  "cohortYears": ["Third grade"]
 },{
   "id": "333333333",
   "studentUniqueStateId": "333333333",
@@ -455,7 +455,7 @@
   "birthData": {
     "birthDate": "1994-05-17"
   },
-  "cohortYear": "Seventh grade"
+  "cohortYears": ["Seventh grade"]
 },{
   "id": "444444444",
   "studentUniqueStateId": "444444444",
@@ -471,6 +471,6 @@
   "birthData": {
     "birthDate": "1994-05-18"
   },
-  "cohortYear": "Seventh grade"
+  "cohortYears": ["Seventh grade"]
 }
 ]
