@@ -2,7 +2,6 @@ package org.slc.sli.api.service.query;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
@@ -26,11 +26,11 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 @Component
 public class BasicQueryConverter implements QueryConverter {
-
-    private static String[] reservedQueryKeys = {"start-index", "max-results", "query", "sessionId",
-            Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM,
-            ParameterConstants.OFFSET, ParameterConstants.LIMIT, ParameterConstants.SORT_BY,
-            ParameterConstants.SORT_ORDER, ParameterConstants.INCLUDE_FIELDS, ParameterConstants.EXCLUDE_FIELDS};
+    
+    private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
+            Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM, ParameterConstants.OFFSET,
+            ParameterConstants.LIMIT, ParameterConstants.SORT_BY, ParameterConstants.SORT_ORDER,
+            ParameterConstants.INCLUDE_FIELDS, ParameterConstants.EXCLUDE_FIELDS };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
     
@@ -161,6 +161,12 @@ public class BasicQueryConverter implements QueryConverter {
         return mongoQuery;
     }
     
+    /**
+     * Simple holder class to allow methods to return multiple values.
+     * 
+     * This class is protected access level to support some of the existing unit tests. It is not
+     * intended to be used outside this class.
+     */
     protected static class ParamType {
         final String type;
         final boolean pii;
