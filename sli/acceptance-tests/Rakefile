@@ -174,8 +174,13 @@ desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
                      :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests, :v1CascadeDeletionTests] do
+                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests] do
   displayFailureReport()
+end
+
+desc "Run V1 Gradebook Entry Tests"
+task :v1GradebookEntryTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/gradebookEntry", "gradebookEntry", "gradebookEntry_fixture.json")
 end
 
 desc "Run V1 Cascade Deletion Tests"
