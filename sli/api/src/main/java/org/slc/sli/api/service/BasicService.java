@@ -1,20 +1,16 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
@@ -32,14 +28,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -92,18 +89,17 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("KM Deleting {} in {}", new String[] { id, collectionName });
 
         checkAccess(Right.WRITE_GENERAL, id);
+
+        this.cascadeDelete(id);
 
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
 
-        if (!(defn instanceof AssociationDefinition)) {
-            removeEntityWithAssoc(id);
-        }
     }
 
     @Override
@@ -166,31 +162,43 @@ public class BasicService implements EntityService {
         checkRights(Right.READ_GENERAL);
         List<String> allowed = findAccessible();
 
-        if(allowed.isEmpty()) {
-            throw new AccessDeniedException("Access to resource denied.");
+        if (allowed.isEmpty()) {
+            return noEntitiesFound(queryParameters);
         }
 
-        SmartQuery query = createQuery(queryParameters);
-        if (allowed.size() > 0) {
-            query.getFields().put("_id", implode(allowed));
+        SmartQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+
+        if (entities.size() == 0) {
+            return noEntitiesFound(queryParameters);
         }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
-
-        if(entities.size() == 0) {
-            throw new AccessDeniedException("Access to resource denied.");
-        }
-
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
         }
         return results;
     }
 
+    private SmartQuery decorateQueryWithAccessibleIds(Map<String, String> queryParameters, List<String> allowed) {
+        SmartQuery query = createQuery(queryParameters);
+        if (allowed.size() > 0) {
+            query.getFields().put("_id", implode(allowed));
+        }
+        return query;
+    }
+
+    private Iterable<EntityBody> noEntitiesFound(Map<String, String> queryParameters) {
+        if (makeEntityList(repo.findAll(this.collectionName, queryParameters)).isEmpty()) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new AccessDeniedException("Access to resource denied.");
+        }
+    }
+
     private String implode(List<String> allowed) {
         String commaDelimitedString = "";
-        for(String id : allowed) {
+        for (String id : allowed) {
             commaDelimitedString += id + ",";
         }
         return commaDelimitedString;
@@ -198,7 +206,7 @@ public class BasicService implements EntityService {
 
     private List<Entity> makeEntityList(Iterable<Entity> items) {
         List<Entity> myList = new ArrayList<Entity>();
-        for(Entity item : items) {
+        for (Entity item : items) {
             myList.add(item);
         }
         return myList;
@@ -284,8 +292,7 @@ public class BasicService implements EntityService {
             }
 
             return results;
-        }
-        else {
+        } else {
             return Collections.emptyList();
         }
     }
@@ -336,19 +343,29 @@ public class BasicService implements EntityService {
         return sanitized;
     }
 
-    private void removeEntityWithAssoc(String sourceId) {
-        Map<String, String> fields = new HashMap<String, String>();
-        fields.put(defn.getType() + "Id", sourceId);
-
-        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
-            String assocCollection = assocDef.getStoredCollectionName();
-            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
-            Iterator<Entity> foundEntities;
-            if (iterable != null) {
-                foundEntities = iterable.iterator();
-                while (foundEntities.hasNext()) {
-                    Entity assocEntity = foundEntities.next();
-                    repo.delete(assocCollection, assocEntity.getEntityId());
+    /**
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
+     * still exists so that authorization/context can be checked.
+     *
+     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
+     */
+    private void cascadeDelete(String sourceId) {
+      //loop for every EntityDefinition that references the deleted entity's type
+        for (EntityDefinition referencingEntity : this.defn.getReferencingEntities()) {
+            //loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
+                EntityService referencingEntityService = referencingEntity.getService();
+                Map<String, String> referenceQuery = new HashMap<String, String>();
+                referenceQuery.put(referenceField, sourceId);
+                try {
+                  //list all entities that have the deleted entity's ID in their reference field
+                    for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
+                        String idToBeDeleted = (String) entityBody.get("id");
+                        //delete that entity as well
+                        referencingEntityService.delete(idToBeDeleted);
+                    }
+                } catch (AccessDeniedException ade) {
+                    LOG.debug("No " + referencingEntity.getResourceName() + " have " + referenceField + " = " + sourceId);
                 }
             }
         }
@@ -564,7 +581,7 @@ public class BasicService implements EntityService {
                 String sortOrder = entry.getValue();
                 if (sortOrder != null) {
                     SmartQuery.SortOrder order =
-                            sortOrder.equals("ascending") ? SmartQuery.SortOrder.ascending : SmartQuery.SortOrder.descending;
+                            sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? SmartQuery.SortOrder.ascending : SmartQuery.SortOrder.descending;
                     queryBuilder.setSortOrder(order);
                 }
             } else { //query param on record
