@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.v1;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -9,19 +8,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +28,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -150,6 +149,7 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
             //create one entity
@@ -161,7 +161,6 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
             try {
-                @SuppressWarnings("unused")
                 Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
                 fail("should have thrown EntityNotFoundException");
             } catch (EntityNotFoundException e) {
@@ -306,6 +305,12 @@ public class DefaultCrudEndPointTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
+            @Override
+            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         

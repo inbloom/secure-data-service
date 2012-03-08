@@ -5,53 +5,6 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-
-	<xs:complexType name="accountabilityRating">
-		<xs:annotation>
-			<xs:documentation>An accountability rating for a school or district.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="ratingTitle" type="ratingTitleType">
-				<xs:annotation>
-					<xs:documentation>The title of the rating (e.g., School Rating,
-						Safety Score,
-						etc.)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="rating" type="rating">
-				<xs:annotation>
-					<xs:documentation>An accountability rating level, designation, or
-						assessment.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ratingDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The date the rating was awarded.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ratingOrganization" type="ratingOrganization"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The organization that assessed the rating.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ratingProgram" type="ratingProgramType"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The program associated with the accountability
-						rating (e.g.,
-						NCLB, AEIS)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="educationOrgIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code that is
