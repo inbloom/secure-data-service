@@ -62,7 +62,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> attrs = neutralRecord.getAttributes();
             key = (String) attrs.get("parentAssessmentFamilyId");
 
-            ArrayList<Map<String, Object>> associationFamilyMap = getAssocationFamilyMap(key, new ArrayList<Map<String, Object>>());
+            HashMap<String, Map<String, Object>> familyMap = getAssocationFamilyMap(key, new HashMap<String, Map<String, Object>>());
+            ArrayList<Map<String, Object>> associationFamilyMap = new ArrayList<Map<String, Object>>();
+            associationFamilyMap.addAll(familyMap.values());
 
             attrs.put("assessmentFamily", associationFamilyMap);
 
@@ -74,7 +76,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
 
     
-    private ArrayList<Map<String, Object>> getAssocationFamilyMap(String key, ArrayList<Map<String, Object>> deepFamilyMap) {
+    @SuppressWarnings("unchecked")
+    private HashMap<String, Map<String, Object>> getAssocationFamilyMap(String key, HashMap<String, Map<String, Object>> deepFamilyMap) {
         
         Map<String, String> paths = new HashMap<String, String>();
         paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
@@ -84,14 +87,24 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
         NeutralRecord tempNr;
         Map<String, Object> associationAttrs;
-
+        
+        ArrayList<Map<String, Object>> tempIdentificationCodes;
+        HashMap<String, Object> tempMap;
+        
         while (iter.hasNext()) {
             tempNr = iter.next();
             associationAttrs = tempNr.getAttributes();
-            deepFamilyMap.add(associationAttrs);
-            
+
+            if (associationAttrs.get("AssessmentFamilyIdentificationCode") instanceof ArrayList<?>) {
+                tempIdentificationCodes = (ArrayList<Map<String, Object>>) associationAttrs.get("AssessmentFamilyIdentificationCode");
+                
+                tempMap = (HashMap<String, Object>) tempIdentificationCodes.get(0);
+                deepFamilyMap.put((String) tempMap.get("ID"), associationAttrs);
+            }
+
             //check if there are parent nodes
-            if (associationAttrs.containsKey("parentAssessmentFamilyId")) {
+            if (associationAttrs.containsKey("parentAssessmentFamilyId") 
+                    && !deepFamilyMap.containsKey((String) associationAttrs.get("parentAssessmentFamilyId"))) {
                 deepFamilyMap = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyId"), deepFamilyMap);
             }
             
