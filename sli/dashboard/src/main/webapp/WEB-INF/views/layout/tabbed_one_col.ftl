@@ -34,18 +34,18 @@
     <ul>
       
     <#-- create individual tabs -->
-    <#list viewConfigs as tab>
-      <li><a href="#tabs-${tab_index}">${tab.name}</a></li>
+    <#list viewConfigs as page>
+      <li><a href="#page-${page_index}">${page.name}</a></li>
     </#list>
       
     </ul>
       
-    <#-- create tab pages -->
-    <#list viewConfigs as tab>
-      <div id="tabs-${tab_index}">
+    <#-- create pages -->
+    <#list viewConfigs as page>
+      <div id="page-${page_index}">
       
       <#-- create panels -->
-      <#list tab.getDisplaySet() as panel>
+      <#list page.getDisplaySet() as panel>
         
         <div class="panel">
           <#include "../panel/" + panel.displayName + ".ftl">
