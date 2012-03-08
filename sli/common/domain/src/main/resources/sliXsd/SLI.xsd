@@ -830,6 +830,53 @@
 		</xs:complexType>
 	</xs:element-->
  
+	<xs:complexType name="postSecondaryEvent">
+		<xs:annotation>
+			<xs:documentation>
+				This entity captures significant postsecondary events during a student's high school tenure (e.g.,
+				FASFSA application, or college application, acceptance, and enrollment).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="eventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The date the event occurred or was recorded.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="postSecondaryEventCategory" type="postSecondaryEventCategoryType">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary event that is logged (e.g., FAFSA application, college
+								application, college acceptance).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nameOfInstitution" type="nameOfInstitution" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary institution associated with the event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="institutionId" type="institutionId" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ID of the postsecondary institution.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="studentId" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The student associated with the postsecondary event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+ 
 	<xs:element name="parent">
 		<xs:annotation>
 			<xs:documentation>
