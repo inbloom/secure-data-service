@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -20,8 +22,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
@@ -129,7 +129,7 @@ public class SliQueryTool {
                 builder.realm(cmdLine.getOptionValue('r'));
             }
             
-            Logger.getLogger("org.apache.http").setLevel(Level.FATAL);
+            Logger.getLogger("org.apache.http").setLevel(Level.SEVERE);
             
             client = builder.build();
             

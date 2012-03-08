@@ -42,7 +42,7 @@
 
   <logger name="org.fusesource.scalate.servlet.ServletTemplateEngine.SourceMap" level="INFO" />
 
-  <root level="off">
+  <root level="warn">
     <appender-ref ref="STDOUT" />
   </root>
 
