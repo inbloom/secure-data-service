@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1;
 
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -118,15 +120,23 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     @Override
     public Response read(final String resourceName, final String key, final String value, final HttpHeaders headers, final UriInfo uriInfo) {
+        // /v1/entity/{id}/associations
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 logger.debug("Attempting to read from " + entityDef.getStoredCollectionName() + " where " + key + " = " + value);
                 //get references to query parameters
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
+                String query = uriInfo.getRequestUri().getQuery();
                 //add additional query key/value pair
                 queryParameters.put(key, value);
-                
+
+                long totalCount = 0;
+                if (entityDef instanceof AssociationDefinition) {
+                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
+                    totalCount = associationDefinition.getService().countAssociationsTo(value, query);
+                }
+
                 //a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 boolean shouldIncludeLinks = shouldIncludeLinks(headers);
@@ -140,9 +150,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     //add entity to resulting response
                     results.add(entityBody);
                 }
+
+                Response.ResponseBuilder responseBuilder;
+                responseBuilder = Response.ok(results);
+                return addPagingHeaders(responseBuilder, totalCount, uriInfo).build();
                 
                 //turn results into response
-                return Response.ok(results).build();
+//                return Response.ok(results).build();
             }
         });
     }
@@ -168,8 +182,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return requested information or error status
      */
     @Override
-    public Response read(final String resourceName, final String key, final String value, final String idKey, final String resolutionResourceName, 
+    public Response read(final String resourceName, final String key, final String value, final String idKey, final String resolutionResourceName,
             final HttpHeaders headers, final UriInfo uriInfo) {
+        // /v1/entity/{id}/associations/entity
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
@@ -237,6 +252,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     @Override
     public Response read(final String resourceName, final String idList, final HttpHeaders headers, final UriInfo uriInfo) {
+        // /v1/entity/{id}
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -357,6 +373,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
+            // v1/entity
             @Override
             public Response run(final EntityDefinition entityDef) {
                 //final/resulting information
@@ -364,6 +381,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
                 //loop for each entity returned by performing a list operation
+
                 for (EntityBody entityBody : entityDef.getService().list(ResourceUtil.convertToMap(uriInfo.getQueryParameters()))) {
                     //if links should be included then put them in the entity body
                     if (shouldIncludeLinks) {
@@ -448,5 +466,29 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         //return map
         return associationQueryParameters;
     }
-    
+
+    private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
+        MultivaluedMap<String, String> queryParams = info.getQueryParameters(true);
+
+        int offset = Integer.parseInt(queryParams.containsKey(ParameterConstants.OFFSET)
+                ? queryParams.getFirst(ParameterConstants.OFFSET) : ParameterConstants.DEFAULT_OFFSET);
+        int limit = Integer.parseInt(queryParams.containsKey(ParameterConstants.LIMIT)
+                ? queryParams.getFirst(ParameterConstants.LIMIT) : ParameterConstants.DEFAULT_LIMIT);
+
+        int nextStart = offset + limit;
+        if (nextStart < total) {
+            String nextLink = info.getRequestUriBuilder().replaceQueryParam(ParameterConstants.OFFSET, nextStart)
+                    .replaceQueryParam(ParameterConstants.LIMIT, limit).build().toString();
+            resp.header(ParameterConstants.HEADER_LINK, "<" + nextLink + ">; rel=next");
+        }
+        if (offset > 0) {
+            int prevStart = offset - limit;
+            String prevLink = info.getRequestUriBuilder()
+                    .replaceQueryParam(ParameterConstants.OFFSET, prevStart > 0 ? prevStart : 0)
+                    .replaceQueryParam(ParameterConstants.LIMIT, limit).build().toString();
+            resp.header(ParameterConstants.HEADER_LINK, "<" + prevLink + ">; rel=prev");
+        }
+        resp.header(ParameterConstants.HEADER_TOTAL_COUNT, total);
+        return resp;
+    }
 }
