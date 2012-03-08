@@ -58,7 +58,7 @@ public class SchoolSessionAssociationResource {
     }
 
     /**
-     * Returns all &&schoolSessionAssociations&& entities for which the logged in User has permission and context.
+     * Returns all $$schoolSessionAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -81,7 +81,7 @@ public class SchoolSessionAssociationResource {
     }
 
     /**
-     * Create a new &&schoolSessionAssociations&& entity.
+     * Create a new $$schoolSessionAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -102,10 +102,10 @@ public class SchoolSessionAssociationResource {
     }
 
     /**
-     * Get a single &&schoolSessionAssociations&& entity
+     * Get a single $$schoolSessionAssociations$$ entity
      * 
      * @param schoolSessionAssociationId
-     *            The Id of the &&schoolSessionAssociations&&.
+     *            The Id of the $$schoolSessionAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -121,10 +121,10 @@ public class SchoolSessionAssociationResource {
     }
 
     /**
-     * Delete a &&schoolSessionAssociations&& entity
+     * Delete a $$schoolSessionAssociations$$ entity
      * 
      * @param schoolSessionAssociationId
-     *            The Id of the &&schoolSessionAssociations&&.
+     *            The Id of the $$schoolSessionAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -140,10 +140,10 @@ public class SchoolSessionAssociationResource {
     }
 
     /**
-     * Update an existing &&schoolSessionAssociations&& entity.
+     * Update an existing $$schoolSessionAssociations$$ entity.
      * 
      * @param schoolSessionAssociationId
-     *            The id of the &&schoolSessionAssociations&&.
+     *            The id of the $$schoolSessionAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -164,7 +164,7 @@ public class SchoolSessionAssociationResource {
 
     /**
      * Returns each $$teachers$$ that
-     * references the given &&schoolSessionAssociations&&
+     * references the given $$schoolSessionAssociations$$
      * 
      * @param schoolSessionAssociationId
      *            The Id of the teacherSchoolAssociation.
@@ -192,7 +192,7 @@ public class SchoolSessionAssociationResource {
     
     /**
      * Returns each $$schools$$ that
-     * references the given &&schoolSessionAssociations&&
+     * references the given $$schoolSessionAssociations$$
      * 
      * @param schoolSessionAssociationId
      *            The Id of the teacherSchoolAssociation.

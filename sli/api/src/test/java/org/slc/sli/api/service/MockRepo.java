@@ -1,5 +1,17 @@
 package org.slc.sli.api.service;
 
+import com.mongodb.DBObject;
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.MongoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,19 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import com.mongodb.DBObject;
-
-import org.slc.sli.domain.EntityQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.MongoEntity;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
@@ -69,6 +68,7 @@ public class MockRepo implements EntityRepository {
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
