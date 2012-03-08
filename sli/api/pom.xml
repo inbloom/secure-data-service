@@ -141,6 +141,7 @@
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>1.0.0.M5</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -2,8 +2,9 @@ require "active_resource/base"
 require "oauth_helper"
 
 class ApplicationController < ActionController::Base
- # protect_from_forgery
+  protect_from_forgery
   before_filter :handle_oauth
+  ActionController::Base.request_forgery_protection_token = 'state'
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
@@ -20,7 +21,6 @@ class ApplicationController < ActionController::Base
     SessionResource.auth_id = nil
     SessionResource.access_token = nil
   end
-
 
   def callback
     #TODO: disable redirects to other domains
@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure" 
+        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}

@@ -190,7 +190,7 @@ public class SchoolResource {
     
 
     /**
-     * teacher school associations - teacher lookup
+     * $$teacherSchoolAssociations$$ - teacher lookup
      * 
      * @param schoolId
      *            The Id of the School.
@@ -211,7 +211,7 @@ public class SchoolResource {
 
     
     /**
-     * student school associations
+     * $$studentSchoolAssociations$$
      * 
      * @param schoolId
      *            The Id of the School.
@@ -231,7 +231,7 @@ public class SchoolResource {
     }
 
     /**
-     * student school associations - student lookup
+     * $$studentSchoolAssociations$$ - student lookup
      * 
      * @param schoolId
      *            The Id of the School.
@@ -251,7 +251,7 @@ public class SchoolResource {
     }
     
     /**
-     * Sections at the school. Section's reference does not use an association, 
+     * Returns each $$sections$$ at the school. Section's reference does not use an association,
      * so this method returns sections and not section/school associations.
      * 
      * @param schoolId
@@ -301,7 +301,7 @@ public class SchoolResource {
     
 
     /**
-     * Returns each $$session$$ associated to the given school through
+     * Returns each $$sessions$$ associated to the given school through
      * a $$schoolSessionAssociations$$ 
      * 
      * @param schoolId

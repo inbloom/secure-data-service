@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
@@ -24,9 +26,6 @@ import com.sun.jersey.client.apache4.ApacheHttpClient4;
 import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
 import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.client.Constants;
 import org.slc.sli.api.client.URLBuilder;
 
@@ -40,7 +39,7 @@ public class RESTClient {
     
     /** Request parameter key used to pass sessionId to API **/
     private static final String API_SESSION_KEY = "sessionId";
-    private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
+    private static Logger logger = Logger.getLogger("RESTClient");
     private String sessionToken = null;
     private String apiServerUri;
     private ApacheHttpClient4 client = null;
@@ -72,10 +71,12 @@ public class RESTClient {
             return parser.parse(response.getEntity(String.class)).getAsJsonObject();
             
         } catch (MalformedURLException e2) {
-            logger.error("Failed to check the user session with the API server: " + e2.getLocalizedMessage());
+            logger.log(Level.SEVERE,
+                    "Failed to check the user session with the API server: " + e2.getLocalizedMessage());
             
         } catch (URISyntaxException e3) {
-            logger.error("Failed to check the user session with the API server: " + e3.getLocalizedMessage());
+            logger.log(Level.SEVERE,
+                    "Failed to check the user session with the API server: " + e3.getLocalizedMessage());
         }
         
         return null;
@@ -108,7 +109,7 @@ public class RESTClient {
             throws URISyntaxException {
         
         if (sessionToken == null) {
-            logger.error("Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
             return null;
         }
         
@@ -151,7 +152,7 @@ public class RESTClient {
                     throws URISyntaxException, MalformedURLException {
         
         if (sessionToken == null) {
-            logger.error("Token is null in call to RESTClient for url" + url.toString());
+            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url.toString());
             return null;
         }
         
@@ -193,7 +194,7 @@ public class RESTClient {
                     throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
-            logger.error("Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
             return null;
         }
         
@@ -231,7 +232,7 @@ public class RESTClient {
             throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
-            logger.error("Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
             return null;
         }
         

@@ -165,4 +165,8 @@ public class ViewConfig {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "ViewConfig [displaySet=" + displaySet + ", name=" + name + ", type=" + type + ", value=" + value + "]";
+    }
 }

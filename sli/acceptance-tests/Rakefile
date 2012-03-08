@@ -618,7 +618,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests, :dashboardAttendance] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardAssessmentTests, :dashboardAttendance] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -671,9 +671,9 @@ task :dashboardLoginTests do
     runTests("test/features/dashboard/dashboard_login.feature")
 end
 
-desc "Run Dashboard most recent result acceptance tests"
-task :MostRecentResultTests do
-    runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
+desc "Run Dashboard Assessment tests"
+task :dashboardAssessmentTests do
+  runTests("test/features/dashboardVS/assessments")
 end
 
 desc "Run dashboard attendance related tests"
