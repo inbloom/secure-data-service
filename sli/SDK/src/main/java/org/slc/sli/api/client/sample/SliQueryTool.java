@@ -98,7 +98,6 @@ public class SliQueryTool {
         
         if (rval == 1) {
             // Connect to local host.
-            @SuppressWarnings("null")
             String usr = cmdLine.getOptionValue('u');
             String pwd = "";
             
@@ -255,8 +254,6 @@ public class SliQueryTool {
                 } else {
                     showEntities(results);
                 }
-                
-                builder = new BasicQuery.Builder();
                 break;
                 
             } else if (idx == 2) {
