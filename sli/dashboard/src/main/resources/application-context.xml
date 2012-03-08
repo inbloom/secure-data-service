@@ -13,11 +13,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 >
 
-    <context:property-placeholder location="classpath:qa1.properties" ignore-resource-not-found="false" />
-    
-
-    
-     <util:properties id="appProperties" location="classpath:qa1.properties" />
+    <context:property-placeholder location="classpath:${env}.properties" ignore-resource-not-found="false" />
    
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">

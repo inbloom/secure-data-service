@@ -5,6 +5,17 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+                    
+                    
+                    
+<beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
+    <beans:property name="restClient" ref="restClient" />
+    <beans:property name="clientSecret" value="${oauth.client.secret}" />
+    <beans:property name="clientId" value="${oauth.client.id}" />
+    <beans:property name="callbackUrl" value="${oauth.redirect}" />
+    <beans:property name="apiUrl" value="${api.server.url}" />
+    
+</beans:bean>                    
 
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
 

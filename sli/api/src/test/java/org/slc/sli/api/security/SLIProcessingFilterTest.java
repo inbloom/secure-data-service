@@ -1,16 +1,13 @@
 package org.slc.sli.api.security;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.security.mock.Mocker;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -24,9 +21,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.security.mock.Mocker;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.enums.Right;
+import java.util.Arrays;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests functioning of the Authentication filter used to authenticate users
@@ -66,24 +64,26 @@ public class SLIProcessingFilterTest {
     }
 
     @Test
-    public void testSessionInParam() throws Exception {
-
-        request.setParameter("sessionId", Mocker.VALID_TOKEN);
+    public void testSessionInHeader() throws Exception {
+        request.addHeader("sessionId", Mocker.VALID_TOKEN);
         filter.doFilter(request, response, chain);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         Assert.assertNotNull("Authentication can't be null", auth);
     }
 
     @Test
-    public void testSessionInParamFail() throws Exception {
-
-        request.setParameter("sessionId", Mocker.INVALID_TOKEN);
+    public void testSessionInHeaderNull() throws Exception {
+        request.addHeader("sessionId", Mocker.INVALID_TOKEN);
         filter.doFilter(request, response, chain);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+        Assert.assertNull("Authentication must be null", auth);
+    }
+        
+    @Test
+    public void testSessionInParamFail() throws Exception {
+        request.setParameter("sessionId", Mocker.VALID_TOKEN);
+        filter.doFilter(request, response, chain);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Assert.assertNull("Authentication must be null", auth);
     }
 }

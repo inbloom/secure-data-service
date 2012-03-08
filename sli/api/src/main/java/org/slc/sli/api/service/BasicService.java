@@ -1,18 +1,19 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +28,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.enums.Right;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
  * 
  * It is very important this bean prototype scope, since one service is needed per
  * entity/association.
- * 
- * Now Secured!
  */
 @Scope("prototype")
 @Component("basicService")
@@ -94,18 +89,17 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        LOG.debug("KM Deleting {} in {}", new String[] { id, collectionName });
         
         checkAccess(Right.WRITE_GENERAL, id);
+        
+        this.cascadeDelete(id);
         
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         
-        if (!(defn instanceof AssociationDefinition)) {
-            removeEntityWithAssoc(id);
-        }
     }
     
     @Override
@@ -161,25 +155,63 @@ public class BasicService implements EntityService {
         
         return makeEntityBody(entity);
     }
-    
+
     @Override
     public Iterable<EntityBody> list(Map<String, String> queryParameters) {
 
-        EntityQuery query = createQuery(queryParameters);
+        checkRights(Right.READ_GENERAL);
+        List<String> allowed = findAccessible();
+
+        if (allowed.isEmpty()) {
+            return noEntitiesFound(queryParameters);
+        }
+
+        EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+
+        if (entities.size() == 0) {
+            return noEntitiesFound(queryParameters);
+        }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-        
-        // for each entity found in the collection matching query parameters
-        for (Entity entity : this.repo.findAll(this.collectionName, query)) {
-            //TODO! This doesn't work correctly now
-            //checkAccess(Right.READ_GENERAL, entity.getEntityId());
-            // add a new body containing that data
+        for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
         }
-        
         return results;
     }
+
+    private EntityQuery decorateQueryWithAccessibleIds(Map<String, String> queryParameters, List<String> allowed) {
+        EntityQuery query = createQuery(queryParameters);
+        if (allowed.size() > 0) {
+            query.getFields().put("_id", implode(allowed));
+        }
+        return query;
+    }
+
+    private Iterable<EntityBody> noEntitiesFound(Map<String, String> queryParameters) {
+        if (makeEntityList(repo.findAll(this.collectionName, queryParameters)).isEmpty()) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new AccessDeniedException("Access to resource denied.");
+        }
+    }
+
+    private String implode(List<String> allowed) {
+        String commaDelimitedString = "";
+        for (String id : allowed) {
+            commaDelimitedString += id + ",";
+        }
+        return commaDelimitedString;
+    }
     
+    private List<Entity> makeEntityList(Iterable<Entity> items) {
+        List<Entity> myList = new ArrayList<Entity>();
+        for (Entity item : items) {
+            myList.add(item);
+        }
+        return myList;
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
         return get(ids, null, null);
@@ -241,19 +273,28 @@ public class BasicService implements EntityService {
             for (String id : allowed) {
                 binIds.add(idConverter.toDatabaseId(id));
             }
-            
             query = query.addCriteria(Criteria.where("_id").in(binIds));
+            
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
+        } else if (allowed.size() == -1) { // super list logic --> only true when using DefaultEntityContextResolver
+            List<String> results = new ArrayList<String>();
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
+            
+            for (Entity entity : entities) {
+                results.add(entity.getEntityId());
+            }
+            
+            return results;
+        } else {
+            return Collections.emptyList();
         }
-        
-        List<String> results = new ArrayList<String>();
-        
-        Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
-        
-        for (Entity entity : entities) {
-            results.add(entity.getEntityId());
-        }
-        
-        return results;
     }
     
     @Override
@@ -302,19 +343,29 @@ public class BasicService implements EntityService {
         return sanitized;
     }
     
-    private void removeEntityWithAssoc(String sourceId) {
-        Map<String, String> fields = new HashMap<String, String>();
-        fields.put(defn.getType() + "Id", sourceId);
-        
-        for (AssociationDefinition assocDef : defn.getLinkedAssoc()) {
-            String assocCollection = assocDef.getStoredCollectionName();
-            Iterable<Entity> iterable = repo.findByFields(assocCollection, fields);
-            Iterator<Entity> foundEntities;
-            if (iterable != null) {
-                foundEntities = iterable.iterator();
-                while (foundEntities.hasNext()) {
-                    Entity assocEntity = foundEntities.next();
-                    repo.delete(assocCollection, assocEntity.getEntityId());
+    /**
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId 
+     * still exists so that authorization/context can be checked.
+     * 
+     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
+     */
+    private void cascadeDelete(String sourceId) {
+      //loop for every EntityDefinition that references the deleted entity's type
+        for (EntityDefinition referencingEntity : this.defn.getReferencingEntities()) {
+            //loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
+                EntityService referencingEntityService = referencingEntity.getService();
+                Map<String, String> referenceQuery = new HashMap<String, String>();
+                referenceQuery.put(referenceField, sourceId);
+                try {
+                  //list all entities that have the deleted entity's ID in their reference field
+                    for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
+                        String idToBeDeleted = (String) entityBody.get("id");
+                        //delete that entity as well
+                        referencingEntityService.delete(idToBeDeleted);
+                    }
+                } catch (AccessDeniedException ade) {
+                    LOG.debug("No " + referencingEntity.getResourceName() + " have " + referenceField + " = " + sourceId);
                 }
             }
         }
@@ -383,7 +434,7 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
                 defn.getType());
         
-        return resolver.findAccessible(principal.getEntity());
+        return resolver.findAccessible(principal.getEntity());   
     }
     
     /**

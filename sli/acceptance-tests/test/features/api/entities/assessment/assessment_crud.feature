@@ -97,11 +97,3 @@ Scenario: Fail if going to the wrong URI
     When I navigate to GET "/assessment/<'WrongURI' ID>"
     Then I should receive a return code of 404
    
-Scenario: Attempt to read the base student resource with no GUID
-	Given format "application/json"
-	When I navigate to GET "/assessments/<'NoGUID' ID>"
-	Then I should receive a return code of 405
-   
-   
-   
-		

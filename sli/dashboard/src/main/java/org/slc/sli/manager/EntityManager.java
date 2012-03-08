@@ -132,8 +132,11 @@ public class EntityManager extends Manager {
         student.put(Constants.ATTR_SECTION_ID, sectionId);
         student.put(Constants.ATTR_TEACHER_ID, apiClient.getTeacherIdForSection(sectionId, token));
         GenericEntity program = getProgram(token, studentId);
-        student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
-
+        if (program != null) {
+            student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
+        } else {
+            student.put(Constants.ATTR_PROGRAMS, new ArrayList());
+        }
         return student;
     }
     

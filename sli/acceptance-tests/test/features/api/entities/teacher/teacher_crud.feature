@@ -85,11 +85,6 @@ Scenario: Attempt to update a non-existent teacher
    When I navigate to PUT "/teachers/<Unknown>"
    Then I should receive a return code of 404
    
-Scenario: Attempt to read the base teacher resource with no GUID
-  Given format "application/json"
-  When I navigate to GET "/teachers"
-  Then I should receive a return code of 405
-  
 Scenario: Fail when asking for an unsupported format "text/plain"
   Given format "text/plain"
   When I navigate to GET "/teachers/<'Macey' ID>"

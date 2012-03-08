@@ -9,14 +9,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
-
+import com.google.gson.Gson;
 
 /**
  * 
@@ -57,15 +55,18 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
-        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
+        return this
+                .getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolIds);
     }
 
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         
-        // get all assessments in the file. this is very inefficient, since we're reading the whole file each time, but only
+        // get all assessments in the file. this is very inefficient, since we're reading the whole
+        // file each time, but only
         // grabbing assmts for one student. not sure of a good way around it at the moment.
-        List<GenericEntity> studentAssmts = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), null);
+        List<GenericEntity> studentAssmts = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/"
+                + MOCK_ASSESSMENTS_FILE), null);
         List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
 
         // filter by the student id
@@ -109,11 +110,14 @@ public class MockAPIClient implements APIClient {
         String parentEdOrgId = edOrgOrSchool.getString(Constants.ATTR_PARENT_EDORG);
         return getEducationOrganization(token, parentEdOrgId);
     }
-
-    // helper, to find an ed-org entity. 
+    
+    // helper, to find an ed-org entity.
     private GenericEntity getEducationOrganization(final String token, String id) {
-        List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ED_ORG_FILE), null);
-        if (id == null) { return null; }
+        List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/"
+                + MOCK_ED_ORG_FILE), null);
+        if (id == null) {
+            return null;
+        }
         for (int i = 0; i < allEdOrgs.size(); i++) {
             if (id.equals(allEdOrgs.get(i).get(Constants.ATTR_ID))) {
                 return allEdOrgs.get(i);
@@ -124,8 +128,8 @@ public class MockAPIClient implements APIClient {
     }
 
     /**
-     *  Helper function to translate a .json file into object.
-     *  TODO: remove this after assessment meta data is switched to use the generic entity
+     * Helper function to translate a .json file into object.
+     * TODO: remove this after assessment meta data is switched to use the generic entity
      */
     
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {
@@ -160,10 +164,10 @@ public class MockAPIClient implements APIClient {
             }
         }
     }
-
     
     /**
-     * Get the list of entities identified by the entity id list and authorized for the security token
+     * Get the list of entities identified by the entity id list and authorized for the security
+     * token
      * 
      * @param token
      *            - the principle authentication token
@@ -223,7 +227,6 @@ public class MockAPIClient implements APIClient {
         return null;
     }
     
-    
     public String getHomeRoomForStudent(String studentId, String token) {
         List<GenericEntity> hierarchy = getSchools(token, null);
         System.out.println(hierarchy);
@@ -232,7 +235,7 @@ public class MockAPIClient implements APIClient {
             for (LinkedHashMap course : courses) {
                 System.out.println(course);
                 List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get("sections");
-                for (LinkedHashMap section: sections) {
+                for (LinkedHashMap section : sections) {
                     List<String> studentUIDs = (List<String>) section.get("studentUIDs");
                     if (studentUIDs.contains(studentId)) {
                         System.out.println(section.get("sectionName"));
@@ -295,7 +298,6 @@ public class MockAPIClient implements APIClient {
         
         return entityList;
     }
-
     
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
