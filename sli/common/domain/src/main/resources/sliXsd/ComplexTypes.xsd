@@ -704,14 +704,16 @@
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The academic rank information of a student in
-								relation to his or her graduating class.</xs:documentation>
+								relation to his or her graduating class.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="academicHonor" type="academicHonor"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Academic distinctions earned by or awarded to
-								the student.</xs:documentation>
+								the student.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="recognition" type="recognition"
@@ -719,14 +721,16 @@
 						<xs:annotation>
 							<xs:documentation>Recognitions given to the student for
 								accomplishments in a co-curricular, or extra-curricular
-								activity.</xs:documentation>
+								activity.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="projectedGraduationDate" type="xs:date"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The month and year the student is projected to
-								graduate.</xs:documentation>
+								graduate.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="studentReference" type="reference">
@@ -806,6 +810,66 @@
 						<xs:annotation>
 							<xs:documentation>A meaningful raw score of the performance of an
 								individual on an assessment item.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="studentGradebookEntry">
+		<xs:annotation>
+			<xs:documentation>This entity holds a student’s grade or competency
+				level for a GradeBookEntry.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="gradebookEntryReference" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The GradebookEntry for which the performance is
+								recorded.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="dateFulfilled" type="xs:date"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The date an assignment was turned in or the
+								date of an assessment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="letterGradeEarned" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A final or interim (grading period) indicator
+								of student performance in a class as submitted by the
+								instructor.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="gradeEarned">
+								<xs:maxLength value="20" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="numericGradeEarned" type="xs:integer"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A final or interim (grading period) indicator
+								of student performance in a class as submitted by the
+								instructor.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="diagnosticStatement" type="text"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A statement provided by the teacher that
+								provides information in addition to the grade or assessment
+								score.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -1084,6 +1148,35 @@
 					<xs:documentation>The program associated with the accountability
 						rating (e.g.,
 						NCLB, AEIS)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="additionalCredits">
+		<xs:annotation>
+			<xs:documentation>Additional credits or units of value awarded for
+				the completion of a course (e.g., AP, IB, Dual credits)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="credit">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the completion of a course
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:double">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="additionalCreditType" type="additionalCreditType">
+				<xs:annotation>
+					<xs:documentation>The type of credits or units of value awarded for
+						the completion of a course
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
