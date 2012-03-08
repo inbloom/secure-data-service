@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.context;
+package org.slc.sli.api.security.context.resolver;
 
 import java.util.List;
 
@@ -9,10 +9,7 @@ import org.slc.sli.domain.Entity;
  * this must be done prior to committing code to prevent checkstyle breaks
  */
 public interface EntityContextResolver {
-    public String getSourceType();
-
-    public String getTargetType();
-
+    public boolean canResolve(String fromEntityType, String toEntityType);
     public List<String> findAccessible(Entity principal);
 
 }

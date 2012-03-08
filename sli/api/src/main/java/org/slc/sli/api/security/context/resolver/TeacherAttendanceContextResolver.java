@@ -1,4 +1,13 @@
-package org.slc.sli.api.security.context;
+package org.slc.sli.api.security.context.resolver;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -6,14 +15,6 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * TeacherAttendanceContextResolver
@@ -21,22 +22,12 @@ import java.util.List;
  * Finds the Attendance records a user has context to access.
  */
 @Component
-public class SectionSessionContextResolver implements EntityContextResolver {
+public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     @Autowired
     private EntityRepository repository;
     @Autowired
     private EntityDefinitionStore definitionStore;
-
-    @Override
-    public String getSourceType() {
-        return EntityNames.SECTION;
-    }
-
-    @Override
-    public String getTargetType() {
-        return EntityNames.SESSION;
-    }
 
     @Override
     public List<String> findAccessible(Entity principal) {
@@ -49,17 +40,16 @@ public class SectionSessionContextResolver implements EntityContextResolver {
 
         ids = findIdsFromAssociation(ids, EntityNames.TEACHER, EntityNames.SECTION, teacherSectionDef);
         ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
-        ids = findIdsFromAssociation(ids, EntityNames.STUDENT, EntityNames.SECTION, sectionStudentDef);
 
-        List<String> sessionIds = new ArrayList<String>();
-        Iterable<Entity> entities = this.repository.findByQuery(EntityNames.SECTION,
-                new Query(Criteria.where("_id").in(ids)), 0, 9999);
+        List<String> attendanceIds = new ArrayList<String>();
+        Iterable<Entity> entities = this.repository.findByQuery(EntityNames.ATTENDANCE,
+                new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);
 
         for (Entity e : entities) {
-            sessionIds.add((String) e.getBody().get("sessionId"));
+            attendanceIds.add(e.getEntityId());
         }
 
-        return sessionIds;
+        return attendanceIds;
     }
 
     private List<String> findIdsFromAssociation(List<String> ids, String sourceType, String targetType, AssociationDefinition definition) {
@@ -96,5 +86,10 @@ public class SectionSessionContextResolver implements EntityContextResolver {
 
     public void setDefinitionStore(EntityDefinitionStore definitionStore) {
         this.definitionStore = definitionStore;
+    }
+
+    @Override
+    public boolean canResolve(String fromEntityType, String toEntityType) {
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.ATTENDANCE.equals(toEntityType);
     }
 }
