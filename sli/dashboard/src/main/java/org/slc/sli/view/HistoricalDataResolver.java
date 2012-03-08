@@ -73,7 +73,7 @@ public class HistoricalDataResolver {
         String studentId = student.get("id").toString();
         String schoolYear = getSchoolYear(field);
 
-        if (schoolYear == null || studentId == null || subjectArea == null) return "-";
+        if (schoolYear == null || studentId == null) return "-";
         
         return getFromHistoricalData(studentId, schoolYear, COURSE_TITLE_KEY);
     }
@@ -87,7 +87,7 @@ public class HistoricalDataResolver {
     public String getGrade(Field field, Map student) {
         String studentId = student.get("id").toString();
         String schoolYear = getSchoolYear(field);
-        if (schoolYear == null || studentId == null || subjectArea == null) return "-";
+        if (schoolYear == null || studentId == null) return "-";
 
         return getFromHistoricalData(studentId, schoolYear, GRADE_KEY);
     }
@@ -115,7 +115,7 @@ public class HistoricalDataResolver {
         }
 
         if (items.size() == 0) return "-";
-        else if (items.size() > 1) return "...";
+        //else if (items.size() > 1) return "...";
         else return items.get(0);
     }
 

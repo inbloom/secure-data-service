@@ -42,7 +42,10 @@ public class ViewManager extends Manager {
         
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
-            if (value != null && value.contains("-")) {
+            
+            applicableViewConfigs.add(viewConfig);
+            
+            /*if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
@@ -63,7 +66,7 @@ public class ViewManager extends Manager {
                         break;
                     }
                 }                
-            }
+            }*/
         }
         return applicableViewConfigs;
     }

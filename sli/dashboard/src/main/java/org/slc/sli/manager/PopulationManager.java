@@ -77,6 +77,7 @@ public class PopulationManager {
 
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
+            if (studentSummary == null) continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));

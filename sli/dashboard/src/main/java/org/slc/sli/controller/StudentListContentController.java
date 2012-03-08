@@ -71,19 +71,14 @@ public class StudentListContentController extends DashboardController {
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
+        if (lozengeConfig != null)
+            model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
         List<String> uids = new ArrayList<String>();
         if (population != null && !population.isEmpty()) {
             uids = Arrays.asList(population.split(","));
         }
-        
-        Map<String, List<GenericEntity>> historicalData = populationManager.getStudentHistoricalAssessments(
-                SecurityUtil.getToken(), uids, selectedCourseId);
-
-        SortedSet<String> schoolYears = populationManager.applyShoolYear(SecurityUtil.getToken(), historicalData);
-        
-
+                
         viewManager.setViewConfigs(viewConfigs);
         List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken());
 
@@ -94,6 +89,29 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            
+            // If we have the historical data view get historical information - this logic really should
+            // be moved from the controller class
+            if (viewConfig.getName().equals(Constants.HISTORICAL_DATA_VIEW)) {
+                
+                Map<String, List<GenericEntity>> historicalData = populationManager.getStudentHistoricalAssessments(
+                        SecurityUtil.getToken(), uids, selectedCourseId);
+
+                SortedSet<String> gradeLevels = populationManager.sortByGradeLevel(SecurityUtil.getToken(), historicalData);
+
+                SortedSet<String> schoolYears = populationManager.applyShoolYear(SecurityUtil.getToken(), historicalData);
+                //SortedSet<String> schoolYears = new TreeSet<String>();
+                //schoolYears.add("2009-2010");
+                //schoolYears.add("2010-2011");
+                //schoolYears.add("2011-2012");
+
+                HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, gradeLevels, null);
+                
+                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
+
+                HistoricalViewManager historicalViewManager = new HistoricalViewManager(historicalDataResolver);
+                viewConfig = historicalViewManager.addHistoricalData(viewConfig);
+            }
             
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
@@ -115,8 +133,8 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
 
             // insert the assessments object into the modelmap
-            List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
-            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
+            // List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
+            //model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
             // Get attendance
             model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());

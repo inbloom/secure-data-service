@@ -6,7 +6,6 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.view.HistoricalDataResolver;
 
 import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.SortedSet;
 
 /**
@@ -53,7 +52,7 @@ public class HistoricalViewManager {
     
     private DisplaySet createSubjectAreaAndSchoolYear(String subjectArea, String schoolYear) {
         DisplaySet hist = new DisplaySet();
-        hist.setDisplayName(subjectArea + " - " + schoolYear);
+        hist.setDisplayName(schoolYear);
         return hist;
     }
     
