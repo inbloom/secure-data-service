@@ -14,10 +14,18 @@
     </jb:bean>
 
     <jb:bean beanId="assessment" class="org.slc.sli.ingestion.NeutralRecordEntity" createOnElement="json">
-        <jb:wiring property="body" beanIdRef="assessmentBody" />
+
+        <jb:wiring property="neutralRecord" beanIdRef="NeutralRecord" />
     </jb:bean>
 
-    <jb:bean beanId="assessmentBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:bean beanId="NeutralRecord" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="json">
+
+        <jb:expression property="recordType">'assessment'</jb:expression>
+         <jb:value property="localId" data="attributes assessmentIdentificationCode element ID"></jb:value>
+        <jb:wiring property="attributes" beanIdRef="assessmentAttributes" />
+    </jb:bean>
+
+    <jb:bean beanId="assessmentAttributes" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="assessmentTitle" data="attributes assessmentTitle"></jb:value>
         <jb:value property="assessmentFamilyHierarchyName" data="attributes assessmentFamilyHierarchyName"></jb:value>
         <jb:wiring property="assessmentIdentificationCode" beanIdRef="AssessmentIdentificationCodeTypeArray"/>

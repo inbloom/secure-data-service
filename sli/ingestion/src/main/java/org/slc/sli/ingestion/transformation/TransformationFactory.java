@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
