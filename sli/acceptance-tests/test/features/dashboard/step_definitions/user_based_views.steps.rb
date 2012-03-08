@@ -62,6 +62,8 @@ Then /^I should see a table heading "([^"]*)"$/ do |text|
   list.should_not be_nil
 
   list.text.should include text
+  @headerName = text
+  
 end
 
 def select_by_id(elem, select)
