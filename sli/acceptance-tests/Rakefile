@@ -695,22 +695,22 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")
+  runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
-  runTests("test/features/dashboard/k3view.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
 end
 
 desc "Run Dashboard High School view Tests"
 task :dashboardHSViewTests do
-  runTests("test/features/dashboard/high_school_view.feature")
+  runTests("test/features/dashboard/dash/high_school_view.feature")
 end
 
 desc "Run Dashboard Program Participation and Student Info Tests"
 task :dashboardLozengesTests do
-  runTests("test/features/dashboard/lozenges.feature")
+  runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
 # desc "Run Dashboard YY Tests"
@@ -722,18 +722,18 @@ end
 
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
-  runTests("test/features/dashboard/user_based_views.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
 end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dashboard_api_integration.feature")
+    runTests("test/features/dashboard/dash/ashboard_api_integration.feature")
 end
 
 
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
-    runTests("test/features/dashboard/dashboard_login.feature")
+    runTests("test/features/dashboard/dash/dashboard_login.feature")
 end
 
 desc "Run Dashboard Assessment tests"
@@ -760,7 +760,7 @@ end
 
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
-  runTests("test/features/dashboard/attendance.feature")
+  runTests("test/features/dashboard/dash/attendance.feature")
 end
 
 ############################################################
