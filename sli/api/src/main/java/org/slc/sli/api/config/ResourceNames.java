@@ -99,8 +99,8 @@ public final class ResourceNames {
         for (Entry<String, String> e : SINGULAR_LINK_NAMES.entrySet()) {
             if (e.getKey().equals(ResourceNames.STAFF)) {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue());
-            } else if (e.getKey().endsWith("y")) { 
-                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(e.getValue().length() - 1) + "ies");
+            } else if (e.getValue().endsWith("y")) { 
+                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(0, e.getValue().length() - 1) + "ies");
             } else {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue() + "s");
             }
