@@ -208,11 +208,11 @@ public class CourseResource {
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
-    
+
 
     /**
      * student transcript associations
-     * 
+     *
      * @param courseId
      *            The id of the $$courses$$.
      * @param headers
@@ -225,14 +225,14 @@ public class CourseResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS)
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
+                                                     @Context HttpHeaders headers,
+                                                     @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
-    
+
     /**
      * student transcript associations - students lookup
-     * 
+     *
      * @param courseId
      *            The id of the $$courses$$.
      * @param headers
@@ -245,9 +245,50 @@ public class CourseResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
     public Response getStudentTranscriptAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
+                                                            @Context HttpHeaders headers,
+                                                            @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+    }
+
+
+    /**
+     * student parent associations
+     *
+     * @param courseId
+     *            The id of the $$courses$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
+    public Response getStudentParentAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
+                                                     @Context HttpHeaders headers,
+                                                     @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+    }
+
+    /**
+     * student parent associations - students lookup
+     *
+     * @param courseId
+     *            The id of the $$courses$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    public Response getStudentParentAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
+                                                            @Context HttpHeaders headers,
+                                                            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
 

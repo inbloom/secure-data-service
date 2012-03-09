@@ -81,7 +81,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
         factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(this);
@@ -89,6 +88,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(this);
+        EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
 
         factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
@@ -180,7 +180,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         AssociationDefinition studentParentAssociation = factory.makeAssoc(EntityNames.STUDENT_PARENT_ASSOCIATION)
                 .exposeAs(ResourceNames.STUDENT_PARENT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PARENT_ASSOCIATION)
-                .from(teacher, "getTeacher", "getTeachers").to(section, "getParent", "getParents")
+                .from(student, "getStudent", "getStudents").to(parent, "getParent", "getParents")
                 .calledFromSource("getStudentParentAssociations").calledFromTarget("getStudentParentAssociations")
                 .build();
         addDefinition(studentParentAssociation);

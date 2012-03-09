@@ -45,7 +45,7 @@ public final class ResourceNames {
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-associations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
-    public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
+    public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
 
     
     public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
