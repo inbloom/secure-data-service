@@ -59,7 +59,12 @@ public class MongoEntityRepository implements EntityRepository {
     public Entity find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
         LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, MongoEntity.class, collectionName);
+        try {
+            return template.findById(databaseId, MongoEntity.class, collectionName);
+        } catch (Exception e) {
+            LOG.error("Exception occurred", e);
+            return null;
+        }
     }
     
     @Override
