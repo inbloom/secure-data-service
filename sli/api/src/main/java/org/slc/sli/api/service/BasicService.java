@@ -198,11 +198,16 @@ public class BasicService implements EntityService {
     }
     
     private String implode(List<String> allowed) {
-        String commaDelimitedString = "";
+        
+        StringBuffer commaDelimitedString = new StringBuffer(37 * allowed.size());
+        int count = 0;
         for (String id : allowed) {
-            commaDelimitedString += id + ",";
+            commaDelimitedString.append(id);
+            if (count != allowed.size() - 1)
+                commaDelimitedString.append(",");
+            count++;
         }
-        return commaDelimitedString;
+        return commaDelimitedString.toString();
     }
     
     private List<Entity> makeEntityList(Iterable<Entity> items) {

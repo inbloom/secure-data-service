@@ -1,6 +1,7 @@
 package org.slc.sli.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -312,4 +313,35 @@ public class AssessmentMetaDataResolver {
         return found;
     }
     
+    public String calculatePerfLevel(String assmtId, String scaleScore) {
+        String perfLevel = "";
+        Map assmt = getAssmtById(assmtId);
+        if (assmt != null) {
+            List<Double> minScores = new ArrayList<Double>();
+            List<Map> perfLevelDescriptors = (List<Map>) (assmt.get(Constants.ATTR_ASSESSMENT_PERF_LEVEL));
+            if (perfLevelDescriptors != null && perfLevelDescriptors.size() > 0) {
+                for (Map perfLevelDescriptor : perfLevelDescriptors) {
+                    if (((String) (perfLevelDescriptor.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD)))
+                            .equalsIgnoreCase(Constants.ATTR_SCALE_SCORE)) {
+                        minScores.add(((Double) (perfLevelDescriptor.get(Constants.ATTR_MINIMUM_SCORE))));
+                    }
+                }
+            }
+            if (minScores.size() > 0) {
+                Collections.sort(minScores);
+                Integer level = 0;
+                Integer score = Integer.parseInt(scaleScore);
+                for (Double minScore : minScores) {
+                    if (score >= minScore) {
+                        level++;
+                    }
+                }
+                if (level != 0) {
+                    perfLevel = level.toString();
+                }
+            }
+        }
+        return perfLevel;
+    }
+
 }

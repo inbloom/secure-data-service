@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +135,7 @@ public class EntityManager extends Manager {
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
         } else {
-            student.put(Constants.ATTR_PROGRAMS, Collections.emptyList());
+            student.put(Constants.ATTR_PROGRAMS, new ArrayList());
         }
         return student;
     }
