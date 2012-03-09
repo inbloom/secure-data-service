@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -21,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.security.context.resolver.TeacherAttendanceContextResolver;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
@@ -34,31 +33,15 @@ import org.slc.sli.domain.EntityRepository;
 public class TeacherAttendanceContextResolverTest {
     
     @Autowired
-    TeacherAttendanceContextResolver resolver;
+    private TeacherAttendanceContextResolver resolver;
     
     @Autowired
-    MockRepo mockRepo;
+    private MockRepo mockRepo;
     
     @Autowired
     private EntityDefinitionStore definitionStore;
     
-    @Before
-    public void setUp() throws Exception {
-        
-        resolver.setDefinitionStore(definitionStore);
-        resolver.setRepository(mockRepo);
-        
-    }
     
-    @Test
-    public void testGetSourceType() throws Exception {
-        Assert.assertTrue(resolver.getSourceType().equals(EntityNames.TEACHER));
-    }
-    
-    @Test
-    public void testGetTargetType() throws Exception {
-        Assert.assertTrue(resolver.getTargetType().equals(EntityNames.ATTENDANCE));
-    }
     
     @Test
     public void testFindAccessible() throws Exception {

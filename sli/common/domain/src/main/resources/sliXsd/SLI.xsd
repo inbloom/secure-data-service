@@ -779,6 +779,16 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="sectionId" type="reference">
+					<xs:annotation>
+						<xs:documentation>Section where gradebook entry was recorded.
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>section</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
