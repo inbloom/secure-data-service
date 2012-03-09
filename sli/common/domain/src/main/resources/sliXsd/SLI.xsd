@@ -1819,8 +1819,6 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="studentGradebookEntry" type="studentGradebookEntry" />
-
 	<xs:element name="studentSectionGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>This entity holds a student’s grade or competency
