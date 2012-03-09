@@ -31,24 +31,23 @@ import javax.ws.rs.core.UriInfo;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author jstokes
- * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class ParentResource {
-    
+
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ParentResource.class);
-    
+
     /*
-     * Interface capable of performing CRUD operations.
-     */
+    * Interface capable of performing CRUD operations.
+    */
     private final CrudEndpoint crudDelegate;
 
     @Autowired
@@ -58,22 +57,18 @@ public class ParentResource {
 
     /**
      * Returns all $$parents$$ entities for which the logged in User has permission and context.
-     * 
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     *
+     * @param offset  starting position in results to return to user
+     * @param limit   maximum number of results to return to user (starting from offset)
+     * @param headers HTTP Request Headers
+     * @param uriInfo URI information including path and query parameters
      * @return result of CRUD operation
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+                            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
         return this.crudDelegate.readAll(ResourceNames.PARENTS, headers, uriInfo);
@@ -81,82 +76,107 @@ public class ParentResource {
 
     /**
      * Create a new $$parents$$ entity.
-     * 
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
+     *
+     * @param newEntityBody entity data
+     * @param headers       HTTP Request Headers
+     * @param uriInfo       URI information including path and query parameters
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     * item is accessable.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response create(final EntityBody newEntityBody,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(ResourceNames.PARENTS, newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$parents$$ entity
-     * 
-     * @param parentId
-     *            The Id of the $$parents$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     *
+     * @param parentId The Id of the $$parents$$.
+     * @param headers  HTTP Request Headers
+     * @param uriInfo  URI information including path and query parameters
      * @return A single parent entity
      */
     @GET
     @Path("{" + ParameterConstants.PARENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+                         @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.PARENTS, parentId, headers, uriInfo);
     }
 
     /**
      * Delete a $$parents$$ entity
-     * 
-     * @param parentId
-     *            The Id of the $$parents$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     *
+     * @param parentId The Id of the $$parents$$.
+     * @param headers  HTTP Request Headers
+     * @param uriInfo  URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.PARENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PARENT_ID) final String parentId, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response delete(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.delete(ResourceNames.PARENTS, parentId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$parents$$ entity.
-     * 
-     * @param parentId
-     *            The id of the $$parents$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     *
+     * @param parentId      The id of the $$parents$$.
+     * @param newEntityBody entity data
+     * @param headers       HTTP Request Headers
+     * @param uriInfo       URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{" + ParameterConstants.PARENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
-            final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+                           final EntityBody newEntityBody,
+                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.update(ResourceNames.PARENTS, parentId, newEntityBody, headers, uriInfo);
     }
+
+
+    /**
+     * Returns each $$studentParentAssociations$$ that
+     * references the given $$students$$
+     *
+     * @param parentId The Id of the parent.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.PARENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
+    public Response getStudentParentAssociations(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+                                                 @Context HttpHeaders headers,
+                                                 @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "parentId", parentId, headers, uriInfo);
+    }
+
+
+    /**
+     * $$studentParentAssociations$$ - student lookup
+     *
+     * @param parentId The Id of the Parent.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.PARENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    public Response getStudentParentAssociationCourses(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+                                                       @Context HttpHeaders headers,
+                                                       @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "parentId", parentId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+    }
+
 }

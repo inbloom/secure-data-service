@@ -179,7 +179,7 @@ desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
                      :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1ParentTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
                      :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests, :v1StudentSectionGradebookEntryTests] do
+                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests, :v1StudentParentAssociationTests, :v1StudentSectionGradebookEntryTests] do
   displayFailureReport()
 end
 
@@ -211,6 +211,14 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Parent Association Tests"
+task :v1StudentParentAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("parent", "parent_fixture.json")
+  setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentParentAssociation")
 end
 
 desc "Run V1 Student Transcript Association Tests"
