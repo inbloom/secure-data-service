@@ -66,7 +66,7 @@
 		<hsqldb.version>1.8.0.10</hsqldb.version>
 
 		<!-- Logging Framework Versions -->
-		<slf4j.version>1.6.2</slf4j.version>
+		<slf4j.version>1.6.4</slf4j.version>
 		<logback.version>1.0.1</logback.version>
 
 		<!-- Testing Framework Versions -->
@@ -212,12 +212,6 @@
 			<dependency>
 				<groupId>org.slc.sli.ingestion</groupId>
 				<artifactId>ingestion</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slc.sli.admin</groupId>
-				<artifactId>admin</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

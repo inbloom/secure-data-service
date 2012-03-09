@@ -94,7 +94,7 @@ public class BasicService implements EntityService {
         
         checkAccess(Right.WRITE_GENERAL, id);
         
-        this.cascadeDelete(id);
+        cascadeDelete(id);
         
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
@@ -190,7 +190,7 @@ public class BasicService implements EntityService {
     }
     
     private Iterable<EntityBody> noEntitiesFound(Map<String, String> queryParameters) {
-        if (makeEntityList(repo.findAll(this.collectionName, queryParameters)).isEmpty()) {
+        if (makeEntityList(repo.findAll(collectionName, queryParameters)).isEmpty()) {
             return new ArrayList<EntityBody>();
         } else {
             throw new AccessDeniedException("Access to resource denied.");
@@ -198,11 +198,16 @@ public class BasicService implements EntityService {
     }
     
     private String implode(List<String> allowed) {
-        String commaDelimitedString = "";
+        
+        StringBuffer commaDelimitedString = new StringBuffer(37 * allowed.size());
+        int count = 0;
         for (String id : allowed) {
-            commaDelimitedString += id + ",";
+            commaDelimitedString.append(id);
+            if (count != allowed.size() - 1)
+                commaDelimitedString.append(",");
+            count++;
         }
-        return commaDelimitedString;
+        return commaDelimitedString.toString();
     }
     
     private List<Entity> makeEntityList(Iterable<Entity> items) {
@@ -283,7 +288,11 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else if (allowed.size() == -1) { // super list logic --> only true when using DefaultEntityContextResolver
+            
+        } else if (allowed.size() == 0) {
+            return Collections.emptyList();
+            
+        } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
             Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
             
@@ -292,8 +301,6 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else {
-            return Collections.emptyList();
         }
     }
     

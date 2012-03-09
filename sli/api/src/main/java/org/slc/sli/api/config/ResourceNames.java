@@ -31,6 +31,7 @@ public final class ResourceNames {
     public static final String SESSIONS = "sessions";
     public static final String STAFF = "staff";
     public static final String STUDENTS = "students";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String TEACHERS = "teachers";
     
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
@@ -46,6 +47,8 @@ public final class ResourceNames {
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
+
+    
 
     
     public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
@@ -85,6 +88,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentSectionGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
     }
@@ -98,8 +102,8 @@ public final class ResourceNames {
         for (Entry<String, String> e : SINGULAR_LINK_NAMES.entrySet()) {
             if (e.getKey().equals(ResourceNames.STAFF)) {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue());
-            } else if (e.getKey().endsWith("y")) { 
-                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(e.getValue().length() - 1) + "ies");
+            } else if (e.getValue().endsWith("y")) { 
+                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(0, e.getValue().length() - 1) + "ies");
             } else {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue() + "s");
             }

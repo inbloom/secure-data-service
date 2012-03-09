@@ -3747,7 +3747,7 @@ Prose
 		<xs:annotation>
 			<xs:documentation>Long string for annotations or descriptions</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:token">
+		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="1024"/>
 		</xs:restriction>
