@@ -474,7 +474,6 @@ public class LiveAPIClient implements APIClient {
     private List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
-        String e = restClient.makeJsonRequestWHeaders(url, token);
         // Parse JSON
         logger.info("Querying API for list: " + url);
         String response = restClient.makeJsonRequestWHeaders(url, token);

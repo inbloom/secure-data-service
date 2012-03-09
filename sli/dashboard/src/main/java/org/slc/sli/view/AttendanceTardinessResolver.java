@@ -9,6 +9,11 @@ import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author pwolf
+ *
+ */
 public class AttendanceTardinessResolver implements AggregateRatioResolver {
 
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
