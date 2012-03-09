@@ -27,36 +27,36 @@ import org.slc.sli.ingestion.NeutralRecord;
  */
 public class NeutralRecordRepository {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
-
+    
     private MongoTemplate template;
-
+    
     public void setTemplate(MongoTemplate template) {
         this.template = template;
     }
-
+    
     public NeutralRecord find(String collection, String id) {
         LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
         Map<String, String> query = new HashMap<String, String>();
         query.put("body.localId", id);
         return find(collection, query);
     }
-
+    
     public NeutralRecord find(String collection, Map<String, String> queryParameters) {
         // turn query parameters into a Neutral-specific query
         Query query = NeutralRecordRepository.createQuery(queryParameters);
-
+        
         // find and return an NeutralRecord
         return template.findOne(query, NeutralRecord.class, collection);
     }
-
+    
     public Iterable<NeutralRecord> findAll(String collection, Map<String, String> queryParameters) {
         // turn query parameters into a Neutral-specific query
         Query query = NeutralRecordRepository.createQuery(queryParameters);
-
+        
         // find and return an NeutralRecord
         return template.find(query, NeutralRecord.class, collection);
     }
-
+    
     /**
      * Constructs a Neutral-specific Query object from a map of key/value pairs. Contains special
      * cases when the key is "_id", "includeFields",
@@ -73,21 +73,21 @@ public class NeutralRecordRepository {
      */
     private static Query createQuery(Map<String, String> queryParameters) {
         Query query = new Query();
-
+        
         if (queryParameters == null) {
             return query;
         }
-
+        
         // read each entry in map
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
-
+            
             // id field needs to be translated
             String id;
             if (key.equals("body.localId")) {
                 id = entry.getValue();
                 if (id == null) {
-                    LOG.debug("Unable to process id {}", new Object[] { id });
+                    LOG.debug("Unable to process id {}", new Object[] { key });
                     return null;
                 }
                 query.addCriteria(Criteria.where(entry.getKey()).is(id));
@@ -100,7 +100,7 @@ public class NeutralRecordRepository {
                     }
                 }
             } else if (key.equals("excludeFields")) { // specific field(s) to exclude from result
-                                                      // set
+                // set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     for (String excludeField : excludeFields.split(",")) {
@@ -109,7 +109,7 @@ public class NeutralRecordRepository {
                     }
                 }
             } else if (key.equals("skip")) { // skip to record X instead of starting at the
-                                             // beginning
+                // beginning
                 String skip = entry.getValue();
                 if (skip != null) {
                     query.skip(Integer.parseInt(skip));
@@ -126,22 +126,23 @@ public class NeutralRecordRepository {
                 }
             }
         }
-
+        
         return query;
     }
-
+    
     public Iterable<NeutralRecord> findAll(String collection, int skip, int max) {
         List<NeutralRecord> results = template.find(new Query().skip(skip).limit(max), NeutralRecord.class, collection);
         logResults(collection, results);
         return results;
     }
-
+    
     public boolean update(NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord, "The given Neutral Record must not be null!");
         String id = neutralRecord.getLocalId().toString();
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
-
+        }
+        
         String collection = neutralRecord.getRecordType();
         NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class,
                 collection);
@@ -153,70 +154,72 @@ public class NeutralRecordRepository {
         LOG.info("update a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
     }
-
+    
     public NeutralRecord create(NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord.getAttributes(), "The given Neutral Record must not be null!");
-
+        
         String collection = neutralRecord.getRecordType();
         template.save(neutralRecord, collection);
         LOG.info(" create a Neutral Record in collection {} with id {}",
                 new Object[] { collection, neutralRecord.getLocalId() });
         return neutralRecord;
     }
-
+    
     public boolean delete(String collection, String id) {
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
+        }
         NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where("body.localId").is(id)),
                 NeutralRecord.class, collection);
         LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
         return deleted != null;
     }
-
+    
     public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields, int skip, int max) {
         return findByPaths(collection, convertBodyToPaths(fields), skip, max);
     }
-
+    
     public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths, int skip, int max) {
         Query query = new Query();
-
+        
         return findByQuery(collection, addSearchPathsToQuery(query, paths), skip, max);
     }
-
+    
     public void deleteAll(String collection) {
         template.remove(new Query(), collection);
         LOG.info("delete all entities in collection {}", collection);
     }
-
+    
     public Iterable<NeutralRecord> findAll(String collection) {
         return findByQuery(collection, new Query());
     }
-
+    
     public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields) {
         return findByPaths(collection, convertBodyToPaths(fields));
     }
-
+    
     public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths) {
         Query query = new Query();
-
+        
         return findByQuery(collection, addSearchPathsToQuery(query, paths));
     }
-
+    
     public Iterable<NeutralRecord> findByQuery(String collection, Query query, int skip, int max) {
-        if (query == null)
+        if (query == null) {
             query = new Query();
-
+        }
+        
         query.skip(skip).limit(max);
-
+        
         return findByQuery(collection, query);
     }
-
+    
     protected Iterable<NeutralRecord> findByQuery(String collection, Query query) {
         List<NeutralRecord> results = template.find(query, NeutralRecord.class, collection);
         logResults(collection, results);
         return results;
     }
-
+    
     public long count(String collection, Query query) {
         DBCollection dBcollection = template.getCollection(collection);
         if (collection == null) {
@@ -224,7 +227,7 @@ public class NeutralRecordRepository {
         }
         return dBcollection.count(query.getQueryObject());
     }
-
+    
     public Iterable<String> findIdsByQuery(String collection, Query query, int skip, int max) {
         if (query == null) {
             query = new Query();
@@ -235,16 +238,16 @@ public class NeutralRecordRepository {
         }
         return ids;
     }
-
+    
     private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {
             Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
-
+        
         return query;
     }
-
+    
     private void logResults(String collection, List<NeutralRecord> results) {
         if (results == null) {
             LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collection, 0 });
@@ -252,15 +255,15 @@ public class NeutralRecordRepository {
             LOG.debug("find entities in collection {} with total numbers is {}",
                     new Object[] { collection, results.size() });
         }
-
+        
     }
-
+    
     private Map<String, String> convertBodyToPaths(Map<String, String> body) {
         Map<String, String> paths = new HashMap<String, String>();
         for (Map.Entry<String, String> field : body.entrySet()) {
             paths.put("body." + field.getKey(), field.getValue());
         }
-
+        
         return paths;
     }
 }

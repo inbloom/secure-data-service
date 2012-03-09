@@ -1,7 +1,8 @@
 package org.slc.sli.api.client.impl;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -10,21 +11,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.HttpMethod;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientFactory;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.client.apache4.ApacheHttpClient4;
-import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
-import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 
 import org.slc.sli.api.client.Constants;
 import org.slc.sli.api.client.URLBuilder;
@@ -42,16 +38,13 @@ public class RESTClient {
     private static Logger logger = Logger.getLogger("RESTClient");
     private String sessionToken = null;
     private String apiServerUri;
-    private ApacheHttpClient4 client = null;
+    private Client client = null;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
      */
     protected RESTClient() {
-        ApacheHttpClient4Config config = new DefaultApacheHttpClient4Config();
-        config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-        config.getProperties().put(ApacheHttpClient4Config.PROPERTY_PREEMPTIVE_BASIC_AUTHENTICATION, Boolean.TRUE);
-        client = ApacheHttpClient4.create(config);
+        client = ClientFactory.newClient();
     }
     
     /**
@@ -65,10 +58,10 @@ public class RESTClient {
             URLBuilder builder = URLBuilder.create(apiServerUri);
             builder.addPath(Constants.SESSION_CHECK_PATH);
             
-            ClientResponse response = getRequest(builder.build());
+            Response response = getRequest(builder.build());
             
             JsonParser parser = new JsonParser();
-            return parser.parse(response.getEntity(String.class)).getAsJsonObject();
+            return parser.parse(response.readEntity(String.class)).getAsJsonObject();
             
         } catch (MalformedURLException e2) {
             logger.log(Level.SEVERE,
@@ -89,7 +82,7 @@ public class RESTClient {
      *            full URL to the request.
      * @return ClientResponse containing the status code and return values.
      */
-    public ClientResponse getRequest(final URL url) throws MalformedURLException, URISyntaxException {
+    public Response getRequest(final URL url) throws MalformedURLException, URISyntaxException {
         
         return getRequestWithHeaders(url, null);
     }
@@ -105,7 +98,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse getRequestWithHeaders(final URL url, final Map<String, Object> headers)
+    public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws URISyntaxException {
         
         if (sessionToken == null) {
@@ -113,9 +106,11 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
-        ClientRequest request = builder.build(url.toURI(), HttpMethod.GET);
-        return client.handle(request);
+        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
+        builder = getCommonRequestBuilder(builder, headers);
+        
+        Invocation i = builder.buildGet();
+        return i.invoke();
     }
     
     
@@ -128,7 +123,7 @@ public class RESTClient {
      *            Json entity to post.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse postRequest(final URL url, final String json) throws URISyntaxException,
+    public Response postRequest(final URL url, final String json) throws URISyntaxException,
     MalformedURLException {
         
         return postRequestWithHeaders(url, json, null);
@@ -147,7 +142,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse postRequestWithHeaders(final URL url, final String json,
+    public Response postRequestWithHeaders(final URL url, final String json,
             final Map<String, Object> headers)
                     throws URISyntaxException, MalformedURLException {
         
@@ -156,11 +151,11 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
-        builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
+        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
+        builder = getCommonRequestBuilder(builder, headers);
         
-        ClientRequest request = builder.build(url.toURI(), HttpMethod.POST);
-        return client.handle(request);
+        Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
+        return i.invoke();
     }
     
     /**
@@ -172,7 +167,7 @@ public class RESTClient {
      *            JSON of the entity to PUT.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
+    public Response putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
         return putRequestWithHeaders(url, json, null);
     }
     
@@ -189,7 +184,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse putRequestWithHeaders(final URL url, final String json,
+    public Response putRequestWithHeaders(final URL url, final String json,
             final Map<String, Object> headers)
                     throws MalformedURLException, URISyntaxException {
         
@@ -198,11 +193,11 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
-        builder.entity(json, MediaType.APPLICATION_JSON_TYPE);
+        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
+        builder = getCommonRequestBuilder(builder, headers);
         
-        ClientRequest request = builder.build(url.toURI(), HttpMethod.PUT);
-        return client.handle(request);
+        Invocation i = builder.buildPut(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
+        return i.invoke();
     }
     
     /**
@@ -212,7 +207,7 @@ public class RESTClient {
      *            Fully qualified URL to the ReSTful resource.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
+    public Response deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
         return deleteRequestWithHeaders(url, null);
     }
     
@@ -228,7 +223,7 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public ClientResponse deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
+    public Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
@@ -236,9 +231,11 @@ public class RESTClient {
             return null;
         }
         
-        ClientRequest.Builder builder = getCommonRequestBuilder(headers);
-        ClientRequest request = builder.build(url.toURI(), HttpMethod.DELETE);
-        return client.handle(request);
+        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
+        builder = getCommonRequestBuilder(builder, headers);
+        
+        Invocation i = builder.buildDelete();
+        return i.invoke();
     }
     
     /**
@@ -256,7 +253,7 @@ public class RESTClient {
      *         String containing the sessionToken for the authenticated user.
      */
     public String openSession(final String host, final int port, final String user, final String password,
-            final String realm) {
+            final String realm) throws IOException {
         
         /**
          * TODO - replace this with oauth when it's ready
@@ -276,53 +273,41 @@ public class RESTClient {
          */
         
         // Find the IDP for the realm
-        ClientRequest.Builder builder = new ClientRequest.Builder();
+        // Ideally we'd use the JAX-RS client here; but the current implementation doesn't
+        // support disabling automatically redirect.
+        URL url = new URL(protocol + host + ":" + port + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm));
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("GET");
+        String tmp = connection.getHeaderField("Location");
+        
         String idp = "";
-        builder.accept(MediaType.TEXT_HTML);
         try {
-            ClientConfig cc = new DefaultClientConfig();
-            cc.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, false);
-            Client c = Client.create(cc);
-            
-            ClientResponse response = c.handle(builder.build(new URI(protocol + host + ":" + port
-                    + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm)), HttpMethod.GET));
-            
-            String tmp = response.getHeaders().getFirst("Location");
-            
             if (tmp != null) {
                 // find the idpEntityId
                 int start = tmp.indexOf("idpEntityID=");
                 int end = tmp.indexOf('&', start);
                 idp = URLDecoder.decode(tmp.substring(start + 12, end));
             }
-            
-            c.destroy();
-            
-        } catch (ClientHandlerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } finally {
+            connection.disconnect();
         }
         
         // Attempt to authenticate
-        builder = new ClientRequest.Builder();
-        builder.accept(MediaType.TEXT_PLAIN);
-        builder.entity("username=" + user + "&password=" + password,
-                MediaType.APPLICATION_FORM_URLENCODED);
-        
-        // String url = idp + "/identity/authenticate?username=" + user + "&password=" + password;
-        
-        ClientRequest request;
+        Client c2 = ClientFactory.newClient();
         String rstring = "";
         try {
-            request = builder.build(new URI(idp + "/identity/authenticate"), HttpMethod.POST);
-            ClientResponse response = client.handle(request);
-            rstring = response.getEntity(String.class);
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Invocation.Builder builder = c2.target(idp + "/identity/authenticate").request(
+                    MediaType.APPLICATION_FORM_URLENCODED);
+            
+            Form f = new Form().param("username", user).param("password", password);
+            Invocation i = builder.buildPost(Entity.form(f));
+            Response response = i.invoke();
+            rstring = response.readEntity(String.class);
+            
+        } finally {
+            c2.close();
         }
         
         if (rstring.startsWith("token.id=")) {
@@ -349,9 +334,7 @@ public class RESTClient {
      * @param headers
      * @return
      */
-    private ClientRequest.Builder getCommonRequestBuilder(final Map<String, Object> headers) {
-        ClientRequest.Builder builder = new ClientRequest.Builder();
-        builder.accept(MediaType.APPLICATION_JSON);
+    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, final Map<String, Object> headers) {
         if (headers != null) {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());

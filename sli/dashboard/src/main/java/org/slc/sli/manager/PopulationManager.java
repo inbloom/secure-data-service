@@ -387,14 +387,23 @@ public class PopulationManager {
     }
     
     /**
+     * Get student entity
+     * @param token
+     * @param studentId
+     * @return
+     */
+    public GenericEntity getStudent(String token, String studentId) {
+        return entityManager.getStudent(token, studentId);
+    }
+    
+    /**
      * Get student with additional info for CSI panel
      * 
      * @param token
      * @param studentId
      * @return
      */
-    public GenericEntity getStudent(String token, Object params, ViewConfig viewConfig) {
-        String studentId = (String) params;
+    public GenericEntity getStudentForCSIPanel(String token, String studentId) {
         return entityManager.getStudentForCSIPanel(token, studentId);
     }
     

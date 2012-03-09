@@ -43,6 +43,7 @@ public class ListSchema extends NeutralSchema {
         return NeutralSchemaType.LIST;
     }
     
+    @Override
     public boolean isPrimitive() {
         return false;
     }
@@ -52,9 +53,14 @@ public class ListSchema extends NeutralSchema {
     }
     
     public List<NeutralSchema> getList() {
-        return this.list;
+        return list;
     }
     
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+
     /**
      * This is a temp hack to fix a bug.
      * Annotations do not inherit from list to it's members
@@ -85,6 +91,7 @@ public class ListSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
         boolean isValid = true;
         
@@ -95,7 +102,7 @@ public class ListSchema extends NeutralSchema {
                 // Allow validation according to ANY item Schemas in the ListSchema list (xs:choice
                 // scenario)
                 boolean isFieldValid = false;
-                for (NeutralSchema itemSchema : this.getList()) {
+                for (NeutralSchema itemSchema : getList()) {
                     
                     // Choice scenario will not provide validation errors (null)
                     if (itemSchema.validate(fieldName, fieldEntity, errors, repo)) {
@@ -112,29 +119,29 @@ public class ListSchema extends NeutralSchema {
                 }
             }
             
-            if (this.getProperties() != null) {
-                for (Entry<String, Object> entry : this.getProperties().entrySet()) {
+            if (getProperties() != null) {
+                for (Entry<String, Object> entry : getProperties().entrySet()) {
                     if (Restriction.isRestriction(entry.getKey())) {
                         long restrictionValue = Long.parseLong(entry.getValue().toString());
                         switch (Restriction.fromValue(entry.getKey())) {
-                        case LENGTH:
-                            if (!addError(entityList.size() == restrictionValue, fieldName, entity, "length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
-                        case MIN_LENGTH:
-                            if (!addError(entityList.size() >= restrictionValue, fieldName, entity, "min-length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
-                        case MAX_LENGTH:
-                            if (!addError(entityList.size() <= restrictionValue, fieldName, entity, "max-length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
+                            case LENGTH:
+                                if (!addError(entityList.size() == restrictionValue, fieldName, entity, "length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
+                            case MIN_LENGTH:
+                                if (!addError(entityList.size() >= restrictionValue, fieldName, entity, "min-length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
+                            case MAX_LENGTH:
+                                if (!addError(entityList.size() <= restrictionValue, fieldName, entity, "max-length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
                         }
                     }
                 }
