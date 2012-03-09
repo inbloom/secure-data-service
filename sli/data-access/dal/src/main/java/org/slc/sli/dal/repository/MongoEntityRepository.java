@@ -1,7 +1,6 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,26 +29,13 @@ import org.slc.sli.validation.EntityValidator;
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> {
-    private static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
     @Autowired
     private EntityValidator validator;
 
     MongoEntityRepository() {
         super.setClass(Entity.class);
-    }
-
-    @Override
-    public Entity find(String collectionName, String id) {
-        Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, MongoEntity.class, collectionName);
-    }
-
-    public Iterable<Entity> findAll(String collection, int skip, int max) {
-        List<Entity> results = template.find(new Query().skip(skip).limit(max), Entity.class, collection);
-        logResults(collection, results);
-        return results;
     }
 
     @Override
@@ -86,6 +72,19 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         return entity;
     }
 
+    @Override
+    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        if (query == null) {
+            query = new Query();
+        }
+        query.fields().include("_id");
+        List<String> ids = new ArrayList<String>();
+        for (Entity e : findByQuery(collectionName, query, skip, max)) {
+            ids.add(e.getEntityId());
+        }
+        return ids;
+    }
+
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
         // String now = DateTimeUtil.getNowInUTC();
@@ -100,48 +99,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     private void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
-    }
-
-    @Override
-    public boolean delete(String collectionName, String id) {
-        if (id.equals(""))
-            return false;
-        Entity deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                Entity.class, collectionName);
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
-        return deleted != null;
-    }
-
-    @Override
-    public void deleteAll(String collectionName) {
-        template.remove(new Query(), collectionName);
-        LOG.info("delete all entities in collection {}", collectionName);
-    }
-
-    protected Iterable<Entity> findByQuery(String collectionName, Query query) {
-        List<Entity> results = template.find(query, Entity.class, collectionName);
-        logResults(collectionName, results);
-        return results;
-    }
-
-    @Override
-    public Entity findOne(String collectionName, Query query) {
-        Entity entity = this.template.findOne(query, Entity.class, collectionName);
-        logResults(collectionName, Arrays.asList(entity));
-        return entity;
-    }
-
-    @Override
-    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
-        if (query == null) {
-            query = new Query();
-        }
-        query.fields().include("_id");
-        List<String> ids = new ArrayList<String>();
-        for (Entity e : findByQuery(collectionName, query, skip, max)) {
-            ids.add(e.getEntityId());
-        }
-        return ids;
     }
 
     private void logResults(String collectioName, List<Entity> results) {

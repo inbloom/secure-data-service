@@ -28,7 +28,7 @@ import org.slc.sli.domain.Repository;
  */
 
 public abstract class MongoRepository<T> implements Repository<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
     protected MongoTemplate template;
 
@@ -51,7 +51,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public T find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a entity in collection {} with id {}", new Object[] { collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
         return template.findById(databaseId, clazz, collectionName);
     }
 
@@ -79,6 +79,109 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // find and return an instance
         return template.find(mongoQuery, clazz, collectionName);
     }
+
+    @Override
+    public Iterable<T> findAll(String collectionName, int skip, int max) {
+        List<T> results = template.find(new Query().skip(skip).limit(max), clazz, collectionName);
+        logResults(collectionName, results);
+        return results;
+    }
+
+    @Override
+    public Iterable<T> findAll(String collectionName) {
+        return findByQuery(collectionName, new Query());
+    }
+
+    @Override
+    public abstract boolean update(String collection, T object);
+
+    @Override
+    public T create(String type, Map<String, Object> body) {
+        return create(type, body, type);
+    }
+
+    @Override
+    public T create(String type, Map<String, Object> body, String collectionName) {
+        return create(type, body, new HashMap<String, Object>(), collectionName);
+    }
+
+    @Override
+    public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
+
+    @Override
+    public boolean delete(String collectionName, String id) {
+        if (id.equals(""))
+            return false;
+        T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), clazz,
+                collectionName);
+        LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
+        return deleted != null;
+    }
+
+    @Override
+    public void deleteAll(String collectionName) {
+        template.remove(new Query(), collectionName);
+        LOG.info("delete all objects in collection {}", collectionName);
+    }
+
+    @Override
+    public Iterable<T> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
+        return findByPaths(collectionName, convertBodyToPaths(fields), skip, max);
+    }
+
+    @Override
+    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+        Query query = new Query();
+
+        return findByQuery(collectionName, addSearchPathsToQuery(query, paths), skip, max);
+    }
+
+    @Override
+    public Iterable<T> findByFields(String collectionName, Map<String, String> fields) {
+        return findByPaths(collectionName, convertBodyToPaths(fields));
+    }
+
+    @Override
+    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths) {
+        Query query = new Query();
+
+        return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
+    }
+
+    @Override
+    public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
+        if (query == null)
+            query = new Query();
+
+        query.skip(skip).limit(max);
+
+        return findByQuery(collectionName, query);
+    }
+
+    protected Iterable<T> findByQuery(String collectionName, Query query) {
+        List<T> results = template.find(query, clazz, collectionName);
+        logResults(collectionName, results);
+        return results;
+    }
+
+    @Override
+    public T findOne(String collectionName, Query query) {
+        T object = this.template.findOne(query, clazz, collectionName);
+        logResults(collectionName, Arrays.asList(object));
+        return object;
+    }
+
+    @Override
+    public long count(String collectionName, Query query) {
+        DBCollection collection = template.getCollection(collectionName);
+        if (collection == null) {
+            return 0;
+        }
+        return collection.count(query.getQueryObject());
+    }
+
+    @Override
+    public abstract Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
 
     /**
      * Converts a SmartQuery to a MongoQuery
@@ -232,102 +335,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return query;
     }
 
-    @Override
-    public Iterable<T> findAll(String collectionName, int skip, int max) {
-        List<T> results = template.find(new Query().skip(skip).limit(max), clazz, collectionName);
-        logResults(collectionName, results);
-        return results;
-    }
-
-    @Override
-    public abstract boolean update(String collection, T object);
-
-    @Override
-    public T create(String type, Map<String, Object> body) {
-        return create(type, body, type);
-    }
-
-    @Override
-    public T create(String type, Map<String, Object> body, String collectionName) {
-        return create(type, body, new HashMap<String, Object>(), collectionName);
-    }
-
-    @Override
-    public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
-
-    @Override
-    public abstract boolean delete(String collectionName, String id);
-
-    @Override
-    public Iterable<T> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
-        return findByPaths(collectionName, convertBodyToPaths(fields), skip, max);
-    }
-
-    @Override
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
-        Query query = new Query();
-
-        return findByQuery(collectionName, addSearchPathsToQuery(query, paths), skip, max);
-    }
-
-    @Override
-    public void deleteAll(String collectionName) {
-        template.remove(new Query(), collectionName);
-        LOG.info("delete all objects in collection {}", collectionName);
-    }
-
-    @Override
-    public Iterable<T> findAll(String collectionName) {
-        return findByQuery(collectionName, new Query());
-    }
-
-    @Override
-    public Iterable<T> findByFields(String collectionName, Map<String, String> fields) {
-        return findByPaths(collectionName, convertBodyToPaths(fields));
-    }
-
-    @Override
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths) {
-        Query query = new Query();
-
-        return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
-    }
-
-    @Override
-    public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
-        if (query == null)
-            query = new Query();
-
-        query.skip(skip).limit(max);
-
-        return findByQuery(collectionName, query);
-    }
-
-    protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template.find(query, clazz, collectionName);
-        logResults(collectionName, results);
-        return results;
-    }
-
-    @Override
-    public T findOne(String collectionName, Query query) {
-        T object = this.template.findOne(query, clazz, collectionName);
-        logResults(collectionName, Arrays.asList(object));
-        return object;
-    }
-
-    @Override
-    public long count(String collectionName, Query query) {
-        DBCollection collection = template.getCollection(collectionName);
-        if (collection == null) {
-            return 0;
-        }
-        return collection.count(query.getQueryObject());
-    }
-
-    @Override
-    public abstract Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
-
     private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {
             Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
@@ -335,6 +342,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         return query;
+    }
+
+    protected Map<String, String> convertBodyToPaths(Map<String, String> body) {
+        Map<String, String> paths = new HashMap<String, String>();
+        for (Map.Entry<String, String> field : body.entrySet()) {
+            paths.put("body." + field.getKey(), field.getValue());
+        }
+
+        return paths;
     }
 
     private void logResults(String collectioName, List<T> results) {
@@ -345,15 +361,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
                     new Object[] { collectioName, results.size() });
         }
 
-    }
-
-    protected Map<String, String> convertBodyToPaths(Map<String, String> body) {
-        Map<String, String> paths = new HashMap<String, String>();
-        for (Map.Entry<String, String> field : body.entrySet()) {
-            paths.put("body." + field.getKey(), field.getValue());
-        }
-
-        return paths;
     }
 
 }
