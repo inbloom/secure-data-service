@@ -359,12 +359,9 @@ public class StudentResource {
     /**
      * $$studentParentAssociations$$
      *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
@@ -378,22 +375,19 @@ public class StudentResource {
 
 
     /**
-     * $$studentParentAssociations$$ - courses lookup
+     * $$studentParentAssociations$$ - parent lookup
      *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.PARENTS)
     public Response getStudentParentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
-                                                           @Context HttpHeaders headers,
-                                                           @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+                                                       @Context HttpHeaders headers,
+                                                       @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, "parentId", ResourceNames.PARENTS, headers, uriInfo);
     }
 }

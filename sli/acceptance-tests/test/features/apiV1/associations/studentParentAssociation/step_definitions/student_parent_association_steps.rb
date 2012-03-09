@@ -15,13 +15,13 @@ Transform /^<([^"]*)>$/ do |val|
   case val
     #student parent association data
   when "ASSOCIATION COUNT" then 129
-  when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
+  when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
-  when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
+  when "RESOLUTION COUNT FOR ENDPOINT 1" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
   when "ASSOCIATION ID" then "3722a00a-b6d3-4003-84c7-71cbad22dbae"
   when "ASSOCIATION ID FOR UPDATE" then "65fc0e76-e8ac-46fc-b7a7-04df5fbd08b4"
-  when "ASSOCIATION ID FOR DELETE" then "3b86eab4-1779-4fed-b38f-27b7dba5d41b"
+  when "ASSOCIATION ID FOR DELETE" then "678db2c8-25dc-4ee2-89aa-e1d1bdfdbcb2"
   when "ASSOCIATION LINK NAME" then "getStudentParentAssociations"
   when "ASSOCIATION TYPE" then "studentParentAssociation"
   when "ASSOCIATION URI" then "studentParentAssociations"
@@ -40,11 +40,11 @@ Transform /^<([^"]*)>$/ do |val|
   when "ENDPOINT2 LINK NAME" then "getParent"
   when "ENDPOINT2 RESOLUTION LINK NAME" then "getParents"
   when "ENDPOINT2 TYPE" then "parent"
-  when "ENDPOINT2 URI" then "Parents"
+  when "ENDPOINT2 URI" then "parents"
 
     #update related field data
   when "UPDATE FIELD" then "studentId"
-  when "UPDATE FIELD EXPECTED VALUE" then "e1af7127-743a-4437-ab15-5b0dacd1bde0"
+  when "UPDATE FIELD EXPECTED VALUE" then "60779bc1-87bb-455b-99f4-066a505d79e4"
   when "UPDATE FIELD NEW VALID VALUE" then "53560d13-f663-4683-8aa5-fbfcbf46432d"
 
     #general
@@ -63,6 +63,6 @@ end
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
     "studentId" => "e0e99028-6360-4247-ae48-d3bb3ecb606a",
-    "parentId" => "b8dbdefb-85b6-47e0-8a26-ef0f38568ddf"
+    "parentId" => "96adf0d1-c482-447c-8386-b0702e084134"
   }
 end
