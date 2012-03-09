@@ -176,11 +176,43 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1ParentTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-                     :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests, :v1StudentParentAssociationTests, :v1StudentSectionGradebookEntryTests] do
+task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1AssociationTests,
+                     :v1homeUriTests,
+                     :v1ValidationTests,
+                     :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests,
+                     :v1CascadeDeletionTests,
+                     :v1TargetTests] do
   displayFailureReport()
+end
+
+task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1AttendanceTests,
+                           :v1CourseTests,
+                           :v1EducationOrganizationTests,
+                           :v1GradebookEntryTests,
+                           :v1ParentTests,
+                           :v1SchoolTests,
+                           :v1SectionTests,
+                           :v1SessionTests,
+                           :v1StaffTests,
+                           :v1StudentTests,
+                           :v1StudentSectionGradebookEntryTests,
+                           :v1TeacherTests] do
+end
+
+task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
+                                :v1SectionAssessmentAssociationTests,
+                                :v1SessionCourseAssociationTests,
+                                :v1StaffEdOrgAssociationTests,
+                                :v1StudentAssessmentAssociationTests,
+                                :v1StudentParentAssociationTests,
+                                :v1StudentSchoolAssociationTests,
+                                :v1StudentSectionAssociationTests,
+                                :v1StudentTranscriptAssociationTests,
+                                :v1TeacherSchoolAssociationTests,
+                                :v1TeacherSectionAssociationTests] do
 end
 
 desc "Run V1 Student Section Gradebook Entry Tests"
