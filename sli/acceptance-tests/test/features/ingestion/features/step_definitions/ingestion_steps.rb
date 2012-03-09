@@ -34,10 +34,10 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
   else
     Dir.foreach(@landing_zone_path) do |file|
       if /.*.log$/.match file
-        FileUtils.rm_r @landing_zone_path+file
+        FileUtils.rm_rf @landing_zone_path+file
       end
       if /.done$/.match file
-        FileUtils.rm_r @landing_zone_path+file
+        FileUtils.rm_rf @landing_zone_path+file
       end
     end
   end
@@ -150,6 +150,7 @@ When /^a batch job log has been created$/ do
       end
     end
   else
+    sleep(2) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? @landing_zone_path
         puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
