@@ -46,8 +46,6 @@
 
     <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
     
-    <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
-        <property name="configManager" ref="configManager"/>
-        <property name="populationManager" ref="populationManager"/>
-    </bean>
+    
+
 </beans>
