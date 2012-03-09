@@ -727,7 +727,7 @@ end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dash/ashboard_api_integration.feature")
+    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
 end
 
 
