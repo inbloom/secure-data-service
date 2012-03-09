@@ -6,7 +6,6 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.view.HistoricalDataResolver;
 
 import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.SortedSet;
 
 /**
