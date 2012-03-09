@@ -67,13 +67,22 @@ public class AssessmentResolver {
         //return "";
     }
 
-    public String getScore(GenericEntity assmt, String dataPointName) {
+    public String getScore(GenericEntity studentAssmt, String dataPointName) {
         
         // find the right score
-        List<Map> scoreResults = assmt.getList(Constants.ATTR_SCORE_RESULTS);
+        List<Map> scoreResults = studentAssmt.getList(Constants.ATTR_SCORE_RESULTS);
+
         for (Map scoreResult : scoreResults) {
             if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(dataPointName)) {
                 return (String) (scoreResult.get(Constants.ATTR_RESULT));
+
+            }
+        }
+        if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevel(scoreResults)) {
+            String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
+            String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE);
+            if (assmtId != null && !assmtId.equals("") && scaleScore != null && !scaleScore.equals("")) {
+                return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);
             }
         }
         return "";
@@ -169,5 +178,15 @@ public class AssessmentResolver {
         String [] strs = dataPointId.split("\\.");
         return strs[1];
     }
-
+    
+    private boolean hasPerfLevel(List<Map> scoreResults) {
+        boolean found = false;
+        for (Map scoreResult : scoreResults) {
+            if (((String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD))
+                    .equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)) {
+                found = true;
+            }
+        }
+        return found;
+    }
 }

@@ -1821,6 +1821,85 @@
 
 	<xs:element name="studentGradebookEntry" type="studentGradebookEntry" />
 
+	<xs:element name="studentSectionGradebookEntry">
+		<xs:annotation>
+			<xs:documentation>This entity holds a student’s grade or competency
+				level for a GradeBookEntry.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gradebookEntryId" type="reference">
+				   <xs:annotation>
+						<xs:documentation>The GradebookEntry for which the performance is
+							recorded.
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>gradebookEntry</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="studentId" type="reference">
+				   <xs:annotation>
+						<xs:documentation>The student who received the grade
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>student</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="sectionId" type="reference">
+				   <xs:annotation>
+						<xs:documentation>The section the grade counts towards
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>section</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="dateFulfilled" type="xs:date"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The date an assignment was turned in or the
+							date of an assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="letterGradeEarned" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A final or interim (grading period) indicator
+							of student performance in a class as submitted by the
+							instructor.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="gradeEarned">
+							<xs:maxLength value="20" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="numericGradeEarned" type="xs:integer"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A final or interim (grading period) indicator
+							of student performance in a class as submitted by the
+							instructor.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="diagnosticStatement" type="text"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>A statement provided by the teacher that
+							provides information in addition to the grade or assessment
+							score.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="studentParentAssociation">
 		<xs:annotation>
 			<xs:documentation>
@@ -2025,14 +2104,6 @@
 							Repeated, not counted in grade point average
 							Not repeated
 							Other
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="studentGradebookEntry" type="studentGradebookEntry">
-					<xs:annotation>
-						<xs:documentation>A collection of student’s grade or competency
-							levels for all the GradeBookEntries.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>

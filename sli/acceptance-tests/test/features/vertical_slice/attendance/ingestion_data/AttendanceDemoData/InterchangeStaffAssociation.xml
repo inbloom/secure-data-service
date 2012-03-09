@@ -119,6 +119,44 @@
     <TeacherUniqueStateId>a</TeacherUniqueStateId>
     <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
   </Teacher>
+  <Teacher>
+    <StaffUniqueStateId>jjones</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+      <ID>a</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Drivers license">
+      <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+      <FirstName>Jennifer</FirstName>
+      <LastSurname>Jones</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthDate>1980-06-29</BirthDate>
+    <Address AddressType="Mailing">
+      <StreetNumberName>123 Smith Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>12345</PostalCode>
+      <BeginDate>1967-08-13</BeginDate>
+      <EndDate>1967-08-13</EndDate>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>a</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>dummy@fake.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+    <LoginId>a</LoginId>
+    <TeacherUniqueStateId>a</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
 
   <TeacherSchoolAssociation>
     <TeacherReference>
@@ -213,6 +251,25 @@
     </InstructionalGradeLevels>
     <AcademicSubjects>
       <AcademicSubject>Reading</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>jjones</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Special Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Eleventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Mathematics</AcademicSubject>
     </AcademicSubjects>
   </TeacherSchoolAssociation>
 
@@ -320,10 +377,12 @@
         <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
       </StaffIdentity>
     </TeacherReference>
+    <!-- References Mrs. Kim's Homeroom -->
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -478,6 +537,20 @@
       <SectionIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
         <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Teacher of Record</ClassroomPosition>
+  </TeacherSectionAssociation>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>jjones</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>
