@@ -17,14 +17,8 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 
-/**
- * Resolves which teachers a given teacher is allowed to see
- * 
- * @author dkornishev
- * 
- */
 @Component
-public class TeacherSectionResolver implements EntityContextResolver {
+public class TeacherStudentSectionAssociationResolver implements EntityContextResolver {
     
     @Autowired
     private AssociativeContextHelper helper;
@@ -37,12 +31,12 @@ public class TeacherSectionResolver implements EntityContextResolver {
     
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && "studentSectionAssociation".equals(toEntityType);
     }
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        //return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+        //return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
         
         List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
 
@@ -53,10 +47,17 @@ public class TeacherSectionResolver implements EntityContextResolver {
 
         ids = findIdsFromAssociation(ids, EntityNames.TEACHER, EntityNames.SECTION, teacherSectionDef);
         ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
-        ids = findIdsFromAssociation(ids, EntityNames.STUDENT, EntityNames.SECTION, sectionStudentDef);
+                
+        Iterable<Entity> entities = this.repository.findByQuery("studentSectionAssociation", new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);        
         
-        return ids;
-    }   
+        List<String> studentSectionAssociationIds = new ArrayList<String>();
+        
+        for (Entity e : entities) {
+            studentSectionAssociationIds.add((String) e.getEntityId());
+        }
+        
+        return studentSectionAssociationIds;
+    }    
     
     private List<String> findIdsFromAssociation(List<String> ids, String sourceType, String targetType, AssociationDefinition definition) {
         List<String> associationIds = new ArrayList<String>();
@@ -84,4 +85,5 @@ public class TeacherSectionResolver implements EntityContextResolver {
             throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
         }
     }
+    
 }
