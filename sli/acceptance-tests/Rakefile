@@ -162,6 +162,11 @@ task :ingestionAssessmentTests do
   runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
 end
 
+desc "Run Student Parents Tests"
+task :ingestionStudentParentsTests do
+  runTests("test/features/ingestion/features/ingestion_student_parents.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
