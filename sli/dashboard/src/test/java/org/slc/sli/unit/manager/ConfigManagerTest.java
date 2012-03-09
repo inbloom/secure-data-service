@@ -36,6 +36,7 @@ public class ConfigManagerTest {
     public void testGetConfigSet() {
 
         ViewConfigSet configSet = configManager.getConfigSet("lkim");
+        assertEquals(6, configSet.getViewConfig().size());
         assertEquals("IL_3-8_ELA", configSet.getViewConfig().get(0).getName());
     }
 
