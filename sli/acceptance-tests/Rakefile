@@ -411,6 +411,42 @@ task :v1HierarchyTraversalTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
 end
 
+desc "Run V1 Validation Tests"
+task :v1ValidationTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation")
+end
+
+desc "Run Sorting and Paging Tests"
+task :v1SortingAndPagingTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/sorting_paging")
+end
+
+desc "Run Encryption Tests"
+task :v1EncryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/encryption")
+end
+
+desc "Run Target Tests"
+task :v1TargetTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/targets")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -501,14 +537,6 @@ task :encryptionTests => [:realmInit] do
   }
   setMultipleFixtureFiles(files)
   runTests("test/features/api/encryption")
-end
-
-desc "Run V1 Validation Tests"
-task :v1ValidationTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
-  setFixture("teacher", "teacher_fixture.json")
-  setFixture("student", "student_fixture.json")
-  runTests("test/features/apiV1/validation")
 end
 
 desc "Run List-Filter Tests"
