@@ -1,16 +1,15 @@
 package org.slc.sli.api.security.context;
 
-import static org.junit.Assert.assertTrue;
+import junit.framework.Assert;
 
-import javax.persistence.EntityExistsException;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
  * Tests for ContextResolver
@@ -18,69 +17,58 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ContextResolverStoreTest {
-
-    private static final String   CONTEXT_TYPE = "teacherstudent";
+    
     @Autowired
-    private ContextResolverStore  contextResolverStore;
-    private String                source;
-    private String                target;
-    private EntityContextResolver resolverIn;
-    private String                nonExistingField;
-
-    @org.junit.Before
-    public void setUp() throws Exception {
-        source = "teacher";
-        target = "student";
-        resolverIn = Mockito.mock(EntityContextResolver.class);
-        Mockito.when(resolverIn.getSourceType()).thenReturn(source);
-        Mockito.when(resolverIn.getTargetType()).thenReturn(target);
-        nonExistingField = "nonExistingField";
-        contextResolverStore.clearContexts();
+    private ContextResolverStore contextResolverStore;
+    
+    @Test
+    public void testTeacherTeacherResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "teacher");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
+    }
+    
+    @Test
+    public void testTeacherStudentResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "student");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
+    }
+    
+    @Test
+    public void testTeacherSchoolResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "school");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
+    }
+    
+    @Test
+    public void testTeacherSectionResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "section");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
+    }
+    
+    @Test
+    public void testTeacherSessionResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "session");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
     }
 
     @Test
-    public void testAddContextResolver() throws Exception {
-
-        try {
-            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
-            if (putResult != null) {
-                throw new EntityExistsException();
-            }
-        } catch (EntityExistsException e) {
-            assertTrue("add on empty contextResolver should not throw exception", false);
-        }
-
-        try {
-            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
-            if (putResult != null) {
-                throw new EntityExistsException();
-            }
-            Assert.fail("should throw EntityExistsException resolver already exists");
-        } catch (EntityExistsException e) {
-            Assert.assertNotNull(contextResolverStore);
-        }
-
+    public void testTeacherAttendanceResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("teacher", "attendance");
+        
+        Assert.assertTrue(resolver.getClass() != AllowAllEntityContextResolver.class);
     }
 
+    
     @Test
-    public void testGetContextResolver() {
-
-        try {
-            EntityContextResolver putResult = contextResolverStore.getContexts().put(CONTEXT_TYPE, resolverIn);
-            if (putResult != null) {
-                throw new EntityExistsException();
-            }
-        } catch (EntityExistsException e) {
-            assertTrue("add on empty contextResolver should not throw exception", false);
-        }
-
-        EntityContextResolver resolverOut = contextResolverStore.getContextResolver(source, target);
-        Assert.assertNotNull(resolverOut);
-        Assert.assertEquals(resolverIn, resolverOut);
-
-        EntityContextResolver defaultResolver = contextResolverStore.getContextResolver(nonExistingField, nonExistingField);
-        Assert.assertNotNull(defaultResolver);
-        Assert.assertTrue(defaultResolver instanceof DefaultEntityContextResolver);
-
+    public void testNotFoundResolver() {
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("hobbit", "mordor");
+        
+        Assert.assertEquals(resolver.getClass(), AllowAllEntityContextResolver.class);  
     }
+    
 }
