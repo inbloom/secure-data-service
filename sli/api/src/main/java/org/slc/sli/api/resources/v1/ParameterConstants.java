@@ -101,5 +101,5 @@ public class ParameterConstants {
     public static final String STUDENT_ASSESSMENT_ASSOCIATION_ID = "studentAssessmentAssociationId";
     public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
-
+    public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
 }
