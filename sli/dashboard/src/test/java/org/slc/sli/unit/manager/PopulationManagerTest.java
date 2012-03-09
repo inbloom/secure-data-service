@@ -238,7 +238,7 @@ public class PopulationManagerTest {
     
     @Test
     public void testGetStudentHistoricalAssessments() throws Exception {
-        String token = "token", subjectArea = "Math";
+        String token = "token";
         String studentId = "123456";
         String courseId = "56789";
         String selectedCourseId = "5555";
@@ -266,7 +266,7 @@ public class PopulationManagerTest {
         students.add(studentId);
         
         Map<String, String> params = new HashMap<String, String>();
-        params.put("subjectArea", subjectArea);
+        //params.put("subjectArea", subjectArea);
         params.put("includeFields", "courseTitle");
         
         Map<String, String> params1 = new HashMap<String, String>();
@@ -284,7 +284,6 @@ public class PopulationManagerTest {
         assertEquals("Letter grade should be A", "A", results.get(studentId).get(0).get("finalLettergrade"));
         assertEquals("Student Id should be 123456", studentId, results.get(studentId).get(0).get("studentId"));
         assertEquals("Course title should match", "Math 1", results.get(studentId).get(0).get("courseTitle"));
-        assertEquals("subject area should match", "Math", results.get(studentId).get(0).get("subjectArea"));
     }
     
     @Test

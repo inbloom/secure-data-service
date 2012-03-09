@@ -20,7 +20,6 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
 
 
 /**
@@ -231,6 +230,7 @@ public class PopulationManager {
                     //remove unwanted entries
                     association.remove(Constants.ATTR_ID);
                     association.remove("entityType");
+                    association.remove("links");
                     //add in the extra data
                     association.put(Constants.ATTR_COURSE_TITLE, course.getString(Constants.ATTR_COURSE_TITLE));
                     association.put(Constants.ATTR_SUBJECTAREA, subjectArea);
@@ -313,10 +313,7 @@ public class PopulationManager {
             //get the assessment list
             for (GenericEntity entity : list) {
                 //get the school year
-                String schoolYear = getSchoolYear(token, studentId, entity.getString(Constants.ATTR_COURSE_ID));
-                
-                entity.put(Constants.ATTR_SCHOOL_YEAR, schoolYear);
-                results.add(schoolYear);
+                getSchoolYear(token, studentId, entity.getString(Constants.ATTR_COURSE_ID), results, entity);                
             }
             
             //sort by the school year
@@ -338,7 +335,7 @@ public class PopulationManager {
         //build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE + ",gradeLevelWhenTaken");
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE);
         
         return entityManager.getStudentTranscriptAssociations(token, studentId, params);
     }
@@ -350,29 +347,22 @@ public class PopulationManager {
      * @param courseId The course Id
      * @return
      */
-    protected String getSchoolYear(final String token, final String studentId, final String courseId) {
-        SortedSet<String> schoolYears = new TreeSet<String>();
-        String schoolYear = "";
+    protected void getSchoolYear(final String token, final String studentId, final String courseId, SortedSet<String> schoolYears, GenericEntity listEntity) {        
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_SCHOOL_YEAR);
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_SCHOOL_YEAR + ",term");
         
         //get the sections
         List<GenericEntity> sections = getSections(token, studentId, courseId);
         
         for (GenericEntity section : sections) {
             GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_SESSIONS, section.getString(Constants.ATTR_SESSION_ID), params);
-            if (entity != null && entity.getString(Constants.ATTR_SCHOOL_YEAR) != null)
-                schoolYears.add(entity.getString(Constants.ATTR_SCHOOL_YEAR));
+            if (entity != null && entity.getString(Constants.ATTR_SCHOOL_YEAR) != null) {
+                schoolYears.add(entity.getString(Constants.ATTR_SCHOOL_YEAR) + " " + entity.getString("term"));
+                listEntity.put(Constants.ATTR_SCHOOL_YEAR, entity.getString(Constants.ATTR_SCHOOL_YEAR) + " " + entity.getString("term"));
+            }
         }
-        
-        //if we have a school year, then pick the last(latest) from the sorted map
-        if (!schoolYears.isEmpty()) {
-            schoolYear = schoolYears.last();
-        }
-        
-        return schoolYear;
     }
     
     /**

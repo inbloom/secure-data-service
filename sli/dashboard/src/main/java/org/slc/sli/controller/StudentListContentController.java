@@ -97,15 +97,9 @@ public class StudentListContentController extends DashboardController {
                 Map<String, List<GenericEntity>> historicalData = populationManager.getStudentHistoricalAssessments(
                         SecurityUtil.getToken(), uids, selectedCourseId);
 
-                SortedSet<String> gradeLevels = populationManager.sortByGradeLevel(SecurityUtil.getToken(), historicalData);
-
                 SortedSet<String> schoolYears = populationManager.applyShoolYear(SecurityUtil.getToken(), historicalData);
-                //SortedSet<String> schoolYears = new TreeSet<String>();
-                //schoolYears.add("2009-2010");
-                //schoolYears.add("2010-2011");
-                //schoolYears.add("2011-2012");
 
-                HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, gradeLevels, null);
+                HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, schoolYears, null);
                 
                 model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
 

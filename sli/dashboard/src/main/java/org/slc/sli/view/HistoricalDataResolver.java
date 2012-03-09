@@ -105,7 +105,7 @@ public class HistoricalDataResolver {
         if (historicalList == null) return "-";
         
         for (GenericEntity data : historicalList) {
-            String dataSession = data.getString("gradeLevelWhenTaken");
+            String dataSession = data.getString("schoolYear");
             if (dataSession != null && dataSession.equals(schoolYear)) {
                 String item = data.get(key).toString();
                 items.add(item);
@@ -113,7 +113,9 @@ public class HistoricalDataResolver {
         }
 
         if (items.size() == 0) return "-";
-        //else if (items.size() > 1) return "...";
+        else if (items.size() > 1) {
+            return "...";
+        }
         else return items.get(0);
     }
 
