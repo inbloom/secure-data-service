@@ -31,7 +31,7 @@ public class TeacherStudentSectionAssociationResolver implements EntityContextRe
     
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && "studentSectionAssociation".equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(toEntityType);
     }
     
     @Override
@@ -48,7 +48,7 @@ public class TeacherStudentSectionAssociationResolver implements EntityContextRe
         ids = findIdsFromAssociation(ids, EntityNames.TEACHER, EntityNames.SECTION, teacherSectionDef);
         ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
                 
-        Iterable<Entity> entities = this.repository.findByQuery("studentSectionAssociation", new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);        
+        Iterable<Entity> entities = this.repository.findByQuery(EntityNames.STUDENT_SECTION_ASSOCIATION, new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);        
         
         List<String> studentSectionAssociationIds = new ArrayList<String>();
         
