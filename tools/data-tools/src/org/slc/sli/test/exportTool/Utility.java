@@ -16,16 +16,15 @@ import java.util.List;
 import java.util.Properties;
 
 public class Utility {
-    private static String connectionString; // = "jdbc:jtds:sqlserver://10.211.55.3:1433/edfi;catalog=edfi";
-    private static String userName; // = "sa";
-    private static String password; // = "benerator";
+    private static String connectionString ="jdbc:jtds:sqlserver://10.81.1.33:1433/edfi;catalog=edfi";
+    private static String userName = "sa";
+    private static String password = "benerator";
     private static boolean propertiesLoaded = false;
 
     public static void getProperties() {
         Properties prop = new Properties();
         try {
             prop.load(new FileInputStream("exportTool.properties"));
-
             connectionString = prop.getProperty("connectionString");
             userName = prop.getProperty("userName");
             password = prop.getProperty("password");
@@ -59,6 +58,7 @@ public class Utility {
         ResultSet rs = null;
         try {
             System.out.println(query);
+            System.out.println(conn);
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (!rs.next())

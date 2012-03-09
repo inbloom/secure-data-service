@@ -1,0 +1,3 @@
+{ "_id" : {"$binary":"qkOiiJ3YjwCAk6IWrHTxig==","$type":"03"}, "type" : "gradebookEntry", "body" : { "sectionId" : "58c9ef19-c172-4798-8e6e-c73e68ffb5a3", "dateAssigned" : "2012-01-31", "gradebookEntryType" : "Quiz" } }
+{ "_id" : {"$binary":"Ik8tGAzAneST2fa1NT3FmA==","$type":"03"}, "type" : "gradebookEntry", "body" : { "sectionId" : "58c9ef19-c172-4798-8e6e-c73e68ffb5a3", "dateAssigned" : "2012-02-07", "gradebookEntryType" : "Quiz" } }
+{ "_id" : {"$binary":"F022VkkKmAuGdiK3lyl7hA==","$type":"03"}, "type" : "gradebookEntry", "body" : { "sectionId" : "58c9ef19-c172-4798-8e6e-c73e68ffb5a3", "dateAssigned" : "2012-02-14", "gradebookEntryType" : "Quiz" } }

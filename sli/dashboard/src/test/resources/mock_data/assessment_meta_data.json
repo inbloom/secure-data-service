@@ -29,7 +29,8 @@
 			"minimumScore" : 278,
 			"maximumScore" : 364
 		}
-	]
+	],
+	"assessmentFamilyHierarchyName":"ISAT.ISAT Reading for Grades 3-8.ISAT Reading for Grade 8"
 },
 {
 	"id" : "ISAT-Writing-8th-grade-2011",
@@ -61,7 +62,8 @@
 			"minimumScore" : 288,
 			"maximumScore" : 410
 		}
-	]
+	],
+	"assessmentFamilyHierarchyName":"ISAT.ISAT Writing for Grades 3-8.ISAT Writing for Grade 8"
 },
     {
         "id": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
