@@ -21,8 +21,6 @@ public class HistoricalDataResolver {
 
     private static final String GRADE_KEY = "finalLetterGradeEarned";
     private static final String COURSE_TITLE_KEY = "courseTitle";
-    private static final String COURSE_ID = "courseId";
-
 
     /**
      * Constructor

@@ -17,7 +17,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
 
     private GenericEntity student;
     
-    private final String COMPARE_VALUE = "Absence";
+    private static final String COMPARE_VALUE = "Absence";
     public static final String CATEGORY = "attendanceEventCategory";
 
     public AttendanceAbsenceResolver(GenericEntity student) {
@@ -36,7 +36,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         // TODO: This should be a lot more generic.
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
-        if (attendances != null)
+        if (attendances != null) {
             for (Map attendance : attendances) {
                 logger.debug("Attendance: " + attendance);
                 String value = (String) attendance.get(CATEGORY);
@@ -44,6 +44,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
                     ++count;
                 }
             }
+        }
         return count;
     }
 }

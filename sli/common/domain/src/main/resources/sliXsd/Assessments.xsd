@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1"
-	attributeFormDefault="qualified">
-
-	<xs:include schemaLocation="ComplexTypes.xsd" />
-	<!-- This file is deprecated -->
-	<!-- MongoDB documents are now defined in SLI.xsd -->
-</xs:schema>

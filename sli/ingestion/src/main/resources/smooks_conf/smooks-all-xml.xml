@@ -1897,5 +1897,88 @@
     <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Float" />
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
   </jb:bean>
+  
 
+  <!-- Start Student Parent mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/Parent">
+    <jb:expression property="recordType">'parent'</jb:expression>
+    <jb:value property="localId" data="InterchangeStudentParent/Parent/ParentUniqueStateId" />
+    <jb:wiring property="attributes" beanIdRef="parentAttributes" />
+  </jb:bean>
+  
+  <jb:bean beanId="parentAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/Parent">
+    <jb:value property="parentUniqueStateId" data="InterchangeStudentParent/Parent/ParentUniqueStateId" />
+    <jb:wiring property="name" beanIdRef="StudentParentName" />
+    <jb:value property="otherName" data="InterchangeStudentParent/Parent/OtherName" />
+    <jb:value property="sex" data="InterchangeStudentParent/Parent/Sex" />
+    <jb:value property="address" data="InterchangeStudentParent/Parent/Address" />
+    <jb:wiring property="telephone" beanIdRef="parentTelephoneArray" />
+    <jb:wiring property="electronicMail" beanIdRef="parentEmailAddressArray" />
+    <jb:value property="loginId" data="InterchangeStudentParent/Parent/LoginId" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentParentName" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/Parent">
+    <jb:value property="firstName" data="InterchangeStudentParent/Parent/Name/FirstName" />
+    <jb:value property="middleName" data="InterchangeStudentParent/Parent/Name/MiddleName" />
+    <jb:value property="lastSurname" data="InterchangeStudentParent/Parent/Name/LastSurname" />
+  </jb:bean>
+  
+  <jb:bean beanId="parentTelephoneArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentParent/Parent">
+    <jb:wiring beanIdRef="parentTelephoneNumber" />
+  </jb:bean>
+
+  <jb:bean beanId="parentTelephoneNumber" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/Parent/Telephone">
+    <jb:value property="telephoneNumber" data="Parent/Telephone/TelephoneNumber" />
+    <jb:value property="telephoneNumberType" data="Parent/Telephone/@TelephoneNumberType" />
+    <jb:value property="primaryTelephoneNumberIndicator" data="Parent/Telephone/@PrimaryTelephoneNumberIndicator" decoder="Boolean" />
+  </jb:bean>
+  
+  <jb:bean beanId="parentEmailAddressArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentParent/Parent">
+    <jb:wiring beanIdRef="parentEmailAddress" />
+  </jb:bean>
+  
+  <jb:bean beanId="parentEmailAddress" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/Parent/ElectronicMail">
+    <jb:value property="emailAddress" data="Parent/ElectronicMail/EmailAddress" />
+    <jb:value property="emailAddressType" data="Parent/ElectronicMail/@EmailAddressType" />
+  </jb:bean>
+    
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:expression property="recordType">'studentParentAssociation'</jb:expression>
+    <jb:expression property="association">true</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="parentStudentAssociationAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="studentParentAssociationParentIds" />
+  </jb:bean>
+  
+  <jb:bean beanId="studentParentAssociationParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:wiring property="Student" beanIdRef="StudentParentAssociation_StudentReference" />
+    <jb:wiring property="Parent" beanIdRef="StudentParentAssociation_ParentReference" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentParentAssociation_StudentReference" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:value property="Student#metaData.externalId" data="StudentParentAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentParentAssociation_ParentReference" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:value property="Parent#metaData.externalId" data="StudentParentAssociation/ParentReference/ParentIdentity/ParentUniqueStateId"  />
+  </jb:bean>
+  
+  <jb:bean beanId="parentStudentAssociationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/StudentParentAssociation">
+    <jb:value property="relation" data="InterchangeStudentParent/StudentParentAssociation/Relation" />
+    <jb:value property="livesWith" data="InterchangeStudentParent/StudentParentAssociation/LivesWith" decoder="Boolean" />
+    <jb:value property="primaryContactStatus" data="InterchangeStudentParent/StudentParentAssociation/PrimaryContactStatus" decoder="Boolean" />
+    <jb:value property="emergencyContactStatus" data="InterchangeStudentParent/StudentParentAssociation/EmergencyContactStatus" decoder="Boolean" />
+    <jb:value property="contactPriority" data="InterchangeStudentParent/StudentParentAssociation/ContactPriority" decoder="Integer" />
+    <jb:value property="contactRestrictions" data="InterchangeStudentParent/StudentParentAssociation/ContactRestrictions" />
+  </jb:bean>
+    
 </smooks-resource-list>

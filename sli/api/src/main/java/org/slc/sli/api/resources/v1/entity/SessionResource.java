@@ -191,7 +191,7 @@ public class SessionResource {
     
 
     /**
-     * Returns each $$school$$ associated to the given session through
+     * Returns each $$schools$$ associated to the given session through
      * a $$schoolSessionAssociations$$ 
      * 
      * @param sessionId

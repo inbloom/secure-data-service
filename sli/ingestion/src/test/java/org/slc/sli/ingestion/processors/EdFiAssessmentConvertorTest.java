@@ -38,7 +38,7 @@ public class EdFiAssessmentConvertorTest {
         dibelsNextK.setRecordType("AssessmentFamily");
         dibelsNextK.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
         NeutralRecord dibelsNext1 = new NeutralRecord();
-        dibelsNext1.setAttributeField("AssessmentFamilyIdentificationCode",makeId( "dibelsNext1"));
+        dibelsNext1.setAttributeField("AssessmentFamilyIdentificationCode", makeId("dibelsNext1"));
         dibelsNext1.setAttributeField("AssessmentFamilyTitle", "DIBELS Next Grade 1");
         dibelsNext1.setRecordType("AssessmentFamily");
         dibelsNext1.setAttributeField("parentAssessmentFamilyId", "dibelsNext");
@@ -92,7 +92,7 @@ public class EdFiAssessmentConvertorTest {
     }
     
     private List<Map<String, Object>> makeId(String id) {
-        List<Map<String, Object>> idList = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> idList = new ArrayList<Map<String, Object>>();
         Map<String, Object> idMap = new HashMap<String, Object>();
         idMap.put("ID", id);
         idList.add(idMap);
