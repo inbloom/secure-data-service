@@ -30,21 +30,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Prototype new api end points and versioning
+ * Resource handler for gradebook entries.
  * 
- * @author jstokes
+ * @author kmyers
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
+@Path(PathConstants.V1 + "/" + PathConstants.GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class ParentResource {
+public class GradebookEntryResource {
     
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParentResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GradebookEntryResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -52,12 +52,12 @@ public class ParentResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public ParentResource(CrudEndpoint crudDelegate) {
+    public GradebookEntryResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
     }
 
     /**
-     * Returns all $$parents$$ entities for which the logged in User has permission and context.
+     * Returns all $$gradebookEntries$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -76,11 +76,11 @@ public class ParentResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.PARENTS, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.GRADEBOOK_ENTRIES, headers, uriInfo);
     }
 
     /**
-     * Create a new $$parents$$ entity.
+     * Create a new $$gradebookEntries$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -97,33 +97,33 @@ public class ParentResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.PARENTS, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$parents$$ entity
+     * Get a single $$gradebookEntries$$ entity
      * 
-     * @param parentId
-     *            The Id of the $$parents$$.
+     * @param courseId
+     *            The Id of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single parent entity
+     * @return A single course entity
      */
     @GET
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+    public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.PARENTS, parentId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.GRADEBOOK_ENTRIES, courseId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$parents$$ entity
+     * Delete a $$gradebookEntries$$ entity
      * 
-     * @param parentId
-     *            The Id of the $$parents$$.
+     * @param courseId
+     *            The Id of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -132,17 +132,17 @@ public class ParentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PARENT_ID) final String parentId, 
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.PARENTS, parentId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.GRADEBOOK_ENTRIES, courseId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$parents$$ entity.
+     * Update an existing $$gradebookEntries$$ entity.
      * 
-     * @param parentId
-     *            The id of the $$parents$$.
+     * @param courseId
+     *            The id of the $$courses$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -153,10 +153,10 @@ public class ParentResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.PARENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.PARENT_ID) final String parentId,
+    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.PARENTS, parentId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.GRADEBOOK_ENTRIES, courseId, newEntityBody, headers, uriInfo);
     }
 }

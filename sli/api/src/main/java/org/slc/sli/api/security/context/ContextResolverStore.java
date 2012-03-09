@@ -18,7 +18,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
  */
 @Component
 public class ContextResolverStore implements ApplicationContextAware {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
     
     private Collection<EntityContextResolver> resolvers;

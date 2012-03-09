@@ -80,6 +80,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
+        factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
         factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
