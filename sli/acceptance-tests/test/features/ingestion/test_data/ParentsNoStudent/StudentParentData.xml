@@ -1,0 +1,20 @@
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd"> 
+   <StudentParentAssociation> 
+      <StudentReference> 
+         <StudentIdentity> 
+            <StudentUniqueStateId>0</StudentUniqueStateId> 
+         </StudentIdentity> 
+      </StudentReference> 
+      <ParentReference> 
+         <ParentIdentity> 
+            <ParentUniqueStateId>3152281864</ParentUniqueStateId> 
+         </ParentIdentity> 
+      </ParentReference> 
+      <Relation>Mother</Relation> 
+      <LivesWith>true</LivesWith> 
+      <PrimaryContactStatus>true</PrimaryContactStatus> 
+      <EmergencyContactStatus>true</EmergencyContactStatus> 
+      <ContactPriority>0</ContactPriority> 
+   </StudentParentAssociation>  
+</InterchangeStudentParent> 

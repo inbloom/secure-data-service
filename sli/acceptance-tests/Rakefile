@@ -30,7 +30,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -160,6 +160,11 @@ end
 desc "Run Ingestion Assessment Tests"
 task :ingestionAssessmentTests do
   runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
+end
+
+desc "Run Student Parents Tests"
+task :ingestionStudentParentsTests do
+  runTests("test/features/ingestion/features/ingestion_student_parents.feature")
 end
 
 ########

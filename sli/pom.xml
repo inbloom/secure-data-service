@@ -144,8 +144,6 @@
 		<module>data-access</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
-		<module>admin</module>
-		<module>disco</module>
 		<module>acceptance-tests</module>
 		<module>ingestion-sli-configuration</module>
     <module>SDK</module>
