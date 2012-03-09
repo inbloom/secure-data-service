@@ -144,8 +144,6 @@
 		<module>data-access</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
-		<module>admin</module>
-		<module>disco</module>
 		<module>acceptance-tests</module>
 		<module>ingestion-sli-configuration</module>
     <module>SDK</module>
@@ -214,12 +212,6 @@
 			<dependency>
 				<groupId>org.slc.sli.ingestion</groupId>
 				<artifactId>ingestion</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slc.sli.admin</groupId>
-				<artifactId>admin</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

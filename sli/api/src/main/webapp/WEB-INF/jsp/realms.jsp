@@ -22,7 +22,7 @@ body {
 	<form:form action="/api/oauth/sso" method="GET" commandName="dummy">
 		<input type="hidden" name="RelayState" value="${relayState}" />
 		<input type="hidden" name="clientId" value="${clientId}" />
-		<c:if test="${state} != null">
+		<c:if test="${not empty state}">
 		<input type="hidden" name="state" value="${state}" />
 		</c:if>
 		Please choose your State/District:
