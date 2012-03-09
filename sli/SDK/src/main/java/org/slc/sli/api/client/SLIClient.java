@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import com.sun.jersey.api.client.ClientResponse;
+import javax.ws.rs.core.Response;
 
 /**
  * Interface defining the methods available to SLI API client applications. It provides
@@ -41,7 +41,7 @@ public interface SLIClient {
      *            Entity to create
      * @return Response to the update request.
      */
-    public abstract ClientResponse create(final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response create(final Entity e) throws MalformedURLException, URISyntaxException;
     
     /**
      * Read operation by ID.
@@ -56,7 +56,7 @@ public interface SLIClient {
      *            Query parameters.
      * @return ClientResponse from the ReST call.
      */
-    public abstract ClientResponse read(EntityCollection entities, final EntityType type, final String id,
+    public abstract Response read(EntityCollection entities, final EntityType type, final String id,
             final Query query)
                     throws MalformedURLException, URISyntaxException;
     
@@ -71,7 +71,7 @@ public interface SLIClient {
      *            Query parameters.
      * @return ClientResponse from the ReST call.
      */
-    public abstract ClientResponse read(EntityCollection entities, final EntityType type, final Query query)
+    public abstract Response read(EntityCollection entities, final EntityType type, final Query query)
             throws MalformedURLException,
             URISyntaxException;
     
@@ -82,7 +82,7 @@ public interface SLIClient {
      *            Entity to update.
      * @return Response to the update request.
      */
-    public abstract ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response update(final Entity e) throws MalformedURLException, URISyntaxException;
     
     /**
      * Delete operation
@@ -91,7 +91,7 @@ public interface SLIClient {
      *            Entity to delete
      * @return Response to the delete request.
      */
-    public abstract ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response delete(final Entity e) throws MalformedURLException, URISyntaxException;
     
     /**
      * Perform a get operation against a generic resource. This is useful when following links
@@ -105,7 +105,7 @@ public interface SLIClient {
      *            Query to append to the resource.
      * @return ClientResponse from the ReST call.
      */
-    public abstract ClientResponse getResource(EntityCollection entities, URL resourceURL, Query query)
+    public abstract Response getResource(EntityCollection entities, URL resourceURL, Query query)
             throws MalformedURLException, URISyntaxException;
     
 }

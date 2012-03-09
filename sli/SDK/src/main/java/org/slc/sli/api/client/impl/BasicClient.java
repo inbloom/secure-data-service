@@ -1,8 +1,12 @@
 package org.slc.sli.api.client.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +14,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.sun.jersey.api.client.ClientResponse;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
@@ -125,13 +128,13 @@ public final class BasicClient implements SLIClient {
      */
     
     @Override
-    public ClientResponse create(final Entity e) throws MalformedURLException, URISyntaxException {
+    public Response create(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.postRequest(url, gson.toJson(e));
     }
     
     @Override
-    public ClientResponse read(EntityCollection entities, final EntityType type, final Query query)
+    public Response read(EntityCollection entities, final EntityType type, final Query query)
             throws MalformedURLException,
             URISyntaxException {
         
@@ -139,7 +142,7 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public ClientResponse read(EntityCollection entities, final EntityType type, final String id, final Query query)
+    public Response read(EntityCollection entities, final EntityType type, final String id, final Query query)
             throws MalformedURLException, URISyntaxException {
         
         entities.clear();
@@ -154,13 +157,13 @@ public final class BasicClient implements SLIClient {
     
     
     @Override
-    public ClientResponse update(final Entity e) throws MalformedURLException, URISyntaxException {
+    public Response update(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.putRequest(url, gson.toJson(e));
     }
     
     @Override
-    public ClientResponse delete(final Entity e) throws MalformedURLException, URISyntaxException {
+    public Response delete(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.deleteRequest(url);
     }
@@ -169,22 +172,26 @@ public final class BasicClient implements SLIClient {
     public String connect(final String host, final int port, final String user, final String password,
             final String realm) {
         restClient = new RESTClient();
-        return restClient.openSession(host, port, user, password, realm);
+        try {
+            return restClient.openSession(host, port, user, password, realm);
+        } catch (IOException e) {
+            return null;
+        }
     }
     
     @Override
-    public ClientResponse getResource(EntityCollection entities, URL resourceURL, Query query)
+    public Response getResource(EntityCollection entities, URL resourceURL, Query query)
             throws MalformedURLException, URISyntaxException {
         entities.clear();
         
-        URLBuilder builder = URLBuilder.create(resourceURL.toString());
-        builder.query(query);
+        URLBuilder urlBuilder = URLBuilder.create(resourceURL.toString());
+        urlBuilder.query(query);
         
-        ClientResponse response = restClient.getRequest(builder.build());
-        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
+        Response response = restClient.getRequest(urlBuilder.build());
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             
             try {
-                JsonElement element = gson.fromJson(response.getEntity(String.class), JsonElement.class);
+                JsonElement element = gson.fromJson(response.readEntity(String.class), JsonElement.class);
                 
                 if (element instanceof JsonArray) {
                     entities.fromJsonArray(element.getAsJsonArray());
@@ -195,13 +202,15 @@ public final class BasicClient implements SLIClient {
                     
                 } else {
                     // not what was expected....
-                    response = new ClientResponse(ClientResponse.Status.INTERNAL_SERVER_ERROR.getStatusCode(), null,
-                            null, null);
+                    ResponseBuilder builder = Response.fromResponse(response);
+                    builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                    return builder.build();
                 }
             } catch (JsonSyntaxException e) {
                 // invalid Json, or non-Json response?
-                response = new ClientResponse(ClientResponse.Status.INTERNAL_SERVER_ERROR.getStatusCode(), null, null,
-                        null);
+                ResponseBuilder builder = Response.fromResponse(response);
+                builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                return builder.build();
             }
         }
         return response;

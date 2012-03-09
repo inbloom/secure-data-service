@@ -21,10 +21,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"1233L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"4"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -55,10 +51,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"873L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"2"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -89,10 +81,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -123,10 +111,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -157,10 +141,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
