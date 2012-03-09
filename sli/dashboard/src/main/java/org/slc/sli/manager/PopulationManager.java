@@ -67,10 +67,12 @@ public class PopulationManager {
      *            - the principle authentication token
      * @param studentIds
      *            - the student id list
+     * @param sessionId
+     *            - The id of the current session so you can get historical context.
      * @return studentList
      *         - the student summary entity list
      */
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig) {
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig, String sessionId) {
        
         // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
@@ -89,7 +91,7 @@ public class PopulationManager {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
-//        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
+        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
 
 
         // Add programs, attendance, and student assessment results to summaries
@@ -97,35 +99,33 @@ public class PopulationManager {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
-//            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
+            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
         }
         
         return studentSummaries;
     }
 
-    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
+    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds, String sessionId) {
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
         long startTime = System.nanoTime();
-        List<GenericEntity> attendances = getStudentAttendances(token, studentIds);
-//        for (String studentId : studentIds) {
-//            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
-//
-//            if (studentAttendance != null && !studentAttendance.isEmpty())
-//                studentAttendanceMap.put(studentId, studentAttendance);
-//        }
+        
+        List<String> dates = getSessionDates(token, sessionId);
+        for (String studentId : studentIds) {
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+
+            if (studentAttendance != null && !studentAttendance.isEmpty())
+                studentAttendanceMap.put(studentId, studentAttendance);
+        }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendances: " + endTime);
         return studentAttendanceMap;
     }
 
-//    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
-//        return entityManager.getAttendance(token, studentId);
-//    }
-//
-    private List<GenericEntity> getStudentAttendances(String token, List<String> studentIds) {
-        return entityManager.getAttendances(token, studentIds, null, null);
+    private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
+        return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
+
 
 
     /**
@@ -392,18 +392,18 @@ public class PopulationManager {
         return entityManager.getStudentForCSIPanel(token, studentId);
     }
 
-    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String sessionId) {
+    private List<String> getSessionDates(String token, String sessionId) {
         //Get the session first.
         GenericEntity session = entityManager.getSession(token, sessionId);
-        String startDate =  null; 
-        String endDate = null;
+        List<String> dates = new ArrayList<String>();
         if (session.containsKey("beginDate")) {
-            startDate = session.getString("beginDate");
-            endDate = session.getString("endDate");
+            dates.add(session.getString("beginDate"));
+            dates.add(session.getString("endDate"));
+        } else {
+            dates.add("");
+            dates.add("");
         }
-
-        //Get attendances using the dates.
-        return entityManager.getAttendances(token, studentIds, startDate, endDate);
+        return dates;
     }
 
     /**

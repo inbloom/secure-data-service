@@ -83,12 +83,7 @@ public class MockAPIClient implements APIClient {
      * We aren't going to bother with this for now.
      */
     @Override
-    public List<GenericEntity> getStudentAttendance(String token, String studentId) {
-        return null;
-    }
-
-    @Override
-    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate) {
+    public List<GenericEntity> getStudentAttendance(String token, String studentId, String start, String end) {
         return null;
     }
 

@@ -97,7 +97,7 @@ public class StudentListContentController extends DashboardController {
             }
 
             // get student, program, attendance, and assessment result data
-            List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig);
+            List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids, viewConfig, sessionId);
             StudentResolver studentResolver = new StudentResolver(studentSummaries);
             studentResolver.filterStudents(studentFilterName);
             
@@ -108,7 +108,6 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
             // Get attendance
-            List<GenericEntity> attendances = populationManager.getAttendances(SecurityUtil.getToken(), uids, sessionId);
             model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
             
                         

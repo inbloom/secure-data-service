@@ -2,6 +2,7 @@ package org.slc.sli.view;
 
 import org.slc.sli.entity.GenericEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +10,13 @@ import java.util.Map;
  */
 public class AttendanceResolver {
 
+    private List<GenericEntity> attendances;
+
     public AttendanceResolver() {
+    }
+
+    public AttendanceResolver(List<GenericEntity> attendances) {
+        this.attendances = attendances;
     }
 
     public AggregateResolver getAbscenceCountResolverForStudent(Map student) {

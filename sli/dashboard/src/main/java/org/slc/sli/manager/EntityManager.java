@@ -224,8 +224,8 @@ public class EntityManager extends Manager {
      * @param studentId The studentID that you want to get your attendance objects for.
      * @return a list of attendance objects
      */
-    public List<GenericEntity> getAttendance(final String token, final String studentId) {
-        return apiClient.getStudentAttendance(token, studentId);
+    public List<GenericEntity> getAttendance(final String token, final String studentId, final String start, final String end) {
+        return apiClient.getStudentAttendance(token, studentId, start, end);
     }
     
     /**
@@ -476,11 +476,6 @@ public class EntityManager extends Manager {
     public String getResourceFilePath(String resourceName) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
         return url.getFile();
-    }
-
-
-    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate) {
-        return apiClient.getAttendances(token, studentIds, startDate, endDate);
     }
 
     public GenericEntity getSession(String token, String sessionId) {

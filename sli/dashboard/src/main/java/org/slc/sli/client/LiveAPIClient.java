@@ -440,37 +440,19 @@ public class LiveAPIClient implements APIClient {
      * @return A list of attendance events for a student.
      */
     @Override
-    public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
+    public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
         logger.info("Getting attendance for ID: " + studentId);
-        String url = ATTENDANCES_URL + "?" + Constants.ATTR_STUDENT_ID + "=" + studentId;
+        String url = STUDENTS_URL + studentId + ATTENDANCES_URL;
+        if (start != null && start.length() > 0) {
+            url += "?eventDate>=" + start;
+            url += "&eventDate<=" + end;
+        }
         try {
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
             logger.debug(attendances.toString());
             return attendances;
         } catch (Exception e) {
             logger.error("Couldn't retrieve attendance for id:" + studentId);
-            return new ArrayList<GenericEntity>();
-        }
-    }
-
-    @Override
-    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate) {
-        String studentList = studentIds.toString();
-        studentList = studentList.substring(1, studentList.length() - 2);
-        studentList = studentList.replaceAll(" ", "");
-        String startQuery = "";
-        String endQuery = "";
-
-        String url = STUDENTS_URL + studentList + ATTENDANCES_URL;
-        if (startDate != null && startDate.length() > 0) {
-            url += "?eventDate>=" + startDate;
-            url += "&eventDate<=" + endDate;
-        }
-        try {
-            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
-            logger.debug(attendances.toString());
-            return attendances;
-        } catch (Exception e) {
             return new ArrayList<GenericEntity>();
         }
     }

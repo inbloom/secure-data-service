@@ -47,7 +47,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getStudentAttendance(null, null);
+        attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
         
@@ -56,7 +56,7 @@ public class LiveAPIClientTest {
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
-        attendance = client.getStudentAttendance(null, "1000");
+        attendance = client.getStudentAttendance(null, "1000", null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));
@@ -65,7 +65,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendanceWithDates() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getAttendances(null, null, null, null);
+        attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
 
@@ -73,10 +73,8 @@ public class LiveAPIClientTest {
 
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
-        List<String> ids = new ArrayList<String>();
-        ids.add("1000");
         attendance = null;
-        attendance = client.getAttendances(null, ids, "2011-07-13", "2012-07-13");
+        attendance = client.getStudentAttendance(null, "1000", "2011-07-13", "2012-07-13");
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));
