@@ -2,7 +2,10 @@ require 'selenium-webdriver'
 
 Given /^I have an open web browser$/ do
   puts "open web browser"
-  @driver = Selenium::WebDriver.for :firefox
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['network.http.prompt-temp-redirect'] = false
+  @driver = Selenium::WebDriver.for :firefox, :profile => profile
+  @driver.manage.timeouts.implicit_wait = 5 # seconds
 end
 
 When /^I wait for "([^"]*)" seconds$/ do |secs|
