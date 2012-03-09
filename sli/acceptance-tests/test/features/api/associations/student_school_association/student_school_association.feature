@@ -107,11 +107,6 @@ Scenario: Delete a school and its associations should be deleted
 
 
 ### Error handling
-Scenario: Attempt to read the base resource with no GUID
-	Given format "application/json"
-	When I navigate to GET "/student-school-associations/<'No GUID'>"
-	Then I should receive a return code of 405
-
 
 Scenario: Attempt to read a non-existent resource
 	Given format "application/json"

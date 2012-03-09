@@ -8,6 +8,9 @@ import freemarker.ext.beans.BeansWrapper;
 
 //import org.slc.sli.view.AttendanceResolver;
 import org.slc.sli.view.AttendanceResolver;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
@@ -38,12 +42,15 @@ import org.slc.sli.view.widget.WidgetFactory;
 @RequestMapping("/studentlistcontent")
 public class StudentListContentController extends DashboardController {
 
+    private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     private ConfigManager configManager;
     private PopulationManager populationManager;
     private ViewManager viewManager;
 
 
-    public StudentListContentController() { }
+    public StudentListContentController() { 
+        log.info("Hello");
+    }
 
     /**
      * Retrieves information for the student list and sends back an html table to be displayed

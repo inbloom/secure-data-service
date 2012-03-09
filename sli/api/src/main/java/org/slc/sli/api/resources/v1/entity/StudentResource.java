@@ -315,7 +315,7 @@ public class StudentResource {
     
 
     /**
-     * student transcript associations
+     * $$studentTranscriptAssociations$$
      * 
      * @param studentId
      *            The Id of the Student.
@@ -335,7 +335,7 @@ public class StudentResource {
     }
     
     /**
-     * student transcript associations - courses lookup
+     * $$studentTranscriptAssociations$$ - courses lookup
      * 
      * @param studentId
      *            The Id of the Student.
