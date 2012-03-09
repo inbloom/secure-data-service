@@ -690,8 +690,20 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests do
-  runTests("test/features/dashboardVS/assessments")
+task :dashboardAssessmentTests => [:MostRecentResultTests ] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+
+end
+
+
+desc "Run Dashboard most recent result acceptance tests"
+task :MostRecentResultTests do
+    runTests("test/features/dashboard/assessments/MostRecent.feature")
 end
 
 desc "Run dashboard attendance related tests"
