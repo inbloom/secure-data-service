@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-    Resource.SLC_JSON_MEDIA_TYPE })
+    Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 @Deprecated
 public class HomeResourceDeprecated {
 
