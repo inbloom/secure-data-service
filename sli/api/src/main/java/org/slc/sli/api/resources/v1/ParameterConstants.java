@@ -86,6 +86,7 @@ public class ParameterConstants {
     public static final String STAFF_ID = "staffId";
     public static final String STUDENT_ID = "studentId";
     public static final String TEACHER_ID = "teacherId";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRY_ID = "studentSectionGradebookEntryId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";

@@ -2,7 +2,9 @@ require "active_resource/base"
 require "oauth_helper"
 
 class ApplicationController < ActionController::Base
-  # protect_from_forgery
+  protect_from_forgery
+  ActionController::Base.request_forgery_protection_token = 'state'
+
   before_filter :handle_oauth
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
@@ -87,7 +89,7 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url
+        redirect_to oauth.authorize_url + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}

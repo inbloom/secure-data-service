@@ -101,8 +101,9 @@ public class RESTClient {
             } catch (HttpClientErrorException e) {
                 logger.debug("Catch HttpClientException: " + e.getStatusCode().toString());
             }
-            if (response == null)
+            if (response == null) {
                 return null;
+            }
             return response.getBody();
         }
         logger.debug("Token is null in call to RESTClient for path" + path);

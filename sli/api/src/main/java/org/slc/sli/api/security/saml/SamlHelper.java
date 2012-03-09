@@ -24,7 +24,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
@@ -48,6 +47,9 @@ import org.slc.sli.api.security.saml2.SAML2Validator;
  */
 @Component
 public class SamlHelper {
+    
+    private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
+    private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
     
@@ -79,71 +81,21 @@ public class SamlHelper {
     }
     
     /**
-     * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
-     * 
-     * AssertionConsumerServiceURL attribute can be added to root element, but seems not required. If added, must match an
-     * endpoint that was sent to the idp during federation (sp.xml)
-     * SPNameQualifier attribute can be added to NameId, but seems not required. Same as IssuerName
-     * 
-     * @param destination idp url to where the message is going
-     * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
-     * @throws Exception
-     * 
-     * 
+     * Composes AuthnRequest using post binding
+     * @param destination
+     * @return
      */
-    @SuppressWarnings("unchecked")
     public Pair<String, String> createSamlAuthnRequestForRedirect(String destination) {
-        
-        Document doc = new Document();
-        
-        String id = UUID.randomUUID().toString();
-        doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
-        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
-        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
-        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
-        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
-        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "false"));
-        doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
-        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"));
-        
-        Element issuer = new Element("Issuer", SAML_NS);
-        issuer.addContent(this.issuerName);
-        
-        doc.getRootElement().addContent(issuer);
-        
-        Element nameId = new Element("NameIDPolicy", SAMLP_NS);
-        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
-        nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
-        
-        doc.getRootElement().addContent(nameId);
-        
-        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
-        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
-        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
-        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
-        authnContext.addContent(classRef);
-        
-        doc.getRootElement().addContent(authnContext);
-        
-        try {
-            org.w3c.dom.Document dom = domer.output(doc);
-            
-            // TODO sign and add digest
-            
-            String xmlString = nodeToXmlString(dom);
-            LOG.debug(xmlString);
-            
-            return Pair.of(id, xmlToEncodedString(xmlString));
-        } catch (IOException e) {
-            LOG.error("Error generating AuthnRequest", e);
-            throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
-        } catch (JDOMException e) {
-            LOG.error("Error generating AuthnRequest.  Error converting to DOM", e);
-            throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
-        } catch (TransformerException e) {
-            LOG.error("Error generating AuthnRequest.  Error converting to XML String", e);
-            throw new IllegalStateException("[CRITICAL] Failed to generate AuthnRequest");
-        }
+        return composeAuthnRequest(destination, POST_BINDING);
+    }
+
+    /**
+     * Composes AuthnRequest using artifact binding
+     * @param destination
+     * @return
+     */
+    public Pair<String, String> createSamlAuthnRequestForRedirectArtifact(String destination) {
+        return composeAuthnRequest(destination, ARTIFACT_BINDING);
     }
     
     /**
@@ -170,6 +122,66 @@ public class SamlHelper {
         } catch (Exception e) {
             LOG.error("Error unmarshalling saml post", e);
             throw new IllegalArgumentException("Posted SAML isn't valid");
+        }
+    }
+    
+    /**
+     * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
+     * 
+     * AssertionConsumerServiceURL attribute can be added to root element, but seems not required. If added, must match an
+     * endpoint that was sent to the idp during federation (sp.xml)
+     * SPNameQualifier attribute can be added to NameId, but seems not required. Same as IssuerName
+     * 
+     * @param destination idp url to where the message is going
+     * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
+     * @throws Exception
+     * 
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    private Pair<String, String> composeAuthnRequest(String destination, String binding) {
+        Document doc = new Document();
+        
+        String id = UUID.randomUUID().toString();
+        doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameIDPolicy", SAMLP_NS);
+        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
+        nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
+        
+        doc.getRootElement().addContent(nameId);
+        
+        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
+        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
+        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
+        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+        authnContext.addContent(classRef);
+        
+        doc.getRootElement().addContent(authnContext);
+        
+        // TODO sign and add digest
+        
+        try {
+            String xmlString = nodeToXmlString(domer.output(doc));
+            
+            LOG.debug(xmlString);
+            
+            return Pair.of(id, xmlToEncodedString(xmlString));
+        } catch (Exception e) {
+            LOG.error("Error composing AuthnRequest", e);
+            throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
         }
     }
     

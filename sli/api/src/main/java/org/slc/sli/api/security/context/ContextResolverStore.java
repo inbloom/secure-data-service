@@ -1,256 +1,57 @@
 package org.slc.sli.api.security.context;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityExistsException;
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
  * Stores context based permission resolvers.
  * Can determine if a principal entity has permission to access a request entity.
  */
 @Component
-public class ContextResolverStore {
+public class ContextResolverStore implements ApplicationContextAware {
 
-    private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
-
-    @Autowired
-    private EntityDefinitionStore definitionStore;
-
-    @Autowired
-    private EntityRepository repository;
-
-    @Autowired
-    private DefaultEntityContextResolver defaultEntityContextResolver;
-    // @Autowired
-    // private DenyAllContextResolver denyAllContextResolver;
-    @Autowired
-    private TeacherAttendanceContextResolver teacherAttendanceContextResolver;
+    private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
     
-    @Autowired
-    private SectionSessionContextResolver sectionSessionContextResolver;
-
-    /* Educator context */
-    private List<EntityContextResolver> buildTeacherResolvers() {
-
-        List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver>asList(
-
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.TEACHER)
-                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.STUDENT)
-                        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SCHOOL)
-                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SECTION)
-                        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).build(),
-                //makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.ASSESSMENT)
-                //        .setAssociationPath(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).build(),
-                makeAssoc().setSource(EntityNames.TEACHER).setTarget(EntityNames.SESSION)
-                        .setAssociationPath(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).build(),
-                teacherAttendanceContextResolver, sectionSessionContextResolver
-                
-
-        );
-
-        return teacherResolvers;
+    private Collection<EntityContextResolver> resolvers;
+    
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        resolvers = applicationContext.getBeansOfType(EntityContextResolver.class).values();
     }
-
-
-    /* Leader and IT Admin context */
-    private List<EntityContextResolver> buildStaffResolvers() {
-
-        final List<EntityContextResolver> staffResolvers = Arrays.<EntityContextResolver>asList(
-
-
-        );
-        return staffResolvers;
-    }
-
-    /* aggregate context */
-    private List<EntityContextResolver> buildAggregateResolvers() {
-
-        final List<EntityContextResolver> aggregateResolvers = Arrays.<EntityContextResolver>asList(
-
-        );
-        return aggregateResolvers;
-    }
-
-    /* SLI Admin context */
-    private List<EntityContextResolver> buildSliAdminResolvers() {
-
-        final List<EntityContextResolver> sliAdminResolvers = Arrays.<EntityContextResolver>asList(
-
-        );
-        return sliAdminResolvers;
-    }
-
-
+    
     /**
-     * init() defines resolvers used to enforce context based permissions.
-     * To make a new resolver, specify the source entity type, target entity,
-     * and context path from the target to the source.
-     * addContext(..) to the ContextResolverStore to wire the context.
-     * <p/>
-     * For an API request: the source is SLI Principal's entity type, The target is the type of entity being requested.
-     * <p/>
-     * The association path will be traversed from from source to target to see if the context path exists.
+     * Locates a resolver that can naviage the security context path from source entity type to target entity type
+     * 
+     * @param fromEntityType
+     * @param toEntityType
+     * @return
+     * @throws IllegalStateException
      */
-    public void init() {
-
-        loadResolvers(buildTeacherResolvers());
-        loadResolvers(buildStaffResolvers());
-        loadResolvers(buildAggregateResolvers());
-        loadResolvers(buildSliAdminResolvers());
-
-    }
-
-    private synchronized void loadResolvers(List<EntityContextResolver> resolvers) {
-        for (EntityContextResolver resolver : resolvers) {
-            EntityContextResolver putResult = contexts.put(this.getContextKey(resolver), resolver);
-            if (putResult != null) {
-                throw new EntityExistsException();
+    public EntityContextResolver findResolver(String fromEntityType, String toEntityType) throws IllegalStateException {
+        
+        EntityContextResolver found = null;
+        for (EntityContextResolver resolver : this.resolvers) {
+            if (resolver.canResolve(fromEntityType, toEntityType)) {
+                found = resolver;
+                break;
             }
         }
-    }
-
-    public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
-
-        if (contexts.isEmpty()) {
-            init();
+        
+        if (found == null) { // FIXME make secure by default!
+            found = new AllowAllEntityContextResolver();
+            LOG.warn("No path resolver defined for " + fromEntityType + " -> " + toEntityType + " returning a yes-man (for now)");
+            // throw new IllegalStateException("Requested an usupported resolution path " + fromEntityType + " -> " + toEntityType);
         }
-
-        if (sourceType.equals(SecurityUtil.SYSTEM_ENTITY)) {
-            return new FullContextResolver(repository, definitionStore.lookupByResourceName(targetType));
-        }
-
-        EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
-        return resolver == null ? defaultEntityContextResolver : resolver; //TODO replace with denyAllContextResolver
-
+        
+        return found;
     }
-
-    public EntityContextResolver getContextResolver(Entity principalEntity, Entity requestEntity) {
-        return getContextResolver(principalEntity.getType(), requestEntity.getType());
-    }
-
-    public void clearContexts() {
-        contexts.clear();
-    }
-
-    private String getContextKey(EntityContextResolver resolver) {
-        return getContextKey(resolver.getSourceType(), resolver.getTargetType());
-    }
-
-    private String getContextKey(String sourceType, String targetType) {
-        return sourceType + targetType;
-    }
-
-    public AssociativeContextBuilder makeAssoc() {
-        return new AssociativeContextBuilder();
-    }
-
-    @SuppressWarnings("unused")
-    private FullContextBuilder makeFullContext() {
-        return new FullContextBuilder();
-    }
-
-    public Map<String, EntityContextResolver> getContexts() {
-        return contexts;
-    }
-
-    /**
-     * Builder pattern for Associative Context
-     */
-    public class AssociativeContextBuilder {
-        private String source;
-        private String target;
-        private List<AssociationDefinition> associationPath = new ArrayList<AssociationDefinition>();
-        private EntityDefinitionStore entityDefs;
-        private EntityRepository repo;
-
-        public AssociativeContextBuilder() {
-            entityDefs = definitionStore;
-            repo = repository;
-        }
-
-        public AssociativeContextBuilder setSource(String source) {
-            this.source = source;
-            return this;
-        }
-
-        public AssociativeContextBuilder setTarget(String target) {
-            this.target = target;
-            return this;
-        }
-
-        public AssociativeContextBuilder setAssociationPath(String... associationNames) {
-            for (String assocName : associationNames) {
-                EntityDefinition entityDefinition = entityDefs.lookupByResourceName(assocName);
-                if (entityDefinition != null && entityDefinition instanceof AssociationDefinition) {
-                    associationPath.add((AssociationDefinition) entityDefinition);
-                } else {
-                    throw new InvalidParameterException("cannot find associationType in definition store" + assocName);
-                }
-            }
-            return this;
-        }
-
-        public AssociativeContextResolver build() {
-            AssociativeContextResolver assocContext = new AssociativeContextResolver();
-            assocContext.setSourceType(source);
-            assocContext.setTargetType(target);
-            assocContext.setAssociativeContextPath(associationPath);
-            assocContext.setRepository(repo);
-            return assocContext;
-        }
-    }
-
-    /**
-     * Builder pattern to grant context to all entities of a given type
-     */
-    public class FullContextBuilder {
-        private String source;
-        private String target;
-
-        private EntityDefinitionStore entityDefs;
-        private EntityRepository repo;
-
-        public FullContextBuilder() {
-            entityDefs = definitionStore;
-            repo = repository;
-        }
-
-        public FullContextBuilder setTarget(String target) {
-            this.target = target;
-            return this;
-        }
-
-        public FullContextResolver build() {
-            FullContextResolver fullContext = new FullContextResolver();
-            fullContext.setSource(source);
-            fullContext.setTarget(target);
-            fullContext.setRepository(repo);
-            fullContext.setDefinition(entityDefs.lookupByResourceName(target));
-            return fullContext;
-        }
-
-        public FullContextBuilder setSource(String source) {
-            this.source = source;
-            return this;
-        }
-    }
-
 }

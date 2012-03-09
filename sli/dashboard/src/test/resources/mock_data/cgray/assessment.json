@@ -21,10 +21,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"1233L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"4"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -55,10 +51,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"873L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"2"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -89,10 +81,6 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
@@ -123,10 +111,36 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"At or Above Benchmark"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Writing-8th-grade-2011",
+        "administrationDate":"2011-07-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"200"
                         },
                         {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"295"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"50.00"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"500L"
                         }
                        ],
         "performanceLevelDescriptors":[
