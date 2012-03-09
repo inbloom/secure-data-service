@@ -1,5 +1,5 @@
 require 'selenium-webdriver'
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 When /^I click on student, their name shows up on student profile$/ do 
   studentTable = @driver.find_element(:id, "studentList");
