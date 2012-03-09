@@ -30,14 +30,14 @@ public class LiveAPIClient implements APIClient {
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String SECTIONS_URL = "/sections/";
-    private static final String STUDENT_SECTION_ASSOC_URL = "/studentSectionAssociations/";
+    private static final String STUDENT_SECTION_ASSOC_URL = "/student-section-associations/";
     private static final String SCHOOLS_URL = "/schools/";
     private static final String STUDENTS_URL = "/students/";
     private static final String COURSES_URL = "/courses/";
     private static final String TEACHERS_URL = "/teachers/";
     private static final String ED_ORG_URL = "/educationOrganizations/";
     private static final String HOME_URL = "/home/";
-    private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations";
+    private static final String TEACHER_SECTION_ASSOC_URL = "/teacher-section-associations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
 
@@ -101,7 +101,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // make a call to student-assessments, with the student id
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId
-                + "/studentAssessmentAssociations", token);
+                + "/" + STUDENT_ASSMT_ASSOC_URL, token);
 
         // for each link in the returned list, make the student-assessment call for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
