@@ -89,7 +89,7 @@ public class PopulationManager {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
-        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
+//        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
 
 
         // Add programs, attendance, and student assessment results to summaries
@@ -97,7 +97,7 @@ public class PopulationManager {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
-            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
+//            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
         }
         
         return studentSummaries;
@@ -106,17 +106,25 @@ public class PopulationManager {
     public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
-        for (String studentId : studentIds) {
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
-            
-            if (studentAttendance != null && !studentAttendance.isEmpty())
-                studentAttendanceMap.put(studentId, studentAttendance);
-        }
+        long startTime = System.nanoTime();
+        List<GenericEntity> attendances = getStudentAttendances(token, studentIds);
+//        for (String studentId : studentIds) {
+//            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
+//
+//            if (studentAttendance != null && !studentAttendance.isEmpty())
+//                studentAttendanceMap.put(studentId, studentAttendance);
+//        }
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendances: " + endTime);
         return studentAttendanceMap;
     }
 
-    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
-        return entityManager.getAttendance(token, studentId);
+//    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
+//        return entityManager.getAttendance(token, studentId);
+//    }
+//
+    private List<GenericEntity> getStudentAttendances(String token, List<String> studentIds) {
+        return entityManager.getAttendances(token, studentIds, null, null);
     }
 
 
@@ -383,7 +391,21 @@ public class PopulationManager {
     public GenericEntity getStudentForCSIPanel(String token, String studentId) {
         return entityManager.getStudentForCSIPanel(token, studentId);
     }
-    
+
+    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String sessionId) {
+        //Get the session first.
+        GenericEntity session = entityManager.getSession(token, sessionId);
+        String startDate =  null; 
+        String endDate = null;
+        if (session.containsKey("beginDate")) {
+            startDate = session.getString("beginDate");
+            endDate = session.getString("endDate");
+        }
+
+        //Get attendances using the dates.
+        return entityManager.getAttendances(token, studentIds, startDate, endDate);
+    }
+
     /**
      * Compare two GenericEntities by the school year
      * @author srupasinghe

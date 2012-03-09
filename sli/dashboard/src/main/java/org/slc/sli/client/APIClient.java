@@ -77,4 +77,8 @@ public interface APIClient {
     public String getTeacherIdForSection(String sectionId, String token);
     
     public String getHomeRoomForStudent(String studentId, String token);
+
+    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate);
+
+    public GenericEntity getSession(String token, String sessionId);
 }

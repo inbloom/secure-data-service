@@ -51,11 +51,12 @@ public class StudentListContentController extends DashboardController {
      * @param population Don't know what this could be yet... For now, a list of student uids
      * @param model
      * @param viewIndex The selected view configuration index
+     * @param sessionId is the id of the session you're in to describe historical data.
      * @return a ModelAndView object
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, Integer viewIndex, Integer filterIndex,
+    public ModelAndView studentListContent(String population, Integer viewIndex, Integer filterIndex, String sessionId,
                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
@@ -107,6 +108,7 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
             // Get attendance
+            List<GenericEntity> attendances = populationManager.getAttendances(SecurityUtil.getToken(), uids, sessionId);
             model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
             
                         

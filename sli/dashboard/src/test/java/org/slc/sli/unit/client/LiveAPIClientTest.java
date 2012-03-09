@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,26 @@ public class LiveAPIClientTest {
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000");
+        assertNotNull(attendance);
+        assert (attendance.size() == 2);
+        assert (attendance.get(0).get("attendance").equals("yes"));
+    }
+
+    @Test
+    public void testGetStudentAttendanceWithDates() throws Exception {
+        List<GenericEntity> attendance;
+        attendance = client.getAttendances(null, null, null, null);
+        assertNotNull(attendance);
+        assert (attendance.size() == 0);
+
+        String url = client.getApiUrl() + "v1/students/1000/attendances?startDate>=\"2011-07-13\"&endDate<=\"2012-07-13\"";
+
+        String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
+        List<String> ids = new ArrayList<String>();
+        ids.add("1000");
+        attendance = null;
+        attendance = client.getAttendances(null, ids, "2011-07-13", "2012-07-13");
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));

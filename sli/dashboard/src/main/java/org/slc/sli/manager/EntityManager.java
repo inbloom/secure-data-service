@@ -478,5 +478,12 @@ public class EntityManager extends Manager {
         return url.getFile();
     }
 
-    
+
+    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate) {
+        return apiClient.getAttendances(token, studentIds, startDate, endDate);
+    }
+
+    public GenericEntity getSession(String token, String sessionId) {
+        return apiClient.getSession(token, sessionId);
+    }
 }

@@ -26,7 +26,7 @@ import com.google.gson.Gson;
  */
 public class LiveAPIClient implements APIClient {
 
-    public static final String ATTENDANCES_URL = "/attendances/";
+    public static final String ATTENDANCES_URL = "/attendances";
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
 
     private static final String SECTIONS_URL = "/sections/";
@@ -40,6 +40,7 @@ public class LiveAPIClient implements APIClient {
     private static final String TEACHER_SECTION_ASSOC_URL = "/teacherSectionAssociations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
+    private static final String SESSION_URL = "/sessions/";
 
     @Autowired
     @Value("${api.server.url}")
@@ -195,6 +196,18 @@ public class LiveAPIClient implements APIClient {
         }
 
         return section;
+    }
+
+    public GenericEntity getSession(String token, String id) {
+        GenericEntity session = null;
+        try {
+            session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
+            logger.debug("Session: " + session.toString());
+        } catch (Exception e) {
+            logger.warn(e.toString());
+            session = new GenericEntity();
+        }
+        return session;
     }
 
     /**
@@ -436,6 +449,28 @@ public class LiveAPIClient implements APIClient {
             return attendances;
         } catch (Exception e) {
             logger.error("Couldn't retrieve attendance for id:" + studentId);
+            return new ArrayList<GenericEntity>();
+        }
+    }
+
+    @Override
+    public List<GenericEntity> getAttendances(String token, List<String> studentIds, String startDate, String endDate) {
+        String studentList = studentIds.toString();
+        studentList = studentList.substring(1, studentList.length() - 2);
+        studentList = studentList.replaceAll(" ", "");
+        String startQuery = "";
+        String endQuery = "";
+
+        String url = STUDENTS_URL + studentList + ATTENDANCES_URL;
+        if (startDate != null && startDate.length() > 0) {
+            url += "?eventDate>=" + startDate;
+            url += "&eventDate<=" + endDate;
+        }
+        try {
+            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
+            logger.debug(attendances.toString());
+            return attendances;
+        } catch (Exception e) {
             return new ArrayList<GenericEntity>();
         }
     }

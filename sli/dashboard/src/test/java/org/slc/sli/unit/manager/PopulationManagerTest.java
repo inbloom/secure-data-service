@@ -1,6 +1,7 @@
 package org.slc.sli.unit.manager;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -235,7 +236,25 @@ public class PopulationManagerTest {
         Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
         assertNotNull(studentAttendance);
     }
-    
+
+    @Test
+    public void testGetAttendancesWithCourse() throws Exception {
+        GenericEntity session = new GenericEntity();
+        session.put("startDate", "2012-03-07");
+        session.put("endDate", "2013-03-07");
+        when(mockEntity.getSession(null, "")).thenReturn(session);
+        when(mockEntity.getAttendances(null, null, "2012-03-07", "2013-03-07")).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.getAttendances(null, null, ""));
+    }
+
+    @Test
+    public void testGetAttendancesWithoutCourse() throws Exception {
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
+        when(mockEntity.getAttendances(null, null, null, null)).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.getAttendances(null, null, ""));
+    }
+
+
     @Test
     public void testGetStudentHistoricalAssessments() throws Exception {
         String token = "token", subjectArea = "Math";
