@@ -24,7 +24,7 @@
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
 
   <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal"
-    db-factory-ref="mongoDbFactory">
+    db-factory-ref="mongoDbStagingFactory">
     <mongo:custom-converters>
       <mongo:converter>
         <bean class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter" />

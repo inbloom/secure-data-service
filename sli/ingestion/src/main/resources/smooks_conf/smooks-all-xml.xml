@@ -1293,7 +1293,7 @@
     <jb:value property="beginDate" data="AssessmentPeriodDescriptor/BeginDate" />
     <jb:value property="endDate" data="AssessmentPeriodDescriptor/EndDate" />
   </jb:bean>
-  
+
   <!-- Assessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:expression property="recordType">'assessment'</jb:expression>
@@ -1320,8 +1320,8 @@
     <!-- <jb:wiring property="objectiveAssessmentReferences" beanIdRef="objectiveAssessmentReferenceTypeArray" />-->
     <!-- <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType" /> -->
     <!--<jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" />-->
-    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/> 
-    <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/> 
+    <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
+    <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -1509,7 +1509,7 @@
     <jb:value property="Nomenclature" data="AssessmentFamily/Nomenclature" />
     <jb:wiring property="AssessmentPeriods" beanIdRef="AssessmentFamily_AssessmentPeriodArray" />
 
-    <jb:value property="parentAssessmentFamilyId" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/>
+    <jb:value property="parentAssessmentFamilyId" data="AssessmentFamily/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
 
   </jb:bean>
 
