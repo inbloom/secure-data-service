@@ -30,6 +30,7 @@ public class TeacherSectionResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+        return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS, 
+                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
     }    
 }
