@@ -10,21 +10,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class to handle the oddities of getting absences from attendance objects.
+ * 
+ * @author pwolf
+ *
  */
-public class AttendanceAbsenceResolver implements AggregateResolver {
+public class AttendanceTardinessResolver implements AggregateRatioResolver {
+
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
 
     private GenericEntity student;
-    
-    private static final String COMPARE_VALUE = "Absence";
+
     public static final String CATEGORY = "attendanceEventCategory";
 
-    public AttendanceAbsenceResolver(GenericEntity student) {
+    public AttendanceTardinessResolver(GenericEntity student) {
         this.student = student;
     }
 
-    public AttendanceAbsenceResolver() {
+    public AttendanceTardinessResolver() {
     }
 
     public void setStudent(GenericEntity student) {
@@ -32,19 +34,32 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
     }
 
     @Override
-    public int getCountForPath(Field configField) {
+    public int getTotalCountForPath(Field configField) {
         // TODO: This should be a lot more generic.
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
-        if (attendances != null) {
+        if (attendances != null)
             for (Map attendance : attendances) {
-                logger.debug("Attendance: " + attendance);
                 String value = (String) attendance.get(CATEGORY);
-                if (value.contains(COMPARE_VALUE)) {
+                if (!value.contains("Absence")) {
                     ++count;
                 }
             }
-        }
         return count;
     }
+
+    @Override
+    public int getSubCountForPath(Field configField) {
+        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        int count = 0;
+        if (attendances != null)
+            for (Map attendance : attendances) {
+                String value = (String) attendance.get(CATEGORY);
+                if (value.contains("Tardy")) {
+                    ++count;
+                }
+            }
+        return count;
+    }
+
 }

@@ -27,9 +27,9 @@ import static org.mockito.Mockito.*;
 
 public class HistoricalViewManagerTest {
     private static Logger log = LoggerFactory.getLogger(HistoricalViewManagerTest.class);
-
+    
     private HistoricalViewManager historicalViewManager; // class under test
-
+    
     @Before
     public void setup() {
         HistoricalDataResolver historicalDataResolver = mock(HistoricalDataResolver.class);
@@ -39,7 +39,7 @@ public class HistoricalViewManagerTest {
         
         when(historicalDataResolver.getSchoolYears()).thenReturn(schoolYears);
         when(historicalDataResolver.getSubjectArea()).thenReturn("Test Subject Area");
-
+        
         historicalViewManager = new HistoricalViewManager(historicalDataResolver);
     }
     
@@ -54,5 +54,5 @@ public class HistoricalViewManagerTest {
         assertEquals("There should have been two fields added",
                 2, testConfig.getDisplaySet().get(0).getField().size());
     }
-
+    
 }

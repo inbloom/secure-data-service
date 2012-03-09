@@ -7,7 +7,7 @@ dashboard_landing_page: "/"
 dashboard_app_selector_page: "/appselector"
 dashboard_api_server_uri: "https://devapp1.slidev.org"
 devdash1: "https://devdash1.slidev.org"
-realm_page_url: "https://devapp1.slidev.org/disco/realms/list?RelayState="
+realm_page_url: "https://devapp1.slidev.org/api/oauth/authorize"
 
 admintools_server_url: "http://localhost:3000"
 api_server_url: "http://localhost:8080"
