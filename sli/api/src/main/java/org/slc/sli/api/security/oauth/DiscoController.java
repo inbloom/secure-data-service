@@ -65,8 +65,10 @@ public class DiscoController {
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
             @RequestParam(value = "RealmName", required = false) final String realmName, 
-            @RequestParam(value = "client_id", required = true) final String clientId, final Model model) throws IOException {
-
+            @RequestParam(value = "client_id", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state,
+            final Model model) throws IOException {
+        
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
@@ -78,7 +80,7 @@ public class DiscoController {
                     if (realmName != null && realmName.length() > 0) {
                         if (realmName.equals(node.get("state"))) {
                             try {
-                                return ssoInit(node.get("id").toString(), relayState, clientId, model);
+                                return ssoInit(node.get("id").toString(), relayState, clientId, state, model);
                             } catch (IOException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -100,6 +102,7 @@ public class DiscoController {
         model.addAttribute("realms", map);
         model.addAttribute("redirect_uri", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
+        model.addAttribute("state", state);
 
         if (relayState == null) {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
@@ -119,7 +122,10 @@ public class DiscoController {
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
     public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId,
             @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
-            @RequestParam(value = "clientId", required = true) final String clientId, Model model) throws IOException {
+            @RequestParam(value = "clientId", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state,
+            Model model) throws IOException {
+
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
             public String execute() {
@@ -140,7 +146,7 @@ public class DiscoController {
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
 
-        authCodeService.create(clientId, tuple.getLeft());
+        authCodeService.create(clientId, state, tuple.getLeft());
         LOG.debug("redirecting to: " + endpoint);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
