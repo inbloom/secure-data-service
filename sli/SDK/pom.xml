@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>SDK</artifactId>
+    <artifactId>sli-client-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SLI API SDK</name>
@@ -18,17 +18,18 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-bundle</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0-m01</version>
         </dependency>
 
-        
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.0-m01</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
@@ -44,6 +45,7 @@
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
+
 
       </dependencies>
 
@@ -91,5 +93,6 @@
         <name>SLC</name>
     </organization>
 
+    <groupId>org.slc.sli</groupId>
 </project>
 

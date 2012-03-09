@@ -13,7 +13,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sun.jersey.api.client.ClientResponse;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
@@ -145,10 +146,10 @@ public class SliQueryTool {
         
         while (true) {
             EntityCollection collection = new EntityCollection();
-            ClientResponse response = client.read(collection, EntityType.HOME, BasicQuery.FULL_ENTITIES_QUERY);
+            Response response = client.read(collection, EntityType.HOME, BasicQuery.FULL_ENTITIES_QUERY);
             
-            if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
-                System.err.println(response.getEntity(String.class));
+            if (response.getStatus() != Status.OK.getStatusCode()) {
+                System.err.println(response.readEntity(String.class));
                 System.exit(response.getStatus());
             }
             
@@ -200,10 +201,10 @@ public class SliQueryTool {
             
             if (!url.isEmpty()) {
                 EntityCollection newCollection = new EntityCollection();
-                ClientResponse response = client.getResource(newCollection, new URL(url),
+                Response response = client.getResource(newCollection, new URL(url),
                         BasicQuery.FULL_ENTITIES_QUERY);
-                if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
-                    System.err.println(response.getEntity(String.class));
+                if (response.getStatus() != Status.OK.getStatusCode()) {
+                    System.err.println(response.readEntity(String.class));
                     return;
                 }
                 showEntities(newCollection);
@@ -245,11 +246,11 @@ public class SliQueryTool {
             } else if (idx == 1) {
                 // Follow the link, display the results.
                 EntityCollection results = new EntityCollection();
-                ClientResponse response = client.getResource(results, link.getResourceURL(), builder.build());
+                Response response = client.getResource(results, link.getResourceURL(), builder.build());
                 
-                if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
+                if (response.getStatus() != Status.OK.getStatusCode()) {
                     System.err.println("Failed to follow link (" + link.getLinkName() + "): "
-                            + response.getEntity(String.class));
+                            + response.readEntity(String.class));
                     return;
                 } else {
                     showEntities(results);
