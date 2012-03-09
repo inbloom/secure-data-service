@@ -1,0 +1,67 @@
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd"> 
+   <Parent> 
+      <ParentUniqueStateId>3152281864</ParentUniqueStateId>  
+      <Name> 
+         <FirstName>Robert</FirstName> 
+         <MiddleName>A.</MiddleName> 
+         <LastSurname>Wilson</LastSurname> 
+      </Name> 
+      <Sex>Male</Sex> 
+      <Telephone TelephoneNumberType="Home"> 
+         <TelephoneNumber>2013087781</TelephoneNumber> 
+      </Telephone> 
+      <ElectronicMail EmailAddressType="Home/Personal"> 
+         <EmailAddress>Robert.Wilson@sli-parents.org</EmailAddress> 
+      </ElectronicMail> 
+   </Parent> 
+   <Parent> 
+      <ParentUniqueStateId>2521899635</ParentUniqueStateId>  
+      <Name> 
+         <FirstName>Mary</FirstName> 
+         <MiddleName>N.</MiddleName> 
+         <LastSurname>Smith</LastSurname> 
+      </Name> 
+      <Sex>Female</Sex> 
+      <Telephone TelephoneNumberType="Home"> 
+         <TelephoneNumber>1247178809</TelephoneNumber> 
+      </Telephone> 
+      <ElectronicMail EmailAddressType="Home/Personal"> 
+         <EmailAddress>Mary.Smith@sli-parents.org</EmailAddress> 
+      </ElectronicMail> 
+   </Parent> 
+   <StudentParentAssociation> 
+      <StudentReference> 
+         <StudentIdentity> 
+            <StudentUniqueStateId>992193581</StudentUniqueStateId> 
+         </StudentIdentity> 
+      </StudentReference> 
+      <ParentReference> 
+         <ParentIdentity> 
+            <ParentUniqueStateId>3152281864</ParentUniqueStateId> 
+         </ParentIdentity> 
+      </ParentReference> 
+      <Relation>Mother</Relation> 
+      <LivesWith>true</LivesWith> 
+      <PrimaryContactStatus>true</PrimaryContactStatus> 
+      <EmergencyContactStatus>true</EmergencyContactStatus> 
+      <ContactPriority>0</ContactPriority> 
+   </StudentParentAssociation> 
+   <StudentParentAssociation> 
+      <StudentReference> 
+         <StudentIdentity> 
+            <StudentUniqueStateId>992193581</StudentUniqueStateId> 
+         </StudentIdentity> 
+      </StudentReference> 
+      <ParentReference> 
+         <ParentIdentity> 
+            <ParentUniqueStateId>2521899635</ParentUniqueStateId> 
+         </ParentIdentity> 
+      </ParentReference> 
+      <Relation>Mother</Relation> 
+      <LivesWith>true</LivesWith> 
+      <PrimaryContactStatus>false</PrimaryContactStatus> 
+      <EmergencyContactStatus>true</EmergencyContactStatus> 
+      <ContactPriority>1</ContactPriority> 
+   </StudentParentAssociation> 
+</InterchangeStudentParent> 

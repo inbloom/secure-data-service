@@ -211,20 +211,6 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
-    public void testShouldIncludeLinks() {
-        List<String> acceptRequestHeaders = new ArrayList<String>();
-        acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
-        HttpHeaders httpHeaders = mock(HttpHeaders.class);
-        when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
-        
-        assertTrue("Should include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
-        
-        acceptRequestHeaders.clear();
-        assertFalse("Should not include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
-    }
-    
-    @Test
     public void testCreateAssociationQueryParameters() {
         String key = "someKey";
         String value = "someValue";
