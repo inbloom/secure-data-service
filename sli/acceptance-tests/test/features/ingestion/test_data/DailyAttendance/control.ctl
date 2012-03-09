@@ -1,2 +1,2 @@
 edfi-xml,student,InterchangeStudent.xml,fdc4578bd5c7e94b98624655578f9cb3
-edfi-xml,Attendance,StudentAttendanceEvents.xml,a9d51459067dd39491cbb81913c827f1
+edfi-xml,Attendance,StudentAttendanceEvents.xml,e69d4297dac3712663aae52f519ef55d
