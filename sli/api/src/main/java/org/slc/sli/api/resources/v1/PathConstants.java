@@ -42,6 +42,8 @@ public class PathConstants {
     public static final String STUDENTS = "students";  
     public static final String TEACHERS = "teachers";
     public static final String STAFF = "staff";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    
     
     /*
      * This map should go away when we switch basic definition store association names to camel case.
@@ -77,8 +79,9 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.SESSIONS, SESSIONS);
         TEMP_MAP.put(ResourceNames.SCHOOLS, SCHOOLS);
         TEMP_MAP.put(ResourceNames.STUDENTS, STUDENTS);
-        TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
         TEMP_MAP.put(ResourceNames.STAFF, STAFF);
+        TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
+        TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
     }
     
 
