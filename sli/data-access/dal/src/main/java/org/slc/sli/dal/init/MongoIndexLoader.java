@@ -22,6 +22,7 @@ public class MongoIndexLoader implements InitializingBean {
     private static final Order ASCENDING = Order.ASCENDING;
     private static final String ATTENDANCE_EVENT_COLLECTION = "attendance";
     private static final String PARENT_COLLECTION = "parent";
+    private static final String STUDENT_PARENT_ASSOCIATION_COLLECTION = "studentParentAssociation";
     
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
@@ -33,8 +34,8 @@ public class MongoIndexLoader implements InitializingBean {
             // .on("metaData.idNamespace", ASCENDING)
             try {
                 LOG.debug("Creating compound index on attendance collection");
-                IndexDefinition index = new Index().on("body.eventDate", ASCENDING)
-                        .on("body.studentId", ASCENDING).on("body.attendanceEventCategory", ASCENDING).unique();
+                IndexDefinition index = new Index().on("body.eventDate", ASCENDING).on("body.studentId", ASCENDING)
+                        .on("body.attendanceEventCategory", ASCENDING).unique();
                 mongoTemplate.ensureIndex(index, ATTENDANCE_EVENT_COLLECTION);
                 LOG.debug("Successfully created compound index on attendance collection");
             } catch (Exception e) {
@@ -49,6 +50,16 @@ public class MongoIndexLoader implements InitializingBean {
                 LOG.debug("Successfully created compound index on parent collection");
             } catch (Exception e) {
                 LOG.warn("There was an error creating index on parent collection");
+            }
+            
+            try {
+                LOG.debug("Creating compound index on student-parent association collection");
+                IndexDefinition index = new Index().on("body.studentId", ASCENDING).on("body.parentId", ASCENDING)
+                        .on("metaData.idNamespace", ASCENDING).unique();
+                mongoTemplate.ensureIndex(index, STUDENT_PARENT_ASSOCIATION_COLLECTION);
+                LOG.debug("Successfully created compound index on student-parent association collection");
+            } catch (Exception e) {
+                LOG.warn("There was an error creating index on student-parent association collection");
             }
         }
     }
