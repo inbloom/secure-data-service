@@ -216,12 +216,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.slc.sli.admin</groupId>
-				<artifactId>admin</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.slc.sli</groupId>
 				<artifactId>client</artifactId>
 				<version>${project.version}</version>
