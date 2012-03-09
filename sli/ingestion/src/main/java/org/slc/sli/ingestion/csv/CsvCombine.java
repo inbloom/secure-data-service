@@ -160,7 +160,7 @@ public class CsvCombine {
     public static void main(String[] args) {
         CsvCombine combiner = new CsvCombine();
         
-        List<NeutralRecord> records = combiner.getNeutralRecordsFromCollection("SimpleListTest");
+        List<NeutralRecord> records = combiner.getNeutralRecordsFromCollection("EducationalOrgReferenceType");
         
         for (Iterator<NeutralRecord> it  = records.iterator(); it.hasNext();) {
             System.out.println(it.next());
