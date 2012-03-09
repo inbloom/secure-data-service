@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -112,6 +112,11 @@ public class ComplexSchema extends NeutralSchema {
         }
 
         return isValid;
+    }
+
+    @Override
+    public boolean isSimple() {
+        return false;
     }
 
 }
