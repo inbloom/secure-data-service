@@ -1,8 +1,7 @@
 package org.slc.sli.client;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -12,8 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.URLBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * 

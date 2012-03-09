@@ -29,7 +29,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.service.query.QueryConverter;
 import org.slc.sli.api.service.query.SortOrder;
@@ -168,7 +168,7 @@ public class BasicService implements EntityService {
         }
         
         EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
-        List<Entity> entities = makeEntityList(repo.findAll(collectionName, query));
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
         
         if (entities.size() == 0) {
             return noEntitiesFound(queryParameters);
@@ -198,11 +198,16 @@ public class BasicService implements EntityService {
     }
     
     private String implode(List<String> allowed) {
-        String commaDelimitedString = "";
+        
+        StringBuffer commaDelimitedString = new StringBuffer(37 * allowed.size());
+        int count = 0;
         for (String id : allowed) {
-            commaDelimitedString += id + ",";
+            commaDelimitedString.append(id);
+            if (count != allowed.size() - 1)
+                commaDelimitedString.append(",");
+            count++;
         }
-        return commaDelimitedString;
+        return commaDelimitedString.toString();
     }
     
     private List<Entity> makeEntityList(Iterable<Entity> items) {
@@ -238,8 +243,7 @@ public class BasicService implements EntityService {
         
         if (!binIds.isEmpty()) {
             Query query = queryConverter.stringToQuery(collectionName, null, sortBy, sortOrder);
-            Iterable<Entity> entities = repo.findByQuery(collectionName,
-                    query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -353,18 +357,18 @@ public class BasicService implements EntityService {
      * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
     private void cascadeDelete(String sourceId) {
-        //loop for every EntityDefinition that references the deleted entity's type
-        for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
-            //loop for every reference field that COULD reference the deleted ID
-            for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
+        // loop for every EntityDefinition that references the deleted entity's type
+        for (EntityDefinition referencingEntity : this.defn.getReferencingEntities()) {
+            // loop for every reference field that COULD reference the deleted ID
+            for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();
                 Map<String, String> referenceQuery = new HashMap<String, String>();
                 referenceQuery.put(referenceField, sourceId);
                 try {
-                    //list all entities that have the deleted entity's ID in their reference field
+                    // list all entities that have the deleted entity's ID in their reference field
                     for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
                         String idToBeDeleted = (String) entityBody.get("id");
-                        //delete that entity as well
+                        // delete that entity as well
                         referencingEntityService.delete(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
@@ -389,8 +393,7 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
-    EntityNotFoundException, AccessDeniedException {
+    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
@@ -434,8 +437,7 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
-                defn.getType());
+        EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(), defn.getType());
         
         return resolver.findAccessible(principal.getEntity());
     }
@@ -541,6 +543,7 @@ public class BasicService implements EntityService {
     /**
      * This should have its own class (QueryConverter)
      * TODO refactor
+     * 
      * @param queryParameters
      * @return
      */
@@ -551,26 +554,26 @@ public class BasicService implements EntityService {
             return queryBuilder.build();
         }
         
-        //read each entry in map
+        // read each entry in map
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
             
-            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { //specific field(s) to include in result set
+            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { // specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     queryBuilder.setIncludeFields(includeFields);
                 }
-            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { //specific field(s) to exclude from result set
+            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { // specific field(s) to exclude from result set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     queryBuilder.setExcludeFields(excludeFields);
                 }
-            } else if (key.equals(ParameterConstants.OFFSET)) { //skip to record X instead of starting at the beginning
+            } else if (key.equals(ParameterConstants.OFFSET)) { // skip to record X instead of starting at the beginning
                 String offset = entry.getValue();
                 if (offset != null) {
                     queryBuilder.setOffset(Integer.parseInt(offset));
                 }
-            } else if (key.equals(ParameterConstants.LIMIT)) { //display X results instead of all of them
+            } else if (key.equals(ParameterConstants.LIMIT)) { // display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     queryBuilder.setLimit(Integer.parseInt(limit));
@@ -583,11 +586,10 @@ public class BasicService implements EntityService {
             } else if (key.equals(ParameterConstants.SORT_ORDER)) { // define the sort order (ascending or descending)
                 String sortOrder = entry.getValue();
                 if (sortOrder != null) {
-                    EntityQuery.SortOrder order =
-                            sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
+                    EntityQuery.SortOrder order = sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
                     queryBuilder.setSortOrder(order);
                 }
-            } else { //query param on record
+            } else { // query param on record
                 String value = entry.getValue();
                 if (value != null) {
                     queryBuilder.addField(key, value);
