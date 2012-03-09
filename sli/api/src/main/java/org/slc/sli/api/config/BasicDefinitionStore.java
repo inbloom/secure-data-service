@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
-    
+
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
     @Autowired
@@ -175,6 +175,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getStudentTranscriptAssociations").calledFromTarget("getStudentTranscriptAssociations")
                 .build();
         addDefinition(studentTranscriptAssociation);
+
+
+        AssociationDefinition teacherParentAssociation = factory.makeAssoc(EntityNames.TEACHER_PARENT_ASSOCIATION)
+                .exposeAs(ResourceNames.TEACHER_SECTION_ASSOCIATIONS).storeAs(EntityNames.TEACHER_PARENT_ASSOCIATION)
+                .from(teacher, "getTeacher", "getTeachers").to(section, "getParent", "getParents")
+                .calledFromSource("getTeacherParentAssociations").calledFromTarget("getTeacherParentAssociations")
+                .build();
+        addDefinition(teacherParentAssociation);
         
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
