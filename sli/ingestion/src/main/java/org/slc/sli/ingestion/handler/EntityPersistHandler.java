@@ -195,6 +195,10 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
+            Map<String, Object> metadataMap = matched.getMetaData();
+            for (Map.Entry<String, Object> metadataEntry : metadataMap.entrySet()) {
+                entity.setMetaDataField(metadataEntry.getKey(), metadataEntry.getValue());
+            }
         }
     }
 

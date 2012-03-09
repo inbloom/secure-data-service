@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ import org.slc.sli.ingestion.NeutralRecord;
  *
  */
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     NeutralRecordRepository() {
         super.setClass(NeutralRecord.class);
@@ -39,26 +38,17 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return find(collection, query);
     }
 
-    @Override
-    public Iterable<NeutralRecord> findAll(String collection, int skip, int max) {
-        List<NeutralRecord> results = template.find(new Query().skip(skip).limit(max), NeutralRecord.class, collection);
-        logResults(collection, results);
-        return results;
-    }
-
-    @Override
-    public boolean update(String collection, NeutralRecord object) {
-        //TODO: Add implementation for Transformer.
-        return update(object);
-    }
-
     public boolean update(NeutralRecord neutralRecord) {
+        return update(neutralRecord.getRecordType(), neutralRecord);
+    }
+
+    @Override
+    public boolean update(String collection, NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord, "The given Neutral Record must not be null!");
         String id = neutralRecord.getLocalId().toString();
         if (id.equals(""))
             return false;
 
-        String collection = neutralRecord.getRecordType();
         NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class,
                 collection);
         if (found != null) {
@@ -71,8 +61,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
-    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        //TODO: Add implementation for Transformer.
+    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
+        // TODO: Add implementation for Transformer.
         return null;
     }
 
@@ -86,75 +77,13 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return neutralRecord;
     }
 
-    @Override
-    public boolean delete(String collection, String id) {
-        if (id.equals(""))
+    public boolean deleteByLocalId(String collection, String localId) {
+        if (localId.equals(""))
             return false;
-        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where("body.localId").is(id)),
+        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where("body.localId").is(localId)),
                 NeutralRecord.class, collection);
-        LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
+        LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, localId });
         return deleted != null;
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields, int skip, int max) {
-        return findByPaths(collection, convertBodyToPaths(fields), skip, max);
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths, int skip, int max) {
-        Query query = new Query();
-
-        return findByQuery(collection, addSearchPathsToQuery(query, paths), skip, max);
-    }
-
-    @Override
-    public void deleteAll(String collection) {
-        template.remove(new Query(), collection);
-        LOG.info("delete all entities in collection {}", collection);
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findAll(String collection) {
-        return findByQuery(collection, new Query());
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findByFields(String collection, Map<String, String> fields) {
-        return findByPaths(collection, convertBodyToPaths(fields));
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findByPaths(String collection, Map<String, String> paths) {
-        Query query = new Query();
-
-        return findByQuery(collection, addSearchPathsToQuery(query, paths));
-    }
-
-    @Override
-    public Iterable<NeutralRecord> findByQuery(String collection, Query query, int skip, int max) {
-        if (query == null)
-            query = new Query();
-
-        query.skip(skip).limit(max);
-
-        return findByQuery(collection, query);
-    }
-
-    @Override
-    protected Iterable<NeutralRecord> findByQuery(String collection, Query query) {
-        List<NeutralRecord> results = template.find(query, NeutralRecord.class, collection);
-        logResults(collection, results);
-        return results;
-    }
-
-    @Override
-    public long count(String collection, Query query) {
-        DBCollection dBcollection = template.getCollection(collection);
-        if (collection == null) {
-            return 0;
-        }
-        return dBcollection.count(query.getQueryObject());
     }
 
     @Override
@@ -169,22 +98,4 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return ids;
     }
 
-    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
-        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
-            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
-            query.addCriteria(criteria);
-        }
-
-        return query;
-    }
-
-    private void logResults(String collection, List<NeutralRecord> results) {
-        if (results == null) {
-            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collection, 0 });
-        } else {
-            LOG.debug("find entities in collection {} with total numbers is {}",
-                    new Object[] { collection, results.size() });
-        }
-
-    }
 }
