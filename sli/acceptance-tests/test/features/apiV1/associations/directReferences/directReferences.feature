@@ -14,7 +14,7 @@ Scenario Outline: Control the presence of links by specifying an accept type for
      And the response should contain links if I requested them
     Examples:
         | format                     | return links |
-        | "application/json"         | "no links"   |
+        | "application/json"         | "links"      |
         | "application/vnd.slc+json" | "links"      |
 #       | "application/xml"          |              |
 
