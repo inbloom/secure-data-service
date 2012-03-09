@@ -6,7 +6,7 @@ dashboard_logout_page: "/j_spring_security_logout"
 dashboard_landing_page: "/"
 dashboard_app_selector_page: "/appselector"
 dashboard_api_server_uri: "https://devapp1.slidev.org"
-devdash1: "http://devdash1.slidev.org:8080"
+devdash1: "https://devdash1.slidev.org"
 realm_page_url: "https://devapp1.slidev.org/disco/realms/list?RelayState="
 
 admintools_server_url: "http://localhost:3000"
