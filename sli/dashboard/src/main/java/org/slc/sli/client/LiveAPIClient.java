@@ -189,6 +189,9 @@ public class LiveAPIClient implements APIClient {
             return null;
         }
         GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token);
+        if (section == null) {
+            return null;
+        }
         section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
         
         // if no section name, fill in with section code
@@ -276,7 +279,10 @@ public class LiveAPIClient implements APIClient {
         for (GenericEntity response : responses) {
             String sessionId = response.getString(Constants.ATTR_SECTION_ID);
             if (sessionId != null) {
-                sections.add(getSection(sessionId, token));
+                GenericEntity section = getSection(sessionId, token);
+                if (section != null) {
+                    sections.add(section);
+                }
             }
         }
         
