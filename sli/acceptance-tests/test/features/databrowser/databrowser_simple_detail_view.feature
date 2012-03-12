@@ -5,11 +5,14 @@ As a Data Browser user, I want to be able to traverse all of the data I have acc
 Scenario: Go to Data Browser when authenticated SLI
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 Then I should be redirected to the Data Browser home page
 And I should see my available links labeled
  
@@ -26,12 +29,14 @@ And I am no longer authenticated to SLI
 Scenario Outline: Navigate to home page from any page
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I have navigated to the <Page> page of the Data Browser
 When I click on the "Home" link
 Then I should be redirected to the Data Browser home page
@@ -44,12 +49,14 @@ Then I should be redirected to the Data Browser home page
 Scenario: Associations List - Simple View
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I click on the "Teacher to Section List" link
 Then I am redirected to the associations list page
 And I see a table displaying the associations in a list
@@ -58,12 +65,14 @@ And those names include the IDs of both "TeacherId" and "SectionId" in the assoc
 Scenario: Associations List - Expand/Collapse between Simple View and Detail View
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I have navigated to the "My Sections" page of the Data Browser
 When I click on the row containing "FHS-Science101"
 Then the row expands below listing the rest of the attributes for the item
@@ -73,12 +82,14 @@ Then the row collapses hiding the additional attributes
 Scenario Outline: Entity Detail View
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I have navigated to the <Page> page of the Data Browser
 When I click on the row containing <Text>
 And I click on the <Link> of any of the associating entities
@@ -92,24 +103,28 @@ Then I am redirected to a page that page lists all of the <Entity> entity's fiel
 Scenario: Click on Available Links associations
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I have navigated to the "My Schools" page of the Data Browser
 When I click on the "Teacher to School List" link
 Then I am redirected to the particular associations Simple View
  
 Scenario: Click on Available Links entities
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-When I navigate to the Data Browser Home URL
-Then I should be directed to the Realmchooser page
-When I choose realm "Shared Learning Infrastructure" in the drop-down list
-And I click on the page Go button
-And I wait for a second
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the SLI IDP Login page
+When I enter "jdoe" in the username text field
+And I enter "jdoe1234" in the password text field
+And I click the IDP page Go button
 And I have navigated to the "My Schools" page of the Data Browser
 When I click on the "Me" link
 Then I am redirected to the particular entity Detail View
