@@ -21,12 +21,13 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 
-
 /**
- * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such as a
- * student summary comprised of student profile, enrollment, program, and assessment information in order to 
+ * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
+ * as a
+ * student summary comprised of student profile, enrollment, program, and assessment information in
+ * order to
  * deliver the Population Summary interaction.
- *       
+ * 
  * @author Robert Bloh rbloh@wgen.net
  * 
  */
@@ -37,7 +38,7 @@ public class PopulationManager {
     @Autowired
     private EntityManager entityManager;
     
-    public PopulationManager() { 
+    public PopulationManager() {
         
     }
     
@@ -53,15 +54,15 @@ public class PopulationManager {
      *         - the student summary entity list
      */
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig) {
-       
+        
         // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
-            
+        
         // Get student programs
         List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
         Map<String, Object> studentProgramMap = new HashMap<String, Object>();
         for (GenericEntity studentProgram : studentPrograms) {
-            List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);            
+            List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);
             studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
         
@@ -72,8 +73,7 @@ public class PopulationManager {
             studentAssessmentMap.put(studentId, studentAssessments);
         }
         Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
-
-
+        
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
             if (studentSummary == null) continue;
@@ -85,7 +85,7 @@ public class PopulationManager {
         
         return studentSummaries;
     }
-
+    
     public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
@@ -97,12 +97,11 @@ public class PopulationManager {
         }
         return studentAttendanceMap;
     }
-
+    
     private List<GenericEntity> getStudentAttendance(String token, String studentId) {
         return entityManager.getAttendance(token, studentId);
     }
-
-
+    
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -112,7 +111,7 @@ public class PopulationManager {
      * @return
      */
     private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-
+        
         // get list of assmt names from config
         List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_ASSESSMENT);
         Set<String> assmtNames = getAssmtNames(dataFields);
@@ -124,22 +123,23 @@ public class PopulationManager {
         List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
         filteredAssmts.addAll(assmts);
         
-        /* To do this right, we'll need all the assessments under the assmt family's name, and
+        /*
+         * To do this right, we'll need all the assessments under the assmt family's name, and
          * we'll require assessment metadata for it
-        for (Assessment assmt : assmts) {
-            if (assmtNames.contains(assmt.getAssessmentName()))
-                filteredAssmts.add(assmt);
-        }
-        */
+         * for (Assessment assmt : assmts) {
+         * if (assmtNames.contains(assmt.getAssessmentName()))
+         * filteredAssmts.add(assmt);
+         * }
+         */
         
         return filteredAssmts;
     }
-
+    
     /*
      * Get names of assessments we need data for
      */
     private Set<String> getAssmtNames(List<Field> dataFields) {
-
+        
         Set<String> assmtNames = new HashSet<String>();
         for (Field field : dataFields) {
             String fieldValue = field.getValue();
@@ -147,7 +147,7 @@ public class PopulationManager {
         }
         return assmtNames;
     }
-
+    
     /**
      * Get assessments from the api, given student assessment data
      * 
@@ -162,9 +162,9 @@ public class PopulationManager {
         
         // get the assessment objects from the api
         List<GenericEntity> assmts = entityManager.getAssessments(username, assmtIds);
-        return assmts;    
+        return assmts;
     }
-
+    
     /**
      * Helper method to grab the assessment ids from the student assessment results
      * 
@@ -177,7 +177,8 @@ public class PopulationManager {
         // loop through student summaries, grab student assessment lists
         for (GenericEntity studentSummary : studentSummaries) {
             
-            List<GenericEntity> studentAssmts = (List<GenericEntity>) studentSummary.get(Constants.ATTR_STUDENT_ASSESSMENTS);
+            List<GenericEntity> studentAssmts = (List<GenericEntity>) studentSummary
+                    .get(Constants.ATTR_STUDENT_ASSESSMENTS);
             for (GenericEntity studentAssmt : studentAssmts) {
                 
                 // add assessment id to the list
@@ -191,11 +192,9 @@ public class PopulationManager {
         return assmtIds;
     }
     
-        
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
     
     /**
      * Get student entity
@@ -209,6 +208,7 @@ public class PopulationManager {
     
     /**
      * Get student with additional info for CSI panel
+     * 
      * @param token
      * @param studentId
      * @return
@@ -218,6 +218,3 @@ public class PopulationManager {
     }
     
 }
-
-
-

@@ -5,6 +5,11 @@ import java.util.Map;
 import org.slc.sli.config.Field;
 import org.slc.sli.view.AggregateRatioResolver;
 
+/**
+ * 
+ * @author pwolf
+ *
+ */
 public class FieldRate extends ColorByPercent {
 
     private Map student;

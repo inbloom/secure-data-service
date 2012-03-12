@@ -1,5 +1,5 @@
 require 'selenium-webdriver'
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']

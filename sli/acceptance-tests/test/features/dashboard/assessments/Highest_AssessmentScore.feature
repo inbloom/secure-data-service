@@ -1,4 +1,4 @@
-@wip
+
 Feature: Display Higest score for assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -15,11 +15,11 @@ Scenario: Calculating Highest ReportingResultType for any a defined assessment
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
-  Then I should only see one view named "IL_9-12"
-  And in the configuration file "rule" is "Highest"
-  And in the configuration file "ReportingTypes" are "scaleScore"  and "percentile"
+	And I select <viewSelector> "IL_3-8_ELA"
+  And the view configuration file set "field.value" is "ISAT Writing.Scale score"
+	And the view configuration file set "field.timeslot" is "HIGHEST_EVER"
   
-  When I find the "Assessment" where the "assessmentTitle" is "SAT" and the "assessmentFamilyHierarchy" is like "SAT*"
-    Then for each student I find the "highest" "studentAssessmentAssociation.scoreResults.result"
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
-    And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "percentile" 
+   Then I should see a table heading "ISAT Writing (highest)"
+	And I should see a field "SS" in this table
+	And I should see  "Delilah Sims" in student field
+	And I should see his/her highest ISAT Writing Scale Score is "295"
