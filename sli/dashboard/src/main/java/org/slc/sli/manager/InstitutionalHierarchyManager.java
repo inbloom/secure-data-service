@@ -25,10 +25,10 @@ public class InstitutionalHierarchyManager extends Manager {
 
     // accessors 
     public List<GenericEntity> getSchools(String token) {
-        return apiClient.getSchools(token, null);
+        return getApiClient().getSchools(token, null);
     }
     public GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
-        return apiClient.getParentEducationalOrganization(token, edOrgOrSchool);
+        return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
     }
 
     /**
