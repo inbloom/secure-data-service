@@ -2,6 +2,7 @@ package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,11 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.util.datetime.DateTimeUtil;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -368,6 +372,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return paths;
     }
 
+    /**
+     * Update the updated timestamp on the document metadata
+     * 
+     * @param entity
+     */
+    protected void updateTimestamp(Entity entity) {
+        Date now = DateTimeUtil.getNowInUTC();
+        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+    }
+    
     private void logResults(String collectioName, List<T> results) {
         if (results == null) {
             LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });

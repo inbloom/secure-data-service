@@ -59,8 +59,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
-    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName) {
+    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
         neutralRecord.setAttributes(body);
@@ -78,10 +77,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public boolean deleteByLocalId(String collection, String localId) {
-        if (localId.equals(""))
+        if (localId.equals("")) {
             return false;
-        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where(getRecordIdName()).is(localId)),
-                NeutralRecord.class, collection);
+        }
+        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where(getRecordIdName()).is(localId)), NeutralRecord.class, collection);
         LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, localId });
         return deleted != null;
     }

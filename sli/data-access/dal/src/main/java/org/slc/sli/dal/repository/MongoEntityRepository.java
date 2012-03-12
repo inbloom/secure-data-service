@@ -80,12 +80,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    /** Update the updated timestamp on the document metadata. */
-    private void updateTimestamp(Entity entity) {
-        Date now = DateTimeUtil.getNowInUTC();
-        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
-    }
-
     @Override
     protected String getRecordId(Entity entity) {
         return entity.getEntityId();
