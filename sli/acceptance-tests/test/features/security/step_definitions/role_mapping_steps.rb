@@ -26,13 +26,13 @@ end
 
 Then /^I should see a URL for each realm that links to their IDP$/ do
   @result.each do |item|
-    assert(item["idp"] != nil, "Realm "+item["state"]+" URL was not found.")
+    assert(item["idp"] != nil, "Realm "+item["regionId"]+" URL was not found.")
   end
 end
 
 Then /^I should not see any data about any realm's role\-mapping$/ do
   @result.each do |item|
-    assert(item["mappings"] == nil, "Realm "+item["state"]+" Role mapping info was found - " + item["mappings"].inspect)
+    assert(item["mappings"] == nil, "Realm "+item["regionId"]+" Role mapping info was found - " + item["mappings"].inspect)
   end
 end
 
@@ -83,7 +83,7 @@ Then /^I should see a list of valid realm objects$/ do
   assert(result != nil, "Result of JSON parsing is nil")
 
   result.each do |item|
-    assert(item["idp"] != nil, "Realm "+item["state"]+" URL was not found.")
+    assert(item["idp"] != nil, "Realm "+item["regionId"]+" URL was not found.")
   end
 end
 

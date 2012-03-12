@@ -42,6 +42,9 @@ public class ViewManager extends Manager {
         
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
+            
+            applicableViewConfigs.add(viewConfig);
+            
             if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 

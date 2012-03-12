@@ -117,6 +117,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         // Student search.
         Map<String, String> studentFilterFields = new HashMap<String, String>();
@@ -128,10 +129,11 @@ public class EntityPersistHandlerTest {
         NeutralRecordEntity studentEntity = createStudentEntity();
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentEntity, new FaultsReport());
+        entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
                 "student");
+        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
     /**
@@ -141,6 +143,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testUpdateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         NeutralRecordEntity studentEntity = createStudentEntity();
         NeutralRecordEntity existingStudentEntity = createStudentEntity();
@@ -157,14 +160,16 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentEntity, new FaultsReport());
+        entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update("student", studentEntity);
+        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
     @Test
     public void testPersistanceExceptionHandling() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         NeutralRecordEntity studentEntity = createStudentEntity();
         NeutralRecordEntity existingStudentEntity = createStudentEntity();
@@ -184,11 +189,9 @@ public class EntityPersistHandlerTest {
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
         entityPersistHandler.setEntityRepository(entityRepository);
-
-        FaultsReport fr = new FaultsReport();
         entityPersistHandler.doHandling(studentEntity, fr);
 
-        Assert.assertTrue(fr.hasErrors());
+        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
         Assert.assertEquals("Entity student - Record 0: Missing or empty field <field>", fr.getFaults().get(0).getMessage());
     }
 
@@ -199,6 +202,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -223,10 +227,11 @@ public class EntityPersistHandlerTest {
 
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
                 studentSchoolAssociationEntity.getType());
+        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
     /**
@@ -236,6 +241,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testUpdateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -269,14 +275,16 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository).update("studentSchoolAssociation", studentSchoolAssociationEntity);
+        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
     @Test
     public void testInvalidUpdateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -306,9 +314,10 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository, never()).update("studentSchoolAssociation", studentSchoolAssociationEntity);
+        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
     }
 
     /**
@@ -320,12 +329,14 @@ public class EntityPersistHandlerTest {
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(BAD_STUDENT_ID);
         studentSchoolAssociationEntity.setAttributeField("studentId", BAD_STUDENT_ID);
 
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, new FaultsReport());
+        FaultsReport fr = new FaultsReport();
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(mockedEntityRepository, never()).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
                 studentSchoolAssociationEntity.getType());
         verify(mockedEntityRepository, never()).update(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity);
+        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
     }
 
     @Test
@@ -409,7 +420,7 @@ public class EntityPersistHandlerTest {
         // Create and return new entity from neutral record.
         return new NeutralRecordEntity(neutralRecord);
     }
-    
+
     /**
      * @author jtully 2/28/2012
      * Test of resolveInternalIds for reference fields of arbitrary name
@@ -422,25 +433,25 @@ public class EntityPersistHandlerTest {
         String externalId = "externalId";
         String internalId = "internalId";
         String nameSpace = "nameSpace";
-        
+
         //create a test entity with these values
         Map<String, Object> localParentIds = new HashMap<String, Object>();
         localParentIds.put(collectionName + "#" + fieldName, externalId);
-        
+
         NeutralRecord testNr = new NeutralRecord();
         testNr.setLocalParentIds(localParentIds);
         testNr.setAttributeField(fieldName, externalId);
         testNr.setLocalParentIds(localParentIds);
-        
+
         NeutralRecordEntity testEntity = new NeutralRecordEntity(testNr);
         testEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
-        
+
         //create an entity to reference
-        NeutralRecordEntity refEntity = new NeutralRecordEntity(new NeutralRecord()); 
+        NeutralRecordEntity refEntity = new NeutralRecordEntity(new NeutralRecord());
         refEntity.setEntityId(internalId);
         LinkedList<Entity> refResults = new LinkedList<Entity>();
         refResults.add(refEntity);
-        
+
         //mock the db lookup
         Map<String, String> testFilterFields = new HashMap<String, String>();
         testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
@@ -452,9 +463,9 @@ public class EntityPersistHandlerTest {
         //mock the errorReport
         ErrorReport mockedErrorReport = mock(ErrorReport.class);
         when(mockedErrorReport.hasErrors()).thenReturn(false);
-        
+
         entityPersistHandler.resolveInternalIds(testEntity, mockedErrorReport);
-        
+
         //assert that the Id normalization was performed correctly
         String idValue = (String) testEntity.getBody().get(fieldName);
         Assert.assertEquals("reference Id was not normalized correctly", internalId, idValue);
@@ -485,6 +496,7 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateTeacherSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
+        FaultsReport fr = new FaultsReport();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundTeacher = new NeutralRecordEntity(null);
@@ -509,10 +521,11 @@ public class EntityPersistHandlerTest {
 
         NeutralRecordEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(teacherSchoolAssociationEntity, new FaultsReport());
+        entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
         verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
                 teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),
                 teacherSchoolAssociationEntity.getType());
+        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
 }

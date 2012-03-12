@@ -1,7 +1,8 @@
 package org.slc.sli.client;
 
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.URLBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -11,9 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.URLBuilder;
 
 /**
  * 
@@ -22,8 +22,6 @@ import com.google.gson.JsonParser;
 @Component("RESTClient")
 public class RESTClient {
 
-    /** Request parameter key used to pass sessionId to API **/
-    private static final String API_SESSION_KEY = "sessionId";
     private String securityUrl;
 
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
@@ -39,7 +37,7 @@ public class RESTClient {
     public JsonObject sessionCheck(String token) {
         logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
         // String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
-        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token);
+        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token, true);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
@@ -77,7 +75,7 @@ public class RESTClient {
 
     }
 
-    public String makeJsonRequestWHeaders(String path, String token) {
+    public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
         RestTemplate template = new RestTemplate();
 
         if (token != null) {
@@ -89,6 +87,9 @@ public class RESTClient {
             } else {
                 url = new URLBuilder(path);
             }
+            //TODO probably should use media types
+            if (fullEntities)
+                url.addQueryParam("full-entities", "true");
 
             HttpHeaders headers = new HttpHeaders();
             // headers.add(API_SESSION_KEY, token);

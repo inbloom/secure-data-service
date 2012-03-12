@@ -176,11 +176,43 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1ParentTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-                     :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests, :v1StudentParentAssociationTests, :v1StudentSectionGradebookEntryTests] do
+task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1AssociationTests,
+                     :v1homeUriTests,
+                     :v1ValidationTests,
+                     :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests,
+                     :v1CascadeDeletionTests,
+                     :v1TargetTests] do
   displayFailureReport()
+end
+
+task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1AttendanceTests,
+                           :v1CourseTests,
+                           :v1EducationOrganizationTests,
+                           :v1GradebookEntryTests,
+                           :v1ParentTests,
+                           :v1SchoolTests,
+                           :v1SectionTests,
+                           :v1SessionTests,
+                           :v1StaffTests,
+                           :v1StudentTests,
+                           :v1StudentSectionGradebookEntryTests,
+                           :v1TeacherTests] do
+end
+
+task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
+                                :v1SectionAssessmentAssociationTests,
+                                :v1SessionCourseAssociationTests,
+                                :v1StaffEdOrgAssociationTests,
+                                :v1StudentAssessmentAssociationTests,
+                                :v1StudentParentAssociationTests,
+                                :v1StudentSchoolAssociationTests,
+                                :v1StudentSectionAssociationTests,
+                                :v1StudentTranscriptAssociationTests,
+                                :v1TeacherSchoolAssociationTests,
+                                :v1TeacherSectionAssociationTests] do
 end
 
 desc "Run V1 Student Section Gradebook Entry Tests"
@@ -683,7 +715,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardAssessmentTests, :dashboardAttendance] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -695,22 +727,22 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")
+  runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
-  runTests("test/features/dashboard/k3view.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
 end
 
 desc "Run Dashboard High School view Tests"
 task :dashboardHSViewTests do
-  runTests("test/features/dashboard/high_school_view.feature")
+  runTests("test/features/dashboard/dash/high_school_view.feature")
 end
 
 desc "Run Dashboard Program Participation and Student Info Tests"
 task :dashboardLozengesTests do
-  runTests("test/features/dashboard/lozenges.feature")
+  runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
 # desc "Run Dashboard YY Tests"
@@ -722,18 +754,18 @@ end
 
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
-  runTests("test/features/dashboard/user_based_views.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
 end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dashboard_api_integration.feature")
+    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
 end
 
 
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
-    runTests("test/features/dashboard/dashboard_login.feature")
+    runTests("test/features/dashboard/dash/dashboard_login.feature")
 end
 
 desc "Run Dashboard Assessment tests"
@@ -760,7 +792,17 @@ end
 
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
-  runTests("test/features/dashboard/attendance.feature")
+  runTests("test/features/dashboard/dash/attendance.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardStudentProfileTests do
+  runTests("test/features/dashboard/dash/student_profile.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardTabPanelTests do
+  runTests("test/features/dashboard/dash/pages_panel.feature")
 end
 
 ############################################################
