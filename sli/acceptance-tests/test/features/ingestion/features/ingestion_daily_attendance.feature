@@ -29,6 +29,12 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 16056 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records considered: 15984" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records ingested successfully: 15984" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceAppend.zip" file as the payload of the ingestion job
@@ -47,19 +53,28 @@ Then I should see following map of entry counts in the corresponding collections
 
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
-
-Scenario: Post a zip file containing duplicate configured interchanges as a payload of the ingestion job: Populated Database
-Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-#	And I should see "Entity (attendanceEvent) reports failure: E11000 duplicate key error" in the resulting error log file
-  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 72 records." in the resulting batch job file
-
-Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
-Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-#	And I should see "<<<insert could not find [student] in mongo repository error message>>>" in the resulting error log file
-  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "Processed 1 records." in the resulting batch job file
+   And I should see "StudentAttendanceAppend.xml records considered: 72" in the resulting batch job file
+   And I should see "StudentAttendanceAppend.xml records ingested successfully: 72" in the resulting batch job file
+   And I should see "StudentAttendanceAppend.xml records failed: 0" in the resulting batch job file
+#
+#Scenario: Post a zip file containing duplicate configured interchanges as a payload of the ingestion job: Populated Database
+#Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
+#When zip file is scp to ingestion landing zone
+#  And a batch job log has been created
+##	And I should see "Entity (attendanceEvent) reports failure: E11000 duplicate key error" in the resulting error log file
+#  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+#  And I should see "Processed 72 records." in the resulting batch job file
+#     And I should see "StudentAttendanceDuplicate.xml records considered: 72" in the resulting batch job file
+#   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
+#   And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
+#
+#Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
+#Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
+#When zip file is scp to ingestion landing zone
+#  And a batch job log has been created
+##	And I should see "<<<insert could not find [student] in mongo repository error message>>>" in the resulting error log file
+#  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+#  And I should see "Processed 1 records." in the resulting batch job file
+#  And I should see "StudentAttendanceNoStudent.xml records considered: 1" in the resulting batch job file
+#  And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
+#  And I should see "StudentAttendanceNoStudent.xml records failed: 1" in the resulting batch job file
