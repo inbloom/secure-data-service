@@ -150,6 +150,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
             user.setRoles(new ArrayList<String>(roleNamesSet));
             user.setName((String) body.get("userName"));
+            user.setRealm(realm.getEntityId());
 
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);
