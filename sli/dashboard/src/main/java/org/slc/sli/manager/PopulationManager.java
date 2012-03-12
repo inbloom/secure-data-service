@@ -1,6 +1,7 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,11 +47,13 @@ public class PopulationManager {
      *            - the principle authentication token
      * @param studentIds
      *            - the student id list
+     * @param sessionId
+     *            - The id of the current session so you can get historical context.
      * @return studentList
      *         - the student summary entity list
      */
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig) {
-        
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig, String sessionId) {
+
         // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         
@@ -63,13 +66,17 @@ public class PopulationManager {
         }
         
         // Get student assessments
+        long startTime = System.nanoTime();
         Map<String, Object> studentAssessmentMap = new HashMap<String, Object>();
         for (String studentId : studentIds) {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
-        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
-        
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
+
+        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
+
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
             if (studentSummary == null) continue;
@@ -81,23 +88,31 @@ public class PopulationManager {
         
         return studentSummaries;
     }
-    
-    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
+
+    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds, String sessionId) {
+
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
+        long startTime = System.nanoTime();
+        
+        List<String> dates = getSessionDates(token, sessionId);
         for (String studentId : studentIds) {
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
-            
+            long studentTime = System.nanoTime();
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
+
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
         return studentAttendanceMap;
     }
-    
-    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
-        return entityManager.getAttendance(token, studentId);
+
+    private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
+        return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
-    
+
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -213,5 +228,19 @@ public class PopulationManager {
         String key = (String)studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
-    
+
+
+    private List<String> getSessionDates(String token, String sessionId) {
+        //Get the session first.
+        GenericEntity session = entityManager.getSession(token, sessionId);
+        List<String> dates = new ArrayList<String>();
+        if (session.containsKey("beginDate")) {
+            dates.add(session.getString("beginDate"));
+            dates.add(session.getString("endDate"));
+        } else {
+            dates.add("");
+            dates.add("");
+        }
+        return dates;
+    }
 }

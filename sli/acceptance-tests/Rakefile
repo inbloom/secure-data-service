@@ -183,6 +183,9 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1CascadeDeletionTests,
+                     :v1EncryptionTests,
+                     :v1SortingAndPagingTests,
+                     :v1ListTests,
                      :v1TargetTests] do
   displayFailureReport()
 end
@@ -485,6 +488,12 @@ desc "Run Target Tests"
 task :v1TargetTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/targets")
+end
+
+desc "Run List Tests"
+task :v1ListTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/lists")
 end
 
 ############################################################
@@ -869,6 +878,7 @@ task :importUnifiedData do
     "assessment"                   => "unified_data/uds_assessments.json",
     "attendance"                   => "unified_data/uds_attendance.json",
     "section"                      => "unified_data/uds_sections.json",
+    "session"                      => "unified_data/uds_sessions.json",
     "course"                       => "unified_data/uds_courses.json",
     "school"                       => "unified_data/uds_schools.json",
     "student"                      => "unified_data/uds_students.json",
