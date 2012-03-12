@@ -86,11 +86,15 @@ public class PopulationManager {
         }
         
         // Get student assessments
+        long startTime = System.nanoTime();
         Map<String, Object> studentAssessmentMap = new HashMap<String, Object>();
         for (String studentId : studentIds) {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
+
         Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
 
 
@@ -118,7 +122,7 @@ public class PopulationManager {
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendances: " + endTime);
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
         return studentAttendanceMap;
     }
 
