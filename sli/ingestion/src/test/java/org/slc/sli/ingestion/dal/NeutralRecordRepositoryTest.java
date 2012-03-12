@@ -116,7 +116,7 @@ public class NeutralRecordRepositoryTest {
         assertTrue(searchResults.iterator().hasNext());
 
         // test update
-        found.getAttributes().put("firstName", "Mandy");
+        found.setAttributeField("firstName", "Mandy");
         WriteResult goodResult = mock(WriteResult.class);
         when(goodResult.getN()).thenReturn(1);
         when(
