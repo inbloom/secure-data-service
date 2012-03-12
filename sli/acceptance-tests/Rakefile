@@ -778,14 +778,13 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
-
 end
 
 
@@ -797,6 +796,11 @@ end
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
     runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
+desc "Run Dashboard performance level acceptance tests"
+task :PerformanceLevels do
+    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
 end
 
 desc "Run dashboard attendance related tests"
