@@ -12,14 +12,10 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,14 +31,6 @@ public class PopulationManagerTest {
     private PopulationManager manager;
     private EntityManager mockEntity;
     
-    private static final String STUDENTID = "123456";
-    private static final String YEAR_1998_1999 = "1998-1999";
-    private static final String YEAR_2006_2007 = "2006-2007";
-    private static final String YEAR_2009_2010 = "2009-2010";
-    private static final String COURSEID1 = "5678";
-    private static final String COURSEID2 = "1234";
-    private static final String COURSEID3 = "9876";
-
     @Before
     public void setUp() throws Exception {
         manager = new PopulationManager();
@@ -234,144 +222,6 @@ public class PopulationManagerTest {
 
         Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
         assertNotNull(studentAttendance);
-    }
-    
-    @Test
-    public void testGetStudentHistoricalAssessments() throws Exception {
-        String token = "token", subjectArea = "Math";
-        String studentId = "123456";
-        String courseId = "56789";
+    }    
         
-        //create the course
-        GenericEntity courseEntity = new GenericEntity();
-        courseEntity.put("id", courseId);
-        courseEntity.put("courseTitle", "Math 1");
-        //create the accociation
-        GenericEntity assocEntity = new GenericEntity();
-        assocEntity.put("finalLettergrade", "A");
-        assocEntity.put("studentId", studentId);
-        
-        //add the courses
-        List<GenericEntity> courses = new ArrayList<GenericEntity>();
-        courses.add(courseEntity);
-        //add the associations
-        List<GenericEntity> studentCourseAssocs = new ArrayList<GenericEntity>();
-        studentCourseAssocs.add(assocEntity);
-        //add the students
-        List<String> students = new ArrayList<String>();
-        students.add(studentId);
-        
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("subjectArea", subjectArea);
-        params.put("includeFields", "courseTitle");
-        
-        Map<String, String> params1 = new HashMap<String, String>();
-        params1.put("courseId", courseId);
-        params1.put("includeFields", "finalLetterGradeEarned");
-        
-        when(mockEntity.getCourses(token, studentId, params)).thenReturn(courses);
-        when(mockEntity.getStudentTranscriptAssociations(token, studentId, params1)).thenReturn(studentCourseAssocs);
-        
-        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, subjectArea);
-        
-        assertEquals("Should have one result", 1, results.size());
-        assertTrue("Should have a key with the student Id", results.keySet().contains(studentId));
-        assertEquals("Letter grade should be A", "A", results.get(studentId).get(0).get("finalLettergrade"));
-        assertEquals("Student Id should be 123456", studentId, results.get(studentId).get(0).get("studentId"));
-        assertEquals("Course title should match", "Math 1", results.get(studentId).get(0).get("courseTitle"));
-        assertEquals("subject area should match", "Math", results.get(studentId).get(0).get("subjectArea"));
-    }
-    
-    @Test
-    public void testApplyShoolYear() {
-        String token = "token";
-        String sessionId1 = "9999", sessionId2 = "9998", sessionId3 = "9997";
-        
-        //create the sections
-        GenericEntity sectionEntity1 = new GenericEntity();
-        sectionEntity1.put("sessionId", sessionId1);
-        sectionEntity1.put("courseId", COURSEID1);
-        GenericEntity sectionEntity2 = new GenericEntity();
-        sectionEntity2.put("sessionId", sessionId2);
-        sectionEntity2.put("courseId", COURSEID2);
-        GenericEntity sectionEntity3 = new GenericEntity();
-        sectionEntity3.put("sessionId", sessionId3);
-        sectionEntity3.put("courseId", COURSEID3);
-        
-        //create the sessions
-        GenericEntity sessionEntity1 = new GenericEntity();
-        sessionEntity1.put("schoolYear", YEAR_1998_1999);
-        GenericEntity sessionEntity2 = new GenericEntity();
-        sessionEntity2.put("schoolYear", YEAR_2009_2010);
-        GenericEntity sessionEntity3 = new GenericEntity();
-        sessionEntity3.put("schoolYear", YEAR_2006_2007);
-        
-        //add the sections
-        List<GenericEntity> sections1 = new ArrayList<GenericEntity>();
-        sections1.add(sectionEntity1);
-        List<GenericEntity> sections2 = new ArrayList<GenericEntity>();
-        sections2.add(sectionEntity2);
-        List<GenericEntity> sections3 = new ArrayList<GenericEntity>();
-        sections3.add(sectionEntity3);
-        
-        //create the params maps
-        Map<String, String> params1 = new HashMap<String, String>();
-        params1.put("courseId", COURSEID1);
-        params1.put("includeFields", "sessionId");
-        Map<String, String> params2 = new HashMap<String, String>();
-        params2.put("courseId", COURSEID2);
-        params2.put("includeFields", "sessionId");
-        Map<String, String> params3 = new HashMap<String, String>();
-        params3.put("courseId", COURSEID3);
-        params3.put("includeFields", "sessionId");
-        
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("includeFields", "schoolYear");
-        
-        //setup the mocks
-        when(mockEntity.getSections(token, STUDENTID, params1)).thenReturn(sections1);
-        when(mockEntity.getSections(token, STUDENTID, params2)).thenReturn(sections2);
-        when(mockEntity.getSections(token, STUDENTID, params3)).thenReturn(sections3);
-        
-        when(mockEntity.getEntity(token, "sessions", sessionId1, params)).thenReturn(sessionEntity1);
-        when(mockEntity.getEntity(token, "sessions", sessionId2, params)).thenReturn(sessionEntity2);
-        when(mockEntity.getEntity(token, "sessions", sessionId3, params)).thenReturn(sessionEntity3);
-        
-        Map<String, List<GenericEntity>> data = buildHistoricalDataMap();
-        
-        SortedSet<String> results = manager.applyShoolYear(token, data);
-        assertEquals("Size should be 3", 3, results.size());
-        assertEquals("First element should match", YEAR_2009_2010, results.first());
-        assertEquals("Third element should match", YEAR_1998_1999, results.last());
-        
-        assertEquals("First element should match", "2009-2010", data.get(STUDENTID).get(0).getString("schoolYear"));
-        assertEquals("Second element should match", YEAR_2006_2007, data.get(STUDENTID).get(1).getString("schoolYear"));
-        assertEquals("Third element should match", YEAR_1998_1999, data.get(STUDENTID).get(2).getString("schoolYear"));
-    }
-    
-    private Map<String, List<GenericEntity>> buildHistoricalDataMap() {
-        Map<String, List<GenericEntity>> data = new HashMap<String, List<GenericEntity>>();
-        
-        GenericEntity entity1 = new GenericEntity();
-        entity1.put("courseId", COURSEID1);
-        entity1.put("schoolYear", YEAR_1998_1999);
-        
-        GenericEntity entity2 = new GenericEntity();
-        entity2.put("courseId", COURSEID2);
-        entity2.put("schoolYear", YEAR_2009_2010);
-        
-        GenericEntity entity3 = new GenericEntity();
-        entity3.put("courseId", COURSEID3);
-        entity3.put("schoolYear", YEAR_2006_2007);
-
-        List<GenericEntity> list = new ArrayList<GenericEntity>();
-        list.add(entity1);
-        list.add(entity2);
-        list.add(entity3);
-        
-        data.put(STUDENTID, list);
-        
-        return data;
-    }
-    
 }

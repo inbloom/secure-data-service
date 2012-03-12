@@ -37,7 +37,7 @@ public class RESTClient {
     public JsonObject sessionCheck(String token) {
         logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
         // String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
-        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token);
+        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token, true);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
@@ -75,7 +75,7 @@ public class RESTClient {
 
     }
 
-    public String makeJsonRequestWHeaders(String path, String token) {
+    public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
         RestTemplate template = new RestTemplate();
 
         if (token != null) {
@@ -88,7 +88,8 @@ public class RESTClient {
                 url = new URLBuilder(path);
             }
             //TODO probably should use media types
-            url.addQueryParam("full-entities", "true");
+            if (fullEntities)
+                url.addQueryParam("full-entities", "true");
 
             HttpHeaders headers = new HttpHeaders();
             // headers.add(API_SESSION_KEY, token);
