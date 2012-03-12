@@ -24,8 +24,7 @@ public class FieldCounterTest {
         mockField.setValue("path.path");
         when(mockResolver.getCountForPath(mockField)).thenReturn(30);
 
-        
-        counter = new FieldCounter(mockField, null, mockResolver);
+        counter = new FieldCounter(mockField, null, mockResolver, new int[]{0, 5, 10});
     }
 
     @After
@@ -40,7 +39,14 @@ public class FieldCounterTest {
 
     @Test
     public void testGetColor() throws Exception {
-        assert (counter.getColor().equals("black"));
-
+        assert (counter.getColorIndex() == 3);
+    }
+    
+    @Test
+    public void testFirstLevel() {
+        AggregateResolver mockResolver = mock(AggregateResolver.class);
+        Field mockField = new Field();
+        when(mockResolver.getCountForPath(mockField)).thenReturn(0);
+        assert (counter.getColorIndex() == 1);
     }
 }

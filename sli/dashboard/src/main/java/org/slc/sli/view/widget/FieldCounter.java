@@ -13,11 +13,13 @@ public class FieldCounter {
     private Map student;
     private Field field;
     private AggregateResolver resolver;
+    private int[] boundaries;
 
-    public FieldCounter(Field field, Map student, AggregateResolver resolver) {
+    public FieldCounter(Field field, Map student, AggregateResolver resolver, int[] boundaries) {
         this.student = student;
         this.field = field;
         this.resolver = resolver;
+        this.boundaries = boundaries;
     }
 
     public String getText() {
@@ -30,7 +32,16 @@ public class FieldCounter {
      * Meant to return the color class to help style this color value.
      * @return string class to represent the value in this column
      */
-    public String getColor() {
-        return "black";
+    public int getColorIndex() {
+        int level = 1;
+        int count = resolver.getCountForPath(field);
+        for (int i = 0; boundaries != null && i < boundaries.length; i++) {
+            if (count <= boundaries[i]) {
+                break;
+            } else {
+                level++;
+            }
+        }
+        return level;
     }
 }
