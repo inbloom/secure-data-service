@@ -207,7 +207,7 @@ public class LiveAPIClient implements APIClient {
     public GenericEntity getSession(String token, String id) {
         GenericEntity session = null;
         try {
-            session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
+            session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token, false);
             logger.debug("Session: " + session.toString());
         } catch (Exception e) {
             logger.warn(e.toString());
@@ -461,7 +461,7 @@ public class LiveAPIClient implements APIClient {
         }
         try {
             long startTime = System.nanoTime();
-            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token);
+            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, false);
             logger.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: " + (System.nanoTime() - startTime) * 1.0e-9);
             logger.debug(attendances.toString());
             return attendances;
@@ -522,6 +522,8 @@ public class LiveAPIClient implements APIClient {
         
         return entityList;
     }
+
+
     
     private GenericEntity createEntityWithQuery(String baseUrl, Map<String, String> queries, String token) {
         URLBuilder builder = new URLBuilder(baseUrl);
