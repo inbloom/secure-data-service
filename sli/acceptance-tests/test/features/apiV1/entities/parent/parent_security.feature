@@ -1,3 +1,4 @@
+@security
 Feature: Security for Parent CRUD
   As a product owner, I want to validate that my parent entity is properly secured up to current SLI standards
 
@@ -30,7 +31,6 @@ Feature: Security for Parent CRUD
     When I make an API call to get the student-parent association "Marvin Miller to Mr. Miller"
     Then I should receive a JSON object of the parent
 
-  @wip
   Scenario: Authorized user accessing a specific parent entity directly
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
@@ -38,7 +38,6 @@ Feature: Security for Parent CRUD
     When I make an API call to get the parent "Mr. Miller"
     Then I should receive a JSON object of the parent
 
-  @wip
   Scenario: Unauthorized user accessing a specific parent-student association of a student
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
@@ -46,7 +45,6 @@ Feature: Security for Parent CRUD
     When I make an API call to get the student-parent association "Delilah D. Sims to Mrs. Sims"
     Then I get a message that I am not authorized
 
-  @wip
   Scenario: Unauthorized user accessing a specific parent entity directly
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
