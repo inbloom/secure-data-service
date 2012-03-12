@@ -56,6 +56,12 @@
     <property name="template" ref="neutralRecordMongoTemplate" />
   </bean>
 
+  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
+  </bean>
+
+
+
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
 
 </beans>

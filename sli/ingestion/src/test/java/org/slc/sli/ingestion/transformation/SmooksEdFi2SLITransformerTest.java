@@ -25,7 +25,7 @@ import org.slc.sli.validation.EntityValidator;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/transformation-context.xml" })
+@ContextConfiguration(locations = { "/spring/transformation2-context.xml" })
 public class SmooksEdFi2SLITransformerTest {
 
     @Autowired

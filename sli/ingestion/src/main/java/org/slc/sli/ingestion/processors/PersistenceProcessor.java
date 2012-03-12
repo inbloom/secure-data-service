@@ -3,8 +3,10 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.PatternLayout;
@@ -30,7 +32,6 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
-import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -54,12 +55,10 @@ public class PersistenceProcessor implements Processor {
 
     private EntityPersistHandler entityPersistHandler;
 
+    @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
-    private Exchange exchange;
 
-    private ArrayList<String> transformedCollections;
-    private ArrayList<String> processedStagedCollections = new ArrayList<String>();
+    private Exchange exchange;
 
     @Autowired
     private LocalFileSystemLandingZone lz;
@@ -84,14 +83,11 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
-            neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
-            transformedCollections = getTransformedCollections();
-
             for (IngestionFileEntry fe : job.getFiles()) {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe);
+                    errorReportForFile = processIngestionStream(fe, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -129,11 +125,13 @@ public class PersistenceProcessor implements Processor {
      * the original input file for this IngestionFileEntry.
      *
      * @param ingestionFileEntry
+     * @param arrayList2
+     * @param arrayList
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry) throws IOException {
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
 
-        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName());
+        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(), transformedCollections, processedStagedCollections);
     }
 
     /**
@@ -145,10 +143,10 @@ public class PersistenceProcessor implements Processor {
      */
     public ErrorReport processIngestionStream(File neutralRecordsFile) throws IOException {
 
-        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName());
+        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), new ArrayList<String>(), new HashSet<String>());
     }
 
-    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName)
+    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
             throws IOException {
 
         long recordNumber = 0;
@@ -185,31 +183,24 @@ public class PersistenceProcessor implements Processor {
                         processedStagedCollections.add(neutralRecord.getRecordType());
 
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
-                        Iterator<NeutralRecord> iterNrd = neutralRecordData.iterator();
 
-                        NeutralRecord tempNr;
-
-                        while (iterNrd.hasNext()) {
-                            tempNr = iterNrd.next();
-                            tempNr.setRecordType(neutralRecord.getRecordType());
-                            List<? extends Entity> result = transformer.handle(tempNr);
+                        for (NeutralRecord nr : neutralRecordData) {
+                            nr.setRecordType(neutralRecord.getRecordType());
+                            List<? extends Entity> result = transformer.handle(nr);
                             NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
                             entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
                         }
-
                     }
                 }
 
             }
         } catch (Exception e) {
             recordLevelErrorsInFile.fatal("Fatal problem saving records to database.", PersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + "./n", e);
+            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
         } finally {
             if (nrFileReader != null) {
                 nrFileReader.close();
             }
-
-            processedStagedCollections = new ArrayList<String>();
 
             errorLogger.detachAndStopAllAppenders();
 

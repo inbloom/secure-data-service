@@ -23,15 +23,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
 
-    private final Map<String, Map<Object, NeutralRecord>> collections;
+    private Map<String, Map<Object, NeutralRecord>> collections;
 
-    private final Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
 
-    // TODO can we make this a service instead of passing it through every layer?
-    private final NeutralRecordMongoAccess neutralRecordMongoAccess;
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
-    public AssessmentCombiner(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    public AssessmentCombiner() {
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
         this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
@@ -93,7 +91,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             if (associationAttrs.get("AssessmentFamilyIdentificationCode") instanceof ArrayList<?>) {
                 tempIdentificationCodes = (ArrayList<Map<String, Object>>) associationAttrs.get("AssessmentFamilyIdentificationCode");
 
-                tempMap = (HashMap<String, Object>) tempIdentificationCodes.get(0);
+                tempMap = tempIdentificationCodes.get(0);
                 if (familyHierarchyName.equals("")) {
 
                     familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
@@ -108,7 +106,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             //check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyId")
-                    && !deepFamilyMap.containsKey((String) associationAttrs.get("parentAssessmentFamilyId"))) {
+                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyId"))) {
                 familyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyId"), deepFamilyMap, familyHierarchyName);
             }
 
@@ -159,6 +157,20 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
 
         collections.put(collectionName, collection);
+    }
+
+    /**
+     * @return the neutralRecordMongoAccess
+     */
+    public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
+        return neutralRecordMongoAccess;
+    }
+
+    /**
+     * @param neutralRecordMongoAccess the neutralRecordMongoAccess to set
+     */
+    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
 
 }
