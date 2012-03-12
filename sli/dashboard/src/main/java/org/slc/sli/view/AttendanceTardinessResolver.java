@@ -34,22 +34,13 @@ public class AttendanceTardinessResolver implements AggregateRatioResolver {
     }
 
     @Override
-    public int getTotalCountForPath(Field configField) {
-        // TODO: This should be a lot more generic.
+    public int getSize(Field configField) {
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
-        int count = 0;
-        if (attendances != null)
-            for (Map attendance : attendances) {
-                String value = (String) attendance.get(CATEGORY);
-                if (!value.contains("Absence")) {
-                    ++count;
-                }
-            }
-        return count;
+        return attendances.size();
     }
 
     @Override
-    public int getSubCountForPath(Field configField) {
+    public int getCountForPath(Field configField) {
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
         if (attendances != null)

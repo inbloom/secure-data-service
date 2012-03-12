@@ -20,8 +20,8 @@ public class FieldRate extends ColorByPercent {
         this.student = student;
         this.field = field;
         this.resolver = resolver;
-        this.setActual(resolver.getSubCountForPath(field));
-        this.setTotal(resolver.getTotalCountForPath(field));
+        this.setActual(resolver.getCountForPath(field));
+        this.setTotal(resolver.getSize(field));
     }
     
     
