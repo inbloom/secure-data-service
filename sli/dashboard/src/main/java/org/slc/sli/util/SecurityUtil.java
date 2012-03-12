@@ -20,11 +20,10 @@ public class SecurityUtil {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
     
-    public static String getUsername()
-    {
+    public static String getUsername() {
         return getPrincipal().getUsername();
     }
-
+    
     public static String getToken() {
         UserDetails user = getPrincipal();
         logger.info("******** User.getUsername: " + user.getUsername());
