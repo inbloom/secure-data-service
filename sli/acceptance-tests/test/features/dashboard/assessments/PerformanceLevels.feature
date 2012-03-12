@@ -34,7 +34,7 @@ Scenario: Calculating Most Recent Performance Level for an Assessment
 	And I select <viewSelector> "IL_3-8_ELA"
 	And the view configuration file has a AssessmentFamilyHierarchy like "ISAT Writing for Grades 3-8.ISAT Writing for Grades 8*"
 	And the view configuration file set "field.value" is "ISAT Writing.Mastery level"
-	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
+	And the view configuration file set "field.timeslot" is "MOST_RECENT_RESULT"
   
  Then I should see a table heading "ISAT Writing (most recent)"
 	And I should see a field "Perf. Lvl." in this table
