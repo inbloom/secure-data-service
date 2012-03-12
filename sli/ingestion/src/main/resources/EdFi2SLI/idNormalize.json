@@ -1,4 +1,4 @@
-ef: {
+ref: {
 collectionname="TeacherSectionAssociation"
 fields=[
 	fieldPath=body.teacherId
