@@ -9,18 +9,6 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.OAuthTokenUtil;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,6 +21,20 @@ import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizatio
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
@@ -67,6 +69,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     @Autowired
     private SliClientDetailService clientDetailService;
 
+    @Autowired
+    private IdConverter converter;
+    
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
         assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
@@ -139,7 +144,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             Set<String> scope = new HashSet<String>();
             scope.addAll(client.getScope());
             UnconfirmedAuthorizationCodeClientToken clientToken = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), client.getClientSecret(), scope, state, body.get("redirectUri").toString());
-            SLIPrincipal user = userLocator.locate(body.get("userRealm").toString(), body.get("userId").toString());
+            Entity realm = repo.findOne("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(body.get("userRealm").toString()))));
+            SLIPrincipal user = userLocator.locate((String) realm.getBody().get("regionId"), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
             user.setRoles(new ArrayList<String>(roleNamesSet));

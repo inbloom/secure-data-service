@@ -56,7 +56,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
             if (toAdd.isEmpty()) {
                 break; // no new ids to add; closure is reached.
             }
-            edOrgIds.addAll(toAdd);
+            retVal.addAll(toAdd);
             edOrgIds = toAdd;
         }
 

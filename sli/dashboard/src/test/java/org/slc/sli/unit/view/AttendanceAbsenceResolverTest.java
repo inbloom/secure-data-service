@@ -1,17 +1,17 @@
 package org.slc.sli.unit.view;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.view.AttendanceAbsenceResolver;
-
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.view.AttendanceAbsenceResolver;
 
 /**
  * Test for the AttendanceAbsenceResolverTest
@@ -60,6 +60,33 @@ public class AttendanceAbsenceResolverTest {
         f.setValue("ATTENDANCE.AbsenceCount");
         mockStudent.put("attendances", attendances);
         assert (resolver.getCountForPath(f) == 20);
+    }
+    
+    @Test
+    public void testTardyCount() {
+        List<Map> attendances = new ArrayList<Map>();
+        for (int i = 0; i < 17; i++) {
+            attendances.add(getInvalidAttendanceObject());
+        }
+        mockStudent.put("attendances", attendances);
+        Field f = new Field();
+        f.setValue("ATTENDANCE.TardyCount");
+        assert (resolver.getCountForPath(f) == 17);
+    }
+    
+    @Test
+    public void testTardyCountMixed() {
+        List<Map> attendances = new ArrayList<Map>();
+        for (int i = 0; i < 20; ++i) {
+            attendances.add(getValidAttendanceObject());
+        }
+        for (int i = 0; i < 15; ++i) {
+            attendances.add(getInvalidAttendanceObject());
+        }
+        Field f = new Field();
+        f.setValue("ATTENDANCE.TardyCount");
+        mockStudent.put("attendances", attendances);
+        assert (resolver.getCountForPath(f) == 15);
     }
 
     private Map getValidAttendanceObject() {

@@ -28,8 +28,9 @@ public class ConfigManager extends Manager {
         persistor = new ConfigPersistor();
     }
 
+    @Override
     public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
+        super.setApiClient(apiClient);
         persistor.setApiClient(apiClient);
     }
 

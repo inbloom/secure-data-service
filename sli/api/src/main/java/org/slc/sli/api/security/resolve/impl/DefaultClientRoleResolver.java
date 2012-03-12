@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -26,13 +27,16 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
     @Autowired
     private Repository<Entity> repo;
     
+    @Autowired
+    private IdConverter converter;
+    
     /**
      */
     @SuppressWarnings({ "unchecked" })
     @Override
     public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
-        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.idp.id").is(realmId)), 0, 1);
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(realmId))), 0, 1);
         Map<String, Object> realm = null;
         for (Entity firstRealm : realms) {
             realm = firstRealm.getBody();
