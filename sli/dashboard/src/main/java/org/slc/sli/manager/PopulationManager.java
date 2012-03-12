@@ -1,6 +1,7 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -242,37 +243,4 @@ public class PopulationManager {
         }
         return dates;
     }
-
-    /**
-     * Compare two GenericEntities by the school year
-     * 
-     * @author srupasinghe
-     * 
-     */
-    class SchoolYearComparator implements Comparator<GenericEntity> {
-        
-        public int compare(GenericEntity e1, GenericEntity e2) {
-            return e2.getString("schoolYear").compareTo(e1.getString("schoolYear"));
-        }
-        
-    }
-    
-    /**
-     * Compare two GenericEntities by grade level
-     * 
-     * @author srupasinghe
-     * 
-     */
-    class GradeLevelComparator implements Comparator<GenericEntity> {
-        
-        public int compare(GenericEntity e1, GenericEntity e2) {
-            if (e1.getString("gradeLevelWhenTaken") == null || e2.getString("gradeLevelWhenTaken") == null) {
-                return 0;
-            }
-            
-            return e2.getString("gradeLevelWhenTaken").compareTo(e1.getString("gradeLevelWhenTaken"));
-        }
-        
-    }
-
 }

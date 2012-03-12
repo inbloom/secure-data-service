@@ -7,6 +7,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.AttendanceAbsenceResolver;
 
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,9 @@ public class AttendanceAbsenceResolverTest {
             attendances.add(getValidAttendanceObject());  
         }
         mockStudent.put("attendances", attendances);
-        assert (resolver.getCountForPath(new Field()) == 20);
+        Field f = new Field();
+        f.setValue("ATTENDANCE.AbsenceCount");
+        assert (resolver.getCountForPath(f) == 20);
     }
 
     @Test
@@ -53,8 +56,10 @@ public class AttendanceAbsenceResolverTest {
         for (int i = 0; i < 15; ++i) {
             attendances.add(getInvalidAttendanceObject());
         }
+        Field f = new Field();
+        f.setValue("ATTENDANCE.AbsenceCount");
         mockStudent.put("attendances", attendances);
-        assert (resolver.getCountForPath(new Field()) == 20);
+        assert (resolver.getCountForPath(f) == 20);
     }
 
     private Map getValidAttendanceObject() {
