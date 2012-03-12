@@ -103,7 +103,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // make a call to student-assessments, with the student id
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId 
-                + STUDENT_ASSMT_ASSOC_URL, token);
+                + STUDENT_ASSMT_ASSOC_URL, token, true);
         
         // for each link in the returned list, make the student-assessment call for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
@@ -158,7 +158,7 @@ public class LiveAPIClient implements APIClient {
     private List<String> getStudentIdsForSection(String id, String token) {
         
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id
-                + STUDENT_SECTION_ASSOC_URL, token);
+                + STUDENT_SECTION_ASSOC_URL, token, true);
         List<String> studentIds = new ArrayList<String>();
         
         if (responses != null) {
@@ -173,14 +173,14 @@ public class LiveAPIClient implements APIClient {
      * Get one student
      */
     public GenericEntity getStudent(String token, String id) {
-        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token, true);
     }
     
     /**
      * Get one school
      */
     private GenericEntity getSchool(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + SCHOOLS_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + SCHOOLS_URL + id, token, true);
     }
     
     /**
@@ -190,7 +190,7 @@ public class LiveAPIClient implements APIClient {
         if (id == null) {
             return null;
         }
-        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token);
+        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token, true);
         if (section == null) {
             return null;
         }
@@ -220,28 +220,28 @@ public class LiveAPIClient implements APIClient {
      * Get one course
      */
     private GenericEntity getCourse(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + COURSES_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + COURSES_URL + id, token, true);
     }
     
     /**
      * Get one ed-org
      */
     private GenericEntity getEducationalOrganization(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + ED_ORG_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + ED_ORG_URL + id, token, true);
     }
     
     /**
      * Get one student-assessment association
      */
     private GenericEntity getStudentAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + id, token, true);
     }
     
     /**
      * Get one assessment
      */
     private GenericEntity getAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + ASSMT_URL + id, token);
+        return createEntityFromAPI(getApiUrl() + ASSMT_URL + id, token, true);
     }
     
     /**
@@ -254,7 +254,7 @@ public class LiveAPIClient implements APIClient {
         
         // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
-        GenericEntity response = createEntityFromAPI(getApiUrl() + HOME_URL, token);
+        GenericEntity response = createEntityFromAPI(getApiUrl() + HOME_URL, token, true);
         
         for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
             if (link.get(Constants.ATTR_REL).equals(Constants.ATTR_SELF)) {
@@ -284,7 +284,7 @@ public class LiveAPIClient implements APIClient {
     private List<GenericEntity> getSectionsForTeacher(String id, String token) {
         
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id
-                + TEACHER_SECTION_ASSOC_URL, token);
+                + TEACHER_SECTION_ASSOC_URL, token, true);
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
         
         // TODO: for a more efficient implementation, build a comma-delimited list of section ids,
@@ -393,7 +393,7 @@ public class LiveAPIClient implements APIClient {
                 Map<String, String> query = new HashMap<String, String>();
                 query.put(Constants.ATTR_SCHOOL_ID, (String) section.get(Constants.ATTR_SCHOOL_ID));
                 schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID),
-                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token));
+                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token, true));
             }
             
         }
@@ -408,7 +408,7 @@ public class LiveAPIClient implements APIClient {
      */
     public String getHomeRoomForStudent(String studentId, String token) {
         String url = getApiUrl() + STUDENT_SECTION_ASSOC_URL + "/" + studentId;
-        List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);
+        List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token, true);
         
         if (sectionStudentAssociations.size() == 1) {
             return sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
@@ -432,13 +432,13 @@ public class LiveAPIClient implements APIClient {
      */
     public String getTeacherIdForSection(String sectionId, String token) {
         String url = getApiUrl() + TEACHER_SECTION_ASSOC_URL + "/" + sectionId;
-        List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token);
+        List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token, true);
         for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
             
             if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals("Teacher of Record")) {
                 String teacherUrl = getApiUrl() + TEACHERS_URL + "/"
                         + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
-                GenericEntity teacher = createEntityFromAPI(teacherUrl, token);
+                GenericEntity teacher = createEntityFromAPI(teacherUrl, token, true);
                 return teacher.getString(Constants.ATTR_ID);
             }
         }
@@ -480,11 +480,12 @@ public class LiveAPIClient implements APIClient {
      * 
      * @param url
      * @param token
+     * @param fullEntities TODO
      * @return the entity
      */
-    private GenericEntity createEntityFromAPI(String url, String token) {
+    private GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
         logger.info("Querying API: " + url);
-        String response = restClient.makeJsonRequestWHeaders(url, token);
+        String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;
         GenericEntity e = gson.fromJson(response, GenericEntity.class);
@@ -494,20 +495,21 @@ public class LiveAPIClient implements APIClient {
     /**
      * Retrieves an entity list from the specified API url
      * and instantiates from its JSON representation
-     * 
-     * @param token
-     *            - the principle authentication token
      * @param url
      *            - the API url to retrieve the entity list JSON string representation
+     * @param token
+     *            - the principle authentication token
+     * @param fullEntities TODO
+     * 
      * @return entityList
      *         - the generic entity list
      */
-    private List<GenericEntity> createEntitiesFromAPI(String url, String token) {
+    private List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
         
         // Parse JSON
         logger.info("Querying API for list: " + url);
-        String response = restClient.makeJsonRequestWHeaders(url, token);
+        String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;
         List<Map> maps = gson.fromJson(response, new ArrayList<Map>().getClass());
@@ -526,7 +528,7 @@ public class LiveAPIClient implements APIClient {
         for (Map.Entry<String, String> entry : queries.entrySet()) {
             builder.addQueryParam(entry.getKey(), entry.getValue());
         }
-        return gson.fromJson(restClient.makeJsonRequestWHeaders(builder.toString(), token), GenericEntity.class);
+        return gson.fromJson(restClient.makeJsonRequestWHeaders(builder.toString(), token, true), GenericEntity.class);
     }
     
     /**
@@ -548,7 +550,7 @@ public class LiveAPIClient implements APIClient {
         
         // build the url
         url.append(getApiUrl());
-        url.append("/students/");
+        url.append("/v1/students/");
         url.append(studentId);
         url.append("/studentTranscriptAssociations/courses");
         // add the query string
@@ -558,7 +560,7 @@ public class LiveAPIClient implements APIClient {
         }
         
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
     }
@@ -584,7 +586,7 @@ public class LiveAPIClient implements APIClient {
         
         // build the url
         url.append(getApiUrl());
-        url.append("/students/");
+        url.append("/v1/students/");
         url.append(studentId);
         url.append("/studentTranscriptAssociations");
         // add the query string
@@ -594,7 +596,7 @@ public class LiveAPIClient implements APIClient {
         }
         
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
     }
@@ -618,7 +620,7 @@ public class LiveAPIClient implements APIClient {
         
         // build the url
         url.append(getApiUrl());
-        url.append("/");
+        url.append("/v1/");
         url.append(type);
         url.append("/");
         url.append(id);
@@ -628,7 +630,7 @@ public class LiveAPIClient implements APIClient {
             url.append(buildQueryString(params));
         }
         
-        return createEntityFromAPI(url.toString(), token);
+        return createEntityFromAPI(url.toString(), token, false);
     }
     
     /**
@@ -645,7 +647,7 @@ public class LiveAPIClient implements APIClient {
         
         // build the url
         url.append(getApiUrl());
-        url.append("/students/");
+        url.append("/v1/students/");
         url.append(studentId);
         url.append("/studentSectionAssociations/sections");
         // add the query string
@@ -655,7 +657,7 @@ public class LiveAPIClient implements APIClient {
         }
         
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token);
+        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
     }

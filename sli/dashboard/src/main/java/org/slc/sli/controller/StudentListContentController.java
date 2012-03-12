@@ -3,6 +3,8 @@ package org.slc.sli.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.SortedSet;
 
 import freemarker.ext.beans.BeansWrapper;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.config.LozengeConfig;
@@ -21,11 +24,14 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.HistoricalViewManager;
 import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.AssessmentResolver;
+import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -41,6 +47,7 @@ public class StudentListContentController extends DashboardController {
     private ConfigManager configManager;
     private PopulationManager populationManager;
     private ViewManager viewManager;
+    private StudentProgressManager progressManager;
 
 
     public StudentListContentController() { }
@@ -56,8 +63,11 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(String population, Integer viewIndex, Integer filterIndex, String sessionId,
-                                           ModelMap model) throws Exception {
+
+    public ModelAndView studentListContent( @RequestParam(required = false, value = "courseId") String sessionId,
+                                            @RequestParam(required = false, value = "courseId") String selectedCourseId,
+                                            String population, Integer viewIndex, Integer filterIndex,
+                                            ModelMap model) throws Exception {
 
         UserDetails user = SecurityUtil.getPrincipal();
 
@@ -66,14 +76,14 @@ public class StudentListContentController extends DashboardController {
 
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
+        if (lozengeConfig != null)
+            model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
 
         List<String> uids = new ArrayList<String>();
         if (population != null && !population.isEmpty()) {
             uids = Arrays.asList(population.split(","));
         }
-        
-
+                
         viewManager.setViewConfigs(viewConfigs);
         List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken());
 
@@ -84,6 +94,25 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
 
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            
+            // If we have the historical data view get historical information - this logic really should
+            // be moved from the controller class
+            if (viewConfig.getName().equals(Constants.HISTORICAL_DATA_VIEW)) {
+                
+                Map<String, List<GenericEntity>> historicalData = progressManager.getStudentHistoricalAssessments(
+                        SecurityUtil.getToken(), uids, selectedCourseId);
+                
+                SortedSet<String> schoolYears = progressManager.applySessionAndTranscriptInformation(SecurityUtil.getToken(), 
+                        historicalData);
+
+                HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, schoolYears, null);
+                
+                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
+
+                HistoricalViewManager historicalViewManager = new HistoricalViewManager(historicalDataResolver);
+                viewConfig = historicalViewManager.addHistoricalData(viewConfig);
+            }
+            
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);  
 
             // prepare student filter
@@ -141,6 +170,11 @@ public class StudentListContentController extends DashboardController {
     @Autowired
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
+    }
+
+    @Autowired
+    public void setProgressManager(StudentProgressManager progressManager) {
+        this.progressManager = progressManager;
     }
     
 

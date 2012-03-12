@@ -270,7 +270,7 @@ end
 module DataProvider
   def self.getValidRealmData()
     return {
-       "state" => "bliss",
+       "regionId" => "bliss",
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",

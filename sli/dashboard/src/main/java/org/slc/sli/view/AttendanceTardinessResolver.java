@@ -36,6 +36,8 @@ public class AttendanceTardinessResolver implements AggregateRatioResolver {
     @Override
     public int getSize(Field configField) {
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        if (attendances == null)
+            return 0;
         return attendances.size();
     }
 
