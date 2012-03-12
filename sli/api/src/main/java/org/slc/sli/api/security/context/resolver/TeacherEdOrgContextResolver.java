@@ -48,9 +48,9 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
             Set<String> toAdd = new HashSet<String>(); // this contains ids to be added in this round
             for (String edOrgId : edOrgIds) {
                 Entity edOrg = this.repository.find(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-                String newId = edOrg.getBody().get("parentEducationAgencyReference").toString();
-                if (!retVal.contains(newId)) {
-                    toAdd.add(newId);
+                Object newId = edOrg.getBody().get("parentEducationAgencyReference");
+                if (newId != null && !retVal.contains(newId.toString())) {
+                    toAdd.add(newId.toString());
                 }
             }
             if (toAdd.isEmpty()) {
