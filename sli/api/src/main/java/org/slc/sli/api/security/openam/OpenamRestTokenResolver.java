@@ -95,14 +95,16 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
 
     private Authentication buildAuthentication(String token, String payload) {
-        final SLIPrincipal principal = locator.locate(tokenServiceUrl, extractValue("uid", payload));
+        final SLIPrincipal principal = locator.locate("SLI", extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
 
+        final String idp = tokenServiceUrl;
+        
         Set<GrantedAuthority> grantedAuthorities = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
             @Override
             public Set<GrantedAuthority> execute() {
-                return resolver.resolveRoles(principal.getRealm(), principal.getRoles());
+                return resolver.resolveRoles(idp, principal.getRoles());
             }
         });
 

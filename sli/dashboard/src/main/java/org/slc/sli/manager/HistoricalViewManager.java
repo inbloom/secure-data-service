@@ -52,7 +52,7 @@ public class HistoricalViewManager {
     
     private DisplaySet createSubjectAreaAndSchoolYear(String subjectArea, String schoolYear) {
         DisplaySet hist = new DisplaySet();
-        hist.setDisplayName(subjectArea + " - " + schoolYear);
+        hist.setDisplayName(schoolYear);
         return hist;
     }
     
