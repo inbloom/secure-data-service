@@ -31,7 +31,7 @@ public class WidgetFactory {
     }
     
     public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver) {
-        return new FieldCounter(field, student, resolver.getAbsenceCountResolverForStudent(student));
+        return new FieldCounter(field, student, resolver.getAttendanceCountResolverForStudent(student));
     }
     
     public static ColorByPercent createFieldRate(Field field, Map student, AttendanceResolver resolver) {

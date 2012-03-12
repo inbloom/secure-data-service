@@ -16,7 +16,8 @@ import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test class for HistoricalViewManager
@@ -49,7 +50,7 @@ public class HistoricalViewManagerTest {
         
         historicalViewManager.addHistoricalData(testConfig);
         assertEquals("There should have been two display sets added", 2, testConfig.getDisplaySet().size());
-        assertEquals("Display name should have been set properly", "Test Subject Area - 2009-2010",
+        assertEquals("Display name should have been set properly", "2009-2010",
                 testConfig.getDisplaySet().get(0).getDisplayName());
         assertEquals("There should have been two fields added",
                 2, testConfig.getDisplaySet().get(0).getField().size());
