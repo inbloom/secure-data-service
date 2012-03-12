@@ -32,7 +32,7 @@ public class StudentProgressManager {
      * Returns a list of historical data for a given subject area
      * @param token Security token
      * @param studentIds List of student ids
-     * @param subjectArea The subject area to search for
+     * @param selectedCourse The course to get information for
      * @return
      */
     public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds, 
@@ -51,7 +51,7 @@ public class StudentProgressManager {
         for (String studentId : studentIds) {
             log.debug("Historical data [studentId] " + studentId);
             
-            //get the corses in the subject area for the f=given student
+            //get the courses in the subject area for the given student
             List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
             log.debug("Historical data [courses] " + courses);
             
