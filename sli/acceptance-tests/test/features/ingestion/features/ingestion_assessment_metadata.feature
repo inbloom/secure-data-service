@@ -23,4 +23,6 @@ Then I should see following map of entry counts in the corresponding collections
 
   And I should see "Processed 3 records." in the resulting batch job file
   And I should not see an error log file created
-
+  And I should see "assessmentMetadata.xml records considered: 3" in the resulting batch job file
+  And I should see "assessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
+  And I should see "assessmentMetadata.xml records failed: 0" in the resulting batch job file
