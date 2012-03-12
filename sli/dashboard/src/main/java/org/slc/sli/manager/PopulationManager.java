@@ -1,22 +1,20 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -52,8 +50,9 @@ public class PopulationManager {
      * @return studentList
      *         - the student summary entity list
      */
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig, String sessionId) {
-
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
+            String sessionId) {
+        
         // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         
@@ -73,13 +72,15 @@ public class PopulationManager {
             studentAssessmentMap.put(studentId, studentAssessments);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
-
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime
+                / studentIds.size());
+        
         Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
-
+        
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
-            if (studentSummary == null) continue;
+            if (studentSummary == null)
+                continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
@@ -88,9 +89,9 @@ public class PopulationManager {
         
         return studentSummaries;
     }
-
+    
     public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds, String sessionId) {
-
+        
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
         long startTime = System.nanoTime();
@@ -100,19 +101,20 @@ public class PopulationManager {
             long studentTime = System.nanoTime();
             List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
             log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
-
+            
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime
+                / studentIds.size());
         return studentAttendanceMap;
     }
-
+    
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
         return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
-
+    
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -209,6 +211,7 @@ public class PopulationManager {
     
     /**
      * Get student entity
+     * 
      * @param token
      * @param studentId
      * @return
@@ -225,16 +228,15 @@ public class PopulationManager {
      * @return
      */
     public GenericEntity getStudent(String token, Object studentId, ViewConfig config) {
-        String key = (String)studentId;
+        String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
-
-
+    
     private List<String> getSessionDates(String token, String sessionId) {
-        //Get the session first.
+        // Get the session first.
         GenericEntity session = entityManager.getSession(token, sessionId);
         List<String> dates = new ArrayList<String>();
-        if (session.containsKey("beginDate")) {
+        if (session != null && session.containsKey("beginDate")) {
             dates.add(session.getString("beginDate"));
             dates.add(session.getString("endDate"));
         } else {

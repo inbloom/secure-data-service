@@ -1,17 +1,17 @@
 package org.slc.sli.unit.view;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.view.AttendanceAbsenceResolver;
-
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.view.AttendanceAbsenceResolver;
 
 /**
  * Test for the AttendanceAbsenceResolverTest
