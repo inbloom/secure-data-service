@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class LiveAPIClientTest {
 
     @Before
     public void setUp() throws Exception {
+        if (System.getProperty("env") == null)
+          System.setProperty("env", "dev");
         // Get the initalized bean from spring config
         appContext = new ClassPathXmlApplicationContext("application-context.xml");
         client = (LiveAPIClient) appContext.getBean("apiClient");
@@ -46,7 +49,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getStudentAttendance(null, null);
+        attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
         
@@ -55,7 +58,25 @@ public class LiveAPIClientTest {
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null, true)).thenReturn(json);
         attendance = null;
-        attendance = client.getStudentAttendance(null, "1000");
+        attendance = client.getStudentAttendance(null, "1000", null, null);
+        assertNotNull(attendance);
+        assert (attendance.size() == 2);
+        assert (attendance.get(0).get("attendance").equals("yes"));
+    }
+
+    @Test
+    public void testGetStudentAttendanceWithDates() throws Exception {
+        List<GenericEntity> attendance;
+        attendance = client.getStudentAttendance(null, null, null, null);
+        assertNotNull(attendance);
+        assert (attendance.size() == 0);
+
+        String url = client.getApiUrl() + "v1/students/1000/attendances?startDate>=\"2011-07-13\"&endDate<=\"2012-07-13\"";
+
+        String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
+        attendance = null;
+        attendance = client.getStudentAttendance(null, "1000", "2011-07-13", "2012-07-13");
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));

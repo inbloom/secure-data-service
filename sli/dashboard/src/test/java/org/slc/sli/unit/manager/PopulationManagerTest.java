@@ -1,6 +1,7 @@
 package org.slc.sli.unit.manager;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -195,33 +196,129 @@ public class PopulationManagerTest {
 
     @Test
     public void testGetAttendance() throws Exception {
-        List<String> studentIds = new ArrayList<String>();
-        studentIds.add("0");
-        studentIds.add("1");
+        List<String> studentIds = getStudentIds();
         List<GenericEntity> attendance = new ArrayList<GenericEntity>();
         attendance.add(new GenericEntity());
         attendance.add(new GenericEntity());
-        when(mockEntity.getAttendance(null, "0")).thenReturn(attendance);
-        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(attendance);
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
 
-        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds, "");
         assertNotNull(studentAttendance);
     }
 
     @Test
     public void testGetAttendanceWithBadStudent() throws Exception {
-        List<String> studentIds = new ArrayList<String>();
-        studentIds.add("0");
-        studentIds.add("1");
+        List<String> studentIds = getStudentIds();
         List<GenericEntity> attendance = new ArrayList<GenericEntity>();
         attendance.add(new GenericEntity());
         attendance.add(new GenericEntity());
-        when(mockEntity.getAttendance(null, "0")).thenReturn(new ArrayList<GenericEntity>());
-        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(attendance);
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
 
 
-        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds, "");
         assertNotNull(studentAttendance);
-    }    
+    }
+
+    private List<String> getStudentIds() {
+        List<String> studentIds = new ArrayList<String>();
+        studentIds.add("0");
+        studentIds.add("1");
+        return studentIds;
+    }
+
+    @Test
+    public void testGetAttendancesWithCourse() throws Exception {
+        GenericEntity session = new GenericEntity();
+        session.put("startDate", "2012-03-07");
+        session.put("endDate", "2013-03-07");
+        when(mockEntity.getSession(null, "")).thenReturn(session);
+        when(mockEntity.getAttendance(null, "0", "2012-03-07", "2013-03-07")).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", "2012-03-07", "2013-03-07")).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.createStudentAttendanceMap(null, getStudentIds(), ""));
+    }
+
+    @Test
+    public void testGetAttendancesWithoutCourse() throws Exception {
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.createStudentAttendanceMap(null, getStudentIds(), ""));
+    }
+
+
+    @Test
+    public void testGetStudentHistoricalAssessments() throws Exception {
+        String token = "token", subjectArea = "Math";
+        String studentId = "123456";
+        String courseId = "56789";
+        
+        //create the course
+        GenericEntity courseEntity = new GenericEntity();
+        courseEntity.put("id", courseId);
+        courseEntity.put("courseTitle", "Math 1");
+        //create the accociation
+        GenericEntity assocEntity = new GenericEntity();
+        assocEntity.put("finalLettergrade", "A");
+        assocEntity.put("studentId", studentId);
+        
+        //add the courses
+        List<GenericEntity> courses = new ArrayList<GenericEntity>();
+        courses.add(courseEntity);
+        //add the associations
+        List<GenericEntity> studentCourseAssocs = new ArrayList<GenericEntity>();
+        studentCourseAssocs.add(assocEntity);
+        //add the students
+        List<String> students = new ArrayList<String>();
+        students.add(studentId);
+        
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("subjectArea", subjectArea);
+        params.put("includeFields", "courseTitle");
+        
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("courseId", courseId);
+        params1.put("includeFields", "finalLetterGradeEarned");
+        
+        when(mockEntity.getCourses(token, studentId, params)).thenReturn(courses);
+        when(mockEntity.getStudentTranscriptAssociations(token, studentId, params1)).thenReturn(studentCourseAssocs);
+        
+        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, subjectArea);
+        
+        assertEquals("Should have one result", 1, results.size());
+        assertTrue("Should have a key with the student Id", results.keySet().contains(studentId));
+        assertEquals("Letter grade should be A", "A", results.get(studentId).get(0).get("finalLettergrade"));
+        assertEquals("Student Id should be 123456", studentId, results.get(studentId).get(0).get("studentId"));
+        assertEquals("Course title should match", "Math 1", results.get(studentId).get(0).get("courseTitle"));
+        assertEquals("subject area should match", "Math", results.get(studentId).get(0).get("subjectArea"));
+    }
+    
+    @Test
+    public void testApplyShoolYear() {
+        String token = "token";
+        String sessionId1 = "9999", sessionId2 = "9998", sessionId3 = "9997";
+        
+        //create the sections
+        GenericEntity sectionEntity1 = new GenericEntity();
+        sectionEntity1.put("sessionId", sessionId1);
+        sectionEntity1.put("courseId", COURSEID1);
+        GenericEntity sectionEntity2 = new GenericEntity();
+        sectionEntity2.put("sessionId", sessionId2);
+        sectionEntity2.put("courseId", COURSEID2);
+        GenericEntity sectionEntity3 = new GenericEntity();
+        sectionEntity3.put("sessionId", sessionId3);
+        sectionEntity3.put("courseId", COURSEID3);
+        
+        //create the sessions
+        GenericEntity sessionEntity1 = new GenericEntity();
+        sessionEntity1.put("schoolYear", YEAR_1998_1999);
+        GenericEntity sessionEntity2 = new GenericEntity();
+        sessionEntity2.put("schoolYear", YEAR_2009_2010);
+        GenericEntity sessionEntity3 = new GenericEntity();
+        sessionEntity3.put("schoolYear", YEAR_2006_2007);
+    }
         
 }

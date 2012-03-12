@@ -3,6 +3,7 @@ Feature: K-3 student list view
 As a SEA/LEA user, I want to see the K-4 student list view
 on SLI, so I could see elementary school students results
 
+@wip
 Scenario: Check assessment result
 
 Given I have an open web browser
