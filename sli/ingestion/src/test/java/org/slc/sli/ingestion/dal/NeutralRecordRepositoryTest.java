@@ -1,19 +1,18 @@
 package org.slc.sli.ingestion.dal;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.WriteResult;
@@ -23,7 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
@@ -46,7 +44,7 @@ public class NeutralRecordRepositoryTest {
     @Autowired
     private NeutralRecordRepository repository;
 
-    private MongoTemplate mockedMongoTemplate;
+    private StagingMongoTemplate mockedMongoTemplate;
 
     private int recordId = 1000000;
 
@@ -54,7 +52,7 @@ public class NeutralRecordRepositoryTest {
     public void setup() {
 
         // Setup the mocked Mongo Template.
-        mockedMongoTemplate = mock(MongoTemplate.class);
+        mockedMongoTemplate = mock(StagingMongoTemplate.class);
         repository.setTemplate(mockedMongoTemplate);
     }
 

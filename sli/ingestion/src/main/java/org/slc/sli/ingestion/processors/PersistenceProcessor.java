@@ -51,11 +51,13 @@ public class PersistenceProcessor implements Processor {
 
     @Autowired
     SmooksEdFi2SLITransformer transformer;
-    
+
     private EntityPersistHandler entityPersistHandler;
 
-    private Exchange exchange;
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
     
+    private Exchange exchange;
+
     private ArrayList<String> transformedCollections;
     private ArrayList<String> processedStagedCollections = new ArrayList<String>();
 
@@ -82,6 +84,7 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
+            neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
             transformedCollections = getTransformedCollections();
 
             for (IngestionFileEntry fe : job.getFiles()) {
@@ -118,7 +121,7 @@ public class PersistenceProcessor implements Processor {
             LOG.error("Exception:", exception);
         }
     }
-    
+
 
     /**
      * Consumes the SLI Neutral records file contained by ingestionFileEntry, parses, and persists
@@ -162,30 +165,30 @@ public class PersistenceProcessor implements Processor {
                 recordNumber++;
 
                 NeutralRecord neutralRecord = nrFileReader.next();
-                
+
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     //this doesn't exist in collection, persist
 
                     LOG.debug("processing " + neutralRecord);
-    
+
                     // map NeutralRecord to Entity
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
                     entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
-                    
+
                 } else {
                     //process collection of the entities from db
                     LOG.debug("processing staged collection: " + neutralRecord.getRecordType());
-                    
+
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
-                        
-                        NeutralRecordMongoAccess neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
-                        
+
+                        processedStagedCollections.add(neutralRecord.getRecordType());
+
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
                         Iterator<NeutralRecord> iterNrd = neutralRecordData.iterator();
-                        
+
                         NeutralRecord tempNr;
-                        
+
                         while (iterNrd.hasNext()) {
                             tempNr = iterNrd.next();
                             tempNr.setRecordType(neutralRecord.getRecordType());
@@ -205,6 +208,8 @@ public class PersistenceProcessor implements Processor {
             if (nrFileReader != null) {
                 nrFileReader.close();
             }
+
+            processedStagedCollections = new ArrayList<String>();
 
             errorLogger.detachAndStopAllAppenders();
 
@@ -229,33 +234,32 @@ public class PersistenceProcessor implements Processor {
     public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
         this.entityPersistHandler = entityPersistHandler;
     }
-    
+
     /**
      * returns list of collections that were created as a result transformation feature
-     * 
+     *
      * @return transformedCollections
      */
     private ArrayList<String> getTransformedCollections() {
-        
+
         ArrayList<String> collections = new ArrayList<String>();
-        
-        NeutralRecordMongoAccess neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
+
         Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getTemplate().getCollectionNames();
         Iterator<String> iter = data.iterator();
-        
+
         String collectionName;
-        
+
         while (iter.hasNext()) {
             collectionName = iter.next();
-            
+
             if (collectionName.endsWith("_transformed")) {
                 collections.add(collectionName.substring(0, collectionName.length() - "_transformed".length()));
             }
         }
-        
+
         return collections;
     }
-    
+
     private ch.qos.logback.classic.Logger createErrorLoggerForFile(String fileName) throws IOException {
 
         final String loggerName = "error." + fileName + "." + System.currentTimeMillis() + ".log";

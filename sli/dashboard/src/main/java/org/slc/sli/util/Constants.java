@@ -70,6 +70,7 @@ public class Constants {
     public static final String ATTR_ASSESSMENT_PERF_LEVEL = "assessmentPerformanceLevel";
     public static final String ATTR_ASSESSMENT_REPORTING_METHOD = "assessmentReportingMethod";
     public static final String ATTR_ASSESSMENT_TITLE = "assessmentTitle";
+    public static final String ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME = "assessmentFamilyHierarchyName";
     public static final String ATTR_RESULT = "result";
     public static final String ATTR_SCORE_RESULTS = "scoreResults";
     public static final String ATTR_MINIMUM_SCORE = "minimumScore";

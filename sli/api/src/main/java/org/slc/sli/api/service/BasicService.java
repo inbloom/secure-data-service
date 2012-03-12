@@ -10,20 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityQuery;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +23,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -53,7 +54,7 @@ public class BasicService implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
     
     private static final int MAX_RESULT_SIZE = 9999;
-
+    
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
@@ -93,7 +94,7 @@ public class BasicService implements EntityService {
         
         checkAccess(Right.WRITE_GENERAL, id);
         
-        this.cascadeDelete(id);
+        cascadeDelete(id);
         
         if (!repo.delete(collectionName, id)) {
             LOG.info("Could not find {}", id);
@@ -163,33 +164,50 @@ public class BasicService implements EntityService {
         List<String> allowed = findAccessible();
         
         if (allowed.isEmpty()) {
-            throw new AccessDeniedException("Access to resource denied.");
+            return noEntitiesFound(queryParameters);
         }
         
-        EntityQuery query = createQuery(queryParameters);
-        if (allowed.size() > 0) {
-            query.getFields().put("_id", implode(allowed));
-        } 
+        EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
+        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
+        
+        if (entities.size() == 0) {
+            return noEntitiesFound(queryParameters);
+        }
         
         List<EntityBody> results = new ArrayList<EntityBody>();
-        List<Entity> entities = makeEntityList(repo.findAll(this.collectionName, query));
-                
-        if (entities.size() == 0) {
-            throw new AccessDeniedException("Access to resource denied.");
-        }
-        
         for (Entity entity : entities) {
-            results.add(makeEntityBody(entity));                
-        }        
+            results.add(makeEntityBody(entity));
+        }
         return results;
     }
     
-    private String implode(List<String> allowed) {
-        String commaDelimitedString = "";
-        for (String id : allowed) {
-            commaDelimitedString += id + ",";
+    private EntityQuery decorateQueryWithAccessibleIds(Map<String, String> queryParameters, List<String> allowed) {
+        EntityQuery query = createQuery(queryParameters);
+        if (allowed.size() > 0) {
+            query.getFields().put("_id", implode(allowed));
         }
-        return commaDelimitedString;
+        return query;
+    }
+    
+    private Iterable<EntityBody> noEntitiesFound(Map<String, String> queryParameters) {
+        if (makeEntityList(repo.findAll(collectionName, queryParameters)).isEmpty()) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new AccessDeniedException("Access to resource denied.");
+        }
+    }
+    
+    private String implode(List<String> allowed) {
+        
+        StringBuffer commaDelimitedString = new StringBuffer(37 * allowed.size());
+        int count = 0;
+        for (String id : allowed) {
+            commaDelimitedString.append(id);
+            if (count != allowed.size() - 1)
+                commaDelimitedString.append(",");
+            count++;
+        }
+        return commaDelimitedString.toString();
     }
     
     private List<Entity> makeEntityList(Iterable<Entity> items) {
@@ -199,7 +217,7 @@ public class BasicService implements EntityService {
         }
         return myList;
     }
-
+    
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
         return get(ids, null, null);
@@ -225,8 +243,7 @@ public class BasicService implements EntityService {
         
         if (!binIds.isEmpty()) {
             Query query = queryConverter.stringToQuery(collectionName, null, sortBy, sortOrder);
-            Iterable<Entity> entities = repo.findByQuery(collectionName,
-                    query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
+            Iterable<Entity> entities = repo.findByQuery(collectionName, query.addCriteria(Criteria.where("_id").in(binIds)), 0, MAX_RESULT_SIZE);
             
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -271,7 +288,11 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else if (allowed.size() == -1) { // super list logic --> only true when using DefaultEntityContextResolver
+            
+        } else if (allowed.size() == 0) {
+            return Collections.emptyList();
+            
+        } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
             Iterable<Entity> entities = repo.findByQuery(collectionName, query, start, numResults);
             
@@ -280,8 +301,6 @@ public class BasicService implements EntityService {
             }
             
             return results;
-        } else {
-            return Collections.emptyList();
         }
     }
     
@@ -310,8 +329,8 @@ public class BasicService implements EntityService {
         }
         
         // Blank out fields inaccessible to the user
-        // @@@ Temporarily comment this out because this apparently would filter out fields even for Educators who should have access    
-        // @@@ , to unblock teams requiring their users to have access to these fields (03/02/2012)  
+        // @@@ Temporarily comment this out because this apparently would filter out fields even for Educators who should have access
+        // @@@ , to unblock teams requiring their users to have access to these fields (03/02/2012)
         // filterFields(toReturn, "");
         
         return toReturn;
@@ -332,24 +351,24 @@ public class BasicService implements EntityService {
     }
     
     /**
-     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId 
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
      * still exists so that authorization/context can be checked.
      * 
      * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
     private void cascadeDelete(String sourceId) {
-      //loop for every EntityDefinition that references the deleted entity's type
+        // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : this.defn.getReferencingEntities()) {
-            //loop for every reference field that COULD reference the deleted ID
+            // loop for every reference field that COULD reference the deleted ID
             for (String referenceField : referencingEntity.getReferenceFieldNames(this.defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();
                 Map<String, String> referenceQuery = new HashMap<String, String>();
                 referenceQuery.put(referenceField, sourceId);
                 try {
-                  //list all entities that have the deleted entity's ID in their reference field
+                    // list all entities that have the deleted entity's ID in their reference field
                     for (EntityBody entityBody : referencingEntityService.list(referenceQuery)) {
                         String idToBeDeleted = (String) entityBody.get("id");
-                        //delete that entity as well
+                        // delete that entity as well
                         referencingEntityService.delete(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
@@ -374,8 +393,7 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException,
-            EntityNotFoundException, AccessDeniedException {
+    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
         
         // Check that user has the needed right
         checkRights(right);
@@ -419,10 +437,9 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EntityContextResolver resolver = contextResolverStore.getContextResolver(principal.getEntity().getType(),
-                defn.getType());
+        EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(), defn.getType());
         
-        return resolver.findAccessible(principal.getEntity());   
+        return resolver.findAccessible(principal.getEntity());
     }
     
     /**
@@ -522,40 +539,41 @@ public class BasicService implements EntityService {
     protected EntityRepository getRepo() {
         return repo;
     }
-
+    
     /**
      * This should have its own class (QueryConverter)
      * TODO refactor
+     * 
      * @param queryParameters
      * @return
      */
     protected EntityQuery createQuery(Map<String, String> queryParameters) {
         EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
-
+        
         if (queryParameters == null) {
             return queryBuilder.build();
         }
-
-        //read each entry in map
+        
+        // read each entry in map
         for (Map.Entry<String, String> entry : queryParameters.entrySet()) {
             String key = entry.getKey();
-
-            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { //specific field(s) to include in result set
+            
+            if (key.equals(ParameterConstants.INCLUDE_FIELDS)) { // specific field(s) to include in result set
                 String includeFields = entry.getValue();
                 if (includeFields != null) {
                     queryBuilder.setIncludeFields(includeFields);
                 }
-            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { //specific field(s) to exclude from result set
+            } else if (key.equals(ParameterConstants.EXCLUDE_FIELDS)) { // specific field(s) to exclude from result set
                 String excludeFields = entry.getValue();
                 if (excludeFields != null) {
                     queryBuilder.setExcludeFields(excludeFields);
                 }
-            } else if (key.equals(ParameterConstants.OFFSET)) { //skip to record X instead of starting at the beginning
+            } else if (key.equals(ParameterConstants.OFFSET)) { // skip to record X instead of starting at the beginning
                 String offset = entry.getValue();
                 if (offset != null) {
                     queryBuilder.setOffset(Integer.parseInt(offset));
                 }
-            } else if (key.equals(ParameterConstants.LIMIT)) { //display X results instead of all of them
+            } else if (key.equals(ParameterConstants.LIMIT)) { // display X results instead of all of them
                 String limit = entry.getValue();
                 if (limit != null) {
                     queryBuilder.setLimit(Integer.parseInt(limit));
@@ -568,18 +586,17 @@ public class BasicService implements EntityService {
             } else if (key.equals(ParameterConstants.SORT_ORDER)) { // define the sort order (ascending or descending)
                 String sortOrder = entry.getValue();
                 if (sortOrder != null) {
-                    EntityQuery.SortOrder order =
-                            sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
+                    EntityQuery.SortOrder order = sortOrder.equals(ParameterConstants.SORT_ASCENDING) ? EntityQuery.SortOrder.ascending : EntityQuery.SortOrder.descending;
                     queryBuilder.setSortOrder(order);
                 }
-            } else { //query param on record
+            } else { // query param on record
                 String value = entry.getValue();
                 if (value != null) {
                     queryBuilder.addField(key, value);
                 }
             }
         }
-
+        
         return queryBuilder.build();
     }
 }

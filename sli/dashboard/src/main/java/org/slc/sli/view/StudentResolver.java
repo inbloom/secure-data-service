@@ -20,9 +20,9 @@ import org.slc.sli.util.Constants;
  *
  */
 public class StudentResolver {
-
+    
     List<GenericEntity> studentSummaries;
-
+    
     /**
      * Constructor
      */
@@ -33,31 +33,31 @@ public class StudentResolver {
     public List<GenericEntity> list() {
         return studentSummaries;
     }
-
+    
     /**
      * Returns the string representation of the student information, identified by the datapoint ID
      * We pass in Map here because freemarker doesn't seem to like GenericEntity
      */
     //public String get(Field field, GenericEntity student) {
     public String get(Field field, Map student) {
-
+        
         String dataPointName = field.getValue();
         if (dataPointName == null) { return ""; }
         if (dataPointName.equals(Constants.ATTR_NAME)) {
             
-            return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " " 
-                 + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+            return ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_FIRST_NAME) + " "
+                    + ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_LAST_SURNAME);
         }
         
         if (dataPointName.equals(Constants.ATTR_NAME_WITH_LINK)) {
             return "<a id=\"student_profile\" href=\"service/layout/student?id=" + student.get(Constants.ATTR_ID) + "\">"
-                    + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "
-                    + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME) + "</a>";
+                    + ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_FIRST_NAME) + " "
+                    + ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_LAST_SURNAME) + "</a>";
         }
         
         return "";
     }
-
+    
     /**
      * returns true if the given lozenge code applies to the given student
      */
@@ -68,36 +68,37 @@ public class StudentResolver {
         // Check if program in student entity
         if (Arrays.asList(studentProgramCodes).contains(code)) {
             return StudentProgramUtil.hasProgramParticipation(student, code);
-        } 
+        }
         
         // Now check program participation
-        List<String> programs = (List<String>) (student.get(Constants.ATTR_PROGRAMS));
+        List<String> programs = (List<String>) student.get(Constants.ATTR_PROGRAMS);
         if (programs != null) {
             return programs.contains(code);
         }
-
+        
         return false;
     }
-
+    
     public void filterStudents(String filterName) {
-
-        if (filterName != null && filterName != "") {
+        
+        if (filterName != null && !filterName.isEmpty()) {
             
             List<GenericEntity> filteredStudents = new ArrayList<GenericEntity>();
             for (GenericEntity student : studentSummaries) {
-                Map studentMap = (Map) student;
+                Map studentMap = student;
                 if (lozengeApplies(studentMap, filterName)) {
                     filteredStudents.add((GenericEntity) studentMap);
                 }
             }
-            this.studentSummaries = filteredStudents;
+            studentSummaries = filteredStudents;
         }
     }
     
     public String getStudentName(Map student) {
-        if (student == null)
+        if (student == null) {
             return "";
-        return ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_FIRST_NAME) + " "
-                + ((Map) (student.get(Constants.ATTR_NAME))).get(Constants.ATTR_LAST_SURNAME);
+        }
+        return ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_FIRST_NAME) + " "
+        + ((Map) student.get(Constants.ATTR_NAME)).get(Constants.ATTR_LAST_SURNAME);
     }
 }
