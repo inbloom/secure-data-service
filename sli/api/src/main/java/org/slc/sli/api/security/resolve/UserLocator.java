@@ -9,6 +9,6 @@ import org.slc.sli.api.security.SLIPrincipal;
  */
 public interface UserLocator {
 
-    public SLIPrincipal locate(String realm, String externalUserId);
+    public SLIPrincipal locate(String regionId, String externalUserId);
 
 }

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentGrade.xsd" xmlns="http://ed-fi.org/0100RFC062811">
+
+
+    <StudentAcademicRecord id="SAR-91919001-1">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra-10</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference id="SAR-91919001-1"/>
+      <GradeType>Final</GradeType>
+      <CourseCode>Algebra-10</CourseCode>
+      <StudentUniqueStateId>91919001</StudentUniqueStateId>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-91919001-2">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Geometry-10</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference id="SAR-91919001-2"/>
+      <GradeType>Final</GradeType>
+      <CourseCode>Geometry-10</CourseCode>
+      <StudentUniqueStateId>91919001</StudentUniqueStateId>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-91919002-1">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919002</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>85</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra-10</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference id="SAR-91919002-1"/>
+      <GradeType>Final</GradeType>
+      <CourseCode>Algebra-10</CourseCode>
+      <StudentUniqueStateId>91919002</StudentUniqueStateId>
+    </CourseTranscript>
+    
+    <StudentAcademicRecord id="SAR-91919002-2">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919002</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Geometry-10</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference id="SAR-91919002-2"/>
+      <GradeType>Final</GradeType>
+      <CourseCode>Geometry-10</CourseCode>
+      <StudentUniqueStateId>91919002</StudentUniqueStateId>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-91919003-1">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919003</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    
+    <CourseTranscript>   	
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra-10</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference id="SAR-91919003-1"/>
+      <GradeType>Final</GradeType>
+      <CourseCode>Algebra-10</CourseCode>
+      <StudentUniqueStateId>91919003</StudentUniqueStateId>
+    </CourseTranscript>
+</InterchangeStudentGrade>
