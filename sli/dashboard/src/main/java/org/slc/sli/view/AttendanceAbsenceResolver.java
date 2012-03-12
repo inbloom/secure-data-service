@@ -49,7 +49,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
                 } else if (configField.getValue().equals(ABSENT_VALUE)) {
                     compareValue = "Absence";
                 }
-                if (value.contains(compareValue)) {
+                if (compareValue != null && value.contains(compareValue)) {
                     ++count;
                 }
             }
