@@ -61,6 +61,33 @@ public class AttendanceAbsenceResolverTest {
         mockStudent.put("attendances", attendances);
         assert (resolver.getCountForPath(f) == 20);
     }
+    
+    @Test
+    public void testTardyCount() {
+        List<Map> attendances = new ArrayList<Map>();
+        for (int i = 0; i < 17; i++) {
+            attendances.add(getInvalidAttendanceObject());
+        }
+        mockStudent.put("attendances", attendances);
+        Field f = new Field();
+        f.setValue("ATTENDANCE.TardyCount");
+        assert (resolver.getCountForPath(f) == 17);
+    }
+    
+    @Test
+    public void testTardyCountMixed() {
+        List<Map> attendances = new ArrayList<Map>();
+        for (int i = 0; i < 20; ++i) {
+            attendances.add(getValidAttendanceObject());
+        }
+        for (int i = 0; i < 15; ++i) {
+            attendances.add(getInvalidAttendanceObject());
+        }
+        Field f = new Field();
+        f.setValue("ATTENDANCE.TardyCount");
+        mockStudent.put("attendances", attendances);
+        assert (resolver.getCountForPath(f) == 15);
+    }
 
     private Map getValidAttendanceObject() {
         Map<String, String> attendance = new HashMap<String, String>();
