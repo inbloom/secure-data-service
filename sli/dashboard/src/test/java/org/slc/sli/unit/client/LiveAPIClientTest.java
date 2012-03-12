@@ -74,7 +74,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "v1/students/1000/attendances?startDate>=\"2011-07-13\"&endDate<=\"2012-07-13\"";
 
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000", "2011-07-13", "2012-07-13");
         assertNotNull(attendance);

@@ -437,6 +437,7 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal == null) throw new AccessDeniedException("Principal cannot be found");
         EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(), defn.getType());
         
         return resolver.findAccessible(principal.getEntity());
