@@ -332,42 +332,4 @@ public class NeutralRecordRepositoryTest {
         assertEquals(5, idList.size());
     }
 
-    @Test
-    public void testFindByLocalId() {
-        repository.deleteAll("student");
-
-        // create new student neutral record
-        NeutralRecord body1 = buildTestStudentNeutralRecord();
-        NeutralRecord body2 = buildTestStudentNeutralRecord();
-        NeutralRecord body3 = buildTestStudentNeutralRecord();
-        NeutralRecord body4 = buildTestStudentNeutralRecord();
-
-        body1.setAttributeField("firstName", "Austin");
-        body2.setAttributeField("firstName", "Jane");
-        body3.setAttributeField("firstName", "Mary");
-        body4.setAttributeField("firstName", "Suzy");
-
-        body1.setAttributeField("performanceLevels", new String[] { "1" });
-        body2.setAttributeField("performanceLevels", new String[] { "2" });
-        body3.setAttributeField("performanceLevels", new String[] { "3" });
-        body4.setAttributeField("performanceLevels", new String[] { "4" });
-
-        // save records
-        repository.create(body1);
-        repository.create(body2);
-        repository.create(body3);
-        repository.create(body4);
-
-        // Search saved records by local ID.
-        String id1 = body1.getLocalId().toString();
-        when(mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student"))).thenReturn(body1);
-        NeutralRecord found1 = repository.findByLocalId("student", id1);
-        assertEquals("Austin", found1.getAttributes().get("firstName").toString());
-
-        String id3 = body3.getLocalId().toString();
-        when(mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student"))).thenReturn(body3);
-        NeutralRecord found3 = repository.findByLocalId("student", id3);
-        assertEquals("Mary", found3.getAttributes().get("firstName").toString());
-    }
-
 }

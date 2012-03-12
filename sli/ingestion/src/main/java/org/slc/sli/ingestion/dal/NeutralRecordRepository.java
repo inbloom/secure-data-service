@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.dal;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.mongodb.WriteResult;
@@ -63,8 +61,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
-        // TODO: Add implementation for Transformer.
-        return null;
+        NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setLocalId(metaData.get("externalId"));
+        neutralRecord.setAttributes(body);
+        return create(neutralRecord);
     }
 
     public NeutralRecord create(NeutralRecord neutralRecord) {
@@ -73,29 +73,27 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         String collection = neutralRecord.getRecordType();
         template.save(neutralRecord, collection);
         LOG.info(" create a Neutral Record in collection {} with id {}",
-                new Object[] { collection, neutralRecord.getLocalId() });
+                new Object[] { collection, getRecordId(neutralRecord) });
         return neutralRecord;
     }
 
     public boolean deleteByLocalId(String collection, String localId) {
         if (localId.equals(""))
             return false;
-        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where("body.localId").is(localId)),
+        NeutralRecord deleted = template.findAndRemove(new Query(Criteria.where(getRecordIdName()).is(localId)),
                 NeutralRecord.class, collection);
         LOG.info("delete a NeutralRecord in collection {} with id {}", new Object[] { collection, localId });
         return deleted != null;
     }
 
     @Override
-    public Iterable<String> findIdsByQuery(String collection, Query query, int skip, int max) {
-        if (query == null) {
-            query = new Query();
-        }
-        List<String> ids = new ArrayList<String>();
-        for (NeutralRecord nr : findByQuery(collection, query, skip, max)) {
-            ids.add(nr.getLocalId().toString());
-        }
-        return ids;
+    protected String getRecordId(NeutralRecord neutralRecord) {
+        return neutralRecord.getLocalId().toString();
+    }
+
+    @Override
+    protected String getRecordIdName() {
+        return "body.localId";
     }
 
 }

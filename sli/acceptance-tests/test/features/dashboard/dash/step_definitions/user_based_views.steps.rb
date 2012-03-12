@@ -1,4 +1,4 @@
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
   url = PropLoader.getProps['dashboard_server_address']

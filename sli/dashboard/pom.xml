@@ -35,7 +35,6 @@
 					file based authentication -->
 				<server.mode>live</server.mode>
 				<war.file.name>dashboard</war.file.name>
-				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 			<build>
 				<filters>
@@ -57,7 +56,6 @@
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
-				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 		</profile>
 		<profile>
@@ -73,7 +71,6 @@
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>test</server.mode>
-				<log.path>${CATALINA_HOME}/logs/</log.path>
 			</properties>
 		</profile>
 		<profile>
@@ -86,7 +83,6 @@
 				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
-				<log.path>${user.home}/logs/</log.path>
 			</properties>
 		</profile>
 	</profiles>

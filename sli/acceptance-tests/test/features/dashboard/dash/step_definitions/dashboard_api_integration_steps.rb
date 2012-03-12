@@ -1,5 +1,5 @@
 require 'selenium-webdriver'
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
@@ -25,7 +25,8 @@ end
 
 When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     sleep(1)
-    @driver.find_element(:id, "IDToken1").send_keys username
+    wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+    wait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
 end

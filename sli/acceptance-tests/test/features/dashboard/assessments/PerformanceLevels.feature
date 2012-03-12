@@ -1,43 +1,42 @@
 @wip
 Feature: Display performance levels for assessment contents 
 
-As a SEA/LEA user, I want to be able to select different views in my dashboard
-application, that will change the subset of information that is displayed.
+As a SEA/LEA user, I want to be able to see student Performance Level of their assessment result in my dashboard
+application
 
 Background:
   Given I have an open web browser
   Given the server is in "test" mode
   
-Scenario: Calculating Highest ReportingResultType for any section of a defined assessment 
-  Given I am authenticated to SLI as "cgray" "cgray"
+Scenario: Calculating Most Recent Performance Level for an Assessment Family
+ Given I am authenticated to SLI as  "rbraverman" "rbraverman1234"
+  When I go to "/studentlist"
+  When I select <edOrg> "Daybreak School District 4529"
+    And I select <school> "Daybreak Central High"
+    And I select <section> "Sec 100"
+	And I select <viewSelector> "IL_K-3"
+	And the view configuration file has a AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"
+	And the view configuration file set "field.value" is "DIBELS.Mastery level"
+	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
+  
+ Then I should see a table heading "DIBELS Next"
+	And I should see a field "Perf. Lvl." in this table
+	And I should see  "Jenny Dean" in student field
+	And I should see his/her most recent ISAT Writing Perf. level is "2"
+	
+Scenario: Calculating Most Recent Performance Level for an Assessment
+ Given I am authenticated to SLI as  "linda.kim" "linda.kim1234"
   When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
-    And I select <section> "Sec 145"
-  Then I should only see one view named "IL_9-12"
-  And the configuration file "rule" is "Highest"
-  And the configuration file "AssessmentSections" is "SAT-Writing"
-  And in the configuration file "ReportingTypes" are "scaleScore"  and "percentile"
+    And I select <section> "Sec 300"
+	And I select <viewSelector> "IL_3-8_ELA"
+	And the view configuration file has a AssessmentFamilyHierarchy like "ISAT Writing for Grades 3-8.ISAT Writing for Grades 8*"
+	And the view configuration file set "field.value" is "ISAT Writing.Mastery level"
+	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
   
-  When I find the "Assessment" where the "assessmentTitle" is "SAT" and the "assessmentFamilyHierarchy" is like "SAT*"
-    Then for each studentAssessmentAssociation I find "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
-    When for each student I find the "highest" "studentObjectiveAssessment.scoreResults.result"
-    Then I see the "studentObjectiveAssessment.scoreResults.result"  where studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "scaleScore"	
-	And I see the "studentObjectiveAssessment.scoreResults.result"  where studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "percentile"
-
-Scenario: Display Performance Levels for an Assessment 
-  Given I am authenticated to SLI as "cgray" "cgray"
-  When I go to "/studentlist"
-  When I select <edOrg> "Daybreak School District 4529"
-    And I select <school> "Daybreak Central High"
-    And I select <course> "American Literature"
-    And I select <section> "Sec 145"
-  Then I should only see one view named "IL_K-3"
-  And in the configuration file "assessmentFamilyHierarchy" is like "DIBELS"
-  And in the configuration file "ReportingTypes" are "performance"
-  
-  When I find the "Assessment" where the "assessmentTitle" is "Grade K-3 MOY DIBELS" and the "assessmentFamilyHierarchy" is like "DIBELS*"
-  When for each student I find the "studentAssessmentAssociation"
-   Then I see the "performanceLevelDescriptor.codeValue"
-   And I see the "performanceLevelDescriptor.description"
+ Then I should see a table heading "ISAT Writing (most recent)"
+	And I should see a field "Perf. Lvl." in this table
+	And I should see  "Delilah Sims" in student field
+	And I should see his/her most recent ISAT Writing Perf. level is "3"	

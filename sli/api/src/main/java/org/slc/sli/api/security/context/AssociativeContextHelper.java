@@ -1,18 +1,17 @@
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Resolves Context based permissions.
@@ -85,5 +84,26 @@ public class AssociativeContextHelper {
         } else {
             throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
         }
+    }
+
+    /**
+     * Searches a collection to find entities that contain a reference form a list
+     *
+     *
+     *
+     * @param collectionName    collection to query
+     * @param referenceLocation location of the reference in the collection (eg "body.referenceId")
+     * @param referenceIds      reference values to query
+     * @return Ids of entities containing a referenceId at the referenceLocation
+     */
+    public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation, List<String> referenceIds) {
+        Iterable<Entity> entities = repository.findByQuery(collectionName,
+                new Query(Criteria.where(referenceLocation).in(referenceIds)), 0, 9999);
+
+        List<String> foundIds = new ArrayList<String>();
+        for (Entity e : entities) {
+            foundIds.add(e.getEntityId());
+        }
+        return foundIds;
     }
 }

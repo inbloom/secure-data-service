@@ -52,7 +52,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
         LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, clazz, collectionName);
+        try {
+            return template.findById(databaseId, clazz, collectionName);
+        } catch (Exception e) {
+            LOG.error("Exception occurred", e);
+            return null;
+        }
     }
 
     @Override
@@ -181,7 +186,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public abstract Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
+    public Iterable<String> findIdsByQuery(String collection, Query query, int skip, int max) {
+        if (query == null) {
+            query = new Query();
+        }
+        query.fields().include(getRecordIdName());
+        List<String> ids = new ArrayList<String>();
+        for (T nr : findByQuery(collection, query, skip, max)) {
+            ids.add(getRecordId(nr));
+        }
+        return ids;
+    }
 
     /**
      * Converts a SmartQuery to a MongoQuery
@@ -362,5 +377,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
     }
+
+    protected abstract String getRecordId(T record);
+
+    protected abstract String getRecordIdName();
 
 }

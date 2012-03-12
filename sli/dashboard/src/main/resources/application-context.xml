@@ -12,9 +12,8 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 >
-
-    <context:property-placeholder location="classpath:${env}.properties" ignore-resource-not-found="false" />
-   
+   <context:property-placeholder location="classpath:${env}.properties,classpath:local.properties" ignore-resource-not-found="true" />
+    
     <!-- managers -->
     <bean id="manager" class="org.slc.sli.manager.Manager" abstract="true">
         <property name="apiClient" ref="${api.client}"/>
@@ -46,6 +45,13 @@
 
     <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
     
-    
+    <bean id="progressManager" class="org.slc.sli.manager.StudentProgressManager">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+        
+    <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
+        <property name="configManager" ref="configManager"/>
+        <property name="populationManager" ref="populationManager"/>
+    </bean>
 
 </beans>
