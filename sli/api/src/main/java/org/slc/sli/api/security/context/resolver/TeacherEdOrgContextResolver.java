@@ -4,7 +4,7 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ import java.util.Set;
 public class TeacherEdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private AssociativeContextHelper helper;
 
@@ -40,7 +40,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
             edOrgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
         }
 
-        // from those edOrgs, build the closure under the "parent" relationship 
+        // from those edOrgs, build the closure under the "parent" relationship
         Set<String> retVal = new HashSet<String>();
         retVal.addAll(edOrgIds);
         while (true) { //TODO this could result in an infinite loop if circular references exist
@@ -54,7 +54,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
                 }
             }
             if (toAdd.isEmpty()) {
-                break; // no new ids to add; closure is reached.  
+                break; // no new ids to add; closure is reached.
             }
             edOrgIds.addAll(toAdd);
             edOrgIds = toAdd;
@@ -63,7 +63,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
         return new ArrayList<String>(retVal);
     }
 
-    public void setRepository(EntityRepository repository) {
+    public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
 
