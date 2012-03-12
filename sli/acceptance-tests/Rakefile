@@ -759,13 +759,6 @@ task :dashboardLozengesTests do
   runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
-# desc "Run Dashboard YY Tests"
-# task :dashboardTests do
-#   runTests("test/features/dashboard")
-#   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-#
-# end
-
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
   runTests("test/features/dashboard/dash/user_based_views.feature")
@@ -784,15 +777,7 @@ end
 
 desc "Run Dashboard Assessment tests"
 task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-
 end
-
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
