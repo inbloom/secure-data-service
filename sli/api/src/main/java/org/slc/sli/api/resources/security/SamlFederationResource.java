@@ -114,7 +114,7 @@ public class SamlFederationResource {
         
         // TODO change everything authRealm to use issuer instead of authRealm
         
-        final SLIPrincipal principal = users.locate((String) realm.getBody().get("state"), attributes.getFirst("userId"));
+        final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
