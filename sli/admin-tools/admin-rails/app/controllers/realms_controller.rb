@@ -13,7 +13,7 @@ class RealmsController < ApplicationController
     realmToRedirectTo = nil
     realms = Realm.all
     realms.each do |realm|
-      realmToRedirectTo = realm if realm.idp.id == userRealm
+      realmToRedirectTo = realm if realm.regionId == userRealm
     end
     if realmToRedirectTo != nil
       redirect_to realmToRedirectTo

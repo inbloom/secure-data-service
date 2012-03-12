@@ -9,7 +9,7 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_PREFIX = "api/rest/v1";
+    public static final String API_PREFIX = "api/rest";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
 
@@ -106,6 +106,7 @@ public class Constants {
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
+    public static final String ATTR_TERM = "term";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
 

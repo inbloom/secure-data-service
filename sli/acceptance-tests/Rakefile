@@ -176,11 +176,57 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1ParentTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-                     :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests, :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests, :v1CascadeDeletionTests, :v1GradebookEntryTests] do
+task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1AssociationTests,
+                     :v1homeUriTests,
+                     :v1ValidationTests,
+                     :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests,
+                     :v1CascadeDeletionTests,
+                     :v1EncryptionTests,
+                     :v1SortingAndPagingTests,
+                     :v1ListTests,
+                     :v1TargetTests] do
   displayFailureReport()
+end
+
+task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1AttendanceTests,
+                           :v1CourseTests,
+                           :v1EducationOrganizationTests,
+                           :v1GradebookEntryTests,
+                           :v1ParentTests,
+                           :v1SchoolTests,
+                           :v1SectionTests,
+                           :v1SessionTests,
+                           :v1StaffTests,
+                           :v1StudentTests,
+                           :v1StudentSectionGradebookEntryTests,
+                           :v1TeacherTests] do
+end
+
+task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
+                                :v1SectionAssessmentAssociationTests,
+                                :v1SessionCourseAssociationTests,
+                                :v1StaffEdOrgAssociationTests,
+                                :v1StudentAssessmentAssociationTests,
+                                :v1StudentParentAssociationTests,
+                                :v1StudentSchoolAssociationTests,
+                                :v1StudentSectionAssociationTests,
+                                :v1StudentTranscriptAssociationTests,
+                                :v1TeacherSchoolAssociationTests,
+                                :v1TeacherSectionAssociationTests] do
+end
+
+desc "Run V1 Student Section Gradebook Entry Tests"
+task :v1StudentSectionGradebookEntryTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("section", "section_fixture.json")
+  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
+  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
+  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
+  runTests("test/features/apiV1/entities/studentSectionGradebookEntry")
 end
 
 desc "Run V1 Gradebook Entry Tests"
@@ -200,6 +246,14 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Parent Association Tests"
+task :v1StudentParentAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("parent", "parent_fixture.json")
+  setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentParentAssociation")
 end
 
 desc "Run V1 Student Transcript Association Tests"
@@ -400,6 +454,48 @@ task :v1HierarchyTraversalTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
 end
 
+desc "Run V1 Validation Tests"
+task :v1ValidationTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation")
+end
+
+desc "Run Sorting and Paging Tests"
+task :v1SortingAndPagingTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/sorting_paging")
+end
+
+desc "Run Encryption Tests"
+task :v1EncryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/encryption")
+end
+
+desc "Run Target Tests"
+task :v1TargetTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/targets")
+end
+
+desc "Run List Tests"
+task :v1ListTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/lists")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -490,14 +586,6 @@ task :encryptionTests => [:realmInit] do
   }
   setMultipleFixtureFiles(files)
   runTests("test/features/api/encryption")
-end
-
-desc "Run V1 Validation Tests"
-task :v1ValidationTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
-  setFixture("teacher", "teacher_fixture.json")
-  setFixture("student", "student_fixture.json")
-  runTests("test/features/apiV1/validation")
 end
 
 desc "Run List-Filter Tests"
@@ -636,7 +724,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardAssessmentTests, :dashboardAttendance] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -648,22 +736,22 @@ end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")
+  runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
-  runTests("test/features/dashboard/k3view.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
 end
 
 desc "Run Dashboard High School view Tests"
 task :dashboardHSViewTests do
-  runTests("test/features/dashboard/high_school_view.feature")
+  runTests("test/features/dashboard/dash/high_school_view.feature")
 end
 
 desc "Run Dashboard Program Participation and Student Info Tests"
 task :dashboardLozengesTests do
-  runTests("test/features/dashboard/lozenges.feature")
+  runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
 # desc "Run Dashboard YY Tests"
@@ -675,22 +763,22 @@ end
 
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
-  runTests("test/features/dashboard/user_based_views.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
 end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dashboard_api_integration.feature")
+    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
 end
 
 
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
-    runTests("test/features/dashboard/dashboard_login.feature")
+    runTests("test/features/dashboard/dash/dashboard_login.feature")
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests ] do
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -706,9 +794,24 @@ task :MostRecentResultTests do
     runTests("test/features/dashboard/assessments/MostRecent.feature")
 end
 
+desc "Run Dashboard highest ever result acceptance tests"
+task :HighestEverResultTests do
+    runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
-  runTests("test/features/dashboard/attendance.feature")
+  runTests("test/features/dashboard/dash/attendance.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardStudentProfileTests do
+  runTests("test/features/dashboard/dash/student_profile.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardTabPanelTests do
+  runTests("test/features/dashboard/dash/pages_panel.feature")
 end
 
 ############################################################
@@ -739,7 +842,9 @@ task :importSandboxData do
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
-    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json"
+    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
+    "gradebookEntry" => "gradebookEntry_fixture.json",
+    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
@@ -773,6 +878,7 @@ task :importUnifiedData do
     "assessment"                   => "unified_data/uds_assessments.json",
     "attendance"                   => "unified_data/uds_attendance.json",
     "section"                      => "unified_data/uds_sections.json",
+    "session"                      => "unified_data/uds_sessions.json",
     "course"                       => "unified_data/uds_courses.json",
     "school"                       => "unified_data/uds_schools.json",
     "student"                      => "unified_data/uds_students.json",

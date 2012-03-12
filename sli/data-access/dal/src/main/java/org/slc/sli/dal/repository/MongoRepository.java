@@ -52,7 +52,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T find(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
         LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
-        return template.findById(databaseId, clazz, collectionName);
+        try {
+            return template.findById(databaseId, clazz, collectionName);
+        } catch (Exception e) {
+            LOG.error("Exception occurred", e);
+            return null;
+        }
     }
 
     @Override
@@ -192,7 +197,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return ids;
     }
-
 
     /**
      * Converts a SmartQuery to a MongoQuery
