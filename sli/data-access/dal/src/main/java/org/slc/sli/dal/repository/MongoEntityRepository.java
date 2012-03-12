@@ -1,8 +1,6 @@
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -68,21 +66,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         addTimestamps(entity);
 
         template.save(entity, collectionName);
-        LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, entity.getEntityId() });
+        LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, getRecordId(entity) });
         return entity;
-    }
-
-    @Override
-    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
-        if (query == null) {
-            query = new Query();
-        }
-        query.fields().include("_id");
-        List<String> ids = new ArrayList<String>();
-        for (Entity e : findByQuery(collectionName, query, skip, max)) {
-            ids.add(e.getEntityId());
-        }
-        return ids;
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -101,14 +86,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    private void logResults(String collectioName, List<Entity> results) {
-        if (results == null) {
-            LOG.debug("find entities in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
-        } else {
-            LOG.debug("find entities in collection {} with total numbers is {}",
-                    new Object[] { collectioName, results.size() });
-        }
+    @Override
+    protected String getRecordId(Entity entity) {
+        return entity.getEntityId();
+    }
 
+    @Override
+    protected String getRecordIdName() {
+        return "_id";
     }
 
 }

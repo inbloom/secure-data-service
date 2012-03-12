@@ -27,8 +27,11 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     @SuppressWarnings("unchecked")
     public NeutralRecord convert(DBObject dbObj) {
 
-        String type = dbObj.get("type").toString();
+        String type = null;
         Map<?, ?> map = dbObj.toMap();
+        if (map.containsKey("type")) {
+            type = dbObj.get("type").toString();
+        }
         Map<String, Object> encryptedBody = new HashMap<String, Object>();
         if (map.containsKey("body")) {
             encryptedBody.putAll((Map<String, ?>) map.get("body"));
