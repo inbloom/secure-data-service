@@ -1,13 +1,8 @@
-package org.slc.sli.security;
+package org.slc.sli.api.client.security;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,29 +14,14 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
 
-import org.slc.sli.client.RESTClient;
+import org.slc.sli.api.client.impl.RESTClient;
 
-/**
- * Spring interceptor for calls that don't have a session
- * This implementation simply redirects to the login URL
- *
- * @author dkornishev
- *
- */
-@Component
-public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
-
+public class SLIAuthentication {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(SLIAuthentication.class);
+    
     @Value("${oauth.redirect}")
     private String callbackUrl;
     
@@ -56,21 +36,17 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
     private static final String ENTRY_URL = "ENTRY_URL";
-
+    
     private RESTClient restClient;
-
-    public RESTClient getRestClient() {
-        return restClient;
-    }
-
+    
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
-
+    
     private void addAuthentication(String token) {
-        JsonObject json = restClient.sessionCheck(token);
+        JsonObject json = restClient.sessionCheck();
         LOG.debug(json.toString());
-
+        
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get("authenticated").getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
@@ -80,17 +56,17 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
             Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-
+            
             // Add authorities to user principal
             while (authIterator.hasNext()) {
                 JsonElement nextElement = authIterator.next();
                 authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
             }
-
+            
             SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
     }
-
+    
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
@@ -100,7 +76,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
         
-
         HttpSession session = request.getSession();
         Object token = session.getAttribute(OAUTH_TOKEN);
         LOG.debug("Oauth token in session - " + session.getAttribute(OAUTH_TOKEN) + " and access code - " + request.getParameter("code") + " and request URL is " + request.getRequestURL());

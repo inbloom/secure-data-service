@@ -458,7 +458,7 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-  
+
 end
 
 desc "Run Attendance CRUD Tests"
@@ -714,6 +714,20 @@ end
 ############################################################
 # Dashboard tests end
 ############################################################
+
+############################################################
+# SDK Tests
+############################################################
+desc "Run SDK Tests Tests"
+task :sdkTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/JavaSDK")
+end
+
+############################################################
+# SDK Tests end
+############################################################
+
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do

@@ -42,8 +42,7 @@ public final class BasicClient implements SLIClient {
      * SLIClientBuilder Builder for an BasicClient instance.
      */
     public static class Builder {
-        private String host = "localhost";
-        private int port = 8080;
+        private String host = "http://localhost:8080";
         private String username;
         private String password;
         private String realm = "sli";
@@ -56,7 +55,8 @@ public final class BasicClient implements SLIClient {
         }
         
         /**
-         * Initialize the builder connection host.
+         * Initialize the builder connection host. This should include protocol and optional
+         * port. For example: https://localhost:443
          * 
          * @param host
          *            for the API server.
@@ -64,18 +64,6 @@ public final class BasicClient implements SLIClient {
          */
         public Builder host(final String host) {
             this.host = host;
-            return this;
-        }
-        
-        /**
-         * Initialize the builder connection port.
-         * 
-         * @param port
-         *            for the API server.
-         * @return an SLIClientBuilder
-         */
-        public Builder port(final int port) {
-            this.port = port;
             return this;
         }
         
@@ -118,8 +106,8 @@ public final class BasicClient implements SLIClient {
          * Create an BasicClient instance.
          * @return BasicClient
          */
-        public SLIClient build() {
-            return new BasicClient(host, port, username, password, realm);
+        public SLIClient build() throws IOException {
+            return new BasicClient(host, username, password, realm);
         }
     }
     
@@ -169,14 +157,10 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public String connect(final String host, final int port, final String user, final String password,
-            final String realm) {
+    public String connect(final String host, final String user, final String password,
+            final String realm) throws IOException {
         restClient = new RESTClient();
-        try {
-            return restClient.openSession(host, port, user, password, realm);
-        } catch (IOException e) {
-            return null;
-        }
+        return restClient.openSession(host, user, password, realm);
     }
     
     @Override
@@ -226,10 +210,11 @@ public final class BasicClient implements SLIClient {
                 .create();
     }
     
-    private BasicClient(final String host, final int port, final String user, final String password,
-            final String realm) {
+    private BasicClient(final String host, final String user, final String password,
+            final String realm)
+                    throws IOException {
         this();
-        connect(host, port, user, password, realm);
+        connect(host, user, password, realm);
     }
     
 }
