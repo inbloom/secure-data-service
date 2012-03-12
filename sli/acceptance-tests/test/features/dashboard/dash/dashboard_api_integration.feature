@@ -14,5 +14,5 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "4" seconds
+And I wait for "10" seconds
 Then The students who have an ELL lozenge exist in the API
