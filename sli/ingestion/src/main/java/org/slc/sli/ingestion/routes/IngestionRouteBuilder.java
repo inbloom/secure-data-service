@@ -168,9 +168,29 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         jobLogger.info("jobId: " + job.getId());
 
                         for (IngestionFileEntry fileEntry : job.getFiles()) {
-                            jobLogger.info("[file] " + fileEntry.getFileName()
-                                    + " (" + fileEntry.getFileFormat() + "/"
-                                    + fileEntry.getFileType() + ")");
+                            String id = "[file] " + fileEntry.getFileName();
+                            jobLogger.info(id + " (" + fileEntry.getFileFormat()
+                                    + "/" + fileEntry.getFileType() + ")");
+                            Long numProcessed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.processed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records considered: "
+                                    + numProcessed);
+                            }
+
+                            Long numPassed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.passed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records ingested successfully: "
+                                    + numPassed);
+                            }
+
+                            Long numFailed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.failed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records failed: "
+                                    + numFailed);
+                            }
                         }
 
                         Enumeration names = job.propertyNames();

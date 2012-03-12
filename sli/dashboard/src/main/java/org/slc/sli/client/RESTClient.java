@@ -22,8 +22,6 @@ import org.slc.sli.util.URLBuilder;
 @Component("RESTClient")
 public class RESTClient {
 
-    /** Request parameter key used to pass sessionId to API **/
-    private static final String API_SESSION_KEY = "sessionId";
     private String securityUrl;
 
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
