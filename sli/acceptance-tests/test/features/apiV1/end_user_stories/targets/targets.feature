@@ -31,7 +31,7 @@ Scenario: Check targets resolution after reading a teacher by ID
         And I should have an entity with ID "<Physics S08 ID>"
    When I navigate to GET "/<TEACHER URI>/<Quemby ID>/<TEACHER SCHOOL ASSOC URI>/<SCHOOL URI>"
       Then I should receive a return code of 200
-        And I should have a list of 2 "school" entities
+        And I should have a list of 1 "school" entities
         And I should have an entity with ID "<Apple Alternative Elementary School ID>"
 
 Scenario: Check targets resolution after reading a student by ID

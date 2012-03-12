@@ -1,15 +1,12 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,24 +39,6 @@ public class PopulationManager {
         
     }
     
-    public SortedSet<String> sortByGradeLevel(final String token, Map<String, List<GenericEntity>> historicalData) {
-        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
-        
-        for (Map.Entry<String, List<GenericEntity>> studentData : historicalData.entrySet()) {
-            List<GenericEntity> list = studentData.getValue();
-            
-            // get the assessment list
-            for (GenericEntity entity : list) {
-                results.add(entity.getString("gradeLevelWhenTaken"));
-            }
-            
-            // sort by the school year
-            Collections.sort(list, new GradeLevelComparator());
-        }
-        
-        return results;
-    }
-    
     /**
      * Get the list of student summaries identified by the student id list and authorized for the
      * security token
@@ -68,11 +47,13 @@ public class PopulationManager {
      *            - the principle authentication token
      * @param studentIds
      *            - the student id list
+     * @param sessionId
+     *            - The id of the current session so you can get historical context.
      * @return studentList
      *         - the student summary entity list
      */
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig) {
-        
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig, String sessionId) {
+
         // Initialize student summaries
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         
@@ -85,15 +66,20 @@ public class PopulationManager {
         }
         
         // Get student assessments
+        long startTime = System.nanoTime();
         Map<String, Object> studentAssessmentMap = new HashMap<String, Object>();
         for (String studentId : studentIds) {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
             studentAssessmentMap.put(studentId, studentAssessments);
         }
-        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds);
-        
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
+
+        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
+
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
+            if (studentSummary == null) continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
@@ -102,23 +88,31 @@ public class PopulationManager {
         
         return studentSummaries;
     }
-    
-    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds) {
+
+    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds, String sessionId) {
+
         // Get attendance
         Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
+        long startTime = System.nanoTime();
+        
+        List<String> dates = getSessionDates(token, sessionId);
         for (String studentId : studentIds) {
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId);
-            
+            long studentTime = System.nanoTime();
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
+
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
+        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime / studentIds.size());
         return studentAttendanceMap;
     }
-    
-    private List<GenericEntity> getStudentAttendance(String token, String studentId) {
-        return entityManager.getAttendance(token, studentId);
+
+    private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
+        return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
-    
+
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -209,179 +203,6 @@ public class PopulationManager {
         return assmtIds;
     }
     
-    /**
-     * Returns a list of historical data for a given subject area
-     * 
-     * @param token
-     *            Security token
-     * @param studentIds
-     *            List of student ids
-     * @param subjectArea
-     *            The subject area to search for
-     * @return
-     */
-    public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token,
-            List<String> studentIds, String subjectArea) {
-        Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
-        
-        // build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_SUBJECTAREA, subjectArea);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_COURSE_TITLE);
-        
-        for (String studentId : studentIds) {
-            log.debug("Historical data [studentId] " + studentId);
-            
-            // get the corses in the subject area for the f=given student
-            List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
-            log.debug("Historical data [courses] " + courses);
-            
-            for (GenericEntity course : courses) {
-                log.debug("Historical data [course] " + course);
-                
-                // get the studentCourseAssociation for the given student and course
-                List<GenericEntity> associations = getStudentCourseAssociations(token, studentId,
-                        course.getString(Constants.ATTR_ID));
-                log.debug("Historical data [studentTranscriptAssociations] " + associations);
-                
-                for (GenericEntity association : associations) {
-                    log.debug("Historical data [studentTranscriptAssocitaion] " + association);
-                    
-                    // remove unwanted entries
-                    association.remove(Constants.ATTR_ID);
-                    association.remove("entityType");
-                    // add in the extra data
-                    association.put(Constants.ATTR_COURSE_TITLE, course.getString(Constants.ATTR_COURSE_TITLE));
-                    association.put(Constants.ATTR_SUBJECTAREA, subjectArea);
-                    association.put(Constants.ATTR_COURSE_ID, course.getString(Constants.ATTR_ID));
-                    
-                    log.debug("Historical data [return type] " + association);
-                    
-                    if (results.get(studentId) != null) {
-                        results.get(studentId).add(association);
-                    } else {
-                        List<GenericEntity> list = new ArrayList<GenericEntity>();
-                        list.add(association);
-                        
-                        results.put(studentId, list);
-                    }
-                }
-            }
-        }
-        
-        return results;
-    }
-    
-    /**
-     * Apply school year data to the historical assessment data set and
-     * return a sorted set of school years
-     * 
-     * @param token
-     *            Security token
-     * @param historicalData
-     *            The historical assessment data
-     * @return
-     */
-    public SortedSet<String> applyShoolYear(final String token, Map<String, List<GenericEntity>> historicalData) {
-        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
-        
-        for (Map.Entry<String, List<GenericEntity>> studentData : historicalData.entrySet()) {
-            String studentId = studentData.getKey();
-            List<GenericEntity> list = studentData.getValue();
-            
-            // get the assessment list
-            for (GenericEntity entity : list) {
-                // get the school year
-                String schoolYear = getSchoolYear(token, studentId, entity.getString(Constants.ATTR_COURSE_ID));
-                
-                entity.put(Constants.ATTR_SCHOOL_YEAR, schoolYear);
-                results.add(schoolYear);
-            }
-            
-            // sort by the school year
-            Collections.sort(list, new SchoolYearComparator());
-        }
-        
-        return results;
-    }
-    
-    /**
-     * Returns a list of studentCourseAssociations for a given student and course Id
-     * 
-     * @param token
-     *            Security token
-     * @param studentId
-     *            The student Id
-     * @param courseId
-     *            The course Id
-     * @return
-     */
-    protected List<GenericEntity> getStudentCourseAssociations(final String token, final String studentId,
-            String courseId) {
-        
-        // build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE);
-        
-        return entityManager.getStudentTranscriptAssociations(token, studentId, params);
-    }
-    
-    /**
-     * Returns the school year for a given student and a course
-     * 
-     * @param token
-     *            Security token
-     * @param studentId
-     *            The student Id
-     * @param courseId
-     *            The course Id
-     * @return
-     */
-    protected String getSchoolYear(final String token, final String studentId, final String courseId) {
-        SortedSet<String> schoolYears = new TreeSet<String>();
-        String schoolYear = null;
-        
-        // build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_SCHOOL_YEAR);
-        
-        // get the sections
-        List<GenericEntity> sections = getSections(token, studentId, courseId);
-        
-        for (GenericEntity section : sections) {
-            GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_SESSIONS,
-                    section.getString(Constants.ATTR_SESSION_ID), params);
-            schoolYears.add(entity.getString(Constants.ATTR_SCHOOL_YEAR));
-        }
-        
-        // if we have a school year, then pick the last(latest) from the sorted map
-        if (!schoolYears.isEmpty()) {
-            schoolYear = schoolYears.last();
-        }
-        
-        return schoolYear;
-    }
-    
-    /**
-     * Returns a list of sections for the given student and course
-     * 
-     * @param token
-     *            Security token
-     * @param studentId
-     *            The student Id
-     * @param courseId
-     *            The course Id
-     * @return
-     */
-    protected List<GenericEntity> getSections(final String token, final String studentId, final String courseId) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_SESSION_ID);
-        
-        return entityManager.getSections(token, studentId, params);
-    }
-    
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -403,39 +224,23 @@ public class PopulationManager {
      * @param studentId
      * @return
      */
-    public GenericEntity getStudentForCSIPanel(String token, String studentId) {
-        return entityManager.getStudentForCSIPanel(token, studentId);
+    public GenericEntity getStudent(String token, Object studentId, ViewConfig config) {
+        String key = (String)studentId;
+        return entityManager.getStudentForCSIPanel(token, key);
     }
-    
-    /**
-     * Compare two GenericEntities by the school year
-     * 
-     * @author srupasinghe
-     * 
-     */
-    class SchoolYearComparator implements Comparator<GenericEntity> {
-        
-        public int compare(GenericEntity e1, GenericEntity e2) {
-            return e2.getString("schoolYear").compareTo(e1.getString("schoolYear"));
+
+
+    private List<String> getSessionDates(String token, String sessionId) {
+        //Get the session first.
+        GenericEntity session = entityManager.getSession(token, sessionId);
+        List<String> dates = new ArrayList<String>();
+        if (session.containsKey("beginDate")) {
+            dates.add(session.getString("beginDate"));
+            dates.add(session.getString("endDate"));
+        } else {
+            dates.add("");
+            dates.add("");
         }
-        
-    }
-    
-    /**
-     * Compare two GenericEntities by grade level
-     * 
-     * @author srupasinghe
-     * 
-     */
-    class GradeLevelComparator implements Comparator<GenericEntity> {
-        
-        public int compare(GenericEntity e1, GenericEntity e2) {
-            if (e1.getString("gradeLevelWhenTaken") == null || e2.getString("gradeLevelWhenTaken") == null) {
-                return 0;
-            }
-            
-            return e2.getString("gradeLevelWhenTaken").compareTo(e1.getString("gradeLevelWhenTaken"));
-        }
-        
+        return dates;
     }
 }

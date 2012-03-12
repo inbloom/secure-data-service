@@ -52,6 +52,8 @@ Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
     assert(entity["entityType"] == entityType)
     @ids.push(entity["id"])
   end
+
+  assert(@ids.size.to_s == size, "Got " + @ids.size.to_s + " entities, expected " + size.to_s + " in response.")
 end
 
 Then /^I should have an entity with ID "([^"]*)"$/ do |entityId|

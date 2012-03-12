@@ -43,9 +43,9 @@ Transform /^<([^"]*)>$/ do |val|
   when "ENDPOINT2 URI" then "parents"
 
     #update related field data
-  when "UPDATE FIELD" then "studentId"
-  when "UPDATE FIELD EXPECTED VALUE" then "60779bc1-87bb-455b-99f4-066a505d79e4"
-  when "UPDATE FIELD NEW VALID VALUE" then "53560d13-f663-4683-8aa5-fbfcbf46432d"
+  when "UPDATE FIELD" then "primaryContactStatus"
+  when "UPDATE FIELD EXPECTED VALUE" then "true"
+  when "UPDATE FIELD NEW VALID VALUE" then "false"
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"

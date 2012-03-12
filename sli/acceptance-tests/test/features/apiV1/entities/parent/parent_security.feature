@@ -1,6 +1,6 @@
 @wip
 Feature: Security for Parent CRUD 
-As a product owner, I want to validate that my attendance entity is properly secured up to current SLI standards
+As a product owner, I want to validate that my parent entity is properly secured up to current SLI standards
 
 Scenario: Showing parent list link in Student's available links
 Given I am user "linda.kim" in IDP "SLI"
@@ -8,7 +8,7 @@ And I am assigned the Educator role in my IDP
 And I teach the student "Marvin Miller"
 When I make an API call to get the student "Marvin Miller"
 Then I receive a JSON response
-And I should see a link to get the list of its attendance events in the response labeled "parents"
+And I should see a link to get the list of its parents in the response labeled "parents"
 
 Scenario: Authorized user tries to hit the parent list URL directly
 Given I am user "linda.kim" in IDP "SLI"
@@ -29,14 +29,14 @@ Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
 And I teach the student "Marvin Miller"
 When I make an API call to get the student-parent association "Marvin Miller to Mr. Miller"
-Then I should receive a JSON object of the attendance event
+Then I should receive a JSON object of the parent
 
 Scenario: Authorized user accessing a specific parent entity directly
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
 And I teach the student "Marvin Miller"
 When I make an API call to get the parent "Mr. Miller"
-Then I should receive a JSON object of the attendance event
+Then I should receive a JSON object of the parent
 
 Scenario: Unauthorized user accessing a specific parent-student association of a student
 Given I am user "linda.kim" in IDP "SLI"
