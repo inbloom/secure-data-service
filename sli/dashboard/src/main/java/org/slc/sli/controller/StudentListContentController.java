@@ -26,6 +26,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.HistoricalViewManager;
 import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
@@ -46,6 +47,7 @@ public class StudentListContentController extends DashboardController {
     private ConfigManager configManager;
     private PopulationManager populationManager;
     private ViewManager viewManager;
+    private StudentProgressManager progressManager;
 
 
     public StudentListContentController() { }
@@ -94,10 +96,11 @@ public class StudentListContentController extends DashboardController {
             // be moved from the controller class
             if (viewConfig.getName().equals(Constants.HISTORICAL_DATA_VIEW)) {
                 
-                Map<String, List<GenericEntity>> historicalData = populationManager.getStudentHistoricalAssessments(
+                Map<String, List<GenericEntity>> historicalData = progressManager.getStudentHistoricalAssessments(
                         SecurityUtil.getToken(), uids, selectedCourseId);
-
-                SortedSet<String> schoolYears = populationManager.applyShoolYear(SecurityUtil.getToken(), historicalData);
+                
+                SortedSet<String> schoolYears = progressManager.applySessionAndTranscriptInformation(SecurityUtil.getToken(), 
+                        historicalData);
 
                 HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, schoolYears, null);
                 
@@ -127,8 +130,8 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_STUDENTS, studentResolver);
 
             // insert the assessments object into the modelmap
-            // List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
-            //model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
+            List<GenericEntity> assmts = populationManager.getAssessments(SecurityUtil.getToken(), studentSummaries);
+            model.addAttribute(Constants.MM_KEY_ASSESSMENTS, new AssessmentResolver(studentSummaries, assmts));
             
             // Get attendance
             model.addAttribute(Constants.MM_KEY_ATTENDANCE, new AttendanceResolver());
@@ -164,6 +167,11 @@ public class StudentListContentController extends DashboardController {
     @Autowired
     public void setPopulationManager(PopulationManager populationManager) {
         this.populationManager = populationManager;
+    }
+
+    @Autowired
+    public void setProgressManager(StudentProgressManager progressManager) {
+        this.progressManager = progressManager;
     }
     
 

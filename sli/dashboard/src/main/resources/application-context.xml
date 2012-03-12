@@ -46,6 +46,8 @@
 
     <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
     
-    
+    <bean id="progressManager" class="org.slc.sli.manager.StudentProgressManager">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
 
 </beans>

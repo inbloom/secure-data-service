@@ -21,6 +21,10 @@ public class HistoricalDataResolver {
 
     private static final String GRADE_KEY = "finalLetterGradeEarned";
     private static final String COURSE_TITLE_KEY = "courseTitle";
+    private static final String TABLE_HEADER = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
+    private static final String TABLE_FOOTER = "</table>";
+    private static final String ROW_START = "<tr><td>";
+    private static final String ROW_END = "</td></tr>";
 
     /**
      * Constructor
@@ -114,7 +118,18 @@ public class HistoricalDataResolver {
 
         if (items.size() == 0) return "-";
         else if (items.size() > 1) {
-            return "...";
+            
+            StringBuilder builder = new StringBuilder();
+            
+            builder.append(TABLE_HEADER);
+            for (String s : items) {
+                builder.append(ROW_START);
+                builder.append(s);
+                builder.append(ROW_END);
+            }
+            builder.append(TABLE_FOOTER);
+            
+            return builder.toString();
         }
         else return items.get(0);
     }

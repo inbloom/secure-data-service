@@ -42,17 +42,17 @@ public class HistoricalDataResolverTest {
         GenericEntity ge1 = new GenericEntity();
         ge1.put("courseTitle", "English 101");
         ge1.put("finalLetterGradeEarned", "A");
-        ge1.put("gradeLevelWhenTaken", "Tenth Grade");
+        ge1.put("schoolYear", "Tenth Grade");
         
         GenericEntity ge2 = new GenericEntity();
         ge2.put("courseTitle", "English 102");
         ge2.put("finalLetterGradeEarned", "B");
-        ge2.put("gradeLevelWhenTaken", "Ninth Grade");
+        ge2.put("schoolYear", "Ninth Grade");
         
         GenericEntity ge3 = new GenericEntity();
         ge3.put("courseTitle", "English 103");
         ge3.put("finalLetterGradeEarned", "B");
-        ge3.put("gradeLevelWhenTaken", "Ninth Grade");
+        ge3.put("schoolYear", "Ninth Grade");
         
         genericEntities.add(ge1);
         genericEntities.add(ge2);
