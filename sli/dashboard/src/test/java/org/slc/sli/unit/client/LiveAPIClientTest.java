@@ -29,6 +29,8 @@ public class LiveAPIClientTest {
 
     @Before
     public void setUp() throws Exception {
+        if (System.getProperty("env") == null)
+          System.setProperty("env", "dev");
         // Get the initalized bean from spring config
         appContext = new ClassPathXmlApplicationContext("application-context.xml");
         client = (LiveAPIClient) appContext.getBean("apiClient");

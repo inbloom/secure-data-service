@@ -209,8 +209,9 @@ public class PopulationManager {
      * @param studentId
      * @return
      */
-    public GenericEntity getStudentForCSIPanel(String token, String studentId) {
-        return entityManager.getStudentForCSIPanel(token, studentId);
+    public GenericEntity getStudent(String token, Object studentId, ViewConfig config) {
+        String key = (String)studentId;
+        return entityManager.getStudentForCSIPanel(token, key);
     }
     
 }
