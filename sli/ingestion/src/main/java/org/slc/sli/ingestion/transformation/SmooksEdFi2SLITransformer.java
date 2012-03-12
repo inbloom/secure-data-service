@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,15 +34,19 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
+        List<? extends Entity> sliEntities;
+
         try {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
 
             smooks.filterSource(source, result);
+
+            sliEntities = result.getBean(List.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            sliEntities = Collections.emptyList();
         }
 
-        return result.getBean(List.class);
+        return sliEntities;
     }
 
     public Map<String, Smooks> getSmooksConfigs() {
