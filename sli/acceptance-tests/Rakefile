@@ -167,6 +167,11 @@ task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
 end
 
+desc "Run Student Transcript Association Test"
+task :ingestionStudentTranscriptAssociationTests do
+  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -778,14 +783,13 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
-
 end
 
 
@@ -797,6 +801,11 @@ end
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
     runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
+desc "Run Dashboard performance level acceptance tests"
+task :PerformanceLevels do
+    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
 end
 
 desc "Run dashboard attendance related tests"
@@ -825,6 +834,8 @@ task :importSandboxData do
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
+    "parent" => "parent_fixture.json",
+    "studentParentAssociation" => "studentParentAssociation_fixture.json",
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",

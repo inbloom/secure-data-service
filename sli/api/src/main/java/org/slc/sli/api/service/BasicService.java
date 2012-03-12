@@ -28,7 +28,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -164,6 +166,17 @@ public class BasicService implements EntityService {
         
         if (allowed.isEmpty()) {
             return noEntitiesFound(queryParameters);
+        }
+        
+        //don't really like the instanceof here. Need to find a better way.
+        //HashSet constructor chokes on AbstractList
+        if (queryParameters.containsKey("_id") && !(allowed instanceof AbstractList)) {
+            Set<String> idList = new HashSet<String>(Arrays.asList(queryParameters.get("_id").split(",")));
+            
+            Set<String> retainList = new HashSet<String>(allowed);
+            retainList.retainAll(idList);
+            
+            allowed = new ArrayList<String>(retainList);
         }
         
         EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
