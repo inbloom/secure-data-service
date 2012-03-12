@@ -13,7 +13,7 @@ class StudentsControllerTest < ActionController::TestCase
     #print("The client is #{mock_rest_client.class}\n")
     cookies['iPlanetDirectoryPro'] = 'test_auth'
     SessionResource.auth_id = "test_auth"
-    @api_url = "https://devapp1.slidev.org/api/rest"
+    @api_url = "https://devapp1.slidev.org/api/rest/v1"
     @accepts = {"Accept" => "application/json"}
 
     schools_link =  "#{@api_url}/schools"

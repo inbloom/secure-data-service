@@ -1,19 +1,5 @@
 module ActiveResource
   module Formats
-    module JsonFullFormat
-      def self.decode(json)
-        Formats.remove_root(ActiveSupport::JSON.decode(json))
-      end
-      def self.encode(hash, options = nil)
-        ActiveSupport::JSON.encode(hash, options)
-      end
-      def self.extension
-        "json"
-      end
-      def self.mime_type
-        "application/vnd.slc.full+json"
-      end
-    end
     module JsonLinkFormat
       def self.decode(json)
         Formats.remove_root(ActiveSupport::JSON.decode(json))

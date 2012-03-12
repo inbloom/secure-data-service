@@ -15,13 +15,13 @@ one:
     id: eb4d7e1b-7bed-890a-d574-8da22127fd2d 
     links: 
         -
-            href: https://testapi1.slidev.org/api/rest/schools/eb4d7e1b-7bed-890a-d574-8da22127fd2d 
+            href: https://testapi1.slidev.org/api/rest/v1/schools/eb4d7e1b-7bed-890a-d574-8da22127fd2d 
             rel: self
         - 
-            href: https://testapi1.slidev.org/api/rest/student-school-associations/eb4d7e1b-7bed-890a-d574-8da22127fd2d 
+            href: https://testapi1.slidev.org/api/rest/v1/schools/eb4d7e1b-7bed-890a-d574-8da22127fd2d/studentSchoolAssociations
             rel: getStudentSchoolAssociations
         -
-            href: https://testapi1.slidev.org/api/rest/student-school-associations/eb4d7e1b-7bed-890a-d574-8da22127fd2d/targets 
+            href: https://testapi1.slidev.org/api/rest/v1/schools/eb4d7e1b-7bed-890a-d574-8da22127fd2d/studnetSchoolAssociations/students
             rel: getStudents 
 
     nameOfInstitution: Fry High School 

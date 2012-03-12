@@ -30,8 +30,8 @@ public class WidgetFactory {
         return new Lozenge(field, student, students, lozenges);
     }
     
-    public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver) {
-        return new FieldCounter(field, student, resolver.getAttendanceCountResolverForStudent(student));
+    public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver, int[] boundaries) {
+        return new FieldCounter(field, student, resolver.getAttendanceCountResolverForStudent(student), boundaries);
     }
     
     public static ColorByPercent createFieldRate(Field field, Map student, AttendanceResolver resolver, int[] boundaries) {

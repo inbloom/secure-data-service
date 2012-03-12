@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -759,13 +759,6 @@ task :dashboardLozengesTests do
   runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
-# desc "Run Dashboard YY Tests"
-# task :dashboardTests do
-#   runTests("test/features/dashboard")
-#   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-#
-# end
-
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
   runTests("test/features/dashboard/dash/user_based_views.feature")
@@ -783,16 +776,8 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
 end
-
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
@@ -802,6 +787,11 @@ end
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
     runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
+desc "Run Dashboard performance level acceptance tests"
+task :PerformanceLevels do
+    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
 end
 
 desc "Run dashboard attendance related tests"

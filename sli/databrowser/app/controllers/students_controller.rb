@@ -3,7 +3,7 @@ require 'json'
 class StudentsController < ApplicationController
 
   def index
-    @api_url = "https://devapp1.slidev.org/api/rest"
+    @api_url = "https://devapp1.slidev.org/api/rest/v1"
 
     @accept = {"Accept" => "application/json"}
     @studentData = []
