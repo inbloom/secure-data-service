@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,23 +32,28 @@ public class EntityEncryption {
     @Autowired
     SchemaRepository schemaReg;
     
+    Map<NeutralSchema, Map<String, Object>> piiMapCache = new ConcurrentHashMap<NeutralSchema, Map<String, Object>>();
+    
     public Map<String, Object> encrypt(String entityType, Map<String, Object> body) {
-        Map<String, Object> clonedEntity = cloneEntity(body);
-        
         NeutralSchema schema = schemaReg.getSchema(entityType);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> piiMap = (Map<String, Object>) buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(schema);
+        if (piiMap == null) {
+            return body;
+        }
         
+        Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.ENCRYPT);
         return clonedEntity;
     }
     
     public Map<String, Object> decrypt(String entityType, Map<String, Object> body) {
-        Map<String, Object> clonedEntity = cloneEntity(body);
-        
         NeutralSchema schema = schemaReg.getSchema(entityType);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> piiMap = (Map<String, Object>) buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(schema);
+        if (piiMap == null) {
+            return body;
+        }
+        
+        Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.DECRYPT);
         return clonedEntity;
     }
@@ -192,14 +198,38 @@ public class EntityEncryption {
         }
     }
     
-    private Object buildPiiMap(NeutralSchema schema) {
+    /**
+     * Build a tree structure where all leaves are fields that should be PII.
+     * Returns null if no data for this schema is PII
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> buildPiiMap(NeutralSchema schema) {
+        if (schema == null) {
+            return null;
+        }
+        Map<String, Object> piiMap = piiMapCache.get(schema);
+        if (piiMap == null) {
+            piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema);
+            if (piiMap == null) {
+                piiMap = new HashMap<String, Object>();
+            }
+            piiMapCache.put(schema, piiMap);
+        }
+        if (piiMap.size() == 0) {
+            return null;
+        } else {
+            return piiMap;
+        }
+    }
+    
+    private Object recursiveBuildPiiMap(NeutralSchema schema) {
         if (schema == null) {
             return null;
         }
         if (schema instanceof ComplexSchema || schema instanceof ChoiceSchema) {
             Map<String, Object> fields = new HashMap<String, Object>();
             for (Map.Entry<String, NeutralSchema> field : schema.getFields().entrySet()) {
-                Object result = buildPiiMap(field.getValue());
+                Object result = recursiveBuildPiiMap(field.getValue());
                 if (result != null) {
                     fields.put(field.getKey(), result);
                 }
@@ -208,12 +238,12 @@ public class EntityEncryption {
         } else if (schema instanceof ListSchema) {
             List<NeutralSchema> possibleSchemas = ((ListSchema) schema).getList();
             if (possibleSchemas.size() != 1) {
-                // this list.getList() stuff is legacy that has been replaced with ChoiceSchemas
-                // TODO remove when Removing choice from ListSchema techdebt item is resolved.
+                // TODO remove when multiple list types are removed. This is a tech debt item.
+                // ChoiceSchema should be used for this case.
                 throw new RuntimeException("Unable to handle multiple list schemas.");
             }
             NeutralSchema listContent = possibleSchemas.get(0);
-            return buildPiiMap(listContent);
+            return recursiveBuildPiiMap(listContent);
         } else {
             if (schema.getAppInfo() == null) {
                 return null;
