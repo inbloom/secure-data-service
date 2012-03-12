@@ -78,7 +78,7 @@ Then /^I should receive a list containing the student "([^"]*)"'s parents$/ do |
 end
 
 When /^I make an API call to get (the student\-parent association "[^"]*")$/ do |arg1|
-  restHttpGet("/student-parent-association/"+arg1)
+  restHttpGet("/v1/studentParentAssociations/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

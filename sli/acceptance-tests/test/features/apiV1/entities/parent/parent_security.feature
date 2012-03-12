@@ -16,7 +16,6 @@ Feature: Security for Parent CRUD
     When I make an API call to get the student "Marvin Miller"'s list of parents
     Then I should receive a list containing the student "Marvin Miller"'s parents
 
-  @wip
   Scenario: Unauthorized authenticated user tries to hit the parent list URL directly
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
@@ -24,7 +23,6 @@ Feature: Security for Parent CRUD
     When I make an API call to get the student "Delilah D. Sims"'s list of parents
     Then I get a message that I am not authorized
 
-  @wip
   Scenario: Authorized user accessing a specific parent-student association of a student
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
