@@ -117,6 +117,7 @@ public class SamlFederationResource {
         final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
+        principal.setRealm(realm.getEntityId());
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();

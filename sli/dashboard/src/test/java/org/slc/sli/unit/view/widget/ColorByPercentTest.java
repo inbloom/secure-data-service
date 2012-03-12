@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.slc.sli.view.widget.ColorByPercent;
 
 import static junit.framework.Assert.assertTrue;
-
+import static junit.framework.Assert.assertEquals;
 /**
  * Tests for the color percentage
  */
@@ -79,5 +79,40 @@ public class ColorByPercentTest {
         percent.setTotal(0);
         percent.setActual(1);
         assertTrue("An invalid number should be none", percent.getColor().equals("none"));
+    }
+    
+    @Test
+    public void testCustomBoundaries() {
+        percent.setBoundaries(new int[] {10, 20, 30});
+        percent.setTotal(100);
+        percent.setActual(5);
+        assertEquals("0 - 10 is critical", "critical", percent.getColor());
+        
+        percent.setActual(15);
+        assertEquals("10 - 20 is low", "low", percent.getColor());
+        
+        percent.setActual(25);
+        assertEquals("20 - 30 is average", "average", percent.getColor());
+        
+        percent.setActual(35);
+        assertEquals("30 - 40 is high", "high", percent.getColor());
+    }
+    
+    @Test
+    public void testCustomBoundariesReverse() {
+        percent.setBoundaries(new int[] {50, 25, 5});
+        percent.setTotal(100);
+        
+        percent.setActual(75);
+        assertEquals("50 - 100 is critical", "critical", percent.getColor());
+        
+        percent.setActual(30);
+        assertEquals("25 - 50 is low", "low", percent.getColor());
+        
+        percent.setActual(20);
+        assertEquals("5 - 25 is average", "average", percent.getColor());
+        
+        percent.setActual(2);
+        assertEquals("0 - 5 is high", "high", percent.getColor());
     }
 }
