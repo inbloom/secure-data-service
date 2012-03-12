@@ -123,7 +123,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -167,6 +167,11 @@ task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
 end
 
+desc "Run Student Transcript Association Test"
+task :ingestionStudentTranscriptAssociationTests do
+  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -183,6 +188,9 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1CascadeDeletionTests,
+                     :v1EncryptionTests,
+                     :v1SortingAndPagingTests,
+                     :v1ListTests,
                      :v1TargetTests] do
   displayFailureReport()
 end
@@ -487,6 +495,12 @@ task :v1TargetTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/targets")
 end
 
+desc "Run List Tests"
+task :v1ListTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/lists")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -745,13 +759,6 @@ task :dashboardLozengesTests do
   runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
-# desc "Run Dashboard YY Tests"
-# task :dashboardTests do
-#   runTests("test/features/dashboard")
-#   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-#
-# end
-
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
   runTests("test/features/dashboard/dash/user_based_views.feature")
@@ -769,16 +776,8 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests ] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
 end
-
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
@@ -788,6 +787,11 @@ end
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
     runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
+desc "Run Dashboard performance level acceptance tests"
+task :PerformanceLevels do
+    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
 end
 
 desc "Run dashboard attendance related tests"
@@ -816,6 +820,8 @@ task :importSandboxData do
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
+    "parent" => "parent_fixture.json",
+    "studentParentAssociation" => "studentParentAssociation_fixture.json",
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
@@ -869,6 +875,7 @@ task :importUnifiedData do
     "assessment"                   => "unified_data/uds_assessments.json",
     "attendance"                   => "unified_data/uds_attendance.json",
     "section"                      => "unified_data/uds_sections.json",
+    "session"                      => "unified_data/uds_sessions.json",
     "course"                       => "unified_data/uds_courses.json",
     "school"                       => "unified_data/uds_schools.json",
     "student"                      => "unified_data/uds_students.json",

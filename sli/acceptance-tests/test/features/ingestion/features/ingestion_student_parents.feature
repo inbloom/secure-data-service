@@ -28,6 +28,12 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "Processed 324 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "StudentParentData.xml records considered: 252" in the resulting batch job file
+  And I should see "StudentParentData.xml records ingested successfully: 252" in the resulting batch job file
+  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
 Given I post "ParentsAppend.zip" file as the payload of the ingestion job
@@ -46,6 +52,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "Processed 4 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "StudentParentData.xml records considered: 4" in the resulting batch job file
+  And I should see "StudentParentData.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing duplicate student parent interchange as a payload of the ingestion job: Populated Database
 Given I post "ParentsDuplicate.zip" file as the payload of the ingestion job
@@ -54,6 +63,9 @@ When zip file is scp to ingestion landing zone
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "Processed 4 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "StudentParentData.xml records considered: 4" in the resulting batch job file
+  And I should see "StudentParentData.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing student parent interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "ParentsNoStudent.zip" file as the payload of the ingestion job
@@ -61,3 +73,6 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 1 records." in the resulting batch job file
+  And I should see "StudentParentData.xml records considered: 1" in the resulting batch job file
+  And I should see "StudentParentData.xml records ingested successfully: 0" in the resulting batch job file
+  And I should see "StudentParentData.xml records failed: 1" in the resulting batch job file

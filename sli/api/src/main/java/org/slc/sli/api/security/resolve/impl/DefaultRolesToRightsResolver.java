@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.SliAdminValidator;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 
@@ -32,10 +31,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
 
     @Autowired
     private RoleRightAccess roleRightAccess;
-
-    @Autowired
-    private SliAdminValidator sliAdminValidator;
-
+    
     @Override
     public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
@@ -45,10 +41,9 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
                 if (role != null) {
-                    if (role.getName().equals(RoleInitializer.SLI_ADMINISTRATOR)
-                            && !sliAdminValidator.isSliAdminRealm(realmId)) {
-                        LOG.trace("Ignoring SLI Admin because {} is not admin realm.", realmId);
-                        continue;
+                    if (role.getName().equals(RoleInitializer.SLI_ADMINISTRATOR)) {
+                        LOG.trace("[NOT ACTIVE] Ignoring SLI Admin because {} is not admin realm.", realmId);
+                        //  FIXME need a way to mark and differentiate admin realm
                     }
                     auths.addAll(role.getRights());
                 }
@@ -68,9 +63,4 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     public void setRoleMapper(ClientRoleResolver roleMapper) {
         this.roleMapper = roleMapper;
     }
-
-    public void setSliAdminValidator(SliAdminValidator sliAdminValidator) {
-        this.sliAdminValidator = sliAdminValidator;
-    }
-
 }

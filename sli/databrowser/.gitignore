@@ -1,3 +1,5 @@
 tmp/**
 db/**
 coverage/**
+.bundle
+vendor/bundle

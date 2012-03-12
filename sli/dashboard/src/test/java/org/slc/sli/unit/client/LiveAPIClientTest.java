@@ -12,11 +12,12 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.entity.GenericEntity;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Unit test for the Live API client.
@@ -48,7 +49,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getStudentAttendance(null, null);
+        attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
         
@@ -57,7 +58,25 @@ public class LiveAPIClientTest {
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null, true)).thenReturn(json);
         attendance = null;
-        attendance = client.getStudentAttendance(null, "1000");
+        attendance = client.getStudentAttendance(null, "1000", null, null);
+        assertNotNull(attendance);
+        assert (attendance.size() == 2);
+        assert (attendance.get(0).get("attendance").equals("yes"));
+    }
+
+    @Test
+    public void testGetStudentAttendanceWithDates() throws Exception {
+        List<GenericEntity> attendance;
+        attendance = client.getStudentAttendance(null, null, null, null);
+        assertNotNull(attendance);
+        assert (attendance.size() == 0);
+
+        String url = client.getApiUrl() + "v1/students/1000/attendances?startDate>=\"2011-07-13\"&endDate<=\"2012-07-13\"";
+
+        String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        attendance = null;
+        attendance = client.getStudentAttendance(null, "1000", "2011-07-13", "2012-07-13");
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));

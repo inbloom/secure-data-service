@@ -26,6 +26,9 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 0                   | body.totalInstructionalDays | 80                      | integer              |
   And I should see "Processed 50 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "Session1.xml records considered: 50" in the resulting batch job file
+  And I should see "Session1.xml records ingested successfully: 50" in the resulting batch job file
+  And I should see "Session1.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "Session2.zip" file as the payload of the ingestion job
@@ -46,3 +49,6 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 5                   | body.totalInstructionalDays | 80                      | integer              |
   And I should see "Processed 50 records." in the resulting batch job file
   And I should not see an error log file created
+    And I should see "Session2.xml records considered: 50" in the resulting batch job file
+  And I should see "Session2.xml records ingested successfully: 50" in the resulting batch job file
+  And I should see "Session2.xml records failed: 0" in the resulting batch job file

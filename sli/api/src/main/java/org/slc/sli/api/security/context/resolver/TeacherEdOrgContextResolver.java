@@ -1,19 +1,18 @@
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * TeacherEdOrgContextResolver
@@ -40,28 +39,28 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
             Entity school = this.repository.find(EntityNames.SCHOOL, schoolId);
             edOrgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
         }
-        
+
         // from those edOrgs, build the closure under the "parent" relationship 
-        Set<String> retVal = new HashSet<String>(); 
+        Set<String> retVal = new HashSet<String>();
         retVal.addAll(edOrgIds);
-        while(true) {
+        while (true) { //TODO this could result in an infinite loop if circular references exist
             // in this loop, "edOrgIds" contains ids added in the previous round
             Set<String> toAdd = new HashSet<String>(); // this contains ids to be added in this round
             for (String edOrgId : edOrgIds) {
                 Entity edOrg = this.repository.find(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-                String newId = edOrg.getBody().get("parentEducationAgencyReference").toString();
-                if (!retVal.contains(newId)) {
-                    toAdd.add(newId);
+                Object newId = edOrg.getBody().get("parentEducationAgencyReference");
+                if (newId != null && !retVal.contains(newId.toString())) {
+                    toAdd.add(newId.toString());
                 }
             }
-            if(toAdd.isEmpty()) { 
+            if (toAdd.isEmpty()) {
                 break; // no new ids to add; closure is reached.  
             }
-            edOrgIds.addAll(toAdd);
+            retVal.addAll(toAdd);
             edOrgIds = toAdd;
         }
 
-        return new ArrayList<String> (retVal);
+        return new ArrayList<String>(retVal);
     }
 
     public void setRepository(EntityRepository repository) {
