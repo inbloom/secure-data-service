@@ -7,13 +7,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * Controller for Discovery Service
@@ -72,18 +73,17 @@ public class DiscoController {
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
-                Iterable<String> realmList = service.list(0, 100);
+                Iterable<String> realmList = service.list(0, 9999);
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = service.get(realmId);
-                    map.put(node.get("id").toString(), node.get("state").toString());
+                    map.put(node.get("id").toString(), node.get("name").toString());
                     if (realmName != null && realmName.length() > 0) {
-                        if (realmName.equals(node.get("state"))) {
+                        if (realmName.equals(node.get("name"))) {
                             try {
                                 return ssoInit(node.get("id").toString(), relayState, clientId, state, model);
                             } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                LOG.error("Error initiating SSO", e);
                             }
                         }
                     }
