@@ -54,6 +54,8 @@ public class PersistenceProcessor implements Processor {
 
     private EntityPersistHandler entityPersistHandler;
 
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    
     private Exchange exchange;
 
     private ArrayList<String> transformedCollections;
@@ -82,6 +84,7 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
+            neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
             transformedCollections = getTransformedCollections();
 
             for (IngestionFileEntry fe : job.getFiles()) {
@@ -181,8 +184,6 @@ public class PersistenceProcessor implements Processor {
 
                         processedStagedCollections.add(neutralRecord.getRecordType());
 
-                        NeutralRecordMongoAccess neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
-
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
                         Iterator<NeutralRecord> iterNrd = neutralRecordData.iterator();
 
@@ -243,7 +244,6 @@ public class PersistenceProcessor implements Processor {
 
         ArrayList<String> collections = new ArrayList<String>();
 
-        NeutralRecordMongoAccess neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
         Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getTemplate().getCollectionNames();
         Iterator<String> iter = data.iterator();
 
