@@ -16,8 +16,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.EntityManager;
 
+/**
+ * Tests for student progress manager
+ * @author srupasinghe
+ *
+ */
 public class StudentProgressManagerTest {
     private StudentProgressManager manager;
     private EntityManager mockEntity;

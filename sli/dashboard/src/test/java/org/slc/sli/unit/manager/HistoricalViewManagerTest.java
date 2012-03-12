@@ -16,7 +16,8 @@ import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test class for HistoricalViewManager

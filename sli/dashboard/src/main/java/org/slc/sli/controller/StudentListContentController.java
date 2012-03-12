@@ -62,7 +62,7 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(@RequestParam(required=false, value="courseId") String selectedCourseId,
+    public ModelAndView studentListContent(@RequestParam(required = false, value = "courseId") String selectedCourseId,
             String population, Integer viewIndex, Integer filterIndex,
                                            ModelMap model) throws Exception {
 

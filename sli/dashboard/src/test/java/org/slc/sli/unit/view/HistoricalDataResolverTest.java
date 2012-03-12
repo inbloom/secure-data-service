@@ -12,7 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.*;
+import java.util.SortedSet;
+import java.util.Map;
+import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 

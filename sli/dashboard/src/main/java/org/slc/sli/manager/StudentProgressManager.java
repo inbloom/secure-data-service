@@ -137,8 +137,8 @@ public class StudentProgressManager {
                     log.debug("Historical data [studentTranscriptAssociations] " + transcript);
                     
                     section.put(Constants.ATTR_FINAL_LETTER_GRADE, transcript.getString(Constants.ATTR_FINAL_LETTER_GRADE));
-                    section.put(Constants.ATTR_SCHOOL_YEAR, session.getString(Constants.ATTR_SCHOOL_YEAR) + 
-                            " " + session.getString(Constants.ATTR_TERM));
+                    section.put(Constants.ATTR_SCHOOL_YEAR, session.getString(Constants.ATTR_SCHOOL_YEAR) 
+                            + " " + session.getString(Constants.ATTR_TERM));
                 }
             }
             
@@ -193,8 +193,8 @@ public class StudentProgressManager {
     class SchoolYearComparator implements Comparator<GenericEntity> {
 
         public int compare(GenericEntity e1, GenericEntity e2) {
-            if (e1.getString(Constants.ATTR_SCHOOL_YEAR) == null || 
-                    e2.getString(Constants.ATTR_SCHOOL_YEAR) == null) {
+            if (e1.getString(Constants.ATTR_SCHOOL_YEAR) == null 
+                    || e2.getString(Constants.ATTR_SCHOOL_YEAR) == null) {
                 return 0;
             }
             
