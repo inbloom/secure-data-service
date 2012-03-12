@@ -1,22 +1,20 @@
 package org.slc.sli.manager;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -234,7 +232,7 @@ public class PopulationManager {
         //Get the session first.
         GenericEntity session = entityManager.getSession(token, sessionId);
         List<String> dates = new ArrayList<String>();
-        if (session.containsKey("beginDate")) {
+        if (session != null && session.containsKey("beginDate")) {
             dates.add(session.getString("beginDate"));
             dates.add(session.getString("endDate"));
         } else {
