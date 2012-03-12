@@ -130,8 +130,8 @@ public class HistoricalDataResolver {
             builder.append(TABLE_FOOTER);
             
             return builder.toString();
-        }
-        else return items.get(0);
+            
+        } else return items.get(0);
     }
 
 }
