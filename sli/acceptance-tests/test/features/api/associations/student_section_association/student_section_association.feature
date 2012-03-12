@@ -103,8 +103,3 @@ Scenario: Attempt to delete a non-existent resource
 	Given format "application/json"
 	When I navigate to DELETE "/student-section-associations/<'WrongURI' ID>"
 	Then I should receive a return code of 404
-
-Scenario: Attempt to read the base resource with no GUID
-	Given format "application/json"
-	When I navigate to GET "/student-section-associations/<'No GUID' ID>"
-	Then I should receive a return code of 405

@@ -112,5 +112,10 @@ public class ComplexSchema extends NeutralSchema {
         
         return isValid;
     }
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
     
 }
