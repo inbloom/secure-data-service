@@ -25,4 +25,34 @@ public class IdNormalizationTest {
 
         Assert.assertEquals("123", internalId);
     }
+
+    @Test
+    public void TestConfigRead() {
+       Ref  teacherSecAccRef = new Ref();
+
+       FieldValue teacher = new FieldValue();
+       teacher.sourceValue = "Teacher";
+       Ref teacherRef = new Ref();
+       teacherRef.collectionName = "Teacher";
+       Field teacherField = new Field();
+       teacherField.setPath("metaData.externalId");
+       teacherField.setValue(StaffUniqueStateId);
+       teacherRef.fields = Arrays.asList(teacherField);
+       teacher.ref = teacherRef;
+
+       FieldValue section = new FieldValue();
+       section.sourceValue = "Section";
+       Ref sectionRef = new Ref();
+       sectionRef.collectionName = "section";
+       Field sectionCode = new Field();
+       sectionCode.
+
+
+
+           Field section = new FieldI();
+
+           teacher.setPath(")
+           teacherSecAccRef.collectionName="Teacher";
+
+    }
 }
