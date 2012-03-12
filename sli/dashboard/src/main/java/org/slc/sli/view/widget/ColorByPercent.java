@@ -16,6 +16,12 @@ public class ColorByPercent {
     //text used for invalid numbers, such as when total == 0
     public static final String INVALID_NUMBER_DISPLAY_TEXT = "-";
 
+    private static String[] colors = new String[]{"critical", "low", "average", "high"};
+    
+    // 0-30 is critical, 30-70 is low, 70-90 is average, and 90-100 is high
+    private static final int[] DEFAULT_BOUNDARIES = new int[] {30, 70, 90};
+    private int[] boundaries = DEFAULT_BOUNDARIES;
+    
     public ColorByPercent() {
     }
 
@@ -80,19 +86,44 @@ public class ColorByPercent {
         if (percentage == null) {
             return "none";
         }
-        if (percentage > 90) {
-            return "high";
+        
+        //Inverted is for the case where higher values are bad
+        //for example, when calculating a tardiness, 100% tardy rate is very bad, 
+        //but for grades, 100% is good
+        boolean inverted = boundaries[0] > boundaries[2];
+        
+        if (!inverted) {
+            if (percentage > boundaries[2]) {
+                return colors[3];   //high
+            } else if (percentage < boundaries[2] && percentage > boundaries[1]) {
+                return colors[2];   //average
+            } else if (percentage < boundaries[1] && percentage > boundaries[0]) {
+                return colors[1];   //low
+            } else {
+                return colors[0];   //critical
+            }
         }
-        if (percentage < 90 && percentage > 70) {
-            return "average";
+        
+        //inverted case
+        if (percentage > boundaries[0]) {
+            return colors[0];   //critical
+        } else if (percentage < boundaries[0] && percentage > boundaries[1]) {
+            return colors[1];   //low
+        } else if (percentage < boundaries[1] && percentage > boundaries[2]) {
+            return colors[2];   //average
+        } else { // percentage < boundaries[2]
+            return colors[3];   //high
         }
-        if (percentage < 70 && percentage > 30) {
-            return "low";
-        }
-        return "critical";
+
     }
 
     public void setIsInverted(boolean inverted) {
         this.isInverted = inverted;
     }
+    
+    public void setBoundaries(int[] bounds) {
+        this.boundaries = bounds;
+    }
+    
+
 }
