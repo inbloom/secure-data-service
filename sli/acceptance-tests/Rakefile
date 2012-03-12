@@ -167,6 +167,11 @@ task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
 end
 
+desc "Run Student Transcript Association Test"
+task :ingestionStudentTranscriptAssociationTests do
+  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -825,6 +830,8 @@ task :importSandboxData do
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
+    "parent" => "parent_fixture.json",
+    "studentParentAssociation" => "studentParentAssociation_fixture.json",
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
