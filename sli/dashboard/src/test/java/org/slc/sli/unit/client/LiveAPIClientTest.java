@@ -53,7 +53,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "v1/students/1000/attendances";
         
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null, true)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000");
         assertNotNull(attendance);
@@ -63,7 +63,7 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetCourses() {
-        String url = client.getApiUrl() + "/students/56789/studentCourseAssociations/courses?subjectArea=math&includeFields=courseId,courseTitle";
+        String url = client.getApiUrl() + "/v1/students/56789/studentTranscriptAssociations/courses?subjectArea=math&includeFields=courseId,courseTitle";
         String token = "token";
         
         //build the params
@@ -72,7 +72,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "courseId,courseTitle");
         
         String json = "[{courseId: \"123456\",courseTitle:\"Math 1\"},{courseId: \"987654\",courseTitle:\"French 1\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
         
         List<GenericEntity> courses = client.getCourses(token, "56789", params);
         assertEquals("Size should match", 2, courses.size());
@@ -82,7 +82,7 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetStudentTranscriptAssociations() {
-        String url = client.getApiUrl() + "/students/56789/studentCourseAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
+        String url = client.getApiUrl() + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
         String token = "token";
         
         //build the params
@@ -91,7 +91,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "finalLetterGradeEarned,studentId");
         
         String json = "[{finalLetterGradeEarned: \"A\",studentId:\"56789\"},{finalLetterGradeEarned: \"C\",studentId:\"56789\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
         
         List<GenericEntity> assocs = client.getStudentTranscriptAssociations(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
@@ -101,7 +101,7 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetSections() {
-        String url = client.getApiUrl() + "/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
+        String url = client.getApiUrl() + "/v1/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
         String token = "token";
         
         //build the params
@@ -110,7 +110,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "sessionId");
         
         String json = "[{sessionId:\"98765\"},{sessionId:\"99999\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
         
         List<GenericEntity> assocs = client.getSections(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
@@ -119,7 +119,7 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetEntity() {
-        String url = client.getApiUrl() + "/sessions/56789?includeFields=schoolYear,term";
+        String url = client.getApiUrl() + "/v1/sessions/56789?includeFields=schoolYear,term";
         String token = "token";
         
         //build the params
@@ -127,7 +127,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "schoolYear,term");
         
         String json = "{schoolYear:\"2008-2009\",term:\"Fall Semester\"}";
-        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
         
         GenericEntity entity = client.getEntity(token, "sessions", "56789", params);
         assertNotNull("should not be null", entity);

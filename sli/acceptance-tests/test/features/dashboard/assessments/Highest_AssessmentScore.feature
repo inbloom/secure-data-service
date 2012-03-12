@@ -1,4 +1,3 @@
-
 Feature: Display Higest score for assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
