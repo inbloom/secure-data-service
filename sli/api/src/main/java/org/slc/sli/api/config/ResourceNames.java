@@ -46,6 +46,8 @@ public final class ResourceNames {
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganization-associations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
+    public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
+
     
 
     
@@ -70,7 +72,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, "getCourseSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
-        
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
+
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
@@ -99,11 +102,12 @@ public final class ResourceNames {
         for (Entry<String, String> e : SINGULAR_LINK_NAMES.entrySet()) {
             if (e.getKey().equals(ResourceNames.STAFF)) {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue());
-            } else if (e.getKey().endsWith("y")) { 
-                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(e.getValue().length() - 1) + "ies");
+            } else if (e.getValue().endsWith("y")) { 
+                PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(0, e.getValue().length() - 1) + "ies");
             } else {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue() + "s");
             }
         }
     }
+
 }

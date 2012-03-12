@@ -24,7 +24,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | studentTranscriptAssociation|
 When zip file is scp to ingestion landing zone
 #    And "30" seconds have elapsed
-	And a batch job log has been created
+  And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 72    |
@@ -51,6 +51,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 558 records." in the resulting batch job file
+    And I should not see an error log file created
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DemoData.zip" file as the payload of the ingestion job
@@ -82,3 +83,4 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 558 records." in the resulting batch job file
+    And I should not see an error log file created

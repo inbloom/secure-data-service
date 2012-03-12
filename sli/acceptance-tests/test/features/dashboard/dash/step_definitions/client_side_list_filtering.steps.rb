@@ -1,4 +1,4 @@
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 Then /^I should have multiple filters available$/ do
   arr = get_all_elements

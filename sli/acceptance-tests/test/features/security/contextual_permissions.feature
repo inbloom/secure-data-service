@@ -151,6 +151,8 @@ Examples:
 | "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "idp1" | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
+# need to see sections through students to get historical session information
+@wip
 Scenario Outline: Authenticated Educator makes API call to get not own Section
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -182,6 +184,8 @@ Examples:
 | "idp1" | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "idp1" | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
+# need to see sections through students to get historical session information
+@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they do not teach
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP

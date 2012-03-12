@@ -1,4 +1,4 @@
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 require "selenium-webdriver"
 
 Then /^the count for id "([^"]*)" for student "([^"]*)" is "([^"]*)"$/ do |arg1, arg2, arg3|

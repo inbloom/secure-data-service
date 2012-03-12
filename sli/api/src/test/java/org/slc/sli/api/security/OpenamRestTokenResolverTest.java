@@ -63,6 +63,7 @@ public class OpenamRestTokenResolverTest {
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
+        when(rightsResolver.resolveRoles("mock", Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
     
     @Test

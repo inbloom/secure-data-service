@@ -12,6 +12,9 @@ public class ColorByPercent {
     private boolean isInverted = false;
     private int total = 0;
     private int actual = 0;
+    
+    //text used for invalid numbers, such as when total == 0
+    public static final String INVALID_NUMBER_DISPLAY_TEXT = "-";
 
     public ColorByPercent() {
     }
@@ -28,7 +31,6 @@ public class ColorByPercent {
     }
 
     public void setTotal(int i) {
-        if (i == 0) { i = 1; }
         this.total = i;
     }
 
@@ -38,10 +40,13 @@ public class ColorByPercent {
     }
 
     public String getText() {
-        return "" + calculatePercentage();
+        Integer percent = calculatePercentage();
+        if (percent == null) //divison by 0
+            return INVALID_NUMBER_DISPLAY_TEXT;
+        return Integer.toString(calculatePercentage());
     }
-
-    private int calculatePercentage() {
+    
+    private float calculateRatio() {
         //Sanity checks on our data.
         if (total < 0 || total == 0) {
             total = 0;
@@ -51,13 +56,30 @@ public class ColorByPercent {
         }
 
         if (isInverted) {
-            return 100 - (int) (((float) actual / (float) total) * 100);
+            return 1f -  ((float) actual / (float) total);
         }
-        return (int) (((float) actual / (float) total) * 100);
+                
+        return (float) actual / (float) total;
+    }
+
+    /**
+     * 
+     * @return either the value rounded to the nearest percent, or null if it's
+     * not a valid percentage.
+     */
+    private Integer calculatePercentage() {
+        float ratio = calculateRatio();
+        if (Float.isInfinite(ratio) || Float.isNaN(ratio))
+            return null;
+        
+        return Math.round(ratio * 100f);
     }
 
     public String getColor() {
-        int percentage = calculatePercentage();
+        Integer percentage = calculatePercentage();
+        if (percentage == null) {
+            return "none";
+        }
         if (percentage > 90) {
             return "high";
         }
