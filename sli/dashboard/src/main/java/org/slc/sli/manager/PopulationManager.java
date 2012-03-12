@@ -117,7 +117,9 @@ public class PopulationManager {
         
         List<String> dates = getSessionDates(token, sessionId);
         for (String studentId : studentIds) {
+            long studentTime = System.nanoTime();
             List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
 
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
