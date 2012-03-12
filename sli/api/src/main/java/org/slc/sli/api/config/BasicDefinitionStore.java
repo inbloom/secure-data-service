@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
     private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
-    
+
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
     
     @Autowired
@@ -81,14 +81,15 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
         factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES).buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(this);
+        EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
 
         factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(this);
@@ -176,6 +177,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getStudentTranscriptAssociations").calledFromTarget("getStudentTranscriptAssociations")
                 .build();
         addDefinition(studentTranscriptAssociation);
+
+
+        AssociationDefinition studentParentAssociation = factory.makeAssoc(EntityNames.STUDENT_PARENT_ASSOCIATION)
+                .exposeAs(ResourceNames.STUDENT_PARENT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PARENT_ASSOCIATION)
+                .from(student, "getStudent", "getStudents").to(parent, "getParent", "getParents")
+                .calledFromSource("getStudentParentAssociations").calledFromTarget("getStudentParentAssociations")
+                .build();
+        addDefinition(studentParentAssociation);
         
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();

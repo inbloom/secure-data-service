@@ -59,4 +59,25 @@ public class ColorByPercentTest {
         assertTrue(percent.getText() + " should be 97", percent.getText().equals("97"));
         assert (percent.getColor().equals("high"));
     }
+    
+    @Test
+    public void testRounding() {
+        percent.setTotal(9);
+        percent.setActual(6);
+        assertTrue("2/3 should round up to 67%", percent.getText().equals("67"));
+    }
+    
+    @Test
+    public void testDivisionBy0() {
+        percent.setTotal(0);
+        percent.setActual(6);
+        assertTrue("Not a number...should show up as -", percent.getText().equals("-"));
+    }
+    
+    @Test
+    public void testDivisionBy0Color() {
+        percent.setTotal(0);
+        percent.setActual(1);
+        assertTrue("An invalid number should be none", percent.getColor().equals("none"));
+    }
 }
