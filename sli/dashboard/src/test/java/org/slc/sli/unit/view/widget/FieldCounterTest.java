@@ -16,13 +16,14 @@ import static org.mockito.Mockito.when;
 public class FieldCounterTest {
     private FieldCounter counter;
 
+    private AggregateResolver mockResolver;
+    private Field mockField;
     
     @Before
     public void setUp() throws Exception {
-        AggregateResolver mockResolver = mock(AggregateResolver.class);
-        Field mockField = new Field();
+        mockResolver = mock(AggregateResolver.class);
+        mockField = new Field();
         mockField.setValue("path.path");
-        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
 
         counter = new FieldCounter(mockField, null, mockResolver, new int[]{0, 5, 10});
     }
@@ -34,18 +35,18 @@ public class FieldCounterTest {
 
     @Test
     public void testGetText() throws Exception {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
         assert (counter.getText().equals("30"));
     }
 
     @Test
     public void testGetColor() throws Exception {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
         assert (counter.getColorIndex() == 3);
     }
     
     @Test
     public void testFirstLevel() {
-        AggregateResolver mockResolver = mock(AggregateResolver.class);
-        Field mockField = new Field();
         when(mockResolver.getCountForPath(mockField)).thenReturn(0);
         assert (counter.getColorIndex() == 1);
     }
