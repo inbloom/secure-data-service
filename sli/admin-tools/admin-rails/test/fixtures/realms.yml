@@ -6,7 +6,8 @@
 #
 one:
     id: 1
-    state: Shared Learning Initiative
+    name: Shared Learning Initiative
+    regionId: http://slidev.org
     idp:
       id: http://slidev.org
     realm: "dc=slidev,dc=org"
@@ -15,7 +16,8 @@ one:
 #
 two:
     id: 2
-    state: Tardis
+    name: Tardis
+    regionId: http://timelords.com 
     idp: 
       id: http://timelords.com 
     realm: "dc=timelors,dc=org"
