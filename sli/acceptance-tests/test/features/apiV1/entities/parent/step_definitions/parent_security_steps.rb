@@ -67,7 +67,7 @@ Then /^I should receive a JSON object of the parent$/ do
 end
 
 When /^I make an API call to get (the student "[^"]*")'s list of parents$/ do |arg1|
-  restHttpGet("/v1/students/#{arg1}/parents")
+  restHttpGet("/v1/students/#{arg1}/studentParentAssociations/parents")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
