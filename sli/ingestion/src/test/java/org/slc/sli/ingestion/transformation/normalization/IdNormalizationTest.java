@@ -36,23 +36,23 @@ public class IdNormalizationTest {
        teacherRef.collectionName = "Teacher";
        Field teacherField = new Field();
        teacherField.setPath("metaData.externalId");
-       teacherField.setValue(StaffUniqueStateId);
+       teacherField.setValue(teacher);
        teacherRef.fields = Arrays.asList(teacherField);
        teacher.ref = teacherRef;
 
-       FieldValue section = new FieldValue();
-       section.sourceValue = "Section";
-       Ref sectionRef = new Ref();
-       sectionRef.collectionName = "section";
-       Field sectionCode = new Field();
-       sectionCode.
+       FieldValue sectionCodeVal = new FieldValue();
+       sectionCodeVal.sourceValue = "uniqueSectionCode";
+       Ref sectionCodeRef = new Ref();
+       sectionCodeRef.collectionName = "section";
+       Field sectionCodePath = new Field();
+       sectionCodePath.setPath("body.uniqueSectionCode");
+       sectionCodeRef.fields = Arrays.asList(sectionCodePath);
 
+       IdNormalizer idNorm = new IdNormalizer();
 
+       String internalId = idNorm.resolveInternalId(teacherSecAccRef);
 
-           Field section = new FieldI();
-
-           teacher.setPath(")
-           teacherSecAccRef.collectionName="Teacher";
+       //Assert.assertEquals("123", someFieldValue);
 
     }
 }
