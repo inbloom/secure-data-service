@@ -113,7 +113,7 @@ public class StudentProgressManager {
      */
     public SortedSet<String> applySessionAndTranscriptInformation(final String token, Map<String, 
             List<GenericEntity>> historicalData) {
-        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
+        SortedSet<String> results = new TreeSet<String>();
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();

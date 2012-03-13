@@ -106,7 +106,7 @@ public class HistoricalDataResolver {
         List<GenericEntity> historicalList = historicalData.get(studentId);
         List<String> items = new ArrayList<String>();
 
-        if (historicalList == null) return "-";
+        if (historicalList == null) return "(none)";
         
         for (GenericEntity data : historicalList) {
             String dataSession = data.getString("schoolYear");
@@ -116,11 +116,13 @@ public class HistoricalDataResolver {
             }
         }
 
-        if (items.size() == 0) return "-";
+        if (items.size() == 0) return "(none)";
         else if (items.size() > 1) {
             
             StringBuilder builder = new StringBuilder();
             
+            //should not do this here
+            //need to refactor this out and put into the view
             builder.append(TABLE_HEADER);
             for (String s : items) {
                 builder.append(ROW_START);
