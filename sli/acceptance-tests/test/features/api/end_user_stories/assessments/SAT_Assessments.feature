@@ -37,15 +37,16 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 		     And the "assessmentFamilyHierarchyName" is "SAT"
 		     And the "maxRawScore" is "2400"
 		     And the "minRawScore" is "600"
-		     And the "objectiveAssessment.identificationCode" = "SAT-Writing"
-		     And the "objectiveAssessment.percentofAssessment" = "33%"
-		     And the "objectiveAssessment.maxRawScore" = 600
-		     And the "objectiveAssessment.identificationCode" = "SAT-Math"
-		     And the "objectiveAssessment.percentofAssessment" = "33%"
-		     And the "objectiveAssessment.maxRawScore" = 600
-		     And the "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
-		     And the "objectiveAssessment.percentofAssessment" = "33%"
-		     And the "objectiveAssessment.maxRawScore" = 600
+		     And the assessment has an array of 3 objectiveAssessments
+		     And the first one is "objectiveAssessment.identificationCode" = "SAT-Writing"
+		     And the  first one is "objectiveAssessment.percentofAssessment" = "33%"
+		     And the  first one is "objectiveAssessment.maxRawScore" = 600
+		     And the  second one is"objectiveAssessment.identificationCode" = "SAT-Math"
+		     And the second one is  "objectiveAssessment.percentofAssessment" = "33%"
+		     And the second one is "objectiveAssessment.maxRawScore" = 600
+		     And the third one is  "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
+		     And the third one is "objectiveAssessment.percentofAssessment" = "33%"
+		     And the third one is "objectiveAssessment.maxRawScore" = 600
 	  
 	 When I navigate to GET "/student-section-association/<'ImportantSection' ID>/targets"
 		Then I should receive a collection of 5 student links
@@ -62,21 +63,21 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 			     And the "scoreResults.assessmentReportingResultType" is "Percentile"	
 			     And the "scoreResults.result" is "92" 
 				And the "studentObjectiveAssessment.objectiveAssessment" has the 3 entries
-				 And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
-				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
-			     And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Math"
-				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
-			     And the "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-CriticalReading"
-				 And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
-			     And the "studentObjectiveAssessment.scoreResults.result" is "80"
+				 And the first one is "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
+				 And the first one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the first one is "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the first one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the first one is "studentObjectiveAssessment.scoreResults.result" is "80"
+			     And the second one is "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Math"
+				 And the second one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the second one is "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the second one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the second one is "studentObjectiveAssessment.scoreResults.result" is "80"
+			     And the  third one is"studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-CriticalReading"
+				 And the third one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "ScaleScore"	
+			     And the third one is "studentObjectiveAssessment.scoreResults.result" is "680"
+			     And the third one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "PercentileScore"	
+			     And the third one is "studentObjectiveAssessment.scoreResults.result" is "80"
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
