@@ -4,6 +4,7 @@ class Check
 
   def initialize(access_token)
     json =  Check.json_http_req("#{APP_CONFIG['api_base']}/system/session/check", access_token)
+    Rails.logger.debug {"Json response: #{json}"}
     @full_name = json['full_name']
     @authenticated = json['authenticated']
     @realm = json['realm']
@@ -13,7 +14,7 @@ class Check
   def self.json_http_req(path, access_token)
     headers = {}
     if !access_token.nil?
-      headers = {"Authorization" => "Bearer#{access_token}"}
+      headers = {"Authorization" => "Bearer #{access_token}"}
     end
     url = URI.parse(path)
     req = Net::HTTP::Get.new(url.path, headers)

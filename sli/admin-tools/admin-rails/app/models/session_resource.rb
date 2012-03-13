@@ -1,5 +1,7 @@
 class SessionResource < ActiveResource::Base
   cattr_accessor :access_token
+  self.logger = Rails.logger
+  self.site = APP_CONFIG['api_base']
 
   Rails.logger.debug { "Session ID: #{@access_token}" }
   

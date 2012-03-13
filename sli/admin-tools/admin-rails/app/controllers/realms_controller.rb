@@ -12,6 +12,7 @@ class RealmsController < ApplicationController
     userRealm = get_user_realm
     realmToRedirectTo = nil
     realms = Realm.all
+    logger.debug {"User Realm: #{userRealm}"}
     realms.each do |realm|
       realmToRedirectTo = realm if realm.regionId == userRealm
     end
@@ -78,7 +79,7 @@ private
   # but ultimately we need to get that somewhere else since the user will
   # always be authenticated to the SLI realm
   def get_user_realm
-    return Check.new(SessionResource.access_token).realm
+    Check.new(SessionResource.access_token).realm
   end
 
 end
