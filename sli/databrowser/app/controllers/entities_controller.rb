@@ -7,10 +7,14 @@ class EntitiesController < ApplicationController
   def set_params
     logger.debug {"Setting parameters...."}
     split_path = params[:other].split('/')
-    redirect_to "entities/#{split_path.first}" if split_path.size == 1
     id_index = split_path.index {|path| /[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}/ =~ path}
-    params[:type] = split_path.slice(0...id_index).join('/')
-    params[:id] = split_path.slice(id_index...split_path.size).join('/')
+    if id_index.nil?
+      params[:type] = nil
+      params[:id] = nil
+    else
+      params[:type] = split_path.slice(0...id_index).join('/')
+      params[:id] = split_path.slice(id_index...split_path.size).join('/')
+    end
   end
   
   def set_url
@@ -38,7 +42,13 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    @entity = Entity.get_simple_and_complex(params[:id])
+    if params[:id].nil?
+      Entity.url_type = params[:other]
+      @entity = Entity.get_simple_and_complex("")
+    else
+      @entity = Entity.get_simple_and_complex(params[:id])
+    end
+
     # @entity = Entity.find(:all, :from => "/api/rest/v1/#{params[:other]}")
     
     respond_to do |format|

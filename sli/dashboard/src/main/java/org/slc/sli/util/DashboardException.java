@@ -1,8 +1,9 @@
 package org.slc.sli.util;
 
 /**
- * Class someone thought not important enough to document
- * TODO write real javadoc
+ * Basic Exception with internal information that is not user-friendly
+ * @author agrebneva
+ *
  */
 public class DashboardException extends RuntimeException {
     private static final long serialVersionUID = 1L;
