@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
@@ -9,8 +8,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,15 +22,13 @@ import java.util.List;
  */
 @Component
 public class TeacherCourseResolver implements EntityContextResolver {
-    
+
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Autowired
     private EntityRepository repository;
-    @Autowired
-    private EntityDefinitionStore definitionStore;
-    
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COURSE.equals(toEntityType);
@@ -41,7 +36,7 @@ public class TeacherCourseResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List <String> ids = helper.findAccessible(principal, Arrays.asList(
+        List<String> ids = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
