@@ -933,6 +933,7 @@ sea_idp_server_url     This property selects which running IDP should be used as
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
+OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos
 
 end
