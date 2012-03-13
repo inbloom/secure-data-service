@@ -178,10 +178,20 @@ public class ColorByPercentTest {
     }
     
     @Test
-    //place a point on boundary on the lower section
     public void testPointOnBoundary() {
         percent.setBoundaries(new int[] {50});
         percent.setTotal(50);
         assertEquals(1, percent.getColorIndex());
     }
+    
+    @Test
+    public void testEdges() {
+        percent.setBoundaries(new int[] {50});
+        percent.setActual(0);
+        assertEquals(1, percent.getColorIndex());
+        
+        percent.setActual(100);
+        assertEquals(5, percent.getColorIndex());
+    }
+    
 }
