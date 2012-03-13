@@ -5,15 +5,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.List;
 
 import junit.framework.Assert;
 
@@ -63,14 +62,14 @@ public class EntityPersistHandlerTest {
     private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
-    private Map<String, String> schoolFilterFields = new HashMap<String, String>();
-    private Map<String, String> studentSchoolAssociationFilterFields = new HashMap<String, String>();
-    private LinkedList<Entity> studentList = new LinkedList<Entity>();
-    private Iterable<Entity> studentFound = studentList;
-    private LinkedList<Entity> schoolList = new LinkedList<Entity>();
-    private Iterable<Entity> schoolFound = schoolList;
-    private LinkedList<Entity> studentSchoolAssociationList = new LinkedList<Entity>();
-    private Iterable<Entity> studentSchoolAssociationFound = studentSchoolAssociationList;
+    private final Map<String, String> schoolFilterFields = new HashMap<String, String>();
+    private final Map<String, String> studentSchoolAssociationFilterFields = new HashMap<String, String>();
+    private final LinkedList<Entity> studentList = new LinkedList<Entity>();
+    private final Iterable<Entity> studentFound = studentList;
+    private final LinkedList<Entity> schoolList = new LinkedList<Entity>();
+    private final Iterable<Entity> schoolFound = schoolList;
+    private final LinkedList<Entity> studentSchoolAssociationList = new LinkedList<Entity>();
+    private final Iterable<Entity> studentSchoolAssociationFound = studentSchoolAssociationList;
 
     @SuppressWarnings("unchecked")
     @Before
@@ -461,7 +460,7 @@ public class EntityPersistHandlerTest {
         testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
 
         when(mockedEntityRepository.findByPaths(collectionName, testFilterFields))
-                .thenReturn((Iterable<Entity>) refResults);
+                .thenReturn(refResults);
 
         //mock the errorReport
         ErrorReport mockedErrorReport = mock(ErrorReport.class);
@@ -532,26 +531,25 @@ public class EntityPersistHandlerTest {
     }
 
     /**
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws NoSuchMethodException
-     * 
      * @author tke
      */
     @Test
-    public void tesetCreateEntityLookupFilterByFields() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void tesetCreateEntityLookupFilterByFields() {
         NeutralRecordEntity neutralRecordEntity = createStudentSchoolAssociationEntity(INTERNAL_STUDENT_ID);
         List<String> keyFields = new ArrayList<String>();
         keyFields.add(METADATA_BLOCK + ".localParentIds_Student");
         keyFields.add(METADATA_BLOCK + ".attributes_schoolId");
         neutralRecordEntity.setMetaDataField("localParentIds_Student", INTERNAL_STUDENT_ID);
         neutralRecordEntity.setMetaDataField("attributes_schoolId", SCHOOL_ID);
-        
-        
-        Map<String, String> res = entityPersistHandler.createEntityLookupFilterByFields(neutralRecordEntity, keyFields);
-        
+
+        ErrorReport mockedErrorReport = mock(ErrorReport.class);
+        when(mockedErrorReport.hasErrors()).thenReturn(false);
+
+        Map<String, String> res = entityPersistHandler.createEntityLookupFilter(neutralRecordEntity, keyFields, mockedErrorReport);
+
+        Assert.assertNotNull(res);
         Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localParentIds_Student"));
         Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".attributes_schoolId"));
     }
-    
+
 }
