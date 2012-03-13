@@ -1,15 +1,15 @@
 <div class="csi">
 <div id="CSIImage" style="height:100px;width:100px;float:left;">
 <img src="/dashboard/static/images/juggernaut.jpg" WIDTH="100" HEIGHT="100" /></div>
-<#assign root = csi>
-<#assign panelId = .now>
+<#assign config = viewConfigs["csi"]>
+<#assign root = data[config.data.alias]>
 <div id="CSIcontent">
 <b>${root.name.firstName}<#if root.name.middleName != ""> ${root.name.middleName}</#if> ${root.name.lastSurname}</b>
  
 <#list programUtil.getProgramCodesForStudent() as program>
-<#if programUtil.hasProgramParticipation(csi, program)>
+<#if programUtil.hasProgramParticipation(root, program)>
 <#assign lozengeConfig = lozengeConfigs.get(program)>
-<#assign id = "${panelId}.${root.id}.lozenge.${lozengeConfig.getLabel()}">
+<#assign id = root.id + ".lozenge." + lozengeConfig.getLabel() + "." + random.nextInt()>
     <#-- drawing code -->
     <span id="${id}" class="lozenge"></span>
     <script>
