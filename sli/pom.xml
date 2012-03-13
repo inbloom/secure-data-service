@@ -12,7 +12,7 @@
 	<scm>
 		<connection>scm:git:git@git.slidev.org:sli/sli.git</connection>
 		<developerConnection>scm:git:git@git.slidev.org:sli/sli.git</developerConnection>
-		<url>https://git.slidev.org/WGEN-SLI/SLI</url>
+		<url>https://git.slidev.org/sli/sli</url>
 	</scm>
 
 	<properties>
