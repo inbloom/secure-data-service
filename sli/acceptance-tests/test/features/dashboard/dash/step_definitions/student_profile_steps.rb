@@ -72,7 +72,10 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
 end
 
 def clickOnStudent(name)
-  studentTable = @driver.find_element(:id, "studentList");
+  # wait for live case
+  wait = Selenium::WebDriver::Wait.new(:timeout => 20) 
+  
+  studentTable = wait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
   @driver.find_element(:link, name).click
