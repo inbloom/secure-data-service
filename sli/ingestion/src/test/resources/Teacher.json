@@ -1,10 +1,10 @@
-{   "id" : "Teacher" ,
-    "collectionName" : "Teacher",
-    "choiceOfFields" : [
-                              [
-                                     {   "path" : "metadata.externalId",
-                                         "value" : { "sourceValue" : "TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId", "ref" : null }
-                                     }
-                              ]
-                      ]
+{ "collectionName" : "Teacher",
+  "choiceOfFields" :
+  [
+    [
+      { "path" : "metadata.externalId",
+        "value" : { "valueSource" : "metadata.externalId", "ref" : null }
+      }
+    ]
+  ]
 }

@@ -24,7 +24,7 @@ public class ReadJson {
         for (List<Field> outerList : teacher.getChoiceOfFields()) {
             for (Field fields : outerList) {
                 assertEquals("metadata.externalId" , fields.getPath());
-                assertEquals("TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" , fields.getValue().getSourceValue());
+                assertEquals("metadata.externalId" , fields.getValue().getValueSource());
             }
         }
     }
