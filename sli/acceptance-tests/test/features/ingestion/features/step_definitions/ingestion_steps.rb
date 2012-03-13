@@ -252,7 +252,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @job_status_filename_component)
-    puts "Showing : <" + @resultOfIngestion + ">"
+    #puts "Showing : <" + @resultOfIngestion + ">"
 
     @messageString = message.to_s
 
@@ -298,7 +298,7 @@ Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
-    puts "Showing : <" + @resultOfIngestion + ">"
+    #puts "Showing : <" + @resultOfIngestion + ">"
 
     @messageString = message.to_s
 

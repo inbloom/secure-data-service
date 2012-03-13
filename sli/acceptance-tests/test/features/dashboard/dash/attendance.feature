@@ -68,8 +68,7 @@ Background:
 			And the count for id "ATTENDANCE.TardyRate" for student "Rhonda Delgado" is "11"
 			
 			
-  @wip
-  Scenario: Teacher sees Tardy Count in 9-12 list of students view
+  Scenario: Teacher sees Tardy Count in 9-12 list of students view - third color
     When I navigate to the Dashboard home page
     When I select "Illinois Realm" and click go
     When I login as "cgray" "cgray1234"
@@ -82,7 +81,39 @@ Background:
         And I wait for "7" seconds
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "0"
-      And the class for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "countLevel1"
+      And the count for id "ATTENDANCE.TardyCount" for student "Rhonda Delgado" is "25"
+      And the class for id "ATTENDANCE.TardyCount" for student "Rhonda Delgado" is "countLevel3"
 
+
+  Scenario: Teacher sees Tardy Count in 9-12 list of students view - second color
+    When I navigate to the Dashboard home page
+    When I select "Illinois Realm" and click go
+    When I login as "cgray" "cgray1234"
+    When I go to "/studentList"
+      When I select <edOrg> "Daybreak School District 4529"
+        And I select <school> "Daybreak Central High"
+        And I select <course> "American Literature"
+        And I select <section> "Sec 145"
+      And I select view "IL_9-12"
+        And I wait for "7" seconds
+    Then the table includes header "Attendance"
+      And I should see a table heading "Tardy Count"
+      And the count for id "ATTENDANCE.TardyCount" for student "Delilah Sims" is "2"
+      And the class for id "ATTENDANCE.TardyCount" for student "Delilah Sims" is "countLevel2"
+      
+        Scenario: Teacher sees Tardy Count in 9-12 list of students view - first color
+    When I navigate to the Dashboard home page
+    When I select "Illinois Realm" and click go
+    When I login as "cgray" "cgray1234"
+    When I go to "/studentList"
+      When I select <edOrg> "Daybreak School District 4529"
+        And I select <school> "Daybreak Central High"
+        And I select <course> "American Literature"
+        And I select <section> "Sec 145"
+      And I select view "IL_9-12"
+        And I wait for "7" seconds
+    Then the table includes header "Attendance"
+      And I should see a table heading "Tardy Count"
+      And the count for id "ATTENDANCE.TardyCount" for student "Astra Vincent " is "0"
+      And the class for id "ATTENDANCE.TardyCount" for student "Astra Vincent" is "countLevel1"
 
