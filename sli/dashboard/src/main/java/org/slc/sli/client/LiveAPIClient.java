@@ -406,17 +406,22 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    public String getHomeRoomForStudent(String studentId, String token) {
-        String url = getApiUrl() + STUDENT_SECTION_ASSOC_URL + "/" + studentId;
+    public GenericEntity getHomeRoomForStudent(String studentId, String token) {
+        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC_URL;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token, true);
         
+        // If only one section association exists for the student, return the section as home room
         if (sectionStudentAssociations.size() == 1) {
-            return sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+            String sectionId =  sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+            return getSection(sectionId, token);
         }
         
+        
+        //If multiple section associations exist for the student, return the section with homeroomIndicator set to true 
         for (GenericEntity secStudentAssociation : sectionStudentAssociations) {
-            if ((Boolean) secStudentAssociation.get("homeRoomIndicator")) {
-                return secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+            if ((secStudentAssociation.get(Constants.ATTR_HOMEROOM_INDICATOR) != null) && ((Boolean) secStudentAssociation.get(Constants.ATTR_HOMEROOM_INDICATOR))) {
+                String sectionId = secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+                return getSection(sectionId, token);
             }
         }
         
@@ -430,16 +435,15 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    public String getTeacherIdForSection(String sectionId, String token) {
-        String url = getApiUrl() + TEACHER_SECTION_ASSOC_URL + "/" + sectionId;
+    public GenericEntity getTeacherForSection(String sectionId, String token) {
+        String url = getApiUrl() + SECTIONS_URL + sectionId + TEACHER_SECTION_ASSOC_URL;
         List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token, true);
         for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
             
-            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals("Teacher of Record")) {
-                String teacherUrl = getApiUrl() + TEACHERS_URL + "/"
-                        + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(Constants.TEACHER_OF_RECORD)) {
+                String teacherUrl = getApiUrl() + TEACHERS_URL + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
                 GenericEntity teacher = createEntityFromAPI(teacherUrl, token, true);
-                return teacher.getString(Constants.ATTR_ID);
+                return teacher;
             }
         }
         

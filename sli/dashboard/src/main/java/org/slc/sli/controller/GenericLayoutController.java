@@ -46,9 +46,6 @@ public abstract class GenericLayoutController {
      */
     protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
         
-        UserDetails user = SecurityUtil.getPrincipal();
-        // get the list of all available viewConfigs
-        
         // set up model map
         ModelMap model = new ModelMap();
         ModelAndViewConfig modelAndConfig =
@@ -56,7 +53,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
         model.addAttribute("data", modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
+        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
         model.addAttribute("random", new Random());
         return model;
