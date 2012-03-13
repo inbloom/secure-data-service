@@ -27,6 +27,7 @@
   ], 
   "studentUniqueStateId": "453827070", 
   "id": "453827070"
+
  }, 
  {
   "cohortYears": [
@@ -68,6 +69,16 @@
     "emailAddressType": "Home/Personal", 
     "emailAddress": "jashley@test.edu"
    }
+  ],
+  "otherName": [
+  {
+  "otherNameType": "nickname",
+  "firstName": "Jolene",
+  "middleName": "Juggernaut",
+  "lastSurname": "Ashley",
+  "personalTitlePrefix": "Ms",
+  "generationCodeSuffix": "IV"
+  }
   ]
  }, 
  {

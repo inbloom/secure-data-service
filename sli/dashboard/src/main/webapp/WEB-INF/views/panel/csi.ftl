@@ -4,7 +4,20 @@
 <#assign config = viewConfigs["csi"]>
 <#assign root = data[config.data.alias]>
 <div id="CSIcontent">
-<b>${root.name.firstName}<#if root.name.middleName?? &&  root.name.middleName != ""> ${root.name.middleName}</#if> ${root.name.lastSurname}</b>
+<b>${root.name.firstName}<#if root.name.middleName?? &&  root.name.middleName != ""> ${root.name.middleName}</#if> ${root.name.lastSurname}
+<#if root.name.generationCodeSuffix?? &&   root.name.generationCodeSuffix != ""> ${ root.name.generationCodeSuffix}</#if>
+<#if root.otherName??>
+<#list root.otherName as oName>
+<#if oName.otherNameType == "nickname">
+(<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>
+${oName.firstName} 
+<#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>
+${oName.lastSurname}
+<#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
+</#if>
+</#list>
+</#if>
+</b>
  
 <#list programUtil.getProgramCodesForStudent() as program>
 <#if programUtil.hasProgramParticipation(root, program)>
