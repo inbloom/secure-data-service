@@ -24,7 +24,7 @@ public class ColorByPercent {
     private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
                                           {1, 5, 0, 0, 0}, // 2 levels
                                           {1, 2, 5, 0, 0}, // 3 levels
-                                          {1, 2, 3, 5, 0}, // 4 levels
+                                          {1, 3, 4, 5, 0}, // 4 levels
                                           {1, 2, 3, 4, 5}};  // 5 levels
     
     public ColorByPercent() {
