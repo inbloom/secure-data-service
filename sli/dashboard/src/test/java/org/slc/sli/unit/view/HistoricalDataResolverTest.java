@@ -95,7 +95,7 @@ public class HistoricalDataResolverTest {
         Map<String, String> testStudent2 = new HashMap<String, String>();
         testStudent2.put("id", "4567");
         
-        assertEquals("Course should return '-' when there is no information", "-", historicalDataResolver.getCourse(testField, testStudent2));
+        assertEquals("Course should return '-' when there is no information", "(none)", historicalDataResolver.getCourse(testField, testStudent2));
         
         Field testField2 = new Field();
         testField2.setTimeSlot("Ninth Grade");

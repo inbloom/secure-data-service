@@ -52,6 +52,33 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 558 records." in the resulting batch job file
     And I should not see an error log file created
+    And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 22" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 22" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 6" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 6" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 23" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 23" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 250" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 250" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records considered: 15" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 15" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records considered: 100" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records ingested successfully: 100" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DemoData.zip" file as the payload of the ingestion job
@@ -84,3 +111,30 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 558 records." in the resulting batch job file
     And I should not see an error log file created
+    And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 22" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 22" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 6" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 6" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 23" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 23" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 250" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 250" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records considered: 15" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 15" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records considered: 100" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records ingested successfully: 100" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file

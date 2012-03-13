@@ -68,7 +68,7 @@ public class EntityManager extends Manager {
      *         - the school entity list
      */
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
-        return apiClient.getSchools(token, schoolIds);
+        return getApiClient().getSchools(token, schoolIds);
     }
     
     /**
@@ -97,7 +97,7 @@ public class EntityManager extends Manager {
      *         - the student entity list
      */
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
-        return apiClient.getStudents(token, studentIds);
+        return getApiClient().getStudents(token, studentIds);
     }
     
     /**
@@ -111,7 +111,7 @@ public class EntityManager extends Manager {
      *         - the student entity
      */
     public GenericEntity getStudent(final String token, String studentId) {
-        return apiClient.getStudent(token, studentId);
+        return getApiClient().getStudent(token, studentId);
     }
     
     
@@ -128,9 +128,9 @@ public class EntityManager extends Manager {
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
-        String sectionId = apiClient.getHomeRoomForStudent(studentId, token);
+        String sectionId = getApiClient().getHomeRoomForStudent(studentId, token);
         student.put(Constants.ATTR_SECTION_ID, sectionId);
-        student.put(Constants.ATTR_TEACHER_ID, apiClient.getTeacherIdForSection(sectionId, token));
+        student.put(Constants.ATTR_TEACHER_ID, getApiClient().getTeacherIdForSection(sectionId, token));
         GenericEntity program = getProgram(token, studentId);
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
@@ -153,7 +153,7 @@ public class EntityManager extends Manager {
      *         - the program entity list
      */
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        return apiClient.getPrograms(token, studentIds);
+        return getApiClient().getPrograms(token, studentIds);
     }
     
     /**
@@ -176,7 +176,7 @@ public class EntityManager extends Manager {
      * @return assessment list
      */
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
-        return apiClient.getAssessments(token, assessmentIds);
+        return getApiClient().getAssessments(token, assessmentIds);
     }
     
     /**
@@ -191,7 +191,7 @@ public class EntityManager extends Manager {
      */
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
-        return apiClient.getStudentAssessments(token, studentId);
+        return getApiClient().getStudentAssessments(token, studentId);
     }
     
     /**
@@ -215,7 +215,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public List<GenericEntity> getCustomData(String token, String key) {
-        return apiClient.getCustomData(token, key);
+        return getApiClient().getCustomData(token, key);
     }
 
     /**
@@ -224,8 +224,8 @@ public class EntityManager extends Manager {
      * @param studentId The studentID that you want to get your attendance objects for.
      * @return a list of attendance objects
      */
-    public List<GenericEntity> getAttendance(final String token, final String studentId) {
-        return apiClient.getStudentAttendance(token, studentId);
+    public List<GenericEntity> getAttendance(final String token, final String studentId, final String start, final String end) {
+        return getApiClient().getStudentAttendance(token, studentId, start, end);
     }
     
     /**
@@ -236,7 +236,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        return apiClient.getCourses(token, studentId, params);
+        return getApiClient().getCourses(token, studentId, params);
     }
     
     /**
@@ -247,7 +247,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params) {
-        return apiClient.getStudentTranscriptAssociations(token, studentId, params);
+        return getApiClient().getStudentTranscriptAssociations(token, studentId, params);
     }
     
     /**
@@ -258,7 +258,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
-        return apiClient.getSections(token, studentId, params);
+        return getApiClient().getSections(token, studentId, params);
     }
     
     /**
@@ -270,7 +270,7 @@ public class EntityManager extends Manager {
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
-        return apiClient.getEntity(token, type, id, params);
+        return getApiClient().getEntity(token, type, id, params);
     }
     
     /**
@@ -478,5 +478,7 @@ public class EntityManager extends Manager {
         return url.getFile();
     }
 
-    
+    public GenericEntity getSession(String token, String sessionId) {
+        return getApiClient().getSession(token, sessionId);
+    }
 }

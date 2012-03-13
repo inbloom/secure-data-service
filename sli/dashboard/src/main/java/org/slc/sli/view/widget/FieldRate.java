@@ -16,7 +16,7 @@ public class FieldRate extends ColorByPercent {
     private Field field;
     private AggregateRatioResolver resolver;
 
-    public FieldRate(Field field, Map student, AggregateRatioResolver resolver) {
+    public FieldRate(Field field, Map student, AggregateRatioResolver resolver, int[] boundaries) {
         this.student = student;
         this.field = field;
         this.resolver = resolver;

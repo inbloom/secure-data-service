@@ -7,7 +7,7 @@ Scenario: Go to Data Browser when authenticated SLI
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -31,7 +31,7 @@ Scenario Outline: Navigate to home page from any page
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -51,7 +51,7 @@ Scenario: Associations List - Simple View
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -67,7 +67,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -84,7 +84,7 @@ Scenario Outline: Entity Detail View
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -105,7 +105,7 @@ Scenario: Click on Available Links associations
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field
@@ -119,7 +119,7 @@ Scenario: Click on Available Links entities
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
-And I choose realm "SLI" in the drop-down list
+And I choose realm "Shared Learning Infrastructure" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the SLI IDP Login page
 When I enter "jdoe" in the username text field

@@ -25,8 +25,9 @@ import com.google.gson.Gson;
  * 
  */
 public class LiveAPIClient implements APIClient {
-    
-    public static final String ATTENDANCES_URL = "/attendances/";
+
+    public static final String ATTENDANCES_URL = "/attendances";
+
     private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
     
     private static final String SECTIONS_URL = "/sections/";
@@ -40,7 +41,8 @@ public class LiveAPIClient implements APIClient {
     private static final String TEACHER_SECTION_ASSOC_URL = "/teacher-section-associations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
-    
+    private static final String SESSION_URL = "/sessions/";
+
     @Autowired
     @Value("${api.server.url}")
     private String apiUrl;
@@ -201,7 +203,19 @@ public class LiveAPIClient implements APIClient {
         
         return section;
     }
-    
+
+    public GenericEntity getSession(String token, String id) {
+        GenericEntity session = null;
+        try {
+            session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token, false);
+            logger.debug("Session: " + session.toString());
+        } catch (Exception e) {
+            logger.warn(e.toString());
+            session = new GenericEntity();
+        }
+        return session;
+    }
+
     /**
      * Get one course
      */
@@ -438,11 +452,17 @@ public class LiveAPIClient implements APIClient {
      * @return A list of attendance events for a student.
      */
     @Override
-    public List<GenericEntity> getStudentAttendance(final String token, String studentId) {
+    public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
         logger.info("Getting attendance for ID: " + studentId);
-        String url = ATTENDANCES_URL + "?" + Constants.ATTR_STUDENT_ID + "=" + studentId;
+        String url = "/v1" + STUDENTS_URL + studentId + ATTENDANCES_URL;
+        if (start != null && start.length() > 0) {
+            url += "?eventDate>=" + start;
+            url += "&eventDate<=" + end;
+        }
         try {
-            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, true);
+            long startTime = System.nanoTime();
+            List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, false);
+            logger.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: " + (System.nanoTime() - startTime) * 1.0e-9);
             logger.debug(attendances.toString());
             return attendances;
         } catch (Exception e) {
@@ -502,6 +522,8 @@ public class LiveAPIClient implements APIClient {
         
         return entityList;
     }
+
+
     
     private GenericEntity createEntityWithQuery(String baseUrl, Map<String, String> queries, String token) {
         URLBuilder builder = new URLBuilder(baseUrl);

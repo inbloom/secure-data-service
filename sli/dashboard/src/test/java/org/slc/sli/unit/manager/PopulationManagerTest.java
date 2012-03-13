@@ -1,6 +1,7 @@
 package org.slc.sli.unit.manager;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -195,33 +196,56 @@ public class PopulationManagerTest {
 
     @Test
     public void testGetAttendance() throws Exception {
-        List<String> studentIds = new ArrayList<String>();
-        studentIds.add("0");
-        studentIds.add("1");
+        List<String> studentIds = getStudentIds();
         List<GenericEntity> attendance = new ArrayList<GenericEntity>();
         attendance.add(new GenericEntity());
         attendance.add(new GenericEntity());
-        when(mockEntity.getAttendance(null, "0")).thenReturn(attendance);
-        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(attendance);
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
 
-        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds, "");
         assertNotNull(studentAttendance);
     }
 
     @Test
     public void testGetAttendanceWithBadStudent() throws Exception {
-        List<String> studentIds = new ArrayList<String>();
-        studentIds.add("0");
-        studentIds.add("1");
+        List<String> studentIds = getStudentIds();
         List<GenericEntity> attendance = new ArrayList<GenericEntity>();
         attendance.add(new GenericEntity());
         attendance.add(new GenericEntity());
-        when(mockEntity.getAttendance(null, "0")).thenReturn(new ArrayList<GenericEntity>());
-        when(mockEntity.getAttendance(null, "1")).thenReturn(attendance);
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(attendance);
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
 
 
-        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds);
+        Map<String, Object> studentAttendance = manager.createStudentAttendanceMap(null, studentIds, "");
         assertNotNull(studentAttendance);
-    }    
-        
+    }
+
+    private List<String> getStudentIds() {
+        List<String> studentIds = new ArrayList<String>();
+        studentIds.add("0");
+        studentIds.add("1");
+        return studentIds;
+    }
+
+    @Test
+    public void testGetAttendancesWithCourse() throws Exception {
+        GenericEntity session = new GenericEntity();
+        session.put("startDate", "2012-03-07");
+        session.put("endDate", "2013-03-07");
+        when(mockEntity.getSession(null, "")).thenReturn(session);
+        when(mockEntity.getAttendance(null, "0", "2012-03-07", "2013-03-07")).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", "2012-03-07", "2013-03-07")).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.createStudentAttendanceMap(null, getStudentIds(), ""));
+    }
+
+    @Test
+    public void testGetAttendancesWithoutCourse() throws Exception {
+        when(mockEntity.getSession(null, "")).thenReturn(new GenericEntity());
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(new ArrayList<GenericEntity>());
+        Assert.assertNotNull(manager.createStudentAttendanceMap(null, getStudentIds(), ""));
+    }
 }

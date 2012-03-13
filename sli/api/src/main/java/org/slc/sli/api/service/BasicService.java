@@ -1,29 +1,5 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -38,6 +14,31 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -165,6 +166,17 @@ public class BasicService implements EntityService {
         
         if (allowed.isEmpty()) {
             return noEntitiesFound(queryParameters);
+        }
+        
+        if (queryParameters.containsKey("_id") && (allowed.size() > 0)) {
+            Set<String> idList = new HashSet<String>(Arrays.asList(queryParameters.get("_id").split(",")));
+            
+            System.out.println(allowed.size());
+            
+            Set<String> retainList = new HashSet<String>(allowed);
+            retainList.retainAll(idList);
+            
+            allowed = new ArrayList<String>(retainList);
         }
         
         EntityQuery query = decorateQueryWithAccessibleIds(queryParameters, allowed);
@@ -437,6 +449,7 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
         
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal == null) throw new AccessDeniedException("Principal cannot be found");
         EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(), defn.getType());
         
         return resolver.findAccessible(principal.getEntity());

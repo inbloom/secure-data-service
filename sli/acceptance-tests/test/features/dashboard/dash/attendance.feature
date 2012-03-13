@@ -33,7 +33,7 @@ Background:
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
 	  	  And I select view "IL_3-8 ELA"
-		  And I wait for "5" seconds
+		  And I wait for "7" seconds
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
 			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25"
@@ -48,7 +48,7 @@ Background:
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
 		  And I select view "IL_9-12"
-	      And I wait for "5" seconds
+	      And I wait for "7" seconds
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
 			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25"

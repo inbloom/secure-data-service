@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -22,6 +20,14 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
@@ -35,6 +41,12 @@ public class OAuthTokenUtil {
     
     @Autowired
     private UserLocator locator;
+    
+    @Autowired
+    private EntityRepository repo;
+    
+    @Autowired
+    private IdConverter converter;
     
     /**
      * Name of the collection in Mongo that stores OAuth 2.0 session
@@ -101,7 +113,9 @@ public class OAuthTokenUtil {
     public OAuth2Authentication createOAuth2Authentication(Map data) {
         String realm = (String) data.get("realm");
         String externalId = (String) data.get("externalId");
-        SLIPrincipal principal = locator.locate(realm, externalId);
+        
+        Entity realmEntity = repo.findOne("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(realm))));
+        SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("regionId"), externalId);
         principal.setName((String) data.get("name"));
         principal.setRoles((List<String>) data.get("roles"));
         return reconstituteAuth(principal, data);

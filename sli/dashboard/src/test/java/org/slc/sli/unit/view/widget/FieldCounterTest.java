@@ -1,31 +1,35 @@
 package org.slc.sli.unit.view.widget;
 
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.annotation.DirtiesContext;
+
 import org.slc.sli.config.Field;
 import org.slc.sli.view.AggregateResolver;
 import org.slc.sli.view.widget.FieldCounter;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Basic test for Field Counter.
  */
+@DirtiesContext
 public class FieldCounterTest {
     private FieldCounter counter;
 
+    private AggregateResolver mockResolver;
+    private Field mockField;
     
     @Before
     public void setUp() throws Exception {
-        AggregateResolver mockResolver = mock(AggregateResolver.class);
-        Field mockField = new Field();
+        mockResolver = mock(AggregateResolver.class);
+        mockField = new Field();
         mockField.setValue("path.path");
-        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
 
-        
-        counter = new FieldCounter(mockField, null, mockResolver);
+        counter = new FieldCounter(mockField, null, mockResolver, new int[]{0, 5, 10});
     }
 
     @After
@@ -35,12 +39,32 @@ public class FieldCounterTest {
 
     @Test
     public void testGetText() throws Exception {
-        assert (counter.getText().equals("30"));
+        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
+        assertEquals("30", counter.getText());
+    }
+    
+    @Test
+    public void testGetColorFirstLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(0);
+        assertEquals(1, counter.getColorIndex());
     }
 
     @Test
-    public void testGetColor() throws Exception {
-        assert (counter.getColor().equals("black"));
-
+    public void testGetColorSecondLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(4);
+        assertEquals(2, counter.getColorIndex());
     }
+    
+    @Test
+    public void testColorThirdLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(6);
+        assertEquals(3, counter.getColorIndex());
+    }
+    
+    @Test
+    public void testGetColor() throws Exception {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(30);
+        assertEquals(3, counter.getColorIndex());
+    }
+    
 }
