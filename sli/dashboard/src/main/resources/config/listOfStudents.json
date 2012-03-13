@@ -1,0 +1,33 @@
+{
+  id : "listOfStudents",
+  type : "PANEL",
+  data :{
+    entity: "listOfStudents",
+    alias: "listOfStudents",
+    params: {
+      assesementFilter: {"ISAT Reading": "MOST_RECENT_WINDOW", "ISAT Writing": "MOST_RECENT_RESULT"}
+    }
+  },
+  items : [
+    {name: "Student", field: "name_w_link", params : {format="firstLast", lozenge : "504 limitedEnglishProficiency schoolFoodServiceEligibility IEP LEA RPT"}},
+    {name: "ISAT Reading", 
+     items: [
+       {name: "Perf. Lvl.", field: "ISAT Reading.Mastery level", params: {timeSlot="MOST_RECENT_WINDOW", type="assessment"}},
+       {name: "SS", field: "ISAT Reading.Scale score", params: {timeSlot="MOST_RECENT_WINDOW", type="assessment"}},
+       {name: "%ile Rank", field: "ISAT Reading.Percentile", params: {timeSlot="MOST_RECENT_WINDOW", type="assessment"}},
+       {name: "Lexile Score", field: "ISAT Reading.Other", params: {timeSlot="MOST_RECENT_WINDOW", type="assessment"}}
+     ]
+    },
+    {name: "ISAT Writing (most recent)", 
+     items: [
+       {name: "Perf. Lvl.", field: "ISAT Reading.Mastery level", params: {timeSlot="MOST_RECENT_RESULT", type="assessment"}},
+       {name: "SS", field: "ISAT Reading.Scale score", params: {timeSlot="MOST_RECENT_RESULT", type="assessment"}}
+     ]
+    },
+    {name: "Attendance", 
+     items: [
+       {name: "Absence Count", field: "attendance.AbsenceCount", params: {visual="fieldCounter", type="attendance"}}
+     ]
+    }
+  ] 
+}

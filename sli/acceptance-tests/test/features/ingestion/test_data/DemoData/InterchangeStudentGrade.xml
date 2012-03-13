@@ -42,6 +42,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919001</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919001-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -123,6 +124,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919002</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919002-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -204,6 +206,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919003</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919003-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -285,6 +288,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919004</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919004-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -366,6 +370,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919005</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919005-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -447,6 +452,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919006</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919006-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -528,6 +534,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919007</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919007-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -609,6 +616,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919008</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919008-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -690,6 +698,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919009</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919009-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -771,6 +780,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919010</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919010-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -812,8 +822,6 @@
       <StudentUniqueStateId>91919010</StudentUniqueStateId>
     </CourseTranscript>
     
-    
-    
     <StudentAcademicRecord id="SAR-91919011-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -854,6 +862,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919011</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919011-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -935,6 +944,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919012</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919012-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1016,6 +1026,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919013</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919013-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1097,6 +1108,22 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919014</StudentUniqueStateId>
     </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-91919001-1">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
       <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
@@ -1163,6 +1190,22 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919015</StudentUniqueStateId>
     </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-91919001-1">
+      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>91919001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
       <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
@@ -1229,6 +1272,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919016</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919016-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1310,6 +1354,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919017</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919017-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1391,6 +1436,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919018</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919018-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1472,6 +1518,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919019</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919019-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1553,6 +1600,7 @@
       <CourseCode>Algebra-10</CourseCode>
       <StudentUniqueStateId>91919020</StudentUniqueStateId>
     </CourseTranscript>
+
     <StudentAcademicRecord id="SAR-91919020-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1593,4 +1641,968 @@
       <CourseCode>Geometry-10</CourseCode>
       <StudentUniqueStateId>91919020</StudentUniqueStateId>
     </CourseTranscript>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>84</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919001</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>58</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919002</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>72</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919003</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>99</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919004</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>100</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919005</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919006</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>43</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919007</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>97</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919008</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>81</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919009</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919010</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>91</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919011</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>77</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919012</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919013</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>66</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919014</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>68</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919015</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>79</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919016</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>85</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919017</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>95</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919018</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>55</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919019</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-15</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>61</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919020</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919001</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>56</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919002</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>73</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919003</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>98</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919004</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>100</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919005</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>81</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919006</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>41</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919007</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>98</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919008</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>87</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919009</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>89</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919010</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>93</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919011</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>76</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919012</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>79</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919013</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>71</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919014</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>69</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919015</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>80</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919016</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919017</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>94</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919018</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>57</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919019</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>62</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919020</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>85</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919001</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>55</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919002</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>72</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919003</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>97</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919004</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>99</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919005</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>80</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919006</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>40</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919007</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>97</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919008</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919009</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919010</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>92</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919011</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>75</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919012</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919013</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>70</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919014</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>68</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919015</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>79</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919016</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>87</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919017</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>93</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919018</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>56</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919019</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>61</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+            <StudentUniqueStateId>91919020</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            <UniqueSectionCode>Algebra-11-A</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </StudentGradebookEntry>
+
 </InterchangeStudentGrade>
