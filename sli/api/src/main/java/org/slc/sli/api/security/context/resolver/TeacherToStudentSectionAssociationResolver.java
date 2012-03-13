@@ -12,29 +12,25 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 
 /**
- * Resolves which teachers a given teacher is allowed to see
- * 
- * @author dkornishev
- * 
+ * Resolves which StudentSectionAssociation a given teacher is allowed to see.
+ *
  */
 @Component
-public class TeacherSectionResolver implements EntityContextResolver {
+public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
     
     @Autowired
     private AssociativeContextHelper helper;
     
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(toEntityType);
     }
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> ids = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return ids;
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "body.studentId", studentIds);
     }
 }
