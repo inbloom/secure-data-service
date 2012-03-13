@@ -7,15 +7,15 @@ package org.slc.sli.ingestion.transformation.normalization;
  *
  */
 public class FieldValue {
-    String sourceValue;
-    Ref ref;
+    private String valueSource;
+    private Ref ref;
 
-    public String getSourceValue() {
-        return sourceValue;
+    public String getValueSource() {
+        return valueSource;
     }
 
-    public void setSourceValue(String sourceValue) {
-        this.sourceValue = sourceValue;
+    public void setValueSource(String valueSource) {
+        this.valueSource = valueSource;
     }
 
     public Ref getRef() {
