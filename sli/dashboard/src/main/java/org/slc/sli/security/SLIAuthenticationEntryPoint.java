@@ -42,9 +42,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
 
-    private static final String SESSION_ID_KEY = "sliSessionId";
-    private static final String OPENAM_COOKIE_NAME = "iPlanetDirectoryPro";
-
     @Value("${oauth.redirect}")
     private String callbackUrl;
     
@@ -71,7 +68,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
 
     private void addAuthentication(String token) {
-        JsonObject json = this.restClient.sessionCheck(token);
+        JsonObject json = restClient.sessionCheck(token);
         LOG.debug(json.toString());
 
         // If the user is authenticated, create an SLI principal, and authenticate
@@ -159,7 +156,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
     
     public String getApiUrl() {
-        return this.apiUrl;
+        return apiUrl;
     }
     
     
