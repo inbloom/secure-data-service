@@ -1,9 +1,9 @@
 {   "collectionName" : "Teacher",
-	"choiceOfFields" : [
-				[
-					{	"path" : "metadata.externalId",
-						"value" : { "sourceValue" : "StaffUniqueStateId", "ref" : null }
-					}
-				]
-			]
-    }
+    "choiceOfFields" : [
+                              [
+                                     {   "path" : "metadata.externalId",
+                                         "value" : { "sourceValue" : "StaffUniqueStateId", "ref" : null }
+                                     }
+                              ]
+                      ]
+}

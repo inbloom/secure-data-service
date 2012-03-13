@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -10,14 +11,16 @@ public class IdNormalizationTest {
     @Test
     public void TestRefResolution() {
         Ref myCollectionId = new Ref();
-        myCollectionId.collectionName = "MyCollection";
+        myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
         columnField.setPath("column");
 
         FieldValue columnValue = new FieldValue();
         columnValue.sourceValue = "5";
         columnField.setValue(columnValue);
-        myCollectionId.fields = Arrays.asList(columnField);
+
+        //TODO: ChoiceOfFields needs to be set properly
+        //myCollectionId.setChoiceOfFields(Arrays.asList(columnField));
 
         IdNormalizer idNorm = new IdNormalizer();
 
@@ -33,20 +36,22 @@ public class IdNormalizationTest {
        FieldValue teacher = new FieldValue();
        teacher.sourceValue = "Teacher";
        Ref teacherRef = new Ref();
-       teacherRef.collectionName = "Teacher";
+       teacherRef.setCollectionName("Teacher");
        Field teacherField = new Field();
        teacherField.setPath("metaData.externalId");
        teacherField.setValue(teacher);
-       teacherRef.fields = Arrays.asList(teacherField);
+       //TODO: ChoiceOfFields needs to be set properly
+       //teacherRef.setChoiceOfFields(Arrays.asList(teacherField));
        teacher.ref = teacherRef;
 
        FieldValue sectionCodeVal = new FieldValue();
        sectionCodeVal.sourceValue = "uniqueSectionCode";
        Ref sectionCodeRef = new Ref();
-       sectionCodeRef.collectionName = "section";
+       sectionCodeRef.setCollectionName("section");
        Field sectionCodePath = new Field();
        sectionCodePath.setPath("body.uniqueSectionCode");
-       sectionCodeRef.fields = Arrays.asList(sectionCodePath);
+       //TODO: ChoiceOfFields needs to be set properly
+       //sectionCodeRef.setChoiceOfFields(Arrays.asList(sectionCodePath));
 
        IdNormalizer idNorm = new IdNormalizer();
 
