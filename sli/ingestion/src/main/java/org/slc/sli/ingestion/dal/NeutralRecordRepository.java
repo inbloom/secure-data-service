@@ -3,13 +3,10 @@ package org.slc.sli.ingestion.dal;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mongodb.WriteResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.dal.repository.MongoRepository;
