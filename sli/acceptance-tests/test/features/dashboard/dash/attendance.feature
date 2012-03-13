@@ -22,7 +22,6 @@ Background:
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
 			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25" 
- 
 	Scenario: Teacher sees Absence Count in 3-8 list of students view
 		When I navigate to the Dashboard home page
 		When I select "Illinois Realm" and click go
@@ -52,6 +51,22 @@ Background:
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
 			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25"
+
+	Scenario: Teacher sees Tardy Rate in 9-12 list of students view
+		When I navigate to the Dashboard home page
+		When I select "Illinois Realm" and click go
+		When I login as "cgray" "cgray1234"
+		When I go to "/studentList"
+	    When I select <edOrg> "Daybreak School District 4529"
+	      And I select <school> "Daybreak Central High"
+	      And I select <course> "American Literature"
+	      And I select <section> "Sec 145"
+		  And I select view "IL_9-12"
+	      And I wait for "7" seconds
+		Then the table includes header "Attendance"
+			And I should see a table heading "Tardy Rate %"
+			And the count for id "ATTENDANCE.TardyRate" for student "Rhonda Delgado" is "11"
+			
 			
   @wip
   Scenario: Teacher sees Tardy Count in 9-12 list of students view
