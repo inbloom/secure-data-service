@@ -8,7 +8,7 @@ Background:
   Given I have an open web browser
   Given the server is in "test" mode
 
-
+#USE:  "assessmentFamilyHierarchy" is  "AP English"
 Scenario: Calculating most highest ever for an assessment 
   Given I am authenticated to SLI as "cgray" "cgray"
   When I go to "/studentlist"
@@ -17,7 +17,6 @@ Scenario: Calculating most highest ever for an assessment
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   Then I should only see one view named "IL_9_12"
-  And in the configuration file "assessmentFamilyHierarchy" is  "AP English"
   And the view configuration file set "field.value" is "Literature.ScaleScore"
   And the view configuration file set "field.value" is "Language.ScaleScore"
   And the view configuration file set "field.timeslot" is "HIGHEST_EVER"
@@ -30,7 +29,7 @@ Scenario: Calculating most highest ever for an assessment
 	And I should see his/her highest English Literature and Composition ScaleScore is "2"
 	And I should see his/her highest English Language and Composition ScaleScore is "3"
 	
-	
+#USE :   "assessmentFamilyHierarchy" is  "SAT"
 Scenario: Calculating most highest ever for an objective assessment 
   Given I am authenticated to SLI as "cgray" "cgray"
   When I go to "/studentlist"
@@ -39,7 +38,6 @@ Scenario: Calculating most highest ever for an objective assessment
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   Then I should only see one view named "IL_9_12"
-  And in the configuration file "assessmentFamilyHierarchy" is  "SAT"
   And the view configuration file set "field.value" is "Critical Reading.ScaleScore"
   And the view configuration file set "field.timeslot" is "HIGHEST_EVER"
   
