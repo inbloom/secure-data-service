@@ -14,16 +14,9 @@ class EntitiesController < ApplicationController
   end
   
   def set_url
-      Entity.url_type = params[:type]
-      case params[:type]
-      when /association/
-        logger.debug {"Full json support on"}
-        Entity.format = ActiveResource::Formats::JsonFullFormat
-      else
-        logger.debug {"Full json support off"}
-        Entity.format = ActiveResource::Formats::JsonLinkFormat
-      end
-    end
+    Entity.url_type = params[:type]
+    Entity.format = ActiveResource::Formats::JsonLinkFormat
+  end
   
   # rescue_from ActiveResource::ResourceNotFound do |exception|
   #   render :file => "404.html"
@@ -46,7 +39,7 @@ class EntitiesController < ApplicationController
   # GET /entities/1.json
   def show
     @entity = Entity.get_simple_and_complex(params[:id])
-    # @entity = Entity.find(:all, :from => "/api/rest/#{params[:other]}")
+    # @entity = Entity.find(:all, :from => "/api/rest/v1/#{params[:other]}")
     
     respond_to do |format|
       format.html # show.html.erb

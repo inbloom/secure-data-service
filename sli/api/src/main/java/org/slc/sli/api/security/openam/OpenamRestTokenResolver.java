@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -29,6 +31,8 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -41,18 +45,21 @@ import org.slc.sli.domain.enums.Right;
 @Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
 
-    private static final Logger   LOG  = LoggerFactory.getLogger(OpenamRestTokenResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenamRestTokenResolver.class);
 
-    private RestTemplate          rest = new RestTemplate();
+    private RestTemplate rest = new RestTemplate();
 
     @Value("${sli.security.tokenService.url}")
-    private String                tokenServiceUrl;
+    private String tokenServiceUrl;
 
     @Autowired
     private RolesToRightsResolver resolver;
 
     @Autowired
-    private UserLocator           locator;
+    private UserLocator locator;
+
+    @Autowired
+    private Repository<Entity> repo;
 
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -99,12 +106,20 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
 
-        final String idp = tokenServiceUrl;
-        
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.regionId").is("SLI")), 0, 1);
+
+        String idp = null;
+        for (Entity firstRealm : realms) {
+            idp = firstRealm.getEntityId();
+            break;
+        }
+
+        final String realmId = idp;
+
         Set<GrantedAuthority> grantedAuthorities = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
             @Override
             public Set<GrantedAuthority> execute() {
-                return resolver.resolveRoles(idp, principal.getRoles());
+                return resolver.resolveRoles(realmId, principal.getRoles());
             }
         });
 

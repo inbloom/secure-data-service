@@ -43,19 +43,24 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
         Assert.notNull(neutralRecord, "The given Neutral Record must not be null!");
-        String id = neutralRecord.getLocalId().toString();
-        if (id.equals(""))
+        String localId = neutralRecord.getLocalId().toString();
+        if (localId.equals(""))
             return false;
 
-        NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(id)), NeutralRecord.class,
-                collection);
-        if (found != null) {
-            template.save(neutralRecord, collection);
-        }
-        WriteResult result = template.updateFirst(new Query(Criteria.where("body.localId").is(id)),
-                new Update().set("body", neutralRecord.getAttributes()), collection);
-        LOG.info("update a NeutralRecord in collection {} with id {}", new Object[] { collection, id });
-        return result.getN() == 1;
+        NeutralRecord found = template.findOne(new Query(Criteria.where("body.localId").is(localId)),
+                NeutralRecord.class, collection);
+        if (found == null)
+            return false;
+
+/*        Map<String, Object> body = neutralRecord.getAttributes();
+        body.put("localId", localId);
+        WriteResult result = template.updateFirst(new Query(Criteria.where("body.localId").is(localId)),
+                new Update().set("body", body), collection);
+        return result.getN() == 1;*/
+        deleteByLocalId(collection, localId);
+        create(neutralRecord);
+        LOG.info("update a NeutralRecord in collection {} with id {}", new Object[] { collection, localId });
+        return true;
     }
 
     @Override
@@ -71,8 +76,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
         String collection = neutralRecord.getRecordType();
         template.save(neutralRecord, collection);
-        LOG.info(" create a Neutral Record in collection {} with id {}",
-                new Object[] { collection, getRecordId(neutralRecord) });
+        LOG.info(" create a Neutral Record in collection {} with id {}", new Object[] { collection,
+                getRecordId(neutralRecord) });
         return neutralRecord;
     }
 
