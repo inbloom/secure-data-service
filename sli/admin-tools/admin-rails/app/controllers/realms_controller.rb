@@ -78,7 +78,7 @@ private
   # but ultimately we need to get that somewhere else since the user will
   # always be authenticated to the SLI realm
   def get_user_realm
-    return Check.new(SessionResource.auth_id, SessionResource.access_token).realm
+    return Check.new(SessionResource.access_token).realm
   end
 
 end
