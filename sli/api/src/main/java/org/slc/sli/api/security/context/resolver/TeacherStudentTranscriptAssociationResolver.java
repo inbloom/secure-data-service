@@ -21,7 +21,7 @@ public class TeacherStudentTranscriptAssociationResolver implements EntityContex
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_PARENT_ASSOCIATION.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class TeacherStudentTranscriptAssociationResolver implements EntityContex
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return helper.findEntitiesContainingReference(EntityNames.STUDENT_PARENT_ASSOCIATION, "body.studentId", studentIds);
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "body.studentId", studentIds);
     }
 
 
