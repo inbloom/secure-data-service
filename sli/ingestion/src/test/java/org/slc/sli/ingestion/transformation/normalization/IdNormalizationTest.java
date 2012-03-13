@@ -1,15 +1,20 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 
+import org.slc.sli.ingestion.validation.DummyErrorReport;
+
+/**
+ * ID Normalizer unit tests.
+ *
+ * @author okrook
+ *
+ */
 public class IdNormalizationTest {
 
     @Test
-    public void TestRefResolution() {
+    public void testRefResolution() {
         Ref myCollectionId = new Ref();
         myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
@@ -24,13 +29,13 @@ public class IdNormalizationTest {
 
         IdNormalizer idNorm = new IdNormalizer();
 
-        String internalId = idNorm.resolveInternalId(myCollectionId);
+        String internalId = idNorm.resolveInternalId(myCollectionId, new DummyErrorReport());
 
         Assert.assertEquals("123", internalId);
     }
 
     @Test
-    public void TestConfigRead() {
+    public void testConfigRead() {
        Ref  teacherSecAccRef = new Ref();
 
        FieldValue teacher = new FieldValue();
@@ -55,9 +60,9 @@ public class IdNormalizationTest {
 
        IdNormalizer idNorm = new IdNormalizer();
 
-       String internalId = idNorm.resolveInternalId(teacherSecAccRef);
+       String internalId = idNorm.resolveInternalId(teacherSecAccRef, new DummyErrorReport());
 
-       //Assert.assertEquals("123", someFieldValue);
+       Assert.assertEquals("123", internalId);
 
     }
 }
