@@ -7,11 +7,12 @@ Background: None
 # MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
 # ==========================================================
 Scenario Outline:  As a teacher for my class I want to get the most recent values SAT including Critical Reading, Writing, Mathematics
-	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
-	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
-
+	Given  I am a valid SEA/LEA end user <Username> with password <Password>
+    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And the role attribute equals <AnyDefaultSLIRole>
+    And I am authenticated on "SEA/LEA IDP"
+    
+     Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
 		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
@@ -21,33 +22,33 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 	Then I should receive a collection of 2 section links 
 		And I should find section with uniqueSectionCode is "Section I" 
 		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
-				
-	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" 
+
+When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" with filter sorting and pagination
 		And filter by  "assessmentFamilyHierarchyName" = "SAT" 
 		And "sort-by" = "assessmentPeriodDescriptor.beginDate"
 		 And "sort-order" = "descending" 
 		 And "start-index" = "0" 
 		 And "max-results" = "1"
 	     Then  I should receive a collection of 1 assessment link
-	        And after resolution, I should receive an "Assessment" with ID "<'Most recent SAT' ID>"
+	        And I should find Assessment with "<'Most recent SAT' ID>"
         
-	When I navigate to  GET "/assessments/<'Most recent SAT' ID>"
+	When I navigate to GET "/assessments/<'Most recent SAT' ID>"
 	    Then I should receive 1 assessment  
-		     And  the "ssessmentTitle" is "SAT"
+		     And  the "assessmentTitle" is "SAT"
 		     And the "assessmentCategory" is "College Addmission Test"
 		     And the "gradeLevelAssessed" is "Twelfth grade"
 		     And the "lowestGradeLevelAssessed" is "Eleventh grade"
 		     And the "assessmentFamilyHierarchyName" is "SAT"
-		     And the "maxRawScore" is "2400"
-		     And the "minRawScore" is "600"
+		     And the "maxRawScore" is 2400
+		     And the "minRawScore" is 600
 		     And the assessment has an array of 3 objectiveAssessments
 		     And the first one is "objectiveAssessment.identificationCode" = "SAT-Writing"
-		     And the  first one is "objectiveAssessment.percentofAssessment" = "33"
-		     And the  first one is "objectiveAssessment.maxRawScore" = 800
-		     And the  second one is"objectiveAssessment.identificationCode" = "SAT-Math"
+		     And the first one is "objectiveAssessment.percentOfAssessment" = 33
+		     And the first one is "objectiveAssessment.maxRawScore" = 800
+		     And the second one is"objectiveAssessment.identificationCode" = "SAT-Math"
 		     And the second one is  "objectiveAssessment.percentofAssessment" = "33"
 		     And the second one is "objectiveAssessment.maxRawScore" = 800
-		     And the third one is  "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
+		     And the third one is "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
 		     And the third one is "objectiveAssessment.percentofAssessment" = "33"
 		     And the third one is "objectiveAssessment.maxRawScore" = 800
 	  
@@ -84,9 +85,9 @@ Scenario Outline:  As a teacher for my class I want to get the most recent value
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
-| "educator"      | "educator1234"      | "Educator"         |
+#| "educator"      | "educator1234"      | "Educator"         |
 | "administrator" | "administrator1234" | "IT Administrator" |
-| "leader"        | "leader1234"        | "Leader"           |
+#| "leader"        | "leader1234"        | "Leader"           |
 
 
 # negative security case docuemented in another file.
