@@ -7,5 +7,5 @@
      widgetFactory
   -->
 
-<#assign fieldCounter = widgetFactory.createFieldRate(field, student, attendances, [20, 10, 5])>
+<#assign fieldCounter = widgetFactory.createFieldRate(field, student, attendances, [10, 5])>
 <span class="countLevel${fieldCounter.getColorIndex()}">${fieldCounter.getText()}</span>
