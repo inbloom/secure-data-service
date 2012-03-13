@@ -1,8 +1,9 @@
-{   "collectionName" : "Teacher",
+{   "id" : "Teacher" ,
+    "collectionName" : "Teacher",
     "choiceOfFields" : [
                               [
                                      {   "path" : "metadata.externalId",
-                                         "value" : { "sourceValue" : "StaffUniqueStateId", "ref" : null }
+                                         "value" : { "sourceValue" : "TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId", "ref" : null }
                                      }
                               ]
                       ]
