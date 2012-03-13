@@ -1,0 +1,70 @@
+{ "collectionName" : "Section" ,
+  "choiceOfFields" : [
+                           [
+                               {"path" : "metadata.externalId" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" , "ref" : null}} ,
+                               {"path" : "body.schoolId" , "value" : {"sourceValue" : "" , "ref" :
+                                                                                               {
+                                                                                                  "collectionName" : "School" ,
+                                                                                                  "choiceOfFields" : [
+                                                                                                                        [
+                                                                                                                           {"path" : "metadata.externalId" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" , "ref" : null}}
+                                                                                                                        ] ,
+                                                                                                                        [
+                                                                                                                            {"path" : "body.educationOrgIdentificationCode.ID" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/ID" , "ref" : null}} ,
+                                                                                                                            {"path" : "body.educationOrgIdentificationCode.identificationSystem" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/@IdentificationSystem" , "ref" : null}}
+                                                                                                                        ]
+                                                                                                                     ]
+                                                                                               }
+                                                                    }
+                               }
+                           ] ,
+                           [
+                               {"path" : "body.schoolId" , "value" : {"sourceValue" : "" , "ref" :
+                                                                                               {
+                                                                                                  "collectionName" : "School" ,
+                                                                                                  "choiceOfFields" : [
+                                                                                                                        [
+                                                                                                                           {"path" : "metadata.externalId" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/StateOrganizationId" , "ref" : null}}
+                                                                                                                        ] ,
+                                                                                                                        [
+                                                                                                                            {"path" : "body.educationOrgIdentificationCode.ID" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/ID" , "ref" : null}} ,
+                                                                                                                            {"path" : "body.educationOrgIdentificationCode.identificationSystem" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/EducationOrgIdentificationCode/@IdentificationSystem" , "ref" : null}}
+                                                                                                                        ]
+                                                                                                                     ]
+                                                                                               }
+                                                                    }
+                               } ,
+                               {"path" : "body.courseId" , "value" : {"sourceValue" : "" , "ref" :
+                                                                                                {
+                                                                                                    "collectionName" : "Course" ,
+                                                                                                    "choiceOfFields" : [
+                                                                                                                           [
+                                                                                                                               {"path" : "metadat.externalId" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/LocalCourseCode" , "ref" : null}}
+                                                                                                                           ] ,
+                                                                                                                           [
+                                                                                                                               {"path" : "body.courseCode.identificationSystem" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/CourseCode/@IdentificationSystem" , "ref" : null}} ,
+                                                                                                                               {"path" : "body.courseCode.assigningOrganizationCode" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/CourseCode/@AssigningOrganizationCode" , "ref" : null}} ,
+                                                                                                                               {"path" : "body.courseCode.ID" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/CourseCode/ID" , "ref" : null}}
+                                                                                                                           ]
+                                                                                                                       ]
+                                                                                                }
+                                                                     }
+                               } ,
+                               {"path" : "body.sessionId" , "value" : {"sourceValue" : "", "ref" :
+                                                                                                 {
+                                                                                                     "collectionName" : "Session" ,
+                                                                                                     "choiceOfFields" : [
+                                                                                                                            [
+                                                                                                                                {"path" : "metadata.externalId" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/Session" , "ref" : null}}
+                                                                                                                            ] ,
+                                                                                                                            [
+                                                                                                                                {"path" : "body.schoolYear" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/SchoolYear" , "ref" : null}} ,
+                                                                                                                                {"path" : "body.term" , "value" : {"sourceValue" : "TeacherSectionAssociation/SectionReference/SectionIdentity/Term" , "ref" : null}}
+                                                                                                                            ]
+                                                                                                                        ]
+                                                                                                 }
+                                                                      }
+                               }
+                           ]
+                     ]
+}
