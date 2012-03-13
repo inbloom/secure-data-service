@@ -49,12 +49,9 @@ public class SliQueryTool {
                 .withDescription("The username to log in as").withLongOpt("user").create('u');
         options.addOption(option);
         
-        option = OptionBuilder.hasArg().isRequired(false).withArgName("host").withDescription("SLI API Hostname")
+        option = OptionBuilder.hasArg().isRequired(false).withArgName("host")
+                .withDescription("SLI API Host: for example, http://localhost:8080")
                 .withLongOpt("host").create('h');
-        options.addOption(option);
-        
-        option = OptionBuilder.hasArg().isRequired(false).withArgName("port").withType(Integer.class)
-                .withDescription("SLI API port number").withLongOpt("port").create('p');
         options.addOption(option);
         
         option = OptionBuilder.hasArg().isRequired(false).withArgName("realm").withDescription("Identity realm name")
@@ -121,22 +118,21 @@ public class SliQueryTool {
             if (cmdLine.hasOption('h')) {
                 builder.host(cmdLine.getOptionValue('h'));
             }
-            if (cmdLine.hasOption('p')) {
-                String portStr = cmdLine.getOptionValue('p');
-                builder.port(Integer.parseInt(portStr));
-            }
             if (cmdLine.hasOption('r')) {
                 builder.realm(cmdLine.getOptionValue('r'));
             }
             
             Logger.getLogger("org.apache.http").setLevel(Level.SEVERE);
             
-            client = builder.build();
+            try {
+                client = builder.build();
+            } catch (IOException e) {
+                System.err.println("Failed to connect to API: " + e.getMessage());
+                return 0;
+            }
             
             homeMenu();
             
-        } else {
-            System.exit(0);
         }
         
         return 0;

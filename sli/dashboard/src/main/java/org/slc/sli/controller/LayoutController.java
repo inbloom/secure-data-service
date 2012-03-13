@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.entity.util.StudentProgramUtil;
-import org.slc.sli.util.Constants;
 
 
 /**
@@ -31,7 +30,7 @@ public class LayoutController extends GenericLayoutController {
      */
     @RequestMapping(value = "/student", method = RequestMethod.GET)
     public ModelAndView handleStudentProfile(@RequestParam String id) {
-        ModelMap model = getPopulatedModel(Constants.VIEW_TYPE_STUDENT_PROFILE_PAGE, id);
+        ModelMap model = getPopulatedModel("studentProfile", id);
         // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
         model.addAttribute("programUtil", new StudentProgramUtil());
         return getModelView(TABBED_ONE_COL, model);
