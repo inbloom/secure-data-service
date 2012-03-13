@@ -1,4 +1,3 @@
-
 Feature: Display performance levels for assessment contents 
 
 As a SEA/LEA user, I want to be able to see student Performance Level of their assessment result in my dashboard
@@ -8,6 +7,7 @@ Background:
   Given I have an open web browser
   Given the server is in "test" mode
   
+ # USE:  AssessmentFamilyHierarchy like "ISAT Writing for Grades 8" 
 Scenario: Calculating Most Recent Performance Level for an Assessment
 Given I am authenticated to SLI as "lkim" "lkim"
   When I go to "/studentlist"
@@ -16,7 +16,6 @@ Given I am authenticated to SLI as "lkim" "lkim"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-	And the view configuration file has a AssessmentFamilyHierarchy like "ISAT Writing for Grades 8"
 	And the view configuration file set "field.value" is "ISAT Writing for Grades 8.Mastery level"
 	And the view configuration file set "field.timeslot" is "MOST_RECENT_RESULT"
   
@@ -26,6 +25,7 @@ Given I am authenticated to SLI as "lkim" "lkim"
 	And I should see his/her most recent ISAT Writing Perf. level is "3"
 	
 @wip	
+# USE: AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"
 Scenario: Calculating Most Recent Performance Level for an Assessment Family
  Given I am authenticated to SLI as  "rbraverman" "rbraverman1234"
   When I go to "/studentlist"
@@ -33,7 +33,6 @@ Scenario: Calculating Most Recent Performance Level for an Assessment Family
     And I select <school> "Daybreak Central High"
     And I select <section> "Sec 100"
 	And I select <viewSelector> "IL_K-3"
-	And the view configuration file has a AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"
 	And the view configuration file set "field.value" is "DIBELS.Mastery level"
 	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
   
