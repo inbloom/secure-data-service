@@ -5,12 +5,15 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -528,4 +531,27 @@ public class EntityPersistHandlerTest {
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
+    /**
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * 
+     * @author tke
+     */
+    @Test
+    public void tesetCreateEntityLookupFilterByFields() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        NeutralRecordEntity neutralRecordEntity = createStudentSchoolAssociationEntity(INTERNAL_STUDENT_ID);
+        List<String> keyFields = new ArrayList<String>();
+        keyFields.add(METADATA_BLOCK + ".localParentIds_Student");
+        keyFields.add(METADATA_BLOCK + ".attributes_schoolId");
+        neutralRecordEntity.setMetaDataField("localParentIds_Student", INTERNAL_STUDENT_ID);
+        neutralRecordEntity.setMetaDataField("attributes_schoolId", SCHOOL_ID);
+        
+        
+        Map<String, String> res = entityPersistHandler.createEntityLookupFilterByFields(neutralRecordEntity, keyFields);
+        
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localParentIds_Student"));
+        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".attributes_schoolId"));
+    }
+    
 }
