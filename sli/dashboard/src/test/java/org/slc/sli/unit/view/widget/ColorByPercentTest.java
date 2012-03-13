@@ -35,7 +35,7 @@ public class ColorByPercentTest {
     public void testGetYellowColor() throws Exception {
         percent.setActual(75);
         assertTrue(percent.getText() + " should be 75", percent.getText().equals("75"));
-        assertEquals(4, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
     }
 
     @Test
@@ -133,7 +133,7 @@ public class ColorByPercentTest {
         assertEquals(2, percent.getColorIndex());
         
         percent.setActual(25);
-        assertEquals(4, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
         
         percent.setActual(35);
         assertEquals(5, percent.getColorIndex());
@@ -171,7 +171,7 @@ public class ColorByPercentTest {
         assertEquals(2, percent.getColorIndex());
         
         percent.setActual(20);
-        assertEquals(4, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
         
         percent.setActual(2);
         assertEquals(5, percent.getColorIndex());
