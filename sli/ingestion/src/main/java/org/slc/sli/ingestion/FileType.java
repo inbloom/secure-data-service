@@ -18,6 +18,7 @@ public enum FileType {
     XML_ASSESSMENT_METADATA("AssessmentMetadata", FileFormat.EDFI_XML),
     XML_STUDENT_ASSESSMENT("StudentAssessment", FileFormat.EDFI_XML),
     XML_COURSE_TRANSCRIPT("CourseTranscript", FileFormat.EDFI_XML),
+    XML_STUDENT_GRADEBOOK_ENTRY("StudentGradebookEntry", FileFormat.EDFI_XML),
     XML_STUDENT_PARENT_ASSOCIATION("Parent", FileFormat.EDFI_XML),
 
     CSV_STUDENT("Student", FileFormat.CSV),

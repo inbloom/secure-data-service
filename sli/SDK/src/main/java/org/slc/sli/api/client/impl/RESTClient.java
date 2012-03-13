@@ -22,8 +22,11 @@ import javax.ws.rs.core.Response;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.oauth.OAuthService;
+
 import org.slc.sli.api.client.Constants;
-import org.slc.sli.api.client.URLBuilder;
+import org.slc.sli.api.client.security.SliApi;
 
 /** TODO -- more documentation around return types */
 
@@ -33,12 +36,13 @@ import org.slc.sli.api.client.URLBuilder;
  */
 public class RESTClient {
     
-    /** Request parameter key used to pass sessionId to API **/
-    private static final String API_SESSION_KEY = "sessionId";
+    public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
+    
+    
     private static Logger logger = Logger.getLogger("RESTClient");
-    private String sessionToken = null;
     private String apiServerUri;
     private Client client = null;
+    private String sessionToken = null;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
@@ -48,31 +52,114 @@ public class RESTClient {
     }
     
     /**
+     * @param host
+     *            Host running the SLI API ReSTful service.
+     * @param user
+     *            SLI authorized username.
+     * @param password
+     *            user password.
+     * @param realm
+     *            IDP authentication realm.
+     * @param clientId
+     *            Client identifier assigned to the application by the SLC.
+     * @param clientSecret
+     *            Client secret key for oauth2 authentication.
+     * @param redirectURL
+     *            URL to redirect to once a session is established. A null value will
+     *            bypass redirect.
+     * @return
+     *         String containing the sessionToken for the authenticated user.
+     */
+    public String openSession(final String host, final String user, final String password, final String realm,
+            final String clientId, final String clientSecret, final String redirectURL)
+                    throws IOException {
+        
+        apiServerUri = host + "/" + Constants.API_SERVER_PATH;
+        
+        SliApi.setBaseUrl(apiServerUri);
+        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
+                .callback(redirectURL).build();
+
+        /**
+         * TODO -- determine if we can pass credentials as part of clientState and bypass
+         * hitting the IDP directly.
+         */
+        
+        // Find the IDP for the realm
+        // Ideally we'd use the JAX-RS client here; but the current implementation doesn't
+        // support disabling automatically redirect.
+        URL url = new URL(host + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm));
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("GET");
+        String tmp = connection.getHeaderField("Location");
+        
+        String idp = "";
+        try {
+            if (tmp != null) {
+                // find the idpEntityId
+                int start = tmp.indexOf("idpEntityID=");
+                int end = tmp.indexOf('&', start);
+                idp = URLDecoder.decode(tmp.substring(start + 12, end));
+            }
+        } finally {
+            connection.disconnect();
+        }
+        
+        if (idp.isEmpty()) {
+            throw new IOException("Failed to locate IDP from URL:" + url.toString());
+        }
+        
+        // Attempt to authenticate
+        Client c2 = ClientFactory.newClient();
+        String rstring = "";
+        try {
+            Invocation.Builder builder = c2.target(idp + "/identity/authenticate").request(
+                    MediaType.APPLICATION_FORM_URLENCODED);
+            
+            Form f = new Form().param("username", user).param("password", password);
+            Invocation i = builder.buildPost(Entity.form(f));
+            Response response = i.invoke();
+            rstring = response.readEntity(String.class);
+            
+        } finally {
+            c2.close();
+        }
+        
+        if (rstring.startsWith("token.id=")) {
+            sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
+        } else {
+            sessionToken = null;
+        }
+        
+        return sessionToken;
+    }
+    
+    /**
+     * Close the session. If the session is not open, this does nothing.
+     */
+    public void closeSession() {
+        
+    }
+    
+    /**
      * Call the session/check API
-     *
+     * 
      * @return JsonOject as described by API documentation
      * @throws NoSessionException
      */
-    public JsonObject sessionCheck() {
-        try {
-            URLBuilder builder = URLBuilder.create(apiServerUri);
-            builder.addPath(Constants.SESSION_CHECK_PATH);
-            
-            Response response = getRequest(builder.build());
-            
-            JsonParser parser = new JsonParser();
-            return parser.parse(response.readEntity(String.class)).getAsJsonObject();
-            
-        } catch (MalformedURLException e2) {
-            logger.log(Level.SEVERE,
-                    "Failed to check the user session with the API server: " + e2.getLocalizedMessage());
-            
-        } catch (URISyntaxException e3) {
-            logger.log(Level.SEVERE,
-                    "Failed to check the user session with the API server: " + e3.getLocalizedMessage());
-        }
+    public JsonObject sessionCheck() throws MalformedURLException, URISyntaxException {
+        logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
         
-        return null;
+        URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
+        
+        Response response = getRequest(url);
+        
+        String jsonText = response.readEntity(String.class);
+        logger.info("jsonText = " + jsonText);
+        JsonParser parser = new JsonParser();
+        return parser.parse(jsonText).getAsJsonObject();
     }
     
     /**
@@ -94,8 +181,7 @@ public class RESTClient {
      * @param URL
      *            Fully qualified URL to the ReSTful resource.
      * @param headers
-     *            key / value pairs of the headers to attach to the request. A key can map
-     *            to multiple values.
+     *            key / value pairs of the headers to attach to the request.
      * @return ClientResponse containing the status code and return value(s).
      */
     public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers)
@@ -239,87 +325,6 @@ public class RESTClient {
     }
     
     /**
-     * @param host
-     *            Host running the SLI API ReSTful service.
-     * @param port
-     *            Port for the service.
-     * @param user
-     *            SLI authorized username.
-     * @param password
-     *            user password.
-     * @param realm
-     *            IDP authentication realm.
-     * @return
-     *         String containing the sessionToken for the authenticated user.
-     */
-    public String openSession(final String host, final int port, final String user, final String password,
-            final String realm) throws IOException {
-        
-        /**
-         * TODO - replace this with oauth when it's ready
-         */
-        
-        String protocol = "";
-        if (host.equalsIgnoreCase("localhost")) {
-            protocol = "http://";
-        } else {
-            protocol = "https://";
-        }
-        apiServerUri = protocol + host + ":" + port + "/" + Constants.API_SERVER_PATH;
-        
-        /**
-         * TODO -- determine if we can pass credentials as part of clientState and bypass
-         * hitting the IDP directly.
-         */
-        
-        // Find the IDP for the realm
-        // Ideally we'd use the JAX-RS client here; but the current implementation doesn't
-        // support disabling automatically redirect.
-        URL url = new URL(protocol + host + ":" + port + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm));
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setInstanceFollowRedirects(false);
-        connection.setRequestMethod("GET");
-        String tmp = connection.getHeaderField("Location");
-        
-        String idp = "";
-        try {
-            if (tmp != null) {
-                // find the idpEntityId
-                int start = tmp.indexOf("idpEntityID=");
-                int end = tmp.indexOf('&', start);
-                idp = URLDecoder.decode(tmp.substring(start + 12, end));
-            }
-        } finally {
-            connection.disconnect();
-        }
-        
-        // Attempt to authenticate
-        Client c2 = ClientFactory.newClient();
-        String rstring = "";
-        try {
-            Invocation.Builder builder = c2.target(idp + "/identity/authenticate").request(
-                    MediaType.APPLICATION_FORM_URLENCODED);
-            
-            Form f = new Form().param("username", user).param("password", password);
-            Invocation i = builder.buildPost(Entity.form(f));
-            Response response = i.invoke();
-            rstring = response.readEntity(String.class);
-            
-        } finally {
-            c2.close();
-        }
-        
-        if (rstring.startsWith("token.id=")) {
-            sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
-        } else {
-            sessionToken = null;
-        }
-        
-        return sessionToken;
-    }
-    
-    /**
      * Get the base URL for all SLI API ReSTful service calls.
      * 
      * @return
@@ -334,13 +339,15 @@ public class RESTClient {
      * @param headers
      * @return
      */
-    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, final Map<String, Object> headers) {
+    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder,
+            final Map<String, Object> headers) {
         if (headers != null) {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
             }
         }
-        builder.header(API_SESSION_KEY, sessionToken);
+        headers.put("Authorization", "Bearer" + sessionToken);
+        
         return builder;
     }
     

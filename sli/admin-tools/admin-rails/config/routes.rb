@@ -16,12 +16,14 @@ SLIAdmin::Application.routes.draw do
 
     resources :roles
     resources :sessions
+    resources :apps
 
     resources :realms do
       member do
         put :update
       end
     end
+    
     
     match '/logout', :to => 'sessions#destroy'
     match '/callback', :to => 'application#callback'
