@@ -160,7 +160,8 @@ public final class BasicClient implements SLIClient {
     public String connect(final String host, final String user, final String password,
             final String realm) throws IOException {
         restClient = new RESTClient();
-        return restClient.openSession(host, user, password, realm);
+        // return restClient.openSession(host, user, password, realm, realm, realm, realm);
+        return null;
     }
     
     @Override

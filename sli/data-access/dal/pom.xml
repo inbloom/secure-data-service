@@ -21,9 +21,9 @@
 		</dependency>
 
 		  <dependency>
+
       <groupId>org.slc.sli.common</groupId>
       <artifactId>common-util</artifactId>
-	  <version>${project.parent.version}</version>
     </dependency>
 
 		<dependency>
@@ -59,31 +59,18 @@
 			<artifactId>commons-pool</artifactId>
 		</dependency>
 
-		<!-- Hibernate JPA dependency -->
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-		</dependency>
-
-		<!-- Hibernate EntityManager dependency -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
-
 		<!-- spring data mongodb dependency -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.0.0.M4</version>
+			<version>${springdata-mongodb-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.6</version>
+			<version>${commons.codec.version}</version>
 		</dependency>
 	</dependencies>
 
 </project>
-
