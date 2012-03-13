@@ -26,16 +26,16 @@ class AppsController < ApplicationController
     end
   end
 
-  # # GET /apps/new
-  # # GET /apps/new.json
-  # def new
-  #   @App = App.new
-  # 
-  #   respond_to do |format|
-  #     format.html # new.html.erb
-  #     format.json { render json: @App }
-  #   end
-  # end
+  # GET /apps/new
+  # GET /apps/new.json
+  def new
+    @App = App.new
+  
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @App }
+    end
+  end
 
   # GET /apps/1/edit
   # def edit
@@ -44,45 +44,47 @@ class AppsController < ApplicationController
 
   # POST /apps
   # POST /apps.json
-  # def create
-  #   @App = App.new(params[:App])
-  # 
-  #   respond_to do |format|
-  #     if @App.save
-  #       format.html { redirect_to @App, notice: 'App was successfully created.' }
-  #       format.json { render json: @App, status: :created, location: @App }
-  #     else
-  #       format.html { render action: "new" }
-  #       format.json { render json: @App.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def create
+    @App = App.new(params[:App])
+  
+    respond_to do |format|
+      if @App.save
+        format.html { redirect_to @App, notice: 'App was successfully created.' }
+        format.json { render json: @App, status: :created, location: @App }
+        format.js
+      else
+        format.html { render action: "new" }
+        format.json { render json: @App.errors, status: :unprocessable_entity }
+        format.js
+      end
+    end
+  end
 
   # PUT /apps/1
   # PUT /apps/1.json
-  # def update
-  #   @App = App.find(params[:id])
-  #   puts "App found (Update): #{@App.attributes}"
-  #   respond_to do |format|
-  #     if @App.update_attributes(params[:App])
-  #       format.html { redirect_to @App.id, notice: 'App was successfully updated.' }
-  #       format.json { head :ok }
-  #     else
-  #       format.html { render action: "edit" }
-  #       format.json { render json: @App.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def update
+    @App = App.find(params[:id])
+    puts "App found (Update): #{@App.attributes}"
+    respond_to do |format|
+      if @App.update_attributes(params[:App])
+        format.html { redirect_to @App.id, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @App.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # DELETE /apps/1
   # DELETE /apps/1.json
-  # def destroy
-  #   @App = App.find(params[:id])
-  #   @App.destroy
-  # 
-  #   respond_to do |format|
-  #     format.html { redirect_to apps_url }
-  #     format.json { head :ok }
-  #   end
-  # end
+  def destroy
+    @App = App.find(params[:id])
+    @App.destroy
+  
+    respond_to do |format|
+      format.html { redirect_to apps_url }
+      format.json { head :ok }
+    end
+  end
 end
