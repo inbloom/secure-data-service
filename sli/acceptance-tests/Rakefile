@@ -191,7 +191,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
-                     :v1TargetTests] do
+                     :v1TargetTests,
+                     :v1EndUserStoryAssessmentTests] do
   displayFailureReport()
 end
 
@@ -499,6 +500,12 @@ desc "Run List Tests"
 task :v1ListTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/lists")
+end
+
+desc "Run V1 Assessment User Story Tests"
+task :v1EndUserStoryAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
 end
 
 ############################################################

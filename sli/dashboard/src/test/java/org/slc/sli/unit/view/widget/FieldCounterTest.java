@@ -1,18 +1,21 @@
 package org.slc.sli.unit.view.widget;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.annotation.DirtiesContext;
+
 import org.slc.sli.config.Field;
 import org.slc.sli.view.AggregateResolver;
 import org.slc.sli.view.widget.FieldCounter;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Basic test for Field Counter.
  */
+@DirtiesContext
 public class FieldCounterTest {
     private FieldCounter counter;
 
@@ -38,6 +41,12 @@ public class FieldCounterTest {
         when(mockResolver.getCountForPath(mockField)).thenReturn(30);
         assert (counter.getText().equals("30"));
     }
+    
+    @Test
+    public void testGetColorFirstLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(0);
+        assert (counter.getColorIndex() == 1);
+    }
 
     @Test
     public void testGetColor() throws Exception {
@@ -45,9 +54,4 @@ public class FieldCounterTest {
         assert (counter.getColorIndex() == 3);
     }
     
-    @Test
-    public void testFirstLevel() {
-        when(mockResolver.getCountForPath(mockField)).thenReturn(0);
-        assert (counter.getColorIndex() == 1);
-    }
 }
