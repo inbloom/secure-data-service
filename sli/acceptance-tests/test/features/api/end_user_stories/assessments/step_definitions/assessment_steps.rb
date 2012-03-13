@@ -5,6 +5,7 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /^<.+>$/ do |arg1|
   id = "cb7a932f-2d44-800c-d574-cdb25a29fc76" if arg1 == "<'ImportantSection' ID>"
   id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7" if arg1 == "<'Grade 2 MOY DIBELS' ID>"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if arg1 == "<'Most recent SAT' ID>"
   id = "2899a720-4196-6112-9874-edde0e2541db" if arg1 == "<'John Doe' ID>"
   id = "9e6d1d73-a488-4311-877a-718b897a17c5" if arg1 == "<'Sean Deer' ID>"
   id = "54c6548e-1196-86ca-ad5c-b8d72496bf78" if arg1 == "<'Suzy Queue' ID>"
@@ -27,6 +28,7 @@ end
 Transform /(\/[^"].*\/)<(.+)>$/ do |arg1, arg2|
   id = arg1+"a936f73f-7745-b450-922f-87ad78fd6bd1" if arg2 == "'Ms. Jones' ID"
   id = arg1+"dd916592-7dfe-4e27-a8ac-bec5f4b757b7" if arg2 == "'Grade 2 MOY DIBELS' ID"
+  id = arg1+"dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if arg2 == "'Most recent SAT' ID"
   id = arg1+"e24b24aa-2556-994b-d1ed-6e6f71d1be97" if arg2 == "'Ms. Smith' ID"
   id = arg1+"58c9ef19-c172-4798-8e6e-c73e68ffb5a3" if arg2 == "'Algebra II' ID"
   id = arg1+"12f25c0f-75d7-4e45-8f36-af1bcc342871" if arg2 == "'Teacher Ms. Jones and Section Algebra II' ID"
