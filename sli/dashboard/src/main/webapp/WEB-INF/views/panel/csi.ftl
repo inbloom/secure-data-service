@@ -4,7 +4,7 @@
 <#assign config = viewConfigs["csi"]>
 <#assign root = data[config.data.alias]>
 <div id="CSIcontent">
-<b>${root.name.firstName}<#if root.name.middleName != ""> ${root.name.middleName}</#if> ${root.name.lastSurname}</b>
+<b>${root.name.firstName}<#if root.name.middleName?? &&  root.name.middleName != ""> ${root.name.middleName}</#if> ${root.name.lastSurname}</b>
  
 <#list programUtil.getProgramCodesForStudent() as program>
 <#if programUtil.hasProgramParticipation(root, program)>
@@ -24,8 +24,9 @@
 <col width="70"/>
 <col width="550"/>
 <col width="70"/>
-<tr><td height="1">Grade</td><td><#if root.cohortYears?size != 0>${root.cohortYears[0]} </#if></td> <td>ID</td><td>${root.id}</td><td></td><td></td></tr>
-<tr><td>Class</td><td>${root.sectionId}</td><td>Teacher</td><td>${root.teacherId}</td><td></td><td></td></tr>
+<tr><td height="1">Grade</td><td><#if root.cohortYears?size != 0>${root.cohortYears[0]} </#if></td> <td>ID</td><td>${root.studentUniqueStateId}</td><td></td><td></td></tr>
+<tr><td>Class</td><td>${root.sectionId}</td><td>Teacher</td><td><#if root.teacherName.personalTitlePrefix?? &&  root.teacherName.personalTitlePrefix != ""> ${root.teacherName.personalTitlePrefix}</#if>
+${root.teacherName.firstName} <#if root.teacherName.middleName?? &&  root.teacherName.middleName != ""> ${root.teacherName.middleName}</#if> ${root.teacherName.lastSurname}</td><td></td><td></td></tr>
 <tr><td></td><td></td><td /><td /><td /><td></td></tr>
 </table>
 </div>

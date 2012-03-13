@@ -1,18 +1,17 @@
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -21,17 +20,17 @@ import org.slc.sli.domain.EntityRepository;
  * 
  */
 @Component
-public class TeacherSessionResolver implements EntityContextResolver {
-    
+public class TeacherCourseResolver implements EntityContextResolver {
+
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Autowired
     private EntityRepository repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SESSION.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COURSE.equals(toEntityType);
     }
     
     @Override
@@ -43,25 +42,25 @@ public class TeacherSessionResolver implements EntityContextResolver {
 
         StringBuilder query = new StringBuilder();
         String separator = "";
-
+        
         for (String s : ids) {
             query.append(separator);
-            separator = ",";
+            separator = ",";            
             query.append(s);
         }
-
+        
         EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
         queryBuilder.addField("_id", query.toString());
-
+        
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
 
-        List<String> sessionIds = new ArrayList<String>();
-
+        List<String> courseIds = new ArrayList<String>();
+        
         for (Entity e : entities) {
-            sessionIds.add((String) e.getBody().get("sessionId"));
+            courseIds.add((String) e.getBody().get("courseId"));
         }
 
-        return sessionIds;
+        return courseIds;
     }
-    
+
 }
