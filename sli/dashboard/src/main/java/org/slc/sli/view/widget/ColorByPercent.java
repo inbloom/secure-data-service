@@ -15,12 +15,17 @@ public class ColorByPercent {
     
     //text used for invalid numbers, such as when total == 0
     public static final String INVALID_NUMBER_DISPLAY_TEXT = "-";
-
-    private static String[] colors = new String[]{"critical", "low", "average", "high"};
     
     // 0-30 is critical, 30-70 is low, 70-90 is average, and 90-100 is high
     private static final int[] DEFAULT_BOUNDARIES = new int[] {30, 70, 90};
     private int[] boundaries = DEFAULT_BOUNDARIES;
+    
+    // mapping of performance level to color index
+    private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
+                                          {1, 5, 0, 0, 0}, // 2 levels
+                                          {1, 2, 5, 0, 0}, // 3 levels
+                                          {1, 2, 4, 5, 0}, // 4 levels
+                                          {1, 2, 3, 4, 5}};  // 5 levels
     
     public ColorByPercent() {
     }
@@ -81,40 +86,45 @@ public class ColorByPercent {
         return Math.round(ratio * 100f);
     }
 
-    public String getColor() {
+    public int getColorIndex() {
         Integer percentage = calculatePercentage();
-        if (percentage == null) {
-            return "none";
+        if (percentage == null || boundaries.length == 0) {
+            return 0;
         }
         
-        //Inverted is for the case where higher values are bad
-        //for example, when calculating a tardiness, 100% tardy rate is very bad, 
-        //but for grades, 100% is good
-        boolean inverted = boundaries[0] > boundaries[2];
+        //Inversion is the case where we want to flip the colors
+        //For example, for grades a 0% is bad, but for tardiness a 0% is good
+        //so for the tardy case we'd invert the colors
+        boolean invert = false;
+        if (boundaries[0] > boundaries[boundaries.length - 1]) {
+            invert = true;
+            percentage = 100 - percentage;
+        }
         
-        if (!inverted) {
-            if (percentage > boundaries[2]) {
-                return colors[3];   //high
-            } else if (percentage < boundaries[2] && percentage > boundaries[1]) {
-                return colors[2];   //average
-            } else if (percentage < boundaries[1] && percentage > boundaries[0]) {
-                return colors[1];   //low
-            } else {
-                return colors[0];   //critical
+        int[] colorLevels = perfToColor[boundaries.length];
+        int[] cutoffs = new int[boundaries.length + 2];
+        
+        cutoffs[0] = 0;
+        cutoffs[cutoffs.length - 1] = 100;
+        
+        for (int i = 1; i < boundaries.length + 1; i++) {
+            cutoffs[i] = boundaries[i - 1];
+            
+            if (invert) {
+                cutoffs[i] = 100 - cutoffs[i];
             }
         }
         
-        //inverted case
-        if (percentage > boundaries[0]) {
-            return colors[0];   //critical
-        } else if (percentage < boundaries[0] && percentage > boundaries[1]) {
-            return colors[1];   //low
-        } else if (percentage < boundaries[1] && percentage > boundaries[2]) {
-            return colors[2];   //average
-        } else { // percentage < boundaries[2]
-            return colors[3];   //high
+        for (int i = 0; i < cutoffs.length - 1; i++) {
+            
+            //we place the >= on the lower number, so if a percentage is on a cutoff point
+            //include it in the lower of the two levels.  We could change that if desired
+            if (percentage >= cutoffs[i] && percentage < cutoffs[i + 1]) {
+                return colorLevels[i];
+            }
         }
-
+        
+        return 0;
     }
 
     public void setIsInverted(boolean inverted) {
