@@ -74,9 +74,9 @@ public interface APIClient {
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params);
 
-    public String getTeacherIdForSection(String sectionId, String token);
+    public GenericEntity getTeacherForSection(String sectionId, String token);
     
-    public String getHomeRoomForStudent(String studentId, String token);
+    public GenericEntity getHomeRoomForStudent(String studentId, String token);
 
     public GenericEntity getSession(String token, String sessionId);
 }

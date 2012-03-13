@@ -27,4 +27,5 @@ public final class EntityNames {
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
 }
