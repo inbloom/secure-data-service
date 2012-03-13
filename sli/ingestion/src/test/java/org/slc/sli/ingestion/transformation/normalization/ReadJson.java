@@ -19,12 +19,12 @@ public class ReadJson {
     public void testTeacher() throws Exception {
         File jsonFile = new File("src/test/resources/Teacher.json");
         ObjectMapper mapper = new ObjectMapper();
-        Ref teacher = mapper.readValue(jsonFile , Ref.class);
-        assertEquals("Teacher" , teacher.getCollectionName());
-        for (List<Field> outerList : teacher.getChoiceOfFields()) {
+        RefDef teacher = mapper.readValue(jsonFile , RefDef.class);
+        assertEquals("Teacher" , teacher.getRef().getCollectionName());
+        for (List<Field> outerList : teacher.getRef().getChoiceOfFields()) {
             for (Field fields : outerList) {
                 assertEquals("metadata.externalId" , fields.getPath());
-                assertEquals("metadata.externalId" , fields.getValue().getValueSource());
+                assertEquals("metadata.externalId" , fields.getValue().getSourceValue());
             }
         }
     }
@@ -33,15 +33,15 @@ public class ReadJson {
     public void testSection() throws Exception {
         File jsonFile = new File("src/test/resources/Section.json");
         ObjectMapper mapper = new ObjectMapper();
-        Ref section = mapper.readValue(jsonFile , Ref.class);
-        assertEquals("Section" , section.getCollectionName());
+        RefDef section = mapper.readValue(jsonFile , RefDef.class);
+        assertEquals("Section" , section.getRef().getCollectionName());
     }
 
     @Test
     public void testTeacherSectionAssociation() throws Exception {
         File jsonFile = new File("src/test/resources/TeacherSectionAssociation.json");
         ObjectMapper mapper = new ObjectMapper();
-        Ref teacherSectionAssociation = mapper.readValue(jsonFile, Ref.class);
-        assertEquals("teacherSectionAssociation" , teacherSectionAssociation.getCollectionName());
+        RefDef teacherSectionAssociation = mapper.readValue(jsonFile, RefDef.class);
+        assertEquals("Teacher" , teacherSectionAssociation.getRef().getCollectionName());
     }
 }
