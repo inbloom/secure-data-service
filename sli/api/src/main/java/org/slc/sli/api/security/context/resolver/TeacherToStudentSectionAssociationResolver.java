@@ -1,37 +1,36 @@
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
- * Resolves which StudentParentAssociation a given teacher is allowed to see.
+ * Resolves which StudentSectionAssociation a given teacher is allowed to see.
+ *
  */
 @Component
-public class TeacherStudentTranscriptAssociationResolver implements EntityContextResolver {
-
+public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
+    
     @Autowired
     private AssociativeContextHelper helper;
-
+    
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION.equals(toEntityType);
+        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(toEntityType);
     }
-
+    
     @Override
     public List<String> findAccessible(Entity principal) {
-
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return helper.findEntitiesContainingReference(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "body.studentId", studentIds);
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "body.studentId", studentIds);
     }
-
-
 }
