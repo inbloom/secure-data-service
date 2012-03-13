@@ -58,16 +58,24 @@ Then /^the teacher is "([^"]*)"$/ do |teacherName|
   assert(@info["Teacher"] == teacherName)
 end
 
+When /^the class is "([^"]*)"$/ do |className|
+  assert(@info["Class"] == className)
+end
+
+When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
+  csiContent = @driver.find_element(:id, "CSIcontent")
+  labelFound = false
+  
+  all_lozenges = csiContent.find_elements(:tag_name, "svg")
+
+  assert(lozengesCount.to_i == all_lozenges.length)
+end
 
 def clickOnStudent(name)
   studentTable = @driver.find_element(:id, "studentList");
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
   @driver.find_element(:link, name).click
-  
-  
-  #studentNames = all_tds[studentIndex.to_i].find_elements(:tag_name, "a")
-  #studentNames[0].click()
 end
 
 def clickOnStudentAtIndex(studentIndex)
