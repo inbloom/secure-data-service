@@ -1,0 +1,28 @@
+{
+  id : "template",
+  type : "PANEL",
+  data :{
+    entity: "student",
+    alias: "student",
+    params: {
+      someint: 1,
+      somebool: true,
+      somestring: "xyz"
+    }
+  },
+  condition : {
+    field: "grade",
+    value: [8,9]
+  },
+  params: {
+    someint: 1,
+    somebool: true,
+    somestring: "xyz"
+  },
+  items : [
+    {id: "col1", name: "First Name", type:"FIELD", datatype: "string", description: "First Name of the Student", field: "name.firstName", width: 80},
+    {id: "col2", name: "Last Name", datatype: "string", field: "name.lastName", width: 80},
+    {id: "col3", name: "Programs", datatype: "limitedEnglishProficiency", width: 80, formatter: org.sli.LozengeRenderer},
+    {id: "col4", name: "Assessment", datatype: "name.firstName", width: 80, formatter: org.sli.fuelGauge}
+  ] 
+}

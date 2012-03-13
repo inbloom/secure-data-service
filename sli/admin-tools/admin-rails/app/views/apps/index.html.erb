@@ -1,0 +1,17 @@
+<table>
+	<tr>
+	<th>Name</th>
+	<th>Version</th>
+	<th>Vendor</th>
+	<th>Creation Date</th>
+	<th>Last Update</th>
+	</tr>
+	<% @apps.each do |app| %>
+		<tr>
+	    <td><%= app.name %></td>
+	    <td><%= app.version %></td>
+	    <td><%= app.created_on %></td>
+		<td><%= app.updated_on %></td>
+		</tr>
+	<% end %>
+</table>

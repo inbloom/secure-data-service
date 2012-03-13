@@ -1,5 +1,6 @@
 package org.slc.sli.unit.view.widget;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,19 +40,31 @@ public class FieldCounterTest {
     @Test
     public void testGetText() throws Exception {
         when(mockResolver.getCountForPath(mockField)).thenReturn(30);
-        assert (counter.getText().equals("30"));
+        assertEquals("30", counter.getText());
     }
     
     @Test
     public void testGetColorFirstLevel() {
         when(mockResolver.getCountForPath(mockField)).thenReturn(0);
-        assert (counter.getColorIndex() == 1);
+        assertEquals(1, counter.getColorIndex());
     }
 
     @Test
+    public void testGetColorSecondLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(4);
+        assertEquals(2, counter.getColorIndex());
+    }
+    
+    @Test
+    public void testColorThirdLevel() {
+        when(mockResolver.getCountForPath(mockField)).thenReturn(6);
+        assertEquals(3, counter.getColorIndex());
+    }
+    
+    @Test
     public void testGetColor() throws Exception {
         when(mockResolver.getCountForPath(mockField)).thenReturn(30);
-        assert (counter.getColorIndex() == 3);
+        assertEquals(3, counter.getColorIndex());
     }
     
 }
