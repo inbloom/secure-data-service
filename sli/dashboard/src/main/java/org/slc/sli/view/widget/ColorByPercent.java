@@ -24,7 +24,7 @@ public class ColorByPercent {
     private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
                                           {1, 5, 0, 0, 0}, // 2 levels
                                           {1, 2, 5, 0, 0}, // 3 levels
-                                          {1, 2, 4, 5, 0}, // 4 levels
+                                          {1, 3, 4, 5, 0}, // 4 levels
                                           {1, 2, 3, 4, 5}};  // 5 levels
     
     public ColorByPercent() {
@@ -104,8 +104,8 @@ public class ColorByPercent {
         int[] colorLevels = perfToColor[boundaries.length];
         int[] cutoffs = new int[boundaries.length + 2];
         
-        cutoffs[0] = 0;
-        cutoffs[cutoffs.length - 1] = 100;
+        cutoffs[0] = Integer.MIN_VALUE;
+        cutoffs[cutoffs.length - 1] = Integer.MAX_VALUE;
         
         for (int i = 1; i < boundaries.length + 1; i++) {
             cutoffs[i] = boundaries[i - 1];
@@ -114,10 +114,9 @@ public class ColorByPercent {
                 cutoffs[i] = 100 - cutoffs[i];
             }
         }
-
+        
         for (int i = 0; i < cutoffs.length - 1; i++) {
-            
-            if (percentage >= cutoffs[i] && percentage <= cutoffs[i + 1]) {
+            if (inRange(percentage, cutoffs[i], cutoffs[i + 1], true, false)) {
                 return colorLevels[i];
             }
         }
@@ -125,6 +124,22 @@ public class ColorByPercent {
         return 0;
     }
 
+    private boolean inRange(int num, int min, int max, boolean inclusiveMin, boolean inclusiveMax) {
+        if (num > min && num < max) {
+            return true;
+        }
+        
+        if (num == min && inclusiveMin) {
+            return true;
+        }
+        
+        if (num == max && inclusiveMax) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     public void setIsInverted(boolean inverted) {
         this.isInverted = inverted;
     }
