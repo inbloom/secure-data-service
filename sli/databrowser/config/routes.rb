@@ -27,10 +27,7 @@ DbRails::Application.routes.draw do
 
   # match '/entities/:type/:id/:targets' => 'entities#show'
   
-  match '/students' => 'students#index'
-  match '/teachers' => 'teachers#index'
-  match '/schools' => 'schools#index'
-  match '/logout' => 'checks#logout'  
+  match '/logout' => 'checks#logout'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
