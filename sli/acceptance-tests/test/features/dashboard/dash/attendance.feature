@@ -20,7 +20,7 @@ Background:
 		  And I select view "IL_K-3"
 		  And I wait for "5" seconds
 		Then the table includes header "Attendance"
-			And I should see a table heading "Abcence Count"
+			And I should see a table heading "Absence Count"
 			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25" 
 	Scenario: Teacher sees Absence Count in 3-8 list of students view
 		When I navigate to the Dashboard home page
@@ -68,7 +68,7 @@ Background:
 			And the count for id "ATTENDANCE.TardyRate" for student "Rhonda Delgado" is "11"
 			
 			
-@wip
+  @wip
   Scenario: Teacher sees Tardy Count in 9-12 list of students view
     When I navigate to the Dashboard home page
     When I select "Illinois Realm" and click go
@@ -82,4 +82,7 @@ Background:
         And I wait for "7" seconds
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "15"
+      And the count for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "0"
+      And the class for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "countLevel1"
+
+
