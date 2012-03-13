@@ -800,7 +800,7 @@ end
 
 desc "Run Dashboard performance level acceptance tests"
 task :PerformanceLevels do
-    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
+    runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
 desc "Run dashboard attendance related tests"
