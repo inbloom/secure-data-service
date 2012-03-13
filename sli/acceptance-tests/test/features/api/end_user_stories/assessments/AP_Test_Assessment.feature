@@ -3,6 +3,9 @@ Feature: Get AP Tests
 Background: None
 
 @wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Scenario Outline:  As a leader I want to get the following attrubutes for all the students in my school, AP English Score, AP Calculus Score, AP US History Score
     Given  I am valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SEA/LEA IDP"
@@ -64,6 +67,9 @@ Examples:
 | "leader"        | "leader1234"        | "Leader"           |
 
 @wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Scenario Outline:  As a AggregateViewer I should not get Access to all students in a school
     Given I am a valid SEA/LEA end user <username> with password <password>
     And I have a Role attribute returned from the "SEA/LEA IDP"

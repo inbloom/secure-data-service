@@ -1,3 +1,7 @@
+@wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Feature: Test Authentication, CRUD, optional flag and simple display with SDK
 
 Background: None
