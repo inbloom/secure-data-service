@@ -1,4 +1,4 @@
-Feature: Display performance levels for assessment contents 
+Feature: Display either most recent performance levels for assessment contents or performance levels in a most recent window.
 
 As a SEA/LEA user, I want to be able to see student Performance Level of their assessment result in my dashboard
 application
@@ -7,7 +7,7 @@ Background:
   Given I have an open web browser
   Given the server is in "test" mode
   
- # USE:  AssessmentFamilyHierarchy like "ISAT Writing for Grades 8" 
+# USE:  AssessmentFamilyHierarchy like "ISAT Writing for Grades 8" 
 Scenario: Calculating Most Recent Performance Level for an Assessment
 Given I am authenticated to SLI as "lkim" "lkim"
   When I go to "/studentlist"
@@ -23,9 +23,9 @@ Given I am authenticated to SLI as "lkim" "lkim"
 	And I should see a field "Perf. Lvl." in this table
 	And I should see  "Delilah Sims" in student field
 	And I should see his/her most recent ISAT Writing Perf. level is "3"
-	
+
+# USE: AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"	
 @wip	
-# USE: AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"
 Scenario: Calculating Most Recent Performance Level for an Assessment Family
  Given I am authenticated to SLI as  "rbraverman" "rbraverman1234"
   When I go to "/studentlist"
@@ -39,4 +39,4 @@ Scenario: Calculating Most Recent Performance Level for an Assessment Family
  Then I should see a table heading "DIBELS Next"
 	And I should see a field "Perf. Lvl." in this table
 	And I should see  "Jenny Dean" in student field
-	And I should see his/her most recent ISAT Writing Perf. level is "2"
+	And I should see his/her Perf.level for DIBELS Next for most recent window is "2"
