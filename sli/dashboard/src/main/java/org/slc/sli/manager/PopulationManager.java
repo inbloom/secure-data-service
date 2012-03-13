@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slc.sli.config.ConfigUtil;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
@@ -220,14 +221,15 @@ public class PopulationManager {
         return entityManager.getStudent(token, studentId);
     }
     
+
     /**
-     * Get student with additional info for CSI panel
-     * 
+     * Get student with additional info 
      * @param token
      * @param studentId
+     * @param config
      * @return
      */
-    public GenericEntity getStudent(String token, Object studentId, ViewConfig config) {
+    public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
