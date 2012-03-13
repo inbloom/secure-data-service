@@ -239,7 +239,6 @@
 				<configuration>
 					<!-- Skip the default running of this plugin, otherwise everything is 
 						run twice -->
-					<skip>true</skip>
 				</configuration>
 				<executions>
 					<execution>
