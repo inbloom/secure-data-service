@@ -18,7 +18,7 @@ When I select section "M. Jones - 8th Grade English - Sec 6"
 And I wait for "2" seconds
 And I click on student "Jolene Ashley"
 And I view its student profile
-And their name shown in profile is "Jolene Colt Ashley"
+And their name shown in profile is "Jolene Colt Ashley (Ms Jolene Juggernaut Ashley IV)"
 And their id shown in proflie is "943715230"
 And their grade is "Eighth grade"
 And the teacher is "Dr lkim"
@@ -59,7 +59,7 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I click on student "Kimberley Pennington"
 And I view its student profile
-And their name shown in profile is "Kimberley Yuli Pennington"
+And their name shown in profile is "Kimberley Yuli Pennington Jr"
 And their id shown in proflie is "437680177"
 #And their grade is ""
 And the teacher is "Mrs Linda Kim"
