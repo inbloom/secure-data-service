@@ -2,6 +2,9 @@ Feature: Get ISAT Reading Scores
 Background: None
 
 @wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Scenario Outline:  As a teacher for my class I want to get the most recent values of the following attributes: ISAT Reading test PerformaceLevel, ScaleScore and Lexile
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
 	And I have a Role attribute returned from the "SEA/LEA IDP"

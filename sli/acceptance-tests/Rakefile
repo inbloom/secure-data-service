@@ -11,6 +11,8 @@ EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
+OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
+
 #######################################################
 
 $SUCCESS=true
@@ -30,7 +32,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -191,7 +193,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
-                     :v1TargetTests] do
+                     :v1TargetTests,
+                     :v1EndUserStoryAssessmentTests] do
   displayFailureReport()
 end
 
@@ -501,6 +504,12 @@ task :v1ListTests => [:realmInit] do
   runTests("test/features/apiV1/end_user_stories/lists")
 end
 
+desc "Run V1 Assessment User Story Tests"
+task :v1EndUserStoryAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -559,7 +568,7 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-  
+
 end
 
 desc "Run Attendance CRUD Tests"
@@ -791,7 +800,7 @@ end
 
 desc "Run Dashboard performance level acceptance tests"
 task :PerformanceLevels do
-    runTests("test/features/dashboard/assessments/PerformanceLevels.feature")
+    runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
 desc "Run dashboard attendance related tests"
@@ -812,6 +821,20 @@ end
 ############################################################
 # Dashboard tests end
 ############################################################
+
+############################################################
+# SDK Tests
+############################################################
+desc "Run SDK Tests Tests"
+task :sdkTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/JavaSDK")
+end
+
+############################################################
+# SDK Tests end
+############################################################
+
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
@@ -924,6 +947,7 @@ sea_idp_server_url     This property selects which running IDP should be used as
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
+OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos
 
 end
