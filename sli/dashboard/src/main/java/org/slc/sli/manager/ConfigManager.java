@@ -1,8 +1,16 @@
 package org.slc.sli.manager;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.config.ConfigPersistor;
@@ -10,6 +18,8 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.StudentFilter;
+import org.slc.sli.entity.Config;
+import org.slc.sli.util.DashboardException;
 
 /**
  *
@@ -21,8 +31,11 @@ import org.slc.sli.config.StudentFilter;
  */
 public class ConfigManager extends Manager {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
     ConfigPersistor persistor;
     EntityManager entityManager;
+    
+    private String configLocation = "config";
     
     public ConfigManager() {
         persistor = new ConfigPersistor();
@@ -164,6 +177,27 @@ public class ConfigManager extends Manager {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
         persistor.setEntityManager(entityManager);
+    }
+    
+    public void setConfigLocation(String configLocation) {
+        this.configLocation = configLocation;
+    }
+    
+    private String getConfigLocation(String componentId) {
+        return configLocation + "/" + componentId + ".json";
+    }
+    
+    public Config getComponentConfig(String userId, String componentId) {
+        Gson gson = new GsonBuilder().create();
+        try {
+            return gson.fromJson(
+                    new BufferedReader(new InputStreamReader(
+                            Config.class.getClassLoader().getResourceAsStream(getConfigLocation(componentId)))), Config.class);
+        } catch (Throwable t) {
+            logger.error("Unable to read config for " + componentId + ", for user " + userId);
+            throw new DashboardException("Unable to read config for " + componentId + ", for user " + userId);
+        }
+   
     }
 
 }
