@@ -14,13 +14,13 @@ class RealmsController < ApplicationController
     realms = Realm.all
     logger.debug {"User Realm: #{userRealm}"}
     realms.each do |realm|
-      realmToRedirectTo = realm if realm.regionId == userRealm
+        realmToRedirectTo = realm if realm.id.eql? userRealm
     end
-    if realmToRedirectTo != nil
+    if realmToRedirectTo.nil?
+      render_404
+    else
       redirect_to realmToRedirectTo
-      return
     end
-    render_404
   end
 
   # # GET /realms/1
