@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
+import java.util.List;
+
 /**
  * Holds definition for a field that is part of reference resolution.
  *
@@ -8,7 +10,7 @@ package org.slc.sli.ingestion.transformation.normalization;
  */
 public class Field {
     private String path;
-    private FieldValue value;
+    private List<FieldValue> values;
 
     public String getPath() {
         return path;
@@ -18,11 +20,11 @@ public class Field {
         this.path = path;
     }
 
-    public FieldValue getValue() {
-        return value;
+    public List<FieldValue> getValues() {
+        return values;
     }
 
-    public void setValue(FieldValue value) {
-        this.value = value;
+    public void setValues(List<FieldValue> values) {
+        this.values = values;
     }
 }

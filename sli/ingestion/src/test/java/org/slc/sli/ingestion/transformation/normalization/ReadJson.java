@@ -1,10 +1,11 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
@@ -24,7 +25,7 @@ public class ReadJson {
         for (List<Field> outerList : teacher.getChoiceOfFields()) {
             for (Field fields : outerList) {
                 assertEquals("metadata.externalId" , fields.getPath());
-                assertEquals("metadata.externalId" , fields.getValue().getValueSource());
+                assertEquals("metadata.externalId" , fields.getValues().get(0).getValueSource());
             }
         }
     }
