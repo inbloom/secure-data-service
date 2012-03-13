@@ -114,12 +114,10 @@ public class ColorByPercent {
                 cutoffs[i] = 100 - cutoffs[i];
             }
         }
-        
+
         for (int i = 0; i < cutoffs.length - 1; i++) {
             
-            //we place the >= on the lower number, so if a percentage is on a cutoff point
-            //include it in the lower of the two levels.  We could change that if desired
-            if (percentage >= cutoffs[i] && percentage < cutoffs[i + 1]) {
+            if (percentage >= cutoffs[i] && percentage <= cutoffs[i + 1]) {
                 return colorLevels[i];
             }
         }
