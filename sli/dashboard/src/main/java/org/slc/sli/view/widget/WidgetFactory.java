@@ -31,6 +31,9 @@ public class WidgetFactory {
     }
     
     public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver, int[] boundaries) {
+        if (!field.getValue().equals("ATTENDANCE.TardyCount")) {
+            boundaries = null;
+        }
         return new FieldCounter(field, student, resolver.getAttendanceCountResolverForStudent(student), boundaries);
     }
     
