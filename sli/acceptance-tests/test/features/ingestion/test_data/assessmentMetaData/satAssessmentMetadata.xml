@@ -1,0 +1,64 @@
+<InterchangeAssessmentMetadata
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+	<Assessment id="SAT-1">
+		<AssessmentTitle>SAT</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>SAT Mathematics</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>College entrance exam</AssessmentCategory>
+		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+			<MinimumScore>600</MinimumScore>
+			<MaximumScore>2400</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>SAT</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>750</MaxRawScore>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentiy>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>SAT</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentiy>
+		</AssessmentFamilyReference>
+		<ObjectiveAssessmentReference ref="SatWriting"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMath"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatCritRead"></ObjectiveAssessmentReference>
+	</Assessment>
+	
+	<AssessmentFamily id="SAT-Family">
+		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>SAT</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
+	<ObjectiveAssessment id="SatWriting">
+		<IdentificationCode>SAT-Writing</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMath">
+		<IdentificationCode>SAT-Math</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatCritRead">
+		<IdentificationCode>SAT-Critical Reading</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+	</ObjectiveAssessment>
+
+</InterchangeAssessmentMetadata>

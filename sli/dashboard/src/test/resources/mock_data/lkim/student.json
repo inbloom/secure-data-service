@@ -1,5 +1,8 @@
 [
  {
+  "cohortYears": [
+   "Second grade"
+  ], 
   "studentUniqueStateId": "453827070", 
   "name": {
    "middleName": "", 
@@ -38,17 +41,15 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60927-8918", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "6561 Front Street"
    }
   ], 
-  "id": "453827070", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Second grade"
-  ], 
+  "id": "453827070", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -57,6 +58,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
   "studentUniqueStateId": "943715230", 
   "name": {
    "middleName": "Colt", 
@@ -105,13 +109,13 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60836-2298", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "7538 Humboldt Street"
    }
   ], 
-  "id": "943715230", 
   "schoolFoodServiceEligibility": "Free", 
   "otherName": [
    {
@@ -123,9 +127,7 @@
     "generationCodeSuffix": "IV"
    }
   ], 
-  "cohortYears": [
-   "Eighth grade"
-  ], 
+  "id": "943715230", 
   "electronicMail": [
    {
     "emailAddressType": "Work", 
@@ -142,6 +144,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "First grade"
+  ], 
   "studentUniqueStateId": "164420088", 
   "name": {
    "middleName": "Kellie", 
@@ -175,6 +180,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Other", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 2399", 
     "postalCode": "60619-7239", 
@@ -182,11 +188,8 @@
     "streetNumberName": "8838 Pioneer Street"
    }
   ], 
-  "id": "164420088", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "First grade"
-  ], 
+  "id": "164420088", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -199,6 +202,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "First grade"
+  ], 
   "studentUniqueStateId": "505331723", 
   "name": {
    "middleName": "Eric", 
@@ -216,6 +222,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Work", 
     "countryCode": "US", 
     "postalCode": "60150-4290", 
     "stateAbbreviation": "IL", 
@@ -224,6 +231,7 @@
    {
     "nameOfCounty": "New York", 
     "city": "New York", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 8352", 
     "postalCode": "10079-9386", 
@@ -231,11 +239,8 @@
     "streetNumberName": "4656 India Street"
    }
   ], 
-  "id": "505331723", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "First grade"
-  ], 
+  "id": "505331723", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -252,6 +257,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
   "studentUniqueStateId": "530425896", 
   "name": {
    "middleName": "Shannon", 
@@ -269,6 +277,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 4221", 
     "postalCode": "60908-1028", 
@@ -278,17 +287,15 @@
    {
     "nameOfCounty": "Kings", 
     "city": "New York", 
+    "addressType": "Work", 
     "countryCode": "US", 
     "postalCode": "10698-9832", 
     "stateAbbreviation": "NY", 
     "streetNumberName": "9857 Kingsborough 2nd Walk"
    }
   ], 
-  "id": "530425896", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Eighth grade"
-  ], 
+  "id": "530425896", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -305,6 +312,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
   "studentUniqueStateId": "429526969", 
   "name": {
    "middleName": "A", 
@@ -325,14 +335,14 @@
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
   "address": [], 
-  "id": "429526969", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Twelfth grade"
-  ], 
+  "id": "429526969", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "178828452", 
   "name": {
    "middleName": "", 
@@ -350,6 +360,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 495", 
     "postalCode": "60499-8718", 
@@ -357,11 +368,8 @@
     "streetNumberName": "7540 Huntington Street"
    }
   ], 
-  "id": "178828452", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "178828452", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -378,6 +386,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
   "studentUniqueStateId": "525878920", 
   "name": {
    "middleName": "D", 
@@ -421,6 +432,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 8224", 
     "postalCode": "60620-0477", 
@@ -428,11 +440,8 @@
     "streetNumberName": "3427 Park Avenue"
    }
   ], 
-  "id": "525878920", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Twelfth grade"
-  ], 
+  "id": "525878920", 
   "electronicMail": [
    {
     "emailAddressType": "Work", 
@@ -449,6 +458,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
   "studentUniqueStateId": "510152105", 
   "name": {
    "middleName": "Nicole", 
@@ -463,14 +475,14 @@
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
   "address": [], 
-  "id": "510152105", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Sixth grade"
-  ], 
+  "id": "510152105", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Fifth grade"
+  ], 
   "studentUniqueStateId": "802709591", 
   "name": {
    "middleName": "Sydnee", 
@@ -494,6 +506,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 7776", 
     "postalCode": "60139-2152", 
@@ -501,11 +514,8 @@
     "streetNumberName": "1558 4th Street"
    }
   ], 
-  "id": "802709591", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Fifth grade"
-  ], 
+  "id": "802709591", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -514,6 +524,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "First grade"
+  ], 
   "studentUniqueStateId": "437680177", 
   "name": {
    "middleName": "Yuli", 
@@ -549,11 +562,8 @@
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
   "address": [], 
-  "id": "437680177", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "First grade"
-  ], 
+  "id": "437680177", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -562,6 +572,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "170011136", 
   "name": {
    "middleName": "", 
@@ -600,20 +613,21 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60057-1857", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "1313 Brighton 3rd Street"
    }
   ], 
-  "id": "170011136", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "170011136", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "547028299", 
   "name": {
    "middleName": "", 
@@ -667,20 +681,21 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60605-1327", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "3372 Montague Terrace"
    }
   ], 
-  "id": "547028299", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "547028299", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Second grade"
+  ], 
   "studentUniqueStateId": "258392050", 
   "name": {
    "middleName": "", 
@@ -698,6 +713,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Billing", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 1999", 
     "postalCode": "60561-5469", 
@@ -707,20 +723,21 @@
    {
     "nameOfCounty": "Queens", 
     "city": "New York", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "10952-6484", 
     "stateAbbreviation": "NY", 
     "streetNumberName": "5961 Mermaid Avenue"
    }
   ], 
-  "id": "258392050", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Second grade"
-  ], 
+  "id": "258392050", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Eleventh grade"
+  ], 
   "studentUniqueStateId": "178875887", 
   "name": {
    "middleName": "Deirdre", 
@@ -741,11 +758,8 @@
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
   "address": [], 
-  "id": "178875887", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Eleventh grade"
-  ], 
+  "id": "178875887", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -754,6 +768,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
   "studentUniqueStateId": "100644447", 
   "name": {
    "middleName": "W", 
@@ -782,6 +799,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60848-7633", 
     "stateAbbreviation": "IL", 
@@ -790,6 +808,7 @@
    {
     "nameOfCounty": "New York", 
     "city": "New York", 
+    "addressType": "Physical", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 330", 
     "postalCode": "10753-2389", 
@@ -797,11 +816,8 @@
     "streetNumberName": "1537 Steuben Street"
    }
   ], 
-  "id": "100644447", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Fourth grade"
-  ], 
+  "id": "100644447", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -818,6 +834,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "376191021", 
   "name": {
    "middleName": "", 
@@ -851,17 +870,15 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Work", 
     "countryCode": "US", 
     "postalCode": "60063-3281", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "3297 35th Street"
    }
   ], 
-  "id": "376191021", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "376191021", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -874,6 +891,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "336344132", 
   "name": {
    "middleName": "", 
@@ -902,6 +922,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60447-1536", 
     "stateAbbreviation": "IL", 
@@ -910,17 +931,15 @@
    {
     "nameOfCounty": "Queens", 
     "city": "New York", 
+    "addressType": "Mailing", 
     "countryCode": "US", 
     "postalCode": "10180-7445", 
     "stateAbbreviation": "NY", 
     "streetNumberName": "7472 Ross Street"
    }
   ], 
-  "id": "336344132", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "336344132", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -933,6 +952,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
   "studentUniqueStateId": "711411586", 
   "name": {
    "middleName": "", 
@@ -950,6 +972,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 5116", 
     "postalCode": "60941-6938", 
@@ -959,6 +982,7 @@
    {
     "nameOfCounty": "Kings", 
     "city": "New York", 
+    "addressType": "Other", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 3394", 
     "postalCode": "10913-4746", 
@@ -966,11 +990,8 @@
     "streetNumberName": "1004 Boerum Street"
    }
   ], 
-  "id": "711411586", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Twelfth grade"
-  ], 
+  "id": "711411586", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -979,6 +1000,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
   "studentUniqueStateId": "131758477", 
   "name": {
    "middleName": "Tashya", 
@@ -1002,6 +1026,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Work", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 8027", 
     "postalCode": "60267-4406", 
@@ -1009,11 +1034,8 @@
     "streetNumberName": "8823 Blake Court"
    }
   ], 
-  "id": "131758477", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Sixth grade"
-  ], 
+  "id": "131758477", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -1026,6 +1048,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "First grade"
+  ], 
   "studentUniqueStateId": "670703438", 
   "name": {
    "middleName": "Melvin", 
@@ -1043,6 +1068,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Billing", 
     "countryCode": "US", 
     "postalCode": "60886-1475", 
     "stateAbbreviation": "IL", 
@@ -1051,17 +1077,15 @@
    {
     "nameOfCounty": "Queens", 
     "city": "New York", 
+    "addressType": "Temporary", 
     "countryCode": "US", 
     "postalCode": "10798-3311", 
     "stateAbbreviation": "NY", 
     "streetNumberName": "9041 Scholes Street"
    }
   ], 
-  "id": "670703438", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "First grade"
-  ], 
+  "id": "670703438", 
   "electronicMail": [
    {
     "emailAddressType": "Home/Personal", 
@@ -1070,6 +1094,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Second grade"
+  ], 
   "studentUniqueStateId": "851123275", 
   "name": {
    "middleName": "", 
@@ -1113,6 +1140,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Temporary", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 5760", 
     "postalCode": "60457-1957", 
@@ -1122,17 +1150,15 @@
    {
     "nameOfCounty": "Kings", 
     "city": "New York", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "10473-1436", 
     "stateAbbreviation": "NY", 
     "streetNumberName": "4256 Wyckoff Street"
    }
   ], 
-  "id": "851123275", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Second grade"
-  ], 
+  "id": "851123275", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -1141,6 +1167,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
   "studentUniqueStateId": "423037202", 
   "name": {
    "middleName": "Deacon", 
@@ -1176,11 +1205,8 @@
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
   "address": [], 
-  "id": "423037202", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Fourth grade"
-  ], 
+  "id": "423037202", 
   "electronicMail": [
    {
     "emailAddressType": "Home/Personal", 
@@ -1197,6 +1223,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
   "studentUniqueStateId": "250918988", 
   "name": {
    "middleName": "W", 
@@ -1247,11 +1276,8 @@
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
   "address": [], 
-  "id": "250918988", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Seventh grade"
-  ], 
+  "id": "250918988", 
   "electronicMail": [
    {
     "emailAddressType": "Organization", 
@@ -1268,6 +1294,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Second grade"
+  ], 
   "studentUniqueStateId": "421216329", 
   "name": {
    "middleName": "", 
@@ -1291,17 +1320,15 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Other", 
     "countryCode": "US", 
     "postalCode": "60053-4640", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "8690 Gaylord Drive"
    }
   ], 
-  "id": "421216329", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Second grade"
-  ], 
+  "id": "421216329", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -1318,6 +1345,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Ninth grade"
+  ], 
   "studentUniqueStateId": "111111111", 
   "name": {
    "middleName": "", 
@@ -1358,11 +1388,8 @@
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
   "address": [], 
-  "id": "111111111", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Ninth grade"
-  ], 
+  "id": "111111111", 
   "electronicMail": [
    {
     "emailAddressType": "Home/Personal", 
@@ -1371,6 +1398,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Third grade"
+  ], 
   "studentUniqueStateId": "222222222", 
   "name": {
    "middleName": "", 
@@ -1409,6 +1439,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Billing", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 9959", 
     "postalCode": "60746-2709", 
@@ -1416,14 +1447,14 @@
     "streetNumberName": "6256 Old New Utrecht Road"
    }
   ], 
-  "id": "222222222", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Third grade"
-  ], 
+  "id": "222222222", 
   "electronicMail": []
  }, 
  {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
   "studentUniqueStateId": "333333333", 
   "name": {
    "middleName": "", 
@@ -1462,6 +1493,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Mailing", 
     "countryCode": "US", 
     "postalCode": "60248-9017", 
     "stateAbbreviation": "IL", 
@@ -1470,6 +1502,7 @@
    {
     "nameOfCounty": "Bronx", 
     "city": "New York", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 878", 
     "postalCode": "10395-8698", 
@@ -1477,11 +1510,8 @@
     "streetNumberName": "2738 Duryea Place"
    }
   ], 
-  "id": "333333333", 
   "schoolFoodServiceEligibility": "Reduced", 
-  "cohortYears": [
-   "Seventh grade"
-  ], 
+  "id": "333333333", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
@@ -1490,6 +1520,9 @@
   ]
  }, 
  {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
   "studentUniqueStateId": "444444444", 
   "name": {
    "middleName": "", 
@@ -1533,6 +1566,7 @@
    {
     "nameOfCounty": "Cook", 
     "city": "Chicago", 
+    "addressType": "Home", 
     "countryCode": "US", 
     "postalCode": "60683-4656", 
     "stateAbbreviation": "IL", 
@@ -1541,6 +1575,7 @@
    {
     "nameOfCounty": "Queens", 
     "city": "New York", 
+    "addressType": "Billing", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 1721", 
     "postalCode": "10078-7909", 
@@ -1548,11 +1583,8 @@
     "streetNumberName": "318 Ocean Avenue"
    }
   ], 
-  "id": "444444444", 
   "schoolFoodServiceEligibility": "Free", 
-  "cohortYears": [
-   "Seventh grade"
-  ], 
+  "id": "444444444", 
   "electronicMail": [
    {
     "emailAddressType": "Other", 
