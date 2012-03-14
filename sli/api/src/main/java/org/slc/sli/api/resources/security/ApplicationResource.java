@@ -2,11 +2,13 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,15 +17,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * 
@@ -41,16 +46,20 @@ public class ApplicationResource {
     @Autowired
     private EntityDefinitionStore store;
 
+    @Autowired
+    private EntityRepository repo;
+
     private EntityService service;
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
+    public static final String RESOURCE_NAME = "application";
 
     @PostConstruct
     public void init() {
-        EntityDefinition def = store.lookupByResourceName("application");
+        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
         this.service = def.getService();
     }
 
@@ -114,7 +123,12 @@ public class ApplicationResource {
         String uuid = lookupIdFromClientId(clientId);
 
         if (uuid != null) {
-            return Response.status(Status.OK).entity(service.get(uuid)).build();
+            EntityBody entityBody = service.get(uuid);
+            Entity entity = repo.find(RESOURCE_NAME, uuid);
+            Map<String, Object> metaData = entity.getMetaData();
+            entityBody.put("created", metaData.get("created"));
+            entityBody.put("updated", metaData.get("updated"));
+            return Response.status(Status.OK).entity(entityBody).build();
         }
 
         return Response.status(Status.NOT_FOUND).build();
@@ -132,6 +146,19 @@ public class ApplicationResource {
         }
 
         return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    @PUT
+    @Path("{" + CLIENT_ID + "}") 
+    public Response updateApplication(@PathParam(CLIENT_ID) String clientId, EntityBody app) {
+        String uuid = lookupIdFromClientId(clientId);
+        app.remove("created");
+        app.remove("updated");
+        boolean status = service.update(uuid, app);
+        if (status) {
+            return Response.status(Status.NO_CONTENT).build();
+        }
+        return Response.status(Status.BAD_REQUEST).build();
     }
     
     /**
