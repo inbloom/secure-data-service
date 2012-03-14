@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -115,14 +114,14 @@ public class IdNormalizer {
     /**
      * @return the entityRepository
      */
-    public Repository getEntityRepository() {
+    public Repository<Entity> getEntityRepository() {
         return entityRepository;
     }
 
     /**
      * @param entityRepository the entityRepository to set
      */
-    public void setEntityRepository(Repository entityRepository) {
+    public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 

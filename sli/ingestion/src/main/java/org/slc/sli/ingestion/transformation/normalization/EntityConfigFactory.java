@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.core.io.Resource;
+
 /**
  * Factory for entity configurations
  *
@@ -14,20 +16,20 @@ import java.util.Map;
 public class EntityConfigFactory {
     private static final String CONFIG_EXT = ".json";
 
-    private File searchPath;
+    private Resource searchPath;
 
     private Map<String, EntityConfig> entityConfigurations = new HashMap<String, EntityConfig>();
 
     public synchronized EntityConfig getEntityConfiguration(String entityType) {
         if (!entityConfigurations.containsKey(entityType)) {
-            File config = new File(searchPath, entityType + CONFIG_EXT);
+            try {
+                File config = new File(searchPath.getFile(), entityType + CONFIG_EXT);
 
-            if (config.exists()) {
-                try {
+                if (config.exists()) {
                     entityConfigurations.put(entityType, EntityConfig.parse(config));
-                } catch (IOException e) {
-                    entityConfigurations.put(entityType, null);
                 }
+            } catch (IOException e) {
+                entityConfigurations.put(entityType, null);
             }
         }
 
@@ -37,14 +39,14 @@ public class EntityConfigFactory {
     /**
      * @return the searchPath
      */
-    public File getSearchPath() {
+    public Resource getSearchPath() {
         return searchPath;
     }
 
     /**
      * @param searchPath the searchPath to set
      */
-    public void setSearchPath(File searchPath) {
+    public void setSearchPath(Resource searchPath) {
         this.searchPath = searchPath;
     }
 }
