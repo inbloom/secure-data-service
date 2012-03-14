@@ -9,7 +9,8 @@ When /^I click on student at index "([^"]*)"$/ do |studentIndex|
 end
 
 When /^I view its student profile$/ do
- csiContent = @driver.find_element(:id, "CSIcontent")
+ wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+ csiContent = wait.until{@driver.find_element(:id, "CSIcontent")}
  table_cells = csiContent.find_elements(:xpath, "//td")
   
   @info = Hash.new

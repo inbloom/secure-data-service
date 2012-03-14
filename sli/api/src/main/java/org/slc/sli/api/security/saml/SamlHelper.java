@@ -82,15 +82,17 @@ public class SamlHelper {
     
     /**
      * Composes AuthnRequest using post binding
+     * 
      * @param destination
      * @return
      */
     public Pair<String, String> createSamlAuthnRequestForRedirect(String destination) {
         return composeAuthnRequest(destination, POST_BINDING);
     }
-
+    
     /**
      * Composes AuthnRequest using artifact binding
+     * 
      * @param destination
      * @return
      */
@@ -142,7 +144,7 @@ public class SamlHelper {
     private Pair<String, String> composeAuthnRequest(String destination, String binding) {
         Document doc = new Document();
         
-        String id = UUID.randomUUID().toString();
+        String id = "sli-" + UUID.randomUUID().toString();
         doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
@@ -152,6 +154,15 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
         doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
         
+        String consumer = "";
+        if (POST_BINDING.equals(binding)) {
+            consumer = issuerName + "/api/rest/saml/sso/post";
+        } else if (ARTIFACT_BINDING.equals(binding)) {
+            consumer = issuerName + "/api/rest/saml/sso/artifact";
+        }
+        
+        // doc.getRootElement().getAttributes().add(new Attribute("AssertionConsumerServiceURL", consumer.replaceAll("//", "/").replaceAll(":/", "://")));
+        
         Element issuer = new Element("Issuer", SAML_NS);
         issuer.addContent(this.issuerName);
         
@@ -160,6 +171,7 @@ public class SamlHelper {
         Element nameId = new Element("NameIDPolicy", SAMLP_NS);
         nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
         nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
         
         doc.getRootElement().addContent(nameId);
         
