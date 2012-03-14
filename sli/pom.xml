@@ -39,6 +39,7 @@
 		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
 		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
 		<hsqldb.version>1.8.0.10</hsqldb.version>
+		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
 
 		<!-- Java EE Versions -->
@@ -630,6 +631,13 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <!-- bean validation -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${bean.validator.version}</version>
+    </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -656,6 +664,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+
 	</dependencies>
 
 	<build>
