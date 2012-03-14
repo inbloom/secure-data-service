@@ -35,7 +35,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue                          | searchType           |
-     | session                     | 1                   | metaData.idNamespace        | https://devapp1.slidev.org:443/sp    | string               |
+     | session                     | 1                   | metaData.idNamespace        | SLI    | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
