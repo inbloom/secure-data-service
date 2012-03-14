@@ -148,6 +148,7 @@ public class PersistenceProcessor implements Processor {
             throws IOException {
 
         long recordNumber = 0;
+        long numFailed = 0;
 
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
@@ -169,8 +170,13 @@ public class PersistenceProcessor implements Processor {
 
                     // map NeutralRecord to Entity
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
-                    entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
+                    ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                    entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
+
+                    if (errorReport.hasErrors()) {
+                        numFailed++;
+                    }
                 } else {
                     //process collection of the entities from db
                     LOG.debug("processing staged collection: " + neutralRecord.getRecordType());
@@ -186,7 +192,13 @@ public class PersistenceProcessor implements Processor {
                             nr.setRecordType(neutralRecord.getRecordType());
                             List<? extends Entity> result = transformer.handle(nr);
                             NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
-                            entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
+
+                            ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                            entityPersistHandler.handle(neutralRecordEntity, errorReport);
+
+                            if (errorReport.hasErrors()) {
+                                numFailed++;
+                            }
                         }
                     }
                 }
