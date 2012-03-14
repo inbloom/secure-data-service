@@ -1,4 +1,4 @@
-{"keyFields" : ["A" , "B" , "C"] ,
+{"keyFields" : ["metaData.externalId" , "metaData.localId", "body.studentId"] ,
 "references" : [{
     "fieldPath" : "body.teacherId","ref" :
                                          { "collectionName" : "Teacher",

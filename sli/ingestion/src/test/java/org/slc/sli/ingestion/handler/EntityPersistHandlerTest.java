@@ -5,6 +5,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import junit.framework.Assert;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,7 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.Validator;
 import org.slc.sli.validation.EntityValidationException;
@@ -534,13 +537,14 @@ public class EntityPersistHandlerTest {
      * @author tke
      */
     @Test
-    public void tesetCreateEntityLookupFilterByFields() {
+    public void testCreateEntityLookupFilterByFields() {
         NeutralRecordEntity neutralRecordEntity = createStudentSchoolAssociationEntity(INTERNAL_STUDENT_ID);
         List<String> keyFields = new ArrayList<String>();
-        keyFields.add(METADATA_BLOCK + ".localParentIds_Student");
-        keyFields.add(METADATA_BLOCK + ".attributes_schoolId");
-        neutralRecordEntity.setMetaDataField("localParentIds_Student", INTERNAL_STUDENT_ID);
-        neutralRecordEntity.setMetaDataField("attributes_schoolId", SCHOOL_ID);
+        keyFields.add(METADATA_BLOCK + ".localId");
+        keyFields.add(METADATA_BLOCK + ".externalId");
+        keyFields.add("body.studentId");
+        neutralRecordEntity.setMetaDataField("localId", INTERNAL_STUDENT_ID);
+        neutralRecordEntity.setMetaDataField("externalId", SCHOOL_ID);
 
         ErrorReport mockedErrorReport = mock(ErrorReport.class);
         when(mockedErrorReport.hasErrors()).thenReturn(false);
@@ -548,8 +552,34 @@ public class EntityPersistHandlerTest {
         Map<String, String> res = entityPersistHandler.createEntityLookupFilter(neutralRecordEntity, keyFields, mockedErrorReport);
 
         Assert.assertNotNull(res);
-        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localParentIds_Student"));
-        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".attributes_schoolId"));
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localId"));
+        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".externalId"));
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get("body.studentId"));
+    }
+
+    /**
+     * @author tke
+     */
+    @Test
+    public void testCreateEntityLookupFilterByFieldsFromJson() throws Exception {
+        NeutralRecordEntity neutralRecordEntity = createStudentSchoolAssociationEntity(INTERNAL_STUDENT_ID);
+        File jsonFile = new File("src/test/resources/TeacherSectionAssociation.json");
+        ObjectMapper mapper = new ObjectMapper();
+        EntityConfig teacherSectionAssociation = mapper.readValue(jsonFile, EntityConfig.class);
+
+        neutralRecordEntity.setMetaDataField("localId", INTERNAL_STUDENT_ID);
+        neutralRecordEntity.setMetaDataField("externalId", SCHOOL_ID);
+
+        ErrorReport mockedErrorReport = mock(ErrorReport.class);
+        when(mockedErrorReport.hasErrors()).thenReturn(false);
+
+        Map<String, String> res = entityPersistHandler.createEntityLookupFilter(neutralRecordEntity, teacherSectionAssociation.getKeyFields(), mockedErrorReport);
+
+        Assert.assertNotNull(res);
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localId"));
+        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".externalId"));
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get("body.studentId"));
+
     }
 
 }
