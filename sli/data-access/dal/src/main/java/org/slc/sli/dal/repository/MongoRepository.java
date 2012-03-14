@@ -40,6 +40,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.template = template;
     }
 
+    public MongoTemplate getTemplate(){
+    	return template;
+    }
+
     private Class<T> clazz;
 
     public void setClass(Class<T> clazz) {
@@ -374,14 +378,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     /**
      * Update the updated timestamp on the document metadata
-     * 
+     *
      * @param entity
      */
     protected void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-    
+
     private void logResults(String collectioName, List<T> results) {
         if (results == null) {
             LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });

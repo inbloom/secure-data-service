@@ -45,7 +45,7 @@ public class AssessmentCombinerTest {
     NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Mock
-    NeutralRecordRepository repository = new NeutralRecordRepository();
+    NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
 
     String batchJobId = "10001";
 

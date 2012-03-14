@@ -101,7 +101,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     protected String getRecordIdName() {
         return "body.localId";
     }
-    }
     public Set<String> getCollectionNames() {
         return template.getCollectionNames();
     }

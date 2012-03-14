@@ -83,8 +83,9 @@ public class PersistenceProcessor implements Processor {
 
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
+            StagingMongoTemplate previousDB = (StagingMongoTemplate) neutralRecordMongoAccess.getRecordRepository().getTemplate();
 
-            neutralRecordMongoAccess.getRecordRepository().setTemplate(new StagingMongoTemplate(neutralRecordMongoAccess.getRecordRepository().getTemplate().getDatabasePrefix(), job.getId(), neutralRecordMongoAccess.getRecordRepository().getTemplate().getNeutralRecordMappingConverter()));
+            neutralRecordMongoAccess.getRecordRepository().setTemplate(new StagingMongoTemplate(previousDB.getDatabasePrefix(), job.getId(), previousDB.getNeutralRecordMappingConverter()));
 
             for (IngestionFileEntry fe : job.getFiles()) {
 

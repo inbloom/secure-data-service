@@ -59,7 +59,7 @@
     <property name="idConverter" ref="neutralRecordMongoIdConverter" />
   </bean>
 
-  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" >
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
 

@@ -45,7 +45,6 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
 
         String id = body.get("localId").toString();
 
-        String id = null;
         if (body.get("localId") != null) {
             id = body.get("localId").toString();
         }
