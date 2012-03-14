@@ -37,7 +37,9 @@ public class Constants {
     public static final String FIELD_LOZENGES_POSITION_BACK = "post";
     public static final String FIELD_TYPE_HISTORICAL_GRADE = "historicalGrade";
     public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
-    
+    public static final String FIELD_TYPE_UNIT_GRADE = "unitTestGrade";
+    public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
+
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
