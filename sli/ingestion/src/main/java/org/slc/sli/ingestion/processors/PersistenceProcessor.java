@@ -84,10 +84,7 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
-            neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
             neutralRecordMongoAccess.getRecordRepository().setTemplate(new StagingMongoTemplate(neutralRecordMongoAccess.getRecordRepository().getTemplate().getDatabasePrefix(), job.getId(), neutralRecordMongoAccess.getRecordRepository().getTemplate().getNeutralRecordMappingConverter()));
-
-            transformedCollections = getTransformedCollections();
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
@@ -181,10 +178,10 @@ public class PersistenceProcessor implements Processor {
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
                     entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
-                    if (errorReport.hasErrors()) {
-                        
+                    if (recordLevelErrorsInFile.hasErrors()) {
+
                         numFailed++;
-                    
+
                     }
                 } else {
                     //process collection of the entities from db
@@ -202,11 +199,11 @@ public class PersistenceProcessor implements Processor {
                             List<? extends Entity> result = transformer.handle(nr);
                             NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
                             entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
-                            
-                            if (errorReport.hasErrors()) {
-                                
+
+                            if (recordLevelErrorsInFile.hasErrors()) {
+
                                 numFailed++;
-                            
+
                             }
                         }
                     }
