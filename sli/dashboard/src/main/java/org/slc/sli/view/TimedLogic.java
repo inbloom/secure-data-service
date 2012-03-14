@@ -10,11 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
@@ -28,7 +27,7 @@ public class TimedLogic {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     /**
-     * Returns the assessment with the most recent timestamp
+     * Returns the student assessment association with the most recent timestamp
      */
     public static GenericEntity getMostRecentAssessment(List<GenericEntity> a) {
         
@@ -53,7 +52,7 @@ public class TimedLogic {
     }
     
     /**
-     * Returns the assessment with the highest score
+     * Returns the student assessment association with the highest score
      */
     public static GenericEntity getHighestEverAssessment(List<GenericEntity> a) {
         
@@ -80,6 +79,31 @@ public class TimedLogic {
             }
         });
         return a.get(0);
+    }
+    
+    /**
+     * Returns the student assessment association with the highest objective assessment score, based
+     * on objective assessment identification code (i.e. SAT-Reading)
+     */
+
+    public static GenericEntity getHighestEverObjectiveAssessment(List<GenericEntity> saaList, final String objAssmtCode) {
+        if (objAssmtCode == null || objAssmtCode.equals(""))
+            return null;
+        Collections.sort(saaList, new Comparator<GenericEntity>() {
+            
+            public int compare(GenericEntity o1, GenericEntity o2) {
+                if (o1 == null || o2 == null)
+                    return 0;
+                List<Map> studentObjAssmts1 = o1.getList(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                List<Map> studentObjAssmts2 = o2.getList(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                List<Map<String, String>> scoreResults1 = getScoreResults(studentObjAssmts1, objAssmtCode);
+                List<Map<String, String>> scoreResults2 = getScoreResults(studentObjAssmts2, objAssmtCode);
+                String score1 = getScoreFromScoreResults(scoreResults1);
+                String score2 = getScoreFromScoreResults(scoreResults2);
+                return Integer.parseInt(score2) - Integer.parseInt(score1);
+            }
+        });
+        return saaList.get(0);
     }
     
     /**
@@ -189,4 +213,33 @@ public class TimedLogic {
         }
     }
     
+    protected static List<Map<String, String>> getScoreResults(List<Map> studentObjAssmts, String objAssmtCode) {
+        List<Map<String, String>> scoreResults = new ArrayList<Map<String, String>>();
+        for (Map studentObjAssmt : studentObjAssmts) {
+            String idCode = (String) ((Map) (studentObjAssmt.get(Constants.ATTR_OBJECTIVE_ASSESSMENT)))
+                    .get(Constants.ATTR_IDENTIFICATIONCODE);
+            String[] codes = objAssmtCode.replace("-", " ").split(" ");
+            boolean match = true;
+            for (String code : codes) {
+                if (!idCode.contains(code)) {
+                    match = false;
+                }
+            }
+            if (match == true) {
+                scoreResults = (List<Map<String, String>>) (studentObjAssmt.get(Constants.ATTR_SCORE_RESULTS));
+            }
+        }
+        return scoreResults;
+    }
+    
+    protected static String getScoreFromScoreResults(List<Map<String, String>> scoreResults) {
+        String score = "";
+        for (Map<String, String> scoreResult : scoreResults) {
+            if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)
+                    || scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_RAW_SCORE)) {
+                score = scoreResult.get(Constants.ATTR_RESULT);
+            }
+        }
+        return score;
+    }
 }
