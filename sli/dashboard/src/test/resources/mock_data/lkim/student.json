@@ -1,476 +1,899 @@
 [
-{
-  "id": "453827070",
-  "studentUniqueStateId": "453827070",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Marvin",
-    "middleName": "",
-    "lastSurname": "Miller"
-  },
+   "middleName": "", 
+   "lastSurname": "Miller", 
+   "firstName": "Marvin"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2002-07-05"
-  },
-  "cohortYears": ["Second grade"]
-},{
-  "id": "943715230",
-  "studentUniqueStateId": "943715230",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2002-07-05"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60927-8918", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6561 Front Street"
+   }
+  ], 
+  "studentUniqueStateId": "453827070", 
+  "id": "453827070"
+
+ }, 
+ {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Jolene",
-    "middleName": "Colt",
-    "lastSurname": "Ashley"
-  },
+   "middleName": "Colt", 
+   "lastSurname": "Ashley", 
+   "firstName": "Jolene"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2000-12-20"
-  },
-  "cohortYears": ["Eighth grade"],
-  "electronicMail":[{"emailAddressType":"Home/Personal",
-                     "emailAddress":"jashley@test.edu"}],
-  "telephone":[{"telephoneNumberType":"Home","telephoneNumber":"(111) 867-5309","primaryTelephoneNumberIndicator":true}],
-  "address":[{"addressType":"Home",
-              "streetNumberName":"123 Cherry Street",
-              "apartmentRoomSuiteNumber":"17",
-              "buildingSiteNumber":"",
-              "city":"Chicago","stateAbbreviation":"IL",
-              "postalCode":"60290","nameOfCounty":""}]
-},{
-  "id": "164420088",
-  "studentUniqueStateId": "164420088",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2000-12-20"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "(111) 867-5309", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60836-2298", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "7538 Humboldt Street"
+   }
+  ], 
+  "studentUniqueStateId": "943715230", 
+  "id": "943715230", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "jashley@test.edu"
+   }
+  ],
+  "otherName": [
+  {
+  "otherNameType": "nickname",
+  "firstName": "Jolene",
+  "middleName": "Juggernaut",
+  "lastSurname": "Ashley",
+  "personalTitlePrefix": "Ms",
+  "generationCodeSuffix": "IV"
+  }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Ursa",
-    "middleName": "Kellie",
-    "lastSurname": "Oconnor"
-  },
+   "middleName": "Kellie", 
+   "lastSurname": "Oconnor", 
+   "firstName": "Ursa"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1995-06-25"
-  },
-  "cohortYears": ["First grade"]
-},{
-  "id": "505331723",
-  "studentUniqueStateId": "505331723",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1995-06-25"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 2399", 
+    "postalCode": "60619-7239", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8838 Pioneer Street"
+   }
+  ], 
+  "studentUniqueStateId": "164420088", 
+  "id": "164420088"
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Gannon",
-    "middleName": "Eric",
-    "lastSurname": "Roman"
-  },
+   "middleName": "Eric", 
+   "lastSurname": "Roman", 
+   "firstName": "Gannon"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2004-08-22"
-  },
-  "cohortYears": ["First grade"]
-},{
-  "id": "530425896",
-  "studentUniqueStateId": "530425896",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2004-08-22"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60150-4290", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "651 Banner 3rd Terrace"
+   }, 
+   {
+    "nameOfCounty": "New York", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8352", 
+    "postalCode": "10079-9386", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "4656 India Street"
+   }
+  ], 
+  "studentUniqueStateId": "505331723", 
+  "id": "505331723"
+ }, 
+ {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Rhonda",
-    "middleName": "Shannon",
-    "lastSurname": "Delgado"
-  },
+   "middleName": "Shannon", 
+   "lastSurname": "Delgado", 
+   "firstName": "Rhonda"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2006-07-02"
-  },
-  "cohortYears": ["Eighth grade"]
-},{
-  "id": "429526969",
-  "studentUniqueStateId": "429526969",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2006-07-02"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 4221", 
+    "postalCode": "60908-1028", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3655 Brighton 2nd Lane"
+   }, 
+   {
+    "nameOfCounty": "Kings", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "postalCode": "10698-9832", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "9857 Kingsborough 2nd Walk"
+   }
+  ], 
+  "studentUniqueStateId": "530425896", 
+  "id": "530425896"
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Nicholas",
-    "middleName": "A",
-    "lastSurname": "Burks"
-  },
+   "middleName": "A", 
+   "lastSurname": "Burks", 
+   "firstName": "Nicholas"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-12-17"
-  },
-  "cohortYears": ["Twelfth grade"]
-},{
-  "id": "178828452",
-  "studentUniqueStateId": "178828452",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-12-17"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "studentUniqueStateId": "429526969", 
+  "id": "429526969"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Tyrone",
-    "middleName": "",
-    "lastSurname": "Burnett Jones"
-  },
+   "middleName": "", 
+   "lastSurname": "Burnett Jones", 
+   "firstName": "Tyrone"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2001-10-04"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "525878920",
-  "studentUniqueStateId": "525878920",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2001-10-04"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 495", 
+    "postalCode": "60499-8718", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "7540 Huntington Street"
+   }
+  ], 
+  "studentUniqueStateId": "178828452", 
+  "id": "178828452"
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Delilah",
-    "middleName": "D",
-    "lastSurname": "Sims"
-  },
+   "middleName": "D", 
+   "lastSurname": "Sims", 
+   "firstName": "Delilah"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2004-12-04"
-  },
-  "cohortYears": ["Twelfth grade"]
-},{
-  "id": "510152105",
-  "studentUniqueStateId": "510152105",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2004-12-04"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8224", 
+    "postalCode": "60620-0477", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3427 Park Avenue"
+   }
+  ], 
+  "studentUniqueStateId": "525878920", 
+  "id": "525878920"
+ }, 
+ {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "TaShya",
-    "middleName": "Nicole",
-    "lastSurname": "Alston"
-  },
+   "middleName": "Nicole", 
+   "lastSurname": "Alston", 
+   "firstName": "TaShya"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1997-06-01"
-  },
-  "cohortYears": ["Sixth grade"]
-},{
-  "id": "802709591",
-  "studentUniqueStateId": "802709591",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1997-06-01"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "studentUniqueStateId": "510152105", 
+  "id": "510152105"
+ }, 
+ {
+  "cohortYears": [
+   "Fifth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Imelda",
-    "middleName": "Sydnee",
-    "lastSurname": "Lindsey"
-  },
+   "middleName": "Sydnee", 
+   "lastSurname": "Lindsey", 
+   "firstName": "Imelda"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1997-03-07"
-  },
-  "cohortYears": ["Fifth grade"]
-},{
-  "id": "437680177",
-  "studentUniqueStateId": "437680177",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1997-03-07"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 7776", 
+    "postalCode": "60139-2152", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1558 4th Street"
+   }
+  ], 
+  "studentUniqueStateId": "802709591", 
+  "id": "802709591"
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Kimberley",
-    "middleName": "Yuli",
-    "lastSurname": "Pennington"
-  },
+   "middleName": "Yuli", 
+   "lastSurname": "Pennington", 
+   "firstName": "Kimberley"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2000-04-23"
-  },
-  "cohortYears": ["First grade"]
-},{
-  "id": "170011136",
-  "studentUniqueStateId": "170011136",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2000-04-23"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [], 
+  "studentUniqueStateId": "437680177", 
+  "id": "437680177"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Arsenio",
-    "middleName": "",
-    "lastSurname": "Durham"
-  },
+   "middleName": "", 
+   "lastSurname": "Durham", 
+   "firstName": "Arsenio"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2001-01-23"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "547028299",
-  "studentUniqueStateId": "547028299",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2001-01-23"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60057-1857", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1313 Brighton 3rd Street"
+   }
+  ], 
+  "studentUniqueStateId": "170011136", 
+  "id": "170011136"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Alec",
-    "middleName": "",
-    "lastSurname": "Swanson"
-  },
+   "middleName": "", 
+   "lastSurname": "Swanson", 
+   "firstName": "Alec"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1999-11-15"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "258392050",
-  "studentUniqueStateId": "258392050",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-11-15"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60605-1327", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3372 Montague Terrace"
+   }
+  ], 
+  "studentUniqueStateId": "547028299", 
+  "id": "547028299"
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Patricia",
-    "middleName": "",
-    "lastSurname": "Harper"
-  },
+   "middleName": "", 
+   "lastSurname": "Harper", 
+   "firstName": "Patricia"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-01-09"
-  },
-  "cohortYears": ["Second grade"]
-},{
-  "id": "178875887",
-  "studentUniqueStateId": "178875887",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-01-09"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 1999", 
+    "postalCode": "60561-5469", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "2393 Manhattan Court"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "postalCode": "10952-6484", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "5961 Mermaid Avenue"
+   }
+  ], 
+  "studentUniqueStateId": "258392050", 
+  "id": "258392050"
+ }, 
+ {
+  "cohortYears": [
+   "Eleventh grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Astra",
-    "middleName": "Deirdre",
-    "lastSurname": "Vincent"
-  },
+   "middleName": "Deirdre", 
+   "lastSurname": "Vincent", 
+   "firstName": "Astra"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2000-10-14"
-  },
-  "cohortYears": ["Eleventh grade"]
-},{
-  "id": "100644447",
-  "studentUniqueStateId": "100644447",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2000-10-14"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [], 
+  "studentUniqueStateId": "178875887", 
+  "id": "178875887"
+ }, 
+ {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Brielle",
-    "middleName": "W",
-    "lastSurname": "Klein"
-  },
+   "middleName": "W", 
+   "lastSurname": "Klein", 
+   "firstName": "Brielle"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2006-06-02"
-  },
-  "cohortYears": ["Fourth grade"]
-},{
-  "id": "376191021",
-  "studentUniqueStateId": "376191021",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2006-06-02"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60848-7633", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8124 Brighton 3 Place"
+   }, 
+   {
+    "nameOfCounty": "New York", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 330", 
+    "postalCode": "10753-2389", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "1537 Steuben Street"
+   }
+  ], 
+  "studentUniqueStateId": "100644447", 
+  "id": "100644447"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Jeanette",
-    "middleName": "",
-    "lastSurname": "Graves"
-  },
+   "middleName": "", 
+   "lastSurname": "Graves", 
+   "firstName": "Jeanette"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1994-08-30"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "336344132",
-  "studentUniqueStateId": "336344132",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1994-08-30"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60063-3281", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3297 35th Street"
+   }
+  ], 
+  "studentUniqueStateId": "376191021", 
+  "id": "376191021"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Odysseus",
-    "middleName": "",
-    "lastSurname": "Merrill"
-  },
+   "middleName": "", 
+   "lastSurname": "Merrill", 
+   "firstName": "Odysseus"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2003-03-25"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "711411586",
-  "studentUniqueStateId": "711411586",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2003-03-25"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60447-1536", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "498 Dorchester Road"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "postalCode": "10180-7445", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "7472 Ross Street"
+   }
+  ], 
+  "studentUniqueStateId": "336344132", 
+  "id": "336344132"
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Rafael",
-    "middleName": "",
-    "lastSurname": "Kirk"
-  },
+   "middleName": "", 
+   "lastSurname": "Kirk", 
+   "firstName": "Rafael"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2006-01-08"
-  },
-  "cohortYears": ["Twelfth grade"]
-},{
-  "id": "131758477",
-  "studentUniqueStateId": "131758477",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2006-01-08"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 5116", 
+    "postalCode": "60941-6938", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6055 Vermont Street"
+   }, 
+   {
+    "nameOfCounty": "Kings", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 3394", 
+    "postalCode": "10913-4746", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "1004 Boerum Street"
+   }
+  ], 
+  "studentUniqueStateId": "711411586", 
+  "id": "711411586"
+ }, 
+ {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Deirdre",
-    "middleName": "Tashya",
-    "lastSurname": "Gentry"
-  },
+   "middleName": "Tashya", 
+   "lastSurname": "Gentry", 
+   "firstName": "Deirdre"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1997-07-22"
-  },
-  "cohortYears": ["Sixth grade"]
-},{
-  "id": "670703438",
-  "studentUniqueStateId": "670703438",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1997-07-22"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8027", 
+    "postalCode": "60267-4406", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8823 Blake Court"
+   }
+  ], 
+  "studentUniqueStateId": "131758477", 
+  "id": "131758477"
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Zachary",
-    "middleName": "Melvin",
-    "lastSurname": "Patton"
-  },
+   "middleName": "Melvin", 
+   "lastSurname": "Patton", 
+   "firstName": "Zachary"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2002-04-10"
-  },
-  "cohortYears": ["First grade"]
-},{
-  "id": "851123275",
-  "studentUniqueStateId": "851123275",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2002-04-10"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60886-1475", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "4447 Brighton 5th Street"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "postalCode": "10798-3311", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "9041 Scholes Street"
+   }
+  ], 
+  "studentUniqueStateId": "670703438", 
+  "id": "670703438"
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Hoyt",
-    "middleName": "",
-    "lastSurname": "Hicks"
-  },
+   "middleName": "", 
+   "lastSurname": "Hicks", 
+   "firstName": "Hoyt"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-06-13"
-  },
-  "cohortYears": ["Second grade"]
-},{
-  "id": "423037202",
-  "studentUniqueStateId": "423037202",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-06-13"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 5760", 
+    "postalCode": "60457-1957", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "4606 Albemarle Road"
+   }, 
+   {
+    "nameOfCounty": "Kings", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "postalCode": "10473-1436", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "4256 Wyckoff Street"
+   }
+  ], 
+  "studentUniqueStateId": "851123275", 
+  "id": "851123275"
+ }, 
+ {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Nomlanga",
-    "middleName": "Deacon",
-    "lastSurname": "Mccormick"
-  },
+   "middleName": "Deacon", 
+   "lastSurname": "Mccormick", 
+   "firstName": "Nomlanga"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-06-05"
-  },
-  "cohortYears": ["Fourth grade"]
-},{
-  "id": "250918988",
-  "studentUniqueStateId": "250918988",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1999-06-05"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "studentUniqueStateId": "423037202", 
+  "id": "423037202"
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Uriah",
-    "middleName": "W",
-    "lastSurname": "Jordan"
-  },
+   "middleName": "W", 
+   "lastSurname": "Jordan", 
+   "firstName": "Uriah"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2005-04-06"
-  },
-  "cohortYears": ["Seventh grade"]
-},{
-  "id": "421216329",
-  "studentUniqueStateId": "421216329",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2005-04-06"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "studentUniqueStateId": "250918988", 
+  "id": "250918988"
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Madeline",
-    "middleName": "",
-    "lastSurname": "Hinton"
-  },
+   "middleName": "", 
+   "lastSurname": "Hinton", 
+   "firstName": "Madeline"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-03-17"
-  },
-  "cohortYears": ["Second grade"]
-},{
-  "id": "111111111",
-  "studentUniqueStateId": "111111111",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-03-17"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60053-4640", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8690 Gaylord Drive"
+   }
+  ], 
+  "studentUniqueStateId": "421216329", 
+  "id": "421216329"
+ }, 
+ {
+  "cohortYears": [
+   "Ninth grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Bacon",
-    "middleName": "",
-    "lastSurname": "Burger"
-  },
+   "middleName": "", 
+   "lastSurname": "Burger", 
+   "firstName": "Bacon"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-03-17"
-  },
-  "cohortYears": ["Ninth grade"]
-},{
-  "id": "222222222",
-  "studentUniqueStateId": "222222222",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-03-17"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "studentUniqueStateId": "111111111", 
+  "id": "111111111"
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Salmon",
-    "middleName": "",
-    "lastSurname": "Burger"
-  },
+   "middleName": "", 
+   "lastSurname": "Burger", 
+   "firstName": "Salmon"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1994-04-17"
-  },
-  "cohortYears": ["Third grade"]
-},{
-  "id": "333333333",
-  "studentUniqueStateId": "333333333",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1994-04-17"
+  }, 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 9959", 
+    "postalCode": "60746-2709", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6256 Old New Utrecht Road"
+   }
+  ], 
+  "studentUniqueStateId": "222222222", 
+  "id": "222222222"
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
   "name": {
-    "firstName": "Fabio",
-    "middleName": "",
-    "lastSurname": "De Silva"
-  },
+   "middleName": "", 
+   "lastSurname": "De Silva", 
+   "firstName": "Fabio"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-05-17"
-  },
-  "cohortYears": ["Seventh grade"]
-},{
-  "id": "444444444",
-  "studentUniqueStateId": "444444444",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-05-17"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60248-9017", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6243 98th Street"
+   }, 
+   {
+    "nameOfCounty": "Bronx", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 878", 
+    "postalCode": "10395-8698", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "2738 Duryea Place"
+   }
+  ], 
+  "studentUniqueStateId": "333333333", 
+  "id": "333333333"
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
   "name": {
-    "firstName": "Raphael",
-    "middleName": "",
-    "lastSurname": "De Silva"
-  },
+   "middleName": "", 
+   "lastSurname": "De Silva", 
+   "firstName": "Raphael"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-05-18"
-  },
-  "cohortYears": ["Seventh grade"]
-}
+   "birthDate": "1994-05-18"
+  }, 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "countryCode": "US", 
+    "postalCode": "60683-4656", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1725 Meadow Street"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 1721", 
+    "postalCode": "10078-7909", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "318 Ocean Avenue"
+   }
+  ], 
+  "studentUniqueStateId": "444444444", 
+  "id": "444444444"
+ }
 ]

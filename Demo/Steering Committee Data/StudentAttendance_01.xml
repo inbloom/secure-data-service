@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Zeynep Young (private) -->
+<InterchangeStudentAttendance xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAttendance.xsd">
+	<AttendanceEvent>
+		<EventDate>2012-03-24</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174708</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-06</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174707</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-07</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174707</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-08</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174707</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-09</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174707</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174707</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-06</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174705</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-19</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174705</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-18</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174704</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-18</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174704</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-02</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-03</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-04</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-05</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-06</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-09</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-11</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-12</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-19</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-22</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-24</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-25</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174703</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-14</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174702</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174701</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-17</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174701</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-21</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174701</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-04</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>187780388</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-09</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>187780388</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-20</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>187780388</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174700</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-14</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174700</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-23</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174696</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-03</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-06</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-12</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-14</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-19</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174695</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-17</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174694</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-16</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174688</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-03</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174690</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-14</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174690</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-04</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174691</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-20</EventDate>
+		<AttendanceEventType>Section Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Tardy</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174692</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+</InterchangeStudentAttendance>

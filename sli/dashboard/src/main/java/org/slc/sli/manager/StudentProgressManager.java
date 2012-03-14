@@ -1,8 +1,12 @@
 package org.slc.sli.manager;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +25,7 @@ import org.slc.sli.util.Constants;
  * @author srupasinghe
  *
  */
-public class StudentProgressManager {
+public class StudentProgressManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(StudentProgressManager.class);
     
@@ -113,7 +117,7 @@ public class StudentProgressManager {
      */
     public SortedSet<String> applySessionAndTranscriptInformation(final String token, Map<String, 
             List<GenericEntity>> historicalData) {
-        SortedSet<String> results = new TreeSet<String>(Collections.reverseOrder());
+        SortedSet<String> results = new TreeSet<String>();
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
@@ -180,6 +184,103 @@ public class StudentProgressManager {
         return entityManager.getSections(token, studentId, params);
     }
     
+    /**
+     * Returns all the gradebook entries for all the students in the given section
+     * @param token Security token
+     * @param studentIds The students in the section
+     * @param selectedSection The section to look for
+     * @return
+     */
+    public Map<String, Map<String, GenericEntity>> getCurrentProgressForStudents(final String token, List<String> studentIds, 
+            String selectedSection) {
+        Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
+        double total = 0.0;
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Constants.ATTR_SECTION_ID, selectedSection);
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED);
+        
+        for (String studentId : studentIds) {
+            total = 0.0;
+            log.debug("Progress data [studentId] " + studentId);
+            
+            List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
+            
+            for (GenericEntity studentGradebookEntry : studentGradebookEntries) {
+                studentGradebookEntry.remove("links");
+                studentGradebookEntry.remove("entityType");
+                log.debug("Progress data [studentGradebookEntry]" + studentGradebookEntry);
+                
+                //add the student gradebook entry to the map
+                if (results.get(studentId) != null) {
+                    results.get(studentId).put(studentGradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+                } else {
+                    Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
+                    gradebookEntries.put(studentGradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+                    
+                    results.put(studentId, gradebookEntries);
+                }
+                
+                //add it to the total
+                total += parseNumericGrade(studentGradebookEntry.get(Constants.ATTR_NUMERIC_GRADE_EARNED));
+            }
+            
+            if (results.get(studentId) != null)
+                results.get(studentId).put("Average", calculateAndCreateAverageEntity(total, studentGradebookEntries.size()));
+        }
+        
+        return results;
+    }
+    
+    /**
+     * Calculates the average and adds it to a GenericEntity
+     * @param total The total score
+     * @param size Number of tests
+     * @return
+     */
+    protected GenericEntity calculateAndCreateAverageEntity(double total, int size) {
+        double average = 0.0;
+        GenericEntity entity = new GenericEntity();
+        
+        //calculate the average
+        if (size > 0)
+            average = total / size;
+        
+        //add it to the entity
+        entity.put(Constants.ATTR_NUMERIC_GRADE_EARNED, Double.parseDouble(String.format("%.2f", average)));
+        
+        return entity;
+    }
+    
+    /**
+     * Parses a numeric grade to a double
+     * @param numericGrade The numeric grade as a string
+     * @return
+     */
+    protected double parseNumericGrade(Object numericGrade) {
+        if (numericGrade != null && numericGrade instanceof Double) {
+            return ((Double) numericGrade).doubleValue();
+        } else
+            return 0;
+    }
+    
+    /**
+     * Returns a sorted unique set of gradebook entries(tests)
+     * @param gradebookEntryData The gradebook entry data for a section
+     * @return
+     */
+    public SortedSet<GenericEntity> retrieveSortedGradebookEntryList(Map<String, Map<String, GenericEntity>> gradebookEntryData) {
+        SortedSet<GenericEntity> list = new TreeSet<GenericEntity>(new DateFulFilledComparator());
+        
+        //go through and add the tests into one list
+        for (Map<String, GenericEntity> map : gradebookEntryData.values()) {
+            list.addAll(map.values());
+        }
+
+        return list;
+    }
+    
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -201,6 +302,33 @@ public class StudentProgressManager {
             return e2.getString(Constants.ATTR_SCHOOL_YEAR).compareTo(e1.getString(Constants.ATTR_SCHOOL_YEAR));
         }
         
+    }
+    
+    /**
+     * Compare two GenericEntities by the dateFulFilled
+     * @author srupasinghe
+     *
+     */
+    class DateFulFilledComparator implements Comparator<GenericEntity> {
+
+        @Override
+        public int compare(GenericEntity o1, GenericEntity o2) {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            
+            if (o1.getString(Constants.ATTR_DATE_FULFILLED) != null && o2.getString(Constants.ATTR_DATE_FULFILLED) != null) {
+                try {
+                    Date date1 = formatter.parse(o1.getString(Constants.ATTR_DATE_FULFILLED));
+                    Date date2 = formatter.parse(o2.getString(Constants.ATTR_DATE_FULFILLED));
+                    
+                    return date1.compareTo(date2);
+                    
+                } catch (ParseException e) {
+                    return 0;
+                }
+            }
+            
+            return 0;
+        }
     }
 
 }

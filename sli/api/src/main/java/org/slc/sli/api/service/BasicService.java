@@ -28,7 +28,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -168,10 +167,10 @@ public class BasicService implements EntityService {
             return noEntitiesFound(queryParameters);
         }
         
-        //don't really like the instanceof here. Need to find a better way.
-        //HashSet constructor chokes on AbstractList
-        if (queryParameters.containsKey("_id") && !(allowed instanceof AbstractList)) {
+        if (queryParameters.containsKey("_id") && (allowed.size() > 0)) {
             Set<String> idList = new HashSet<String>(Arrays.asList(queryParameters.get("_id").split(",")));
+            
+            System.out.println(allowed.size());
             
             Set<String> retainList = new HashSet<String>(allowed);
             retainList.retainAll(idList);

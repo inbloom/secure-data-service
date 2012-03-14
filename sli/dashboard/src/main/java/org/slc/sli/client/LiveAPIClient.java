@@ -27,8 +27,8 @@ import com.google.gson.Gson;
 public class LiveAPIClient implements APIClient {
 
     public static final String ATTENDANCES_URL = "/attendances";
-
-    private Logger logger = LoggerFactory.getLogger(LiveAPIClient.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(LiveAPIClient.class);
     
     private static final String SECTIONS_URL = "/sections/";
     private static final String STUDENT_SECTION_ASSOC_URL = "/student-section-associations/";
@@ -208,9 +208,9 @@ public class LiveAPIClient implements APIClient {
         GenericEntity session = null;
         try {
             session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token, false);
-            logger.debug("Session: " + session.toString());
+            LOGGER.debug("Session: " + session.toString());
         } catch (Exception e) {
-            logger.warn(e.toString());
+            LOGGER.warn("Error occured while getting session", e);
             session = new GenericEntity();
         }
         return session;
@@ -406,17 +406,22 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    public String getHomeRoomForStudent(String studentId, String token) {
-        String url = getApiUrl() + STUDENT_SECTION_ASSOC_URL + "/" + studentId;
+    public GenericEntity getHomeRoomForStudent(String studentId, String token) {
+        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC_URL;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token, true);
         
+        // If only one section association exists for the student, return the section as home room
         if (sectionStudentAssociations.size() == 1) {
-            return sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+            String sectionId =  sectionStudentAssociations.get(0).getString(Constants.ATTR_SECTION_ID);
+            return getSection(sectionId, token);
         }
         
+        
+        //If multiple section associations exist for the student, return the section with homeroomIndicator set to true 
         for (GenericEntity secStudentAssociation : sectionStudentAssociations) {
-            if ((Boolean) secStudentAssociation.get("homeRoomIndicator")) {
-                return secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+            if ((secStudentAssociation.get(Constants.ATTR_HOMEROOM_INDICATOR) != null) && ((Boolean) secStudentAssociation.get(Constants.ATTR_HOMEROOM_INDICATOR))) {
+                String sectionId = secStudentAssociation.getString(Constants.ATTR_SECTION_ID);
+                return getSection(sectionId, token);
             }
         }
         
@@ -430,16 +435,15 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    public String getTeacherIdForSection(String sectionId, String token) {
-        String url = getApiUrl() + TEACHER_SECTION_ASSOC_URL + "/" + sectionId;
+    public GenericEntity getTeacherForSection(String sectionId, String token) {
+        String url = getApiUrl() + SECTIONS_URL + sectionId + TEACHER_SECTION_ASSOC_URL;
         List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token, true);
         for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
             
-            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals("Teacher of Record")) {
-                String teacherUrl = getApiUrl() + TEACHERS_URL + "/"
-                        + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(Constants.TEACHER_OF_RECORD)) {
+                String teacherUrl = getApiUrl() + TEACHERS_URL + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
                 GenericEntity teacher = createEntityFromAPI(teacherUrl, token, true);
-                return teacher.getString(Constants.ATTR_ID);
+                return teacher;
             }
         }
         
@@ -453,7 +457,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
-        logger.info("Getting attendance for ID: " + studentId);
+        LOGGER.info("Getting attendance for ID: " + studentId);
         String url = "/v1" + STUDENTS_URL + studentId + ATTENDANCES_URL;
         if (start != null && start.length() > 0) {
             url += "?eventDate>=" + start;
@@ -462,11 +466,11 @@ public class LiveAPIClient implements APIClient {
         try {
             long startTime = System.nanoTime();
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, false);
-            logger.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: " + (System.nanoTime() - startTime) * 1.0e-9);
-            logger.debug(attendances.toString());
+            LOGGER.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: " + (System.nanoTime() - startTime) * 1.0e-9);
+            LOGGER.debug(attendances.toString());
             return attendances;
         } catch (Exception e) {
-            logger.error("Couldn't retrieve attendance for id:" + studentId);
+            LOGGER.error("Couldn't retrieve attendance for id:" + studentId, e);
             return new ArrayList<GenericEntity>();
         }
     }
@@ -484,7 +488,7 @@ public class LiveAPIClient implements APIClient {
      * @return the entity
      */
     private GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
-        logger.info("Querying API: " + url);
+        LOGGER.info("Querying API: " + url);
         String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;
@@ -508,7 +512,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
         
         // Parse JSON
-        logger.info("Querying API for list: " + url);
+        LOGGER.info("Querying API for list: " + url);
         String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;
@@ -548,21 +552,9 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations/courses");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations/courses", params), token, false);
         
         return entities;
     }
@@ -584,21 +576,9 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
             Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations", params), token, false);
         
         return entities;
     }
@@ -645,13 +625,30 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
+        // get the entities
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentSectionAssociations/sections", params), token, false);
+        
+        return entities;
+    }
+    
+    /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         StringBuilder url = new StringBuilder();
+
+        //add the studentId to the param list
+        params.put(Constants.ATTR_STUDENT_ID, studentId);
         
         // build the url
         url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentSectionAssociations/sections");
+        url.append("/v1/studentSectionGradebookEntries");
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");
@@ -662,6 +659,30 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
+    }
+    
+    /**
+     * Builds a student based URI using the given studentId,path and param map
+     * @param studentId The studentId
+     * @param path The URI path
+     * @param params The param map
+     * @return
+     */
+    protected String buildStudentURI(final String studentId, String path, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        // build the url
+        url.append(getApiUrl());
+        url.append("/v1/students/");
+        url.append(studentId);
+        url.append(path);
+        // add the query string
+        if (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        return url.toString();
     }
     
     /**
