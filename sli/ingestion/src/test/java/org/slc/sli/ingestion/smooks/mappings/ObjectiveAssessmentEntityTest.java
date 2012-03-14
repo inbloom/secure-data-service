@@ -126,50 +126,6 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("description", performanceLevel.get("description"));
         Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
 
-        List assessmentItemReferenceList = (List) entity.get("assessmentItemReference");
-        Assert.assertTrue(assessmentItemReferenceList != null);
-        Map assessmentItemReference = (Map) assessmentItemReferenceList.get(0);
-        Assert.assertTrue(assessmentItemReference != null);
-        Assert.assertEquals("EOA12", assessmentItemReference.get("id"));
-        Assert.assertEquals("EOA12", assessmentItemReference.get("ref"));
-
-        List learningObjectiveReferenceList = (List) entity.get("learningObjectiveReference");
-        Assert.assertTrue(learningObjectiveReferenceList != null);
-        Map learningObjectiveReference = (Map) learningObjectiveReferenceList.get(0);
-        Assert.assertTrue(learningObjectiveReference != null);
-        Assert.assertEquals("Reading3-4", learningObjectiveReference.get("id"));
-        Assert.assertEquals("Reading3-4", learningObjectiveReference.get("ref"));
-        Map learningObjectiveIdentity = (Map) learningObjectiveReference.get("learningObjectiveIdentity");
-        Assert.assertTrue(learningObjectiveIdentity != null);
-        List objective = (List) learningObjectiveIdentity.get("objective");
-        Assert.assertTrue(objective != null);
-        Assert.assertEquals("objective", objective.get(0));
-        List learningStandardIdArray = (List) learningObjectiveIdentity.get("learningStandardId");
-        Assert.assertTrue(learningStandardIdArray != null);
-        Map learningStandardIdObjective = (Map) learningStandardIdArray.get(0);
-        Assert.assertTrue(learningStandardIdObjective != null);
-        Assert.assertEquals("Reading3-4", learningStandardIdObjective.get("contentStandardName"));
-        Assert.assertEquals("Reading3-4", learningStandardIdObjective.get("identificationCode"));
-
-        List learningStandardReferenceList = (List) entity.get("learningStandardReference");
-        Assert.assertTrue(learningStandardReferenceList != null);
-        Map learningStandardReference = (Map) learningStandardReferenceList.get(0);
-        Assert.assertTrue(learningStandardReference != null);
-        Assert.assertEquals("Reading3-4", learningStandardReference.get("id"));
-        Assert.assertEquals("Reading3-4", learningStandardReference.get("ref"));
-        Map learningStandardIdentity = (Map) learningStandardReference.get("learningStandardIdentity");
-        Assert.assertTrue(learningStandardIdentity != null);
-        Map learningStandardId = (Map) learningStandardIdentity.get("learningStandardId");
-        Assert.assertTrue(learningStandardId != null);
-        Assert.assertEquals("Reading3-4", learningStandardId.get("contentStandardName"));
-        Assert.assertEquals("Reading3-4", learningStandardId.get("identificationCode"));
-
-        List objectiveAssessmentReferenceList = (List) entity.get("objectiveAssessmentReference");
-        Assert.assertTrue(objectiveAssessmentReferenceList != null);
-        Map objectiveAssessmentReference = (Map) objectiveAssessmentReferenceList.get(0);
-        Assert.assertTrue(objectiveAssessmentReference != null);
-        Assert.assertEquals("EOA12", objectiveAssessmentReference.get("id"));
-        Assert.assertEquals("EOA12", objectiveAssessmentReference.get("ref"));
     }
 
     private void checkInvalidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {

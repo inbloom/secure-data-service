@@ -156,7 +156,7 @@ public class AssessmentResolverTest {
         
         String stringStudentAssessment = "{ \"administrationDate\" : \"2011-03-01\", \"specialAccommodations\" : [], \"administrationLanguage\" : "
                 + "\"English\", \"studentId\" : \"1\", \"assessmentId\" : \"1\", \"serialNumber\" : \"0\", "
-                + "\"performanceLevelDescriptors\" : [], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
+                + "\"performanceLevelDescriptors\" : [ { \"description\" : \"Above bench Mark\" }], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
                 + "\"administrationEnvironment\" : \"Testing Center\", \"retestIndicator\" : \"Primary Administration\", \"linguisticAccommodations\" : [] }";
         Gson gson = new Gson();
         GenericEntity studentAssmt = gson.fromJson(stringStudentAssessment, GenericEntity.class);
