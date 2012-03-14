@@ -17,6 +17,7 @@ import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardUserMessageException;
+import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -50,8 +51,11 @@ public abstract class GenericLayoutController {
         ModelAndViewConfig modelAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
-        model.addAttribute("layout", modelAndConfig.getLayoutItems());
-        model.addAttribute("data", modelAndConfig.getData());
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS_JSON, JsonConverter.toJson(modelAndConfig.getComponentViewConfigMap()));
+        model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
+        model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
+        
+        // TODO: refactor so the below params can be removed
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
