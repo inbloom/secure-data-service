@@ -72,8 +72,13 @@ public class Constants {
     public static final String ATTR_ASSESSMENT_TITLE = "assessmentTitle";
     public static final String ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME = "assessmentFamilyHierarchyName";
     public static final String ATTR_ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    public static final String ATTR_PERFORMANCE_LEVEL_DESCRIPTOR = "performanceLevelDescriptors";
     public static final String ATTR_ASSESSMENT_PERIOD_BEGIN_DATE = "beginDate";
     public static final String ATTR_ASSESSMENT_PERIOD_END_DATE = "endDate";
+    public static final String ATTR_STUDENT_OBJECTIVE_ASSESSMENTS = "studentObjectiveAssessments";
+    public static final String ATTR_OBJECTIVE_ASSESSMENT = "objectiveAssessment";
+    public static final String ATTR_IDENTIFICATIONCODE = "identificationCode";
+    public static final String ATTR_DESCRIPTION = "description";
     public static final String ATTR_RESULT = "result";
     public static final String ATTR_SCORE_RESULTS = "scoreResults";
     public static final String ATTR_MINIMUM_SCORE = "minimumScore";
@@ -86,6 +91,7 @@ public class Constants {
     public static final String ATTR_PROGRAMS = "programs";
     public static final String ATTR_YEAR = "year";
     public static final String ATTR_SCALE_SCORE = "Scale score";
+    public static final String ATTR_RAW_SCORE = "Raw score";
     public static final String ATTR_PERF_LEVEL = "Mastery level";
     public static final String ATTR_PERCENTILE = "Percentile";
     public static final String ATTR_LEXILE_SCORE = "Other";
