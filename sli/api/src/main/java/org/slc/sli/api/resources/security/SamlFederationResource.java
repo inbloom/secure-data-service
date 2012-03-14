@@ -88,7 +88,6 @@ public class SamlFederationResource {
         
         Document doc = saml.decodeSamlPost(postData);
         
-        // String msgId = doc.getRootElement().getAttributeValue("ID");
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
         
