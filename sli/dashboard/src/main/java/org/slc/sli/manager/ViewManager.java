@@ -14,7 +14,7 @@ import org.slc.sli.util.Constants;
  * @author jstokes
  *
  */
-public class ViewManager extends Manager {
+public class ViewManager extends ApiClientManager {
     List<ViewConfig> viewConfigs;
     
     public List<ViewConfig> getViewConfigs() {

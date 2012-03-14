@@ -24,7 +24,7 @@ import org.slc.sli.util.Constants;
  * @author Robert Bloh rbloh@wgen.net
  * 
  */
-public class PopulationManager {
+public class PopulationManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(PopulationManager.class);
     
@@ -196,6 +196,7 @@ public class PopulationManager {
      * @param config
      * @return
      */
+    @EntityMapping("student")
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);

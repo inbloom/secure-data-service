@@ -12,7 +12,7 @@ import java.util.SortedSet;
  * Class to manage historical data for view config that needs data added dynamically
  * @author jstokes
  */
-public class HistoricalViewManager {
+public class HistoricalViewManager implements Manager {
 
     HistoricalDataResolver historicalDataResolver;
 

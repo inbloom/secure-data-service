@@ -25,7 +25,7 @@ import org.slc.sli.util.Constants;
  * @author srupasinghe
  *
  */
-public class StudentProgressManager {
+public class StudentProgressManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(StudentProgressManager.class);
     
