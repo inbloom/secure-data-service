@@ -23,7 +23,7 @@ public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+    private static final String REGION_ID = "SLI";
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data

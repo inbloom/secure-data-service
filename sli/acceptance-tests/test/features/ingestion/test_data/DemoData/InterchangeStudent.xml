@@ -36,6 +36,15 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>814202099</StudentUniqueStateId>
@@ -73,6 +82,18 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-703-1951</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Yolanda.Campos@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Yolanda_Campos@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Yolanda_Campos@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -93,6 +114,12 @@
     <BirthData>
       <BirthDate>2000-10-14</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>630-504-5490</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Astra_Vincent@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>555685177</StudentUniqueStateId>
@@ -122,6 +149,18 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-977-0907</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-509-7276</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-547-2424</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-724-9091</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -158,6 +197,18 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-298-8577</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-608-1144</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>O.Merrill@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Odysseus.Merrill@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -187,6 +238,15 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>224-167-3247</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Deirdre_Gentry@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Deirdre.Gentry@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>992193581</StudentUniqueStateId>
@@ -225,6 +285,21 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-028-5573</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-315-3477</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-899-9858</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-073-2981</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>K.Hebert@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>936070219</StudentUniqueStateId>
@@ -253,6 +328,27 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-583-8809</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-574-6646</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-715-2876</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-657-5475</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Kay_Sullivan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>K.Sullivan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Kay_Sullivan@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>558780133</StudentUniqueStateId>
@@ -290,6 +386,12 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-380-7412</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-333-9848</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>541397175</StudentUniqueStateId>
@@ -327,6 +429,18 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-857-5369</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-359-9620</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>L.Glass@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Lunea.Glass@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -364,6 +478,24 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-549-3782</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-911-6597</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-279-6758</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-504-6501</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-277-5271</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>H.Hicks@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -393,6 +525,12 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-432-9033</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Imelda_Lindsey@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -430,6 +568,21 @@
       <NameOfCounty>New York</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-667-8063</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>773-445-2464</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Brielle_Klein@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>B.Klein@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Brielle.Klein@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>555685100</StudentUniqueStateId>
@@ -450,6 +603,27 @@
     <BirthData>
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-230-7571</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-335-3718</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-021-0458</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-269-4969</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-470-3291</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Johnny.Patel@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Patel@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>111111111</StudentUniqueStateId>
@@ -470,6 +644,24 @@
     <BirthData>
       <BirthDate>2005-01-01</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-243-8536</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-330-7758</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-877-2085</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-449-9923</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-019-4059</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Student.Fake@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -498,6 +690,18 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-512-3391</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Madeline_Hinton@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>M.Hinton@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Madeline.Hinton@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>187780388</StudentUniqueStateId>
@@ -534,6 +738,9 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Adara_Bullock@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -563,6 +770,30 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-208-3627</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-573-2778</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-341-0525</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-668-5605</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-602-4116</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Delilah_Sims@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>D.Sims@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Delilah_Sims@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -592,6 +823,15 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Tyrone_Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Tyrone.Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>T.Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -612,6 +852,27 @@
     <BirthData>
       <BirthDate>1999-06-05</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-142-2682</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-140-4235</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-194-5932</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-591-8324</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Nomlanga.Mccormick@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Nomlanga_Mccormick@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Nomlanga_Mccormick@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>784204643</StudentUniqueStateId>
@@ -648,6 +909,30 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-199-2969</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-848-0208</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-585-2313</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-725-5500</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-874-1864</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Ingrid.Gentry@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Ingrid_Gentry@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Ingrid_Gentry@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>444444444</StudentUniqueStateId>
@@ -685,6 +970,24 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-265-8668</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-741-0568</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-212-6213</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-360-8911</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>224-666-4990</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Raphael_De_Silva@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -713,6 +1016,21 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-189-5867</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-315-9744</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>773-546-9943</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Graves@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Jeanette.Graves@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>288598192</StudentUniqueStateId>
@@ -741,6 +1059,24 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-463-5621</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-802-8451</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-224-4195</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-499-6079</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-655-7220</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>D.Dawson@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -807,6 +1143,21 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-560-1528</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-479-5655</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-166-0265</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>U.Oconnor@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Ursa.Oconnor@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -835,6 +1186,18 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-471-5210</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-153-1787</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-040-1709</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-608-2213</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>453827070</StudentUniqueStateId>
@@ -863,6 +1226,21 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-126-3941</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-241-9753</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-880-3309</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-049-6452</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>M.Miller@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -891,6 +1269,27 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-115-0626</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-328-5624</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-861-1785</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-152-6310</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-860-2296</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-462-0519</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-230-0970</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>333333333</StudentUniqueStateId>
@@ -928,6 +1327,21 @@
       <NameOfCounty>Bronx</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-531-2436</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-500-6964</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-782-8585</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-747-1945</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Fabio_De_Silva@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -948,6 +1362,9 @@
     <BirthData>
       <BirthDate>1999-12-17</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-929-8507</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>453827023</StudentUniqueStateId>
@@ -968,6 +1385,33 @@
     <BirthData>
       <BirthDate>2002-07-05</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-449-6315</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-024-9453</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-623-2533</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-608-1367</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-086-7712</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-974-2746</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Carmen_Ortiz@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Carmen_Ortiz@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>C.Ortiz@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -1004,6 +1448,9 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Zachary.Patton@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>683314355</StudentUniqueStateId>
@@ -1033,6 +1480,24 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-742-5225</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-984-4651</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-816-8509</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-060-4579</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-975-8426</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>C.Stuart@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -1061,6 +1526,33 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-196-0500</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-503-8057</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-470-5216</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-007-3326</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-971-1951</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-828-9469</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Jolene_Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Jolene_Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -1098,6 +1590,15 @@
       <NameOfCounty>New York</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>G.Roman@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Gannon_Roman@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Gannon.Roman@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>114989598</StudentUniqueStateId>
@@ -1118,6 +1619,24 @@
     <BirthData>
       <BirthDate>2005-07-16</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-906-1829</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-064-9347</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-633-0146</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-878-1429</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-329-2538</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Trevor.Kim@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -1156,6 +1675,9 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Kirk@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>977876544</StudentUniqueStateId>
@@ -1213,6 +1735,15 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-854-6185</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-848-2896</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-746-9663</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>196038854</StudentUniqueStateId>
@@ -1249,6 +1780,15 @@
       <NameOfCounty>Bronx</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-018-6309</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>I.Hopkins@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Isaiah_Hopkins@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>978367577</StudentUniqueStateId>
@@ -1278,6 +1818,27 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-983-8533</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-258-6146</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-717-4887</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-027-0656</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-405-6207</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Xaviera.Erickson@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>X.Erickson@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>222222222</StudentUniqueStateId>
@@ -1307,6 +1868,18 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-248-4247</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-413-0054</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-444-0280</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-343-1565</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>323538529</StudentUniqueStateId>
@@ -1327,6 +1900,21 @@
     <BirthData>
       <BirthDate>2004-03-30</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-460-0344</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>773-708-9957</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Hector_Marks@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>H.Marks@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Hector.Marks@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>419301055</StudentUniqueStateId>
@@ -1365,6 +1953,12 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-791-6989</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Veda_Morse@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -1385,6 +1979,36 @@
     <BirthData>
       <BirthDate>2005-04-06</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-943-5187</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-148-0970</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-998-2531</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-456-2929</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-374-7108</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-068-6766</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-251-1448</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>U.Jordan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Uriah_Jordan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Uriah_Jordan@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>927436385</StudentUniqueStateId>
@@ -1422,6 +2046,36 @@
       <NameOfCounty>New York</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-553-2343</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-707-5464</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-479-2335</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-239-1197</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-610-9430</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-379-2880</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-205-6010</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>U.Hernandez@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Uriah_Hernandez@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Uriah_Hernandez@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>428250371</StudentUniqueStateId>
@@ -1442,6 +2096,21 @@
     <BirthData>
       <BirthDate>1996-09-23</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-155-7065</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-091-8134</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-612-2912</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-431-4260</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-875-4329</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -1482,6 +2151,21 @@
     <BirthData>
       <BirthDate>2000-04-23</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-871-2733</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-732-8563</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-623-4408</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-420-2449</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Kimberley_Pennington@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>746199592</StudentUniqueStateId>
@@ -1510,6 +2194,18 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-017-8015</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>630-231-5755</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>James_Mckenzie@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Mckenzie@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>560029459</StudentUniqueStateId>
@@ -1530,6 +2226,27 @@
     <BirthData>
       <BirthDate>2005-11-06</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-984-8178</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-668-4746</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-296-5276</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-707-1490</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-377-1833</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-143-0269</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Florence.Cline@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919001</StudentUniqueStateId>
@@ -1559,6 +2276,15 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Shannon_Delgado@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Shannon_Delgado@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Shannon.Delgado@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919002</StudentUniqueStateId>
@@ -1587,6 +2313,27 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-708-1107</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-638-1354</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-780-6767</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-234-7843</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>K.Allen@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Karen_Allen@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Karen.Allen@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919003</StudentUniqueStateId>
@@ -1616,6 +2363,24 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-873-5319</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-124-0066</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-891-9187</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Derrick.Ampy@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Derrick_Ampy@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>D.Ampy@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919004</StudentUniqueStateId>
@@ -1652,6 +2417,24 @@
       <NameOfCounty>Bronx</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-062-7138</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-227-4161</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-313-2495</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-056-9270</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Ian.Anderson@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>I.Anderson@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919005</StudentUniqueStateId>
@@ -1672,6 +2455,15 @@
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Brian_Carney@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>B.Carney@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Brian.Carney@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919006</StudentUniqueStateId>
@@ -1710,6 +2502,12 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-548-0274</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-309-3470</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919007</StudentUniqueStateId>
@@ -1730,6 +2528,30 @@
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-120-7311</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-170-5742</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-920-4675</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-351-9370</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-320-6278</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-055-0924</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Butch_Dyer@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Butch_Dyer@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919008</StudentUniqueStateId>
@@ -1766,6 +2588,12 @@
       <NameOfCounty>Bronx</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Sarah_Godfrey@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>S.Godfrey@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919009</StudentUniqueStateId>
@@ -1794,6 +2622,9 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-428-7697</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919010</StudentUniqueStateId>
@@ -1822,6 +2653,9 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Jeff.Henderson@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919011</StudentUniqueStateId>
@@ -1860,6 +2694,24 @@
       <NameOfCounty>Kings</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-832-7779</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-338-1546</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-104-6209</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Tanya_Hervey@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>T.Hervey@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Tanya.Hervey@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919012</StudentUniqueStateId>
@@ -1898,6 +2750,30 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-056-2615</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-559-7308</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-286-8144</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-773-0726</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-339-3957</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Jason.Pyles@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Jason_Pyles@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Pyles@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919013</StudentUniqueStateId>
@@ -1927,6 +2803,12 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-612-5733</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-570-8286</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919014</StudentUniqueStateId>
@@ -1965,6 +2847,12 @@
       <NameOfCounty>Queens</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Darren.Josephson@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>D.Josephson@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919015</StudentUniqueStateId>
@@ -1994,6 +2882,30 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-414-0577</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-067-7909</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-992-4855</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-665-3536</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-799-1127</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-041-2177</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>224-704-7492</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Lopez@yahoo.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919016</StudentUniqueStateId>
@@ -2014,6 +2926,15 @@
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-890-4970</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-552-6702</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-287-8581</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919017</StudentUniqueStateId>
@@ -2042,6 +2963,27 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-403-2467</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-445-1753</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-592-2063</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-161-4071</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-591-3798</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-248-9432</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-299-1122</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919018</StudentUniqueStateId>
@@ -2071,6 +3013,9 @@
       <NameOfCounty>Cook</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-272-2393</TelephoneNumber>
+    </Telephone>
   </Student>
   <Student>
     <StudentUniqueStateId>91919019</StudentUniqueStateId>
@@ -2091,6 +3036,24 @@
     <BirthData>
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-847-4186</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>312-153-2237</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-132-1135</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>M.Phan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Mieu_Phan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Mieu_Phan@gmail.com</EmailAddress>
+    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>91919020</StudentUniqueStateId>
@@ -2128,5 +3091,17 @@
       <NameOfCounty>Bronx</NameOfCounty>
       <CountryCode>US</CountryCode>
     </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-550-9523</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-579-0930</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-189-6011</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-349-8245</TelephoneNumber>
+    </Telephone>
   </Student>
 </InterchangeStudent>
