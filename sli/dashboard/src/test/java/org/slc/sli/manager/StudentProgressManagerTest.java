@@ -218,9 +218,9 @@ public class StudentProgressManagerTest {
         assertEquals("Size should be 1", 1, results.size());
         
         Map<String, GenericEntity> tests = results.get(STUDENTID);
-        assertNotNull("Should have an entry", tests.get("9999"));
-        assertEquals("numeric grade should match", 84.0, tests.get("9999").get("numericGradeEarned"));
-        assertEquals("numeric grade should match", "2011-05-15", tests.get("9999").getString("dateFulfilled"));
+        assertNotNull("Should have an entry", tests.get("2011-05-15"));
+        assertEquals("numeric grade should match", 84.0, tests.get("2011-05-15").get("numericGradeEarned"));
+        assertEquals("numeric grade should match", "2011-05-15", tests.get("2011-05-15").getString("dateFulfilled"));
     }
     
     @Test
