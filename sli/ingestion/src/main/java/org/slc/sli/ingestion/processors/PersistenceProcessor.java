@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
@@ -55,7 +56,7 @@ public class PersistenceProcessor implements Processor {
     private EntityPersistHandler entityPersistHandler;
 
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     private Exchange exchange;
 
     private ArrayList<String> transformedCollections;
@@ -85,6 +86,8 @@ public class PersistenceProcessor implements Processor {
             LOG.info("processing persistence: {}", job);
 
             neutralRecordMongoAccess = TransformationFactory.getNeutralRecordMongoAccess();
+            neutralRecordMongoAccess.getRecordRepository().setTemplate(new StagingMongoTemplate(neutralRecordMongoAccess.getRecordRepository().getTemplate().getDatabasePrefix(), job.getId(), neutralRecordMongoAccess.getRecordRepository().getTemplate().getNeutralRecordMappingConverter()));
+
             transformedCollections = getTransformedCollections();
 
             for (IngestionFileEntry fe : job.getFiles()) {

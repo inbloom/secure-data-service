@@ -48,7 +48,7 @@
 -->
 
   <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate">
-    <constructor-arg value="${sli.ingestion.staging.mongodb.database}" />
+    <constructor-arg value="${sli.ingestion.staging.mongodb.database}"  />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
 
