@@ -32,16 +32,17 @@ public class LiveAPIClient implements APIClient {
     
     private static final String SECTIONS_URL = "/sections/";
     private static final String STUDENT_SECTION_ASSOC_URL = "/student-section-associations/";
-    private static final String SCHOOLS_URL = "/schools/";
+    private static final String SCHOOLS_URL = "/v1/schools/";
     private static final String STUDENTS_URL = "/students/";
     private static final String COURSES_URL = "/courses/";
     private static final String TEACHERS_URL = "/teachers/";
-    private static final String ED_ORG_URL = "/educationOrganizations/";
     private static final String HOME_URL = "/home/";
     private static final String TEACHER_SECTION_ASSOC_URL = "/teacher-section-associations";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
     private static final String SESSION_URL = "/sessions/";
+    
+    private static final String ED_ORG_LINK = "getEducationOrganization";
 
     @Autowired
     @Value("${api.server.url}")
@@ -75,7 +76,7 @@ public class LiveAPIClient implements APIClient {
         }
         return schoolList;
     }
-    
+
     /**
      * Get a list of student objects, given the student ids
      */
@@ -145,11 +146,22 @@ public class LiveAPIClient implements APIClient {
     
     @Override
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
-        String parentEdOrgId = edOrg.getString(Constants.ATTR_PARENT_EDORG);
-        if (parentEdOrgId == null) {
-            return null;
+        for (Map link : (List<Map>) (edOrg.get(Constants.ATTR_LINKS))) {
+            if (link.get(Constants.ATTR_REL).equals(ED_ORG_LINK)) {
+                // there should be only one. 
+                String href = (String) link.get(Constants.ATTR_HREF);
+
+                // This hack needs be in because api doesn't distinguish between
+                // parent or children edOrgs. DE105 has been logged to resolve it. 
+                // Filter out links that are for children edOrgs -- they contain a query. 
+                if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) { continue; }
+
+                GenericEntity responses = createEntityFromAPI(href, token, false);
+                return responses; 
+            }
         }
-        return getEducationalOrganization(parentEdOrgId, token);
+        // if we reached here the edOrg or school doesn't have a parent
+        return null;
     }
     
     /**
@@ -221,13 +233,6 @@ public class LiveAPIClient implements APIClient {
      */
     private GenericEntity getCourse(String id, String token) {
         return createEntityFromAPI(getApiUrl() + COURSES_URL + id, token, true);
-    }
-    
-    /**
-     * Get one ed-org
-     */
-    private GenericEntity getEducationalOrganization(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + ED_ORG_URL + id, token, true);
     }
     
     /**
@@ -393,7 +398,7 @@ public class LiveAPIClient implements APIClient {
                 Map<String, String> query = new HashMap<String, String>();
                 query.put(Constants.ATTR_SCHOOL_ID, (String) section.get(Constants.ATTR_SCHOOL_ID));
                 schoolMap.put((String) section.get(Constants.ATTR_SCHOOL_ID),
-                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token, true));
+                        createEntityFromAPI(getApiUrl() + SCHOOLS_URL + section.get(Constants.ATTR_SCHOOL_ID), token, false));
             }
             
         }
@@ -552,21 +557,9 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations/courses");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations/courses", params), token, false);
         
         return entities;
     }
@@ -588,21 +581,9 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
             Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations", params), token, false);
         
         return entities;
     }
@@ -649,13 +630,30 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
+        // get the entities
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentSectionAssociations/sections", params), token, false);
+        
+        return entities;
+    }
+    
+    /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         StringBuilder url = new StringBuilder();
+
+        //add the studentId to the param list
+        params.put(Constants.ATTR_STUDENT_ID, studentId);
         
         // build the url
         url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentSectionAssociations/sections");
+        url.append("/v1/studentSectionGradebookEntries");
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");
@@ -666,6 +664,30 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
+    }
+    
+    /**
+     * Builds a student based URI using the given studentId,path and param map
+     * @param studentId The studentId
+     * @param path The URI path
+     * @param params The param map
+     * @return
+     */
+    protected String buildStudentURI(final String studentId, String path, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        // build the url
+        url.append(getApiUrl());
+        url.append("/v1/students/");
+        url.append(studentId);
+        url.append(path);
+        // add the query string
+        if (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        return url.toString();
     }
     
     /**

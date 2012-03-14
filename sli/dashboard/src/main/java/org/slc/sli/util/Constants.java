@@ -109,6 +109,8 @@ public class Constants {
     public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
     public static final String ATTR_TERM = "term";
+    public static final String ATTR_NUMERIC_GRADE_EARNED = "numericGradeEarned";
+    public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
     public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
     public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
     

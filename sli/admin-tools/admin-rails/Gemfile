@@ -23,6 +23,11 @@ group :deployment, :integration do
   gem 'thin'
 end
 
+group :acceptance do
+  # generate a WAR for use in tomcat
+  gem 'warbler'   
+  gem 'rubyzip', '= 0.9.4'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

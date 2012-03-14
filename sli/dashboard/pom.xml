@@ -85,6 +85,28 @@
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
+        
+        <profile>
+            <id>acceptance-tests</id>
+            <activation>
+                <property>
+                  <name>env</name>
+                  <value>acceptance-tests</value>
+                </property>             
+            </activation>
+            <properties>
+                <env>acceptance-tests</env>
+                <!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+                    file based authentication -->
+                <server.mode>live</server.mode>
+                <war.file.name>dashboard</war.file.name>
+            </properties>
+            <build>
+                <filters>
+                    <!-- <filter>src/main/filters/server.properties</filter> -->
+                </filters>
+            </build>
+        </profile>        
 	</profiles>
 
 	<dependencies>
