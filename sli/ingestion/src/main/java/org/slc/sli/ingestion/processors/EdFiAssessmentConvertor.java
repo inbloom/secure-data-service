@@ -98,7 +98,8 @@ public class EdFiAssessmentConvertor {
         Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
         Map<Object, NeutralRecord> assessmentPeriodDescriptors = getMapByField(orig.get(ASSESSMENT_PERIOD_DESCRIPTOR),
                 PERIOD_CODE_VALUE);
-        Map<Object, NeutralRecord> objectiveAssessments = getMapByField(orig.get(OBJECTIVE_ASSESSMENT), OBJ_ASSESSMENT_ID_FIELD);
+        Map<Object, NeutralRecord> objectiveAssessments = getMapByField(orig.get(OBJECTIVE_ASSESSMENT),
+                OBJ_ASSESSMENT_ID_FIELD);
         LOG.debug("Assessment family map is {}", assessmentFamilies);
         List<NeutralRecord> assessments = orig.get(ASSESSMENT);
         for (NeutralRecord record : assessments) {
@@ -116,17 +117,17 @@ public class EdFiAssessmentConvertor {
         }
         return assessments;
     }
-
+    
     private void addObjectiveAssessments(NeutralRecord record, Map<Object, NeutralRecord> objectiveAssessments) {
         List<?> objectiveRefs = (List<?>) record.getAttributes().get(OBJECTIVE_ASSESSMENT_REFS);
         record.getAttributes().remove(OBJECTIVE_ASSESSMENT_REFS);
-        if(objectiveRefs == null || objectiveRefs.isEmpty()){
+        if (objectiveRefs == null || objectiveRefs.isEmpty()) {
             return;
         }
         List<Map<String, Object>> objAssmtsForAssmt = new ArrayList<Map<String, Object>>(objectiveRefs.size());
-        for(Object ref: objectiveRefs){
+        for (Object ref : objectiveRefs) {
             NeutralRecord objAssmt = objectiveAssessments.get(ref);
-            if(objAssmt == null) {
+            if (objAssmt == null) {
                 LOG.warn("Could not find objective assessment with id {}", ref);
             } else {
                 Map<String, Object> objAssmtMap = new HashMap<String, Object>(objAssmt.getAttributes());
