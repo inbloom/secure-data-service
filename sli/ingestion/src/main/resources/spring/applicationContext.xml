@@ -151,7 +151,8 @@
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="entityPersistHandler" ref="entityPersistHandler" />
-    <property name="absoletePersistHandler" ref="absoleteEntityPersistHandler"></property>
+    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
+    <property name="persistedCollections" ref="persistedEntities" />
   </bean>
 
 </beans>

@@ -27,7 +27,7 @@ import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
-import org.slc.sli.ingestion.handler.NentralRecordEntityPersistHandler;
+import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
@@ -54,10 +54,12 @@ public class PersistenceProcessor implements Processor {
 
     @Autowired
     SmooksEdFi2SLITransformer transformer;
+    
+    private Set<String> persistedCollections;
 
     private EntityPersistHandler entityPersistHandler;
 
-    private NentralRecordEntityPersistHandler absoletePersistHandler;
+    private NeutralRecordEntityPersistHandler obsoletePersistHandler;
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
@@ -171,20 +173,21 @@ public class PersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
-
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
-                    //this doesn't exist in collection, persist
-
-                    LOG.debug("processing " + neutralRecord);
-
-                    // map NeutralRecord to Entity
-                    NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
-
-                    ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                    absoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
-
-                    if (errorReport.hasErrors()) {
-                        numFailed++;
+                    if (persistedCollections.contains(neutralRecord.getRecordType())) {
+                        //this doesn't exist in collection, persist
+    
+                        LOG.debug("processing " + neutralRecord);
+    
+                        // map NeutralRecord to Entity
+                        NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
+    
+                        ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                        obsoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
+    
+                        if (errorReport.hasErrors()) {
+                            numFailed++;
+                        }
                     }
                 } else {
                     //process collection of the entities from db
@@ -202,7 +205,7 @@ public class PersistenceProcessor implements Processor {
                             List<SimpleEntity> result = transformer.handle(nr);
                             for (SimpleEntity entity : result) {
                                 ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                                entityPersistHandler.handle(entity, errorReport);
+                               // entityPersistHandler.handle(entity, errorReport);
 
                                 if (errorReport.hasErrors()) {
                                     numFailed++;
@@ -319,11 +322,21 @@ public class PersistenceProcessor implements Processor {
         return logger;
     }
 
-    public NentralRecordEntityPersistHandler getAbsoletePersistHandler() {
-        return absoletePersistHandler;
+    public NeutralRecordEntityPersistHandler getObsoletePersistHandler() {
+        return obsoletePersistHandler;
     }
 
-    public void setAbsoletePersistHandler(NentralRecordEntityPersistHandler absoletePersistHandler) {
-        this.absoletePersistHandler = absoletePersistHandler;
+    public void setObsoletePersistHandler(NeutralRecordEntityPersistHandler obsoletePersistHandler) {
+        this.obsoletePersistHandler = obsoletePersistHandler;
     }
+    
+
+    public Set<String> getPersistedCollections() {
+        return persistedCollections;
+    }
+
+    public void setPersistedCollections(Set<String> persistedCollections) {
+        this.persistedCollections = persistedCollections;
+    }
+    
 }

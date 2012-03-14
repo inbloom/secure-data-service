@@ -49,7 +49,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 public class EntityPersistHandlerTest {
 
     @Autowired
-    private NentralRecordEntityPersistHandler entityPersistHandler;
+    private NeutralRecordEntityPersistHandler entityPersistHandler;
 
     private MongoEntityRepository mockedEntityRepository;
 
