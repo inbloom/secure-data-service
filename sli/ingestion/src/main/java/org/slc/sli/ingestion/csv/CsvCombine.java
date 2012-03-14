@@ -28,7 +28,7 @@ public class CsvCombine {
     private DB db;
 
     public CsvCombine() {
-        try {http://gestion/csv/CsvCo
+        try {
             mongo = new Mongo();
             db = mongo.getDB("StagingDB");
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class CsvCombine {
             addMapEntry(curKey, curVal, result);
         
         /**
-         * Now pick up the supporting list of list files.http://gestion/csv/CsvCo
+         * Now pick up the supporting list of list files.
          * The outer 'if' statement ensures this is only called if
          * further levels of hierarchy exist
          */
