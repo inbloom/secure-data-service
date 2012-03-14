@@ -4,8 +4,7 @@ DbRails::Application.routes.draw do
   
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'entities#index', :defaults => {:type => "home"}
-  match '/entities/home' => 'entities#index', :defaults => {:type => "home"}
+  root :to => redirect('/entities/home')
   match '/entities/*other' => 'entities#show'
 
   match '/logout' => 'checks#logout'

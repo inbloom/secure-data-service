@@ -85,6 +85,28 @@
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
+        
+        <profile>
+            <id>acceptance-tests</id>
+            <activation>
+                <property>
+                  <name>env</name>
+                  <value>acceptance-tests</value>
+                </property>             
+            </activation>
+            <properties>
+                <env>acceptance-tests</env>
+                <!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+                    file based authentication -->
+                <server.mode>live</server.mode>
+                <war.file.name>dashboard</war.file.name>
+            </properties>
+            <build>
+                <filters>
+                    <!-- <filter>src/main/filters/server.properties</filter> -->
+                </filters>
+            </build>
+        </profile>        
 	</profiles>
 
 	<dependencies>
@@ -232,53 +254,7 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<!-- Separates the unit tests from the integration tests. -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- Skip the default running of this plugin, otherwise everything is 
-						run twice -->
-					<skip>true</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>unit-tests</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<!-- Don't skip tests when test phase is invoked -->
-							<skip>false</skip>
-							<includes>
-								<include>org/slc/sli/unit/controller/*.java</include>
-								<include>org/slc/sli/unit/config/*.java</include>
-								<include>org/slc/sli/unit/manager/*.java</include>
-								<include>org/slc/sli/unit/view/*.java</include>
-								<include>org/slc/sli/unit/view/widget/*.java</include>
-							</includes>
-							<excludes>
-								<exclude>org/slc/sli/selenium/controller/*.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>integration-tests</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<!-- Never skip tests during integration phase -->
-							<skip>false</skip>
-							<includes>
-								<include>org/slc/sli/selenium/controller/*.java</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
 
 	</build>

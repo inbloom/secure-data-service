@@ -15,18 +15,14 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60927-8918", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "6561 Front Street"
-   }
-  ], 
   "studentUniqueStateId": "453827070", 
-  "id": "453827070"
+  "id": "453827070", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "M.Miller@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -53,20 +49,30 @@
   "limitedEnglishProficiency": "Yes", 
   "address": [
    {
-    "nameOfCounty": "Cook", 
+    "nameOfCounty": "", 
     "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60836-2298", 
+    "addressType": "Home", 
+    "apartmentRoomSuiteNumber": "17", 
+    "buildingSiteNumber": "", 
+    "postalCode": "60290", 
     "stateAbbreviation": "IL", 
-    "streetNumberName": "7538 Humboldt Street"
+    "streetNumberName": "123 Cherry Street"
    }
   ], 
   "studentUniqueStateId": "943715230", 
   "id": "943715230", 
   "electronicMail": [
    {
-    "emailAddressType": "Home/Personal", 
-    "emailAddress": "jashley@test.edu"
+    "emailAddressType": "Work", 
+    "emailAddress": "Jolene_Ashley@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "J.Ashley@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Jolene_Ashley@yahoo.com"
    }
   ]
  }, 
@@ -86,19 +92,18 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 2399", 
-    "postalCode": "60619-7239", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "8838 Pioneer Street"
-   }
-  ], 
   "studentUniqueStateId": "164420088", 
-  "id": "164420088"
+  "id": "164420088", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "U.Oconnor@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Ursa.Oconnor@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -116,27 +121,22 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
+  "studentUniqueStateId": "505331723", 
+  "id": "505331723", 
+  "electronicMail": [
    {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60150-4290", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "651 Banner 3rd Terrace"
+    "emailAddressType": "Organization", 
+    "emailAddress": "G.Roman@gmail.com"
    }, 
    {
-    "nameOfCounty": "New York", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 8352", 
-    "postalCode": "10079-9386", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "4656 India Street"
+    "emailAddressType": "Other", 
+    "emailAddress": "Gannon_Roman@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Gannon.Roman@yahoo.com"
    }
-  ], 
-  "studentUniqueStateId": "505331723", 
-  "id": "505331723"
+  ]
  }, 
  {
   "cohortYears": [
@@ -154,27 +154,22 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
+  "studentUniqueStateId": "530425896", 
+  "id": "530425896", 
+  "electronicMail": [
    {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 4221", 
-    "postalCode": "60908-1028", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "3655 Brighton 2nd Lane"
+    "emailAddressType": "Other", 
+    "emailAddress": "Rhonda_Delgado@gmail.com"
    }, 
    {
-    "nameOfCounty": "Kings", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "postalCode": "10698-9832", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "9857 Kingsborough 2nd Walk"
+    "emailAddressType": "Organization", 
+    "emailAddress": "R.Delgado@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Rhonda.Delgado@gmail.com"
    }
-  ], 
-  "studentUniqueStateId": "530425896", 
-  "id": "530425896"
+  ]
  }, 
  {
   "cohortYears": [
@@ -192,9 +187,9 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [], 
   "studentUniqueStateId": "429526969", 
-  "id": "429526969"
+  "id": "429526969", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -212,19 +207,22 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 495", 
-    "postalCode": "60499-8718", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "7540 Huntington Street"
-   }
-  ], 
   "studentUniqueStateId": "178828452", 
-  "id": "178828452"
+  "id": "178828452", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Tyrone_Burnett_Jones@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Tyrone.Burnett_Jones@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "T.Burnett_Jones@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -242,19 +240,22 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 8224", 
-    "postalCode": "60620-0477", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "3427 Park Avenue"
-   }
-  ], 
   "studentUniqueStateId": "525878920", 
-  "id": "525878920"
+  "id": "525878920", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Delilah_Sims@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "D.Sims@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Delilah_Sims@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -272,9 +273,9 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [], 
   "studentUniqueStateId": "510152105", 
-  "id": "510152105"
+  "id": "510152105", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -292,19 +293,14 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 7776", 
-    "postalCode": "60139-2152", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "1558 4th Street"
-   }
-  ], 
   "studentUniqueStateId": "802709591", 
-  "id": "802709591"
+  "id": "802709591", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Imelda_Lindsey@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -322,9 +318,14 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [], 
   "studentUniqueStateId": "437680177", 
-  "id": "437680177"
+  "id": "437680177", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Kimberley_Pennington@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -342,18 +343,9 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60057-1857", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "1313 Brighton 3rd Street"
-   }
-  ], 
   "studentUniqueStateId": "170011136", 
-  "id": "170011136"
+  "id": "170011136", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -371,18 +363,9 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60605-1327", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "3372 Montague Terrace"
-   }
-  ], 
   "studentUniqueStateId": "547028299", 
-  "id": "547028299"
+  "id": "547028299", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -400,27 +383,9 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 1999", 
-    "postalCode": "60561-5469", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "2393 Manhattan Court"
-   }, 
-   {
-    "nameOfCounty": "Queens", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "postalCode": "10952-6484", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "5961 Mermaid Avenue"
-   }
-  ], 
   "studentUniqueStateId": "258392050", 
-  "id": "258392050"
+  "id": "258392050", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -438,9 +403,14 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [], 
   "studentUniqueStateId": "178875887", 
-  "id": "178875887"
+  "id": "178875887", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Astra_Vincent@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -458,27 +428,22 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [
+  "studentUniqueStateId": "100644447", 
+  "id": "100644447", 
+  "electronicMail": [
    {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60848-7633", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "8124 Brighton 3 Place"
+    "emailAddressType": "Other", 
+    "emailAddress": "Brielle_Klein@gmail.com"
    }, 
    {
-    "nameOfCounty": "New York", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 330", 
-    "postalCode": "10753-2389", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "1537 Steuben Street"
+    "emailAddressType": "Organization", 
+    "emailAddress": "B.Klein@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Brielle.Klein@yahoo.com"
    }
-  ], 
-  "studentUniqueStateId": "100644447", 
-  "id": "100644447"
+  ]
  }, 
  {
   "cohortYears": [
@@ -496,18 +461,18 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60063-3281", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "3297 35th Street"
-   }
-  ], 
   "studentUniqueStateId": "376191021", 
-  "id": "376191021"
+  "id": "376191021", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "J.Graves@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Jeanette.Graves@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -525,26 +490,18 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [
+  "studentUniqueStateId": "336344132", 
+  "id": "336344132", 
+  "electronicMail": [
    {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60447-1536", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "498 Dorchester Road"
+    "emailAddressType": "Organization", 
+    "emailAddress": "O.Merrill@yahoo.com"
    }, 
    {
-    "nameOfCounty": "Queens", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "postalCode": "10180-7445", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "7472 Ross Street"
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Odysseus.Merrill@gmail.com"
    }
-  ], 
-  "studentUniqueStateId": "336344132", 
-  "id": "336344132"
+  ]
  }, 
  {
   "cohortYears": [
@@ -562,28 +519,14 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 5116", 
-    "postalCode": "60941-6938", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "6055 Vermont Street"
-   }, 
-   {
-    "nameOfCounty": "Kings", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 3394", 
-    "postalCode": "10913-4746", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "1004 Boerum Street"
-   }
-  ], 
   "studentUniqueStateId": "711411586", 
-  "id": "711411586"
+  "id": "711411586", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "R.Kirk@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -601,19 +544,18 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 8027", 
-    "postalCode": "60267-4406", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "8823 Blake Court"
-   }
-  ], 
   "studentUniqueStateId": "131758477", 
-  "id": "131758477"
+  "id": "131758477", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Deirdre_Gentry@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Deirdre.Gentry@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -631,26 +573,14 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60886-1475", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "4447 Brighton 5th Street"
-   }, 
-   {
-    "nameOfCounty": "Queens", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "postalCode": "10798-3311", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "9041 Scholes Street"
-   }
-  ], 
   "studentUniqueStateId": "670703438", 
-  "id": "670703438"
+  "id": "670703438", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Zachary.Patton@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -668,27 +598,14 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 5760", 
-    "postalCode": "60457-1957", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "4606 Albemarle Road"
-   }, 
-   {
-    "nameOfCounty": "Kings", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "postalCode": "10473-1436", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "4256 Wyckoff Street"
-   }
-  ], 
   "studentUniqueStateId": "851123275", 
-  "id": "851123275"
+  "id": "851123275", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "H.Hicks@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -706,9 +623,22 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [], 
   "studentUniqueStateId": "423037202", 
-  "id": "423037202"
+  "id": "423037202", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Nomlanga.Mccormick@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Nomlanga_Mccormick@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Nomlanga_Mccormick@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -726,9 +656,22 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [], 
   "studentUniqueStateId": "250918988", 
-  "id": "250918988"
+  "id": "250918988", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "U.Jordan@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Uriah_Jordan@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Uriah_Jordan@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -746,18 +689,22 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60053-4640", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "8690 Gaylord Drive"
-   }
-  ], 
   "studentUniqueStateId": "421216329", 
-  "id": "421216329"
+  "id": "421216329", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Madeline_Hinton@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "M.Hinton@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Madeline.Hinton@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -775,9 +722,14 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "No", 
-  "address": [], 
   "studentUniqueStateId": "111111111", 
-  "id": "111111111"
+  "id": "111111111", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Student.Fake@gmail.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -795,19 +747,9 @@
   }, 
   "sex": "Female", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 9959", 
-    "postalCode": "60746-2709", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "6256 Old New Utrecht Road"
-   }
-  ], 
   "studentUniqueStateId": "222222222", 
-  "id": "222222222"
+  "id": "222222222", 
+  "electronicMail": []
  }, 
  {
   "cohortYears": [
@@ -825,27 +767,14 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "Yes", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60248-9017", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "6243 98th Street"
-   }, 
-   {
-    "nameOfCounty": "Bronx", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 878", 
-    "postalCode": "10395-8698", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "2738 Duryea Place"
-   }
-  ], 
   "studentUniqueStateId": "333333333", 
-  "id": "333333333"
+  "id": "333333333", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Fabio_De_Silva@yahoo.com"
+   }
+  ]
  }, 
  {
   "cohortYears": [
@@ -863,26 +792,13 @@
   }, 
   "sex": "Male", 
   "limitedEnglishProficiency": "No", 
-  "address": [
-   {
-    "nameOfCounty": "Cook", 
-    "city": "Chicago", 
-    "countryCode": "US", 
-    "postalCode": "60683-4656", 
-    "stateAbbreviation": "IL", 
-    "streetNumberName": "1725 Meadow Street"
-   }, 
-   {
-    "nameOfCounty": "Queens", 
-    "city": "New York", 
-    "countryCode": "US", 
-    "apartmentRoomSuiteNumber": "APT 1721", 
-    "postalCode": "10078-7909", 
-    "stateAbbreviation": "NY", 
-    "streetNumberName": "318 Ocean Avenue"
-   }
-  ], 
   "studentUniqueStateId": "444444444", 
-  "id": "444444444"
+  "id": "444444444", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Raphael_De_Silva@gmail.com"
+   }
+  ]
  }
 ]

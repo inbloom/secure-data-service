@@ -2,20 +2,17 @@ package org.slc.sli.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.slc.sli.config.ConfigUtil;
-import org.slc.sli.config.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -27,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Robert Bloh rbloh@wgen.net
  * 
  */
-public class PopulationManager {
+public class PopulationManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(PopulationManager.class);
     
@@ -100,7 +97,7 @@ public class PopulationManager {
         List<String> dates = getSessionDates(token, sessionId);
         for (String studentId : studentIds) {
             long studentTime = System.nanoTime();
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, null, null);
             log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
             
             if (studentAttendance != null && !studentAttendance.isEmpty())
@@ -126,40 +123,10 @@ public class PopulationManager {
      */
     private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
         
-        // get list of assmt names from config
-        List<Field> dataFields = ConfigUtil.getDataFields(config, Constants.FIELD_TYPE_ASSESSMENT);
-        Set<String> assmtNames = getAssmtNames(dataFields);
-        
         // get all assessments for student
         List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
         
-        // filter out unwanted assmts
-        List<GenericEntity> filteredAssmts = new ArrayList<GenericEntity>();
-        filteredAssmts.addAll(assmts);
-        
-        /*
-         * To do this right, we'll need all the assessments under the assmt family's name, and
-         * we'll require assessment metadata for it
-         * for (Assessment assmt : assmts) {
-         * if (assmtNames.contains(assmt.getAssessmentName()))
-         * filteredAssmts.add(assmt);
-         * }
-         */
-        
-        return filteredAssmts;
-    }
-    
-    /*
-     * Get names of assessments we need data for
-     */
-    private Set<String> getAssmtNames(List<Field> dataFields) {
-        
-        Set<String> assmtNames = new HashSet<String>();
-        for (Field field : dataFields) {
-            String fieldValue = field.getValue();
-            assmtNames.add(fieldValue.substring(0, fieldValue.indexOf('.')));
-        }
-        return assmtNames;
+        return assmts;
     }
     
     /**
@@ -229,6 +196,7 @@ public class PopulationManager {
      * @param config
      * @return
      */
+    @EntityMapping("student")
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
