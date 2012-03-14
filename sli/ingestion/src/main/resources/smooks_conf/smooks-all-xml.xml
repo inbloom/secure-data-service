@@ -1176,17 +1176,9 @@
 
     <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
 
-    <jb:value property="percentOfAssessment" data="ObjectiveAssessment/PercentOfAssessment" />
+    <jb:value property="percentOfAssessment" data="ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
 
     <jb:value property="nomenclature" data="ObjectiveAssessment/Nomenclature" />
-
-    <jb:wiring property="assessmentItemReference" beanIdRef="AssessmentItemReferenceTypeArray" />
-
-    <jb:wiring property="learningObjectiveReference" beanIdRef="LearningObjectiveReferenceTypeArray" />
-
-    <jb:wiring property="learningStandardReference" beanIdRef="LearningStandardReferenceTypeArray" />
-
-    <jb:wiring property="objectiveAssessmentReference" beanIdRef="ObjectiveAssessmentReferenceTypeArray" />
 
   </jb:bean>
 

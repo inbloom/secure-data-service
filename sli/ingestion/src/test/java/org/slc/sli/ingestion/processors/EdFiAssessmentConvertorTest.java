@@ -103,8 +103,8 @@ public class EdFiAssessmentConvertorTest {
                     record.getAttributes().get("assessmentFamilyHierarchyName"));
             assertEquals("APD", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("codeValue"));
             assertEquals("A Test Period Descriptor", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("description"));
-            assertEquals("75%", ((NeutralRecord) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(0)).getAttributes().get("percentOfAssessment"));
-            assertEquals("25%", ((NeutralRecord) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(1)).getAttributes().get("percentOfAssessment"));
+            assertEquals("75%", ((Map<?, ?>) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(0)).get("percentOfAssessment"));
+            assertEquals("25%", ((Map<?, ?>) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(1)).get("percentOfAssessment"));
         }
         
     }

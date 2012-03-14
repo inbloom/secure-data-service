@@ -123,9 +123,16 @@ public class EdFiAssessmentConvertor {
         if(objectiveRefs == null || objectiveRefs.isEmpty()){
             return;
         }
-        List<NeutralRecord> objAssmtsForAssmt = new ArrayList<NeutralRecord>(objectiveRefs.size());
+        List<Map<String, Object>> objAssmtsForAssmt = new ArrayList<Map<String, Object>>(objectiveRefs.size());
         for(Object ref: objectiveRefs){
-            objAssmtsForAssmt.add(objectiveAssessments.get(ref));
+            NeutralRecord objAssmt = objectiveAssessments.get(ref);
+            if(objAssmt == null) {
+                LOG.warn("Could not find objective assessment with id {}", ref);
+            } else {
+                Map<String, Object> objAssmtMap = new HashMap<String, Object>(objAssmt.getAttributes());
+                objAssmtMap.remove(OBJ_ASSESSMENT_ID_FIELD);
+                objAssmtsForAssmt.add(objAssmtMap);
+            }
         }
         record.setAttributeField(OBJECTIVE_ASSESSMENT, objAssmtsForAssmt);
     }
