@@ -98,7 +98,7 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light gre
 	      And I wait for "7" seconds
 		Then the table includes header "Attendance"
 			And I should see a table heading "Attendance Rate %"
-			And the count for id "ATTENDANCE.AttendanceRate" for student "Madeline Hinton" is "94"
+			And the count for id "ATTENDANCE.AttendanceRate" for student "Madeline Hinton" is "95"
       			And the class for id "ATTENDANCE.AttendanceRate" for student "Madeline Hinton" is "perfLevel4"
 
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green

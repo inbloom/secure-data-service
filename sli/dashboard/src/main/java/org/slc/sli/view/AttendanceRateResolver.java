@@ -85,7 +85,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         if (field.getValue().equals(TARDY_RATE)) {
             return new int[] {10, 5, 1};
         } else if (field.getValue().equals(ATTENDANCE_RATE)) {
-            return new int[] {89, 94, 98};
+            return new int[] {90, 95, 99};
         }
         return new int[] {};
         
