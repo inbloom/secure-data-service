@@ -57,9 +57,7 @@ public class SliSmooksFactory {
             // just one visitor instance that can be added with multiple target selectors
             Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport);
 
-            StagingMongoTemplate previousDB = (StagingMongoTemplate) nrMongoStagingWriter.getRecordRepository().getTemplate();
-
-            nrMongoStagingWriter.getRecordRepository().setTemplate(new StagingMongoTemplate(previousDB.getDatabasePrefix(), batchJobId, previousDB.getNeutralRecordMappingConverter()));
+            nrMongoStagingWriter.changeMongoTemplate(batchJobId);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {

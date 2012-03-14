@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +26,6 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NentralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -86,9 +86,8 @@ public class PersistenceProcessor implements Processor {
 
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
-            StagingMongoTemplate previousDB = (StagingMongoTemplate) neutralRecordMongoAccess.getRecordRepository().getTemplate();
 
-            neutralRecordMongoAccess.getRecordRepository().setTemplate(new StagingMongoTemplate(previousDB.getDatabasePrefix(), job.getId(), previousDB.getNeutralRecordMappingConverter()));
+            neutralRecordMongoAccess.changeMongoTemplate(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
 

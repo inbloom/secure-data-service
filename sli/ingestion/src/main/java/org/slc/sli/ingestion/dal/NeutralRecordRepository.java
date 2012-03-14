@@ -1,8 +1,11 @@
 package org.slc.sli.ingestion.dal;
 
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import com.mongodb.MongoException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,5 +105,21 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
     public Set<String> getCollectionNames() {
         return template.getCollectionNames();
+    }
+
+    public void changeTemplate(String batchJobId) {
+        StagingMongoTemplate currentTemplate = (StagingMongoTemplate) getTemplate();
+        try {
+
+            setTemplate(new StagingMongoTemplate(currentTemplate.getDatabasePrefix(), batchJobId, currentTemplate.getNeutralRecordMappingConverter()));
+        } catch (UnknownHostException e) {
+
+            LOG.error(e.getMessage());
+
+        } catch (MongoException e) {
+
+            LOG.error(e.getMessage());
+
+        }
     }
 }
