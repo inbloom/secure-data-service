@@ -35,6 +35,10 @@ public class Config {
         public boolean hasOwnConfig() {
             return hasOwnConfig;
         }
+        
+        public boolean isLayoutItem() {
+            return this == LAYOUT;
+        }
     }
     
     /**

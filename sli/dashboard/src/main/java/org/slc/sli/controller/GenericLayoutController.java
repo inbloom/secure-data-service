@@ -50,6 +50,7 @@ public abstract class GenericLayoutController {
         ModelAndViewConfig modelAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
+        model.addAttribute("layout", modelAndConfig.getLayoutItems());
         model.addAttribute("data", modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());

@@ -23,17 +23,8 @@
   </div>
     
   <div id="content">
-
-    <#-- get the layout config -->    
-    <#list viewConfigs?keys as itemKey>
-      <#if viewConfigs[itemKey].type == "LAYOUT">
-        <#assign layoutConfig = viewConfigs[itemKey]>
-      </#if>
-    </#list>
-    
     <#-- create header panels -->
-    <#list layoutConfig.items as item>
-                
+    <#list layout as item>     
       <#if item.type == "PANEL">
         <div class="panel">
           <#include "../panel/" + item.id + ".ftl">
@@ -46,8 +37,7 @@
     <ul>
       
     <#-- create individual tabs -->
-     <#list viewConfigs?keys as itemKey>
-      <#assign item = viewConfigs[itemKey]>
+     <#list layout as item>
       <#if item.type == "TAB">
       <li><a href="#page-${item.id}">${item.name}</a></li>
       </#if>
@@ -56,8 +46,7 @@
     </ul>
       
     <#-- create pages -->
-   <#list viewConfigs?keys as itemKey>
-      <#assign item = viewConfigs[itemKey]>
+   <#list layout as item>
       <#if item.type == "TAB">
        
         <div id="page-${item.id}">
