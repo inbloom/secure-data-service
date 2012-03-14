@@ -7,7 +7,7 @@ And /^there are "([^"]*)" Tabs$/ do |tabCount|
 end
 
 Given /^in Tab "([^"]*)", there is "([^"]*)" Panels$/ do |tabIndex, panelCount|
-  element = @driver.find_element(:id, "page-tab" + tabIndex)
+  element = @driver.find_element(:id, "page-tab" + (tabIndex.to_i+1).to_s)
   tabs = element.find_elements(:class, "panel")
   assert(tabs.length == panelCount.to_i)
 end
