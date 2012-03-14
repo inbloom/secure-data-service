@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -64,6 +65,8 @@ public class PersistenceProcessor implements Processor {
 
             BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
+            String idNamespace = job.getProperty("idNamespace", "https://devapp1.slidev.org:443/sp");
+
             this.exchange = exchange;
 
             // Indicate Camel processing
@@ -73,7 +76,7 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe);
+                    errorReportForFile = processIngestionStream(fe, idNamespace);
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -112,9 +115,9 @@ public class PersistenceProcessor implements Processor {
      * @param ingestionFileEntry
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry) throws IOException {
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace) throws IOException {
 
-        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName());
+        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(), idNamespace);
     }
 
     /**
@@ -124,12 +127,12 @@ public class PersistenceProcessor implements Processor {
      * @param neutralRecordsFile
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(File neutralRecordsFile) throws IOException {
+    public ErrorReport processIngestionStream(File neutralRecordsFile, String idNamespace) throws IOException {
 
         return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName());
     }
 
-    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName)
+    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName, String idNamespace)
             throws IOException {
 
         long recordNumber = 0;
@@ -153,6 +156,7 @@ public class PersistenceProcessor implements Processor {
                 // map NeutralRecord to Entity
                 NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
                 ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                neutralRecordEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
                 entityPersistHandler.handle(neutralRecordEntity, errorReport);
                 if (errorReport.hasErrors()) {
                     numFailed++;
