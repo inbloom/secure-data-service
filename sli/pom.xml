@@ -146,6 +146,16 @@
             </properties>
         </profile>
 
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>nxbuild2</id>
+            <properties>
+                <sli.env>nxbuild2</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
 
 		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->

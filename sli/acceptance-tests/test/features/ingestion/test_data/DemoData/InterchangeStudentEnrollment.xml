@@ -1874,13 +1874,13 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+        <StudentUniqueStateId>288598192</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2291,7 +2291,7 @@
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>111111111</StudentUniqueStateId>
+        <StudentUniqueStateId>288598192</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -2299,7 +2299,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
