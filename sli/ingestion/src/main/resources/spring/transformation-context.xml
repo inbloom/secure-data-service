@@ -18,7 +18,16 @@
         <property name="smooksConfigs" ref="smooksConfigs" />
     </bean>
 
+    <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+    </bean>
 
+    <bean id="assessementTransformationStrategy" class="org.slc.sli.ingestion.transformation.AssessmentCombiner" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    </bean>
+
+    <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
+        <property name="transformationStrategySuffix" value="TransformationStrategy" />
+    </bean>
 
 </beans>
 

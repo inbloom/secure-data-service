@@ -10,7 +10,6 @@ public interface TransformationStrategy {
      *
      * @param batchJobId
      */
-    // TODO provide return type? ErrorReport?
     void perform(String batchJobId);
 
 }

@@ -14,8 +14,6 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
@@ -29,14 +27,12 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author dduran
  *
  */
-@Component
 public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     private SliSmooksFactory sliSmooksFactory;
 
-    @Value("${landingzone.inbounddir}")
     private String lzDirectory;
 
     @Override
@@ -94,6 +90,20 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     public void setSliSmooksFactory(SliSmooksFactory sliSmooksFactory) {
         this.sliSmooksFactory = sliSmooksFactory;
+    }
+
+    /**
+     * @return the lzDirectory
+     */
+    public String getLzDirectory() {
+        return lzDirectory;
+    }
+
+    /**
+     * @param lzDirectory the lzDirectory to set
+     */
+    public void setLzDirectory(String lzDirectory) {
+        this.lzDirectory = lzDirectory;
     }
 
 }

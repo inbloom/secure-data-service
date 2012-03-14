@@ -1,8 +1,5 @@
 package org.slc.sli.ingestion.dal;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 
@@ -12,11 +9,9 @@ import org.slc.sli.ingestion.ResourceWriter;
  * @author dduran
  *
  */
-@Component
 public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
-    @Autowired
-    NeutralRecordRepository neutralRecordRepository;
+    private NeutralRecordRepository neutralRecordRepository;
 
     @Override
     public void writeResource(NeutralRecord neutralRecord) {
@@ -26,9 +21,13 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         neutralRecordRepository.create(neutralRecord);
 
     }
-    
+
     public NeutralRecordRepository getRecordRepository() {
         return this.neutralRecordRepository;
+    }
+
+    public void setNeutralRecordRepository(NeutralRecordRepository neutralRecordRepository) {
+        this.neutralRecordRepository = neutralRecordRepository;
     }
 
 }

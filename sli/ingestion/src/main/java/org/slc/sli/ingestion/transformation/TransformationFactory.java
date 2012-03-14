@@ -1,10 +1,12 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
-
 import java.util.Collection;
+import java.util.List;
 
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * @author ifaybyshev
@@ -12,13 +14,11 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  *         Factory for transformation strategies
  *
  */
-public class TransformationFactory {
+public class TransformationFactory implements ApplicationContextAware {
 
-    // TODO can we make this a service instead of passing it through every layer?
-    private static NeutralRecordMongoAccess neutralRecordMongoAccess;
+    private ApplicationContext applicationContext;
 
-    // TODO: can we use enums?
-    public static final String ASSESSMENT_COMBINER = "AssessmentCombiner";
+    private String transformationStrategySuffix;
 
     /**
      * Create a transmogrifier based on a jobId and collection names that, when executed, will
@@ -28,32 +28,37 @@ public class TransformationFactory {
      * @param jobId
      * @return
      */
-    public static Transmogrifier createTransmogrifier(Collection<String> collectionNames, String jobId) {
+    public Transmogrifier createTransmogrifier(Collection<String> collectionNames, String jobId) {
 
-        Collection<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionNames);
+        List<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionNames);
 
-        return TransmogrifierImpl.createInstance(neutralRecordMongoAccess, jobId, transformationStrategies);
+        return TransmogrifierImpl.createInstance(jobId, transformationStrategies);
     }
 
-    private static Collection<TransformationStrategy> deriveTransformsRequired(Collection<String> collectionNames) {
+    private List<TransformationStrategy> deriveTransformsRequired(Collection<String> collectionNames) {
 
-        Collection<TransformationStrategy> transformationStrategies = new ArrayList<TransformationStrategy>();
+        List<TransformationStrategy> transformationStrategies = new ArrayList<TransformationStrategy>();
 
-        // TODO: again, can we use enums / enumset ?
-        if (collectionNames.contains(TransformationFactory.ASSESSMENT_COMBINER)) {
-            transformationStrategies.add(new AssessmentCombiner(neutralRecordMongoAccess));
+        for (String strategy : collectionNames) {
+            String expectedTransformationStrategy = strategy + getTransformationStrategySuffix();
+            if (applicationContext.containsBeanDefinition(expectedTransformationStrategy)) {
+                transformationStrategies.add(applicationContext.getBean(expectedTransformationStrategy, TransformationStrategy.class));
+            }
         }
 
         return transformationStrategies;
     }
 
-    // invoked via spring
-    public static void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        TransformationFactory.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
-    // invoked via spring
-    public static NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
-        return  neutralRecordMongoAccess;
+    public String getTransformationStrategySuffix() {
+        return transformationStrategySuffix;
+    }
+
+    public void setTransformationStrategySuffix(String transformationStrategySuffix) {
+        this.transformationStrategySuffix = transformationStrategySuffix;
     }
 }

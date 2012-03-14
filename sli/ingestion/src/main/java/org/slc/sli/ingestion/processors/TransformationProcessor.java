@@ -1,12 +1,13 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
@@ -27,6 +28,9 @@ public class TransformationProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
 
+    @Autowired
+    private TransformationFactory transformationFactory;
+
     /**
      * Camel Exchange process callback method
      *
@@ -42,7 +46,6 @@ public class TransformationProcessor implements Processor {
         performDataTransformations(job.getId());
 
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
-        //exchange.getIn().setHeader("IngestionMessageType", MessageType.MERGE_REQUEST.name());
     }
 
     /**
@@ -53,22 +56,30 @@ public class TransformationProcessor implements Processor {
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        Collection<String> collectionNames = defineCollectionsInJob();
+        List<String> collectionNames = defineCollectionsInJob();
 
-        Transmogrifier transmogrifier = TransformationFactory.createTransmogrifier(collectionNames, jobId);
+        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(collectionNames, jobId);
 
         transmogrifier.executeTransformations();
 
     }
 
-    private Collection<String> defineCollectionsInJob() {
+    private List<String> defineCollectionsInJob() {
 
         // TODO: provide proper implementation
 
-        Collection<String> collectionNames = new ArrayList<String>();
-        collectionNames.add(TransformationFactory.ASSESSMENT_COMBINER);
+        List<String> collectionNames = new ArrayList<String>();
+        collectionNames.add("assessement");
 
         return collectionNames;
+    }
+
+    public TransformationFactory getTransformationFactory() {
+        return transformationFactory;
+    }
+
+    public void setTransformationFactory(TransformationFactory transformationFactory) {
+        this.transformationFactory = transformationFactory;
     }
 
 }

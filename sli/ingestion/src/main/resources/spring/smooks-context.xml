@@ -275,9 +275,7 @@
       <ref bean="smooksConfigMap" />
     </property>
     <property name="beanId" value="${smooks.config.bean.id}" />
-    <property name="nrMongoStagingWriter">
-      <bean id="nrMongoStagingWriter" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" />
-    </property>
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
   </bean>
 
 </beans>
