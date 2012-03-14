@@ -2,7 +2,6 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -27,8 +26,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
 
 /**
  * 
@@ -45,9 +42,6 @@ public class ApplicationResource {
 
     @Autowired
     private EntityDefinitionStore store;
-
-    @Autowired
-    private EntityRepository repo;
 
     private EntityService service;
 
@@ -124,10 +118,6 @@ public class ApplicationResource {
 
         if (uuid != null) {
             EntityBody entityBody = service.get(uuid);
-            Entity entity = repo.find(RESOURCE_NAME, uuid);
-            Map<String, Object> metaData = entity.getMetaData();
-            entityBody.put("created", metaData.get("created"));
-            entityBody.put("updated", metaData.get("updated"));
             return Response.status(Status.OK).entity(entityBody).build();
         }
 
@@ -152,8 +142,6 @@ public class ApplicationResource {
     @Path("{" + CLIENT_ID + "}") 
     public Response updateApplication(@PathParam(CLIENT_ID) String clientId, EntityBody app) {
         String uuid = lookupIdFromClientId(clientId);
-        app.remove("created");
-        app.remove("updated");
         boolean status = service.update(uuid, app);
         if (status) {
             return Response.status(Status.NO_CONTENT).build();

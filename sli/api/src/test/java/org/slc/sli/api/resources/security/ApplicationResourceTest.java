@@ -272,7 +272,7 @@ public class ApplicationResourceTest {
     }
     
     @Test
-    public void testUpdateWithoutMetaData() {
+    public void testUpdate() {
         String clientId = "1234567890";
         String uuid = "123";
         List<String> existingUuids = new ArrayList<String>();
@@ -284,20 +284,6 @@ public class ApplicationResourceTest {
 
     }
     
-    @Test
-    public void testUpdateWithMetaData() {
-        String clientId = "1234567890";
-        String uuid = "123";
-        List<String> existingUuids = new ArrayList<String>();
-        existingUuids.add(uuid);
-        Mockito.when(service.list(0, 1, "client_id" + "=" + clientId)).thenReturn(existingUuids);
-        EntityBody app = getNewApp();
-        app.put("created", "4815162342");
-        app.put("updated", "4815162342");
-        Mockito.when(service.update(uuid, app)).thenReturn(true);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(clientId, app).getStatus());
-
-    }
 
     
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
