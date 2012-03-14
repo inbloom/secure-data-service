@@ -9,7 +9,7 @@ package org.slc.sli.util;
  */
 public class Constants {
     // API related URLs
-    public static final String API_PREFIX = "api/rest/v1";
+    public static final String API_PREFIX = "api/rest";
 
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
 
@@ -79,6 +79,7 @@ public class Constants {
     public static final String ATTR_NAME = "name";
     public static final String ATTR_FIRST_NAME = "firstName";
     public static final String ATTR_LAST_SURNAME = "lastSurname";
+    public static final String ATTR_MIDDLE_NAME = "middleName";
     public static final String ATTR_PROGRAMS = "programs";
     public static final String ATTR_YEAR = "year";
     public static final String ATTR_SCALE_SCORE = "Scale score";
@@ -98,6 +99,7 @@ public class Constants {
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
     public static final String ATTR_TEACHER_ID = "teacherId";
+    public static final String ATTR_TEACHER_NAME = "teacherName";
     public static final String ATTR_SECTION_ID = "sectionId";
     public static final String ATTR_SUBJECTAREA = "subjectArea";
     public static final String ATTR_COURSE_TITLE = "courseTitle";
@@ -106,6 +108,14 @@ public class Constants {
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
+    public static final String ATTR_TERM = "term";
+    public static final String ATTR_NUMERIC_GRADE_EARNED = "numericGradeEarned";
+    public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
+    public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
+    public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
+    
+    //Teacher constants
+    public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
 

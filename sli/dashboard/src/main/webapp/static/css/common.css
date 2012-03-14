@@ -135,6 +135,26 @@ h1
     color: #438746;
 }
 
+.countLevel1 
+{
+    color: #438746;
+}
+
+.countLevel2 
+{
+    color: #7FC124;
+}
+
+.countLevel3
+{
+    color: #DFC836;
+}
+
+.countLevel4
+{
+    color: #b40610
+}
+
 .fuelGauge
 {
     width: 64px;

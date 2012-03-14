@@ -1,39 +1,48 @@
 @wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Feature: Test Authentication, CRUD, optional flag and simple display with SDK
 
 Background: None
 
-	Scenario Outline:  As a educator (teacher) or leader I can acess a filtered list of my students
-    Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+	Scenario Outline:  As an application developer, I want to log in as an educator and access a filtered list of my students
+    Given  I am a valid SEA/LEA end user "linda.kim" with password "linda.kim1234"
+    And I am authenticated with the "Shared Learning Infrastructure" Realm
 
-     Given format "application/json"
-	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
-	Then I should receive a return code of 200
-		And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
-		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-		And I should receive a link named "self" with URI "/teachers/<'Ms. Jones' ID>"
+    When I run the "API SLI SDK Sample Application" interactively
+        And I type "1"
+        And I enter my password
+        Then the output should contain:
+        """
+    entityType=teacher        
+	  """
+    
+#   Given format "application/json"
+#	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
+#	Then I should receive a return code of 200
+#		And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
+#		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
+#		And I should receive a link named "self" with URI "/teachers/<'Ms. Jones' ID>"
 		
-	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-	Then I should receive a return code of 200
-		And I should receive a collection of 2 section links 
-		And I should find section with uniqueSectionCode is "Section I" 
-		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
+#	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
+#	Then I should receive a return code of 200
+#		And I should receive a collection of 2 section links 
+#		And I should find section with uniqueSectionCode is "Section I" 
+#		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
-	When I navigate to GET "getStudents" with URI "/student-sections-association/<'ImportantSection' ID>/targets" 
-		And filter by  "sex" = "Female" 
-		And "sort-by" = "name.lastSurname"
-		 And "sort-order" = "descending" 
-		 And "start-index" = "0" 
-		 And "max-results" = "5"
-	     Then  I should receive a collection of 5 students
-			And I should find Student with <'Suzy Queue' ID>
-			And I should find Student with <'Jane Steve' ID>
-			And I should find Student with <'Mary Line' ID>
-			And I should find Student with <'Jill Doe' ID>
-			And I should find Student with <'Jenny Deer' ID>
+#	When I navigate to GET "getStudents" with URI "/student-sections-association/<'ImportantSection' ID>/targets" 
+#		And filter by  "sex" = "Female" 
+#		And "sort-by" = "name.lastSurname"
+#		 And "sort-order" = "descending" 
+#		 And "start-index" = "0" 
+#		 And "max-results" = "5"
+#	     Then  I should receive a collection of 5 students
+#			And I should find Student with <'Suzy Queue' ID>
+#			And I should find Student with <'Jane Steve' ID>
+#			And I should find Student with <'Mary Line' ID>
+#			And I should find Student with <'Jill Doe' ID>
+#			And I should find Student with <'Jenny Deer' ID>
 					     
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
@@ -41,7 +50,7 @@ Examples:
 | "leader"        | "leader1234"        | "Leader"           |
 
 
-
+@wip
 Scenario Outline:  As a IT admin I should be able to CRUD a student and association
      Given  I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SEA/LEA IDP"
@@ -124,6 +133,7 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 
 
+@wip
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SEA/LEA IDP"

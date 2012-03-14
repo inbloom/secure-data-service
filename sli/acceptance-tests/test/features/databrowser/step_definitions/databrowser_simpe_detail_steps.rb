@@ -3,16 +3,38 @@ require "selenium-webdriver"
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
-Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
-  @driver.get url
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
+Given /^I navigated to the Data Browser Home URL$/ do
+  @driver.get PropLoader.getProps['databrowser_server_url']
 end
 
-When /^I navigate to the Data Browser Home URL$/ do
-  @driver.get PropLoader.getProps['databrowser_server_url']
+Given /^I was redirected to the Realm page$/ do
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
+end
+
+When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, arg1)
+end
+
+Given /^I click on the realm page Go button$/ do
+  assertWithWait("Could not find the Go button")  { @driver.find_element(:id, "go") }
+  @driver.find_element(:id, "go").click
+end
+
+Given /^I was redirected to the SLI IDP Login page$/ do
+  assertWithWait("Could not find the Go button")  { @driver.current_url.include?(PropLoader.getProps['sli_idp_server_url']) }
+end
+
+When /^I enter "([^"]*)" in the username text field$/ do |arg1|
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+end
+
+When /^I enter "([^"]*)" in the password text field$/ do |arg1|
+  @driver.find_element(:id, "IDToken2").send_keys arg1
+end
+
+When /^I click the IDP page Go button$/ do
+  @driver.find_element(:name, "Login.Submit").click
 end
 
 Then /^I should be redirected to the Data Browser home page$/ do

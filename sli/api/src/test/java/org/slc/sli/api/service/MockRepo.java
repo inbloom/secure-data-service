@@ -1,17 +1,5 @@
 package org.slc.sli.api.service;
 
-import com.mongodb.DBObject;
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityQuery;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.MongoEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,6 +9,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+
+import com.mongodb.DBObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * Mock implementation of the EntityRepository for unit testing.
@@ -391,7 +393,17 @@ public class MockRepo implements EntityRepository {
 
     @Override
     public Entity findOne(String collectionName, Query query) {
-        throw new UnsupportedOperationException("Not implemented here yet, implement me! (We're agile. And toasted.");
+        Entity response = null;
+        
+        if (collectionName.equals("realm")) {
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("regionId", "SLI");
+            response = new MongoEntity("realm", body);
+            
+            return response;
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.  Implement me please?");
+        }
     }
     
 }

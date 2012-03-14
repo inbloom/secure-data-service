@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #section data
-  when "ENTITY COUNT" then 24                                       
+  when "ENTITY COUNT" then 153
   when "ENTITY ID" then "1e1cdb04-2094-46b7-cd40-e3e481013480"
   when "ENTITY ID FOR UPDATE" then "5c4b1a9c-2fcd-4fa0-cd1c-f867cf4e7431"
   when "ENTITY ID FOR DELETE" then "4efb4262-bc49-f388-cd00-0000c9355700"

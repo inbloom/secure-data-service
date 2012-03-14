@@ -52,7 +52,7 @@ public class HistoricalViewManager {
     
     private DisplaySet createSubjectAreaAndSchoolYear(String subjectArea, String schoolYear) {
         DisplaySet hist = new DisplaySet();
-        hist.setDisplayName(subjectArea + " - " + schoolYear);
+        hist.setDisplayName(schoolYear);
         return hist;
     }
     
@@ -60,7 +60,7 @@ public class HistoricalViewManager {
         Field course = new Field();
         course.setDisplayName("Course");
         course.setType("historicalCourse");
-        course.setValue("Course.title");
+        course.setValue("Course.title." + schoolYear.replaceAll(" ", ""));
         course.setTimeSlot(schoolYear);
         return course;
     }
@@ -69,7 +69,7 @@ public class HistoricalViewManager {
         Field grade = new Field();
         grade.setDisplayName("Grade");
         grade.setType("historicalGrade");
-        grade.setValue("Course.grade");
+        grade.setValue("Course.grade." + schoolYear.replaceAll(" ", ""));
         grade.setTimeSlot(schoolYear);
         return grade;
     }

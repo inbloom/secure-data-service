@@ -11,7 +11,7 @@ import org.slc.sli.client.APIClient;
  */
 public abstract class Manager {
 
-    protected APIClient apiClient;
+    private APIClient apiClient;
 
     public APIClient getApiClient() {
         return apiClient;

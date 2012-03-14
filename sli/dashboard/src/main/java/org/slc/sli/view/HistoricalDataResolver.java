@@ -21,6 +21,10 @@ public class HistoricalDataResolver {
 
     private static final String GRADE_KEY = "finalLetterGradeEarned";
     private static final String COURSE_TITLE_KEY = "courseTitle";
+    private static final String TABLE_HEADER = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
+    private static final String TABLE_FOOTER = "</table>";
+    private static final String ROW_START = "<tr><td>";
+    private static final String ROW_END = "</td></tr>";
 
     /**
      * Constructor
@@ -71,7 +75,7 @@ public class HistoricalDataResolver {
         String studentId = student.get("id").toString();
         String schoolYear = getSchoolYear(field);
 
-        if (schoolYear == null || studentId == null || subjectArea == null) return "-";
+        if (schoolYear == null || studentId == null) return "-";
         
         return getFromHistoricalData(studentId, schoolYear, COURSE_TITLE_KEY);
     }
@@ -85,7 +89,7 @@ public class HistoricalDataResolver {
     public String getGrade(Field field, Map student) {
         String studentId = student.get("id").toString();
         String schoolYear = getSchoolYear(field);
-        if (schoolYear == null || studentId == null || subjectArea == null) return "-";
+        if (schoolYear == null || studentId == null) return "-";
 
         return getFromHistoricalData(studentId, schoolYear, GRADE_KEY);
     }
@@ -102,19 +106,34 @@ public class HistoricalDataResolver {
         List<GenericEntity> historicalList = historicalData.get(studentId);
         List<String> items = new ArrayList<String>();
 
-        if (historicalList == null) return "-";
+        if (historicalList == null) return "(none)";
         
         for (GenericEntity data : historicalList) {
-            String dataSession = data.getString("gradeLevelWhenTaken");
+            String dataSession = data.getString("schoolYear");
             if (dataSession != null && dataSession.equals(schoolYear)) {
                 String item = data.get(key).toString();
                 items.add(item);
             }
         }
 
-        if (items.size() == 0) return "-";
-        else if (items.size() > 1) return "...";
-        else return items.get(0);
+        if (items.size() == 0) return "(none)";
+        else if (items.size() > 1) {
+            
+            StringBuilder builder = new StringBuilder();
+            
+            //should not do this here
+            //need to refactor this out and put into the view
+            builder.append(TABLE_HEADER);
+            for (String s : items) {
+                builder.append(ROW_START);
+                builder.append(s);
+                builder.append(ROW_END);
+            }
+            builder.append(TABLE_FOOTER);
+            
+            return builder.toString();
+            
+        } else return items.get(0);
     }
 
 }

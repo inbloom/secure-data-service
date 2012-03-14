@@ -2,7 +2,6 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -25,6 +26,9 @@ public class TeacherSessionResolver implements EntityContextResolver {
     @Autowired
     private AssociativeContextHelper helper;
     
+    @Autowired
+    private EntityRepository repository;
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SESSION.equals(toEntityType);
@@ -32,13 +36,32 @@ public class TeacherSessionResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> all = new ArrayList<String>();
-        List<String> schoolBased = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS));
-        List<String> previousSectionsForCurrentStudents = Collections.emptyList(); // FIXME add traversal to previous sections for current students
-        
-        all.addAll(schoolBased);
-        all.addAll(previousSectionsForCurrentStudents);
-        
-        return all;
+        List<String> ids = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
+                ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
+                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+
+        StringBuilder query = new StringBuilder();
+        String separator = "";
+
+        for (String s : ids) {
+            query.append(separator);
+            separator = ",";
+            query.append(s);
+        }
+
+        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+        queryBuilder.addField("_id", query.toString());
+
+        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
+
+        List<String> sessionIds = new ArrayList<String>();
+
+        for (Entity e : entities) {
+            sessionIds.add((String) e.getBody().get("sessionId"));
+        }
+
+        return sessionIds;
     }
+    
 }

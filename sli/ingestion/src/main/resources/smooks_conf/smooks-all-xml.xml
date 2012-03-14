@@ -1980,5 +1980,39 @@
     <jb:value property="contactPriority" data="InterchangeStudentParent/StudentParentAssociation/ContactPriority" decoder="Integer" />
     <jb:value property="contactRestrictions" data="InterchangeStudentParent/StudentParentAssociation/ContactRestrictions" />
   </jb:bean>
-    
+
+
+  <!-- Start StudentGradebookEntry mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:expression property="recordType">'studentSectionGradebookEntry'</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="studentGradebookEntryAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="StudentGradebookEntryParentIds" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntryParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+<!--    <jb:wiring property="GradebookEntry" /> -->
+    <jb:wiring property="Student" beanIdRef="StudentGradebookEntry_StudentReference" />
+    <jb:wiring property="Section" beanIdRef="StudentGradebookEntry_SectionReference" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:value property="Student#metaData.externalId" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntry_SectionReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:value property="Section#metaData.externalId" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
+
+  <jb:bean beanId="studentGradebookEntryAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:value property="dateFulfilled" data="DateFulfilled" />
+    <jb:value property="letterGradeEarned" data="LetterGradeEarned" />
+    <jb:value property="numericGradeEarned" data="NumericGradeEarned" decoder="Integer" />
+    <jb:value property="diagnosticStatement" data="DiagnosticStatement" />
+    <jb:value property="studentId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="sectionId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
+  </jb:bean>
+
 </smooks-resource-list>

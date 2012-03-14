@@ -12,20 +12,11 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.security.saml.SamlAttributeTransformer;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +26,14 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
+
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.security.saml.SamlAttributeTransformer;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Process SAML assertions
@@ -113,10 +112,10 @@ public class SamlFederationResource {
         
         // TODO change everything authRealm to use issuer instead of authRealm
         
-        final SLIPrincipal principal = users.locate(issuer, attributes.getFirst("userId"));
+        final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
-        principal.setRealm(issuer);
+        principal.setRealm(realm.getEntityId());
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
@@ -146,7 +145,6 @@ public class SamlFederationResource {
      */
     @GET
     @Path("metadata")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response getMetadata() {
         
         if (!metadata.isEmpty()) {

@@ -156,6 +156,7 @@ public class PersistenceProcessor implements Processor {
             throws IOException {
 
         long recordNumber = 0;
+        long numFailed = 0;
 
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
@@ -170,6 +171,7 @@ public class PersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
+
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     //this doesn't exist in collection, persist
 
@@ -179,6 +181,11 @@ public class PersistenceProcessor implements Processor {
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
                     entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
+                    if (errorReport.hasErrors()) {
+                        
+                        numFailed++;
+                    
+                    }
                 } else {
                     //process collection of the entities from db
                     LOG.debug("processing staged collection: " + neutralRecord.getRecordType());
@@ -195,6 +202,12 @@ public class PersistenceProcessor implements Processor {
                             List<? extends Entity> result = transformer.handle(nr);
                             NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
                             entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
+                            
+                            if (errorReport.hasErrors()) {
+                                
+                                numFailed++;
+                            
+                            }
                         }
                     }
                 }
@@ -210,6 +223,17 @@ public class PersistenceProcessor implements Processor {
 
             errorLogger.detachAndStopAllAppenders();
 
+            // if error log exists and is 0L bytes, delete
+            File errorLog = lz.getFile(errorLogger.getName());
+            if (errorLog != null) {
+                if (errorLog.length() == 0L) {
+                    LOG.debug(errorLog.getName() + " is empty, deleting");
+                    if (!errorLog.delete()) {
+                        LOG.error(errorLog.getName() + " is empty but could not be deleted");
+                    }
+                }
+            }
+
             if (exchange != null) {
                 LOG.info("Setting records.processed value on exchange header");
 
@@ -220,7 +244,15 @@ public class PersistenceProcessor implements Processor {
                     processedSoFar = processed.longValue();
                 }
 
+                // number of records considered
                 exchange.setProperty("records.processed", Long.valueOf(processedSoFar + recordNumber));
+                exchange.setProperty(originalInputFileName + ".records.processed", recordNumber);
+
+                // number of records processed successfully
+                exchange.setProperty(originalInputFileName + ".records.passed", recordNumber - numFailed);
+
+                // number of records not processed successfully
+                exchange.setProperty(originalInputFileName + ".records.failed", numFailed);
             }
         }
         neutralRecordsFile.delete();
@@ -281,4 +313,5 @@ public class PersistenceProcessor implements Processor {
 
         return logger;
     }
+
 }
