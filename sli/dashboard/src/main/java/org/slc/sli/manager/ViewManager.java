@@ -52,6 +52,7 @@ public class ViewManager extends ApiClientManager {
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
                 List<GenericEntity> students = entityManager.getStudents(token, uids);
                 
+                if (students == null) { continue; } // protect against crashing when viewing no students.
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));

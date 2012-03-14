@@ -750,7 +750,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -833,6 +833,11 @@ end
 desc "Run dashboard student historical data tests"
 task :dashboardStudentHistoricalDataTests do
   runTests("test/features/dashboard/students/HistoricalData.feature")
+end
+
+desc "Run dashboard student contact info tests"
+task :dashboardStudentContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info.feature")
 end
 
 ############################################################
