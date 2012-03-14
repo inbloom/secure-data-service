@@ -8,7 +8,9 @@ Feature: Security for Parent CRUD
     And I teach the student "Marvin Miller"
     When I make an API call to get the student "Marvin Miller"
     Then I receive a JSON response
-    And I should see a link to get the list of its parents in the response labeled "parents"
+    And I should see a link "getParents" to get the list of parents
+    And I should see a link "getStudentParentAssociations" to get the list of parent associations
+
 
   Scenario: Authorized user tries to hit the parent list URL directly
     Given I am user "linda.kim" in IDP "SLI"
