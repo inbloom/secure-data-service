@@ -156,6 +156,7 @@
 		<module>common</module>
 		<module>api</module>
 		<module>data-access</module>
+                <!-- module>admin-tools</module -->
 		<module>ingestion</module>
 		<module>dashboard</module>
 		<module>acceptance-tests</module>
