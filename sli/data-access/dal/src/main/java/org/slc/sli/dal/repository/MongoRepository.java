@@ -40,8 +40,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate(){
-    	return template;
+    public MongoTemplate getTemplate() {
+        return template;
     }
 
     private Class<T> clazz;
