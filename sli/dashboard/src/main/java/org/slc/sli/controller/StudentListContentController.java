@@ -66,12 +66,13 @@ public class StudentListContentController extends DashboardController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView studentListContent(@RequestParam(required = false, value = "courseId") String sessionId,
-            @RequestParam(required = false, value = "courseId") String selectedCourseId, String population,
-            Integer viewIndex, Integer filterIndex, ModelMap model) throws Exception {
+    public ModelAndView studentListContent(@RequestParam(required = false, value = Constants.ATTR_SESSION_ID) String sessionId,
+            @RequestParam(required = false, value = Constants.ATTR_COURSE_ID) String selectedCourseId,
+            @RequestParam(required = false, value = Constants.ATTR_SECTION_ID) String selectedSectionId,
+            String population, Integer viewIndex, Integer filterIndex, ModelMap model) throws Exception {
         
         UserDetails user = SecurityUtil.getPrincipal();
-        
+                        
         // get the list of all available viewConfigs
         List<ViewConfig> viewConfigs = configManager.getConfigsWithType(user.getUsername(),
                 Constants.VIEW_TYPE_STUDENT_LIST);
