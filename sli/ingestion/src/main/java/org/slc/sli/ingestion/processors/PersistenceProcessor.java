@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -27,10 +26,12 @@ import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.slc.sli.ingestion.handler.NentralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
@@ -54,6 +55,8 @@ public class PersistenceProcessor implements Processor {
     SmooksEdFi2SLITransformer transformer;
 
     private EntityPersistHandler entityPersistHandler;
+
+    private NentralRecordEntityPersistHandler absoletePersistHandler;
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
@@ -172,7 +175,7 @@ public class PersistenceProcessor implements Processor {
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
                     ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                    entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
+                    absoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
 
                     if (errorReport.hasErrors()) {
                         numFailed++;
@@ -190,14 +193,14 @@ public class PersistenceProcessor implements Processor {
 
                         for (NeutralRecord nr : neutralRecordData) {
                             nr.setRecordType(neutralRecord.getRecordType());
-                            List<? extends Entity> result = transformer.handle(nr);
-                            NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
+                            List<SimpleEntity> result = transformer.handle(nr);
+                            for (SimpleEntity entity : result) {
+                                ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                                entityPersistHandler.handle(entity, errorReport);
 
-                            ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                            entityPersistHandler.handle(neutralRecordEntity, errorReport);
-
-                            if (errorReport.hasErrors()) {
-                                numFailed++;
+                                if (errorReport.hasErrors()) {
+                                    numFailed++;
+                                }
                             }
                         }
                     }
@@ -291,5 +294,13 @@ public class PersistenceProcessor implements Processor {
         logger.addAppender(appender);
 
         return logger;
+    }
+
+    public NentralRecordEntityPersistHandler getAbsoletePersistHandler() {
+        return absoletePersistHandler;
+    }
+
+    public void setAbsoletePersistHandler(NentralRecordEntityPersistHandler absoletePersistHandler) {
+        this.absoletePersistHandler = absoletePersistHandler;
     }
 }

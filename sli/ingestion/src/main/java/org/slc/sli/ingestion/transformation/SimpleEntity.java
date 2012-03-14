@@ -13,6 +13,7 @@ public class SimpleEntity implements Entity {
     private String entityId;
     private Map<String, Object> body;
     private Map<String, Object> metaData;
+    private long recordNumber;
 
     @Override
     public String getType() {
@@ -48,5 +49,13 @@ public class SimpleEntity implements Entity {
 
     public void setMetaData(Map<String, Object> metaData) {
         this.metaData = metaData;
+    }
+
+    public long getRecordNumber() {
+        return recordNumber;
+    }
+
+    public void setRecordNumber(long recordNumber) {
+        this.recordNumber = recordNumber;
     }
 }

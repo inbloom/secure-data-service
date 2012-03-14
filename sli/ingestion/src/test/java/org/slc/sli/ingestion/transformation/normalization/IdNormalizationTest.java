@@ -54,7 +54,7 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, myCollectionId, new DummyErrorReport());
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
 
         Assert.assertEquals("123", internalId);
     }

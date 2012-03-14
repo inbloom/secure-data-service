@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +25,31 @@ public class IdNormalizer {
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
     private EntityRepository entityRepository;
 
-    public String resolveInternalId(Entity entity, Ref myCollectionId, ErrorReport errorReport) {
-        List<String> ids = resolveInternalIds(entity, myCollectionId, errorReport);
+    public void resolveInternalIds(Entity entity, String idNamespace, EntityConfig entityConfig, ErrorReport errorReport) {
+        if (entityConfig.getReferences() == null) {
+            return;
+        }
+
+        try {
+            for (RefDef reference : entityConfig.getReferences()) {
+                String id = resolveInternalId(entity, idNamespace, reference.getRef(), errorReport);
+
+                if (errorReport.hasErrors()) {
+                    return;
+                }
+                    PropertyUtils.setProperty(entity, reference.getFieldPath(), id);
+            }
+        } catch (Exception e) {
+            LOG.error("Error accessing property", e);
+            errorReport.error("Failed to resolve a reference", this);
+        }
+    }
+
+    public String resolveInternalId(Entity entity, String idNamespace, Ref refConfig, ErrorReport errorReport) {
+        List<String> ids = resolveInternalIds(entity, idNamespace, refConfig, errorReport);
 
         if (ids.size() == 0) {
             errorReport.error("Failed to resolve a reference", this);
@@ -41,26 +59,26 @@ public class IdNormalizer {
         return ids.get(0);
     }
 
-    public List<String> resolveInternalIds(Entity entity, Ref myCollectionId, ErrorReport errorReport) {
+    public List<String> resolveInternalIds(Entity entity, String idNamespace, Ref refConfig, ErrorReport errorReport) {
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
-        String collection = myCollectionId.getCollectionName();
+        String collection = refConfig.getCollectionName();
 
         Query filter = new Query();
 
         try {
-            for (List<Field> fields : myCollectionId.getChoiceOfFields()) {
+            for (List<Field> fields : refConfig.getChoiceOfFields()) {
                 Query choice = new Query();
 
                 choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()))
-                    .equals(REGION_ID);
+                    .equals(idNamespace);
 
                 for (Field field: fields) {
                     List<String> filterValues = new ArrayList<String>();
 
                     for (FieldValue fv : field.getValues()) {
                         if (fv.getRef() != null) {
-                            filterValues.addAll(resolveInternalIds(entity, fv.getRef(), proxyErrorReport));
+                            filterValues.addAll(resolveInternalIds(entity, idNamespace, fv.getRef(), proxyErrorReport));
                         } else {
                             filterValues.add(String.valueOf(PropertyUtils.getProperty(entity, fv.getValueSource())));
                         }
@@ -71,13 +89,7 @@ public class IdNormalizer {
 
                 filter.or(choice);
             }
-        } catch (IllegalAccessException e) {
-            LOG.error("Error accessing property", e);
-            proxyErrorReport.error("Failed to resolve a reference", this);
-        } catch (InvocationTargetException e) {
-            LOG.error("Error accessing property", e);
-            proxyErrorReport.error("Failed to resolve a reference", this);
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             LOG.error("Error accessing property", e);
             proxyErrorReport.error("Failed to resolve a reference", this);
         }
