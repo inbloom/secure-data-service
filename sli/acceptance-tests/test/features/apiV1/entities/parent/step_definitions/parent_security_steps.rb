@@ -48,7 +48,7 @@ Then /^I receive a JSON response$/ do
   assert(result != nil, "Result of JSON parsing is nil")
 end
 
-Then /^I should see a link to get the list of its parents in the response labeled "([^"]*)"$/ do |arg1|
+Then /^I should see a link "([^"]*)"/ do |arg1|
   assert(@res.body.include?(arg1), "Did not find text in the body including the text: "+arg1)
 end
 

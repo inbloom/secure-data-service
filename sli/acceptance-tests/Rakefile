@@ -204,6 +204,7 @@ task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1EducationOrganizationTests,
                            :v1GradebookEntryTests,
                            :v1ParentTests,
+                           :v1ParentSecurityTests,
                            :v1SchoolTests,
                            :v1SectionTests,
                            :v1SessionTests,
@@ -444,6 +445,12 @@ task :v1ParentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
 end
 
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
@@ -568,7 +575,6 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-
 end
 
 desc "Run Attendance CRUD Tests"
