@@ -14,7 +14,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     abstract void transform();
 
-    abstract String persist();
+    abstract void persist();
 
     @Override
     public void perform(String batchJobId) {
@@ -25,7 +25,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
         transform();
 
-        String status = persist();
+        persist();
     }
 
 }

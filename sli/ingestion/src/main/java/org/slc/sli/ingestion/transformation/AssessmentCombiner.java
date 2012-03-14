@@ -117,7 +117,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
 
     @Override
-    public String persist() {
+    public void persist() {
         LOG.info("Persisting transformed data to storage.");
 
         // transformedCollections should have been populated in the transform() step.
@@ -131,8 +131,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 neutralRecordMongoAccess.getRecordRepository().create(neutralRecord);
             }
         }
-
-        return "OK";
     }
 
     /**
