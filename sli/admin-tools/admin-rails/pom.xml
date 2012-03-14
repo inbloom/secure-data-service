@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>admin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Rails Admin</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+            <execution>
+                <id>update-gems</id>
+                <phase>validate</phase>
+                <configuration>
+                    <executable>bundle</executable>
+                     <arguments>
+                         <argument>install</argument>
+                         <argument>--deployment</argument>
+                     </arguments>
+                </configuration>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>generate-war</id>
+                <phase>compile</phase>
+                <configuration>
+                    <executable>bundle</executable>
+                    <arguments>
+                        <argument>exec</argument>
+                        <argument>warble</argument>
+                    </arguments>
+                </configuration>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+            </execution>
+
+         </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
+

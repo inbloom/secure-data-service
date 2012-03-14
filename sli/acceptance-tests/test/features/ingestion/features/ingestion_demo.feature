@@ -22,6 +22,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | assessment                  |
         | studentAssessmentAssociation|
         | studentTranscriptAssociation|
+        | studentSectionGradebookEntry|
 When zip file is scp to ingestion landing zone
 #    And "30" seconds have elapsed
   And a batch job log has been created
@@ -41,6 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
         | assessment                  | 15    |
         | studentAssessmentAssociation| 100   |
         | studentTranscriptAssociation| 40    |
+#        | studentSectionGradebookEntry| 60    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
@@ -100,6 +102,7 @@ Then I should see following map of entry counts in the corresponding collections
         | assessment                  | 15    |
         | studentAssessmentAssociation| 100   |
         | studentTranscriptAssociation| 40    |
+#        | studentSectionGradebookEntry| 60    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |

@@ -209,6 +209,7 @@ task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1EducationOrganizationTests,
                            :v1GradebookEntryTests,
                            :v1ParentTests,
+                           :v1ParentSecurityTests,
                            :v1SchoolTests,
                            :v1SectionTests,
                            :v1SessionTests,
@@ -449,6 +450,12 @@ task :v1ParentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
 end
 
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
@@ -573,7 +580,6 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-
 end
 
 desc "Run Attendance CRUD Tests"
@@ -749,7 +755,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -832,6 +838,11 @@ end
 desc "Run dashboard student historical data tests"
 task :dashboardStudentHistoricalDataTests do
   runTests("test/features/dashboard/students/HistoricalData.feature")
+end
+
+desc "Run dashboard student contact info tests"
+task :dashboardStudentContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info.feature")
 end
 
 ############################################################

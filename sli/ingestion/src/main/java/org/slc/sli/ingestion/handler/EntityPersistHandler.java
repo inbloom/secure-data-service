@@ -33,8 +33,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
 
     private static final String METADATA_BLOCK = "metaData";
 
-    // Hard-code region ID here for now, until it is set for real!
-
     private EntityRepository entityRepository;
 
     private MessageSource messageSource;

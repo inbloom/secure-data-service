@@ -65,7 +65,7 @@ public class PersistenceProcessor implements Processor {
 
             BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
-            String idNamespace = job.getProperty("idNamespace", "https://devapp1.slidev.org:443/sp");
+            String idNamespace = job.getProperty("idNamespace", "SLI");
 
             this.exchange = exchange;
 
