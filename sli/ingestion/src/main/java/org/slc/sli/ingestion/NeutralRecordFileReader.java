@@ -60,7 +60,7 @@ public class NeutralRecordFileReader implements Iterator {
      */
     protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) throws IOException {
         NeutralRecord nr = new NeutralRecord();
-        nr.setJobId(getStringNullable(avroRecord, "jobId"));
+        nr.setBatchJobId(getStringNullable(avroRecord, "jobId"));
         nr.setSourceId(getStringNullable(avroRecord, "sourceId"));
         nr.setLocalId(getStringNullable(avroRecord, "localId"));
         nr.setAssociation((Boolean) avroRecord.get("association"));

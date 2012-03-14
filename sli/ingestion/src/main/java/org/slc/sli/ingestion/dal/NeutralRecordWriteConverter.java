@@ -27,6 +27,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("type", neutralRecord.getRecordType());
         dbObj.put("_id", UUID.randomUUID());
         dbObj.put("body", body);
+        dbObj.put("batchJobId", neutralRecord.getBatchJobId());
         return dbObj;
     }
 

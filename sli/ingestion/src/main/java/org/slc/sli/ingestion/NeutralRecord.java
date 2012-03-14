@@ -42,7 +42,7 @@ public class NeutralRecord {
      * stores an Id value correlating the record to a particular batch or
      * processing request.
      */
-    protected String jobId;
+    protected String batchJobId;
 
     /**
      * stores a flag whether the current record is association.
@@ -123,16 +123,16 @@ public class NeutralRecord {
     /**
      * @return the jobId
      */
-    public String getJobId() {
-        return jobId;
+    public String getBatchJobId() {
+        return batchJobId;
     }
 
     /**
-     * @param jobId
+     * @param batchJobId
      *            the jobId to set
      */
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
     }
 
     /**

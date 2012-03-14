@@ -9,7 +9,6 @@ import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.ingestion.NeutralRecord;
 
-
 /**
  * Spring converter registered in the Mongo configuration to convert DBObjects into MongoEntity.
  *
@@ -25,13 +24,23 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         if (map.containsKey("body")) {
             body.putAll((Map<String, ?>) map.get("body"));
         }
-        String id = body.get("localId").toString();
+
+        String id = null;
+        if (body.get("localId") != null) {
+            id = body.get("localId").toString();
+        }
         body.remove("localId");
+
+        String batchJobId = null;
+        if (dbObj.get("batchJobId") != null) {
+            batchJobId = dbObj.get("batchJobId").toString();
+        }
 
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(id);
         neutralRecord.setRecordType(type);
         neutralRecord.setAttributes(body);
+        neutralRecord.setBatchJobId(batchJobId);
         return neutralRecord;
     }
 

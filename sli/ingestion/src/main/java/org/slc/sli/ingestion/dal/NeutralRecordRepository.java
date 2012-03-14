@@ -4,36 +4,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
- * using a Mongo "sandbox" DB, for use by the Ingestion Aggregation/Splitting transformers.
+ * using a Mongo Staging DB, for use for staging data for intermediate operations.
  *
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
  *
  */
+@Component
 public class NeutralRecordRepository {
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
     
-    private MongoTemplate template;
+    private StagingMongoTemplate template;
     
-    public void setTemplate(MongoTemplate template) {
+    public void setTemplate(StagingMongoTemplate template) {
         this.template = template;
     }
     
+    public StagingMongoTemplate getTemplate() {
+        return template;
+    }
+
     public NeutralRecord find(String collection, String id) {
         LOG.debug("find a Neutral Record in collection {} with id {}", new Object[] { collection, id });
         Map<String, String> query = new HashMap<String, String>();
@@ -256,6 +262,10 @@ public class NeutralRecordRepository {
                     new Object[] { collection, results.size() });
         }
         
+    }
+    
+    public Set<String> getCollectionNames() {
+        return template.getCollectionNames();
     }
     
     private Map<String, String> convertBodyToPaths(Map<String, String> body) {
