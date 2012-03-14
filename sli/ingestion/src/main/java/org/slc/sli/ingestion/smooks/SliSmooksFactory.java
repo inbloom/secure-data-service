@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
