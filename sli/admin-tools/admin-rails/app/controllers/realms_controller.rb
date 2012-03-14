@@ -12,14 +12,15 @@ class RealmsController < ApplicationController
     userRealm = get_user_realm
     realmToRedirectTo = nil
     realms = Realm.all
+    logger.debug {"User Realm: #{userRealm}"}
     realms.each do |realm|
-      realmToRedirectTo = realm if realm.regionId == userRealm
+        realmToRedirectTo = realm if realm.id.eql? userRealm
     end
-    if realmToRedirectTo != nil
+    if realmToRedirectTo.nil?
+      render_404
+    else
       redirect_to realmToRedirectTo
-      return
     end
-    render_404
   end
 
   # # GET /realms/1
@@ -78,7 +79,7 @@ private
   # but ultimately we need to get that somewhere else since the user will
   # always be authenticated to the SLI realm
   def get_user_realm
-    return Check.new(SessionResource.auth_id, SessionResource.access_token).realm
+    Check.new(SessionResource.access_token).realm
   end
 
 end

@@ -170,8 +170,8 @@ public class StudentProgressManagerTest {
         SortedSet<String> results = manager.applySessionAndTranscriptInformation(token, data);
         
         assertEquals("Size should be 3", 3, results.size());
-        assertEquals("First element should match", YEAR_2009_2010 + " Fall Semester", results.first());
-        assertEquals("Third element should match", YEAR_1998_1999 + " Fall Semester", results.last());
+        assertEquals("First element should match", YEAR_1998_1999 + " Fall Semester", results.first());
+        assertEquals("Third element should match", YEAR_2009_2010 + " Fall Semester", results.last());
         
         assertEquals("School year should match", YEAR_2009_2010 + " Fall Semester", data.get(STUDENTID).get(0).getString("schoolYear"));
         assertEquals("course title should match", "Math 1 B", data.get(STUDENTID).get(0).getString("courseTitle"));

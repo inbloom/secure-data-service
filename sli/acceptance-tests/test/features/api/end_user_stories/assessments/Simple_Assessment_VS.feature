@@ -1,4 +1,7 @@
 @wip
+# ==========================================================
+# MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
+# ==========================================================
 Feature: Display simple assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard

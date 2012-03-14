@@ -110,6 +110,7 @@ public class OAuthTokenUtil {
         return ACCESS_TOKEN_VALIDITY;
     }
     
+    @SuppressWarnings("unchecked")
     public OAuth2Authentication createOAuth2Authentication(Map data) {
         String realm = (String) data.get("realm");
         String externalId = (String) data.get("externalId");
@@ -118,6 +119,7 @@ public class OAuthTokenUtil {
         SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("regionId"), externalId);
         principal.setName((String) data.get("name"));
         principal.setRoles((List<String>) data.get("roles"));
+        principal.setRealm(realm);
         return reconstituteAuth(principal, data);
     }
     

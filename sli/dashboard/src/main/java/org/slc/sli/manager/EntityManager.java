@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -128,15 +129,17 @@ public class EntityManager extends Manager {
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
-        String sectionId = getApiClient().getHomeRoomForStudent(studentId, token);
-        student.put(Constants.ATTR_SECTION_ID, sectionId);
-        student.put(Constants.ATTR_TEACHER_ID, getApiClient().getTeacherIdForSection(sectionId, token));
-        GenericEntity program = getProgram(token, studentId);
+        GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
+        
+        student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+        GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
+        student.put(Constants.ATTR_TEACHER_NAME, teacher.get(Constants.ATTR_NAME));
+        /*GenericEntity program = getProgram(token, studentId);
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
         } else {
             student.put(Constants.ATTR_PROGRAMS, new ArrayList());
-        }
+        }*/
         return student;
     }
     
@@ -167,7 +170,8 @@ public class EntityManager extends Manager {
      *         - the program entity
      */
     public GenericEntity getProgram(final String token, String studentId) {
-        return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentId);
+        String username = SecurityUtil.getUsername().replaceAll(" ", "");
+        return this.getEntity(username, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentId);
     }
     
     /**

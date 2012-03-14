@@ -23,56 +23,55 @@ import org.slc.sli.entity.GenericEntity;
  * Unit test for the Live API client.
  */
 public class LiveAPIClientTest {
-
+    
     private LiveAPIClient client;
     private RESTClient mockRest;
     private ApplicationContext appContext;
-
+    
     @Before
     public void setUp() throws Exception {
         if (System.getProperty("env") == null)
-          System.setProperty("env", "dev");
+            System.setProperty("env", "dev");
         // Get the initalized bean from spring config
         appContext = new ClassPathXmlApplicationContext("application-context.xml");
-        client = (LiveAPIClient) appContext.getBean("apiClient");
+        client = new LiveAPIClient();
         mockRest = mock(RESTClient.class);
         
         client.setRestClient(mockRest);
     }
-
+    
     @After
     public void tearDown() throws Exception {
         client = null;
         mockRest = null;
     }
-
+    
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
         attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
-        
-        String url = client.getApiUrl() + "v1/students/1000/attendances";
+        String url = client.getApiUrl() + "/v1/students/1000/attendances";
         
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null, true)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000", null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 2);
         assert (attendance.get(0).get("attendance").equals("yes"));
     }
-
+    
     @Test
     public void testGetStudentAttendanceWithDates() throws Exception {
         List<GenericEntity> attendance;
         attendance = client.getStudentAttendance(null, null, null, null);
         assertNotNull(attendance);
         assert (attendance.size() == 0);
-
-        String url = client.getApiUrl() + "v1/students/1000/attendances?startDate>=\"2011-07-13\"&endDate<=\"2012-07-13\"";
-
+        
+        String url = client.getApiUrl() + "/v1/students/1000/attendances?eventDate>=2011-07-13&eventDate<=2012-07-13";
+        
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
         attendance = null;
@@ -84,10 +83,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetCourses() {
-        String url = client.getApiUrl() + "/v1/students/56789/studentTranscriptAssociations/courses?subjectArea=math&includeFields=courseId,courseTitle";
+        String url = client.getApiUrl()
+                + "/v1/students/56789/studentTranscriptAssociations/courses?subjectArea=math&includeFields=courseId,courseTitle";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("subjectArea", "math");
         params.put("includeFields", "courseId,courseTitle");
@@ -103,10 +103,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetStudentTranscriptAssociations() {
-        String url = client.getApiUrl() + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
+        String url = client.getApiUrl()
+                + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "finalLetterGradeEarned,studentId");
@@ -122,10 +123,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetSections() {
-        String url = client.getApiUrl() + "/v1/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
+        String url = client.getApiUrl()
+                + "/v1/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "sessionId");
@@ -143,7 +145,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "/v1/sessions/56789?includeFields=schoolYear,term";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("includeFields", "schoolYear,term");
         
@@ -178,11 +180,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testBuildQueryString() {
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "finalLetterGradeEarned,studentId");
         
-        //String query = client.b
+        // String query = client.b
     }
 }

@@ -12,13 +12,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.LozengeConfig;
-import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.DashboardUserMessageException;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -31,8 +29,7 @@ import org.slc.sli.view.widget.WidgetFactory;
  */
 @Controller
 public abstract class GenericLayoutController {
-    
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final String LAYOUT_DIR = "layout/";
     
     private ConfigManager configManager;
@@ -47,35 +44,16 @@ public abstract class GenericLayoutController {
      *            - entity id to pass to the child panels
      * @return
      */
-    protected ModelMap getPopulatedModel(String layoutId, Object entityId) {
-        
-        UserDetails user = SecurityUtil.getPrincipal();
-        // get the list of all available viewConfigs
-        List<ViewConfig> viewConfigs = configManager.getConfigsWithType(SecurityUtil.getToken(), layoutId);
-        if (viewConfigs == null) {
-            logger.error("Unable to populate find config for layout" + layoutId + " and user "
-                    + SecurityUtil.getUsername());
-            throw new DashboardUserMessageException("Technical difficulties, please check back later.");
-        }
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
         
         // set up model map
         ModelMap model = new ModelMap();
-        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, viewConfigs);
-        for (ViewConfig viewConfig : viewConfigs) {
-            if (viewConfig.getDisplaySet() != null) {
-                for (DisplaySet panel : viewConfig.getDisplaySet()) {
-                    try {
-                        model.addAttribute(panel.getDisplayName(),
-                                customizationAssemblyFactory.getDataComponent(panel.getDisplayName(), entityId));
-                    } catch (DashboardException de) {
-                        logger.error("Unable to populate model for panel", de);
-                    }
-                }
-            }
-        }
-        
+        ModelAndViewConfig modelAndConfig =
+                customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
+        model.addAttribute("data", modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
+        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
         model.addAttribute("random", new Random());
         return model;
@@ -103,12 +81,14 @@ public abstract class GenericLayoutController {
     
     @ExceptionHandler(Throwable.class)
     public ModelAndView handleThrowable(Throwable t) {
-        String message = (t instanceof DashboardUserMessageException) ? t.getMessage() : DEFAULT_MESSAGE;
+        logger.error("An error running layout: ", t);
+        String message =  (t instanceof DashboardUserMessageException) ? t.getMessage() : DEFAULT_MESSAGE;
         return new ModelAndView("error", "error", message);
     }
     
     @ExceptionHandler(DashboardUserMessageException.class)
     public ModelAndView handleThrowable(DashboardUserMessageException de) {
+        logger.error("An error running layout: ", de);
         return new ModelAndView("error", "error", de.getMessage());
     }
 }

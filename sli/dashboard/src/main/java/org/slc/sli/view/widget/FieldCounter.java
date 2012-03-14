@@ -36,12 +36,12 @@ public class FieldCounter {
         int level = 1;
         int count = resolver.getCountForPath(field);
         for (int i = 0; boundaries != null && i < boundaries.length; i++) {
+            level++;
             if (count <= boundaries[i]) {
                 break;
-            } else {
-                level++;
             }
         }
+        level--;
         return level;
     }
 }

@@ -1,5 +1,6 @@
 package org.slc.sli.api.client;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,9 +19,8 @@ public interface SLIClient {
      * Connect to the SLI ReSTful API web service and authenticate with the IDP.
      * 
      * @param host
-     *            Host running the SLI API.
-     * @param port
-     *            Port to connect to.
+     *            Host running the SLI API. This should include the protocol and optional port.
+     *            Example: https://localhost:493
      * @param username
      *            Name of an authorized SLI user.
      * @param password
@@ -31,8 +31,8 @@ public interface SLIClient {
      *         String containing the sessionId for the authenticated user, or null if
      *         authentication fails.
      */
-    public abstract String connect(final String host, final int port, final String user, final String password,
-            final String realm);
+    public abstract String connect(final String host, final String user, final String password,
+            final String realm) throws IOException;
     
     /**
      * Create operation
