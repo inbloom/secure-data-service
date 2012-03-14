@@ -21,7 +21,7 @@
     <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     </bean>
 
-    <bean id="assessementTransformationStrategy" class="org.slc.sli.ingestion.transformation.AssessmentCombiner" scope="prototype">
+    <bean id="assessmentTransformationStrategy" class="org.slc.sli.ingestion.transformation.AssessmentCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
 
