@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -24,6 +25,9 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 public class IdNormalizer {
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
+    private static final String METADATA_BLOCK = "metaData";
+    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+
     private EntityRepository entityRepository;
 
     public String resolveInternalId(Entity entity, Ref myCollectionId, ErrorReport errorReport) {
@@ -36,6 +40,7 @@ public class IdNormalizer {
         try {
             for (List<Field> fields : myCollectionId.getChoiceOfFields()) {
                 Query choice = new Query();
+                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey())).equals(REGION_ID);
                 for (Field field: fields) {
                     List<String> filterValues = new ArrayList<String>();
 
