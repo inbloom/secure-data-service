@@ -11,7 +11,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.IdNormalizer;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -34,9 +34,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
     private static final String METADATA_BLOCK = "metaData";
 
     // Hard-code region ID here for now, until it is set for real!
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+    private static final String REGION_ID = "SLI";
 
-    private EntityRepository entityRepository;
+    private Repository<Entity> entityRepository;
 
     private MessageSource messageSource;
 
@@ -242,7 +242,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         return messageSource.getMessage(code, args, "#?" + code + "?#", null);
     }
 
-    public void setEntityRepository(EntityRepository entityRepository) {
+    public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 

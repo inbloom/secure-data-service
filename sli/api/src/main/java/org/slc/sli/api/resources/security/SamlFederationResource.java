@@ -33,7 +33,7 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Process SAML assertions
@@ -50,7 +50,7 @@ public class SamlFederationResource {
     private SamlHelper saml;
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private UserLocator users;

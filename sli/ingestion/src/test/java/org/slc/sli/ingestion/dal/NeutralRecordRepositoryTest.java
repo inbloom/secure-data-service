@@ -83,7 +83,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student);
-        NeutralRecord foundOne = repository.find("student", saved.getLocalId().toString());
+        NeutralRecord foundOne = repository.findByLocalId("student", saved.getLocalId().toString());
         assertNotNull(foundOne);
         assertEquals(foundOne.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
         assertEquals((found.getAttributes()).get("firstName"), "Jane");
@@ -114,7 +114,7 @@ public class NeutralRecordRepositoryTest {
         assertTrue(searchResults.iterator().hasNext());
 
         // test update
-        found.getAttributes().put("firstName", "Mandy");
+        found.setAttributeField("firstName", "Mandy");
         WriteResult goodResult = mock(WriteResult.class);
         when(goodResult.getN()).thenReturn(1);
         when(
@@ -134,11 +134,11 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student2);
-        repository.delete("student", student2.getLocalId().toString());
+        repository.deleteByLocalId("student", student2.getLocalId().toString());
         when(
                 mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(null);
-        NeutralRecord zombieStudent = repository.find("student", student2.getLocalId().toString());
+        NeutralRecord zombieStudent = repository.findByLocalId("student", student2.getLocalId().toString());
         assertNull(zombieStudent);
         WriteResult badResult = mock(WriteResult.class);
         when(badResult.getN()).thenReturn(0);
@@ -149,7 +149,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(null);
-        assertFalse(repository.delete("student", student2.getLocalId().toString()));
+        assertFalse(repository.deleteByLocalId("student", student2.getLocalId().toString()));
 
         // test deleteAll by neutral record type
         repository.deleteAll("teacher");
@@ -307,6 +307,8 @@ public class NeutralRecordRepositoryTest {
     @Test
     public void testFindIdsByQuery() {
         repository.deleteAll("student");
+
+        // create new student neutral record
         repository.create(buildTestStudentNeutralRecord());
         repository.create(buildTestStudentNeutralRecord());
         repository.create(buildTestStudentNeutralRecord());
@@ -327,4 +329,5 @@ public class NeutralRecordRepositoryTest {
 
         assertEquals(5, idList.size());
     }
+
 }

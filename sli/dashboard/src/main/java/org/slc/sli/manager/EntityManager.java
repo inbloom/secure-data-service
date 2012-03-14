@@ -37,7 +37,7 @@ import org.slc.sli.util.SecurityUtil;
  * 
  */
 @Component
-public class EntityManager extends Manager {
+public class EntityManager extends ApiClientManager {
     
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     

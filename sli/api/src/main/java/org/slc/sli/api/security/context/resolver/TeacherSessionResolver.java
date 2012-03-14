@@ -11,29 +11,29 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityQuery;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.SmartQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class TeacherSessionResolver implements EntityContextResolver {
-    
+
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SESSION.equals(toEntityType);
     }
-    
+
     @Override
     public List<String> findAccessible(Entity principal) {
         List<String> ids = helper.findAccessible(principal, Arrays.asList(
@@ -50,7 +50,7 @@ public class TeacherSessionResolver implements EntityContextResolver {
             query.append(s);
         }
 
-        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+        SmartQuery.SmartQueryBuilder queryBuilder = new SmartQuery.SmartQueryBuilder();
         queryBuilder.addField("_id", query.toString());
 
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
@@ -63,5 +63,5 @@ public class TeacherSessionResolver implements EntityContextResolver {
 
         return sessionIds;
     }
-    
+
 }

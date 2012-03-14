@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.util.IdNormalizer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 /**
@@ -123,7 +123,7 @@ public class IdNormalizerTest {
         filterFields.put("metaData.idNamespace", REGION_ID);
 
         PrivateAccessor.invoke(IdNormalizer.class, "resolveSearchCriteria",
-                new Class[]{EntityRepository.class, String.class, Map.class, Map.class, Query.class, ErrorReport.class},
+                new Class[]{Repository.class, String.class, Map.class, Map.class, Query.class, ErrorReport.class},
                 new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, mock(ErrorReport.class)});
 
         Assert.assertEquals(expectedQuery.getQueryObject().toString(), actualQuery.getQueryObject().toString());

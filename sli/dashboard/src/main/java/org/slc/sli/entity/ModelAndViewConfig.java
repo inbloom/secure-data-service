@@ -34,4 +34,8 @@ public class ModelAndViewConfig {
     public void addComponentViewConfigMap(String componentId, Config componentViewConfigMap) {
         this.componentViewConfigMap.put(componentId, componentViewConfigMap);
     }
+    
+    public boolean hasDataForAlias(String dataAliasId) {
+        return this.data.containsKey(dataAliasId);
+    }
 }

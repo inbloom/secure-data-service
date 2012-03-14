@@ -104,6 +104,7 @@ public class SmooksFileHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
+        inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);
@@ -121,6 +122,7 @@ public class SmooksFileHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
+        inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         FaultsReport errorReport = new FaultsReport();
         smooksFileHandler.handle(inputFileEntry, errorReport);

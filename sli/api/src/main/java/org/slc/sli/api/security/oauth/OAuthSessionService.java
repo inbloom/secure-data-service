@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,7 +31,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getAccessTokenValidity();
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private TokenStore mongoTokenStore;

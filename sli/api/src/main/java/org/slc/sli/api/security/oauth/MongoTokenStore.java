@@ -10,7 +10,7 @@ import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class MongoTokenStore implements TokenStore {
 
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
 
     @Autowired
     private EntityDefinitionStore store;

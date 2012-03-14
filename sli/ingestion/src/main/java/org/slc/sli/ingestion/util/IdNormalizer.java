@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -39,7 +39,7 @@ public class IdNormalizer {
      *            Error reporting
      * @return The resolved internalId
      */
-    public static String resolveInternalId(EntityRepository entityRepository, String collection, String idNamespace, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String idNamespace, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
         Map<String, String> filterFields = new HashMap<String, String>();
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
 
@@ -75,7 +75,7 @@ public class IdNormalizer {
      *            Error reporting
      * @return Resolved internal ID
      */
-    public static String resolveInternalId(EntityRepository entityRepository, String collection, String idNamespace, String externalId, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String idNamespace, String externalId, ErrorReport errorReport) {
         Map<String, String> filterFields = new HashMap<String, String>();
 
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
@@ -100,7 +100,7 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param query
     */
-    private static void resolveSearchCriteria(EntityRepository entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, ErrorReport errorReport) {
+    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, ErrorReport errorReport) {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
              StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
@@ -145,7 +145,7 @@ public class IdNormalizer {
 
         } else if (List.class.isInstance(value)) {
 
-            for (Object object : (List) value) {
+            for (Object object : (List<?>) value) {
 
                 resolveSameCollectionCriteria(filterFields, key, object);
 
@@ -161,7 +161,7 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param errorReport
     */
-    private static void resolveDifferentCollectionCriteria(EntityRepository entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, ErrorReport errorReport) {
+    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
         String pathCollection = tokenizer.nextToken().toLowerCase();
         String referencePath = tokenizer.nextToken();
