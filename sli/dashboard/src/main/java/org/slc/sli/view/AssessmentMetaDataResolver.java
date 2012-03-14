@@ -58,7 +58,7 @@ public class AssessmentMetaDataResolver {
          * }
          */
     }
-
+    
     /*
      * private void populateStructures(AssessmentMetaData metaData) {
      * 
@@ -82,7 +82,7 @@ public class AssessmentMetaDataResolver {
      * 
      * }
      */
-
+    
     /*
      * public PerfLevel findPerfLevelForFamily(String name, String perfLevel) {
      * 
@@ -96,7 +96,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     /*
      * public List<Period> findPeriodsForFamily(String name) {
      * 
@@ -113,7 +113,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     /*
      * public Period findPeriodForFamily(String name) {
      * 
@@ -180,7 +180,7 @@ public class AssessmentMetaDataResolver {
         List<Map> assmtPerfLevels = assmt.getList(Constants.ATTR_ASSESSMENT_PERF_LEVEL);
         int i = 0;
         for (Map assmtPerfLevel : assmtPerfLevels) {
-
+            
             if (assmtPerfLevel.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                 
                 // if it's the first level, add the min of the range
@@ -219,7 +219,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     public Integer findNumRealPerfLevelsForFamily(String name) {
         /*
          * List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
@@ -296,7 +296,7 @@ public class AssessmentMetaDataResolver {
          */
         return false;
     }
-
+    
     /**
      * Returns true if the assmt identified by the assmtId belongs in the assmt family
      * 
@@ -305,8 +305,11 @@ public class AssessmentMetaDataResolver {
         boolean found = false;
         GenericEntity assmt = getAssmtById(assmtId);
         if (assmt != null) {
-            if (assmt.getString(Constants.ATTR_ASSESSMENT_TITLE).contains(assmtFamilyName)
-                    || assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME).contains(assmtFamilyName)) {
+            if (assmt.getString(Constants.ATTR_ASSESSMENT_TITLE) != null
+                    && assmt.getString(Constants.ATTR_ASSESSMENT_TITLE).contains(assmtFamilyName)) {
+                found = true;
+            } else if (assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME) != null
+                    && assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME).contains(assmtFamilyName)) {
                 found = true;
             }
         }
@@ -343,5 +346,5 @@ public class AssessmentMetaDataResolver {
         }
         return perfLevel;
     }
-
+    
 }

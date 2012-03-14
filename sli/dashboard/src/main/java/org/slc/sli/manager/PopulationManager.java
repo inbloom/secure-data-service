@@ -24,7 +24,7 @@ import org.slc.sli.util.Constants;
  * @author Robert Bloh rbloh@wgen.net
  * 
  */
-public class PopulationManager {
+public class PopulationManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(PopulationManager.class);
     
@@ -97,7 +97,7 @@ public class PopulationManager {
         List<String> dates = getSessionDates(token, sessionId);
         for (String studentId : studentIds) {
             long studentTime = System.nanoTime();
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, dates.get(0), dates.get(1));
+            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, null, null);
             log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
             
             if (studentAttendance != null && !studentAttendance.isEmpty())
@@ -196,6 +196,7 @@ public class PopulationManager {
      * @param config
      * @return
      */
+    @EntityMapping("student")
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);

@@ -1,24 +1,24 @@
 package org.slc.sli.manager;
 
-import org.slc.sli.client.APIClient;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- *
- * Superclass for manager classes.
- *
- * @author dwu
+ * A base class for all the data managers
+ * @author agrebneva
  *
  */
-public abstract class Manager {
-
-    private APIClient apiClient;
-
-    public APIClient getApiClient() {
-        return apiClient;
+public interface Manager {
+    /**
+     * Annotation to mark entity reference methods
+     * @author agrebneva
+     *
+     */
+    @Target(value = { ElementType.METHOD })
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface EntityMapping {
+        String value();
     }
-
-    public void setApiClient(APIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
 }

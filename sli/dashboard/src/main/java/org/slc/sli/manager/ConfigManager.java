@@ -29,7 +29,7 @@ import org.slc.sli.util.DashboardException;
  *
  * @author dwu
  */
-public class ConfigManager extends Manager {
+public class ConfigManager extends ApiClientManager {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     ConfigPersistor persistor;
