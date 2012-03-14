@@ -1,62 +1,29 @@
 require "active_resource/base"
 
 class EntitiesController < ApplicationController
-  before_filter :set_params, :set_url
-  skip_before_filter :set_params, :only => [:index]  
-  
-  def set_params
-    logger.debug {"Setting parameters...."}
-    split_path = params[:other].split('/')
-    id_index = split_path.index {|path| /[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}/ =~ path}
-    if id_index.nil?
-      params[:type] = nil
-      params[:id] = nil
-    else
-      params[:type] = split_path.slice(0...id_index).join('/')
-      params[:id] = split_path.slice(id_index...split_path.size).join('/')
-    end
-  end
-  
-  def set_url
-    Entity.url_type = params[:type]
-    Entity.format = ActiveResource::Formats::JsonLinkFormat
-  end
-  
-  # rescue_from ActiveResource::ResourceNotFound do |exception|
-  #   render :file => "404.html"
-  # end
-  
-  
-  # GET /entities
-  # GET /entities.json
-  def index
-    Entity.url_type = params[:type]
-    @entities = Entity.all
+  before_filter :set_url
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @entities }
-    end
+  def set_url
+    Entity.url_type = params[:other]
+    Entity.format = ActiveResource::Formats::JsonLinkFormat
   end
 
   # GET /entities/1
   # GET /entities/1.json
   def show
-    if params[:id].nil?
-      Entity.url_type = params[:other]
-      @entity = Entity.get_simple_and_complex("")
-    else
-      @entity = Entity.get_simple_and_complex(params[:id])
+    @entity = Entity.get_simple_and_complex(request.query_parameters)
+
+    if params[:other] == 'home'
+      render :index
+      return
     end
 
-    # @entity = Entity.find(:all, :from => "/api/rest/v1/#{params[:other]}")
-    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entity }
     end
   end
-  
+
   # GET /entities/new
   # GET /entities/new.json
   # def new

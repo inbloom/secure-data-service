@@ -32,17 +32,17 @@ public class ColorByPercentTest {
     }
 
     @Test
-    public void testGetYellowColor() throws Exception {
+    public void testGetColor() throws Exception {
         percent.setActual(75);
         assertTrue(percent.getText() + " should be 75", percent.getText().equals("75"));
         assertEquals(4, percent.getColorIndex());
     }
 
     @Test
-    public void testGetRedColor() throws Exception {
+    public void testGetColor2() throws Exception {
         percent.setActual(40);
         assertTrue(percent.getText() + " should be 40", percent.getText().equals("40"));
-        assertEquals(2, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
     }
 
     @Test
@@ -130,7 +130,7 @@ public class ColorByPercentTest {
         assertEquals(1, percent.getColorIndex());
         
         percent.setActual(15);
-        assertEquals(2, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
         
         percent.setActual(25);
         assertEquals(4, percent.getColorIndex());
@@ -168,7 +168,7 @@ public class ColorByPercentTest {
         assertEquals(1, percent.getColorIndex());
         
         percent.setActual(30);
-        assertEquals(2, percent.getColorIndex());
+        assertEquals(3, percent.getColorIndex());
         
         percent.setActual(20);
         assertEquals(4, percent.getColorIndex());
@@ -178,10 +178,20 @@ public class ColorByPercentTest {
     }
     
     @Test
-    //place a point on boundary on the lower section
     public void testPointOnBoundary() {
         percent.setBoundaries(new int[] {50});
         percent.setTotal(50);
         assertEquals(1, percent.getColorIndex());
     }
+    
+    @Test
+    public void testEdges() {
+        percent.setBoundaries(new int[] {50});
+        percent.setActual(0);
+        assertEquals(1, percent.getColorIndex());
+        
+        percent.setActual(100);
+        assertEquals(5, percent.getColorIndex());
+    }
+    
 }

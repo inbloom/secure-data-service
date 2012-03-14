@@ -18,7 +18,7 @@ import org.slc.sli.util.Constants;
  * @author syau
  *
  */
-public class InstitutionalHierarchyManager extends Manager {
+public class InstitutionalHierarchyManager extends ApiClientManager {
 
     // resource String
     public static final String DUMMY_EDORG_NAME = "No Ed-Org";
