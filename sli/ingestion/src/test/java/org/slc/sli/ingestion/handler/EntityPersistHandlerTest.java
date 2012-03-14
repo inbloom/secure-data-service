@@ -537,10 +537,10 @@ public class EntityPersistHandlerTest {
     public void tesetCreateEntityLookupFilterByFields() {
         NeutralRecordEntity neutralRecordEntity = createStudentSchoolAssociationEntity(INTERNAL_STUDENT_ID);
         List<String> keyFields = new ArrayList<String>();
-        keyFields.add(METADATA_BLOCK + ".localParentIds_Student");
-        keyFields.add(METADATA_BLOCK + ".attributes_schoolId");
-        neutralRecordEntity.setMetaDataField("localParentIds_Student", INTERNAL_STUDENT_ID);
-        neutralRecordEntity.setMetaDataField("attributes_schoolId", SCHOOL_ID);
+        keyFields.add(METADATA_BLOCK + ".localId");
+        keyFields.add(METADATA_BLOCK + ".externalId");
+        neutralRecordEntity.setMetaDataField("localId", INTERNAL_STUDENT_ID);
+        neutralRecordEntity.setMetaDataField("externalId", SCHOOL_ID);
 
         ErrorReport mockedErrorReport = mock(ErrorReport.class);
         when(mockedErrorReport.hasErrors()).thenReturn(false);
@@ -548,8 +548,8 @@ public class EntityPersistHandlerTest {
         Map<String, String> res = entityPersistHandler.createEntityLookupFilter(neutralRecordEntity, keyFields, mockedErrorReport);
 
         Assert.assertNotNull(res);
-        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localParentIds_Student"));
-        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".attributes_schoolId"));
+        Assert.assertEquals(INTERNAL_STUDENT_ID, res.get(METADATA_BLOCK + ".localId"));
+        Assert.assertEquals(SCHOOL_ID, res.get(METADATA_BLOCK + ".externalId"));
     }
 
 }
