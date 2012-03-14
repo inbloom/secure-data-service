@@ -3,6 +3,7 @@ package org.slc.sli.view;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -87,13 +88,40 @@ public class TimedLogic {
      * - assessment with lastest beginDate that is not in the future
      * - if there is no assessment window, most recent studentAssessment admin date is used
      */
-    @SuppressWarnings("unchecked")
-    public static GenericEntity getMostRecentAssessmentWindow(List<GenericEntity> a,
-            AssessmentMetaDataResolver metaDataResolver, String assmtName) {
+    public static GenericEntity getMostRecentAssessmentWindow(Collection<GenericEntity> results,
+            Collection<GenericEntity> assessmentMetaData) {
         
+        AssessmentPeriod window = getMostRecentWindow(assessmentMetaData);
+        
+        if (window != null) {
+            GenericEntity best = null;
+            for (GenericEntity studentAssessment : results) {
+                String date = studentAssessment.getString(Constants.ATTR_ADMIN_DATE);
+                if (window.beginDate.compareTo(date) <= 0 && window.endDate.compareTo(date) >= 0) {
+                    if (best == null || date.compareTo(best.getString(Constants.ATTR_ADMIN_DATE)) > 0) {
+                        best = studentAssessment;
+                    }
+                }
+            }
+            return best;
+        } else {
+            GenericEntity mostRecent = null;
+            for (GenericEntity studentAssessment : results) {
+                String date = studentAssessment.getString(Constants.ATTR_ADMIN_DATE);
+                if (date != null
+                        && (mostRecent == null || date.compareTo(mostRecent.getString(Constants.ATTR_ADMIN_DATE)) >= 0)) {
+                    mostRecent = studentAssessment;
+                }
+            }
+            return mostRecent;
+        }
+    }
+    
+    private static AssessmentPeriod getMostRecentWindow(Collection<GenericEntity> assessmentMetaData) {
         String now = javax.xml.bind.DatatypeConverter.printDate(Calendar.getInstance());
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
-        for (GenericEntity assessment : a) {
+        for (GenericEntity assessment : assessmentMetaData) {
+            @SuppressWarnings("unchecked")
             Map<String, String> periodDescriptor = (Map<String, String>) assessment
                     .getMap(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
             if (periodDescriptor == null) {
@@ -106,7 +134,7 @@ public class TimedLogic {
             }
             
             // ignore any assessment periods in the future
-            if (now.compareTo(beginDate) > 0) {
+            if (now.compareTo(beginDate) < 0) {
                 continue;
             }
             
@@ -115,15 +143,17 @@ public class TimedLogic {
             
         }
         Collections.sort(periods);
-        
         if (periods.size() > 0) {
-            return periods.get(0).assessment;
+            return periods.get(0);
+        } else {
+            return null;
         }
-        // TODO if no periods are defined, return latest student assessment
-        return null;
     }
     
-    private static class AssessmentPeriod implements Comparable<AssessmentPeriod> {
+    /**
+     * Sortable assessment period. Protected level for unit tests.
+     */
+    protected static class AssessmentPeriod implements Comparable<AssessmentPeriod> {
         final GenericEntity assessment;
         final String beginDate;
         final String endDate;
@@ -141,21 +171,22 @@ public class TimedLogic {
         public int compareTo(AssessmentPeriod other) {
             if (other == null) {
                 return -1;
-            } else if (beginDate.compareTo(other.endDate) < 0) {
+            } else if (beginDate.compareTo(other.endDate) > 0) {
                 return -1;
-            } else if (other.beginDate.compareTo(endDate) < 0) {
+            } else if (other.beginDate.compareTo(endDate) > 0) {
                 return 1;
-            } else if (beginDate.compareTo(other.beginDate) < 0) {
+            } else if (beginDate.compareTo(other.beginDate) > 0) {
                 return -1;
-            } else if (other.beginDate.compareTo(beginDate) < 0) {
+            } else if (other.beginDate.compareTo(beginDate) > 0) {
                 return 1;
-            } else if (endDate.compareTo(other.endDate) < 0) {
+            } else if (endDate.compareTo(other.endDate) > 0) {
                 return 1;
-            } else if (other.endDate.compareTo(endDate) < 0) {
+            } else if (other.endDate.compareTo(endDate) > 0) {
                 return -1;
             } else {
                 return 0;
             }
         }
     }
+    
 }

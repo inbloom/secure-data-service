@@ -1,8 +1,10 @@
 package org.slc.sli.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
@@ -171,8 +173,18 @@ public class AssessmentResolver {
         } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
         } else if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, metaDataResolver,
-                    assessmentName);
+            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
+            Set<String> assessmentIds = new HashSet<String>();
+            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
+                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
+                if (!assessmentIds.contains(assessmentId)) {
+                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                    assessmentMetaData.add(assessment);
+                    assessmentIds.add(assessmentId);
+                }
+            }
+            
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
         } else {
             // Decide whether to throw runtime exception here. Should timed logic default @@@
             chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
