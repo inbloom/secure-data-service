@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.Arrays;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,8 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        Repository repo = Mockito.mock(Repository.class);
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("field", 5);

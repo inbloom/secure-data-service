@@ -245,7 +245,7 @@ public class NentralRecordEntityPersistHandler extends AbstractIngestionHandler<
         return messageSource.getMessage(code, args, "#?" + code + "?#", null);
     }
 
-    public void setEntityRepository(Repository entityRepository) {
+    public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
