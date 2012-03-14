@@ -41,7 +41,7 @@ public class AssessmentCombinerTest {
     @Mock
     Criteria jobIdCriteria;
 
-    @Autowired
+    @Mock
     NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Mock
@@ -54,6 +54,9 @@ public class AssessmentCombinerTest {
 
         jobIdCriteria = Criteria.where("batchJobId").is(batchJobId);
         MockitoAnnotations.initMocks(this);
+
+        combiner.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
+        Mockito.when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
 
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         List<NeutralRecord> data = new ArrayList<NeutralRecord>();
