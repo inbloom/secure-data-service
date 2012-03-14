@@ -23,21 +23,24 @@
   </div>
     
   <div id="content">
+
+    <#-- get the layout config -->    
+    <#list viewConfigs?keys as itemKey>
+      <#if viewConfigs[itemKey].type == "LAYOUT">
+        <#assign layoutConfig = viewConfigs[itemKey]>
+      </#if>
+    </#list>
     
-    <div class="panel">
-      <#-- create header panels -->
-      <#list viewConfigs?keys as itemKey>
-     
-        <#assign item = viewConfigs[itemKey]>
-        <#if item.type == "PANEL">
+    <#-- create header panels -->
+    <#list layoutConfig.items as item>
+                
+      <#if item.type == "PANEL">
         <div class="panel">
           <#include "../panel/" + item.id + ".ftl">
         </div>
-        </#if>
-      </#list>
-    </div>
+      </#if>
+    </#list> 
 
-  
     <#-- create tab div -->
     <div id="tabs">
     <ul>

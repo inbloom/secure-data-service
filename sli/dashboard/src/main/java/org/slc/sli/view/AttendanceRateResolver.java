@@ -14,19 +14,21 @@ import org.slf4j.LoggerFactory;
  * @author pwolf
  *
  */
-public class AttendanceTardinessResolver implements AggregateRatioResolver {
+public class AttendanceRateResolver implements AggregateRatioResolver {
 
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
 
     private GenericEntity student;
 
     public static final String CATEGORY = "attendanceEventCategory";
+    private static final String ATTENDANCE_RATE = "ATTENDANCE.AttendanceRate";
+    private static final String TARDY_RATE = "ATTENDANCE.TardyRate";
 
-    public AttendanceTardinessResolver(GenericEntity student) {
+    public AttendanceRateResolver(GenericEntity student) {
         this.student = student;
     }
 
-    public AttendanceTardinessResolver() {
+    public AttendanceRateResolver() {
     }
 
     public void setStudent(GenericEntity student) {
@@ -48,11 +50,27 @@ public class AttendanceTardinessResolver implements AggregateRatioResolver {
         if (attendances != null)
             for (Map attendance : attendances) {
                 String value = (String) attendance.get(CATEGORY);
-                if (value.contains("Tardy")) {
+                String compareString = "Tardy";
+                if (configField.getValue().equals(ATTENDANCE_RATE)) {
+                    compareString = "In Attendance";
+                }
+                if (value.contains(compareString)) {
                     ++count;
                 }
             }
         return count;
+    }
+
+    @Override
+    public int[] getCutoffPoints(Field field) {
+
+        if (field.getValue().equals(TARDY_RATE)) {
+            return new int[] {10, 5, 1};
+        } else if (field.getValue().equals(ATTENDANCE_RATE)) {
+            return new int[] {89, 94, 98};
+        }
+        return new int[] {};
+        
     }
 
 }
