@@ -1827,8 +1827,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-			<!-- TODO: How to handle this in ingestion when this not available from edFi?
-				<xs:element name="gradebookEntryId" type="reference">
+				<xs:element minOccurs="0" name="gradebookEntryId" type="reference">
 				   <xs:annotation>
 						<xs:documentation>The GradebookEntry for which the performance is
 							recorded.
@@ -1838,7 +1837,6 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-			-->
 				<xs:element name="studentId" type="reference">
 				   <xs:annotation>
 						<xs:documentation>The student who received the grade
