@@ -214,10 +214,10 @@ public class StudentProgressManager implements Manager {
                 
                 //add the student gradebook entry to the map
                 if (results.get(studentId) != null) {
-                    results.get(studentId).put(studentGradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+                    results.get(studentId).put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
                 } else {
                     Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
-                    gradebookEntries.put(studentGradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+                    gradebookEntries.put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
                     
                     results.put(studentId, gradebookEntries);
                 }
@@ -272,6 +272,9 @@ public class StudentProgressManager implements Manager {
      */
     public SortedSet<GenericEntity> retrieveSortedGradebookEntryList(Map<String, Map<String, GenericEntity>> gradebookEntryData) {
         SortedSet<GenericEntity> list = new TreeSet<GenericEntity>(new DateFulFilledComparator());
+        
+        //Sorting by entity to be able to handle the introduction of GradebookEntry/type in the future
+        //Can be sorted by the keyset if GradebookEntry/type will not be used
         
         //go through and add the tests into one list
         for (Map<String, GenericEntity> map : gradebookEntryData.values()) {

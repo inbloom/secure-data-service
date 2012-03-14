@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
         | assessment                  | 15    |
         | studentAssessmentAssociation| 100   |
         | studentTranscriptAssociation| 40    |
-        | studentSectionGradebookEntry| 60    |
+#        | studentSectionGradebookEntry| 60    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
