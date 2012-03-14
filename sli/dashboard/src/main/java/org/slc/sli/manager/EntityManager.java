@@ -37,7 +37,7 @@ import org.slc.sli.util.SecurityUtil;
  * 
  */
 @Component
-public class EntityManager extends Manager {
+public class EntityManager extends ApiClientManager {
     
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     
@@ -263,6 +263,17 @@ public class EntityManager extends Manager {
      */
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getSections(token, studentId, params);
+    }
+    
+    /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
+        return getApiClient().getStudentSectionGradebookEntries(token, studentId, params);
     }
     
     /**
