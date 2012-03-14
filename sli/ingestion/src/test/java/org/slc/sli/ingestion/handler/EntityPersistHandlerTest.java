@@ -55,7 +55,7 @@ public class EntityPersistHandlerTest {
     private static final String INTERNAL_STUDENT_ID = "0x" + STUDENT_ID;
     private static final String INTERNAL_SCHOOL_ID = "0x" + SCHOOL_ID;
     private static final String BAD_STUDENT_ID = "234567";
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+    private static final String REGION_ID = "SLI";
     private static final String METADATA_BLOCK = "metaData";
     private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";

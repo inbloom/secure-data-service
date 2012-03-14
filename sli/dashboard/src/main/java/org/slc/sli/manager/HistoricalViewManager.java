@@ -12,7 +12,7 @@ import java.util.SortedSet;
  * Class to manage historical data for view config that needs data added dynamically
  * @author jstokes
  */
-public class HistoricalViewManager {
+public class HistoricalViewManager implements Manager {
 
     HistoricalDataResolver historicalDataResolver;
 
@@ -60,7 +60,7 @@ public class HistoricalViewManager {
         Field course = new Field();
         course.setDisplayName("Course");
         course.setType("historicalCourse");
-        course.setValue("Course.title");
+        course.setValue("Course.title." + schoolYear.replaceAll(" ", ""));
         course.setTimeSlot(schoolYear);
         return course;
     }
@@ -69,7 +69,7 @@ public class HistoricalViewManager {
         Field grade = new Field();
         grade.setDisplayName("Grade");
         grade.setType("historicalGrade");
-        grade.setValue("Course.grade");
+        grade.setValue("Course.grade." + schoolYear.replaceAll(" ", ""));
         grade.setTimeSlot(schoolYear);
         return grade;
     }

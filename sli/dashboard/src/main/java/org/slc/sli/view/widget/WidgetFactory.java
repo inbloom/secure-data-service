@@ -31,14 +31,11 @@ public class WidgetFactory {
     }
     
     public static FieldCounter createFieldCounter(Field field, Map student, AttendanceResolver resolver, int[] boundaries) {
-        if (!field.getValue().equals("ATTENDANCE.TardyCount")) {
-            boundaries = null;
-        }
         return new FieldCounter(field, student, resolver.getAttendanceCountResolverForStudent(student), boundaries);
     }
     
-    public static ColorByPercent createFieldRate(Field field, Map student, AttendanceResolver resolver, int[] boundaries) {
-        return new FieldRate(field, student, resolver.getTardinessResolverForStudent(student), boundaries);
+    public static ColorByPercent createFieldRate(Field field, Map student, AttendanceResolver resolver) {
+        return new FieldRate(field, student, resolver.getAttendanceRateResolverForStudent(student));
     }
 
 }

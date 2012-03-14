@@ -1827,7 +1827,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="gradebookEntryId" type="reference">
+				<xs:element minOccurs="0" name="gradebookEntryId" type="reference">
 				   <xs:annotation>
 						<xs:documentation>The GradebookEntry for which the performance is
 							recorded.

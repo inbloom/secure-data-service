@@ -17,14 +17,14 @@ public class ColorByPercent {
     public static final String INVALID_NUMBER_DISPLAY_TEXT = "-";
     
     // 0-30 is critical, 30-70 is low, 70-90 is average, and 90-100 is high
-    private static final int[] DEFAULT_BOUNDARIES = new int[] {30, 70, 90};
-    private int[] boundaries = DEFAULT_BOUNDARIES;
+    private static final int[] DEFAULT_CUTOFF_POINTS = new int[] {30, 70, 90};
+    private int[] cutoffPoints = DEFAULT_CUTOFF_POINTS;
     
     // mapping of performance level to color index
     private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
                                           {1, 5, 0, 0, 0}, // 2 levels
                                           {1, 2, 5, 0, 0}, // 3 levels
-                                          {1, 2, 4, 5, 0}, // 4 levels
+                                          {1, 3, 4, 5, 0}, // 4 levels
                                           {1, 2, 3, 4, 5}};  // 5 levels
     
     public ColorByPercent() {
@@ -88,7 +88,7 @@ public class ColorByPercent {
 
     public int getColorIndex() {
         Integer percentage = calculatePercentage();
-        if (percentage == null || boundaries.length == 0) {
+        if (percentage == null || cutoffPoints.length == 0) {
             return 0;
         }
         
@@ -96,19 +96,19 @@ public class ColorByPercent {
         //For example, for grades a 0% is bad, but for tardiness a 0% is good
         //so for the tardy case we'd invert the colors
         boolean invert = false;
-        if (boundaries[0] > boundaries[boundaries.length - 1]) {
+        if (cutoffPoints[0] > cutoffPoints[cutoffPoints.length - 1]) {
             invert = true;
             percentage = 100 - percentage;
         }
         
-        int[] colorLevels = perfToColor[boundaries.length];
-        int[] cutoffs = new int[boundaries.length + 2];
+        int[] colorLevels = perfToColor[cutoffPoints.length];
+        int[] cutoffs = new int[cutoffPoints.length + 2];
         
-        cutoffs[0] = 0;
-        cutoffs[cutoffs.length - 1] = 100;
+        cutoffs[0] = Integer.MIN_VALUE;
+        cutoffs[cutoffs.length - 1] = Integer.MAX_VALUE;
         
-        for (int i = 1; i < boundaries.length + 1; i++) {
-            cutoffs[i] = boundaries[i - 1];
+        for (int i = 1; i < cutoffPoints.length + 1; i++) {
+            cutoffs[i] = cutoffPoints[i - 1];
             
             if (invert) {
                 cutoffs[i] = 100 - cutoffs[i];
@@ -116,10 +116,7 @@ public class ColorByPercent {
         }
         
         for (int i = 0; i < cutoffs.length - 1; i++) {
-            
-            //we place the >= on the lower number, so if a percentage is on a cutoff point
-            //include it in the lower of the two levels.  We could change that if desired
-            if (percentage >= cutoffs[i] && percentage < cutoffs[i + 1]) {
+            if (inRange(percentage, cutoffs[i], cutoffs[i + 1], true, false)) {
                 return colorLevels[i];
             }
         }
@@ -127,12 +124,28 @@ public class ColorByPercent {
         return 0;
     }
 
+    private boolean inRange(int num, int min, int max, boolean inclusiveMin, boolean inclusiveMax) {
+        if (num > min && num < max) {
+            return true;
+        }
+        
+        if (num == min && inclusiveMin) {
+            return true;
+        }
+        
+        if (num == max && inclusiveMax) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     public void setIsInverted(boolean inverted) {
         this.isInverted = inverted;
     }
     
-    public void setBoundaries(int[] bounds) {
-        this.boundaries = bounds;
+    public void setCutoffPoints(int[] points) {
+        this.cutoffPoints = points;
     }
     
 
