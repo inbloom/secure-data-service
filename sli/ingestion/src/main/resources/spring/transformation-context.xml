@@ -30,6 +30,12 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
 
+    <bean id="entityConfiguration" class="org.slc.sli.ingestion.transformation.normalization.EntityConfig" abstract="true"/>
+
+    <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
+        <property name="searchPath" value="/smooksEdFi2SLI/" />
+    </bean>
+
 </beans>
 
 

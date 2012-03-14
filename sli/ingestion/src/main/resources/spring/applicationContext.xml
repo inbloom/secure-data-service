@@ -67,7 +67,7 @@
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
-  <import resource="transformation-context.xml" />
+  <import resource="persistence-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
@@ -149,16 +149,9 @@
     </property>
   </bean>
 
-
-  <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
-    <property name="entityRepository" ref="mongoEntityRepository" />
-    <property name="messageSource" ref="messageSource" />
-  </bean>
-
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="entityPersistHandler">
-      <ref bean="entityPersistHandler" />
-    </property>
+    <property name="entityPersistHandler" ref="entityPersistHandler" />
+    <property name="absoletePersistHandler" ref="absoleteEntityPersistHandler"></property>
   </bean>
 
 </beans>

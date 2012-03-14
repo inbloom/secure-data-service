@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -28,10 +27,12 @@ import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.slc.sli.ingestion.handler.NentralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
@@ -55,6 +56,8 @@ public class PersistenceProcessor implements Processor {
     SmooksEdFi2SLITransformer transformer;
 
     private EntityPersistHandler entityPersistHandler;
+
+    private NentralRecordEntityPersistHandler absoletePersistHandler;
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
@@ -177,12 +180,12 @@ public class PersistenceProcessor implements Processor {
 
                     // map NeutralRecord to Entity
                     NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
-                    entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
 
-                    if (recordLevelErrorsInFile.hasErrors()) {
+                    ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                    absoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
 
+                    if (errorReport.hasErrors()) {
                         numFailed++;
-
                     }
                 } else {
                     //process collection of the entities from db
@@ -197,9 +200,15 @@ public class PersistenceProcessor implements Processor {
 
                         for (NeutralRecord nr : neutralRecordData) {
                             nr.setRecordType(neutralRecord.getRecordType());
-                            List<? extends Entity> result = transformer.handle(nr);
-                            NeutralRecordEntity neutralRecordEntity = (NeutralRecordEntity) result.get(0);
-                            entityPersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(recordLevelErrorsInFile));
+                            List<SimpleEntity> result = transformer.handle(nr);
+                            for (SimpleEntity entity : result) {
+                                ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                                entityPersistHandler.handle(entity, errorReport);
+
+                                if (errorReport.hasErrors()) {
+                                    numFailed++;
+                                }
+                            }
 
                             if (recordLevelErrorsInFile.hasErrors()) {
 
@@ -242,7 +251,6 @@ public class PersistenceProcessor implements Processor {
                     processedSoFar = processed.longValue();
                 }
 
-                // number of records considered
                 exchange.setProperty("records.processed", Long.valueOf(processedSoFar + recordNumber));
                 exchange.setProperty(originalInputFileName + ".records.processed", recordNumber);
 
@@ -312,4 +320,11 @@ public class PersistenceProcessor implements Processor {
         return logger;
     }
 
+    public NentralRecordEntityPersistHandler getAbsoletePersistHandler() {
+        return absoletePersistHandler;
+    }
+
+    public void setAbsoletePersistHandler(NentralRecordEntityPersistHandler absoletePersistHandler) {
+        this.absoletePersistHandler = absoletePersistHandler;
+    }
 }

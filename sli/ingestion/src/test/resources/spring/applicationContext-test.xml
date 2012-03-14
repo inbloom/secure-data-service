@@ -33,7 +33,7 @@
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
-  <import resource="transformation-context.xml" />
+  <import resource="persistence-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"

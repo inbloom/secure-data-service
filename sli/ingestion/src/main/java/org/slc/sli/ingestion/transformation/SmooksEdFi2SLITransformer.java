@@ -11,7 +11,6 @@ import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -29,12 +28,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<? extends Entity> handle(NeutralRecord item, ErrorReport errorReport) {
+    public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
 
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
-        List<? extends Entity> sliEntities;
+        List<SimpleEntity> sliEntities;
 
         try {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
