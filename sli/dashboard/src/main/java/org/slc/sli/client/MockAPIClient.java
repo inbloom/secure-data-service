@@ -347,5 +347,10 @@ public class MockAPIClient implements APIClient {
     public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
         return null;
     }
+    
+    @Override
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
+        return null;
+    }
 
 }

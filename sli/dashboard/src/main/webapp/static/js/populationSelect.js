@@ -76,11 +76,12 @@ function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, vie
     var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs;
     var sessionId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].sessionId;
     var courseId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].id;
+    var sectionId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].id;
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
                             + "&viewIndex=" + viewIndex + "&filterIndex=" + filterIndex 
-                            + "&username=" + "${username}" + "&sessionId=" + sessionId + "&courseId=" + courseId;
+                            + "&username=" + "${username}" + "&sessionId=" + sessionId + "&courseId=" + courseId + "&sectionId=" + sectionId;
     $("#studentDiv").load(studentContentUrl, function() {
         document.getElementById("viewSelector").selectedIndex = viewIndex;
         if (document.getElementById("studentFilterSelector")) {
