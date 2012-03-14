@@ -25,18 +25,18 @@ Given I am authenticated to SLI as "lkim" "lkim"
 	And I should see his/her most recent ISAT Writing Perf. level is "3"
 
 # USE: AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"	
-@wip	
 Scenario: Calculating Most Recent Performance Level for an Assessment Family
- Given I am authenticated to SLI as  "rbraverman" "rbraverman1234"
+ Given I am authenticated to SLI as "rbraverman" "rbraverman"
   When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
-    And I select <school> "Daybreak Central High"
-    And I select <section> "Sec 100"
+    And I select <school> "South Daybreak Elementary"
+    And I select <course> "1st Grade Homeroom"
+	And I select <section> "Mrs. Braverman's Homeroom #38"
 	And I select <viewSelector> "IL_K-3"
 	And the view configuration file set "field.value" is "DIBELS.Mastery level"
 	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
   
  Then I should see a table heading "DIBELS Next"
 	And I should see a field "Perf. Lvl." in this table
-	And I should see  "Jenny Dean" in student field
+	And I should see  "Rhonda Delgado" in student field
 	And I should see his/her Perf.level for DIBELS Next for most recent window is "2"

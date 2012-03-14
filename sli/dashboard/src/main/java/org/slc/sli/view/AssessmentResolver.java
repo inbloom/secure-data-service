@@ -78,6 +78,7 @@ public class AssessmentResolver {
         
         // find the right score
         List<Map> scoreResults = studentAssmt.getList(Constants.ATTR_SCORE_RESULTS);
+        List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         
         for (Map scoreResult : scoreResults) {
             if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(dataPointName)) {
@@ -85,7 +86,10 @@ public class AssessmentResolver {
                 
             }
         }
-        if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevel(scoreResults)) {
+        if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)
+                && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
+            return findPerfLevelFromDescriptor(perfLevelDescriptors);
+        } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
             String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
             String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE);
             if (assmtId != null && !assmtId.equals("") && scaleScore != null && !scaleScore.equals("")) {
@@ -204,7 +208,7 @@ public class AssessmentResolver {
         return strs[1];
     }
     
-    private boolean hasPerfLevel(List<Map> scoreResults) {
+    private boolean hasPerfLevelScoreResults(List<Map> scoreResults) {
         boolean found = false;
         for (Map scoreResult : scoreResults) {
             if (((String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD))
@@ -213,5 +217,20 @@ public class AssessmentResolver {
             }
         }
         return found;
+    }
+    
+    private String findPerfLevelFromDescriptor(List<Map> descriptors) {
+        if (descriptors == null)
+            return "";
+        for (Map descriptor : descriptors) {
+            String perfLevel = (String) (descriptor.get(Constants.ATTR_DESCRIPTION));
+            try {
+                Integer.parseInt(perfLevel);
+            } catch (Exception e) {
+                return "";
+            }
+            return perfLevel;
+        }
+        return "";
     }
 }
