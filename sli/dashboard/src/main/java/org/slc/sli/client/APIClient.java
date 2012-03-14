@@ -73,6 +73,15 @@ public interface APIClient {
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params);
+    
+    /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params);
 
     public String getTeacherIdForSection(String sectionId, String token);
     

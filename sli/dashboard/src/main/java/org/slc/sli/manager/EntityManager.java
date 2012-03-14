@@ -262,6 +262,17 @@ public class EntityManager extends Manager {
     }
     
     /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
+        return getApiClient().getStudentSectionGradebookEntries(token, studentId, params);
+    }
+    
+    /**
      * Returns an entity for the given type, id and params
      * @param token Security token
      * @param type Type of the entity 

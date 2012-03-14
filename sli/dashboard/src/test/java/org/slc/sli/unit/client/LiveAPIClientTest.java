@@ -157,6 +157,26 @@ public class LiveAPIClientTest {
     }
     
     @Test
+    public void testGetStudentSectionGradebookEntries() {
+        String url = client.getApiUrl() + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
+        String token = "token";
+        
+        //build the params
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("studentId", "5678");
+        params.put("sectionId", "1234");
+        params.put("includeFields", "numericGradeEarned,dateFulfilled");
+        
+        String json = "[{numericGradeEarned:\"84.0\",dateFulfilled:\"2011-10-30\"},{numericGradeEarned:\"98.0\",dateFulfilled:\"2011-11-20\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        
+        List<GenericEntity> gradebookEntries = client.getStudentSectionGradebookEntries(token, "5678", params);
+        assertEquals("Size should match", 2, gradebookEntries.size());
+        assertEquals("numeric grade should match", "84.0", gradebookEntries.get(0).get("numericGradeEarned"));
+        assertEquals("dateFulfilled should match", "2011-10-30", gradebookEntries.get(0).get("dateFulfilled"));
+    }
+    
+    @Test
     public void testBuildQueryString() {
         //build the params
         Map<String, String> params = new HashMap<String, String>();

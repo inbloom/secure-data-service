@@ -548,21 +548,9 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations/courses");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations/courses", params), token, false);
         
         return entities;
     }
@@ -584,21 +572,9 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
             Map<String, String> params) {
-        StringBuilder url = new StringBuilder();
-        
-        // build the url
-        url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentTranscriptAssociations");
-        // add the query string
-        if (!params.isEmpty()) {
-            url.append("?");
-            url.append(buildQueryString(params));
-        }
-        
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentTranscriptAssociations", params), token, false);
         
         return entities;
     }
@@ -645,13 +621,30 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
+        // get the entities
+        List<GenericEntity> entities = createEntitiesFromAPI(
+                buildStudentURI(studentId, "/studentSectionAssociations/sections", params), token, false);
+        
+        return entities;
+    }
+    
+    /**
+     * Returns a list of student grade book entries for a given student and params
+     * @param token Security token
+     * @param studentId The student Id
+     * @param params param map
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         StringBuilder url = new StringBuilder();
+
+        //add the studentId to the param list
+        params.put(Constants.ATTR_STUDENT_ID, studentId);
         
         // build the url
         url.append(getApiUrl());
-        url.append("/v1/students/");
-        url.append(studentId);
-        url.append("/studentSectionAssociations/sections");
+        url.append("/v1/studentSectionGradebookEntries");
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");
@@ -662,6 +655,30 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
+    }
+    
+    /**
+     * Builds a student based URI using the given studentId,path and param map
+     * @param studentId The studentId
+     * @param path The URI path
+     * @param params The param map
+     * @return
+     */
+    protected String buildStudentURI(final String studentId, String path, Map<String, String> params) {
+        StringBuilder url = new StringBuilder();
+        
+        // build the url
+        url.append(getApiUrl());
+        url.append("/v1/students/");
+        url.append(studentId);
+        url.append(path);
+        // add the query string
+        if (!params.isEmpty()) {
+            url.append("?");
+            url.append(buildQueryString(params));
+        }
+        
+        return url.toString();
     }
     
     /**
