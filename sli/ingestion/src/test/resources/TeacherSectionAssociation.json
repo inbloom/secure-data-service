@@ -1,96 +1,140 @@
-{ "collectionName" : "teacherSectionAssociation",
-  "choiceOfFields" :
-  [
-    [
-      { "path" : "body.teacherId",
-        "value" : { "valueSource" : "", "ref" :
+{"keyFields" : ["A" , "B" , "C"] ,
+"references" : [{
+    "fieldPath" : "body.teacherId","ref" :
                                          { "collectionName" : "Teacher",
                                            "choiceOfFields" :
                                            [
                                              [
                                                { "path" : "metadata.externalId",
-                                                 "value" : { "valueSource" : "metadata.externalId", "ref" : null }
+                                                 "values" : [{ "valueSource" : "metadata.externalId",
+                                                             "ref" : null }]
                                                }
                                              ]
                                            ]
                                          }
-                  }
+
        } ,
-       { "path" : "body.sectionId" ,
-         "value" : {"valueSource" : "", "ref" :
+       { "fieldPath" : "body.sectionId" , "ref" :
                                          { "collectionName" : "Section" ,
                                            "choiceOfFields" :
                                            [
                                              [
-                                               {"path" : "metadata.externalId" , "value" : {"valueSource" : "metadata.externalId" , "ref" : null}} ,
-                                               {"path" : "body.schoolId" , "value" : {"valueSource" : "" , "ref" :
-                                                                                                           { "collectionName" : "School" ,
-                                                                                                             "choiceOfFields" :
-                                                                                                             [
-                                                                                                               [
-                                                                                                                 {"path" : "metadata.externalId" , "value" : {"valueSource" : "metadata.externalId" , "ref" : null}}
-                                                                                                               ] ,
-                                                                                                               [
-                                                                                                                 {"path" : "body.educationOrgIdentificationCode.ID" , "value" : {"valueSource" : "body.educationOrgIdentificationCode.ID" , "ref" : null}} ,
-                                                                                                                 {"path" : "body.educationOrgIdentificationCode.identificationSystem" , "value" : {"valueSource" : "body.educationOrgIdentificationCode.identificationSystem" , "ref" : null}}
-                                                                                                               ]
-                                                                                                             ]
-                                                                                                           }
-                                                                                     }
+                                               {"path" : "metadata.externalId" ,
+                                                "values" : [{"valueSource" : "metadata.externalId" , "ref" : null}]
+                                               } ,
+                                               {"path" : "body.schoolId" ,
+                                                "values" : [{"valueSource" : "" ,
+                                                           "ref" :
+                                                           { "collectionName" : "School" ,
+                                                             "choiceOfFields" :
+                                                             [
+                                                              [
+                                                               {"path" : "metadata.externalId" ,
+                                                                "values" : [{"valueSource" : "metadata.externalId" ,
+                                                                           "ref" : null}]
+                                                               }
+                                                              ] ,
+                                                              [
+                                                                {"path" : "body.educationOrgIdentificationCode.ID" ,
+                                                                 "values" : [{"valueSource" : "body.educationOrgIdentificationCode.ID" ,
+                                                                 "ref" : null}]
+                                                                } ,
+                                                                {"path" : "body.educationOrgIdentificationCode.identificationSystem" ,
+                                                                 "values" : [{"valueSource" : "body.educationOrgIdentificationCode.identificationSystem" ,
+                                                                            "ref" : null}]
+                                                                }
+                                                              ]
+                                                             ]
+                                                           }
+                                                           }]
                                                }
                                              ] ,
                                              [
-                                               {"path" : "body.schoolId" , "value" : {"valueSource" : "" , "ref" :
-                                                                                                           { "collectionName" : "School" ,
-                                                                                                             "choiceOfFields" :
-                                                                                                             [
-                                                                                                               [
-                                                                                                                 {"path" : "metadata.externalId" , "value" : {"valueSource" : "metadata.externalId" , "ref" : null}}
-                                                                                                               ] ,
-                                                                                                               [
-                                                                                                                 {"path" : "body.educationOrgIdentificationCode.ID" , "value" : {"valueSource" : "body.educationOrgIdentificationCode.ID" , "ref" : null}} ,
-                                                                                                                 {"path" : "body.educationOrgIdentificationCode.identificationSystem" , "value" : {"valueSource" : "body.educationOrgIdentificationCode.identificationSystem" , "ref" : null}}
-                                                                                                               ]
-                                                                                                             ]
-                                                                                                          }
-                                                                                     }
+                                               {"path" : "body.schoolId" ,
+                                                "values" : [{"valueSource" : "" ,
+                                                           "ref" :
+                                                           { "collectionName" : "School" ,
+                                                             "choiceOfFields" :
+                                                             [
+                                                              [
+                                                               {"path" : "metadata.externalId" ,
+                                                                "values" : [{"valueSource" : "metadata.externalId" ,
+                                                                           "ref" : null}]
+                                                               }
+                                                              ] ,
+                                                              [
+                                                                {"path" : "body.educationOrgIdentificationCode.ID" ,
+                                                                  "values" : [{"valueSource" : "body.educationOrgIdentificationCode.ID" ,
+                                                                             "ref" : null}]
+                                                                } ,
+                                                                {"path" : "body.educationOrgIdentificationCode.identificationSystem" ,
+                                                                 "values" : [{"valueSource" : "body.educationOrgIdentificationCode.identificationSystem" ,
+                                                                            "ref" : null}]
+                                                                }
+                                                              ]
+                                                             ]
+                                                            }
+                                                           }]
                                                } ,
-                                               {"path" : "body.courseId" , "value" : {"valueSource" : "" , "ref" :
-                                                                                                           { "collectionName" : "Course" ,
-                                                                                                             "choiceOfFields" :
-                                                                                                             [
-                                                                                                               [
-                                                                                                                 {"path" : "metadat.externalId" , "value" : {"valueSource" : "metadata.externalId" , "ref" : null}}
-                                                                                                               ] ,
-                                                                                                               [
-                                                                                                                 {"path" : "body.courseCode.identificationSystem" , "value" : {"valueSource" : "body.courseCode.identificationSystem" , "ref" : null}} ,
-                                                                                                                 {"path" : "body.courseCode.assigningOrganizationCode" , "value" : {"valueSource" : "body.courseCode.assigningOrganizationCode" , "ref" : null}} ,
-                                                                                                                 {"path" : "body.courseCode.ID" , "value" : {"valueSource" : "body.courseCode.ID" , "ref" : null}}
-                                                                                                               ]
-                                                                                                             ]
-                                                                                                           }
-                                                                                     }
+                                               {"path" : "body.courseId" ,
+                                                "values" : [{"valueSource" : "" ,
+                                                           "ref" :
+                                                           { "collectionName" : "Course" ,
+                                                             "choiceOfFields" :
+                                                             [
+                                                              [
+                                                               {"path" : "metadat.externalId" ,
+                                                                "values" : [{"valueSource" : "metadata.externalId" , "ref" : null}
+                                                                ]
+                                                               }
+                                                              ] ,
+                                                              [
+                                                               {"path" : "body.courseCode.identificationSystem" ,
+                                                                "values" : [{"valueSource" : "body.courseCode.identificationSystem" ,
+                                                                           "ref" : null}]
+                                                               } ,
+                                                               {"path" : "body.courseCode.assigningOrganizationCode" ,
+                                                                "values" : [{"valueSource" : "body.courseCode.assigningOrganizationCode" ,
+                                                                           "ref" : null}]
+                                                               } ,
+                                                               {"path" : "body.courseCode.ID" ,
+                                                                "values" : [{"valueSource" : "body.courseCode.ID" ,
+                                                                           "ref" : null}]
+                                                               }
+                                                              ]
+                                                             ]
+                                                            }
+                                                          }]
                                                } ,
-                                               {"path" : "body.sessionId" , "value" : {"valueSource" : "", "ref" :
-                                                                                                           { "collectionName" : "Session" ,
-                                                                                                             "choiceOfFields" :
-                                                                                                             [
-                                                                                                               [
-                                                                                                                 {"path" : "metadata.externalId" , "value" : {"valueSource" : "metadata.externalId" , "ref" : null}}
-                                                                                                               ] ,
-                                                                                                               [
-                                                                                                                 {"path" : "body.schoolYear" , "value" : {"valueSource" : "body.schoolYear" , "ref" : null}} ,
-                                                                                                                 {"path" : "body.term" , "value" : {"valueSource" : "body.term" , "ref" : null}}
-                                                                                                               ]
-                                                                                                             ]
-                                                                                                           }
-                                                                                      }
-                                              }
+                                               {"path" : "body.sessionId" ,
+                                                "values" : [{"valueSource" : "",
+                                                           "ref" :
+                                                            { "collectionName" : "Session" ,
+                                                              "choiceOfFields" :
+                                                              [
+                                                               [
+                                                                {"path" : "metadata.externalId" ,
+                                                                 "values" : [{"valueSource" : "metadata.externalId" ,
+                                                                            "ref" : null}]
+                                                                }
+                                                               ] ,
+                                                               [
+                                                                {"path" : "body.schoolYear" ,
+                                                                 "values" : [{"valueSource" : "body.schoolYear" ,
+                                                                            "ref" : null}]
+                                                                } ,
+                                                                {"path" : "body.term" ,
+                                                                 "values" : [{"valueSource" : "body.term" ,
+                                                                            "ref" : null}]
+                                                                }
+                                                               ]
+                                                              ]
+                                                             }
+                                                            }]
+                                               }
                                              ]
                                            ]
                                          }
-                   }
        }
-    ]
-  ]
+]
 }

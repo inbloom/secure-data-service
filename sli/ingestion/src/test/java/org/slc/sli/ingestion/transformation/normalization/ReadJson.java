@@ -15,34 +15,12 @@ import org.junit.Test;
  *
  */
 public class ReadJson {
-
-    @Test
-    public void testTeacher() throws Exception {
-        File jsonFile = new File("src/test/resources/Teacher.json");
-        ObjectMapper mapper = new ObjectMapper();
-        RefDef teacher = mapper.readValue(jsonFile , RefDef.class);
-        assertEquals("Teacher" , teacher.getRef().getCollectionName());
-        for (List<Field> outerList : teacher.getRef().getChoiceOfFields()) {
-            for (Field fields : outerList) {
-                assertEquals("metadata.externalId" , fields.getPath());
-                assertEquals("metadata.externalId" , fields.getValues().get(0).getValueSource());
-            }
-        }
-    }
-
-    @Test
-    public void testSection() throws Exception {
-        File jsonFile = new File("src/test/resources/Section.json");
-        ObjectMapper mapper = new ObjectMapper();
-        RefDef section = mapper.readValue(jsonFile , RefDef.class);
-        assertEquals("Section" , section.getRef().getCollectionName());
-    }
-
     @Test
     public void testTeacherSectionAssociation() throws Exception {
         File jsonFile = new File("src/test/resources/TeacherSectionAssociation.json");
         ObjectMapper mapper = new ObjectMapper();
-        RefDef teacherSectionAssociation = mapper.readValue(jsonFile, RefDef.class);
-        assertEquals("Teacher" , teacherSectionAssociation.getRef().getCollectionName());
+        EntityConfig teacherSectionAssociation = mapper.readValue(jsonFile, EntityConfig.class);
+        assertEquals("metadata.externalId", teacherSectionAssociation.getReferences().get(0).getRef().getChoiceOfFields().get(0).get(0).getValues().get(0).getValueSource());
+        assertEquals("Section" , teacherSectionAssociation.getReferences().get(1).getRef().getCollectionName());
     }
 }
