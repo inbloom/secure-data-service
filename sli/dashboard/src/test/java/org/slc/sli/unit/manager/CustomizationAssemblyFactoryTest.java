@@ -69,11 +69,17 @@ public class CustomizationAssemblyFactoryTest {
         customizationAssemblyFactory.setApplicationContext(applicationContext);
     }
     
+    /**
+     * Test entity reference map contains student mapping
+     */
     @Test
     public void testEntityReferenceMapNoEmpty() {
         Assert.assertTrue("Student entity reference must exists", customizationAssemblyFactory.hasCachedEntityMapperReference("student"));
     }
     
+    /**
+     * Test simple layout contains expected number of configs
+     */
     @Test
     public void testSimpleLayout() {
         ModelAndViewConfig viewAndConfig =
@@ -82,6 +88,9 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
     }
     
+    /**
+     * Test not to allow infinite recursion
+     */
     @Test
     public void testConfigTooDeep() {
         try {

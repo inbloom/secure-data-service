@@ -1,20 +1,5 @@
 require 'selenium-webdriver'
-
-Given /^I have an open web browser$/ do
-  puts "open web browser"
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['network.http.prompt-temp-redirect'] = false
-  @driver = Selenium::WebDriver.for :firefox, :profile => profile
-  @driver.manage.timeouts.implicit_wait = 5 # seconds
-end
-
-When /^I wait for "([^"]*)" seconds$/ do |secs|
-  sleep(Integer(secs))
-end
-
-After do |scenario|
-  @driver.quit if @driver
-end
+require_relative '../../../utils/selenium_common.rb'
 
 When /^I enter "([^"]*)" in the "([^"]*)" text field$/ do |value, fieldName|
   putTextToField(value,fieldName)

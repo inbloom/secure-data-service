@@ -131,8 +131,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         if (config.getItems() != null) {
             depth++;
             for (Config.Item item : config.getItems()) {
-                if (checkCondition(item, entity))
+                if (checkCondition(item, entity)) {
                     populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
+                    if (config.getType().isLayoutItem()) {
+                        model.addLayoutItem(item);
+                    }
+                }
             }
         }
     }
