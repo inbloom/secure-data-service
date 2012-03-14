@@ -50,7 +50,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 558 records." in the resulting batch job file
+    And I should see "Processed 618 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
@@ -76,8 +76,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment.xml records considered: 100" in the resulting batch job file
     And I should see "InterchangeStudentAssessment.xml records ingested successfully: 100" in the resulting batch job file
     And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 40" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 100" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 100" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 558 records." in the resulting batch job file
+    And I should see "Processed 618 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
@@ -135,6 +135,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment.xml records considered: 100" in the resulting batch job file
     And I should see "InterchangeStudentAssessment.xml records ingested successfully: 100" in the resulting batch job file
     And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 40" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 40" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 100" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 100" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
