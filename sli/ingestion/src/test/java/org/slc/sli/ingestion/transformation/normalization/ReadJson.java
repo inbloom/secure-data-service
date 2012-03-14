@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.transformation.normalization;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -22,5 +21,9 @@ public class ReadJson {
         EntityConfig teacherSectionAssociation = mapper.readValue(jsonFile, EntityConfig.class);
         assertEquals("metadata.externalId", teacherSectionAssociation.getReferences().get(0).getRef().getChoiceOfFields().get(0).get(0).getValues().get(0).getValueSource());
         assertEquals("Section" , teacherSectionAssociation.getReferences().get(1).getRef().getCollectionName());
+
+        assertEquals("metaData.externalId", teacherSectionAssociation.getKeyFields().get(0));
+        assertEquals("metaData.localId", teacherSectionAssociation.getKeyFields().get(1));
+        assertEquals("body.studentId", teacherSectionAssociation.getKeyFields().get(2));
     }
 }
