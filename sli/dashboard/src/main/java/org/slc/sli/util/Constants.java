@@ -3,19 +3,19 @@ package org.slc.sli.util;
 /**
  * This class is for constants that are used in multiple places throughout the application.
  * Constants used only in one class should be kept in that class.
- *
+ * 
  * @author dwu
- *
+ * 
  */
 public class Constants {
     // API related URLs
     public static final String API_PREFIX = "api/rest";
-
+    
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-
+    
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
-
+    
     /*
      * \"name\": \"limitedEnglishProficiency\",
      * \"name\": \"ELL_FORMER\",
@@ -37,7 +37,7 @@ public class Constants {
     public static final String FIELD_LOZENGES_POSITION_BACK = "post";
     public static final String FIELD_TYPE_HISTORICAL_GRADE = "historicalGrade";
     public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
-
+    
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
@@ -71,6 +71,9 @@ public class Constants {
     public static final String ATTR_ASSESSMENT_REPORTING_METHOD = "assessmentReportingMethod";
     public static final String ATTR_ASSESSMENT_TITLE = "assessmentTitle";
     public static final String ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME = "assessmentFamilyHierarchyName";
+    public static final String ATTR_ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    public static final String ATTR_ASSESSMENT_PERIOD_BEGIN_DATE = "beginDate";
+    public static final String ATTR_ASSESSMENT_PERIOD_END_DATE = "endDate";
     public static final String ATTR_RESULT = "result";
     public static final String ATTR_SCORE_RESULTS = "scoreResults";
     public static final String ATTR_MINIMUM_SCORE = "minimumScore";
@@ -109,30 +112,30 @@ public class Constants {
     public static final String ATTR_TERM = "term";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
-
+    
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
-    //Program Participation Constants
+    // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
-
+    
     /**
      * Contains the possible values for FRE participation
      */
     public static enum FREParticipation {
         FREE("Free"), REDUCED_PRICE("Reduced Price");
-
+        
         private final String value;
-
+        
         FREParticipation(String value) {
             this.value = value;
         }
-
+        
         public String getValue() {
             return value;
         }
-
+        
     }
-
+    
 }
