@@ -63,23 +63,39 @@ public class EdFiAssessmentConvertorTest {
         kboy.setAttributeField("assessmentTitle", "K-BOY");
         kboy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         kboy.setAttributeField("periodDescriptorRef", "APD");
+        kboy.setAttributeField("objectiveAssessmentRefs", Arrays.asList("obj1", "obj2"));
         NeutralRecord kmoy = new NeutralRecord();
         kmoy.setLocalId("kmoy");
         kmoy.setRecordType("assessment");
         kmoy.setAttributeField("assessmentTitle", "K-MOY");
         kmoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         kmoy.setAttributeField("periodDescriptorRef", "APD");
+        kmoy.setAttributeField("objectiveAssessmentRefs", Arrays.asList("obj1", "obj2"));
         NeutralRecord keoy = new NeutralRecord();
         keoy.setLocalId("keoy");
         keoy.setRecordType("assessment");
         keoy.setAttributeField("assessmentTitle", "K-EOY");
         keoy.setAttributeField("parentAssessmentFamilyId", "dibelsNextK");
         keoy.setAttributeField("periodDescriptorRef", "APD");
+        keoy.setAttributeField("objectiveAssessmentRefs", Arrays.asList("obj1", "obj2"));
+        NeutralRecord obj1 = new NeutralRecord();
+        obj1.setLocalId("obj1");
+        obj1.setRecordType("objectiveAssessment");
+        obj1.setAttributeField("id", "obj1");
+        obj1.setAttributeField("identificationCode", "Objective1");
+        obj1.setAttributeField("percentOfAssessment", "75%");
+        NeutralRecord obj2 = new NeutralRecord();
+        obj2.setLocalId("obj2");
+        obj2.setRecordType("objectiveAssessment");
+        obj2.setAttributeField("id", "obj2");
+        obj2.setAttributeField("identificationCode", "Objective2");
+        obj2.setAttributeField("percentOfAssessment", "25%");
         Map<String, List<NeutralRecord>> records = new HashMap<String, List<NeutralRecord>>();
         records.put("assessment", Arrays.asList(kboy, kmoy, keoy));
         records.put("AssessmentFamily",
                 Arrays.asList(dibels6th, dibelsNext, dibelsNext1, dibelsNext2, dibelsNext3, dibelsNextK));
         records.put("assessmentPeriodDescriptor", Arrays.asList(period));
+        records.put("objectiveAssessment", Arrays.asList(obj1, obj2));
         List<NeutralRecord> sliAssessments = convertor.convert(records);
         assertEquals(3, sliAssessments.size());
         for (NeutralRecord record : sliAssessments) {
@@ -87,6 +103,8 @@ public class EdFiAssessmentConvertorTest {
                     record.getAttributes().get("assessmentFamilyHierarchyName"));
             assertEquals("APD", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("codeValue"));
             assertEquals("A Test Period Descriptor", ((Map<?, ?>) record.getAttributes().get("assessmentPeriodDescriptor")).get("description"));
+            assertEquals("75%", ((NeutralRecord) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(0)).getAttributes().get("percentOfAssessment"));
+            assertEquals("25%", ((NeutralRecord) ((List<?>) record.getAttributes().get("objectiveAssessment")).get(1)).getAttributes().get("percentOfAssessment"));
         }
         
     }

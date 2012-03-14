@@ -1317,7 +1317,7 @@
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentiy/AssessmentFamilyIdentificationCode/ID"/> 
     <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/> 
-    <jb:wiring property="objectiveAssessments" beanIdRef="objectiveAssessmentRefs" />
+    <jb:wiring property="objectiveAssessmentRefs" beanIdRef="objectiveAssessmentRefs" />
   </jb:bean>
   
   <jb:bean beanId="objectiveAssessmentRefs" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
