@@ -1,8 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -56,22 +53,10 @@ public class TransformationProcessor implements Processor {
     void performDataTransformations(String jobId) {
         LOG.info("performing data transformation BatchJob: {}", jobId);
 
-        List<String> collectionNames = defineCollectionsInJob();
-
-        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(collectionNames, jobId);
+        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(jobId);
 
         transmogrifier.executeTransformations();
 
-    }
-
-    private List<String> defineCollectionsInJob() {
-
-        // TODO: provide proper implementation
-
-        List<String> collectionNames = new ArrayList<String>();
-        collectionNames.add("assessement");
-
-        return collectionNames;
     }
 
     public TransformationFactory getTransformationFactory() {
