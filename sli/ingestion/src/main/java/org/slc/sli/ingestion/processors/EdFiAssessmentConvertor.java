@@ -119,6 +119,7 @@ public class EdFiAssessmentConvertor {
 
     private void addObjectiveAssessments(NeutralRecord record, Map<Object, NeutralRecord> objectiveAssessments) {
         List<?> objectiveRefs = (List<?>) record.getAttributes().get(OBJECTIVE_ASSESSMENT_REFS);
+        record.getAttributes().remove(OBJECTIVE_ASSESSMENT_REFS);
         if(objectiveRefs == null || objectiveRefs.isEmpty()){
             return;
         }
@@ -127,7 +128,6 @@ public class EdFiAssessmentConvertor {
             objAssmtsForAssmt.add(objectiveAssessments.get(ref));
         }
         record.setAttributeField(OBJECTIVE_ASSESSMENT, objAssmtsForAssmt);
-        record.getAttributes().remove(OBJECTIVE_ASSESSMENT_REFS);
     }
     
     private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> records) {
