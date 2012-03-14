@@ -94,8 +94,11 @@ public class SamlFederationResource {
         
         Entity realm = fetchOne("realm", new Query(Criteria.where("body.idp.id").is(issuer)));
         
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
-                .getChild("AttributeStatement", SamlHelper.SAML_NS);
+        if (realm == null) {
+            throw new IllegalStateException("Failed to locate realm: " + issuer);
+        }
+        
+        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
