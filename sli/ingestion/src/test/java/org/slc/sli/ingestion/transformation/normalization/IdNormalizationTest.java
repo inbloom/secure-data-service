@@ -2,12 +2,16 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 
@@ -27,52 +31,31 @@ public class IdNormalizationTest {
         columnField.setPath("column");
 
         FieldValue columnValue = new FieldValue();
-        columnValue.setValueSource("5");
+        columnValue.setValueSource("body.field");
         columnField.setValues(Arrays.asList(columnValue));
 
-        //TODO: ChoiceOfFields needs to be set properly
-        //myCollectionId.setChoiceOfFields(Arrays.asList(columnField));
+        List<Field> fields = Arrays.asList(columnField);
+        @SuppressWarnings("unchecked")
+        List<List<Field>> choice = Arrays.asList(fields);
+        myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
+        EntityRepository repo = Mockito.mock(EntityRepository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("field", 5);
+
         MongoEntity entity = new MongoEntity("test", body);
+
+        Entity expectedRecord = Mockito.mock(Entity.class);
+        Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
+
+        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
+
+        idNorm.setEntityRepository(repo);
 
         String internalId = idNorm.resolveInternalId(entity, myCollectionId, new DummyErrorReport());
 
         Assert.assertEquals("123", internalId);
-    }
-
-    @Ignore
-    @Test
-    public void testConfigRead() {
-/*       Ref teacherSecAccRef = new Ref();
-
-       FieldValue teacher = new FieldValue();
-       teacher.valueSource = "Teacher";
-       Ref teacherRef = new Ref();
-       teacherRef.setCollectionName("Teacher");
-       Field teacherField = new Field();
-       teacherField.setPath("metaData.externalId");
-       teacherField.setValue(teacher);
-       //TODO: ChoiceOfFields needs to be set properly
-       //teacherRef.setChoiceOfFields(Arrays.asList(teacherField));
-       teacher.ref = teacherRef;
-
-       FieldValue sectionCodeVal = new FieldValue();
-       sectionCodeVal.valueSource = "uniqueSectionCode";
-       Ref sectionCodeRef = new Ref();
-       sectionCodeRef.setCollectionName("section");
-       Field sectionCodePath = new Field();
-       sectionCodePath.setPath("body.uniqueSectionCode");
-       //TODO: ChoiceOfFields needs to be set properly
-       //sectionCodeRef.setChoiceOfFields(Arrays.asList(sectionCodePath));
-
-       IdNormalizer idNorm = new IdNormalizer();
-
-       String internalId = idNorm.resolveInternalId(teacherSecAccRef, new DummyErrorReport());
-
-       Assert.assertEquals("123", internalId);
-*/
     }
 }

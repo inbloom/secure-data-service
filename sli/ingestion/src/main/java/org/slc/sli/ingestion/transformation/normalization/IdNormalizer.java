@@ -31,6 +31,17 @@ public class IdNormalizer {
     private EntityRepository entityRepository;
 
     public String resolveInternalId(Entity entity, Ref myCollectionId, ErrorReport errorReport) {
+        List<String> ids = resolveInternalIds(entity, myCollectionId, errorReport);
+
+        if (ids.size() == 0) {
+            errorReport.error("Failed to resolve a reference", this);
+            return null;
+        }
+
+        return ids.get(0);
+    }
+
+    public List<String> resolveInternalIds(Entity entity, Ref myCollectionId, ErrorReport errorReport) {
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         String collection = myCollectionId.getCollectionName();
@@ -40,19 +51,19 @@ public class IdNormalizer {
         try {
             for (List<Field> fields : myCollectionId.getChoiceOfFields()) {
                 Query choice = new Query();
-                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey())).equals(REGION_ID);
+
+                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()))
+                    .equals(REGION_ID);
+
                 for (Field field: fields) {
                     List<String> filterValues = new ArrayList<String>();
 
                     for (FieldValue fv : field.getValues()) {
-                        String filterFieldValue;
                         if (fv.getRef() != null) {
-                            filterFieldValue = resolveInternalId(entity, fv.getRef(), proxyErrorReport);
+                            filterValues.addAll(resolveInternalIds(entity, fv.getRef(), proxyErrorReport));
                         } else {
-                            filterFieldValue = String.valueOf(PropertyUtils.getProperty(entity, fv.getValueSource()));
+                            filterValues.add(String.valueOf(PropertyUtils.getProperty(entity, fv.getValueSource())));
                         }
-
-                        filterValues.add(filterFieldValue);
                     }
 
                     choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
@@ -75,13 +86,17 @@ public class IdNormalizer {
             return null;
         }
 
-        Iterable<Entity> found = entityRepository.findByQuery(collection, filter, 0, 0);
-        if (found == null || !found.iterator().hasNext()) {
-            errorReport.error("Failed to resolve a reference", this);
-            return null;
+        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+
+        List<String> ids = new ArrayList<String>();
+
+        if (foundRecords != null) {
+            for (Entity record : foundRecords) {
+                ids.add(record.getEntityId());
+            }
         }
 
-        return found.iterator().next().getEntityId();
+        return ids;
     }
 
     /**
