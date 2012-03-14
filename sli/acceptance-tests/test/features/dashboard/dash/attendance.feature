@@ -131,7 +131,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
       And the count for id "ATTENDANCE.TardyCount" for student "Rhonda Delgado" is "25"
-      And the class for id "ATTENDANCE.TardyCount" for student "Rhonda Delgado" is "countLevel3"
+      And the class for id "ATTENDANCE.TardyCount" for student "Rhonda Delgado" is "countLevel4"
 
 
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - second color
