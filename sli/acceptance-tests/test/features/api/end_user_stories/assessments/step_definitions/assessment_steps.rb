@@ -11,6 +11,7 @@ Transform /^<.+>$/ do |arg1|
   id = "54c6548e-1196-86ca-ad5c-b8d72496bf78" if arg1 == "<'Suzy Queue' ID>"
   id = "a63ee073-cd6c-9a12-a124-fa6a1b4dfc7c" if arg1 == "<'Mary Line' ID>"
   id = "51dbb0cd-4f25-2d58-b587-5fac7605e4b3" if arg1 == "<'Dong Steve' ID>"
+  id = "60779bc1-873b-6dd3-99f4-066a505d79e4" if arg1 == "<'Current_student' ID>"
   id
 end
 

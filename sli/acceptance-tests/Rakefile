@@ -518,7 +518,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests, :encryptionTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :endUserStorySATAssessmentTests, :sortingAndPagingTests, :attendanceTests, :encryptionTests] do
 displayFailureReport()
 end
 
@@ -672,6 +672,12 @@ desc "Run Assessment User Story Tests"
 task :endUserStoryAssessmentTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/assessments/assessment.feature")
+end
+
+desc "Run SAT-Assessment User Story Tests"
+task :endUserStorySATAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/assessments/SAT_Assessments.feature")
 end
 
 ############################################################

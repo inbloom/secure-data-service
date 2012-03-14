@@ -2,7 +2,7 @@ Feature: SAT Scores
 
 Background: None
 
-@wip
+
 # ==========================================================
 # MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
 # ==========================================================
@@ -45,49 +45,53 @@ When I navigate to "getAssessments" with URI "/section-assessment-associations/<
 		     And the first one is "objectiveAssessment.identificationCode" = "SAT-Writing"
 		     And the first one is "objectiveAssessment.percentOfAssessment" = 33
 		     And the first one is "objectiveAssessment.maxRawScore" = 800
-		     And the second one is"objectiveAssessment.identificationCode" = "SAT-Math"
-		     And the second one is  "objectiveAssessment.percentofAssessment" = "33"
+		     And the second one is "objectiveAssessment.identificationCode" = "SAT-Math"
+		     And the second one is "objectiveAssessment.percentOfAssessment" = 33
 		     And the second one is "objectiveAssessment.maxRawScore" = 800
 		     And the third one is "objectiveAssessment.identificationCode" = "SAT-Critical Reading"
-		     And the third one is "objectiveAssessment.percentofAssessment" = "33"
+		     And the third one is "objectiveAssessment.percentOfAssessment" = 33
 		     And the third one is "objectiveAssessment.maxRawScore" = 800
 	  
-	 When I navigate to GET "/student-section-association/<'ImportantSection' ID>/targets"
-		Then I should receive a collection of 5 student links
+	When I navigate to "getStudents" with URI "/student-section-associations/<'ImportantSection' ID>/targets"
+	Then I should receive a collection of 5 student links
 	 
-	 Given I loop through the collection of student links      
-	 When I navigate to GET "/student-assessment-associations/<'SAT' ID>"
+	 When I navigate to GET "/student-assessment-associations/<'Most recent SAT' ID>"
 	     Then I get a collection of 20 student-assessment-associations links 
-	     When I filter by studentId is <'Current_student' ID>
-	         Then I get 1 student-assessment-association
-			    	 And the "administrationDate" is "2011/05/10"
-			     And the "gradeLevelWhenAssessed" is "Twelfth Grade"
-			     And the "scoreResults.assessmentReportingResultType" is "Scale score"	
-			     And the "scoreResults.result" is "2060" 
-			     And the "scoreResults.assessmentReportingResultType" is "Percentile"	
-			     And the "scoreResults.result" is "92" 
-				And the "studentObjectiveAssessment.objectiveAssessment" has the 3 entries
-				 And the first one is "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Writing"
-				 And the first one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Scale score"	
-			     And the first one is "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the first one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Percentile score"	
-			     And the first one is "studentObjectiveAssessment.scoreResults.result" is "80"
-			     And the second one is "studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-Math"
-				 And the second one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Scale score"	
-			     And the second one is "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the second one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Percentile score"	
-			     And the second one is "studentObjectiveAssessment.scoreResults.result" is "80"
-			     And the  third one is"studentObjectiveAssessment.objectiveAssessment.identificationCode = "SAT-CriticalReading"
-				 And the third one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Scale score"	
-			     And the third one is "studentObjectiveAssessment.scoreResults.result" is "680"
-			     And the third one is "studentObjectiveAssessment.scoreResults.assessmentReportingResultType" is "Percentile score"	
-			     And the third one is "studentObjectiveAssessment.scoreResults.result" is "80"
+	     When I navigate to GET "/student-assessment-associations/<'Most recent SAT' ID>" and filter by studentId is "<'Current_student' ID>"
+	         Then I get a collection of 1 student-assessment-associations links 
+	         And  I should receive a "studentAssessmentAssociation" with ID "<'Most Recent Assessment Association' ID>"
+	         
+	     When I navigate to URI /student-assessment-associations/"<'Most Recent Assessment Association' ID>"
+	     Then I get 1 student-assessment-association
+			    	 And the "administrationDate" is "2011-05-10"
+			     And the "gradeLevelWhenAssessed" is "Twelfth grade"
+			     And the "scoreResults" has the 2 entries
+			     And the first one is "scoreResults.assessmentReportingMethod" = "Scale score"	
+			     And the first one is "scoreResults.result" = "2060" 
+			     And the second one is "scoreResults.assessmentReportingMethod" = "Percentile"	
+			     And the second one is "scoreResults.result" = "92" 
+				And the "studentObjectiveAssessments" has the 3 entries
+				 And the first one is "studentObjectiveAssessments.objectiveAssessment.identificationCode" = "SAT-Writing"
+				 And the first one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Scale score"	
+			     And the first one is "studentObjectiveAssessments.scoreResults.result" = "680"
+			     And the first one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Percentile score"	
+			     And the first one is "studentObjectiveAssessments.scoreResults.result" = "80"
+			     And the second one is "studentObjectiveAssessments.objectiveAssessment.identificationCode" = "SAT-Math"
+				 And the second one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Scale score"	
+			     And the second one is "studentObjectiveAssessments.scoreResults.result" = "680"
+			     And the second one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Percentile score"	
+			     And the second one is "studentObjectiveAssessments.scoreResults.result" = "80"
+			     And the third one is "studentObjectiveAssessments.objectiveAssessment.identificationCode" = "SAT-Reading"
+				 And the third one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Scale score"	
+			     And the third one is "studentObjectiveAssessments.scoreResults.result" = "680"
+			     And the third one is "studentObjectiveAssessments.scoreResults.assessmentReportingResultType" = "Percentile score"	
+			     And the third one is "studentObjectiveAssessments.scoreResults.result" = "80"
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 #| "educator"      | "educator1234"      | "Educator"         |
 | "administrator" | "administrator1234" | "IT Administrator" |
-#| "leader"        | "leader1234"        | "Leader"           |
+| "leader"        | "leader1234"        | "Leader"           |
 
 
 # negative security case docuemented in another file.
