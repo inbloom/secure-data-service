@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
@@ -261,6 +262,10 @@ public class NeutralRecordRepository {
                     new Object[] { collection, results.size() });
         }
         
+    }
+    
+    public Set<String> getCollectionNames() {
+        return template.getCollectionNames();
     }
     
     private Map<String, String> convertBodyToPaths(Map<String, String> body) {

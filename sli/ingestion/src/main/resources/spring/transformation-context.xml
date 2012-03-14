@@ -27,6 +27,7 @@
 
     <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
         <property name="transformationStrategySuffix" value="TransformationStrategy" />
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
 
 </beans>
