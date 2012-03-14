@@ -303,15 +303,6 @@
 	</AssessmentFamilyReference>
   </Assessment>
   
-  <AssessmentFamilyReference id="">
-		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>ISAT Writing for Grade 8</ID>
-			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
-	</AssessmentFamilyReference>
-  
   <Assessment id="Grade 8 2011 ISAT Reading">
     <AssessmentTitle>Grade 8 2011 ISAT Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
