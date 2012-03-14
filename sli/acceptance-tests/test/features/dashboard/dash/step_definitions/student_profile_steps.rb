@@ -9,7 +9,8 @@ When /^I click on student at index "([^"]*)"$/ do |studentIndex|
 end
 
 When /^I view its student profile$/ do
- csiContent = @driver.find_element(:id, "CSIcontent")
+ wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+ csiContent = wait.until{@driver.find_element(:id, "CSIcontent")}
  table_cells = csiContent.find_elements(:xpath, "//td")
   
   @info = Hash.new
@@ -29,15 +30,15 @@ for i in 0..table_cells.length-1
 end
 
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
-   assert(@info["Name"] == expectedStudentName)
+   assert(@info["Name"] == expectedStudentName, "Actual name is :" + @info["Name"]) 
 end
 
 Then /^their id shown in proflie is "([^"]*)"$/ do |studentId|
-  assert(@info["ID"] == studentId)
+  assert(@info["ID"] == studentId, "Actual ID is: " + @info["ID"])
 end
 
 Then /^their grade is "([^"]*)"$/ do |studentGrade|
- assert(@info["Grade"] == studentGrade)
+ assert(@info["Grade"] == studentGrade, "Actual Grade is: " + @info["Grade"])
 end
 
 Then /^the lozenges include "([^"]*)"$/ do |lozenge|
@@ -55,11 +56,11 @@ Then /^the lozenges include "([^"]*)"$/ do |lozenge|
 end
 
 Then /^the teacher is "([^"]*)"$/ do |teacherName|
-  assert(@info["Teacher"] == teacherName)
+  assert(@info["Teacher"] == teacherName, "Actual teacher is :" + @info["Teacher"]) 
 end
 
 When /^the class is "([^"]*)"$/ do |className|
-  assert(@info["Class"] == className)
+  assert(@info["Class"] == className, "Actual class is :" + @info["Class"]) 
 end
 
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
@@ -68,7 +69,7 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   
   all_lozenges = csiContent.find_elements(:tag_name, "svg")
 
-  assert(lozengesCount.to_i == all_lozenges.length)
+  assert(lozengesCount.to_i == all_lozenges.length, "Actual lozengws count is:" + lozengesCount)
 end
 
 def clickOnStudent(name)
