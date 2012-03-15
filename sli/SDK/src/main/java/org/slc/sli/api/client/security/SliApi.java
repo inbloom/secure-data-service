@@ -1,5 +1,8 @@
 package org.slc.sli.api.client.security;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
@@ -12,32 +15,33 @@ import org.scribe.utils.Preconditions;
  */
 public class SliApi extends DefaultApi20 {
     
-    private static String apiUrl;
-    private String authorizeUrl = apiUrl.replaceAll("/$", "") + "/api/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
-
+    private static URL apiUrl;
+    private static final String REQUEST_TOKEN_FRAGMENT = "{}/api/oauth/authorize?response_type=code&client_id={}&redirect_uri={}";
+    private static final String AUTH_TOKEN_FRAGMENT = "{}/api/oauth/token?grant_type=authorization_code";
+    
     @Override
     public String getAccessTokenEndpoint() {
-        return apiUrl.replaceAll("/$", "") + "/api/oauth/token?grant_type=authorization_code";
+        return String.format(AUTH_TOKEN_FRAGMENT, apiUrl.toString());
     }
-
+    
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
         
-        return String.format(authorizeUrl, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+        return String.format(REQUEST_TOKEN_FRAGMENT, apiUrl.toString(), config.getApiKey(),
+                OAuthEncoder.encode(config.getCallback()));
     }
     
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
-      return new SliTokenExtractor();
+        return new SliTokenExtractor();
     }
     
-    public String getApiUrl() {
+    public URL getApiUrl() {
         return apiUrl;
     }
     
-    public static void setBaseUrl(String baseUrl) {
-        apiUrl = baseUrl;
+    public static void setBaseUrl(String baseUrl) throws MalformedURLException {
+        apiUrl = new URL(baseUrl);
     }
-
 }
