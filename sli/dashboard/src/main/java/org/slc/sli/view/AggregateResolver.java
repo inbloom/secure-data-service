@@ -12,4 +12,7 @@ public interface AggregateResolver {
      * @return a count of the occurrences.
      */
     public int getCountForPath(Field configField);
+    
+    public int[] getCutoffPoints(Field field);
+
 }
