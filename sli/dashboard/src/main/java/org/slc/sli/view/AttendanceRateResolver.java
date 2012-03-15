@@ -48,16 +48,34 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
         if (attendances != null)
-            for (Map attendance : attendances) {
-                String value = (String) attendance.get(CATEGORY);
-                String compareString = "Tardy";
-                if (configField.getValue().equals(ATTENDANCE_RATE)) {
-                    compareString = "In Attendance";
-                }
-                if (value.contains(compareString)) {
-                    ++count;
-                }
+            if (configField.getValue().equals(ATTENDANCE_RATE)) {
+                return getAttendanceCount(attendances);
+            } else if (configField.getValue().equals(TARDY_RATE)) {
+                return getTardyCount(attendances);
             }
+        assert false;   //should never get here unless it's an known field value
+        return 0;
+    }
+    
+    private int getAttendanceCount(List<Map> attendances) {
+        int count = attendances.size();
+        for (Map attendance : attendances) {
+            String value = (String) attendance.get(CATEGORY);
+            if (value.contains("Absence")) {
+                count--;
+            }
+        }
+        return count;
+    }
+
+    private int getTardyCount(List<Map> attendances) {
+        int count = 0;
+        for (Map attendance : attendances) {
+            String value = (String) attendance.get(CATEGORY);
+            if (value.contains("Tardy")) {
+                count++;
+            }
+        }
         return count;
     }
 
@@ -67,7 +85,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         if (field.getValue().equals(TARDY_RATE)) {
             return new int[] {10, 5, 1};
         } else if (field.getValue().equals(ATTENDANCE_RATE)) {
-            return new int[] {89, 94, 98};
+            return new int[] {90, 95, 99};
         }
         return new int[] {};
         

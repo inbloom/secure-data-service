@@ -93,6 +93,11 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        return null;
+    }
+
+    @Override
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
         
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);

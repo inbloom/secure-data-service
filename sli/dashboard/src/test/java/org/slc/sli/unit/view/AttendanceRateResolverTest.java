@@ -84,7 +84,7 @@ public class AttendanceRateResolverTest {
         assertEquals(5, resolver.getCountForPath(tardyField));
         assertEquals(25, resolver.getSize(tardyField));
         
-        assertEquals(10, resolver.getCountForPath(attendanceField));
+        assertEquals(15, resolver.getCountForPath(attendanceField));
         assertEquals(25, resolver.getSize(attendanceField));
     }
     

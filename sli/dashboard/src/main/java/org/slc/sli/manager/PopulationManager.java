@@ -202,17 +202,23 @@ public class PopulationManager implements Manager {
         return entityManager.getStudentForCSIPanel(token, key);
     }
     
-    private List<String> getSessionDates(String token, String sessionId) {
+    public List<String> getSessionDates(String token, String sessionId) {
         // Get the session first.
-        GenericEntity session = entityManager.getSession(token, sessionId);
-        List<String> dates = new ArrayList<String>();
-        if (session != null && session.containsKey("beginDate")) {
-            dates.add(session.getString("beginDate"));
-            dates.add(session.getString("endDate"));
-        } else {
-            dates.add("");
-            dates.add("");
+        GenericEntity currentSession = entityManager.getSession(token, sessionId);
+        String beginDate = currentSession.getString("beginDate");
+        String endDate = currentSession.getString("endDate");
+        List<GenericEntity> potentialSessions = entityManager.getSessionsByYear(token, currentSession.getString("schoolYear"));
+        for (GenericEntity session : potentialSessions) {
+            if (session.getString("beginDate").compareTo(beginDate) < 0) {
+                beginDate = session.getString("beginDate");
+            }
+            if (session.getString("endDate").compareTo(endDate) > 0) {
+                endDate = session.getString("endDate");
+            }
         }
+        List<String> dates = new ArrayList<String>();
+        dates.add(beginDate);
+        dates.add(endDate);
         return dates;
     }
 }

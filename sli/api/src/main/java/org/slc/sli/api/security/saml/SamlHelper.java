@@ -154,15 +154,6 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
         doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
         
-        String consumer = "";
-        if (POST_BINDING.equals(binding)) {
-            consumer = issuerName + "/api/rest/saml/sso/post";
-        } else if (ARTIFACT_BINDING.equals(binding)) {
-            consumer = issuerName + "/api/rest/saml/sso/artifact";
-        }
-        
-        // doc.getRootElement().getAttributes().add(new Attribute("AssertionConsumerServiceURL", consumer.replaceAll("//", "/").replaceAll(":/", "://")));
-        
         Element issuer = new Element("Issuer", SAML_NS);
         issuer.addContent(this.issuerName);
         
