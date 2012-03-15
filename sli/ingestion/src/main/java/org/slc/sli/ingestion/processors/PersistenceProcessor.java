@@ -98,7 +98,7 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe, idNamespace);
+                    errorReportForFile = processIngestionStream(fe, idNamespace, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -113,9 +113,6 @@ public class PersistenceProcessor implements Processor {
 
             }
 
-            // Drop the database for this job.
-            neutralRecordMongoAccess.dropDatabase();
-
             // Update Camel Exchange processor output result
             exchange.getIn().setBody(job);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
@@ -129,6 +126,10 @@ public class PersistenceProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
+
+        } finally {
+            // Drop the database for this job.
+            neutralRecordMongoAccess.dropDatabase();
         }
     }
 
@@ -142,9 +143,10 @@ public class PersistenceProcessor implements Processor {
      * @param idNamespace
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace) throws IOException {
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace,
+            ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
         return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
-                idNamespace, new ArrayList<String>(), new HashSet<String>());
+                idNamespace, transformedCollections, processedStagedCollections);
     }
 
     /**
@@ -210,6 +212,7 @@ public class PersistenceProcessor implements Processor {
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
 
                         for (NeutralRecord nr : neutralRecordData) {
+                            nr.setSourceId(idNamespace);
                             nr.setRecordType(neutralRecord.getRecordType());
                             List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
                             for (SimpleEntity entity : result) {

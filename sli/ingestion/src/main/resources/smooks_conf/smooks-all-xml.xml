@@ -1308,10 +1308,6 @@
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
-    <!--<jb:wiring property="assessmentItemReferences" beanIdRef="assessmentItemReferenceTypeArray" /> -->
-    <!-- <jb:wiring property="objectiveAssessmentReferences" beanIdRef="objectiveAssessmentReferenceTypeArray" />-->
-    <!-- <jb:wiring property="assessmentFamilyReference" beanIdRef="assessmentFamilyReferenceType" /> -->
-    <!--<jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" />-->
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
     <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
     <jb:wiring property="objectiveAssessmentRefs" beanIdRef="objectiveAssessmentRefs" />
