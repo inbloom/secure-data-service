@@ -75,6 +75,7 @@ public class GradebookEntryResolverTest {
         assertEquals("75", gradebookEntryResolver.getGrade(STUDENT_1_ID, DATE_2));
         assertEquals("Missing information should return a dash", "-",
                 gradebookEntryResolver.getGrade("DOES_NOT_EXIST","DOES_NOT_EXIST"));
+        
     }
 
     @Test
