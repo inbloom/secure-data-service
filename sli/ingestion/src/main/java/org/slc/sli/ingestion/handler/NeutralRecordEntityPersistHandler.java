@@ -27,7 +27,7 @@ import org.slc.sli.validation.ValidationError;
  *         entities.
  *
  */
-public class NentralRecordEntityPersistHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> {
+public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> {
 
     // private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 

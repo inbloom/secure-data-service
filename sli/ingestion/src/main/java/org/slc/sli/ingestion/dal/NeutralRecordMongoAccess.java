@@ -30,4 +30,8 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         this.neutralRecordRepository = neutralRecordRepository;
     }
 
+    public void changeMongoTemplate(String batchJobId) {
+        neutralRecordRepository.changeTemplate(batchJobId);
+    }
+
 }

@@ -21,7 +21,7 @@
     <property name="idNormalizer" ref="idNormalizer" />
   </bean>
 
-  <bean id="absoleteEntityPersistHandler" class="org.slc.sli.ingestion.handler.NentralRecordEntityPersistHandler">
+  <bean id="obsoleteEntityPersistHandler" class="org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />
   </bean>
@@ -29,5 +29,31 @@
   <bean id="idNormalizer" class="org.slc.sli.ingestion.transformation.normalization.IdNormalizer">
     <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
+
+  <!-- collections that will be persisted into SLI database -->
+  <util:set id="persistedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>assessment</value>
+    <!--<value>assessmentFamily</value>-->
+    <value>assessmentPeriodDescriptor</value>
+    <value>attendance</value>
+    <value>course</value>
+    <value>educationOrganization</value>
+    <value>objectiveAssessment</value>
+    <value>parent</value>
+    <value>school</value>
+    <value>section</value>
+    <value>session</value>
+    <value>student</value>
+    <value>studentAssessmentAssociation</value>
+    <value>studentObjectiveAssessment</value>
+    <value>studentParentAssociation</value>
+    <value>studentSchoolAssociation</value>
+    <value>studentSectionAssociation</value>
+    <value>studentSectionGradebookEntry</value>
+    <value>studentTranscriptAssociation</value>
+    <value>teacher</value>
+    <value>teacherSchoolAssociation</value>
+    <value>teacherSectionAssociation</value>
+  </util:set>
 
 </beans>
