@@ -1,0 +1,149 @@
+<?xml version=1.0 encoding="UTF-8"?>
+<InterchangeStudentParentAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                     xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>453827023</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <LivesWith>true</LivesWith>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>453827023</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>2</ContactPriority>
+    </StudentParentAssociation>
+
+
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>2497287214</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Grandparent</Relation>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>3597672174</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>2</ContactPriority>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>7427811661</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+        <ContactRestrictions>NO CONTACT ALLOWED</ContactRestrictions>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>9878863645</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Agency representative</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>5713667332</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Minister or priest</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+    </StudentParentAssociation>
+
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>288598192</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>6473283635</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <LivesWith>true</LivesWith>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>288598192</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+        <LivesWith>false</LivesWith>
+        <ContactRestrictions>NO CONTACT ALLOWED</ContactRestrictions>
+    </StudentParentAssociation>
+
+</InterchangeStudentParentAssociation>
