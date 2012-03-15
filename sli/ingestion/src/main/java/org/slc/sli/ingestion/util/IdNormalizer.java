@@ -50,7 +50,7 @@ public class IdNormalizer {
 
         if (found == null || !found.iterator().hasNext()) {
            errorReport.error(
-                   "Cannot find [" + collection + "] record using the folowing filter: " + query.getQueryObject().toString(),
+                   "Cannot find [" + collection + "] record using the following filter: " + query.getQueryObject().toString(),
                    IdNormalizer.class);
 
             return null;
@@ -84,7 +84,7 @@ public class IdNormalizer {
         Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
         if (found == null || !found.iterator().hasNext()) {
             errorReport.error(
-                    "Cannot find [" + collection + "] record using the folowing filter: " + filterFields.toString(),
+                    "Cannot find [" + collection + "] record using the following filter: " + filterFields.toString(),
                     IdNormalizer.class);
 
             return null;
@@ -179,7 +179,7 @@ public class IdNormalizer {
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {
             errorReport.error(
-                    "Cannot find [" + pathCollection + "] record using the folowing filter: " + tempFilter.toString(),
+                    "Cannot find [" + pathCollection + "] record using the following filter: " + tempFilter.toString(),
                     IdNormalizer.class);
         }
 
