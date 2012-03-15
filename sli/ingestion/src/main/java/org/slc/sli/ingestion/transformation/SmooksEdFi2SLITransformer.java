@@ -28,7 +28,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+    public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
 
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());

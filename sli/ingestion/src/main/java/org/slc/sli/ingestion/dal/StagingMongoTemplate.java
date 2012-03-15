@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.mongodb.CommandResult;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
