@@ -19,5 +19,10 @@ acceptance-tests:
     api_base: https://nxbuild.slidev.org/api/rest
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
-    redirect_uri: https://nxbuild.slidev.org/callback
+    redirect_uri: https://nxbuild.slidev.org/admin/callback
+nxbuild2:
+    api_base: https://nxbuild2.slidev.org/api/rest
+    client_id: zl9FejUhnV
+    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
+    redirect_uri: https://nxbuild2.slidev.org/admin/callback
 
