@@ -5,6 +5,7 @@
 	<th>Vendor</th>
 	<th>Creation Date</th>
 	<th>Last Update</th>
+	<th>Actions</th>
 	</tr>
 	<% @apps.each do |app| %>
 		<tr>
@@ -12,6 +13,7 @@
 	    <td><%= app.version %></td>
 	    <td><%= app.created_on %></td>
 		<td><%= app.updated_on %></td>
+		<td><%= link_to 'Edit', edit_app_path(app) %><% link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :destroy %></td>
 		</tr>
 	<% end %>
 </table>

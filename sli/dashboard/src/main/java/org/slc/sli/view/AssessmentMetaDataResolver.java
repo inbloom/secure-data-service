@@ -358,7 +358,7 @@ public class AssessmentMetaDataResolver {
                     match = true;
                 }
             }
-            if (match == false)
+            if (!match)
                 return false;
         }
         return match;

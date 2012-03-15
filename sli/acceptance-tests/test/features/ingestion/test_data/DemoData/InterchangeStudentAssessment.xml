@@ -41,6 +41,9 @@
     <ScoreResults AssessmentReportingMethod="Scale score">
       <Result>230</Result>
     </ScoreResults>
+    <PerformanceLevels>
+    	<Description>2</Description>
+    </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>453827070</StudentUniqueStateId>

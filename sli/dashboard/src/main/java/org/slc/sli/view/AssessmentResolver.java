@@ -114,7 +114,7 @@ public class AssessmentResolver {
                             match = false;
                         }
                     }
-                    if (match == true) {
+                    if (match) {
                         scoreResults = (List<Map>) (studentObjAssmt.get(Constants.ATTR_SCORE_RESULTS));
                     }
                 }

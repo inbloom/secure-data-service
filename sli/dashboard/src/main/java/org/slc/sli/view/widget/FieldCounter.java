@@ -15,11 +15,11 @@ public class FieldCounter {
     private AggregateResolver resolver;
     private int[] boundaries;
 
-    public FieldCounter(Field field, Map student, AggregateResolver resolver, int[] boundaries) {
+    public FieldCounter(Field field, Map student, AggregateResolver resolver) {
         this.student = student;
         this.field = field;
         this.resolver = resolver;
-        this.boundaries = boundaries;
+        this.boundaries = resolver.getCutoffPoints(field);
     }
 
     public String getText() {
