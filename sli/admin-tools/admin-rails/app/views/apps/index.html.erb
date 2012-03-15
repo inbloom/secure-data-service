@@ -1,4 +1,4 @@
-<table>
+<table id="applications">
 	<tr>
 	<th>Name</th>
 	<th>Version</th>
@@ -9,11 +9,29 @@
 	</tr>
 	<% @apps.each do |app| %>
 		<tr>
-	    <td><%= app.name %></td>
-	    <td><%= app.version %></td>
-	    <td><%= app.created_on %></td>
-		<td><%= app.updated_on %></td>
-		<td><%= link_to 'Edit', edit_app_path(app) %><% link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :destroy %></td>
+	    	<td><%= app.name %></td>
+		    <td><%= app.version %></td>
+		    <td><%= app.created_on %></td>
+			<td><%= app.updated_on %></td>
+			<td><%= link_to 'Edit', edit_app_path(app) %><% link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :destroy %></td>
+		</tr>
+		<tr>
+			<td colspan="6"></td>
 		</tr>
 	<% end %>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function() {
+		jQuery.noConflict();
+		// jQuery('#simple').jExpand();
+		jQuery("#applications tr:odd").addClass("odd");
+		        jQuery("#simple tr:not(.odd)").hide();
+		        jQuery("#simple tr:first-child").show();
+		        
+		        jQuery("#simple tr.odd").click(function(){
+		            jQuery(this).next("tr").slideToggle();
+		            // $(this).find(".arrow").toggleClass("up");
+		        });
+	});
+</script>
