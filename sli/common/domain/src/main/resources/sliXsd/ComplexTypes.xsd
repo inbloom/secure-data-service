@@ -6,6 +6,8 @@
 
 	<xs:include schemaLocation="SimpleTypes.xsd" />
 
+	<!-- This file contains the complex types for the SLI database schema representation. -->
+
 	<xs:complexType name="complexObjectType" abstract="true">
 	</xs:complexType>
 
