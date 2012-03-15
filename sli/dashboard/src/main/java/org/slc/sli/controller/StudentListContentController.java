@@ -8,10 +8,15 @@ import java.util.SortedSet;
 
 import freemarker.ext.beans.BeansWrapper;
 
-//import org.slc.sli.view.AttendanceResolver;
-import org.slc.sli.view.AttendanceResolver;
 import org.slc.sli.view.GradebookEntryResolver;
-import org.slc.sli.view.GradebookEntryViewManager;
+import org.slc.sli.view.HistoricalDataResolver;
+import org.slc.sli.view.LozengeConfigResolver;
+import org.slc.sli.view.StudentResolver;
+import org.slc.sli.view.modifier.HistoricalViewModifier;
+import org.slc.sli.view.modifier.ViewModifier;
+import org.slc.sli.view.modifier.GradebookViewModifer;
+import org.slc.sli.view.AssessmentResolver;
+import org.slc.sli.view.AttendanceResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -26,16 +31,11 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.HistoricalViewManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.view.AssessmentResolver;
-import org.slc.sli.view.HistoricalDataResolver;
-import org.slc.sli.view.LozengeConfigResolver;
-import org.slc.sli.view.StudentResolver;
 import org.slc.sli.view.widget.WidgetFactory;
 
 /**
@@ -45,7 +45,7 @@ import org.slc.sli.view.widget.WidgetFactory;
 @Controller
 @RequestMapping("/studentlistcontent")
 public class StudentListContentController extends DashboardController {
-    
+
     private ConfigManager configManager;
     private PopulationManager populationManager;
     private ViewManager viewManager;
@@ -98,37 +98,21 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
             
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            viewManager.setActiveViewConfig(viewConfig);
 
+            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
 
-            // If we have the historical data view get historical information - this logic really
-            // should be moved from the controller class
-            if (viewConfig.getName().equals(Constants.HISTORICAL_DATA_VIEW)) {
-                
-                Map<String, List<GenericEntity>> historicalData = progressManager.getStudentHistoricalAssessments(
-                        SecurityUtil.getToken(), uids, selectedCourseId);
-                
-                SortedSet<String> schoolYears = progressManager.applySessionAndTranscriptInformation(
-                        SecurityUtil.getToken(), historicalData);
-                
-                HistoricalDataResolver historicalDataResolver = new HistoricalDataResolver(historicalData, schoolYears,
-                        null);
-                
+                HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids);
                 model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
                 
-                HistoricalViewManager historicalViewManager = new HistoricalViewManager(historicalDataResolver);
-                viewConfig = historicalViewManager.addHistoricalData(viewConfig);
-            } else if (viewConfig.getName().equals("Current Grades")) {
+                ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
+                viewManager.apply(historicalViewModifier);
 
-                SortedSet<GenericEntity> gradebookIds;
-                Map<String, Map<String, GenericEntity>> gradebookData =
-                        progressManager.getCurrentProgressForStudents(SecurityUtil.getToken(), uids, selectedSectionId);
-                gradebookIds = progressManager.retrieveSortedGradebookEntryList(gradebookData);
+                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
+                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
 
-                GradebookEntryViewManager gradebookEntryViewManager = new GradebookEntryViewManager(gradebookIds);
-                viewConfig = gradebookEntryViewManager.addGradebookEntries(viewConfig);
-
-                GradebookEntryResolver gradebookEntryResolver = new GradebookEntryResolver(gradebookData);
-                model.addAttribute("gradebookEntryData", gradebookEntryResolver);
+                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
+                viewManager.apply(gradebookViewModifier);
 
             }
             
@@ -172,10 +156,42 @@ public class StudentListContentController extends DashboardController {
         
         return new ModelAndView("studentListContent");
     }
-    
+
+    private GradebookEntryResolver getGradebookEntryResolver(String selectedSectionId, List<String> uids) {
+        Map<String, Map<String, GenericEntity>> gradebookData = getGradebookData(selectedSectionId, uids);
+        SortedSet<GenericEntity> gradebookIds = getGradebookIds(gradebookData);
+        GradebookEntryResolver gradebookEntryResolver = new GradebookEntryResolver(gradebookData);
+        gradebookEntryResolver.setGradebookIds(gradebookIds);
+        return gradebookEntryResolver;
+    }
+
+    private SortedSet<GenericEntity> getGradebookIds(Map<String, Map<String, GenericEntity>> gradebookData) {
+        return progressManager.retrieveSortedGradebookEntryList(gradebookData);
+    }
+
+    private Map<String, Map<String, GenericEntity>> getGradebookData(String selectedSectionId, List<String> uids) {
+        return progressManager.getCurrentProgressForStudents(SecurityUtil.getToken(), uids, selectedSectionId);
+    }
+
+    private HistoricalDataResolver getHistoricalDataResolver(String selectedCourseId, List<String> uids) {
+        Map<String, List<GenericEntity>> historicalData = getHistoricalData(selectedCourseId, uids);
+        SortedSet<String> schoolYears = getSchoolYears(historicalData);
+        return new HistoricalDataResolver(historicalData, schoolYears, null);
+    }
+
+    private SortedSet<String> getSchoolYears(Map<String, List<GenericEntity>> historicalData) {
+        return progressManager.applySessionAndTranscriptInformation(
+                SecurityUtil.getToken(), historicalData);
+    }
+
+    private Map<String, List<GenericEntity>> getHistoricalData(String selectedCourseId, List<String> uids) {
+        return progressManager.getStudentHistoricalAssessments(
+                            SecurityUtil.getToken(), uids, selectedCourseId);
+    }
+
     /*
-     * Getters and setters
-     */
+    * Getters and setters
+    */
     
     @Autowired
     public void setViewManager(ViewManager viewManager) {
