@@ -1,6 +1,5 @@
 package org.slc.sli.api.client.security;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.scribe.builder.api.DefaultApi20;
@@ -15,7 +14,7 @@ import org.scribe.utils.Preconditions;
  */
 public class SliApi extends DefaultApi20 {
     
-    private static URL apiUrl;
+    private URL apiUrl;
     private static final String REQUEST_TOKEN_FRAGMENT = "{}/api/oauth/authorize?response_type=code&client_id={}&redirect_uri={}";
     private static final String AUTH_TOKEN_FRAGMENT = "{}/api/oauth/token?grant_type=authorization_code";
     
@@ -41,7 +40,7 @@ public class SliApi extends DefaultApi20 {
         return apiUrl;
     }
     
-    public static void setBaseUrl(String baseUrl) throws MalformedURLException {
-        apiUrl = new URL(baseUrl);
+    public void setBaseUrl(URL baseUrl) {
+        apiUrl = baseUrl;
     }
 }

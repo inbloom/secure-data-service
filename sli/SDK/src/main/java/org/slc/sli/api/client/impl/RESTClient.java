@@ -62,7 +62,7 @@ public class RESTClient {
         apiServerUri = apiServerURL.toString() + Constants.API_SERVER_PATH;
         
         sliApi = new SliApi();
-        sliApi.setBaseUrl(apiServerURL.toString());
+        sliApi.setBaseUrl(apiServerURL);
         
         config = new OAuthConfig(clientId, clientSecret, callbackURL, null, null, null);
     }
