@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.test.annotation.DirtiesContext;
 
 import org.slc.sli.config.Field;
@@ -28,8 +29,9 @@ public class FieldCounterTest {
         mockResolver = mock(AggregateResolver.class);
         mockField = new Field();
         mockField.setValue("path.path");
+        Mockito.when(mockResolver.getCutoffPoints(mockField)).thenReturn(new int[]{0, 5, 10});
 
-        counter = new FieldCounter(mockField, null, mockResolver, new int[]{0, 5, 10});
+        counter = new FieldCounter(mockField, null, mockResolver);
     }
 
     @After
