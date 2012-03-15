@@ -66,7 +66,7 @@ public class GradebookViewModifer implements ViewModifier {
         unitTests.setDisplayName(GRADES);
 
         for (GenericEntity entry : gradebookIds) {
-            Field unitField = createUnitTest(entry.getString(DATE_FULFILLED), entry.getString(DATE_FULFILLED));
+            Field unitField = createUnitTest(entry.getString(DATE_FULFILLED));
             unitTests.getField().add(unitField);
         }
 
@@ -84,13 +84,13 @@ public class GradebookViewModifer implements ViewModifier {
         return currentTermGrade;
     }
 
-    private Field createUnitTest(String testName, String testId) {
+    private Field createUnitTest(String testName) {
         Field unitTest = new Field();
 
         unitTest.setDisplayName(testName);
         unitTest.setType(UNIT_TEST_GRADE);
-        unitTest.setTimeSlot(testId);
-        unitTest.setValue("UnitTest");
+        unitTest.setTimeSlot(testName);
+        unitTest.setValue(testName);
 
         return unitTest;
     }
