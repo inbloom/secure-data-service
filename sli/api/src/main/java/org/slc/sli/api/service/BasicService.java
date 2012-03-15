@@ -170,8 +170,6 @@ public class BasicService implements EntityService {
         if (queryParameters.containsKey("_id") && (allowed.size() > 0)) {
             Set<String> idList = new HashSet<String>(Arrays.asList(queryParameters.get("_id").split(",")));
             
-            System.out.println(allowed.size());
-            
             Set<String> retainList = new HashSet<String>(allowed);
             retainList.retainAll(idList);
             
@@ -404,7 +402,7 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
+    private void checkAccess(Right right, String entityId) {
         
         // Check that user has the needed right
         checkRights(right);
