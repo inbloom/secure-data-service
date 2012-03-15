@@ -169,11 +169,11 @@
       <property name="format" value="XXX" />
     </module>
     <module name="UpperEll" />
-    <!-- <module name="Regexp">
-      <property name="format" value="System\.out\.println" />
+    <module name="Regexp">
+      <property name="format" value="System\.out\.print" />
       <property name="illegalPattern" value="true" />
       <property name="ignoreComments" value="true" />
-    </module> -->
+    </module> 
 
   </module>
 
