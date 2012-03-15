@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
@@ -29,14 +26,12 @@ public class LiveAPIClientTest {
     
     private LiveAPIClient client;
     private RESTClient mockRest;
-    private ApplicationContext appContext;
     
     @Before
     public void setUp() throws Exception {
         if (System.getProperty("env") == null)
             System.setProperty("env", "dev");
         // Get the initalized bean from spring config
-        appContext = new ClassPathXmlApplicationContext("application-context.xml");
         client = new LiveAPIClient();
         mockRest = mock(RESTClient.class);
         
@@ -48,7 +43,7 @@ public class LiveAPIClientTest {
         client = null;
         mockRest = null;
     }
-
+    
     @Test
     public void testGetSessionsByYear() throws Exception {
         List<GenericEntity> sessions;
@@ -64,7 +59,7 @@ public class LiveAPIClientTest {
         assertNotNull(sessions);
         assertTrue(sessions.size() == 2);
     }
-
+    
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
@@ -179,10 +174,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetStudentSectionGradebookEntries() {
-        String url = client.getApiUrl() + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
+        String url = client.getApiUrl()
+                + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("studentId", "5678");
         params.put("sectionId", "1234");
