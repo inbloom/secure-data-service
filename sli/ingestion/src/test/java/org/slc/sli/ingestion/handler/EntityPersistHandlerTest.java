@@ -5,10 +5,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -52,7 +54,7 @@ public class EntityPersistHandlerTest {
     private static final String INTERNAL_STUDENT_ID = "0x" + STUDENT_ID;
     private static final String INTERNAL_SCHOOL_ID = "0x" + SCHOOL_ID;
     private static final String BAD_STUDENT_ID = "234567";
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+    private static final String REGION_ID = "SLI";
     private static final String METADATA_BLOCK = "metaData";
     private static final String REGION_ID_FIELD = "idNamespace";
     private static final String EXTERNAL_ID_FIELD = "externalId";
@@ -107,6 +109,7 @@ public class EntityPersistHandlerTest {
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
+     * @author tke 3/15/2012, modified be consistent with the new IdNormalization strategy.
      *         Added testing of record DB lookup and update, and support for association entities.
      */
     @Test
@@ -118,16 +121,30 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity>emptyList());
 
-        // Create a new student entity, and test creating it in the data store.
-        SimpleEntity studentEntity = createStudentEntity();
+        // Create a new student entity with entity ID, and test creating it in the data store.
+        SimpleEntity studentEntity = createStudentEntity(true);
+
+        List<Entity> le = new ArrayList<Entity>();
+        le.add(studentEntity);
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(le);
+        when(entityRepository.update(studentEntity.getType(), studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
+        verify(entityRepository).update(studentEntity.getType(), studentEntity);
+
+        //Test student entity without entity ID, so that repository will create a new one
+        le.clear();
+        SimpleEntity studentEntity2 = createStudentEntity(false);
+        le.add(studentEntity2);
+
+        entityPersistHandler.doHandling(studentEntity2, fr);
+
         verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
                 "student");
+
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
@@ -140,8 +157,8 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         FaultsReport fr = new FaultsReport();
 
-        SimpleEntity studentEntity = createStudentEntity();
-        SimpleEntity existingStudentEntity = createStudentEntity();
+        SimpleEntity studentEntity = createStudentEntity(true);
+        SimpleEntity existingStudentEntity = createStudentEntity(true);
 
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
@@ -155,6 +172,7 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update("student", studentEntity);
@@ -166,8 +184,8 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         FaultsReport fr = new FaultsReport();
 
-        SimpleEntity studentEntity = createStudentEntity();
-        SimpleEntity existingStudentEntity = createStudentEntity();
+        SimpleEntity studentEntity = createStudentEntity(true);
+        SimpleEntity existingStudentEntity = createStudentEntity(true);
 
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
@@ -184,6 +202,7 @@ public class EntityPersistHandlerTest {
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         Assert.assertTrue("Error report should contain errors", fr.hasErrors());
@@ -220,8 +239,9 @@ public class EntityPersistHandlerTest {
         schoolList.add(foundSchool);
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
-        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
+        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
@@ -259,8 +279,8 @@ public class EntityPersistHandlerTest {
         schoolList.add(foundSchool);
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
-        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
-        SimpleEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
+        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
+        SimpleEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
 
         existingStudentSchoolAssociationEntity.setEntityId(UUID.randomUUID().toString());
 
@@ -270,68 +290,11 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository).update("studentSchoolAssociation", studentSchoolAssociationEntity);
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
-    }
-
-    @Test
-    public void testInvalidUpdateStudentSchoolAssociationEntity() {
-        MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
-
-        // Create a new student-school association entity, and test creating it in the data store.
-        NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
-        foundStudent.setEntityId(INTERNAL_STUDENT_ID);
-
-        LinkedList<Entity> studentList = new LinkedList<Entity>();
-        studentList.add(foundStudent);
-
-        // Student search.
-        Map<String, String> studentFilterFields = new HashMap<String, String>();
-        studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
-        studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, BAD_STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity>emptyList());
-
-        // School search.
-        NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
-        foundSchool.setEntityId(INTERNAL_SCHOOL_ID);
-
-        LinkedList<Entity> schoolList = new LinkedList<Entity>();
-        schoolList.add(foundSchool);
-        when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
-
-        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(BAD_STUDENT_ID);
-        when(entityRepository.findByPaths("studentSchoolAssociation", studentSchoolAssociationFilterFields))
-                .thenReturn(Arrays.asList((Entity) studentSchoolAssociationEntity));
-
-        when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
-
-        entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
-
-        verify(entityRepository, never()).update("studentSchoolAssociation", studentSchoolAssociationEntity);
-        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
-    }
-
-    /**
-     * @author tshewchuk 2/6/2010 (PI3 US811)
-     *         Added testing of record DB lookup and update, and support for association entities.
-     */
-    @Test
-    public void testInvalidateStudentSchoolAssociationEntity() {
-        SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(BAD_STUDENT_ID);
-        studentSchoolAssociationEntity.getBody().put("studentId", BAD_STUDENT_ID);
-
-        FaultsReport fr = new FaultsReport();
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
-        verify(mockedEntityRepository, never()).create(studentSchoolAssociationEntity.getType(),
-                studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
-                studentSchoolAssociationEntity.getType());
-        verify(mockedEntityRepository, never()).update(studentSchoolAssociationEntity.getType(),
-                studentSchoolAssociationEntity);
-        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
     }
 
     @Test
@@ -363,12 +326,15 @@ public class EntityPersistHandlerTest {
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
+     * @author tke 3/15/2012   modified to test the new id normalization strategy
+     * @param setId : set entity ID if it is true.
      *         Added testing of record DB lookup and update, and support for association entities.
      */
-    public SimpleEntity createStudentEntity() {
+    public SimpleEntity createStudentEntity(boolean setId) {
         SimpleEntity entity = new SimpleEntity();
 
-        entity.setEntityId(STUDENT_ID);
+        if (setId)
+            entity.setEntityId(STUDENT_ID);
         entity.setType("student");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("studentUniqueStateId", STUDENT_ID);
@@ -396,10 +362,14 @@ public class EntityPersistHandlerTest {
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
+     * @author tke 3/15/2012, modified to be consistent with the new ID normalization strategy
      *         Added testing of record DB lookup and update, and support for association entities.
      */
-    public SimpleEntity createStudentSchoolAssociationEntity(String studentId) {
+    public SimpleEntity createStudentSchoolAssociationEntity(String studentId, boolean setId) {
         SimpleEntity entity = new SimpleEntity();
+
+        if (setId)
+            entity.setEntityId(studentId);
 
         entity.setType("studentSchoolAssociation");
         Map<String, Object> localParentIds = new HashMap<String, Object>();
@@ -416,14 +386,17 @@ public class EntityPersistHandlerTest {
         return entity;
     }
 
-    public SimpleEntity createTeacherSchoolAssociationEntity(String teacherId) {
+    public SimpleEntity createTeacherSchoolAssociationEntity(String teacherId, boolean setId) {
         // Create neutral record for entity.
         SimpleEntity entity = new SimpleEntity();
+        if (setId)
+            entity.setEntityId(teacherId);
         entity.setType("teacherSchoolAssociation");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("teacherId", teacherId);
         field.put("schoolId", SCHOOL_ID);
         entity.setBody(field);
+        entity.setMetaData(new HashMap<String, Object>());
 
         // Create and return new entity from neutral record.
         return entity;
@@ -455,8 +428,9 @@ public class EntityPersistHandlerTest {
         schoolList.add(foundSchool);
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
-        SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID);
+        SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
+        teacherSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
         verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
                 teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),

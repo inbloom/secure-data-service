@@ -26,7 +26,7 @@ public class ConfigUtilTest {
 
     @Ignore
     @Test
-    public void testFromXMLString1() {
+    public void testFromXMLString1() throws Exception {
 
         String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                          + "<viewConfigSet>\n"
@@ -38,18 +38,14 @@ public class ConfigUtilTest {
                          + "</viewConfigSet>\n";
 
         ViewConfigSet configs = null;
-        try {
-            configs = ConfigUtil.fromXMLString(xmlString);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        configs = ConfigUtil.fromXMLString(xmlString);
         ViewConfig config = configs.getViewConfig().get(0);
         assertEquals(1, config.getDisplaySet().size());
         assertEquals(1, config.getDisplaySet().get(0).getField().size());
     }
 
     //@Test
-    public void testToXMLString1() {
+    public void testToXMLString1() throws Exception {
 
         ViewConfigSet configs = new ViewConfigSet();
         ViewConfig view = new ViewConfig();
@@ -67,11 +63,7 @@ public class ConfigUtilTest {
         displaySet.getField().add(field);
 
         String xmlString = null;
-        try {
-            xmlString = ConfigUtil.toXMLString(configs);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        xmlString = ConfigUtil.toXMLString(configs);
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
                    + "<viewConfigSet>\n"
                    + "    <viewConfig name=\"listOfStudents\">\n"

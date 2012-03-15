@@ -39,15 +39,15 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         this.configManager = configManager;
     }
 
-    private String getTokenId() {
+    protected String getTokenId() {
         return SecurityUtil.getToken();
     }
     
-    private String getUsername() {
+    protected String getUsername() {
         return SecurityUtil.getUsername();
     }
     
-    private Config getConfig(String componentId) {
+    protected Config getConfig(String componentId) {
         return configManager.getComponentConfig(getUsername(), componentId);
     }
     
@@ -131,8 +131,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         if (config.getItems() != null) {
             depth++;
             for (Config.Item item : config.getItems()) {
-                if (checkCondition(item, entity))
+                if (checkCondition(item, entity)) {
                     populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
+                    if (config.getType().isLayoutItem()) {
+                        model.addLayoutItem(item);
+                    }
+                }
             }
         }
     }
@@ -191,8 +195,28 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         this.entityReferenceToManagerMethodMap = Collections.unmodifiableMap(entityReferenceToManagerMethodMap);
     }
     
-    private GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
-        InvokableSet set = this.entityReferenceToManagerMethodMap.get(config.getEntityRef());
+    protected InvokableSet getInvokableSet(String entityRef) {
+        return this.entityReferenceToManagerMethodMap.get(entityRef);
+    }
+    
+    /**
+     * For UTs
+     * @param entityRef
+     * @return
+     */
+    public boolean hasCachedEntityMapperReference(String entityRef) {
+        return this.entityReferenceToManagerMethodMap.containsKey(entityRef);
+    }
+    
+    /**
+     * Get data for the declared entity reference
+     * @param componentId - component to get data for
+     * @param entityKey - entity key for the component
+     * @param config - data config for the component
+     * @return entity
+     */
+    protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {
             throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
         }

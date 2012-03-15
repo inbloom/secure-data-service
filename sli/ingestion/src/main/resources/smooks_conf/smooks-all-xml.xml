@@ -1176,17 +1176,9 @@
 
     <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
 
-    <jb:value property="percentOfAssessment" data="ObjectiveAssessment/PercentOfAssessment" />
+    <jb:value property="percentOfAssessment" data="ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
 
     <jb:value property="nomenclature" data="ObjectiveAssessment/Nomenclature" />
-
-    <jb:wiring property="assessmentItemReference" beanIdRef="AssessmentItemReferenceTypeArray" />
-
-    <jb:wiring property="learningObjectiveReference" beanIdRef="LearningObjectiveReferenceTypeArray" />
-
-    <jb:wiring property="learningStandardReference" beanIdRef="LearningStandardReferenceTypeArray" />
-
-    <jb:wiring property="objectiveAssessmentReference" beanIdRef="ObjectiveAssessmentReferenceTypeArray" />
 
   </jb:bean>
 
@@ -1322,6 +1314,11 @@
     <!--<jb:wiring property="sectionReferences" beanIdRef="sectionReferenceTypeArray" />-->
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
     <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
+    <jb:wiring property="objectiveAssessmentRefs" beanIdRef="objectiveAssessmentRefs" />
+  </jb:bean>
+  
+  <jb:bean beanId="objectiveAssessmentRefs" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
+    <jb:value data="Assessment/ObjectiveAssessmentReference/@ref"></jb:value>
   </jb:bean>
 
   <jb:bean beanId="assessmentIdentificationCodeTypeArray" class="java.util.ArrayList"

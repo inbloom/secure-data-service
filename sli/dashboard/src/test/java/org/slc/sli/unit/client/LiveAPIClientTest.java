@@ -1,6 +1,8 @@
 package org.slc.sli.unit.client;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -12,8 +14,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
@@ -26,14 +26,12 @@ public class LiveAPIClientTest {
     
     private LiveAPIClient client;
     private RESTClient mockRest;
-    private ApplicationContext appContext;
     
     @Before
     public void setUp() throws Exception {
         if (System.getProperty("env") == null)
             System.setProperty("env", "dev");
         // Get the initalized bean from spring config
-        appContext = new ClassPathXmlApplicationContext("application-context.xml");
         client = new LiveAPIClient();
         mockRest = mock(RESTClient.class);
         
@@ -44,6 +42,22 @@ public class LiveAPIClientTest {
     public void tearDown() throws Exception {
         client = null;
         mockRest = null;
+    }
+    
+    @Test
+    public void testGetSessionsByYear() throws Exception {
+        List<GenericEntity> sessions;
+        String url = client.getApiUrl() + "/sessions/";
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn("[]");
+        sessions = client.getSessionsByYear(null, null);
+        assertNull(sessions);
+        
+        url = client.getApiUrl() + "/sessions/?schoolYear=2011-2012";
+        String json = "[{session: \"Yes\"}, {session: \"No\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        sessions = client.getSessionsByYear(null, "2011-2012");
+        assertNotNull(sessions);
+        assertTrue(sessions.size() == 2);
     }
     
     @Test
@@ -160,10 +174,11 @@ public class LiveAPIClientTest {
     
     @Test
     public void testGetStudentSectionGradebookEntries() {
-        String url = client.getApiUrl() + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
+        String url = client.getApiUrl()
+                + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
         String token = "token";
         
-        //build the params
+        // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("studentId", "5678");
         params.put("sectionId", "1234");
