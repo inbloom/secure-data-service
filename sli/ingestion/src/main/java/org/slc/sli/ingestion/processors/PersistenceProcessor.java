@@ -205,7 +205,7 @@ public class PersistenceProcessor implements Processor {
                             List<SimpleEntity> result = transformer.handle(nr);
                             for (SimpleEntity entity : result) {
                                 ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                               // entityPersistHandler.handle(entity, errorReport);
+                                entityPersistHandler.handle(entity, errorReport);
 
                                 if (errorReport.hasErrors()) {
                                     numFailed++;
