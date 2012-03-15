@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations= { "/application-context-test.xml"})
+@ContextConfiguration(locations = { "/application-context-test.xml" })
 public class GradebookEntryModifierTest {
     private static Logger log = LoggerFactory.getLogger(HistoricalDataResolverTest.class);
 
