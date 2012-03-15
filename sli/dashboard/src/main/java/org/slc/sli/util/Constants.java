@@ -138,7 +138,7 @@ public class Constants {
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
     // Program Participation Constants
-    public static final String SHOW_ELL_LOZENGE = "Yes";
+    public static final String SHOW_ELL_LOZENGE = "Limited";
     
     /**
      * Contains the possible values for FRE participation
