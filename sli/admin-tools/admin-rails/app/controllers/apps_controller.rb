@@ -83,8 +83,9 @@ class AppsController < ApplicationController
     @App.destroy
   
     respond_to do |format|
-      format.html { redirect_to apps_url }
-      format.json { head :ok }
+      format.js
+      # format.html { redirect_to apps_url }
+      # format.json { head :ok }
     end
   end
 end
