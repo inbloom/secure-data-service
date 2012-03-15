@@ -16,23 +16,36 @@ import javax.ws.rs.core.Response;
 public interface SLIClient {
     
     /**
-     * Connect to the SLI ReSTful API web service and authenticate with the IDP.
+     * Initialize the SLIClient
      * 
-     * @param host
-     *            Host running the SLI API. This should include the protocol and optional port.
-     *            Example: https://localhost:493
-     * @param username
-     *            Name of an authorized SLI user.
-     * @param password
-     *            Password for this user.
-     * @param realm
-     *            IDP realm the user is associated with.
+     * @param apiURL
+     *            URL to the SLI API server. Example: https://localhost:493
+     * @param securityURL
+     *            URL to the SLI Security server.
+     */
+    public abstract void init(final URL apiURL, final URL securityURL);
+    
+    /**
+     * Log in to the SLI ReSTful API web service and authenticate with the IDP. This redirects
+     * to the client's defined callbackURL when successful.
+     * 
      * @return
-     *         String containing the sessionId for the authenticated user, or null if
+     *         String session token for the authenticated user, or null if
      *         authentication fails.
      */
-    public abstract String connect(final String host, final String user, final String password,
-            final String realm) throws IOException;
+    public abstract String login() throws IOException;
+    
+    /**
+     * Logout and invalidate the session.
+     */
+    public abstract void logout();
+    
+    /**
+     * Validate the SAML token.
+     * 
+     * @return The SAML token if still valid, or an updated token if the user re-authenticated.
+     */
+    public abstract String checkSession(String token);
     
     /**
      * Create operation
