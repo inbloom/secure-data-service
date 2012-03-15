@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -206,7 +205,7 @@ public class PersistenceProcessor implements Processor {
 
                         for (NeutralRecord nr : neutralRecordData) {
                             nr.setRecordType(neutralRecord.getRecordType());
-                            List<SimpleEntity> result = transformer.handle(nr);
+                            List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
                             for (SimpleEntity entity : result) {
                                 ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
                                 entityPersistHandler.handle(entity, errorReport);
@@ -217,9 +216,7 @@ public class PersistenceProcessor implements Processor {
                             }
 
                             if (recordLevelErrorsInFile.hasErrors()) {
-
                                 numFailed++;
-
                             }
                         }
                     }

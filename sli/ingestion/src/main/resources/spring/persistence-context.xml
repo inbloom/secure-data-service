@@ -17,8 +17,6 @@
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />
-    <property name="entityConfigurations" ref="entityConfigurationsFactory" />
-    <property name="idNormalizer" ref="idNormalizer" />
   </bean>
 
   <bean id="obsoleteEntityPersistHandler" class="org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler">

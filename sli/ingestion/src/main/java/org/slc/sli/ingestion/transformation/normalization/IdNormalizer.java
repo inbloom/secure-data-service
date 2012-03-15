@@ -40,7 +40,8 @@ public class IdNormalizer {
                 if (errorReport.hasErrors()) {
                     return;
                 }
-                    PropertyUtils.setProperty(entity, reference.getFieldPath(), id);
+
+                PropertyUtils.setProperty(entity, reference.getFieldPath(), id);
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);

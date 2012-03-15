@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -40,7 +41,7 @@ public class SmooksEdFi2SLITransformerTest {
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
 
-        List<? extends Entity> result = transformer.handle(directlyMapped);
+        List<? extends Entity> result = transformer.transform(directlyMapped, new DummyErrorReport());
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -101,7 +102,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
 
-        List<? extends Entity> result = transformer.handle(assessment);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyErrorReport());
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -211,7 +212,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
 
-        List<? extends Entity> result = transformer.handle(assessment);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyErrorReport());
 
         Entity entity = result.get(0);
 

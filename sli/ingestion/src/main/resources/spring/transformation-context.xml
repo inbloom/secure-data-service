@@ -14,7 +14,12 @@
         </entry>
     </util:map>
 
-    <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer">
+    <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
+        <property name="entityConfigurations" ref="entityConfigurationsFactory" />
+        <property name="idNormalizer" ref="idNormalizer" />
+    </bean>
+
+    <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer" parent="abstractEdFi2SLITransformer">
         <property name="smooksConfigs" ref="smooksConfigs" />
     </bean>
 
@@ -29,8 +34,6 @@
         <property name="transformationStrategySuffix" value="TransformationStrategy" />
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
-
-    <bean id="entityConfiguration" class="org.slc.sli.ingestion.transformation.normalization.EntityConfig" abstract="true"/>
 
     <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
         <property name="searchPath" value="classpath:/smooksEdFi2SLI/" />
