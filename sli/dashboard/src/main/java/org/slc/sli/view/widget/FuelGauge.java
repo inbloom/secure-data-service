@@ -61,7 +61,7 @@ public class FuelGauge {
         GenericEntity assmt = assmts.resolveAssessment(field, student);
 
         if (assmt == null) { return null; }
-        int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL))));
+        int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL, null))));
         return (new Integer(level));
     }
 
@@ -70,6 +70,7 @@ public class FuelGauge {
      */
     public Integer getScore() { 
         GenericEntity assmt = assmts.resolveAssessment(field, student);
-        return assmt == null ? null : (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_SCALE_SCORE))));
+        return assmt == null ? null : (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_SCALE_SCORE,
+                null))));
     }
 }

@@ -158,6 +158,7 @@ Then /^there should be no other contents in the response body other than links$/
   @result.delete('address')
   @result.delete('organizationCategories')
   @result.delete('schoolCategories')
+  @result.delete('metaData')
   assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
 end
 

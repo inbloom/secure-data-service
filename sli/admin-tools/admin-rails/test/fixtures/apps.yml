@@ -12,11 +12,32 @@ admin:
     administration_url: https://devadmin1.slidev.org/apps
     vendor: "SLI"
     version: "1.0"
-    application_id: 1
     method: "Full Window App"
     is_admin: true
-    created_on: 1234123523415
-    updated_on: 1234123523415
+    created_on: 1331670018
+    updated_on: 1331670018
     developer_info: 
         license_acceptance: true
         organization: SLI
+waffles:
+    id: 2
+    client_secret: "Waffle Copter"
+    client_type: PUBLIC
+    scope: ENABLED
+    redirect_uri: https://devadmin1.slidev.org/callback
+    description: Waffle application
+    image_url: http://placekitten.com/150/150
+    name: Waffle Application (Deoployment)
+    client_id: kW1yIK2cMn
+    application_url: https://devadmin1.slidev.org/
+    administration_url: https://devadmin1.slidev.org/apps
+    vendor: "SLI"
+    version: ".waffles"
+    method: "Full Window App"
+    is_admin: true
+    created_on: 1231670018
+    updated_on: 1251670018
+    developer_info: 
+        license_acceptance: true
+        organization: SLI
+

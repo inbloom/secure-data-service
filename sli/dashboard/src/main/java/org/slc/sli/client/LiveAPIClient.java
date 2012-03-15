@@ -393,7 +393,18 @@ public class LiveAPIClient implements APIClient {
             sectionIDToSchoolIDMap.put(section.getString(Constants.ATTR_ID), section.getString(Constants.ATTR_SCHOOL_ID));
         }
     }
-    
+
+    @Override
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        String url = getApiUrl() + SESSION_URL + "?schoolYear=" + schoolYear;
+        try {
+            return createEntitiesFromAPI(url, token, false);
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+            return new ArrayList<GenericEntity>();
+        }
+    }
+
     /**
      * Returns the homeroom section for the student
      * 
