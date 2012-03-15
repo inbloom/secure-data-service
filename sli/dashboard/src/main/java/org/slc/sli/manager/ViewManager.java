@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.view.modifier.ViewModifier;
 
 /**
  * Handles the logic behind filtering view configurations
@@ -16,6 +17,7 @@ import org.slc.sli.util.Constants;
  */
 public class ViewManager extends ApiClientManager {
     List<ViewConfig> viewConfigs;
+    private ViewConfig activeViewConfig;
     
     public List<ViewConfig> getViewConfigs() {
         return viewConfigs;
@@ -38,7 +40,7 @@ public class ViewManager extends ApiClientManager {
     public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
         // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
-        ArrayList<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
+        List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
         
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
@@ -70,6 +72,14 @@ public class ViewManager extends ApiClientManager {
             }
         }
         return applicableViewConfigs;
+    }
+
+    public void setActiveViewConfig(ViewConfig viewConfig) {
+        this.activeViewConfig = viewConfig;
+    }
+
+    public void apply(ViewModifier viewModifier) {
+        this.activeViewConfig = viewModifier.modify(this.activeViewConfig);
     }
     
     /**
