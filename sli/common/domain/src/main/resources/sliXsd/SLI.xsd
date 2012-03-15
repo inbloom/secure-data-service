@@ -4,8 +4,8 @@
 
 	<xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<!-- TODO: W3C XML Schema elements should be re-factored to refer to externally 
-		defined complex types and simple types. -->
+	<!-- This file contains the top-level elements for the SLI database schema representation. -->
+	<!-- These elements correspond 1:1 with MongoDB collections. -->
 
 	<xs:element name="assessment">
 		<xs:annotation>

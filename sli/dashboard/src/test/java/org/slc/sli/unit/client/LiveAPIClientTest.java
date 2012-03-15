@@ -1,10 +1,13 @@
 package org.slc.sli.unit.client;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +48,23 @@ public class LiveAPIClientTest {
         client = null;
         mockRest = null;
     }
-    
+
+    @Test
+    public void testGetSessionsByYear() throws Exception {
+        List<GenericEntity> sessions;
+        String url = client.getApiUrl() + "/sessions/";
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn("[]");
+        sessions = client.getSessionsByYear(null, null);
+        assertNull(sessions);
+        
+        url = client.getApiUrl() + "/sessions/?schoolYear=2011-2012";
+        String json = "[{session: \"Yes\"}, {session: \"No\"}]";
+        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        sessions = client.getSessionsByYear(null, "2011-2012");
+        assertNotNull(sessions);
+        assertTrue(sessions.size() == 2);
+    }
+
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
