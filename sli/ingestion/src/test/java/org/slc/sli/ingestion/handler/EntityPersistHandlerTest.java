@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -78,7 +79,9 @@ public class EntityPersistHandlerTest {
     public void setup() {
         mockedEntityRepository = mock(MongoEntityRepository.class);
         entityPersistHandler.setEntityRepository(mockedEntityRepository);
-        entityPersistHandler.setEntityConfigurations(new EntityConfigFactory());
+        EntityConfigFactory entityConfigFactory = new EntityConfigFactory();
+        entityConfigFactory.setSearchPath(new ClassPathResource("/smooksEdFi2SLI/"));
+        entityPersistHandler.setEntityConfigurations(entityConfigFactory);
 
         IdNormalizer idn = new IdNormalizer();
         entityPersistHandler.setIdNormalizer(idn);
@@ -118,6 +121,7 @@ public class EntityPersistHandlerTest {
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
+     * @author tke 3/15/2012, modified be consistent with the new IdNormalization strategy.
      *         Added testing of record DB lookup and update, and support for association entities.
      */
     @Test
@@ -129,16 +133,30 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(Collections.<Entity>emptyList());
 
-        // Create a new student entity, and test creating it in the data store.
-        SimpleEntity studentEntity = createStudentEntity();
+        // Create a new student entity with entity ID, and test creating it in the data store.
+        SimpleEntity studentEntity = createStudentEntity(true);
+
+        List<Entity> le = new ArrayList<Entity>();
+        le.add(studentEntity);
+        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(le);
+        when(entityRepository.update(studentEntity.getType(), studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
+        verify(entityRepository).update(studentEntity.getType(), studentEntity);
+
+        //Test student entity without entity ID, so that repository will create a new one
+        le.clear();
+        SimpleEntity studentEntity2 = createStudentEntity(false);
+        le.add(studentEntity2);
+
+        entityPersistHandler.doHandling(studentEntity2, fr);
+
         verify(entityRepository).create(studentEntity.getType(), studentEntity.getBody(), studentEntity.getMetaData(),
                 "student");
+
         Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
     }
 
@@ -151,8 +169,8 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         FaultsReport fr = new FaultsReport();
 
-        SimpleEntity studentEntity = createStudentEntity();
-        SimpleEntity existingStudentEntity = createStudentEntity();
+        SimpleEntity studentEntity = createStudentEntity(true);
+        SimpleEntity existingStudentEntity = createStudentEntity(true);
 
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
@@ -177,8 +195,8 @@ public class EntityPersistHandlerTest {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         FaultsReport fr = new FaultsReport();
 
-        SimpleEntity studentEntity = createStudentEntity();
-        SimpleEntity existingStudentEntity = createStudentEntity();
+        SimpleEntity studentEntity = createStudentEntity(true);
+        SimpleEntity existingStudentEntity = createStudentEntity(true);
 
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
@@ -374,12 +392,15 @@ public class EntityPersistHandlerTest {
 
     /**
      * @author tshewchuk 2/6/2010 (PI3 US811)
+     * @author tke 3/15/2012   modified to test the new id normalization strategy
+     * @param setId : set entity ID if it is true.
      *         Added testing of record DB lookup and update, and support for association entities.
      */
-    public SimpleEntity createStudentEntity() {
+    public SimpleEntity createStudentEntity(boolean setId) {
         SimpleEntity entity = new SimpleEntity();
 
-        entity.setEntityId(STUDENT_ID);
+        if (setId)
+            entity.setEntityId(STUDENT_ID);
         entity.setType("student");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("studentUniqueStateId", STUDENT_ID);
