@@ -13,10 +13,12 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -247,5 +249,44 @@ public class PopulationManagerTest {
         when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(new ArrayList<GenericEntity>());
         when(mockEntity.getAttendance(null, "1", null, null)).thenReturn(new ArrayList<GenericEntity>());
         Assert.assertNotNull(manager.createStudentAttendanceMap(null, getStudentIds(), ""));
+    }
+
+    @Test
+    public void testGetSessionDates() throws Exception {
+        String sessionId = "1";
+        GenericEntity baseSession = generateSession("2010-2011", "2010-12-31", "2011-01-31");
+        when(mockEntity.getSession(null, sessionId)).thenReturn(baseSession);
+        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession));
+        
+        // See that we have the same beginning and end date
+        List<String> dates = manager.getSessionDates(null, sessionId);
+        assertTrue(dates.size() == 2);
+        assertTrue(dates.get(0).compareTo("2010-12-31") == 0);
+        assertTrue(dates.get(1).compareTo("2011-01-31") == 0);
+        
+        //See that we compare dates correctly
+        GenericEntity lateSession = generateSession("2010-2011", "2011-02-1", "2011-03-14");
+        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession, lateSession));
+        dates = manager.getSessionDates(null, sessionId);
+        assertTrue(dates.size() == 2);
+        assertTrue(dates.get(0).compareTo("2010-12-31") == 0);
+        assertTrue(dates.get(1).compareTo("2011-03-14") == 0);
+
+        //Try starting with the middle of a 3 semester setup.
+        GenericEntity earlySession = generateSession("2010-2011", "2010-01-01", "2010-12-30");
+        when(mockEntity.getSessionsByYear(null, "2010-2011")).thenReturn(Arrays.asList(baseSession, lateSession, earlySession));
+        dates = manager.getSessionDates(null, sessionId);
+        assertTrue(dates.size() == 2);
+        assertTrue(dates.get(0).compareTo("2010-01-01") == 0);
+        assertTrue(dates.get(1).compareTo("2011-03-14") == 0);
+        
+    }
+
+    private GenericEntity generateSession(String schoolYear, String beginDate, String endDate) {
+        GenericEntity startingSession = new GenericEntity();
+        startingSession.put("schoolYear", schoolYear);
+        startingSession.put("beginDate", beginDate);
+        startingSession.put("endDate", endDate);
+        return startingSession;
     }
 }
