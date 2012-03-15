@@ -1,8 +1,9 @@
-package org.slc.sli.manager;
+package org.slc.sli.view.modifier;
 
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
+import org.slc.sli.manager.Manager;
 import org.slc.sli.view.HistoricalDataResolver;
 
 import java.util.Iterator;
@@ -12,7 +13,7 @@ import java.util.SortedSet;
  * Class to manage historical data for view config that needs data added dynamically
  * @author jstokes
  */
-public class HistoricalViewManager implements Manager {
+public class HistoricalViewModifier implements Manager {
 
     HistoricalDataResolver historicalDataResolver;
 
@@ -20,7 +21,7 @@ public class HistoricalViewManager implements Manager {
      * Constructor
      * @param historicalDataResolver A resolver for student historical data
      */
-    public HistoricalViewManager(HistoricalDataResolver historicalDataResolver) {
+    public HistoricalViewModifier(HistoricalDataResolver historicalDataResolver) {
         this.historicalDataResolver = historicalDataResolver;
     }
 

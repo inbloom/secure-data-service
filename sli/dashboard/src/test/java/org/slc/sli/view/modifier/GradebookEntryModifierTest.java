@@ -1,4 +1,4 @@
-package org.slc.sli.unit.view;
+package org.slc.sli.view.modifier;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,8 @@ import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.view.GradebookEntryViewManager;
+import org.slc.sli.unit.view.HistoricalDataResolverTest;
+import org.slc.sli.view.modifier.GradebookViewModifer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,10 +32,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= { "/application-context-test.xml"})
-public class GradebookEntryViewManagerTest {
+public class GradebookEntryModifierTest {
     private static Logger log = LoggerFactory.getLogger(HistoricalDataResolverTest.class);
 
-    private GradebookEntryViewManager gradebookEntryViewManager; // class under test
+    private GradebookViewModifer gradebookViewModifer; // class under test
 
     private static final String CURRENT = "Current";
     private static final String GRADES = "<center>Unit Tests</center>";
@@ -61,13 +62,13 @@ public class GradebookEntryViewManagerTest {
         gradebookIds.add(ge1);
         gradebookIds.add(ge2);
 
-        gradebookEntryViewManager = new GradebookEntryViewManager(gradebookIds);
+        gradebookViewModifer = new GradebookViewModifer(gradebookIds);
     }
 
     @Test
     public void testAddGradebookEntries() {
         ViewConfig testView = new ViewConfig();
-        testView = gradebookEntryViewManager.addGradebookEntries(testView);
+        testView = gradebookViewModifer.addGradebookEntries(testView);
 
         List<DisplaySet> testDisplaySet = testView.getDisplaySet();
         assertEquals(2, testDisplaySet.size());

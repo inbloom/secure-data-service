@@ -1,4 +1,4 @@
-package org.slc.sli.view;
+package org.slc.sli.view.modifier;
 
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
@@ -11,7 +11,7 @@ import java.util.SortedSet;
  * Class to manage gradebook entry data for view config that needs data added dynamically
  * @author jstokes
  */
-public class GradebookEntryViewManager {
+public class GradebookViewModifer implements {
 
     private SortedSet<GenericEntity> gradebookIds;
 
@@ -25,7 +25,7 @@ public class GradebookEntryViewManager {
     /**
      * Constructor
      */
-    public GradebookEntryViewManager(SortedSet<GenericEntity> gradebookIds) {
+    public GradebookViewModifer(SortedSet<GenericEntity> gradebookIds) {
         this.gradebookIds = gradebookIds;
     }
 
