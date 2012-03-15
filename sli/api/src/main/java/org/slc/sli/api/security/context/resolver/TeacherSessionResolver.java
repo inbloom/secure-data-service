@@ -2,7 +2,9 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,15 +38,22 @@ public class TeacherSessionResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> ids = helper.findAccessible(principal, Arrays.asList(
+        List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+
+        List<String> studentSectionIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
+        Set<String> sectionIds = new HashSet<String>();
+        sectionIds.addAll(teacherSectionIds);
+        sectionIds.addAll(studentSectionIds);
+
         StringBuilder query = new StringBuilder();
         String separator = "";
 
-        for (String s : ids) {
+        for (String s : sectionIds) {
             query.append(separator);
             separator = ",";
             query.append(s);
@@ -55,13 +64,13 @@ public class TeacherSessionResolver implements EntityContextResolver {
 
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
 
-        List<String> sessionIds = new ArrayList<String>();
+        Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : entities) {
             sessionIds.add((String) e.getBody().get("sessionId"));
         }
 
-        return sessionIds;
+        return new ArrayList<String>(sessionIds);
     }
 
 }

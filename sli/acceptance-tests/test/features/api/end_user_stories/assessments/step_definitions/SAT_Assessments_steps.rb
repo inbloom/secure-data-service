@@ -62,7 +62,7 @@ Then /^the first one is "([^"]*)" = "([^"]*)"$/ do |key, value|
     elsif keys.length == 3
       if keys[1] == "scoreResults" and (value == "Scale score" or value == "680")
       fieldValue = dataH[keys[0]][0][keys[1]][0][keys[2]]
-      elsif keys[1] == "scoreResults" and (value == "Percentile score" or value == "80")
+      elsif keys[1] == "scoreResults" and (value == "Percentile" or value == "80")
         fieldValue =dataH[keys[0]][0][keys[1]][1][keys[2]]
       else
         fieldValue = dataH[keys[0]][0][keys[1]][keys[2]]
@@ -102,7 +102,7 @@ Then /^the second one is "([^"]*)" = "([^"]*)"$/ do |key, value|
     elsif keys.length == 3
        if keys[1] == "scoreResults" and (value == "Scale score" or value == "680")
       fieldValue = dataH[keys[0]][1][keys[1]][0][keys[2]]
-      elsif keys[1] == "scoreResults" and (value == "Percentile score" or value == "80")
+      elsif keys[1] == "scoreResults" and (value == "Percentile" or value == "80")
         fieldValue = dataH[keys[0]][1][keys[1]][1][keys[2]]
       else
         fieldValue = dataH[keys[0]][1][keys[1]][keys[2]]
@@ -143,7 +143,7 @@ Then /^the third one is "([^"]*)" = "([^"]*)"$/ do |key, value|
     elsif keys.length == 3
        if keys[1] == "scoreResults" and (value == "Scale score" or value == "680")
       fieldValue = dataH[keys[0]][2][keys[1]][0][keys[2]]
-      elsif keys[1] == "scoreResults" and (value == "Percentile score" or value == "80")
+      elsif keys[1] == "scoreResults" and (value == "Percentile" or value == "80")
         fieldValue = dataH[keys[0]][2][keys[1]][1][keys[2]]
       else
         fieldValue = dataH[keys[0]][2][keys[1]][keys[2]]

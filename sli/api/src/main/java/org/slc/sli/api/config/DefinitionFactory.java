@@ -37,6 +37,9 @@ public class DefinitionFactory {
     private TypeTreatment typeTreatment;
 
     @Autowired
+    private MetaDataTreatment metaDataTreatment;
+    
+    @Autowired
     private ApplicationContext beanFactory;
 
     public EntityBuilder makeEntity(String type) {
@@ -92,6 +95,7 @@ public class DefinitionFactory {
             this.repo = DefinitionFactory.this.defaultRepo;
             this.treatments.add(DefinitionFactory.this.idTreatment);
             this.treatments.add(DefinitionFactory.this.typeTreatment);
+            this.treatments.add(DefinitionFactory.this.metaDataTreatment);
         }
 
         /**

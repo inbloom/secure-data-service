@@ -179,6 +179,24 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>7th Grade English</ID>
     </CourseCode>
+    <SubjectArea>ELA</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>7th Grade Composition</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade Composition</ID>
+    </CourseCode>
+    <SubjectArea>ELA</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -195,6 +213,7 @@
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>8th Grade English</ID>
     </CourseCode>
+    <SubjectArea>ELA</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
