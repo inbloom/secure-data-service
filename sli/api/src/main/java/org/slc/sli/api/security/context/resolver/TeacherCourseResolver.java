@@ -1,19 +1,20 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.SmartQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.SmartQuery;
 
 
 /**
@@ -59,7 +60,7 @@ public class TeacherCourseResolver implements EntityContextResolver {
             query.append(s);
         }
 
-        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+        SmartQuery.SmartQueryBuilder queryBuilder = new SmartQuery.SmartQueryBuilder();
         queryBuilder.addField("_id", query.toString());
 
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());

@@ -139,13 +139,12 @@ public class PersistenceProcessor implements Processor {
      * the original input file for this IngestionFileEntry.
      *
      * @param ingestionFileEntry
-     * @param arrayList2
-     * @param arrayList
+     * @param idNamespace
      * @throws IOException
      */
     public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace) throws IOException {
-
-        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(), idNamespace);
+        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
+                idNamespace, new ArrayList<String>(), new HashSet<String>());
     }
 
     /**
@@ -153,14 +152,16 @@ public class PersistenceProcessor implements Processor {
      * Validation errors will go to an error file that corresponds with the file passed in.
      *
      * @param neutralRecordsFile
+     * @param idNamespace
      * @throws IOException
      */
     public ErrorReport processIngestionStream(File neutralRecordsFile, String idNamespace) throws IOException {
-
-        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), new ArrayList<String>(), new HashSet<String>());
+        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), idNamespace,
+                new ArrayList<String>(), new HashSet<String>());
     }
 
-    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName, String idNamespace)
+    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName,
+            String idNamespace, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
             throws IOException {
 
         long recordNumber = 0;
