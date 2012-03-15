@@ -34,7 +34,6 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -47,18 +46,13 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+
 public class EntityPersistHandlerTest {
 
     @Autowired
-<<<<<<< HEAD
     private EntityPersistHandler entityPersistHandler;
-=======
-    private NeutralRecordEntityPersistHandler entityPersistHandler;
->>>>>>> 6568ff89720bd74908cf2b80641addf162558e3f
 
     private MongoEntityRepository mockedEntityRepository;
-
-    private Validator<NeutralRecordEntity> mockedValidator;
 
     private static final String STUDENT_ID = "765432";
     private static final String SCHOOL_ID = "654321";
