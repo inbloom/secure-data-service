@@ -496,4 +496,8 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getSession(String token, String sessionId) {
         return getApiClient().getSession(token, sessionId);
     }
+
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        return getApiClient().getSessionsByYear(token, schoolYear);  //To change body of created methods use File | Settings | File Templates.
+    }
 }
