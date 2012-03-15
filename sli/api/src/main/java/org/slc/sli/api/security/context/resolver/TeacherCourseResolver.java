@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -35,32 +38,42 @@ public class TeacherCourseResolver implements EntityContextResolver {
     
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> ids = helper.findAccessible(principal, Arrays.asList(
+        List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+
+        List<String> studentSectionIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
+        Set<String> sectionIds = new HashSet<String>();
+        sectionIds.addAll(teacherSectionIds);
+        sectionIds.addAll(studentSectionIds);
+
         StringBuilder query = new StringBuilder();
         String separator = "";
-        
-        for (String s : ids) {
+
+        for (String s : sectionIds) {
             query.append(separator);
-            separator = ",";            
+            separator = ",";
             query.append(s);
         }
-        
+
         EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
         queryBuilder.addField("_id", query.toString());
-        
+
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
 
-        List<String> courseIds = new ArrayList<String>();
-        
+        Set<String> sessionIds = new HashSet<String>();
+
         for (Entity e : entities) {
-            courseIds.add((String) e.getBody().get("courseId"));
+            String courseId = (String) e.getBody().get("courseId");
+            if (courseId != null) {
+                sessionIds.add(courseId);
+            }
         }
 
-        return courseIds;
+        return new ArrayList<String>(sessionIds);
     }
 
 }

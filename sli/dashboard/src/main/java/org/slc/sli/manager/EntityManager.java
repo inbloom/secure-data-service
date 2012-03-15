@@ -128,7 +128,7 @@ public class EntityManager extends ApiClientManager {
      *         - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
-        GenericEntity student = getStudent(token, studentId);
+        GenericEntity student = ContactSorter.sort(getStudent(token, studentId));
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
@@ -495,5 +495,9 @@ public class EntityManager extends ApiClientManager {
 
     public GenericEntity getSession(String token, String sessionId) {
         return getApiClient().getSession(token, sessionId);
+    }
+
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        return getApiClient().getSessionsByYear(token, schoolYear);  //To change body of created methods use File | Settings | File Templates.
     }
 }

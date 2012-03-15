@@ -36,7 +36,6 @@ public class ZipFileValidator extends SimpleValidator<File> {
 
             ZipEntry ze = (ZipEntry) entries.nextElement();
 
-            // System.out.println("Read " + ze.getName() + "?");
             if (ze.getName().endsWith(".ctl"))
                 return true;
         }

@@ -45,6 +45,7 @@ public class AssessmentResolver {
         
         // get the data point
         String dataPointName = extractDataPointName(field.getValue());
+        String objAssmtCode = extractObjAssmtCode(field.getValue());
         if (chosenAssessment == null) {
             return "";
         }
@@ -52,7 +53,7 @@ public class AssessmentResolver {
             return "";
         }
         
-        return getScore(chosenAssessment, dataPointName);
+        return getScore(chosenAssessment, dataPointName, objAssmtCode);
         
         // return shortname for perf levels??
         /*
@@ -74,10 +75,53 @@ public class AssessmentResolver {
         // return "";
     }
     
-    public String getScore(GenericEntity studentAssmt, String dataPointName) {
+    /**
+     * @param studentAssmt
+     *            the student assessment association entity
+     * @param dataPointName
+     *            the field or attribute in student assessment association
+     * @param objAssmtCode
+     *            the objective assessment identification code if student assessment association
+     *            include student objective assessment
+     * @return the string value of field or attribute specified by dataPointName in student
+     *         assessment association
+     */
+    public String getScore(GenericEntity studentAssmt, String dataPointName, String objAssmtCode) {
         
-        // find the right score
-        List<Map> scoreResults = studentAssmt.getList(Constants.ATTR_SCORE_RESULTS);
+        List<Map> scoreResults = new ArrayList<Map>();
+        
+        /*
+         * check is student assessment association has student objective assessment, if objective
+         * assessment identification code is provided, then the field will be retrieved from student
+         * objective assessment
+         */
+        if (objAssmtCode == null || objAssmtCode.equals("")) {
+            scoreResults = studentAssmt.getList(Constants.ATTR_SCORE_RESULTS);
+        } else {
+            List<Map> studentObjAssmts = studentAssmt.getList(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+            if (studentObjAssmts != null) {
+                for (Map studentObjAssmt : studentObjAssmts) {
+                    
+                    // use objective assessment identification code specified on view configuration
+                    // to
+                    // find right objective assessment
+                    String idCode = (String) (((Map) (studentObjAssmt.get(Constants.ATTR_OBJECTIVE_ASSESSMENT)))
+                            .get(Constants.ATTR_IDENTIFICATIONCODE));
+                    String[] codes = objAssmtCode.replace("-", " ").split(" ");
+                    boolean match = true;
+                    for (String code : codes) {
+                        if (!idCode.toLowerCase().contains(code.toLowerCase())) {
+                            match = false;
+                        }
+                    }
+                    if (match) {
+                        scoreResults = (List<Map>) (studentObjAssmt.get(Constants.ATTR_SCORE_RESULTS));
+                    }
+                }
+            }
+        }
+
+        // find the right field value by match dataPointName
         List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         
         for (Map scoreResult : scoreResults) {
@@ -86,15 +130,24 @@ public class AssessmentResolver {
                 
             }
         }
+        // if performance level is not included in score results as mastery level, then find the
+        // performance level from performance level descriptor
         if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)
                 && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
             return findPerfLevelFromDescriptor(perfLevelDescriptors);
+
+            // if performance level not specified in performance level descriptor, then return blank
         } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
-            String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
-            String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE);
-            if (assmtId != null && !assmtId.equals("") && scaleScore != null && !scaleScore.equals("")) {
-                return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);
-            }
+            /*
+             * calculate the performance level if not provided in performance level descriptor
+             * 
+             * String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
+             * String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
+             * if (assmtId != null && !assmtId.equals("") && scaleScore != null &&
+             * !scaleScore.equals("")) {
+             * return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);}
+             */
+            return "";
         }
         return "";
     }
@@ -162,6 +215,7 @@ public class AssessmentResolver {
         GenericEntity chosenAssessment = null;
         
         String timeSlot = field.getTimeSlot();
+        String objAssmtCode = extractObjAssmtCode(field.getValue());
         
         // TODO: implement most recent window when the assessment period info is available
         /*
@@ -174,6 +228,8 @@ public class AssessmentResolver {
         
         if (TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
+        } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
+            chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
         } else if (TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
         } else if (TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
@@ -208,6 +264,13 @@ public class AssessmentResolver {
         return strs[1];
     }
     
+    private String extractObjAssmtCode(String dataPointId) {
+        String[] strs = dataPointId.split("\\.");
+        if (strs.length >= 3)
+            return strs[2];
+        return "";
+    }
+
     private boolean hasPerfLevelScoreResults(List<Map> scoreResults) {
         boolean found = false;
         for (Map scoreResult : scoreResults) {

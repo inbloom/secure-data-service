@@ -148,7 +148,6 @@ public class OAuthTokenUtilTest {
         OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
         
         assertEquals("checking value", value, refresh.getValue());
-        System.out.println(reconst.getClass());
         assertTrue("Ensuring type", reconst instanceof ExpiringOAuth2RefreshToken);
         assertEquals("checking expiration", expiration, ((ExpiringOAuth2RefreshToken) reconst).getExpiration());
     }
