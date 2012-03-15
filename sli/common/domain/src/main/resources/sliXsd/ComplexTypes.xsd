@@ -153,6 +153,41 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="learningStyles">
+		<xs:annotation>
+			<xs:documentation>The student's relative preference to visual,
+				auditory and tactile
+				learning expressed as percentages.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="visualLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						visual learning.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auditoryLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						auditory learning.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tactileLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						kinesthetic or tactile learning.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="leaveEvent">
 		<xs:annotation>
 			<xs:documentation>This event entity represents the recording of the
@@ -665,8 +700,10 @@
 	<xs:complexType name="postSecondaryEvent">
 		<xs:annotation>
 			<xs:documentation>
-				This entity captures significant postsecondary events during a student's high school tenure (e.g.,
-				FASFSA application, or college application, acceptance, and enrollment).
+				This entity captures significant postsecondary
+				events during a student's high school tenure (e.g.,
+				FASFSA
+				application, or college application, acceptance, and enrollment).
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -674,33 +711,40 @@
 				<xs:sequence>
 					<xs:element name="eventDate" type="xs:date">
 						<xs:annotation>
-							<xs:documentation>The date the event occurred or was recorded.</xs:documentation>
+							<xs:documentation>The date the event occurred or was recorded.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="postSecondaryEventCategory" type="postSecondaryEventCategoryType">
 						<xs:annotation>
 							<xs:documentation>
-								The postsecondary event that is logged (e.g., FAFSA application, college
+								The postsecondary event that is logged (e.g.,
+								FAFSA application, college
 								application, college acceptance).
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="nameOfInstitution" type="nameOfInstitution" minOccurs="0">
+					<xs:element name="nameOfInstitution" type="nameOfInstitution"
+						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
-								The postsecondary institution associated with the event.
+								The postsecondary institution associated with
+								the event.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="institutionId" type="institutionId" minOccurs="0">
+					<xs:element name="institutionId" type="institutionId"
+						minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The ID of the postsecondary institution.</xs:documentation>
+							<xs:documentation>The ID of the postsecondary institution.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="studentId" type="xs:string">
 						<xs:annotation>
 							<xs:documentation>
-								The student associated with the postsecondary event.
+								The student associated with the postsecondary
+								event.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -927,7 +971,8 @@
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>A classification of the behavior for reporting
-						types.</xs:documentation>
+						types.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1416,6 +1461,143 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="studentCharacteristic">
+		<xs:annotation>
+			<xs:documentation>Reflects important characteristics of the student's
+				home situation:
+				Displaced Homemaker, Homeless, Immigrant, Migratory,
+				Military Parent,
+				Pregnant Teen,
+				Single Parent, Unaccompanied Youth
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="characteristic" type="studentCharacteristicType">
+				<xs:annotation>
+					<xs:documentation>The characteristic designated for the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the characteristic was designated.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the characteristic was removed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						characteristic.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="studentIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and
+				record-keeping
+				purposes by schools, social services, or other
+				agencies to refer to a
+				student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificationCode" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						a student by
+						a school, school system, a state, or other agency or
+						entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identificationSystem" type="studentIdentificationSystemType">
+				<xs:annotation>
+					<xs:documentation>A coding scheme that is used for identification
+						and record-keeping
+						purposes by schools, social services, or other
+						agencies to refer to a
+						student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="assigningOrganizationCode" type="identificationCode"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The organization code or name assigning the
+						student Identification
+						Code.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+
+	</xs:complexType>
+
+	<xs:complexType name="studentIndicator">
+		<xs:annotation>
+			<xs:documentation>An indicator or metric computed for the student
+				(e.g., at risk) to
+				influence more effective education or direct
+				specific interventions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="indicatorGroup" type="indicatorName"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name for a group of indicators.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indicatorName" type="indicatorName">
+				<xs:annotation>
+					<xs:documentation>The name of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indicator" type="indicator">
+				<xs:annotation>
+					<xs:documentation>The value of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date when the indicator was assigned or
+						computed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the indicator or metric was sunset or
+						removed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						program association.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="studentObjectiveAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity holds the score and or performance
@@ -1486,6 +1668,43 @@
 					<xs:documentation>An indication that the telephone number should be
 						used as the
 						principal number for an individual or organization.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="disability">
+		<xs:annotation>
+			<xs:documentation>This type represents an impairment of body
+				structure or function, a
+				limitation in activities, or a restriction
+				in participation, as ordered by
+				severity
+				of impairment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="disability" type="disabilityType">
+				<xs:annotation>
+					<xs:documentation>A disability category that describes a child's
+						impairment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="disabilityDiagnosis" type="disabilityDiagnosis"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A description of the disability diagnosis.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="orderOfDisability" type="xs:int"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The order by severity of student's disabilities:
+						1- Primary, 2
+						- Secondary, 3 - Tertiary, etc.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2261,11 +2480,81 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="creditsByCourse">
+		<xs:annotation>
+			<xs:documentation>The total credits required to graduation by taking
+				a specific course,
+				or by taking one or more from a set of courses.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="courseCode" type="courseCode" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The code that identifies the organization of
+						subject matter
+						and related learning experiences provided for the
+						instruction of
+						students.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="credits" type="credits">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the
+						completion of a course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gradeLevel" type="gradeLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The grade level when the student is planned to
+						take the
+						course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="creditsBySubject">
+		<xs:annotation>
+			<xs:documentation>The total credits required in subject to graduate.
+				Only those courses
+				identified as a high school course requirement are
+				eligible to meet subject
+				credit
+				requirements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subjectArea" type="academicSubjectType">
+				<xs:annotation>
+					<xs:documentation>The intended major subject area of the graduation
+						requirement.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="credits" type="credits">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the
+						completion of a course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="diploma">
 		<xs:annotation>
 			<xs:documentation>
-				This educational entity represents the conferring or certification by an educational organization that
-				the student has successfully completed a particular course of study.  It represents the electronic
+				This educational entity represents the conferring
+				or certification by an educational organization that
+				the student has
+				successfully completed a particular course of study. It represents
+				the electronic
 				version of its physical document counterpart.
 			</xs:documentation>
 		</xs:annotation>
@@ -2275,56 +2564,71 @@
 					<xs:element name="diplomaAwardDate" type="xs:date">
 						<xs:annotation>
 							<xs:documentation>
-								The month, day, and year on which the student met graduation requirements and was
+								The month, day, and year on which the student
+								met graduation requirements and was
 								awarded a diploma.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="diplomaLevel" type="diplomaLevelType" minOccurs="0">
+					<xs:element name="diplomaLevel" type="diplomaLevelType"
+						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
-								The level of diploma/credential that is awarded to a student in recognition of
-								his/her completion of the curricular requirements.
-									Minimum high school program
-									Recommended high school program
-									Distinguished Achievement Program
+								The level of diploma/credential that is awarded
+								to a student in recognition of
+								his/her completion of the
+								curricular requirements.
+								Minimum high school program
+								Recommended
+								high school program
+								Distinguished Achievement Program
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="diplomaType" type="diplomaType">
 						<xs:annotation>
 							<xs:documentation>
-								The type of diploma/credential that is awarded to a student in recognition of
-								his/her completion of the curricular requirements.
+								The type of diploma/credential that is awarded
+								to a student in recognition of
+								his/her completion of the
+								curricular requirements.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="CTECompleter" type="xs:boolean" minOccurs="0">
+					<xs:element name="CTECompleter" type="xs:boolean"
+						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>
-								Indicated a student who reached a state–defined threshold of vocational education
-								and who attained a high school diploma or its recognized state equivalent or GED.
+								Indicated a student who reached a state–defined
+								threshold of vocational education
+								and who attained a high school
+								diploma or its recognized state equivalent or GED.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="academicHonors" type="academicHonor" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="academicHonors" type="academicHonor"
+						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
-								Academic distinctions earned by or awarded to the student.
+								Academic distinctions earned by or awarded to
+								the student.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="recognitions" type="recognition" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="recognitions" type="recognition"
+						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>
-								Recognitions given to the student for accomplishments in a co-curricular, or
+								Recognitions given to the student for
+								accomplishments in a co-curricular, or
 								extra-curricular activity.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="schoolReference" type="reference">
 						<xs:annotation>
-							<xs:documentation>The school that offers the diploma.</xs:documentation>
+							<xs:documentation>The school that offers the diploma.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -2516,6 +2820,78 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="graduationPlan">
+		<xs:annotation>
+			<xs:documentation>This entity is a plan outlining the required
+				credits, credits by
+				subject, credits by course, and other criteria
+				required for graduation. A
+				graduation
+				plan may be one or more standard
+				plans defined by an education
+				organization and/or
+				individual plans for
+				some or all students.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="GraduationPlanType">
+						<xs:annotation>
+							<xs:documentation>The type of academic plan the student is
+								following for
+								graduation: for example, Minimum, Recommended,
+								Distinguished, or
+								Standard.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="graduationPlanType" />
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="individualPlan" type="xs:boolean"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An indicator of whether the graduation plan is
+								tailored for an individual.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalCreditsRequired" type="credits">
+						<xs:annotation>
+							<xs:documentation>The total number of credits required for
+								graduation
+								under this plan.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="creditsBySubject" type="creditsBySubject"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The total credits required in subject to
+								graduate.
+								Only those courses identified as a high school course
+								requirement
+								are eligible to meet subject credit requirements.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="creditsByCourse" type="creditsByCourse"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The total credits required to graduation by
+								taking a
+								specific course, or by taking one or more from a set of
+								courses.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="institutionTelephone">
 		<xs:annotation>
 			<xs:documentation>The 10-digit telephone number, including the area
@@ -2681,6 +3057,29 @@
 				<xs:annotation>
 					<xs:documentation>The name of the content standard from which the
 						learning standard was derived.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cohortYear">
+		<xs:annotation>
+			<xs:documentation>The type and year of a cohort (e.g., 9th grade) the
+				student belongs
+				to.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="schoolYear" type="schoolYearType">
+				<xs:annotation>
+					<xs:documentation>The value of the school year for the cohort.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cohortYearType" type="cohortYearType">
+				<xs:annotation>
+					<xs:documentation>The type of cohort year (9th grade, graduation)
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2865,6 +3264,67 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="birthData">
+		<xs:annotation>
+			<xs:documentation>The set of elements that capture relevant data
+				regarding a person's
+				birth, including birth date and place of birth.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="birthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year on which an individual
+						was born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cityOfBirth" type="city" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The city the student was born in.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stateOfBirthAbbreviation" type="stateAbbreviationType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The abbreviation for the name of the state
+						(within the United
+						States) or extra-state jurisdiction in which an
+						individual was born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="countryOfBirthCode" type="countryCodeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique two digit International Organization
+						for
+						Standardization (ISO) code for the country in which an
+						individual is born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateEnteredUS" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>For students born outside of the US, the date the
+						student
+						entered the US.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="multipleBirthStatus" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether the student was born with
+						other siblings
+						(i.e., twins, triplets, etc.)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="calendarDate">
 		<xs:annotation>
 			<xs:documentation>This entity represents a day in the school
@@ -2941,6 +3401,47 @@
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Date class ranking was determined.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="programParticipation">
+		<xs:annotation>
+			<xs:documentation>Programs the student is participating in or
+				receiving services.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="program" type="programType">
+				<xs:annotation>
+					<xs:documentation>The program the student is associated with or
+						receiving
+						services from.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the student was associated with the
+						program or
+						service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the program participation ended.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						program association.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
