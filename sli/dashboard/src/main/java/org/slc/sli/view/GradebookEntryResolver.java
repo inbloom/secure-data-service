@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.SortedSet;
 
 /**
  * A utility class for views in SLI dashboard. Wrapper around gradebook entry data for a list of students
@@ -14,6 +15,7 @@ public class GradebookEntryResolver {
     private Logger log = LoggerFactory.getLogger(GradebookEntryResolver.class);
 
     private Map<String, Map<String, GenericEntity>> gradebookData;
+    private SortedSet<GenericEntity> gradebookIds;
 
     private static final String GRADE_KEY = "numericGradeEarned";
     private static final String AVERAGE_KEY = "Average";
@@ -39,7 +41,7 @@ public class GradebookEntryResolver {
      * @param studentId The student to look for
      * @return string representation of the student's average
      */
-    public String getAverage(String studentId) {
+    private String getAverage(String studentId) {
         try {
             Map<String, GenericEntity> studentRecord = gradebookData.get(studentId);
             GenericEntity average = studentRecord.get(AVERAGE_KEY);
@@ -55,7 +57,7 @@ public class GradebookEntryResolver {
      * @param date The date at which the test was taken
      * @return grade (string)
      */
-    public String getGrade(String studentId, String date) {
+    private String getGrade(String studentId, String date) {
         return getValue(studentId, date, GRADE_KEY);
     }
 
@@ -79,5 +81,13 @@ public class GradebookEntryResolver {
             value = "-";
         }
         return value;
+    }
+
+    public SortedSet<GenericEntity> getGradebookIds() {
+        return gradebookIds;
+    }
+
+    public void setGradebookIds(SortedSet<GenericEntity> gradebookIds) {
+        this.gradebookIds = gradebookIds;
     }
 }
