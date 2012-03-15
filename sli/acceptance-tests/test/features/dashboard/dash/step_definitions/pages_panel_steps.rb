@@ -24,3 +24,17 @@ When /^in Tab ID "([^"]*)", there is "([^"]*)" Panels$/ do |tabId, panelCount|
   tabs = element.find_elements(:class, "panel")
   assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + panelCount)
 end
+
+When /^Tab has a title named "([^"]*)"$/ do |tabTitle|
+  allTabs = @driver.find_element(:id, "tabs")
+  tabs = allTabs.find_elements(:tag_name, "li")
+ 
+  found = false;
+  tabs.each do |tab|
+    title = tab.find_element(:tag_name, "a") 
+    if (title.text == tabTitle)
+      found = true
+    end
+  end
+  assert(found == true, "Tab title was not found: " + tabTitle)
+end

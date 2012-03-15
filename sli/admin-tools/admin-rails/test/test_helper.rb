@@ -40,7 +40,7 @@ class ActiveSupport::TestCase
       mock.put "/api/rest/realm/1", {"Content-Type"=>"application/json"}, {}
       
       #apps
-      mock.get "/api/rest/apps", {"Accept" => "application/json"}, [@app_fixtures['admin']].to_json
+      mock.get "/api/rest/apps", {"Accept" => "application/json"}, [@app_fixtures['admin'], @app_fixtures['waffles']].to_json
       mock.get "/api/rest/apps/1", {"Accept" => "application/json"}, @app_fixtures['admin'].to_json
     end
   end

@@ -1276,19 +1276,6 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
@@ -1744,19 +1731,6 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
@@ -1875,32 +1849,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>288598192</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>2312321</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>2312320</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
@@ -2434,19 +2382,6 @@
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
@@ -2656,19 +2591,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -3302,10 +3224,252 @@
     </SchoolReference>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
+   <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174708</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174704</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174703</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174702</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174701</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>187780388</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174699</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174698</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174697</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174696</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174695</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174694</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174693</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174692</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+   
+   
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174689</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSectionAssociation> 
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>2312321</StudentUniqueStateId>
+        <StudentUniqueStateId>20174708</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -3314,11 +3478,12 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryGradeLevel>First grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
+  </StudentSchoolAssociation>  
+    
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>2312320</StudentUniqueStateId>
+        <StudentUniqueStateId>20174706</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -3327,5 +3492,244 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryGradeLevel>First grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174704</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174703</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174702</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174701</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>187780388</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174699</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174698</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174697</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174696</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174695</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174694</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174693</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174692</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+    
+    
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174689</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+    
+  
+  
 </InterchangeStudentEnrollment>

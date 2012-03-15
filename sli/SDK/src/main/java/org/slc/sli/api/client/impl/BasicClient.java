@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -37,15 +39,14 @@ public final class BasicClient implements SLIClient {
     
     private RESTClient restClient;
     private Gson gson = null;
+    private static Logger logger = Logger.getLogger("BasicClient");
     
     /**
      * SLIClientBuilder Builder for an BasicClient instance.
      */
     public static class Builder {
-        private String host = "http://localhost:8080";
-        private String username;
-        private String password;
-        private String realm = "sli";
+        private String apiHost = "http://localhost:8080";
+        private String securityHost = "http://localhost:8080";
         
         /**
          * Construct a new Builder.
@@ -60,45 +61,23 @@ public final class BasicClient implements SLIClient {
          * 
          * @param host
          *            for the API server.
-         * @return an SLIClientBuilder
+         * @return an BasicClient.Builder
          */
-        public Builder host(final String host) {
-            this.host = host;
+        public Builder apiHost(final String host) {
+            apiHost = host;
             return this;
         }
         
         /**
-         * Initialize the builder user name.
+         * Initialize the builder security host. This should include protocol and optional
+         * port. For example: https://localhost:443
          * 
-         * @param username
-         * @return SLIClientBuilder
+         * @param host
+         *            for the SLI security server.
+         * @return an BasicClient.Builder
          */
-        public Builder user(final String username) {
-            this.username = username;
-            return this;
-        }
-        
-        /**
-         * Initialize the builder user password.
-         * 
-         * @param password
-         *            user password.
-         * @return SLIClientBuilder
-         */
-        public Builder password(final String password) {
-            this.password = password;
-            return this;
-        }
-        
-        /**
-         * Initialize the user's IDP realm.
-         * 
-         * @param ream
-         *            Users IDP realm.
-         * @return SLIClientBuilder
-         */
-        public Builder realm(final String realm) {
-            this.realm = realm;
+        public Builder securityHost(final String host) {
+            securityHost = host;
             return this;
         }
         
@@ -107,7 +86,9 @@ public final class BasicClient implements SLIClient {
          * @return BasicClient
          */
         public SLIClient build() throws IOException {
-            return new BasicClient(host, username, password, realm);
+            BasicClient client = new BasicClient();
+            client.init(new URL(apiHost), new URL(securityHost));
+            return client;
         }
     }
     
@@ -157,14 +138,6 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public String connect(final String host, final String user, final String password,
-            final String realm) throws IOException {
-        restClient = new RESTClient();
-        // return restClient.openSession(host, user, password, realm, realm, realm, realm);
-        return null;
-    }
-    
-    @Override
     public Response getResource(EntityCollection entities, URL resourceURL, Query query)
             throws MalformedURLException, URISyntaxException {
         entities.clear();
@@ -211,11 +184,36 @@ public final class BasicClient implements SLIClient {
                 .create();
     }
     
-    private BasicClient(final String host, final String user, final String password,
-            final String realm)
-                    throws IOException {
-        this();
-        connect(host, user, password, realm);
+    @Override
+    public void init(URL apiURL, URL securityURL) {
+        restClient = new RESTClient(apiURL, securityURL);
+    }
+    
+    @Override
+    public String login() throws IOException {
+        try {
+            return restClient.connect();
+        } catch (URISyntaxException e) {
+            logger.log(Level.SEVERE, "Failed to log into security server: {}", restClient.securityServerUri);
+            return null;
+        }
+    }
+    
+    @Override
+    public void logout() {
+        restClient.disconnect();
+    }
+    
+    @Override
+    public String checkSession(final String token) {
+        try {
+            return restClient.sessionCheck(token);
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, "Failed to log into call session check: {}", e.toString());
+        } catch (URISyntaxException e) {
+            logger.log(Level.SEVERE, "Failed to log into security server: {}", restClient.securityServerUri);
+        }
+        return null;
     }
     
 }
