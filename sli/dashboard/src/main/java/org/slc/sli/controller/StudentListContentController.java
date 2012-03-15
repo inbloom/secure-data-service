@@ -76,9 +76,9 @@ public class StudentListContentController extends DashboardController {
         UserDetails user = SecurityUtil.getPrincipal();
                         
         // get the list of all available viewConfigs
-        List<ViewConfig> viewConfigs = configManager.getConfigsWithType(user.getUsername(),
-                Constants.VIEW_TYPE_STUDENT_LIST);
-        
+        viewManager.setViewConfigs(configManager.getConfigsWithType(user.getUsername(),
+                Constants.VIEW_TYPE_STUDENT_LIST));
+
         // insert the lozenge config object into modelmap
         List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
         if (lozengeConfig != null)
@@ -89,15 +89,14 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
-        viewManager.setViewConfigs(viewConfigs);
-        List<ViewConfig> applicableViewConfigs = viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken());
+        viewManager.setViewConfigs(viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken()));
         
-        if (applicableViewConfigs.size() > 0) {
+        if (viewManager.getViewConfigs().size() > 0) {
             
             // add applicable viewConfigs to model map
-            model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
+            model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, viewManager.getViewConfigs());
             
-            ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
+            ViewConfig viewConfig = viewManager.getViewConfigs().get(viewIndex);
             viewManager.setActiveViewConfig(viewConfig);
 
             if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
