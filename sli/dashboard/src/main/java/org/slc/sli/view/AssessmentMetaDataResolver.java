@@ -306,10 +306,10 @@ public class AssessmentMetaDataResolver {
         GenericEntity assmt = getAssmtById(assmtId);
         if (assmt != null) {
             if (assmt.getString(Constants.ATTR_ASSESSMENT_TITLE) != null
-                    && assmt.getString(Constants.ATTR_ASSESSMENT_TITLE).contains(assmtFamilyName)) {
+                    && s1ContainsS2(assmt.getString(Constants.ATTR_ASSESSMENT_TITLE), assmtFamilyName)) {
                 found = true;
             } else if (assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME) != null
-                    && assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME).contains(assmtFamilyName)) {
+                    && s1ContainsS2(assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME), assmtFamilyName)) {
                 found = true;
             }
         }
@@ -345,6 +345,23 @@ public class AssessmentMetaDataResolver {
             }
         }
         return perfLevel;
+    }
+    
+    private boolean s1ContainsS2(String s1, String s2) {
+        String[] strings1 = s1.replace("-", " ").replace(".", " ").split(" ");
+        String[] strings2 = s2.replace("-", " ").replace(".", " ").split(" ");
+        boolean match = false;
+        for (String string2 : strings2) {
+            match = false;
+            for (String string1 : strings1) {
+                if (string1.equals(string2)) {
+                    match = true;
+                }
+            }
+            if (match == false)
+                return false;
+        }
+        return match;
     }
     
 }

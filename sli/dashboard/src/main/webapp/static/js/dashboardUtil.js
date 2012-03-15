@@ -29,7 +29,33 @@ DashboardUtil.getElementHeight = function (element)
 DashboardUtil.makeTabs = function (element)
 {
     $(element).tabs();
-}
+};
+
+DashboardUtil.makeGrid = function (tableId, panelConfig, mydata)
+{
+    // set up config data for grid
+    var colNames = [];
+    var colModel = [];
+
+    for (var i = 0; i < panelConfig.items.length; i++) {
+        var item = panelConfig.items[i]; 
+        colNames.push(item.name); 
+        colModel.push( {name:item.id,index:item.id,width:item.width} );
+    }
+
+    // make the grid
+    jQuery("#" + tableId).jqGrid({ 
+        datatype: "local", 
+        height: 200, 
+        colNames: colNames, 
+        colModel: colModel, 
+        multiselect: true, 
+        caption: panelConfig.id} ); 
+
+    // populate the grid
+    for(var i=0;i<=mydata.length;i++) jQuery("#" + tableId).jqGrid('addRowData',i+1,mydata[i]); 
+};
+
 
 // --- static helper function --- 
 // Gets the style object for the element where we're drawing the fuel gauge.

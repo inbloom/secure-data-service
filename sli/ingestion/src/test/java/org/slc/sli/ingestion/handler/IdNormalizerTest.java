@@ -123,8 +123,8 @@ public class IdNormalizerTest {
         filterFields.put("metaData.idNamespace", REGION_ID);
 
         PrivateAccessor.invoke(IdNormalizer.class, "resolveSearchCriteria",
-                new Class[]{EntityRepository.class, String.class, Map.class, Map.class, Query.class, ErrorReport.class},
-                new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, mock(ErrorReport.class)});
+                new Class[]{EntityRepository.class, String.class, Map.class, Map.class, Query.class, String.class, ErrorReport.class},
+                new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, REGION_ID, mock(ErrorReport.class)});
 
         Assert.assertEquals(expectedQuery.getQueryObject().toString(), actualQuery.getQueryObject().toString());
     }
