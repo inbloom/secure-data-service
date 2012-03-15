@@ -455,6 +455,55 @@
     <MaxRawScore>122</MaxRawScore>
   </Assessment>
 
+  <Assessment id="DIBELS_NEXT_GRADE_1_BOY">
+    <AssessmentTitle>DIBELS-Next Grade 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>DIBELS-Next-Grade-1-BOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <ContentStandard>National Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2005-03-12</RevisionDate>
+    <MaxRawScore>122</MaxRawScore>
+	<AssessmentPeriod>
+		<CodeValue>DIEBELS-BOY</CodeValue>
+	</AssessmentPeriod>
+  </Assessment>
+
+  <Assessment id="DIBELS_NEXT_GRADE_1_MOY">
+    <AssessmentTitle>DIBELS-Next Grade 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>DIBELS-Next-Grade-1-MOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <ContentStandard>National Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2005-03-12</RevisionDate>
+    <MaxRawScore>122</MaxRawScore>
+	<AssessmentPeriod>
+		<CodeValue>DIEBELS-MOY</CodeValue>
+	</AssessmentPeriod>
+  </Assessment>
+
+  <AssessmentPeriodDescriptor>
+	<CodeValue>DIEBELS-BOY</CodeValue>
+	<Description>Beginning of Year 2011-2012</Description>
+	<ShortDescription>DIEBELS-BOY</ShortDescription>
+	<BeginDate>2011-08-01</BeginDate>
+	<EndDate>2011-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+	<CodeValue>DIEBELS-MOY</CodeValue>
+	<Description>Middle of Year 2011-2012</Description>
+	<ShortDescription>DIEBELS-MOY</ShortDescription>
+	<BeginDate>2012-01-01</BeginDate>
+	<EndDate>2012-03-30</EndDate>
+  </AssessmentPeriodDescriptor>
+
   <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     </PerformanceLevelDescriptor> -->
 </InterchangeAssessmentMetadata>
