@@ -113,9 +113,6 @@ public class PersistenceProcessor implements Processor {
 
             }
 
-            // Drop the database for this job.
-            neutralRecordMongoAccess.dropDatabase();
-
             // Update Camel Exchange processor output result
             exchange.getIn().setBody(job);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
@@ -129,6 +126,10 @@ public class PersistenceProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
+
+        } finally {
+            // Drop the database for this job.
+            neutralRecordMongoAccess.dropDatabase();
         }
     }
 
