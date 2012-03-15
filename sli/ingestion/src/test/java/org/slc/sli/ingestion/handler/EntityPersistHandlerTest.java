@@ -131,7 +131,6 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update(studentEntity.getType(), studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update(studentEntity.getType(), studentEntity);
@@ -397,6 +396,7 @@ public class EntityPersistHandlerTest {
         field.put("teacherId", teacherId);
         field.put("schoolId", SCHOOL_ID);
         entity.setBody(field);
+        entity.setMetaData(new HashMap<String, Object>());
 
         // Create and return new entity from neutral record.
         return entity;
