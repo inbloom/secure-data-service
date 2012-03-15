@@ -17,6 +17,7 @@
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
         <property name="entityConfigurations" ref="entityConfigurationsFactory" />
         <property name="idNormalizer" ref="idNormalizer" />
+        <property name="entityRepository" ref="mongoEntityRepository" />
     </bean>
 
     <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer" parent="abstractEdFi2SLITransformer">
