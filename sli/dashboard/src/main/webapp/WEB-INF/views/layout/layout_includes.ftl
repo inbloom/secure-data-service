@@ -1,3 +1,11 @@
+<#macro includePanelModel panelId>
+  <#assign panelConfig = viewConfigs[panelId]>
+  <#assign panelData = data[panelConfig.data.alias]>
+</#macro>
+
+<#function getDivId panelId>
+  <#return panelId + "-" + random.nextInt(99999)?string("#####")>
+</#function>
 <script type="text/javascript" src="/dashboard/static/js/3p/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="/dashboard/static/js/3p/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="/dashboard/static/js/3p/jqGrid/js/jquery.jqGrid.min.js"></script>
