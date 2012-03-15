@@ -10,6 +10,7 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.unit.view.HistoricalDataResolverTest;
+import org.slc.sli.view.GradebookEntryResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,6 +23,7 @@ import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -55,8 +57,12 @@ public class GradebookViewModifierTest {
         gradebookIds.add(ge1);
         gradebookIds.add(ge2);
 
-        gradebookViewModifer = new GradebookViewModifer(gradebookIds);
+        GradebookEntryResolver gradebookEntryResolver = mock(GradebookEntryResolver.class);
+        when(gradebookEntryResolver.getGradebookIds()).thenReturn(gradebookIds);
+
+        gradebookViewModifer = new GradebookViewModifer(gradebookEntryResolver);
     }
+
 
     @Test
     public void testModify() {
@@ -82,5 +88,4 @@ public class GradebookViewModifierTest {
         assertEquals("10-11-2011", firstUnitTest.getDisplayName());
         assertEquals("10-15-2011", secondUnitTest.getDisplayName());
     }
-
 }
