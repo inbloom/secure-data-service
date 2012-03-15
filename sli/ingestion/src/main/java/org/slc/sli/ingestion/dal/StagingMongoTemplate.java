@@ -39,6 +39,10 @@ public class StagingMongoTemplate extends MongoTemplate {
         return data.substring(data.length() - 51, data.length()).replace("-", "");
     }
 
+    public void dropDb() {
+        this.getDb().dropDatabase();
+    }
+
     public void setNeutralRecordMappingConverter(MongoConverter neutralRecordMappingConverter) {
         this.neutralRecordMappingConverter = neutralRecordMappingConverter;
     }

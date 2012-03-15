@@ -34,4 +34,8 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         neutralRecordRepository.changeTemplate(batchJobId);
     }
 
+    public void dropDatabase() {
+        neutralRecordRepository.getTemplate().getDb().dropDatabase();
+    }
+
 }

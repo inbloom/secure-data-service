@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +53,7 @@ public class PersistenceProcessor implements Processor {
 
     @Autowired
     SmooksEdFi2SLITransformer transformer;
-    
+
     private Set<String> persistedCollections;
 
     private EntityPersistHandler entityPersistHandler;
@@ -89,6 +88,7 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
+            // Create the database for this job.
             neutralRecordMongoAccess.changeMongoTemplate(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
@@ -109,6 +109,9 @@ public class PersistenceProcessor implements Processor {
                 }
 
             }
+
+            // Drop the database for this job.
+            neutralRecordMongoAccess.dropDatabase();
 
             // Update Camel Exchange processor output result
             exchange.getIn().setBody(job);
@@ -176,15 +179,15 @@ public class PersistenceProcessor implements Processor {
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
                         //this doesn't exist in collection, persist
-    
+
                         LOG.debug("processing " + neutralRecord);
-    
+
                         // map NeutralRecord to Entity
                         NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
-    
+
                         ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
                         obsoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
-    
+
                         if (errorReport.hasErrors()) {
                             numFailed++;
                         }
@@ -202,10 +205,10 @@ public class PersistenceProcessor implements Processor {
 
                         for (NeutralRecord nr : neutralRecordData) {
                             nr.setRecordType(neutralRecord.getRecordType());
-                            List<SimpleEntity> result = transformer.handle(nr);
+                            List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
                             for (SimpleEntity entity : result) {
                                 ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                               // entityPersistHandler.handle(entity, errorReport);
+                                entityPersistHandler.handle(entity, errorReport);
 
                                 if (errorReport.hasErrors()) {
                                     numFailed++;
@@ -213,9 +216,7 @@ public class PersistenceProcessor implements Processor {
                             }
 
                             if (recordLevelErrorsInFile.hasErrors()) {
-
                                 numFailed++;
-
                             }
                         }
                     }
@@ -329,7 +330,7 @@ public class PersistenceProcessor implements Processor {
     public void setObsoletePersistHandler(NeutralRecordEntityPersistHandler obsoletePersistHandler) {
         this.obsoletePersistHandler = obsoletePersistHandler;
     }
-    
+
 
     public Set<String> getPersistedCollections() {
         return persistedCollections;
@@ -338,5 +339,5 @@ public class PersistenceProcessor implements Processor {
     public void setPersistedCollections(Set<String> persistedCollections) {
         this.persistedCollections = persistedCollections;
     }
-    
+
 }
