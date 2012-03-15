@@ -97,8 +97,6 @@ public class BatchJobTest {
         Date now = new Date();
         BatchJob job = BatchJob.createDefault();
 
-        System.out.println(System.getProperty("java.class.path"));
-
         //batch job id's are now dynamic - they depend on incoming file size
         //assertEquals(id.length(), 36);
 
