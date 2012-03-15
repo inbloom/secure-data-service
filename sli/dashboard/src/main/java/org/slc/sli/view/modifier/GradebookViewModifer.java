@@ -4,6 +4,7 @@ import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.view.GradebookEntryResolver;
 
 import java.util.SortedSet;
 
@@ -25,8 +26,18 @@ public class GradebookViewModifer implements ViewModifier {
     /**
      * Constructor
      */
-    public GradebookViewModifer(SortedSet<GenericEntity> gradebookIds) {
-        this.gradebookIds = gradebookIds;
+    public GradebookViewModifer(GradebookEntryResolver gradebookEntryResolver) {
+        this.gradebookIds = gradebookEntryResolver.getGradebookIds();
+    }
+
+    /**
+     * Delegates to the addGradebookEntries method to add the necessary columns to the specified view
+     * @param view The view to modify
+     * @return A modified view
+     */
+    @Override
+    public ViewConfig modify(ViewConfig view) {
+        return addGradebookEntries(view);
     }
 
     /**
@@ -68,7 +79,7 @@ public class GradebookViewModifer implements ViewModifier {
         currentTermGrade.setDisplayName(AVERAGE);
         currentTermGrade.setType(CURRENT_TERM);
         currentTermGrade.setTimeSlot(CURRENT);
-        currentTermGrade.setValue("CurrentTermGrade");
+        currentTermGrade.setValue(CURRENT_TERM);
         
         return currentTermGrade;
     }
@@ -82,10 +93,5 @@ public class GradebookViewModifer implements ViewModifier {
         unitTest.setValue("UnitTest");
 
         return unitTest;
-    }
-
-    @Override
-    public ViewConfig modify(ViewConfig view) {
-        return addGradebookEntries(view);
     }
 }
