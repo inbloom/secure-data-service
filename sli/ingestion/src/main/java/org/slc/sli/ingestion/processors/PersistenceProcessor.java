@@ -88,6 +88,7 @@ public class PersistenceProcessor implements Processor {
             // Indicate Camel processing
             LOG.info("processing persistence: {}", job);
 
+            // Create the database for this job.
             neutralRecordMongoAccess.changeMongoTemplate(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
@@ -108,6 +109,9 @@ public class PersistenceProcessor implements Processor {
                 }
 
             }
+
+            // Drop the database for this job.
+            neutralRecordMongoAccess.dropDatabase();
 
             // Update Camel Exchange processor output result
             exchange.getIn().setBody(job);
