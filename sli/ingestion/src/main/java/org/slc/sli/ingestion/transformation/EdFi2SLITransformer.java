@@ -161,4 +161,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         this.entityConfigurations = entityConfigurations;
     }
 
+    public Repository<Entity> getEntityRepository() {
+        return entityRepository;
+    }
+
+    public void setEntityRepository(Repository<Entity> entityRepository) {
+        this.entityRepository = entityRepository;
+    }
+
 }

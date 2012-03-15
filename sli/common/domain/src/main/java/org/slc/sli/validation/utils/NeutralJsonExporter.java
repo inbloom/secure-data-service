@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -45,6 +46,7 @@ public class NeutralJsonExporter {
     public static void main(String[] args) throws IOException {
         String xsdPath = "classpath:sliXsd";
         String outputDir = "neutral-schemas";
+        PrintStream outputStream = System.out;
         boolean output = true;
         if (args.length == 2 && !args[0].equals("--test")) {
             xsdPath = args[0];
@@ -112,7 +114,7 @@ public class NeutralJsonExporter {
         for (NeutralSchema ns : schemas) {
             if (NeutralSchemaType.COMPLEX.equals(ns.getSchemaType())) {
                 if (ns.getFields().size() == 1) {
-                    System.out.println("1 field schema: " + ns.getType());
+                    outputStream.println("1 field schema: " + ns.getType());
                 }
             }
         }

@@ -81,7 +81,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -113,7 +114,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -128,7 +130,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        persistenceProcessor.processIngestionStream(neutralRecordsFile);
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
 
     }
 
@@ -140,7 +143,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        persistenceProcessor.processIngestionStream(neutralRecordsFile);
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
 
     }
 

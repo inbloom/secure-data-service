@@ -13,6 +13,10 @@ When /^I wait for a second$/ do
   sleep(1)
 end
 
+When /^I wait for "([^"]*)" seconds$/ do |secs|
+  sleep(Integer(secs))
+end
+
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"
   @driver.quit if @driver

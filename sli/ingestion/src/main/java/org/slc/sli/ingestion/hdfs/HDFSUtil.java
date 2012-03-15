@@ -39,7 +39,6 @@ public class HDFSUtil {
         // Check if the file already exists
         Path dest = new Path(destFile);
         if (fileSystem.exists(dest)) {
-            System.out.println("File " + dest + " already exists");
             return;
         }
 
