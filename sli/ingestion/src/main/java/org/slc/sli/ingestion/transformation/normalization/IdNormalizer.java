@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -74,13 +75,19 @@ public class IdNormalizer {
                     .equals(idNamespace);
 
                 for (Field field: fields) {
-                    List<String> filterValues = new ArrayList<String>();
+                    List<Object> filterValues = new ArrayList<Object>();
 
                     for (FieldValue fv : field.getValues()) {
                         if (fv.getRef() != null) {
                             filterValues.addAll(resolveInternalIds(entity, idNamespace, fv.getRef(), proxyErrorReport));
                         } else {
-                            filterValues.add(String.valueOf(PropertyUtils.getProperty(entity, fv.getValueSource())));
+                            Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
+                            if (entityValue instanceof Collection) {
+                                Collection<?> entityValues = (Collection<?>) entityValue;
+                                filterValues.addAll(entityValues);
+                            } else {
+                                filterValues.add(entityValue.toString());
+                            }
                         }
                     }
 
