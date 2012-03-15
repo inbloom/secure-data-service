@@ -402,8 +402,8 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) throws InsufficientAuthenticationException, EntityNotFoundException, AccessDeniedException {
-
+    private void checkAccess(Right right, String entityId) {
+        
         // Check that user has the needed right
         checkRights(right);
 

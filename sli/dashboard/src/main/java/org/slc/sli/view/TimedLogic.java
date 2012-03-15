@@ -10,10 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
@@ -85,7 +86,7 @@ public class TimedLogic {
      * Returns the student assessment association with the highest objective assessment score, based
      * on objective assessment identification code (i.e. SAT-Reading)
      */
-
+    
     public static GenericEntity getHighestEverObjAssmt(List<GenericEntity> saaList, final String objAssmtCode) {
         if (objAssmtCode == null || objAssmtCode.equals(""))
             return null;
@@ -238,7 +239,7 @@ public class TimedLogic {
                         match = false;
                     }
                 }
-                if (match == true) {
+                if (match) {
                     scoreResults = (List<Map<String, String>>) (studentObjAssmt.get(Constants.ATTR_SCORE_RESULTS));
                 }
             }
