@@ -161,12 +161,15 @@ public class IdNormalizationTest {
 
         Entity secondRecord = Mockito.mock(Entity.class);
         Mockito.when(secondRecord.getEntityId()).thenReturn("456");
-        Mockito.when(repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(secondRecord));
 
         idNorm.setEntityRepository(repo);
 
         String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
 
         Assert.assertEquals("123", internalId);
+
+        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, new DummyErrorReport());
+        Assert.assertEquals("456", secinternalId);
     }
 }
