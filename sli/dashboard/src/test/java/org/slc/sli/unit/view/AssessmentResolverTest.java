@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.AssessmentResolver;
-
-import com.google.gson.Gson;
 
 /**
  * Unit tests for the AssessmentResolver class.
@@ -55,7 +55,7 @@ public class AssessmentResolverTest {
         f.setValue("ISAT Reading." + Constants.ATTR_PERF_LEVEL);
         f.setTimeSlot("MOST_RECENT_RESULT");
         String perfLevel = resolver.get(f, student);
-        assertEquals("ISAT Reading Perf Level should be 3", "3", perfLevel);
+        assertEquals("ISAT Reading Perf Level should be blank", "", perfLevel);
         // get the ISAT Reading scale score
         f.setValue("ISAT Reading." + Constants.ATTR_SCALE_SCORE);
         f.setTimeSlot("MOST_RECENT_RESULT");
@@ -82,10 +82,9 @@ public class AssessmentResolverTest {
         String scaleScore = resolver.getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
         assertEquals("Scale score should be 250", "250", scaleScore);
         
-        // test get perf level from scale score calculation when performance level descriptor does
-        // not have an integer value
+        // test get blank perf level when performance level descriptor is empty
         String perfLevel = resolver.getScore(studentAssmt, Constants.ATTR_PERF_LEVEL, null);
-        assertEquals("Perf Level should be 3 that calculated based on scale score", "3", perfLevel);
+        assertEquals("Perf Level should be blank", "", perfLevel);
         
         // test get perf level from performance level descriptor
         perfLevel = resolver.getScore(studentAssmtWithPerfLevel, Constants.ATTR_PERF_LEVEL, null);
@@ -202,15 +201,14 @@ public class AssessmentResolverTest {
     }
     
     /*
-     * create a student assessment association that includes a performanceLevelDescriptor which only
-     * has a string description value and can not be convert to Integer, the Perf Level will be
-     * calculated from scale score
+     * create a student assessment association that includes an empty performanceLevelDescriptor
+     * the Perf Level will return blank
      */
     private GenericEntity createStudentAssessment() {
         
         String stringStudentAssessment = "{ \"administrationDate\" : \"2011-03-01\", \"specialAccommodations\" : [], \"administrationLanguage\" : "
                 + "\"English\", \"studentId\" : \"1\", \"assessmentId\" : \"1\", \"serialNumber\" : \"0\", "
-                + "\"performanceLevelDescriptors\" : [ { \"description\" : \"Above bench Mark\" }], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
+                + "\"performanceLevelDescriptors\" : [], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
                 + "\"administrationEnvironment\" : \"Testing Center\", \"retestIndicator\" : \"Primary Administration\", \"linguisticAccommodations\" : [] }";
         Gson gson = new Gson();
         GenericEntity studentAssmt = gson.fromJson(stringStudentAssessment, GenericEntity.class);
