@@ -10,6 +10,8 @@ import freemarker.ext.beans.BeansWrapper;
 
 //import org.slc.sli.view.AttendanceResolver;
 import org.slc.sli.view.AttendanceResolver;
+import org.slc.sli.view.GradebookEntryResolver;
+import org.slc.sli.view.GradebookEntryViewManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -96,10 +98,10 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, applicableViewConfigs);
             
             ViewConfig viewConfig = applicableViewConfigs.get(viewIndex);
-            
+
+
             // If we have the historical data view get historical information - this logic really
-            // should
-            // be moved from the controller class
+            // should be moved from the controller class
             if (viewConfig.getName().equals(Constants.HISTORICAL_DATA_VIEW)) {
                 
                 Map<String, List<GenericEntity>> historicalData = progressManager.getStudentHistoricalAssessments(
@@ -115,6 +117,19 @@ public class StudentListContentController extends DashboardController {
                 
                 HistoricalViewManager historicalViewManager = new HistoricalViewManager(historicalDataResolver);
                 viewConfig = historicalViewManager.addHistoricalData(viewConfig);
+            } else if (viewConfig.getName().equals("Current Grades")) {
+
+                SortedSet<GenericEntity> gradebookIds;
+                Map<String, Map<String, GenericEntity>> gradebookData =
+                        progressManager.getCurrentProgressForStudents(SecurityUtil.getToken(), uids, selectedSectionId);
+                gradebookIds = progressManager.retrieveSortedGradebookEntryList(gradebookData);
+
+                GradebookEntryViewManager gradebookEntryViewManager = new GradebookEntryViewManager(gradebookIds);
+                viewConfig = gradebookEntryViewManager.addGradebookEntries(viewConfig);
+
+                GradebookEntryResolver gradebookEntryResolver = new GradebookEntryResolver(gradebookData);
+                model.addAttribute("gradebookEntryData", gradebookEntryResolver);
+
             }
             
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
