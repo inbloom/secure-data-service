@@ -1,1 +1,2 @@
-edfi-xml,AssessmentMetadata,assessmentMetadata.xml,19144c3c12ffd4c087e29efca83ae888
+edfi-xml,AssessmentMetadata,dibelsAssessmentMetadata.xml,19144c3c12ffd4c087e29efca83ae888
+edfi-xml,AssessmentMetadata,satAssessmentMetadata.xml,19144c3c12ffd4c087e29efca83ae888

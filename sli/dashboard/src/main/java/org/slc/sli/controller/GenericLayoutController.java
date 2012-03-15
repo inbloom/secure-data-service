@@ -6,7 +6,6 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +17,7 @@ import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardUserMessageException;
+import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.widget.WidgetFactory;
@@ -46,17 +46,18 @@ public abstract class GenericLayoutController {
      */
     protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
         
-        UserDetails user = SecurityUtil.getPrincipal();
-        // get the list of all available viewConfigs
-        
         // set up model map
         ModelMap model = new ModelMap();
         ModelAndViewConfig modelAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
-        model.addAttribute("data", modelAndConfig.getData());
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS_JSON, JsonConverter.toJson(modelAndConfig.getComponentViewConfigMap()));
+        model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
+        model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
+        
+        // TODO: refactor so the below params can be removed
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(user.getUsername());
+        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());
         model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
         model.addAttribute("random", new Random());
         return model;

@@ -34,14 +34,17 @@ public class EdFiAssessmentConvertor {
     private static final String PERIOD_DESCRIPTOR_REF = "periodDescriptorRef";
     private static final String ASSESSMENT_FAMILY_IDENTIFICATION_CODE = "AssessmentFamilyIdentificationCode";
     private static final String PARENT_ASSESSMENT_FAMILY_ID = "parentAssessmentFamilyId";
+    private static final String OBJ_ASSESSMENT_ID_FIELD = "id";
     private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "AssessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
+    private static final String OBJECTIVE_ASSESSMENT_REFS = "objectiveAssessmentRefs";
     private static final Logger LOG = LoggerFactory.getLogger(EdFiAssessmentConvertor.class);
     private final FileUtils fileUtils;
     private final List<String> inspectRecordTypes = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY,
-            ASSESSMENT_PERIOD_DESCRIPTOR);
+            ASSESSMENT_PERIOD_DESCRIPTOR, OBJECTIVE_ASSESSMENT);
     
     @Autowired
     public EdFiAssessmentConvertor(FileUtils fileUtils) {
@@ -93,8 +96,10 @@ public class EdFiAssessmentConvertor {
      */
     protected List<NeutralRecord> convert(Map<String, List<NeutralRecord>> orig) {
         Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
-        Map<Object, NeutralRecord> assessmentPeriodDescriptors = getAssessmentPeriodDescriptorMap(orig
-                .get(ASSESSMENT_PERIOD_DESCRIPTOR));
+        Map<Object, NeutralRecord> assessmentPeriodDescriptors = getMapByField(orig.get(ASSESSMENT_PERIOD_DESCRIPTOR),
+                PERIOD_CODE_VALUE);
+        Map<Object, NeutralRecord> objectiveAssessments = getMapByField(orig.get(OBJECTIVE_ASSESSMENT),
+                OBJ_ASSESSMENT_ID_FIELD);
         LOG.debug("Assessment family map is {}", assessmentFamilies);
         List<NeutralRecord> assessments = orig.get(ASSESSMENT);
         for (NeutralRecord record : assessments) {
@@ -108,8 +113,29 @@ public class EdFiAssessmentConvertor {
                 record.setAttributeField(ASSESSMENT_PERIOD_DESCRIPTOR, periodDescriptor);
             }
             record.getAttributes().remove(PERIOD_DESCRIPTOR_REF);
+            addObjectiveAssessments(record, objectiveAssessments);
         }
         return assessments;
+    }
+    
+    private void addObjectiveAssessments(NeutralRecord record, Map<Object, NeutralRecord> objectiveAssessments) {
+        List<?> objectiveRefs = (List<?>) record.getAttributes().get(OBJECTIVE_ASSESSMENT_REFS);
+        record.getAttributes().remove(OBJECTIVE_ASSESSMENT_REFS);
+        if (objectiveRefs == null || objectiveRefs.isEmpty()) {
+            return;
+        }
+        List<Map<String, Object>> objAssmtsForAssmt = new ArrayList<Map<String, Object>>(objectiveRefs.size());
+        for (Object ref : objectiveRefs) {
+            NeutralRecord objAssmt = objectiveAssessments.get(ref);
+            if (objAssmt == null) {
+                LOG.warn("Could not find objective assessment with id {}", ref);
+            } else {
+                Map<String, Object> objAssmtMap = new HashMap<String, Object>(objAssmt.getAttributes());
+                objAssmtMap.remove(OBJ_ASSESSMENT_ID_FIELD);
+                objAssmtsForAssmt.add(objAssmtMap);
+            }
+        }
+        record.setAttributeField(OBJECTIVE_ASSESSMENT, objAssmtsForAssmt);
     }
     
     private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> records) {
@@ -128,13 +154,13 @@ public class EdFiAssessmentConvertor {
         return assessmentFamilies;
     }
     
-    private Map<Object, NeutralRecord> getAssessmentPeriodDescriptorMap(List<NeutralRecord> records) {
+    private Map<Object, NeutralRecord> getMapByField(List<NeutralRecord> records, String field) {
         // instance #1755 I wish Java had function literals...
-        Map<Object, NeutralRecord> periods = new HashMap<Object, NeutralRecord>();
+        Map<Object, NeutralRecord> map = new HashMap<Object, NeutralRecord>();
         for (NeutralRecord record : records) {
-            periods.put(record.getAttributes().get(PERIOD_CODE_VALUE), record);
+            map.put(record.getAttributes().get(field), record);
         }
-        return periods;
+        return map;
     }
     
     private List<String> resolveFamily(NeutralRecord rec, Map<Object, NeutralRecord> families, Set<Object> visited) {

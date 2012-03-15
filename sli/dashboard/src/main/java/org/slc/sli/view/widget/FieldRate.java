@@ -16,15 +16,13 @@ public class FieldRate extends ColorByPercent {
     private Field field;
     private AggregateRatioResolver resolver;
 
-    public FieldRate(Field field, Map student, AggregateRatioResolver resolver, int[] boundaries) {
+    public FieldRate(Field field, Map student, AggregateRatioResolver resolver) {
         this.student = student;
         this.field = field;
         this.resolver = resolver;
         this.setActual(resolver.getCountForPath(field));
         this.setTotal(resolver.getSize(field));
+        this.setCutoffPoints(resolver.getCutoffPoints(field));
     }
-    
-    
-    
     
 }

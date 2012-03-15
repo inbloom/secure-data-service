@@ -8,7 +8,9 @@ Feature: Security for Parent CRUD
     And I teach the student "Marvin Miller"
     When I make an API call to get the student "Marvin Miller"
     Then I receive a JSON response
-    And I should see a link to get the list of its parents in the response labeled "parents"
+    And I should see a link "getParents" to get the list of parents
+    And I should see a link "getStudentParentAssociations" to get the list of parent associations
+
 
   Scenario: Authorized user tries to hit the parent list URL directly
     Given I am user "linda.kim" in IDP "SLI"
@@ -28,8 +30,10 @@ Feature: Security for Parent CRUD
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
     And I teach the student "Marvin Miller"
-    When I make an API call to get the student-parent association "Marvin Miller to Mr. Miller"
+    When I make an API call to get the studentParentAssociation "Marvin Miller to Mr. Miller"
     Then I should receive a JSON object of the parent
+    And in that object there should be a link to the parent "Mr. Miller"
+    And in that object there should be a link to the student "Marvin Miller"
 
   Scenario: Authorized user accessing a specific parent entity directly
     Given I am user "linda.kim" in IDP "SLI"
@@ -42,7 +46,7 @@ Feature: Security for Parent CRUD
     Given I am user "linda.kim" in IDP "SLI"
     And I am assigned the Educator role in my IDP
     And I do not teach the student "Delilah D. Sims"
-    When I make an API call to get the student-parent association "Delilah D. Sims to Mrs. Sims"
+    When I make an API call to get the studentParentAssociation "Delilah D. Sims to Mrs. Sims"
     Then I get a message that I am not authorized
 
   Scenario: Unauthorized user accessing a specific parent entity directly
