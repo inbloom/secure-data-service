@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
+import com.mongodb.CommandResult;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
@@ -37,6 +38,10 @@ public class StagingMongoTemplate extends MongoTemplate {
 
     public static String removeUnsupportedChars(String data) {
         return data.substring(data.length() - 51, data.length()).replace("-", "");
+    }
+
+    public void dropDb() {
+        this.getDb().dropDatabase();
     }
 
     public void setNeutralRecordMappingConverter(MongoConverter neutralRecordMappingConverter) {
