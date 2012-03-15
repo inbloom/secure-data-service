@@ -33,19 +33,15 @@
   <!-- collections that will be persisted into SLI database -->
   <util:set id="persistedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
-    <!--<value>assessmentFamily</value>-->
-    <value>assessmentPeriodDescriptor</value>
     <value>attendance</value>
     <value>course</value>
     <value>educationOrganization</value>
-    <value>objectiveAssessment</value>
     <value>parent</value>
     <value>school</value>
     <value>section</value>
     <value>session</value>
     <value>student</value>
     <value>studentAssessmentAssociation</value>
-    <value>studentObjectiveAssessment</value>
     <value>studentParentAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
