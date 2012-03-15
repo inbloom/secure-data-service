@@ -98,7 +98,7 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe, idNamespace);
+                    errorReportForFile = processIngestionStream(fe, idNamespace, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -142,9 +142,10 @@ public class PersistenceProcessor implements Processor {
      * @param idNamespace
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace) throws IOException {
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace,
+            ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
         return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
-                idNamespace, new ArrayList<String>(), new HashSet<String>());
+                idNamespace, transformedCollections, processedStagedCollections);
     }
 
     /**
@@ -210,6 +211,7 @@ public class PersistenceProcessor implements Processor {
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
 
                         for (NeutralRecord nr : neutralRecordData) {
+                            nr.setSourceId(idNamespace);
                             nr.setRecordType(neutralRecord.getRecordType());
                             List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
                             for (SimpleEntity entity : result) {
