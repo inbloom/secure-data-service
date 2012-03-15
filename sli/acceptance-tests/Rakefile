@@ -87,6 +87,7 @@ task :realmInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("application", "application_fixture.json")
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json", "test/data", false)
 end
 
 # Task that initializes the application registration fixture
