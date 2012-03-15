@@ -1,7 +1,12 @@
 package org.slc.sli.view.modifier;
 
+import org.slc.sli.config.ViewConfig;
+
 /**
  * @author jstokes
  */
-public class ViewModifier {
+public interface ViewModifier {
+
+    public ViewConfig modify(ViewConfig view);
+
 }

@@ -10,7 +10,6 @@ import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.unit.view.HistoricalDataResolverTest;
-import org.slc.sli.view.modifier.GradebookViewModifer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,10 +36,6 @@ public class GradebookEntryModifierTest {
 
     private GradebookViewModifer gradebookViewModifer; // class under test
 
-    private static final String CURRENT = "Current";
-    private static final String GRADES = "<center>Unit Tests</center>";
-    private static final String AVERAGE = "Average";
-
     @Mock
     private Comparator<GenericEntity> comparator;
 
@@ -52,12 +47,10 @@ public class GradebookEntryModifierTest {
         SortedSet<GenericEntity> gradebookIds = new TreeSet<GenericEntity>(comparator);
 
         GenericEntity ge1 = new GenericEntity();
-        ge1.put("id", "1234GBE");
-        ge1.put("dateFulfilled", "10-11-2011");
+        ge1.put(GradebookViewModifer.DATE_FULFILLED, "10-11-2011");
 
         GenericEntity ge2 = new GenericEntity();
-        ge2.put("id", "4567GBE");
-        ge2.put("dateFulfilled", "10-15-2011");
+        ge2.put(GradebookViewModifer.DATE_FULFILLED, "10-15-2011");
 
         gradebookIds.add(ge1);
         gradebookIds.add(ge2);
@@ -66,21 +59,21 @@ public class GradebookEntryModifierTest {
     }
 
     @Test
-    public void testAddGradebookEntries() {
+    public void testModify() {
         ViewConfig testView = new ViewConfig();
-        testView = gradebookViewModifer.addGradebookEntries(testView);
+        testView = gradebookViewModifer.modify(testView);
 
         List<DisplaySet> testDisplaySet = testView.getDisplaySet();
         assertEquals(2, testDisplaySet.size());
 
         DisplaySet current = testDisplaySet.get(0);
         DisplaySet grades = testDisplaySet.get(1);
-        assertEquals(CURRENT, current.getDisplayName());
-        assertEquals(GRADES, grades.getDisplayName());
+        assertEquals(GradebookViewModifer.CURRENT, current.getDisplayName());
+        assertEquals(GradebookViewModifer.GRADES, grades.getDisplayName());
 
         assertEquals(1, current.getField().size());
         Field average = current.getField().get(0);
-        assertEquals(AVERAGE, average.getDisplayName());
+        assertEquals(GradebookViewModifer.AVERAGE, average.getDisplayName());
 
         assertEquals(2, grades.getField().size());
         Field firstUnitTest = grades.getField().get(0);

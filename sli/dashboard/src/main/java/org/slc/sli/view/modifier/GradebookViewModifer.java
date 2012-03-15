@@ -11,16 +11,16 @@ import java.util.SortedSet;
  * Class to manage gradebook entry data for view config that needs data added dynamically
  * @author jstokes
  */
-public class GradebookViewModifer implements {
+public class GradebookViewModifer implements ViewModifier {
 
     private SortedSet<GenericEntity> gradebookIds;
 
-    private static final String CURRENT = "Current";
-    private static final String GRADES = "<center>Unit Tests</center>";
-    private static final String AVERAGE = "Average";
-    private static final String DATE_FULFILLED = "dateFulfilled";
-    private static final String CURRENT_TERM = "currentTermGrade";
-    private static final String UNIT_TEST_GRADE = "unitTestGrade";
+    protected static final String CURRENT = "Current";
+    protected static final String GRADES = "<center>Unit Tests</center>";
+    protected static final String AVERAGE = "Average";
+    protected static final String DATE_FULFILLED = "dateFulfilled";
+    protected static final String CURRENT_TERM = "currentTermGrade";
+    protected static final String UNIT_TEST_GRADE = "unitTestGrade";
 
     /**
      * Constructor
@@ -35,7 +35,7 @@ public class GradebookViewModifer implements {
      * @param view The view to manipulate
      * @return view with added columns
      */
-    public ViewConfig addGradebookEntries(ViewConfig view) {
+    private ViewConfig addGradebookEntries(ViewConfig view) {
         view.getDisplaySet().add(createCurrentGrade());
         view.getDisplaySet().add(createUnitTests());
 
@@ -82,5 +82,10 @@ public class GradebookViewModifer implements {
         unitTest.setValue("UnitTest");
 
         return unitTest;
+    }
+
+    @Override
+    public ViewConfig modify(ViewConfig view) {
+        return addGradebookEntries(view);
     }
 }

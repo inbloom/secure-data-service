@@ -3,7 +3,6 @@ package org.slc.sli.view.modifier;
 import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.manager.Manager;
 import org.slc.sli.view.HistoricalDataResolver;
 
 import java.util.Iterator;
@@ -13,7 +12,7 @@ import java.util.SortedSet;
  * Class to manage historical data for view config that needs data added dynamically
  * @author jstokes
  */
-public class HistoricalViewModifier implements Manager {
+public class HistoricalViewModifier implements ViewModifier {
 
     HistoricalDataResolver historicalDataResolver;
 
@@ -31,7 +30,7 @@ public class HistoricalViewModifier implements Manager {
      * @param view The view to add columns to
      * @return A view config with historical columns added
      */
-    public ViewConfig addHistoricalData(ViewConfig view) {
+    private ViewConfig addHistoricalData(ViewConfig view) {
         String subjectArea = historicalDataResolver.getSubjectArea();
         SortedSet<String> schoolYears = historicalDataResolver.getSchoolYears();
 
@@ -75,4 +74,8 @@ public class HistoricalViewModifier implements Manager {
         return grade;
     }
 
+    @Override
+    public ViewConfig modify(ViewConfig view) {
+        return addHistoricalData(view);
+    }
 }
