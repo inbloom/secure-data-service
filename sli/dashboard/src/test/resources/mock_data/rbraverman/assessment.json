@@ -1,6 +1,6 @@
 [
 {
-    "studentId": "111111111",
+    "studentId": "530425896",
     "assessmentId": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
     "administrationDate": "2011-09-15",
     "administrationEndDate": "2011-12-15",
@@ -21,10 +21,9 @@
                     ]
 },
 {
-    "studentId": "111111111",
-    "assessmentId": "DIBELS_NEXT_GRADE_2_BOY_ID",
+    "studentId": "530425896",
+    "assessmentId": "DIBELS_NEXT_GRADE_3_BOY_ID_2011",
     "administrationDate": "2011-09-16",
-    "administrationEndDate": "2011-12-16",
     "retestIndicator": "No Retest",
     "scoreResults": [
                     {
@@ -41,5 +40,24 @@
                     }
     ]
 
+},
+{
+        "studentId":"530425896",
+        "assessmentId":"DIBELS_NEXT_GRADE_2_BOY_ID_2010",
+        "administrationDate":"2010-08-014",
+        "scoreResults":[
+                    {
+                    "assessmentReportingMethod": "Scale score",
+                    "result": "200"
+                    },
+                    {
+                    "assessmentReportingMethod": "Mastery level",
+                    "result": "1"
+                    },
+                    {
+                    "assessmentReportingMethod": "Percentile",
+                    "result": "8.1"
+                    }
+         ]
 }
 ]

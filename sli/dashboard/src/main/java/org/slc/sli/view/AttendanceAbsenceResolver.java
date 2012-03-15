@@ -56,4 +56,9 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         }
         return count;
     }
+    
+    @Override
+    public int[] getCutoffPoints(Field field) {
+        return new int[]{0, 5, 10, 11};
+    }
 }

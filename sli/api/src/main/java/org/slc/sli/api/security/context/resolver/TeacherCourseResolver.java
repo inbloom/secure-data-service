@@ -1,17 +1,21 @@
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slc.sli.domain.SmartQuery;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -35,15 +39,22 @@ public class TeacherCourseResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> ids = helper.findAccessible(principal, Arrays.asList(
+        List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+
+        List<String> studentSectionIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
+        Set<String> sectionIds = new HashSet<String>();
+        sectionIds.addAll(teacherSectionIds);
+        sectionIds.addAll(studentSectionIds);
+
         StringBuilder query = new StringBuilder();
         String separator = "";
 
-        for (String s : ids) {
+        for (String s : sectionIds) {
             query.append(separator);
             separator = ",";
             query.append(s);
@@ -54,13 +65,16 @@ public class TeacherCourseResolver implements EntityContextResolver {
 
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
 
-        List<String> courseIds = new ArrayList<String>();
+        Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : entities) {
-            courseIds.add((String) e.getBody().get("courseId"));
+            String courseId = (String) e.getBody().get("courseId");
+            if (courseId != null) {
+                sessionIds.add(courseId);
+            }
         }
 
-        return courseIds;
+        return new ArrayList<String>(sessionIds);
     }
 
 }

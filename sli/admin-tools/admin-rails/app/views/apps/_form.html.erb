@@ -1,0 +1,48 @@
+<%= form_for(@app, :remote => true) do |f| %>
+<% if @app.errors.any? %>
+<div id    = "error_explanation">
+	<h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+	<ul>
+		<% @role.errors.full_messages.each do |msg| %>
+		<li><%= msg %></li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
+<div class = "field">
+	<%= f.label :name, "Name" %>
+	<%= f.text_field :name %>
+</div>
+<div class = "field">
+	<%= f.label :description, "Description" %>
+	<%= f.text_field :description %>
+</div>
+<div class = "field">
+	<%= f.label :version, "Version" %>
+	<%= f.text_field :version %>
+</div>
+<div class = "field">
+	<%= f.label :vendor, "Vendor" %>
+	<%= f.text_field :vendor %>
+</div>
+<div class = "field">
+	<%= f.label :application_url, "Url" %>
+	<%= f.text_field :application_url %>
+</div>
+<div class = "field">
+	<%= f.label :administration_url, "Admin Url" %>
+	<%= f.text_field :administration_url %>
+</div>
+<div class = "field">
+	<%= f.label :redirect_url, "Redirect Url" %>
+	<%= f.text_field :redirect_url %>
+</div>
+<div class = "field">
+	<%= f.label :image_url, "Image Url" %>
+	<%= f.text_field :image_url %>
+</div>
+<div class = "actions">
+	<%= f.submit "Submit", :disable_with => 'Submiting...' %>
+</div>
+<% end %>

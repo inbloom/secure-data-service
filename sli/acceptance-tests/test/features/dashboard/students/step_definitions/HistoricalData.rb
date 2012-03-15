@@ -1,5 +1,5 @@
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../dash/step_definitions/selenium_common.rb'
+require_relative '../../dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
   # url = PropLoader.getProps['api_server_url']
