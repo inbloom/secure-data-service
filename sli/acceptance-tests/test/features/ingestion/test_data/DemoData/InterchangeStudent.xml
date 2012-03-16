@@ -131,7 +131,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -172,7 +172,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -452,7 +452,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -752,7 +752,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -944,7 +944,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1123,7 +1123,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1167,7 +1167,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1207,7 +1207,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1351,7 +1351,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1507,7 +1507,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1646,7 +1646,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1848,7 +1848,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1968,7 +1968,7 @@
     </Name>
     <Sex>Male</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2120,7 +2120,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2140,7 +2140,7 @@
     </Name>
     <Sex>Female</Sex>
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -3259,7 +3259,7 @@
 </Name>
 <Sex>Male</Sex>
 <EconomicDisadvantaged>false</EconomicDisadvantaged>
-<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 <Race>
 </Race>
@@ -3429,7 +3429,7 @@
 </Name>
 <Sex>Male</Sex>
 <EconomicDisadvantaged>false</EconomicDisadvantaged>
-<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 <Race>
 </Race>
@@ -3527,7 +3527,7 @@
 </Name>
 <Sex>Male</Sex>
 <EconomicDisadvantaged>true</EconomicDisadvantaged>
-<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 <Race>
 </Race>
@@ -3618,6 +3618,68 @@
 </Student>
   
   
-  
-  
+<Student>
+    <StudentUniqueStateId>2312321</StudentUniqueStateId>
+    <Name>
+      <FirstName>Merrilee</FirstName>
+      <MiddleName/>
+      <LastSurname>Kleinhans</LastSurname>
+      <GenerationCodeSuffix/>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1996-07-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>9384 Shady Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60016-2835</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-349-8245</TelephoneNumber>
+    </Telephone>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>2312320</StudentUniqueStateId>
+    <Name>
+      <FirstName>Frida</FirstName>
+      <MiddleName/>
+      <LastSurname>Hlavacek</LastSurname>
+      <GenerationCodeSuffix/>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1996-06-01</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>4859 Pura Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60016-2835</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-349-8245</TelephoneNumber>
+    </Telephone>
+  </Student>
+ 
 </InterchangeStudent>
