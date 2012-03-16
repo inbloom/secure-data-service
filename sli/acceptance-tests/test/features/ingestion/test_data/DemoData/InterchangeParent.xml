@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd">
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd">
     <Parent>
         <ParentUniqueStateId>9870036500</ParentUniqueStateId>
         <Name>
@@ -173,4 +173,4 @@
             <TelephoneNumber>3095550000</TelephoneNumber>
         </Telephone>
     </Parent>
-</InterchangeParent> 
+</InterchangeStudentParent>
