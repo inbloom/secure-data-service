@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 public class AssessmentCombinerTest {
 
     @Autowired
-    AssessmentCombiner combiner;
+    AbstractTransformationStrategy combiner;
 
     @Mock
     Criteria jobIdCriteria;
