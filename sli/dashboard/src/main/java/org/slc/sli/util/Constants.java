@@ -128,6 +128,9 @@ public class Constants {
     public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
     public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
     public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
+    public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
+    public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
+    public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     
     //Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";

@@ -199,7 +199,7 @@ public class StudentProgressManager implements Manager {
         //build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_SECTION_ID, selectedSection);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED);
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED + "," + Constants.ATTR_GRADEBOOK_ENTRY_ID);
         
         for (String studentId : studentIds) {
             total = 0.0;
@@ -212,12 +212,17 @@ public class StudentProgressManager implements Manager {
                 studentGradebookEntry.remove("entityType");
                 log.debug("Progress data [studentGradebookEntry]" + studentGradebookEntry);
                 
+                GenericEntity gradebookEntry = getGradebookEntry(token, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID));
+                
+                //add the gradebook entry Id                
+                studentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, gradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
+                
                 //add the student gradebook entry to the map
                 if (results.get(studentId) != null) {
-                    results.get(studentId).put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
+                    results.get(studentId).put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
                 } else {
                     Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
-                    gradebookEntries.put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
+                    gradebookEntries.put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
                     
                     results.put(studentId, gradebookEntries);
                 }
@@ -231,6 +236,13 @@ public class StudentProgressManager implements Manager {
         }
         
         return results;
+    }
+    
+    protected GenericEntity getGradebookEntry(String token, String id) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
+     
+        return entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, id, params);
     }
     
     /**

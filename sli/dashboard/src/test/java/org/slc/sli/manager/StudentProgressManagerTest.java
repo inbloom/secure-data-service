@@ -191,14 +191,27 @@ public class StudentProgressManagerTest {
         gradebook1.put("id", "9999");
         gradebook1.put("numericGradeEarned", 84.0);
         gradebook1.put("dateFulfilled", "2011-05-15");
+        gradebook1.put("gradebookEntryId", "5555");
         GenericEntity gradebook2 = new GenericEntity();
         gradebook2.put("id", "9998");
         gradebook2.put("numericGradeEarned", 88.0);
         gradebook2.put("dateFulfilled", "2011-06-30");
+        gradebook2.put("gradebookEntryId", "5556");
         GenericEntity gradebook3 = new GenericEntity();
         gradebook3.put("id", "9997");
         gradebook3.put("numericGradeEarned", 81.0);
         gradebook3.put("dateFulfilled", "2010-05-02");
+        gradebook3.put("gradebookEntryId", "5557");
+        
+        GenericEntity gradebookEntry1 = new GenericEntity();
+        gradebookEntry1.put("id", "5555");
+        gradebookEntry1.put("gradebookEntryType", "Unit Test");
+        GenericEntity gradebookEntry2 = new GenericEntity();
+        gradebookEntry2.put("id", "5556");
+        gradebookEntry2.put("gradebookEntryType", "Unit Test");
+        GenericEntity gradebookEntry3 = new GenericEntity();
+        gradebookEntry3.put("id", "5557");
+        gradebookEntry3.put("gradebookEntryType", "Unit Test");
         
         //add the associations
         List<GenericEntity> gradebookEntries = new ArrayList<GenericEntity>();
@@ -209,18 +222,26 @@ public class StudentProgressManagerTest {
         //create the params maps
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_SECTION_ID, selectedSection);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, "numericGradeEarned,dateFulfilled");
+        params.put(Constants.PARAM_INCLUDE_FIELDS, "numericGradeEarned,dateFulfilled,gradebookEntryId");
         
         when(mockEntity.getStudentSectionGradebookEntries(token, STUDENTID, params)).thenReturn(gradebookEntries);
+        
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
+     
+        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5555", params1)).thenReturn(gradebookEntry1);
+        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5556", params1)).thenReturn(gradebookEntry2);
+        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5557", params1)).thenReturn(gradebookEntry3);
         
         //call the method
         Map<String, Map<String, GenericEntity>> results = manager.getCurrentProgressForStudents(token, students, selectedSection);
         assertEquals("Size should be 1", 1, results.size());
         
         Map<String, GenericEntity> tests = results.get(STUDENTID);
-        assertNotNull("Should have an entry", tests.get("2011-05-15"));
-        assertEquals("numeric grade should match", 84.0, tests.get("2011-05-15").get("numericGradeEarned"));
-        assertEquals("numeric grade should match", "2011-05-15", tests.get("2011-05-15").getString("dateFulfilled"));
+        assertNotNull("Should have an entry", tests.get("5555"));
+        assertEquals("numeric grade should match", 84.0, tests.get("5555").get("numericGradeEarned"));
+        assertEquals("numeric grade should match", "2011-05-15", tests.get("5555").getString("dateFulfilled"));
+        assertEquals("numeric grade should match", "Unit Test", tests.get("5555").getString("gradebookEntryType"));
     }
     
     @Test
