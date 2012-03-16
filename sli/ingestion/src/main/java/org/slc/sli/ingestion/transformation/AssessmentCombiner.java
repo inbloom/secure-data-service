@@ -89,7 +89,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             }
             neutralRecord.setAttributes(attrs);
-            newCollection.put(neutralRecord.getLocalId(), neutralRecord);
+            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
         }
 
         transformedCollections.put("assessment", newCollection);
@@ -204,7 +204,7 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
         Iterator<NeutralRecord> iter = data.iterator();
         while (iter.hasNext()) {
             tempNr = iter.next();
-            collection.put(tempNr.getLocalId(), tempNr);
+            collection.put(tempNr.getRecordId(), tempNr);
         }
 
         collections.put(collectionName, collection);
