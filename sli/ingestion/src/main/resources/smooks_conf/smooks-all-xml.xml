@@ -2200,8 +2200,16 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
     <jb:expression property="recordType">'studentSectionGradebookEntry'</jb:expression>
+    <jb:wiring property="localId" beanIdRef="StudentGradebookEntryLocalId" />
     <jb:wiring property="localParentIds" beanIdRef="StudentGradebookEntryParentIds" />
     <jb:wiring property="attributes" beanIdRef="studentGradebookEntryAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentGradebookEntryLocalId" class="java.util.HashMap"
+    createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
+    <jb:value property="gradebookEntryId" data="StudentGradebookEntry/GradebookEntryReference/@id" />
+    <jb:value property="studentId" data="StudentUniqueStateId" />
+    <jb:value property="sectionId" data="StudentGradebookEntry/StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
 
   <jb:bean beanId="StudentGradebookEntryParentIds" class="java.util.HashMap"
