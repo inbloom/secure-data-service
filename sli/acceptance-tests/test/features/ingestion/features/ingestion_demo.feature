@@ -46,7 +46,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentTranscriptAssociation| 90    |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
-#        | studentSectionGradebookEntry| 60    |
+        | studentSectionGradebookEntry| 135   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
@@ -111,7 +111,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentTranscriptAssociation| 90    |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
-#        | studentSectionGradebookEntry| 60    |
+        | studentSectionGradebookEntry| 135   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
