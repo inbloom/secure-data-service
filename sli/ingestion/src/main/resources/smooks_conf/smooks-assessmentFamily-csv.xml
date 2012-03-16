@@ -23,7 +23,7 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
     <jb:expression property="recordType">'AssessmentFamily'</jb:expression>
 
-    <jb:value property="localId" data="AssessmentFamilyTitle" />
+    <jb:value property="localId" data="csv-record/id" />
     <jb:wiring property="attributes" beanIdRef="AssessmentFamilyAttributes" />
   </jb:bean>
 

@@ -1480,7 +1480,7 @@
     <jb:expression property="recordType">'assessmentFamily'
 		</jb:expression>
 
-    <jb:value property="localId" data="AssessmentFamily/AssessmentFamilyTitle" />
+    <jb:value property="localId" data="AssessmentFamily/@id" />
     <jb:wiring property="attributes" beanIdRef="AssessmentFamilyAttributes" />
 
   </jb:bean>
