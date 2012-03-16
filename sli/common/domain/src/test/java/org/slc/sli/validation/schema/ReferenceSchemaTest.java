@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+
 
 
 import org.junit.Before;
@@ -214,6 +217,10 @@ public class ReferenceSchemaTest {
         @Override
         public Entity findOne(String collectionName, Query query) {
             // TODO Auto-generated method stub
+            return null;
+        }
+
+        public CommandResult execute(DBObject command) {
             return null;
         }
         
