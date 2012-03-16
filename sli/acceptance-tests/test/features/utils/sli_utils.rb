@@ -11,6 +11,13 @@ include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
+$SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
+                "jdoe_SLI" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
+                "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
+                "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
+                "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
+                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"}  
+
 def assert(bool, message = 'assertion failure')
   raise message unless bool
 end
@@ -24,10 +31,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpLogin(user, passwd)
-  url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-2]
-  puts(@sessionId) if $SLI_DEBUG
+  idpRealmLogin(user, passwd, "SLI")
 end
 
 # Function idpRealmLogin
@@ -39,13 +43,20 @@ end
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
-def idpRealmLogin(user, passwd, realm="sli")
-  realmType = 'sli_idp_server_url' # Default case
-  realmType = 'sea_idp_server_url' if realm == "idp1"
-  realmType = 'lea_idp_server_url' if realm == "idp2"
-  url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-2]
+def idpRealmLogin(user, passwd, realm="SLI")
+  @longLiveSession = false
+  token = $SESSION_MAP[user+"_"+realm]
+  if token != nil
+    @sessionId = token
+    @longLiveSession = true
+  else
+    realmType = 'sli_idp_server_url' # Default case
+    realmType = 'sea_idp_server_url' if realm == "idp1"
+    realmType = 'lea_idp_server_url' if realm == "idp2"
+    url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
+    res = RestClient.get(url){|response, request, result| response }
+    @sessionId = res.body[res.body.rindex('=')+1..-2]
+  end
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -56,17 +67,15 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
-# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
-#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using POST to create a new object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPost(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+def restHttpPost(id, data, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into POST was nil")
 
-  urlHeader = makeUrlAndHeaders('post',passAsRequestParm,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('post',@longLiveSession,id,sessionId,format)
   @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -78,17 +87,15 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
-# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
-#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using GET to retrieve an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpGet(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+def restHttpGet(id, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  urlHeader = makeUrlAndHeaders('get',passAsRequestParm,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('get',@longLiveSession,id,sessionId,format)
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -101,17 +108,15 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
-# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
-#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using PUT to update an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpPut(id, data, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+def restHttpPut(id, data, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into PUT was nil")
 
-  urlHeader = makeUrlAndHeaders('put',passAsRequestParm,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('put',@longLiveSession,id,sessionId,format)
   @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -123,39 +128,33 @@ end
 #                               Can be manually overwritten
 # Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
 #                               Can be manually overwritten
-# Opt. Input: (bool) passAsRequestParm = Pass the sessionId as a request parameter instead of a header.
-#                               Defaults to false (pass in the header) Can be manually overwritten
 # Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that calls the REST API specified in id using DELETE to remove an existing object
 #              It is suggested you assert the state of the @res response before returning success from the calling function
-def restHttpDelete(id, format = @format, sessionId = @sessionId, passAsRequestParm = false)
+def restHttpDelete(id, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
 
-  urlHeader = makeUrlAndHeaders('delete',passAsRequestParm,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('delete',@longLiveSession,id,sessionId,format)
   @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,passAsRequestParm,id,sessionId,format)
+def makeUrlAndHeaders(verb,longLiveSession,id,sessionId,format)
   if(verb == 'put' || verb == 'post')
     headers = {:content_type => format}
   else
     headers = {:accept => format}
   end
 
-  if passAsRequestParm
-    #See if other request params exist in the URL
-    sessionParm = "?sessionId="+sessionId
-    sessionParm = "&sessionId="+sessionId if id.rindex("?") != nil
-
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id+sessionParm
+  if longLiveSession
+    headers.store(:Authorization, "bearer "+sessionId)
   else
-    url = PropLoader.getProps['api_server_url']+"/api/rest"+id
     headers.store(:sessionId, sessionId)
   end
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}

@@ -67,7 +67,10 @@ public class TeacherCourseResolver implements EntityContextResolver {
         Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : entities) {
-            sessionIds.add((String) e.getBody().get("courseId"));
+            String courseId = (String) e.getBody().get("courseId");
+            if (courseId != null) {
+                sessionIds.add(courseId);
+            }
         }
 
         return new ArrayList<String>(sessionIds);
