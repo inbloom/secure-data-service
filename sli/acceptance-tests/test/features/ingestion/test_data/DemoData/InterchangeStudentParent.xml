@@ -1,6 +1,32 @@
-<?xml version=1.0 encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                           xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+    <Student>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+        <Name>
+            <FirstName>Matt</FirstName>
+            <MiddleName>D</MiddleName>
+            <LastSurname>Sollars</LastSurname>
+            <GenerationCodeSuffix></GenerationCodeSuffix>
+        </Name>
+        <Sex>Male</Sex>
+        <EconomicDisadvantaged>True</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+        <Race/>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities>Motor Impairment</Section504Disabilities>
+        <DisplacementStatus/>
+        <BirthData>
+            <BirthDate>2000-10-14</BirthDate>
+        </BirthData>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>630-504-5490</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Astra_Vincent@yahoo.com</EmailAddress>
+        </ElectronicMail>
+    </Student>
     <Parent>
         <ParentUniqueStateId>9870036500</ParentUniqueStateId>
         <Name>
