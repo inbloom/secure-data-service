@@ -6044,6 +6044,6 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-    </StudentGradebookEntry>
       <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
 </InterchangeStudentGrade>

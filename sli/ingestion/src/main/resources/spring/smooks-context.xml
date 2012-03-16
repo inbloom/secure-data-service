@@ -130,7 +130,8 @@
               <constructor-arg value="${smooks.config.all.xml}" />
               <constructor-arg>
                 <list>
-                  <value>${smooks.targetselector.xml.student.parent}</value>
+                  <value>${smooks.targetselector.xml.student.parent.student}</value>
+                  <value>${smooks.targetselector.xml.student.parent.parent}</value>
                   <value>${smooks.targetselector.xml.student.parent.association}</value>
                 </list>
               </constructor-arg>
