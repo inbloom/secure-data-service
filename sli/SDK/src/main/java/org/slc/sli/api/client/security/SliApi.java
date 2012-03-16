@@ -15,8 +15,8 @@ import org.scribe.utils.Preconditions;
 public class SliApi extends DefaultApi20 {
     
     private URL apiUrl;
-    private static final String REQUEST_TOKEN_FRAGMENT = "{}/api/oauth/authorize?response_type=code&client_id={}&redirect_uri={}";
-    private static final String AUTH_TOKEN_FRAGMENT = "{}/api/oauth/token?grant_type=authorization_code";
+    private static final String REQUEST_TOKEN_FRAGMENT = "%s/api/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
+    private static final String AUTH_TOKEN_FRAGMENT = "%s/api/oauth/token?grant_type=authorization_code";
     
     @Override
     public String getAccessTokenEndpoint() {

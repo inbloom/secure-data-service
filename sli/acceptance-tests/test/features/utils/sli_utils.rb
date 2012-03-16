@@ -11,6 +11,13 @@ include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
+$SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
+                "jdoe_SLI" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
+                "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
+                "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
+                "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
+                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"}  
+
 def assert(bool, message = 'assertion failure')
   raise message unless bool
 end
@@ -24,22 +31,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpLogin(user, passwd)
-  @longLiveSession = false
-  if ["demo", "jdoe", "tbear", "john_doe", "ejane", "linda.kim"].include?(user)
-    @sessionId = "e88cb6d1-771d-46ac-a207-2e58d7f12196" if user == "demo"
-    @sessionId = "c88ab6d7-117d-46aa-a207-2a58d1f72796" if user == "jdoe"
-    @sessionId = "c77ab6d7-227d-46bb-a207-2a58d1f82896" if user == "tbear"
-    @sessionId = "a69ab2d7-137d-46ba-c281-5a57d1f22706" if user == "john_doe"
-    @sessionId = "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701" if user == "ejane"
-    @sessionId = "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85" if user == "linda.kim"
-    @longLiveSession = true
-  else
-   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
-   res = RestClient.get(url){|response, request, result| response }
-    @sessionId = res.body[res.body.rindex('=')+1..-2]
-  end
-
-  puts(@sessionId) if $SLI_DEBUG
+  idpRealmLogin(user, passwd, "SLI")
 end
 
 # Function idpRealmLogin
@@ -51,13 +43,20 @@ end
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
-def idpRealmLogin(user, passwd, realm="sli")
-  realmType = 'sli_idp_server_url' # Default case
-  realmType = 'sea_idp_server_url' if realm == "idp1"
-  realmType = 'lea_idp_server_url' if realm == "idp2"
-  url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-2]
+def idpRealmLogin(user, passwd, realm="SLI")
+  @longLiveSession = false
+  token = $SESSION_MAP[user+"_"+realm]
+  if token != nil
+    @sessionId = token
+    @longLiveSession = true
+  else
+    realmType = 'sli_idp_server_url' # Default case
+    realmType = 'sea_idp_server_url' if realm == "idp1"
+    realmType = 'lea_idp_server_url' if realm == "idp2"
+    url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
+    res = RestClient.get(url){|response, request, result| response }
+    @sessionId = res.body[res.body.rindex('=')+1..-2]
+  end
   puts(@sessionId) if $SLI_DEBUG
 end
 
