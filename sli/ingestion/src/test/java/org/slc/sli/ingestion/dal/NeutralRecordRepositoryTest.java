@@ -296,6 +296,7 @@ public class NeutralRecordRepositoryTest {
         body.put("studentSchoolId", "DOE-JANE-222");
 
         NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setRecordId("1a-2b-3c-4d-5e");
         neutralRecord.setRecordType("student");
         neutralRecord.setAttributes(body);
         return neutralRecord;

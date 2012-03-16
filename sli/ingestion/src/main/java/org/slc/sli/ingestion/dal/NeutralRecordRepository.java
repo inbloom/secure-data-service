@@ -34,6 +34,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
         neutralRecord.setAttributes(body);
+        return create(neutralRecord, collectionName);
+    }
+
+    public NeutralRecord create(NeutralRecord neutralRecord) {
         return create(neutralRecord, neutralRecord.getRecordType());
     }
 
