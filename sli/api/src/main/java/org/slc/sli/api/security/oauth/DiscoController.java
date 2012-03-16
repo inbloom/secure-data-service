@@ -157,7 +157,11 @@ public class DiscoController {
 
         authCodeService.create(clientId, state, tuple.getLeft());
         LOG.debug("redirecting to: " + endpoint);
-        res.addCookie(new Cookie("realmCookie", realmId));
+        Cookie cookie = new Cookie("realmCookie", realmId);
+        cookie.setMaxAge(60 * 60);
+        cookie.setDomain(".slidev.org");
+        cookie.setPath("/");
+        res.addCookie(cookie);
         LOG.debug("Set the realm cookie to " + realmId);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
