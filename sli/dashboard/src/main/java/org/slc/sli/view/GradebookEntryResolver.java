@@ -60,7 +60,7 @@ public class GradebookEntryResolver {
     /**
      * Gets a grade for a given student in a given gradebookEntry
      * @param studentId The id of the student
-     * @param gradebookEntryId The gradebookEntryId at which the test was taken
+     * @param gradebookEntryId The gradebook entry we are looking for
      * @return grade (string)
      */
     private String getGrade(String studentId, String gradebookEntryId) {
