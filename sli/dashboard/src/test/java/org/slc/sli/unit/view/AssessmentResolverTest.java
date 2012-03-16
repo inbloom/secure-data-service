@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -22,7 +23,7 @@ import org.slc.sli.view.AssessmentResolver;
  * 
  */
 public class AssessmentResolverTest {
-
+    
     // test subject
     private AssessmentResolver resolver;
     
@@ -37,7 +38,7 @@ public class AssessmentResolverTest {
     
     // studentAssessment with student objective assessment
     private GenericEntity studentAssmtWithObjAssmt;
-
+    
     @Before
     public void setup() {
         // resolver = new AssessmentResolver(getAssessments(), getAssessmentMetaData());
@@ -47,7 +48,7 @@ public class AssessmentResolverTest {
         studentAssmtWithPerfLevel = createStudentAssessmentWithPerfLevel();
         studentAssmtWithObjAssmt = createStudentAssessmentWithObjAssmt();
     }
-
+    
     @Test
     public void testGet() throws Exception {
         Field f = new Field();
@@ -73,6 +74,20 @@ public class AssessmentResolverTest {
         f.setTimeSlot("HIGHEST_EVER");
         scoreSAT = resolver.get(f, student);
         assertEquals("scale score should be 685", "685", scoreSAT);
+        
+        // get the assessment in the most recent window where assessment exists but is not in
+        // window
+        f.setValue("SAT." + Constants.ATTR_SCALE_SCORE);
+        f.setTimeSlot(AssessmentResolver.TIMESLOT_MOSTRECENTWINDOW);
+        student.getList(Constants.ATTR_STUDENT_ASSESSMENTS).clear();
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentAdministeredOn("2010-01-01"));
+        scaleScore = resolver.get(f, student);
+        assertEquals("", scaleScore);
+        
+        // get assessment in most recent window
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentAdministeredOn("2011-01-02"));
+        scaleScore = resolver.get(f, student);
+        assertEquals("2072", scaleScore);
     }
     
     @Test
@@ -93,7 +108,7 @@ public class AssessmentResolverTest {
         // test get scale score from objective assessment for SAT-Writing
         String score = resolver.getScore(studentAssmtWithObjAssmt, Constants.ATTR_SCALE_SCORE, "SAT-Writing");
         assertEquals("SAT-Writing objective assessment score should be 680", "680", score);
-
+        
         // test get percentile from objective assessment for SAT-Writing
         String percentile = resolver.getScore(studentAssmtWithObjAssmt, Constants.ATTR_PERCENTILE, "SAT-Writing");
         assertEquals("SAT-Writing objective assessment score percentile should be 80", "80", percentile);
@@ -105,9 +120,9 @@ public class AssessmentResolverTest {
         // test get percentile from objective assessment for SAT-Reading
         percentile = resolver.getScore(studentAssmtWithObjAssmt, Constants.ATTR_PERCENTILE, "SAT-Reading");
         assertEquals("SAT-Writing objective assessment score percentile should be 82", "82", percentile);
-
+        
     }
-
+    
     @Test
     public void testGetCutpoint() throws Exception {
         // get the ISAT Reading cutpoints
@@ -122,7 +137,7 @@ public class AssessmentResolverTest {
         assertEquals(278, cutpoints.get(3).intValue());
         assertEquals(364, cutpoints.get(4).intValue());
     }
-
+    
     // --- helper functions ---
     private List<GenericEntity> getAssessments() {
         /*
@@ -153,7 +168,7 @@ public class AssessmentResolverTest {
          */
         return null;
     }
-
+    
     private List<GenericEntity> getAssessmentMetaData() {
         /*
          * EntityManager entityManager = new EntityManager();
@@ -269,7 +284,25 @@ public class AssessmentResolverTest {
         GenericEntity studentAssmt = gson.fromJson(stringStudentAssessment, GenericEntity.class);
         return studentAssmt;
     }
-
+    
+    private GenericEntity createStudentAssessmentAdministeredOn(String date) {
+        String stringStudentAssessment = "{\"studentId\":\"1\",\"assessmentId\":\"2\",\"administrationDate\":"
+                + "\""
+                + date
+                + "\""
+                + ",\"retestIndicator\":\"1st Retest\",\"gradeLevelWhenAssessed\":\"Twelfth grade\",\"scoreResults\":[{\"assessmentReportingMethod\":"
+                + "\"Scale score\",\"result\":\"2072\"},{\"assessmentReportingMethod\":\"Percentile\",\"result\":\"92\"}],\"performanceLevelDescriptors\":[],"
+                + "\"studentObjectiveAssessments\":[{\"scoreResults\":[{\"assessmentReportingMethod\":\"Scale score\",\"result\":\"683\"},"
+                + "{\"assessmentReportingMethod\":\"Percentile\",\"result\":\"83\"}],\"objectiveAssessment\":{\"identificationCode\":\"SAT-Writing\"}},"
+                + "{\"scoreResults\":[{\"assessmentReportingMethod\":\"Scale score\",\"result\":\"684\"},{\"assessmentReportingMethod\":\"Percentile\",\"result\":"
+                + "\"84\"}],\"objectiveAssessment\":{\"identificationCode\":\"SAT-Math\"}},{\"scoreResults\":[{\"assessmentReportingMethod\":\"Scale score\",\"result\":\"685\"},"
+                + "{\"assessmentReportingMethod\":\"Percentile\",\"result\":\"85\"}],\"objectiveAssessment\":{\"identificationCode\":\"SAT-Reading\"}}]}";
+        
+        Gson gson = new Gson();
+        GenericEntity studentAssmt = gson.fromJson(stringStudentAssessment, GenericEntity.class);
+        return studentAssmt;
+    }
+    
     private GenericEntity createStudent() {
         String studentString = "{ \"id\":\"1\",\"otherName\" : [], \"sex\" : \"Female\", \"studentIndicators\" : [], \"studentCharacteristics\" : [], "
                 + "\"hispanicLatinoEthnicity\" : \"false\", \"economicDisadvantaged\" : \"false\", \"disabilities\" : [], \"cohortYears\" : [], "
@@ -284,7 +317,7 @@ public class AssessmentResolverTest {
         student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithPerfLevel());
         student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithObjAssmt());
         student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithObjAssmt1());
-
+        
         return student;
     }
 }
