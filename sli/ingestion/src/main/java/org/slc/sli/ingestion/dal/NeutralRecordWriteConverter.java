@@ -29,7 +29,6 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     public DBObject convert(NeutralRecord neutralRecord) {
 
         Map<String, Object> body = neutralRecord.getAttributes();
-        body.put("localId", neutralRecord.getLocalId());
 
         // Encrypt the neutral record for datastore persistence. TODO: Create a generic encryptor!
         Map<String, Object> encryptedBody = body;
@@ -37,9 +36,17 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             encryptedBody = encryptor.encrypt(neutralRecord.getRecordType(), neutralRecord.getAttributes());
         }
 
+        UUID uid = null;
+        if (neutralRecord.getRecordId() == null) {
+            uid = UUID.randomUUID();
+            neutralRecord.setRecordId(uid.toString());
+        } else {
+            uid = UUID.fromString(neutralRecord.getRecordId());
+        }
+
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", neutralRecord.getRecordType());
-        dbObj.put("_id", UUID.randomUUID());
+        dbObj.put("_id", uid);
         dbObj.put("body", encryptedBody);
         dbObj.put("batchJobId", neutralRecord.getBatchJobId());
         return dbObj;

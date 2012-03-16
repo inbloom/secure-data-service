@@ -2,12 +2,12 @@ package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +15,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
 
 import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.util.datetime.DateTimeUtil;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -44,12 +43,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template;
     }
 
-    private Class<T> clazz;
-
-    public void setClass(Class<T> clazz) {
-        this.clazz = clazz;
-    }
-
     protected IdConverter idConverter;
 
     public void setidConverter(IdConverter idConverter) {
@@ -61,7 +54,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Object databaseId = idConverter.toDatabaseId(id);
         LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
         try {
-            return template.findById(databaseId, clazz, collectionName);
+            return template.findById(databaseId, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -73,7 +66,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // turn query parameters into a Mongo-specific query
         Query query = createQuery(queryParameters);
         // find and return an object
-        return template.findOne(query, clazz, collectionName);
+        return template.findOne(query, getRecordClass(), collectionName);
     }
 
     @Override
@@ -81,7 +74,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // turn query parameters into a Mongo-specific query
         Query query = createQuery(queryParameters);
         // find and return an object
-        return template.find(query, clazz, collectionName);
+        return template.find(query, getRecordClass(), collectionName);
     }
 
     @Override
@@ -90,12 +83,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = convertToQuery(query);
 
         // find and return an instance
-        return template.find(mongoQuery, clazz, collectionName);
+        return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
     public Iterable<T> findAll(String collectionName, int skip, int max) {
-        List<T> results = template.find(new Query().skip(skip).limit(max), clazz, collectionName);
+        List<T> results = template.find(new Query().skip(skip).limit(max), getRecordClass(), collectionName);
         logResults(collectionName, results);
         return results;
     }
@@ -106,7 +99,24 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public abstract boolean update(String collection, T object);
+    public abstract boolean update(String collection, T record);
+
+    protected boolean update(String collection, T record, Map<String, Object> body) {
+        Assert.notNull(record, "The given record must not be null!");
+        String id = getRecordId(record);
+        if (id.equals(""))
+            return false;
+
+        T found = template
+                .findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), getRecordClass(), collection);
+        if (found != null) {
+            template.save(record, collection);
+        }
+        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+                new Update().set("body", body), collection);
+        LOG.info("update a record in collection {} with id {}", new Object[] { collection, id });
+        return result.getN() == 1;
+    }
 
     @Override
     public T create(String type, Map<String, Object> body) {
@@ -121,11 +131,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
+    public T create(T record, String collectionName) {
+        template.save(record, collectionName);
+        LOG.info(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+        return record;
+    }
+
     @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals(""))
             return false;
-        T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), clazz,
+        T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), getRecordClass(),
                 collectionName);
         LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
@@ -172,14 +188,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template.find(query, clazz, collectionName);
+        List<T> results = template.find(query, getRecordClass(), collectionName);
         logResults(collectionName, results);
         return results;
     }
 
     @Override
     public T findOne(String collectionName, Query query) {
-        T object = this.template.findOne(query, clazz, collectionName);
+        T object = this.template.findOne(query, getRecordClass(), collectionName);
         logResults(collectionName, Arrays.asList(object));
         return object;
     }
@@ -198,7 +214,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (query == null) {
             query = new Query();
         }
-        query.fields().include(getRecordIdName());
+        query.fields().include("_id");
         List<String> ids = new ArrayList<String>();
         for (T nr : findByQuery(collection, query, skip, max)) {
             ids.add(getRecordId(nr));
@@ -376,16 +392,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return paths;
     }
 
-    /**
-     * Update the updated timestamp on the document metadata
-     *
-     * @param entity
-     */
-    protected void updateTimestamp(Entity entity) {
-        Date now = DateTimeUtil.getNowInUTC();
-        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
-    }
-
     private void logResults(String collectioName, List<T> results) {
         if (results == null) {
             LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
@@ -398,6 +404,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     protected abstract String getRecordId(T record);
 
-    protected abstract String getRecordIdName();
+    protected abstract Class<T> getRecordClass();
 
 }

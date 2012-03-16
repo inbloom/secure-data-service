@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.mongodb.DBObject;
 
@@ -27,6 +28,9 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     @SuppressWarnings("unchecked")
     public NeutralRecord convert(DBObject dbObj) {
 
+        UUID uuid = (UUID) dbObj.get("_id");
+        String id = uuid.toString();
+
         String type = null;
         Map<?, ?> map = dbObj.toMap();
         if (map.containsKey("type")) {
@@ -43,20 +47,13 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
             body = encryptor.decrypt(type, encryptedBody);
         }
 
-        String id = body.get("localId").toString();
-
-        if (body.get("localId") != null) {
-            id = body.get("localId").toString();
-        }
-        body.remove("localId");
-
         String batchJobId = null;
         if (dbObj.get("batchJobId") != null) {
             batchJobId = dbObj.get("batchJobId").toString();
         }
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId(id);
+        neutralRecord.setRecordId(id);
         neutralRecord.setRecordType(type);
         neutralRecord.setAttributes(body);
         neutralRecord.setBatchJobId(batchJobId);

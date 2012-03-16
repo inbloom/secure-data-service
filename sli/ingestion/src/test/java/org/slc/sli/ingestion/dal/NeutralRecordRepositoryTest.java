@@ -63,8 +63,8 @@ public class NeutralRecordRepositoryTest {
         NeutralRecord student = buildTestStudentNeutralRecord();
 
         // test save
-        NeutralRecord saved = repository.create(student);
-        String id = saved.getLocalId().toString();
+        NeutralRecord saved = repository.create(student, "student");
+        String id = saved.getRecordId();
         assertTrue(!id.equals(""));
 
         // test findAll
@@ -80,10 +80,9 @@ public class NeutralRecordRepositoryTest {
         assertEquals((found.getAttributes()).get("lastName"), "Doe");
 
         // test find by id
-        when(
-                mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
+        when(mockedMongoTemplate.findById(Mockito.any(Object.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student);
-        NeutralRecord foundOne = repository.findByLocalId("student", saved.getLocalId().toString());
+        NeutralRecord foundOne = repository.find("student", saved.getRecordId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
         assertEquals((found.getAttributes()).get("firstName"), "Jane");
@@ -120,7 +119,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(goodResult);
-        assertTrue(repository.update(found));
+        assertTrue(repository.update("student", found));
         records = repository.findAll("student", 0, 20);
         assertNotNull(records);
         NeutralRecord updated = records.iterator().next();
@@ -128,28 +127,27 @@ public class NeutralRecordRepositoryTest {
 
         // test delete by id
         NeutralRecord student2Body = buildTestStudentNeutralRecord();
-        NeutralRecord student2 = repository.create(student2Body);
+        NeutralRecord student2 = repository.create(student2Body, "student");
         records = repository.findAll("student", 0, 20);
         assertNotNull(records.iterator().next());
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student2);
-        repository.deleteByLocalId("student", student2.getLocalId().toString());
-        when(
-                mockedMongoTemplate.findOne(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
-                        Mockito.eq("student"))).thenReturn(null);
-        NeutralRecord zombieStudent = repository.findByLocalId("student", student2.getLocalId().toString());
+        repository.delete("student", student2.getRecordId());
+        when(mockedMongoTemplate.findById(Mockito.any(Object.class), Mockito.eq(NeutralRecord.class),
+                Mockito.eq("student"))).thenReturn(null);
+        NeutralRecord zombieStudent = repository.find("student", student2.getRecordId());
         assertNull(zombieStudent);
         WriteResult badResult = mock(WriteResult.class);
         when(badResult.getN()).thenReturn(0);
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(badResult);
-        assertFalse(repository.update(student2));
+        assertFalse(repository.update("student", student2));
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(null);
-        assertFalse(repository.deleteByLocalId("student", student2.getLocalId().toString()));
+        assertFalse(repository.delete("student", student2.getRecordId()));
 
         // test deleteAll by neutral record type
         repository.deleteAll("teacher");
@@ -183,10 +181,10 @@ public class NeutralRecordRepositoryTest {
         body4.setAttributeField("performanceLevels", new String[] { "4" });
 
         // save records
-        repository.create(body1);
-        repository.create(body2);
-        repository.create(body3);
-        repository.create(body4);
+        repository.create(body1, "student");
+        repository.create(body2, "student");
+        repository.create(body3, "student");
+        repository.create(body4, "student");
 
         // sort records by firstName with ascending order
         Query query = new Query();
@@ -298,7 +296,6 @@ public class NeutralRecordRepositoryTest {
         body.put("studentSchoolId", "DOE-JANE-222");
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId(body.get("studentUniqueStateId"));
         neutralRecord.setRecordType("student");
         neutralRecord.setAttributes(body);
         return neutralRecord;
@@ -309,11 +306,11 @@ public class NeutralRecordRepositoryTest {
         repository.deleteAll("student");
 
         // create new student neutral record
-        repository.create(buildTestStudentNeutralRecord());
-        repository.create(buildTestStudentNeutralRecord());
-        repository.create(buildTestStudentNeutralRecord());
-        repository.create(buildTestStudentNeutralRecord());
-        repository.create(buildTestStudentNeutralRecord());
+        repository.create(buildTestStudentNeutralRecord(), "student");
+        repository.create(buildTestStudentNeutralRecord(), "student");
+        repository.create(buildTestStudentNeutralRecord(), "student");
+        repository.create(buildTestStudentNeutralRecord(), "student");
+        repository.create(buildTestStudentNeutralRecord(), "student");
 
         List<NeutralRecord> expectedRecords = new LinkedList<NeutralRecord>();
         for (int rec = 1; rec <= 5; rec++) {

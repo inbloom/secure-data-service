@@ -4,13 +4,8 @@ import java.util.Date;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mongodb.WriteResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.domain.Entity;
@@ -32,29 +27,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     @Autowired
     private EntityValidator validator;
 
-    MongoEntityRepository() {
-        super.setClass(Entity.class);
-    }
-
     @Override
     public boolean update(String collection, Entity entity) {
-        Assert.notNull(entity, "The given entity must not be null!");
-        String id = entity.getEntityId();
-        if (id.equals(""))
-            return false;
         validator.validate(entity);
-
         updateTimestamp(entity);
 
-        Entity found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                Entity.class, collection);
-        if (found != null) {
-            template.save(entity, collection);
-        }
-        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                new Update().set("body", entity.getBody()), collection);
-        LOG.info("update a entity in collection {} with id {}", new Object[] { collection, id });
-        return result.getN() == 1;
+        return update(collection, entity, entity.getBody());
     }
 
     @Override
@@ -62,12 +40,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
-
         addTimestamps(entity);
 
-        template.save(entity, collectionName);
-        LOG.info(" create a entity in collection {} with id {}", new Object[] { collectionName, getRecordId(entity) });
-        return entity;
+        return create(entity, collectionName);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -80,14 +55,19 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
+    /** Update the updated timestamp on the document metadata. */
+    public void updateTimestamp(Entity entity) {
+        Date now = DateTimeUtil.getNowInUTC();
+        entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+    }
+
     @Override
     protected String getRecordId(Entity entity) {
         return entity.getEntityId();
     }
 
     @Override
-    protected String getRecordIdName() {
-        return "_id";
+    protected Class<Entity> getRecordClass() {
+        return Entity.class;
     }
-
 }

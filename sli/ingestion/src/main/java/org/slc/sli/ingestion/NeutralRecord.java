@@ -32,6 +32,11 @@ public class NeutralRecord {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
+     * stores an Id value uniquely identifying the record within the data store.
+     */
+    protected String recordId;
+
+    /**
      * stores an Id value correlating the record to a certain external source,
      * such as a particular LEA (or possibly a specific source system within
      * that LEA).
@@ -88,6 +93,15 @@ public class NeutralRecord {
         // initialize the two Maps as a convenience
         this.localParentIds = new HashMap<String, Object>();
         this.attributes = new HashMap<String, Object>();
+
+        this.recordId = null;
+    }
+
+    /**
+     * @return the recordId
+     */
+    public String getRecordId() {
+        return recordId;
     }
 
     /**
@@ -95,6 +109,14 @@ public class NeutralRecord {
      */
     public Object getLocalId() {
         return localId;
+    }
+
+    /**
+     * @param recordId
+     *            the recordId to set
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
     /**
