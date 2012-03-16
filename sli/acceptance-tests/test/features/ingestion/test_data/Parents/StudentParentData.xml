@@ -1,6 +1,6 @@
-<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd"> 
-   <Parent> 
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Parents.xsd">
+     <Parent>
       <ParentUniqueStateId>5344776141</ParentUniqueStateId>  
       <Name> 
          <FirstName>Jill</FirstName> 

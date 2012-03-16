@@ -1,5 +1,10 @@
 package org.slc.sli.ingestion.landingzone;
 
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +15,6 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
 
 /**
  * Represents control file information.
@@ -40,6 +39,7 @@ public class ControlFile implements Serializable {
         String line;
         FileFormat fileFormat;
         FileType fileType;
+        int lineNumber = 1;
 
         Properties configProperties = new Properties();
         ArrayList<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
@@ -72,8 +72,10 @@ public class ControlFile implements Serializable {
                 if (line.trim().length() > 0) {
                     // line was not parseable
                     // TODO fault or custom exception?
-                    throw new RuntimeException("invalid control file entry: " + line);
+                    throw new RuntimeException("invalid control file entry. line number:"
+                            + lineNumber + ", line: \"" + line + "\"");
                 }
+                lineNumber += 1;
             }
 
             return new ControlFile(file, fileEntries, configProperties);
