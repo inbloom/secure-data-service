@@ -16,7 +16,17 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
                 "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
                 "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
-                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"}  
+                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85",
+                "educator_SLI"=> "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
+                "leader_SLI"=> "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
+                "administrator_SLI"=> "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
+                "aggregator_SLI"=> "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
+                "baduser_SLI"=> "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
+                "nouser_SLI"=> "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
+                "teacher_SLI"=> "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
+                "prince_SLI"=> "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
+                "root_SLI"=> "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "bigbro_SLI"=> "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85"}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -50,6 +60,7 @@ def idpRealmLogin(user, passwd, realm="SLI")
     @sessionId = token
     @longLiveSession = true
   else
+    raise("Could not find user")
     realmType = 'sli_idp_server_url' # Default case
     realmType = 'sea_idp_server_url' if realm == "idp1"
     realmType = 'lea_idp_server_url' if realm == "idp2"
