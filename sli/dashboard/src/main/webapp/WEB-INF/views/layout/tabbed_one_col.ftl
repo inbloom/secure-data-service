@@ -56,7 +56,12 @@
           <div class="panel">
             <#include "../panel/" + panel.id + ".ftl">
           </div>
-         </#if>        
+         </#if>   
+         <#if panel.type == "GRID">
+          <div class="panel">
+            <@includeGrid gridId=panel.id/>
+          </div>
+         </#if>         
         </#list>
         </div>
        </#if>
