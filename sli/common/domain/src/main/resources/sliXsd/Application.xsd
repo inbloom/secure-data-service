@@ -76,7 +76,7 @@
                 <xs:element name="image_url" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="http://.*" />
+                            <xs:pattern value="https://.*" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -84,20 +84,8 @@
                 <xs:element name="version" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9\.])*" />
-                            <xs:maxLength value="10" />
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
-
-                <xs:element name="is_admin" minOccurs="1" type="xs:boolean" />
-
-                <xs:element name="method" minOccurs="1">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="Full Window App"/>
-                            <xs:enumeration value="WSRP"/>
-                            <xs:enumeration value="iframe"/>
+                            <xs:pattern value="([a-zA-Z0-9.])*" />
+                            <xs:minLength value="3" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
