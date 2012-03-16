@@ -11,6 +11,7 @@
   <params>
     <param name="stream.filter.type">SAX</param>
     <param name="terminate.on.visitor.exception">false</param>
+    <param name="gradeType">Final</param>
   </params>
 
   <core:filterSettings defaultSerialization="false" />
@@ -1865,7 +1866,7 @@
     <jb:value property="finalNumericGradeEarned" data="FinalNumericGradeEarned"
       decoder="Integer" />
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
-    <jb:value property="gradeType" data="GradeType" />
+    <jb:expression property="gradeType">'Final'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
