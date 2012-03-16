@@ -18,6 +18,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 /**
  * Handles the persisting of Entity objects
  *
@@ -130,7 +132,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
                     break;
                 }
             } else {
-                collection = externalIdEntry.getKey().toLowerCase();
+                collection = externalIdEntry.getKey();
+                collection = WordUtils.uncapitalize(collection);
                 fieldName = collection + "Id";
             }
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
@@ -214,7 +217,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<NeutralRecord
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
-                String referencedCollection = externalReference.getKey().toLowerCase();
+                String referencedCollection = externalReference.getKey();
+                referencedCollection = WordUtils.uncapitalize(referencedCollection);
                 String referencedId = referencedCollection + "Id";
 
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());

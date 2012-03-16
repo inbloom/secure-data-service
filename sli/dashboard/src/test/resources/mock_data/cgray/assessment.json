@@ -25,7 +25,7 @@
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"4"
                         }
         ]
 },
@@ -55,7 +55,7 @@
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"2"
                         }
         ]
 },
@@ -85,7 +85,7 @@
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
                         }
         ]
 },
@@ -115,7 +115,7 @@
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
                         }
         ]
 },
@@ -143,6 +143,106 @@
                             "result":"500L"
                         }
                        ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"SAT",
+        "administrationDate":"2011-07-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "gradeLevelWhenAssessed":"Twelfth grade",
+        "scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"2060"},
+        {"assessmentReportingMethod":"Percentile",
+        "result":"90"}
+        ],
+        "studentObjectiveAssessments":[
+        {"scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"680"},
+        {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Writing"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"680"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Math"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"680"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Reading"}
+         }
+         ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"At or Above Benchmark"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"SAT",
+        "administrationDate":"2011-06-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"2st Retest",
+        "gradeLevelWhenAssessed":"Twelfth grade",
+        "scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"2060"},
+        {"assessmentReportingMethod":"Percentile",
+        "result":"90"}
+        ],
+        "studentObjectiveAssessments":[
+        {"scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"700"},
+        {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Writing"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"700"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Math"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"700"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Reading"}
+         }
+         ],
         "performanceLevelDescriptors":[
                         {
                             "description":"At or Above Benchmark"

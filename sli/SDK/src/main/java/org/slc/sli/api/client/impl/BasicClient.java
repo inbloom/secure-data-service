@@ -1,9 +1,10 @@
 package org.slc.sli.api.client.impl;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -14,6 +15,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+
+import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
@@ -27,8 +30,7 @@ import org.slc.sli.api.client.impl.transform.GenericEntityFromJson;
 import org.slc.sli.api.client.impl.transform.GenericEntityToJson;
 
 /**
- * Class defining the methods available to SLI API client applications. The BasicClient
- * follows a builder pattern for creating a connection to the SLI API server. It provides
+ * Class defining the methods available to SLI API client applications. It provides
  * basic CRUD operations once the client connection is established.
  * 
  * @author asaarela
@@ -37,79 +39,30 @@ public final class BasicClient implements SLIClient {
     
     private RESTClient restClient;
     private Gson gson = null;
+    private static Logger logger = Logger.getLogger("BasicClient");
     
-    /**
-     * SLIClientBuilder Builder for an BasicClient instance.
-     */
-    public static class Builder {
-        private String host = "http://localhost:8080";
-        private String username;
-        private String password;
-        private String realm = "sli";
-        
-        /**
-         * Construct a new Builder.
-         */
-        public static Builder create() {
-            return new Builder();
-        }
-        
-        /**
-         * Initialize the builder connection host. This should include protocol and optional
-         * port. For example: https://localhost:443
-         * 
-         * @param host
-         *            for the API server.
-         * @return an SLIClientBuilder
-         */
-        public Builder host(final String host) {
-            this.host = host;
-            return this;
-        }
-        
-        /**
-         * Initialize the builder user name.
-         * 
-         * @param username
-         * @return SLIClientBuilder
-         */
-        public Builder user(final String username) {
-            this.username = username;
-            return this;
-        }
-        
-        /**
-         * Initialize the builder user password.
-         * 
-         * @param password
-         *            user password.
-         * @return SLIClientBuilder
-         */
-        public Builder password(final String password) {
-            this.password = password;
-            return this;
-        }
-        
-        /**
-         * Initialize the user's IDP realm.
-         * 
-         * @param ream
-         *            Users IDP realm.
-         * @return SLIClientBuilder
-         */
-        public Builder realm(final String realm) {
-            this.realm = realm;
-            return this;
-        }
-        
-        /**
-         * Create an BasicClient instance.
-         * @return BasicClient
-         */
-        public SLIClient build() throws IOException {
-            return new BasicClient(host, username, password, realm);
-        }
+    @Override
+    public URL getLoginURL() throws MalformedURLException {
+        return restClient.getLoginURL();
     }
+    
+    @Override
+    public String connect(String requestToken) throws OAuthException {
+        try {
+            return restClient.connect(requestToken);
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+        } catch (URISyntaxException e) {
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+        }
+        return null;
+    }
+    
+    @Override
+    public void logout() {
+        // TODO - implement this when logout becomes available.
+    }
+    
     
     /**
      * CRUD operations
@@ -157,14 +110,6 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public String connect(final String host, final String user, final String password,
-            final String realm) throws IOException {
-        restClient = new RESTClient();
-        // return restClient.openSession(host, user, password, realm, realm, realm, realm);
-        return null;
-    }
-    
-    @Override
     public Response getResource(EntityCollection entities, URL resourceURL, Query query)
             throws MalformedURLException, URISyntaxException {
         entities.clear();
@@ -201,21 +146,10 @@ public final class BasicClient implements SLIClient {
         return response;
     }
     
-    /*
-     * Don't allow direct instantiation of BasicClient instances; use the builder instead.
-     */
-    private BasicClient() {
+    public BasicClient() {
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
                 .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter())
                 .create();
     }
-    
-    private BasicClient(final String host, final String user, final String password,
-            final String realm)
-                    throws IOException {
-        this();
-        connect(host, user, password, realm);
-    }
-    
 }

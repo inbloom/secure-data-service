@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.csv;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,15 +19,17 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * POC code for Csv ingestion strategy
- * 
+ *
  * @author jtully, dshaw
- * 
+ *
  */
 public class CsvCombine {
-    
+
     private Mongo mongo;
     private DB db;
-    
+
+    private static final PrintStream PRINT_STREAM = System.out;
+
     public CsvCombine() {
         try {
             mongo = new Mongo();
@@ -35,74 +38,74 @@ public class CsvCombine {
             e.printStackTrace();
         }
     }
-    
+
     // TODO Can be optimized
     public List<NeutralRecord> getNeutralRecordsFromCollection(String entityName) {
-        System.out.println("importing from collection " + entityName);
-        
+        PRINT_STREAM.println("importing from collection " + entityName);
+
         ArrayList<NeutralRecord> records = new ArrayList<NeutralRecord>();
-        
+
         // Get a list of all the collections in the staging DB
-        Set allCollections = db.getCollectionNames();
+        Set<String> allCollections = db.getCollectionNames();
         ArrayList<DBCollection> dbSupportingCollections = new ArrayList<DBCollection>();
-        Iterator it = allCollections.iterator();
+        Iterator<String> it = allCollections.iterator();
         while (it.hasNext()) {
             dbSupportingCollections.add(db.getCollection(it.next().toString()));
         }
-        
+
         // Get the data in the primary (entityName) collection.
         DBCollection dbCollection = db.getCollection(entityName);
         DBCursor cursor = dbCollection.find();
-        
+
         // Create the neutral record on a entry-by-entry basis
         while (cursor.hasNext()) {
             records.add(createNeutralRecord(cursor.next(), entityName, dbSupportingCollections));
         }
-        
+
         return records;
     }
-    
+
     /**
      * Create a neutral record from a dbElement of a base collection.
      * Initiates recursive parsing of sub tables filling the neutralRecord map.
      */
     private NeutralRecord createNeutralRecord(DBObject dbElement, String entityName,
             ArrayList<DBCollection> supportingCollections) {
-        
+
         NeutralRecord record = new NeutralRecord();
         record.setRecordType(entityName);
-        
+
         int joinKey = Integer.parseInt(dbElement.get("JoinKey").toString());
         try {
             Map<String, Object> attributes = parseDbElement(dbElement, joinKey, entityName, supportingCollections);
             record.setAttributes(attributes);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("invalid collection format for entity type " + entityName);
+            PRINT_STREAM.println("invalid collection format for entity type " + entityName);
         }
-        
+
         return record;
     }
-    
+
     /**
      * Parse an element (table row) representing a complex type and return the associated NR map.
      */
     private Map<String, Object> parseDbElement(DBObject dbElement, int joinKey, String entityName,
             ArrayList<DBCollection> supportingCollections) {
         Map<String, Object> result = new HashMap<String, Object>();
-        
+
         Set<String> keySet = dbElement.keySet();
-        
+
         // add all entries from this table rowprefix
         for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
             String curKey = it.next();
             if (curKey.equals("_id") || curKey.equals("JoinKey") || curKey.equals("ParentJoinKey")) {
                 continue;
             }
-            
+
             String curVal = (String) "" + dbElement.get(curKey);
             addMapEntry(curKey, curVal, result);
-            
+
             /**
              * Now pick up the supporting list of list files.
              * The outer 'if' statement ensures this is only called if
@@ -119,7 +122,7 @@ public class CsvCombine {
         }
         return result;
     }
-    
+
     /**
      * Get a list from elements in collection "collectionName" with matching ParentJoinKeys.
      * Note that it is possible to have a list of simple types (strings) as opposed to a list
@@ -128,13 +131,13 @@ public class CsvCombine {
     private List<Object> getListFromCollection(String entityName, String collectionName, int parentJoinKey,
             ArrayList<DBCollection> supportingCollections) {
         List<Object> result = new ArrayList<Object>();
-        
+
         DBCollection dbCollection = db.getCollection(collectionName);
-        
+
         BasicDBObject query = new BasicDBObject();
         query.put("ParentJoinKey", parentJoinKey);
         DBCursor cursor = dbCollection.find(query);
-        
+
         while (cursor.hasNext()) {
             DBObject dbElement = cursor.next();
             Object simpleTypeVal = dbElement.get("SimpleType");
@@ -145,10 +148,10 @@ public class CsvCombine {
                 result.add(parseDbElement(dbElement, newJoinKey, collectionName, supportingCollections));
             }
         }
-        
+
         return result;
     }
-    
+
     /**
      * Resolve and build the required map structure from the column names and adds the entry
      */
@@ -157,9 +160,9 @@ public class CsvCombine {
         Map<String, Object> targetNode = baseNode;
         String[] mapNames = key.split("\\.");
         int numMaps = mapNames.length;
-        
+
         for (int i = 0; i < numMaps; ++i) {
-            
+
             if (i == numMaps - 1) {
                 targetNode.put(mapNames[i], val);
             } else if (!targetNode.containsKey(mapNames[i])) {
@@ -171,11 +174,11 @@ public class CsvCombine {
             }
         }
     }
-    
+
     /**
      * Main method to test run the combiner. Note requires local mongodb instance to be running with
      * Student csv table collections loaded.
-     * 
+     *
      */
     public static void main(String[] args) {
         /**
@@ -242,11 +245,11 @@ public class CsvCombine {
          * entities[51] = "StudentObjectiveAssessment";
          * entities[52] = "Teacher";
          */
-        
+
         int numAssociations = 16;
         numAssociations = 1;
         String[] associations = new String[numAssociations];
-        
+
         /**
          * associations[0] = "FeederSchoolAssociation";
          * associations[1] = "StaffCohortAssociation";
@@ -266,9 +269,9 @@ public class CsvCombine {
          * associations[15] = "TeacherSectionAssociation";
          */
         associations[0] = "EducationalOrgReferenceType";
-        
+
         CsvCombine combiner = new CsvCombine();
-        
+
         /**
          * Currently, we are just looking at one entity type. One possibility for the
          * full solution is to simply loop over these top level files at this level.
@@ -278,29 +281,29 @@ public class CsvCombine {
         List<NeutralRecord> records = null;
         for (int iEntity = 0; iEntity < numEntities; iEntity++) {
             records = combiner.getNeutralRecordsFromCollection(entities[iEntity]);
-            
+
             /**
              * Currently, we are just writing out the neutral record for debugging purposes.
              * TA2167 is the requirement to integrate this with our existing ingestion framework
              * and probably marries up here.
              */
             for (Iterator<NeutralRecord> it = records.iterator(); it.hasNext();) {
-                System.out.println(it.next());
+                PRINT_STREAM.println(it.next());
             }
         }
-        
+
         for (int iAssociation = 0; iAssociation < numAssociations; iAssociation++) {
             records = combiner.getNeutralRecordsFromCollection(associations[iAssociation]);
-            
+
             /**
              * Currently, we are just writing out the neutral record for debugging purposes.
              * TA2167 is the requirement to integrate this with our existing ingestion framework
              * and probably marries up here.
              */
             for (Iterator<NeutralRecord> it = records.iterator(); it.hasNext();) {
-                System.out.println(it.next());
+                PRINT_STREAM.println(it.next());
             }
         }
-        
+
     }
 }
