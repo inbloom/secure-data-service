@@ -86,8 +86,8 @@ public class XmlSignatureHelper {
     private org.w3c.dom.Element signSamlAssertion(org.jdom.Document document, Key privateKey, PublicKey publicKey) {
         try {
             XMLSignatureFactory signatureFactory = XMLSignatureFactory.getInstance("DOM");
-            List<Transform> envelopedTransform = Collections.singletonList(signatureFactory.newTransform(Transform.ENVELOPED,
-                    (TransformParameterSpec) null));
+            List<Transform> envelopedTransform = Collections.singletonList(signatureFactory.newTransform(
+                    Transform.ENVELOPED, (TransformParameterSpec) null));
             Reference ref = signatureFactory.newReference("",
                     signatureFactory.newDigestMethod(DigestMethod.SHA1, null), envelopedTransform, null, null);
             

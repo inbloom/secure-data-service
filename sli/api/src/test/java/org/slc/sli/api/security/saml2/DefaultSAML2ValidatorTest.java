@@ -19,7 +19,6 @@ import org.w3c.dom.Document;
 
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
-
 /**
  * Unit tests for basic saml validation.
  */
@@ -28,26 +27,26 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class DefaultSAML2ValidatorTest {
-
+    
     private DefaultSAML2Validator validator;
     private DocumentBuilder builder;
-
+    
     @Before
     public void setUp() throws Exception {
         validator = new DefaultSAML2Validator();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
+        
         dbf.setNamespaceAware(true);
-
+        
         builder = dbf.newDocumentBuilder();
-
+        
     }
-
+    
     @After
     public void tearDown() throws Exception {
         validator = null;
     }
-
+    
     private Document getDocument(final String fileName) {
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
         try {
@@ -56,7 +55,7 @@ public class DefaultSAML2ValidatorTest {
             return null;
         }
     }
-
+    
     @Test
     public void testIsSignatureValidWithValid() throws Exception {
         Document doc = getDocument("complete-valid2.xml");
@@ -68,13 +67,13 @@ public class DefaultSAML2ValidatorTest {
         Document doc = getDocument("complete-invalid.xml");
         Assert.isTrue(!validator.isSignatureValid(doc));
     }
-
+    
     @Test
     public void testValidatingAValidDocument() throws Exception {
         Document doc = getDocument("complete-valid2.xml");
         Assert.isTrue(validator.isDocumentValid(doc));
     }
-
+    
     @Test
     public void testValidatingAnInvalidDocument() throws Exception {
         Document doc = getDocument("complete-invalid.xml");
@@ -86,13 +85,13 @@ public class DefaultSAML2ValidatorTest {
         Document doc = getDocument("complete-valid.xml");
         Assert.isTrue(validator.isDigestValid(doc));
     }
-
+    
     @Test
     public void testIsDigestValidWithValid2() throws Exception {
         Document doc = getDocument("complete-valid2.xml");
         Assert.isTrue(validator.isDigestValid(doc));
     }
-
+    
     @Test
     public void testIsDigestInvalidWithInvalid() throws Exception {
         Document doc = getDocument("complete-invalid.xml");
@@ -101,8 +100,8 @@ public class DefaultSAML2ValidatorTest {
     
     // @Test
     // public void testIsTrustedAssertionTrusted() throws Exception {
-    //     Document doc = getDocument("adfs-valid.xml");
-    //     Assert.isTrue(validator.isDocumentTrusted(doc));
+    // Document doc = getDocument("adfs-valid.xml");
+    // Assert.isTrue(validator.isDocumentTrusted(doc));
     // }
     
     @Test
