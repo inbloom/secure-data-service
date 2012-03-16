@@ -1,4 +1,13 @@
 <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="${sli.security.sp.issuerName}">
+   <KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+         <ds:X509Data>
+            <ds:X509Certificate>
+            ${sli.security.x509.signing.certificate}
+            </ds:X509Certificate>
+         </ds:X509Data>
+      </ds:KeyInfo>
+   </KeyDescriptor>
    <SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
       <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="${sli.security.sp.issuerName}/api/rest/saml/slo/redirect"
          ResponseLocation="${sli.security.sp.issuerName}/api/rest/saml/slo/redirect" />
