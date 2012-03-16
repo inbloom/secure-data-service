@@ -34,6 +34,16 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
+    /**
+     * The chaining of transformation steps.  This implementation assumes that all data will be processed in "one-go"
+     * 
+     */
+    public void performTransformation() {
+        loadData();
+        transform();
+        persist();
+    }
+    
     @Override
     public void loadData() {
         LOG.info("Loading data for transformation.");

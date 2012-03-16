@@ -18,14 +18,10 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     @Override
     public void perform(String batchJobId) {
-
         this.batchJobId = batchJobId;
-
-        loadData();
-
-        transform();
-
-        persist();
+        this.performTransformation();
     }
+    
+    abstract void performTransformation();
 
 }
