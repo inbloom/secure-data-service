@@ -89,12 +89,15 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public GenericEntity getSession(String token, String sessionId) {
-        return null;
+        GenericEntity session = new GenericEntity();
+        session.put("beginDate", "2010-01-01");
+        session.put("endDate", "2011-12-31");
+        return session;
     }
 
     @Override
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
-        return null;
+        return new ArrayList<GenericEntity>();
     }
 
     @Override
