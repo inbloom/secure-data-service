@@ -118,6 +118,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                <value>${smooks.targetselector.xml.student.gradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
               </list>

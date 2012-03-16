@@ -1,11 +1,12 @@
 package org.slc.sli.api.client;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.ws.rs.core.Response;
+
+import org.scribe.exceptions.OAuthException;
 
 /**
  * Interface defining the methods available to SLI API client applications. It provides
@@ -15,24 +16,43 @@ import javax.ws.rs.core.Response;
  */
 public interface SLIClient {
     
+    
     /**
-     * Connect to the SLI ReSTful API web service and authenticate with the IDP.
+     * Retrieve the login URL a consuming application needs to hit to locate the IDP
+     * landing zone. The client application is responsible for redirecting the user
+     * to this URL. The response from this URL will contain the authorization code
+     * required to connect to the API.
      * 
-     * @param host
-     *            Host running the SLI API. This should include the protocol and optional port.
-     *            Example: https://localhost:493
-     * @param username
-     *            Name of an authorized SLI user.
-     * @param password
-     *            Password for this user.
-     * @param realm
-     *            IDP realm the user is associated with.
-     * @return
-     *         String containing the sessionId for the authenticated user, or null if
-     *         authentication fails.
+     * Each client application has a client id and a secret that uniquely identifies the
+     * application. These must be passed here to form the correct login URL. The SLI security
+     * layer will verify the clientid and secret match.
+     * 
+     * The callbackURL is the URL the authentication system redirects to after a successful
+     * login. THis must be exactly the same as the callback defined in the SLI database
+     * for the application.
+     * 
+     * @return A URL that directs the user to authenticate with the appropriate IDP.
      */
-    public abstract String connect(final String host, final String user, final String password,
-            final String realm) throws IOException;
+    public abstract URL getLoginURL();
+    
+    /**
+     * Connect to the SLI ReSTful API web service and v with the IDP. The IDP will redirect
+     * successful login attempts to the callbackURL and include an authorization code in the
+     * response. This auth code is then passed to this call and verified. If the code is
+     * invalid, an exception is thrown.
+     * 
+     * @param requestToken
+     *            Oauth2 authorization code returned by the login URL.
+     * 
+     *            String authorization token for the authenticated user, or null if
+     *            authentication fails.
+     */
+    public abstract String connect(final String authorizationCode) throws OAuthException;
+    
+    /**
+     * Logout and invalidate the session.
+     */
+    public abstract void logout();
     
     /**
      * Create operation
@@ -105,7 +125,7 @@ public interface SLIClient {
      *            Query to append to the resource.
      * @return ClientResponse from the ReST call.
      */
-    public abstract Response getResource(EntityCollection entities, URL resourceURL, Query query)
+    public abstract Response getResource(EntityCollection entities, final URL resourceURL, final Query query)
             throws MalformedURLException, URISyntaxException;
     
 }

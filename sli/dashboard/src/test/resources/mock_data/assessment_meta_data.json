@@ -250,5 +250,35 @@
                 "maximumScore": 5
             }
         ]
+    },
+    {
+        "id": "SAT",
+        "assessmentTitle": "SAT",
+        "assessmentFamilyHierarchyName":"SAT",
+        "assessmentCategory":"College Addmission Test",
+        "gradeLevelAssessed":"Twelfth grade", 
+        "lowestGradeLevelAssessed":"Eleventh grade",
+        "maxRawScore": 5,
+        "minRawScore": 1,
+        "assessmentPerformanceLevel": [ ],
+        "assessmentPeriodDescriptor":{
+        "codeValue":"assessment",
+        "description":"assessment",
+        "beginDate":"2011-01-01",
+        "endDate":"2011-02-01"
+        },
+        "maxRawScore": 2400,
+        "minRawScore": 600,
+        "objectiveAssessment":[
+        {"identificationCode":"SAT-Writing",
+        "maxRawScore":800,
+        "percentOfAssessment":33},
+        {"identificationCode":"SAT-Math",
+          "maxRawScore":800,
+          "percentOfAssessment":33},
+        {"identificationCode":"SAT-Critical Reading",
+        "maxRawScore":800,
+        "percentOfAssessment":33}
+        ]
     }
 ]

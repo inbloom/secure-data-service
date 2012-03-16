@@ -114,7 +114,7 @@ public class AssessmentResolver {
                             match = false;
                         }
                     }
-                    if (match == true) {
+                    if (match) {
                         scoreResults = (List<Map>) (studentObjAssmt.get(Constants.ATTR_SCORE_RESULTS));
                     }
                 }
@@ -136,14 +136,18 @@ public class AssessmentResolver {
                 && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
             return findPerfLevelFromDescriptor(perfLevelDescriptors);
 
-            // if performance level not specified in performance level descriptor, then calculate it
-            // based on the scale score
+            // if performance level not specified in performance level descriptor, then return blank
         } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
-            String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
-            String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
-            if (assmtId != null && !assmtId.equals("") && scaleScore != null && !scaleScore.equals("")) {
-                return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);
-            }
+            /*
+             * calculate the performance level if not provided in performance level descriptor
+             * 
+             * String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
+             * String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
+             * if (assmtId != null && !assmtId.equals("") && scaleScore != null &&
+             * !scaleScore.equals("")) {
+             * return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);}
+             */
+            return "";
         }
         return "";
     }

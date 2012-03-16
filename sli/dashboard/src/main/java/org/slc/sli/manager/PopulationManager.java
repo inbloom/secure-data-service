@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -188,9 +187,9 @@ public class PopulationManager implements Manager {
         return entityManager.getStudent(token, studentId);
     }
     
-
     /**
-     * Get student with additional info 
+     * Get student with additional info
+     * 
      * @param token
      * @param studentId
      * @param config
@@ -205,20 +204,27 @@ public class PopulationManager implements Manager {
     public List<String> getSessionDates(String token, String sessionId) {
         // Get the session first.
         GenericEntity currentSession = entityManager.getSession(token, sessionId);
-        String beginDate = currentSession.getString("beginDate");
-        String endDate = currentSession.getString("endDate");
-        List<GenericEntity> potentialSessions = entityManager.getSessionsByYear(token, currentSession.getString("schoolYear"));
-        for (GenericEntity session : potentialSessions) {
-            if (session.getString("beginDate").compareTo(beginDate) < 0) {
-                beginDate = session.getString("beginDate");
-            }
-            if (session.getString("endDate").compareTo(endDate) > 0) {
-                endDate = session.getString("endDate");
-            }
-        }
         List<String> dates = new ArrayList<String>();
-        dates.add(beginDate);
-        dates.add(endDate);
+        if (currentSession != null) {
+            String beginDate = currentSession.getString("beginDate");
+            String endDate = currentSession.getString("endDate");
+            List<GenericEntity> potentialSessions = entityManager.getSessionsByYear(token,
+                    currentSession.getString("schoolYear"));
+            for (GenericEntity session : potentialSessions) {
+                if (session.getString("beginDate").compareTo(beginDate) < 0) {
+                    beginDate = session.getString("beginDate");
+                }
+                if (session.getString("endDate").compareTo(endDate) > 0) {
+                    endDate = session.getString("endDate");
+                }
+            }
+            
+            dates.add(beginDate);
+            dates.add(endDate);
+        } else {
+            dates.add("");
+            dates.add("");
+        }
         return dates;
     }
 }

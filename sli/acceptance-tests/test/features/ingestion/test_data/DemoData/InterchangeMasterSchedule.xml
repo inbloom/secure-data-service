@@ -143,6 +143,62 @@
     </SessionReference>
   </Section>
   <Section>
+    <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade Composition</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade Composition</ID>
+        </CourseCode>
+        <Term>Second Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
     <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
     <SequenceOfCourse>4</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
