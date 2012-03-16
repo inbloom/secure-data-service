@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -36,25 +37,28 @@ public class EdFiProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-        try {
-            BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
-            for (IngestionFileEntry fe : job.getFiles()) {
+        BatchJob batchJob = BatchJobUtils.getBatchJobUsingStateManager(exchange);
+
+        try {
+            for (IngestionFileEntry fe : batchJob.getFiles()) {
                 processFileEntry(fe);
-                job.getFaultsReport().append(fe.getFaultsReport());
+                batchJob.getFaultsReport().append(fe.getFaultsReport());
             }
 
             // set headers
-            if (job.getErrorReport().hasErrors()) {
-                exchange.getIn().setHeader("hasErrors", job.getErrorReport().hasErrors());
+            if (batchJob.getErrorReport().hasErrors()) {
+                exchange.getIn().setHeader("hasErrors", batchJob.getErrorReport().hasErrors());
             }
             exchange.getIn().setHeader("IngestionMessageType", MessageType.MERGE_REQUEST.name());
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Exception:",  exception);
+            LOG.error("Exception:", exception);
         }
+
+        BatchJobUtils.saveBatchJobUsingStateManager(batchJob);
     }
 
     public void processFileEntry(IngestionFileEntry fe) {
