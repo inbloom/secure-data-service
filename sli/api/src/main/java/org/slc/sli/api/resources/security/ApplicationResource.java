@@ -81,9 +81,9 @@ public class ApplicationResource {
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
-        service.create(newApp);
+        String uuid = service.create(newApp);
 
-        String uri = uriToString(uriInfo) + "/" + clientId;
+        String uri = uriToString(uriInfo) + "/" + uuid;
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
 
