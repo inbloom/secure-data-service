@@ -1,12 +1,7 @@
 package org.slc.sli.entity;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Main config object for dashboard components
@@ -22,6 +17,7 @@ public class Config {
     public enum Type {
         LAYOUT(true),
         PANEL(true),
+        GRID(true),
         TAB(false),
         WIDGET(true),
         FIELD(false);
@@ -141,12 +137,17 @@ public class Config {
     protected Condition condition;
     protected Data data;
     protected Item[] items;
+    protected String root;
     
     public String getId() {
         return id;
     }
 
     public String getName() {
+        return name;
+    }
+    
+    public String getRoot() {
         return name;
     }
 
@@ -164,12 +165,5 @@ public class Config {
 
     public Item[] getItems() {
         return items;
-    }
-
-    public static void main(String[] params) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Config config = gson.fromJson(new BufferedReader(new InputStreamReader(
-                Config.class.getClassLoader().getResourceAsStream("config/studentProfile.json"))), Config.class);
-        System.out.print(gson.toJson(config));
     }
 }

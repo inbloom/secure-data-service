@@ -1,0 +1,1337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+
+  <GradebookEntry id="GBE-8th Grade English-1">
+      <GradebookEntryType>Unit test</GradebookEntryType>
+      <DateAssigned>2011-09-29</DateAssigned>
+      <SectionReference>
+        <SectionIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+      </SectionReference>
+    </GradebookEntry>
+    <GradebookEntry id="GBE-8th Grade English-2">
+      <GradebookEntryType>Unit test</GradebookEntryType>
+      <DateAssigned>2011-10-13</DateAssigned>
+      <SectionReference>
+        <SectionIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+      </SectionReference>
+    </GradebookEntry>
+    <GradebookEntry id="GBE-8th Grade English-3">
+      <GradebookEntryType>Unit test</GradebookEntryType>
+      <DateAssigned>2011-10-27</DateAssigned>
+      <SectionReference>
+        <SectionIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+        </SectionIdentity>
+      </SectionReference>
+    </GradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>76</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>73</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>85</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>87</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>82</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>66</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>68</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>63</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>96</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>98</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>93</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>43</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>44</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>45</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>54</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>58</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>71</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>81</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>71</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>510152105</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>74</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>510152105</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>80</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>510152105</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>802709591</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>802709591</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>802709591</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>91</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>98</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>93</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>80</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>87</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>90</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>66</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>58</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>63</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>68</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>69</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>26</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>28</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>33</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>56</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>58</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>63</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>36</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>48</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>53</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>56</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>58</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>43</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>66</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>73</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>96</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>98</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>99</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>72</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>78</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>73</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>67</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>250918988</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>69</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>250918988</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>73</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>250918988</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-09-29</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>86</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>88</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned></LetterGradeEarned>
+      <NumericGradeEarned>83</NumericGradeEarned>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+
+</InterchangeStudentGrade>
