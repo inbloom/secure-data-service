@@ -50,9 +50,11 @@ public class GradebookViewModifierTest {
 
         GenericEntity ge1 = new GenericEntity();
         ge1.put(GradebookViewModifer.DATE_FULFILLED, "10-11-2011");
+        ge1.put(GradebookViewModifer.GRADEBOOK_ENTRY_TYPE, "Unit Test");
 
         GenericEntity ge2 = new GenericEntity();
         ge2.put(GradebookViewModifer.DATE_FULFILLED, "10-15-2011");
+        ge2.put(GradebookViewModifer.GRADEBOOK_ENTRY_TYPE, "Writing Assessment");
 
         gradebookIds.add(ge1);
         gradebookIds.add(ge2);
@@ -85,7 +87,7 @@ public class GradebookViewModifierTest {
         Field firstUnitTest = grades.getField().get(0);
         Field secondUnitTest = grades.getField().get(1);
 
-        assertEquals("10-11-2011", firstUnitTest.getDisplayName());
-        assertEquals("10-15-2011", secondUnitTest.getDisplayName());
+        assertEquals("Unit Test", firstUnitTest.getDisplayName());
+        assertEquals("Writing Assessment", secondUnitTest.getDisplayName());
     }
 }

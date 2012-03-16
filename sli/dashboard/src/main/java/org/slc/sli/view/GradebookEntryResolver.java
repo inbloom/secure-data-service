@@ -28,19 +28,25 @@ public class GradebookEntryResolver {
         this.gradebookData = gradebookData;
     }
 
+    /**
+     * Gets the average for a given student.
+     * @param student The student to look for
+     * @return string representation of the student's average
+     */
     public String getAverage(Map student) {
         return getAverage(student.get("id").toString());
     }
 
-    public String getGrade(String date, Map student) {
-        return getGrade(student.get("id").toString(), date);
+    /**
+     * Gets a grade for a given student in a given gradebookEntry
+     * @param student The student to look for
+     * @param gradebookEntryId The gradebookEntryId at which the test was taken
+     * @return grade (string)
+     */
+    public String getGrade(String gradebookEntryId, Map student) {
+        return getGrade(student.get("id").toString(), gradebookEntryId);
     }
 
-    /**
-     * Gets the average for a given student.
-     * @param studentId The student to look for
-     * @return string representation of the student's average
-     */
     private String getAverage(String studentId) {
         try {
             Map<String, GenericEntity> studentRecord = gradebookData.get(studentId);
@@ -54,30 +60,30 @@ public class GradebookEntryResolver {
     /**
      * Gets a grade for a given student in a given gradebookEntry
      * @param studentId The id of the student
-     * @param date The date at which the test was taken
+     * @param gradebookEntryId The gradebookEntryId at which the test was taken
      * @return grade (string)
      */
-    private String getGrade(String studentId, String date) {
-        return getValue(studentId, date, GRADE_KEY);
+    private String getGrade(String studentId, String gradebookEntryId) {
+        return getValue(studentId, gradebookEntryId, GRADE_KEY);
     }
 
     /**
      * Helper method for retrieving a given value for a student and gradebookEntry
      * @param studentId The id of the student
-     * @param date The date which the test was taken
+     * @param gradebookEntryId The id of the gradebook entry
      * @param key The key we are searching for in the data
      * @return the value as a string
      */
-    private String getValue(String studentId, String date, String key) {
+    private String getValue(String studentId, String gradebookEntryId, String key) {
         Map<String, GenericEntity> studentRecord = gradebookData.get(studentId);
         String value;
         try {
-            GenericEntity gradebookInfo = studentRecord.get(date);
+            GenericEntity gradebookInfo = studentRecord.get(gradebookEntryId);
             value = gradebookInfo.get(key).toString();
         } catch (NullPointerException npe) {
             log.debug("gradebookData did not contain information being searched for: ");
             log.debug("\t studentId = {}, gradebookEntryId = {}, key = {}",
-                    new Object[]{studentId, date, key});
+                    new Object[]{studentId, gradebookEntryId, key});
             value = "-";
         }
         return value;

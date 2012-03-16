@@ -22,6 +22,7 @@ public class GradebookViewModifer implements ViewModifier {
     protected static final String DATE_FULFILLED = "dateFulfilled";
     protected static final String CURRENT_TERM = "currentTermGrade";
     protected static final String UNIT_TEST_GRADE = "unitTestGrade";
+    protected static final String GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
 
     /**
      * Constructor
@@ -66,7 +67,7 @@ public class GradebookViewModifer implements ViewModifier {
         unitTests.setDisplayName(GRADES);
 
         for (GenericEntity entry : gradebookIds) {
-            Field unitField = createUnitTest(entry.getString(DATE_FULFILLED));
+            Field unitField = createUnitTest(entry.getString(GRADEBOOK_ENTRY_TYPE));
             unitTests.getField().add(unitField);
         }
 
