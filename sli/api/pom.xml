@@ -14,8 +14,8 @@
     <dependencies>
 
          <dependency>
-            <groupId>org.slc.sli.common</groupId>
-            <artifactId>domain</artifactId>
+             <groupId>org.slc.sli.common</groupId>
+             <artifactId>domain</artifactId>
          </dependency>
 
         <dependency>
