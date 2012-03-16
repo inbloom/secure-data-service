@@ -42,18 +42,18 @@ public final class BasicClient implements SLIClient {
     private static Logger logger = Logger.getLogger("BasicClient");
     
     @Override
-    public URL getLoginURL() throws MalformedURLException {
+    public URL getLoginURL() {
         return restClient.getLoginURL();
     }
     
     @Override
-    public String connect(String requestToken) throws OAuthException {
+    public String connect(final String authorizationCode) throws OAuthException {
         try {
-            return restClient.connect(requestToken);
+            return restClient.connect(authorizationCode);
         } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         } catch (URISyntaxException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         }
         return null;
     }

@@ -43,8 +43,6 @@ public class ViewManager extends ApiClientManager {
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
             
-            applicableViewConfigs.add(viewConfig);
-            
             if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 
