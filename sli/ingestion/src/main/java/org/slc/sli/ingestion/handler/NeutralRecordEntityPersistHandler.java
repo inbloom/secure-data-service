@@ -34,7 +34,6 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     private static final String METADATA_BLOCK = "metaData";
 
     // Hard-code region ID here for now, until it is set for real!
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
 
     private Repository<Entity> entityRepository;
 
@@ -42,9 +41,6 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
 
     @Override
     Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport) {
-
-        // Okay, so for now, we're hard-coding the region into the meta data!
-        entity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
 
         matchEntity(entity, errorReport);
 

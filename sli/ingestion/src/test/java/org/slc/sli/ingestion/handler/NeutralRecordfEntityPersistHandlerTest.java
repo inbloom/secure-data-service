@@ -132,7 +132,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
 
         // Create a new student entity, and test creating it in the data store.
         NeutralRecordEntity studentEntity = createStudentEntity();
-
+        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
@@ -165,6 +165,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update("student", studentEntity);
@@ -193,6 +194,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenThrow(
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
+        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
@@ -231,6 +233,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
@@ -279,6 +282,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
 
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
@@ -319,6 +323,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository, never()).update("studentSchoolAssociation", studentSchoolAssociationEntity);
@@ -335,6 +340,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         studentSchoolAssociationEntity.setAttributeField("studentId", BAD_STUDENT_ID);
 
         FaultsReport fr = new FaultsReport();
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(mockedEntityRepository, never()).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
@@ -525,6 +531,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
 
         NeutralRecordEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID);
+        teacherSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
         verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
