@@ -1,15 +1,4 @@
-<%= form_for(@app, :remote => true) do |f| %>
-<% if @app.errors.any? %>
-<div id    = "error_explanation">
-	<h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
-
-	<ul>
-		<% @role.errors.full_messages.each do |msg| %>
-		<li><%= msg %></li>
-		<% end %>
-	</ul>
-</div>
-<% end %>
+<%= form_for(app, :remote => true) do |f| %>
 <div class = "field">
 	<%= f.label :name, "Name" %>
 	<%= f.text_field :name %>
@@ -23,8 +12,10 @@
 	<%= f.text_field :version %>
 </div>
 <div class = "field">
-	<%= f.label :vendor, "Vendor" %>
-	<%= f.text_field :vendor %>
+	<% f.fields_for :developer_info do |dev| %>
+		<%= dev.label :organization, "Vendor" %>
+		<%= dev.text_field :organization %>
+	<% end %>
 </div>
 <div class = "field">
 	<%= f.label :application_url, "Url" %>
@@ -35,10 +26,11 @@
 	<%= f.text_field :administration_url %>
 </div>
 <div class = "field">
-	<%= f.label :redirect_url, "Redirect Url" %>
-	<%= f.text_field :redirect_url %>
+	<%= f.label :redirect_uri, "Redirect Url" %>
+	<%= f.text_field :redirect_uri %>
 </div>
 <div class = "field">
+	<%= image_tag app.image_url, :title => "Image", :class => "app-image" %>
 	<%= f.label :image_url, "Image Url" %>
 	<%= f.text_field :image_url %>
 </div>
