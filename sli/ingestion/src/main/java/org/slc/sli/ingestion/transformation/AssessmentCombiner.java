@@ -42,7 +42,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         persist();
     }
 
-    @Override
     public void loadData() {
         LOG.info("Loading data for transformation.");
 
@@ -54,7 +53,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 + collections.get("assessmentFamily").size());
     }
 
-    @Override
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
 
@@ -72,6 +70,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
+            @SuppressWarnings("unchecked")
             List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
             List<Map<String, Object>> objectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
@@ -171,7 +170,6 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
     }
 
 
-    @Override
     public void persist() {
         LOG.info("Persisting transformed data to storage.");
 

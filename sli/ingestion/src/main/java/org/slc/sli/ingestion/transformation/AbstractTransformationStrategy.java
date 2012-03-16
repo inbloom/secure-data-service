@@ -13,12 +13,6 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     private String batchJobId;
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
-    abstract void loadData();
-
-    abstract void transform();
-
-    abstract void persist();
-
     @Override
     public void perform(String batchJobId) {
         this.setBatchJobId(batchJobId);
