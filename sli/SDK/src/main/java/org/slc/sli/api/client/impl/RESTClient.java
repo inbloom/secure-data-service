@@ -1,34 +1,31 @@
 package org.slc.sli.api.client.impl;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientFactory;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import org.slc.sli.api.client.Constants;
 import org.slc.sli.api.client.security.SliApi;
-
-/** TODO -- more documentation around return types */
 
 /**
  * Generic REST client. Provides the ability to connect to a ReSTful web service and make
@@ -40,116 +37,103 @@ public class RESTClient {
     
     
     private static Logger logger = Logger.getLogger("RESTClient");
-    private String apiServerUri;
+    protected String apiServerUri = null;
     private Client client = null;
+    private SliApi sliApi = null;
     private String sessionToken = null;
+    private OAuthConfig config;
+    
+    private Token accessToken;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
-     */
-    protected RESTClient() {
-        client = ClientFactory.newClient();
-    }
-    
-    /**
-     * @param host
-     *            Host running the SLI API ReSTful service.
-     * @param user
-     *            SLI authorized username.
-     * @param password
-     *            user password.
-     * @param realm
-     *            IDP authentication realm.
-     * @param clientId
-     *            Client identifier assigned to the application by the SLC.
-     * @param clientSecret
-     *            Client secret key for oauth2 authentication.
-     * @param redirectURL
-     *            URL to redirect to once a session is established. A null value will
-     *            bypass redirect.
-     * @return
-     *         String containing the sessionToken for the authenticated user.
-     */
-    public String openSession(final String host, final String user, final String password, final String realm,
-            final String clientId, final String clientSecret, final String redirectURL)
-                    throws IOException {
-        
-        apiServerUri = host + "/" + Constants.API_SERVER_PATH;
-        
-        SliApi.setBaseUrl(apiServerUri);
-        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
-                .callback(redirectURL).build();
-
-        /**
-         * TODO -- determine if we can pass credentials as part of clientState and bypass
-         * hitting the IDP directly.
-         */
-        
-        // Find the IDP for the realm
-        // Ideally we'd use the JAX-RS client here; but the current implementation doesn't
-        // support disabling automatically redirect.
-        URL url = new URL(host + "/disco/realms/list?RealmName=" + URLEncoder.encode(realm));
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setInstanceFollowRedirects(false);
-        connection.setRequestMethod("GET");
-        String tmp = connection.getHeaderField("Location");
-        
-        String idp = "";
-        try {
-            if (tmp != null) {
-                // find the idpEntityId
-                int start = tmp.indexOf("idpEntityID=");
-                int end = tmp.indexOf('&', start);
-                idp = URLDecoder.decode(tmp.substring(start + 12, end));
-            }
-        } finally {
-            connection.disconnect();
-        }
-        
-        if (idp.isEmpty()) {
-            throw new IOException("Failed to locate IDP from URL:" + url.toString());
-        }
-        
-        // Attempt to authenticate
-        Client c2 = ClientFactory.newClient();
-        String rstring = "";
-        try {
-            Invocation.Builder builder = c2.target(idp + "/identity/authenticate").request(
-                    MediaType.APPLICATION_FORM_URLENCODED);
-            
-            Form f = new Form().param("username", user).param("password", password);
-            Invocation i = builder.buildPost(Entity.form(f));
-            Response response = i.invoke();
-            rstring = response.readEntity(String.class);
-            
-        } finally {
-            c2.close();
-        }
-        
-        if (rstring.startsWith("token.id=")) {
-            sessionToken = rstring.substring(rstring.indexOf('=') + 1).trim();
-        } else {
-            sessionToken = null;
-        }
-        
-        return sessionToken;
-    }
-    
-    /**
-     * Close the session. If the session is not open, this does nothing.
-     */
-    public void closeSession() {
-        
-    }
-    
-    /**
-     * Call the session/check API
      * 
-     * @return JsonOject as described by API documentation
+     * @param apiServerURL
+     *            Fully qualified URL to the root of the API server.
+     * @param clientId
+     *            Unique client identifier for this application.
+     * @param clientSecret
+     *            Unique client secret value for this application.
+     * @param callbackURL
+     *            URL used to redirect after authentication.
+     */
+    public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final String callbackURL) {
+        client = ClientFactory.newClient();
+        apiServerUri = apiServerURL.toString() + Constants.API_SERVER_PATH;
+        
+        sliApi = new SliApi();
+        sliApi.setBaseUrl(apiServerURL);
+        
+        config = new OAuthConfig(clientId, clientSecret, callbackURL, null, null, null);
+    }
+    
+    /**
+     * Get the URL used to authenticate with the IDP.
+     * 
+     * @return URL
+     */
+    public URL getLoginURL() throws MalformedURLException {
+        return new URL(sliApi.getAuthorizationUrl(config));
+    }
+    
+    /**
+     * Connect to the IDP and redirect to the callback URL.
+     * 
+     * @param requestToken
+     *            Request token code returned by oauth.
+     * @return String authorization token from the OAuth service.
+     */
+    public String connect(String requestToken) throws MalformedURLException, URISyntaxException {
+        
+        logger.log(
+                Level.INFO,
+                String.format("Client ID is {} clientSecret is {} callbackURL is {}", config.getApiKey(),
+                        config.getApiSecret(), config.getCallback()));
+        
+        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
+                .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();
+        
+        logger.log(Level.INFO, String.format("Oauth request token {}", requestToken));
+        
+        Verifier verifier = new Verifier(requestToken);
+        accessToken = service.getAccessToken(null, verifier);
+        return accessToken.getRawResponse();
+        
+        /*
+         * // Raw REST implementation.
+         * 
+         * String endpoint = sliApi.getAccessTokenEndpoint();
+         * Invocation.Builder builder = client.target(endpoint).request(MediaType.APPLICATION_JSON);
+         * builder.header("client_id", config.getApiKey());
+         * builder.header("client_secret", config.getApiSecret());
+         * builder.header("code", requestToken);
+         * builder.header("grant_type", "authorization_code");
+         * 
+         * Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity("",
+         * MediaType.APPLICATION_FORM_URLENCODED));
+         * return i.invoke();
+         */
+    }
+    
+    /**
+     * Disconnect from the IDP.
+     */
+    public void disconnect() {
+        // TODO...
+    }
+    
+    /**
+     * Call the session/check API. If the SAML token is invalid or null, this will redirect
+     * to the realm selector page.
+     * 
+     * @param token
+     *            SAML token or null.
+     * @param redirectUrl
+     *            The redirect URL after a successful authentication - set by the Security API.
+     * @return String containing the authentication token.
      * @throws NoSessionException
      */
-    public JsonObject sessionCheck() throws MalformedURLException, URISyntaxException {
+    public String sessionCheck(final String token) throws MalformedURLException, URISyntaxException {
         logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
         
         URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
@@ -159,7 +143,17 @@ public class RESTClient {
         String jsonText = response.readEntity(String.class);
         logger.info("jsonText = " + jsonText);
         JsonParser parser = new JsonParser();
-        return parser.parse(jsonText).getAsJsonObject();
+        JsonObject obj = parser.parse(jsonText).getAsJsonObject();
+        
+        if (obj.has("authenticated")) {
+            JsonElement e = obj.get("authenticated");
+            if (e.getAsBoolean()) {
+                e = obj.get("sessionId");
+                sessionToken = e.getAsString();
+            }
+        }
+        
+        return sessionToken;
     }
     
     /**
@@ -339,16 +333,19 @@ public class RESTClient {
      * @param headers
      * @return
      */
-    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder,
-            final Map<String, Object> headers) {
+    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers) {
         if (headers != null) {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
             }
+        } else {
+            headers = new HashMap<String, Object>();
         }
-        headers.put("Authorization", "Bearer" + sessionToken);
+        
+        if (sessionToken != null) {
+            headers.put("Authorization", "Bearer" + sessionToken);
+        }
         
         return builder;
     }
-    
 }

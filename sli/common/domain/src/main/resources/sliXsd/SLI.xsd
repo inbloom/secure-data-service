@@ -751,7 +751,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="description" type="description">
+				<xs:element name="description" type="description" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A description of the assignment, homework, or
 							classroom
@@ -2194,7 +2194,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element minOccurs="0" name="gradebookEntryId" type="reference">
+				<xs:element name="gradebookEntryId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The GradebookEntry for which the performance is
 							recorded.
