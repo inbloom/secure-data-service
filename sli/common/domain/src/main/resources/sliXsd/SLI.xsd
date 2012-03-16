@@ -737,7 +737,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="gradebookEntryType" type="gradebookEntryType">
+				<xs:element minOccurs="0" name="gradebookEntryType" type="gradebookEntryType">
 					<xs:annotation>
 						<xs:documentation>The type of the gradebook entry; for example,
 							homework, assignment, quiz, unit test, oral presentation, etc.
