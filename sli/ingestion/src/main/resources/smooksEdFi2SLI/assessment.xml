@@ -85,7 +85,7 @@
        <jb:value property="nomenclature" data="objectiveAssessment element nomenclature" />
     </jb:bean>
 
-   <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="attributes">
+   <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="assessmentPeriodDescriptor">
         <jb:value property="codeValue" data="assessmentPeriodDescriptor codeValue" />
         <jb:value property="description" data="assessmentPeriodDescriptor description" />
         <jb:value property="shortDescription" data="assessmentPeriodDescriptor shortDescription" />
