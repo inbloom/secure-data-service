@@ -16,6 +16,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.oauth.TokenGenerator;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 
 /**
@@ -51,6 +54,7 @@ public class ApplicationResource {
     public static final String CLIENT_SECRET = "client_secret";
     public static final String RESOURCE_NAME = "application"; 
     public static final String UUID = "uuid";
+    private static final Logger   LOG        = LoggerFactory.getLogger(ApplicationResource.class);
 
     @PostConstruct
     public void init() {
@@ -117,8 +121,12 @@ public class ApplicationResource {
     public Response getApplication(@PathParam(UUID) String uuid) {
 
         if (uuid != null) {
-            EntityBody entityBody = service.get(uuid);
-            return Response.status(Status.OK).entity(entityBody).build();
+            try {
+                EntityBody entityBody = service.get(uuid);
+                return Response.status(Status.OK).entity(entityBody).build();
+            } catch (EntityNotFoundException e) {
+                LOG.debug("Could not find application with id " + uuid);
+            }
         }
 
         return Response.status(Status.NOT_FOUND).build();
@@ -130,8 +138,12 @@ public class ApplicationResource {
     public Response deleteApplication(@PathParam(UUID) String uuid) {
         
         if (uuid != null) {
-            service.delete(uuid);
-            return Response.status(Status.NO_CONTENT).build();
+            try {
+                service.delete(uuid);
+                return Response.status(Status.NO_CONTENT).build();
+            } catch (EntityNotFoundException e) {
+                LOG.debug("Could not find application with id " + uuid + " to delete");
+            }
         }
 
         return Response.status(Status.NOT_FOUND).build();
