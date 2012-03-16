@@ -280,17 +280,17 @@
     "addressType": "Home", 
     "countryCode": "US", 
     "apartmentRoomSuiteNumber": "APT 4221", 
+    "buildingSiteNumber": "351", 
     "postalCode": "60908-1028", 
     "stateAbbreviation": "IL", 
     "streetNumberName": "3655 Brighton 2nd Lane"
    }, 
    {
-    "nameOfCounty": "Kings", 
-    "city": "New York", 
+    "city": "Toronto", 
     "addressType": "Work", 
-    "countryCode": "US", 
-    "postalCode": "10698-9832", 
-    "stateAbbreviation": "NY", 
+    "countryCode": "CA", 
+    "postalCode": "A1B 2C3", 
+    "stateAbbreviation": "ON", 
     "streetNumberName": "9857 Kingsborough 2nd Walk"
    }
   ], 
@@ -329,7 +329,7 @@
    {
     "telephoneNumber": "708-929-8507", 
     "telephoneNumberType": "Other", 
-    "primaryTelephoneNumberIndicator": true
+    "primaryTelephoneNumberIndicator": false
    }
   ], 
   "sex": "Male", 
