@@ -29,9 +29,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     private static final String METADATA_BLOCK = "metaData";
 
-    // Hard-code region ID here for now, until it is set for real!
-    private static final String REGION_ID = "SLI";
-
     private IdNormalizer idNormalizer;
 
     private EntityConfigFactory entityConfigurations;
@@ -58,6 +55,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
 
         for (SimpleEntity entity : transformed) {
+            entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), item.getSourceId());
+
             matchEntity(entity, errorReport);
 
             if (errorReport.hasErrors()) {
@@ -71,13 +70,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
 
-        entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
-
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        String regionId = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
-
-        idNormalizer.resolveInternalIds(entity, regionId, entityConfig, errorReport);
+        idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
 
     /**
@@ -93,8 +88,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      */
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
-        entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
 
         Map<String, String> matchFilter = createEntityLookupFilter(entity, entityConfig, errorReport);
 

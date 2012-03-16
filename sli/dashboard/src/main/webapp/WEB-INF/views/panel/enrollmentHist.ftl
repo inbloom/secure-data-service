@@ -1,5 +1,5 @@
-<#assign root = data[config.data.alias]>
-<#assign id = viewConfigs["enrollmentHist"].id + "-" + random.nextInt(100)>
+<@includePanelModel panelId="enrollmentHist"/>
+<#assign id = getDivId(panelConfig.id)>
 
 <div class="enrollmentHist">
 <table id="${id}"></table>
