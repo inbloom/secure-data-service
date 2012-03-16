@@ -72,47 +72,37 @@ public class RESTClient {
      * 
      * @return URL
      */
-    public URL getLoginURL() throws MalformedURLException {
-        return new URL(sliApi.getAuthorizationUrl(config));
+    public URL getLoginURL() {
+        try {
+            return new URL(sliApi.getAuthorizationUrl(config));
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, String.format("Failed to create login URL: %s", e.toString()));
+        }
+        return null;
     }
     
     /**
      * Connect to the IDP and redirect to the callback URL.
      * 
-     * @param requestToken
-     *            Request token code returned by oauth.
+     * @param authorizationCode
+     *            Authorization code returned by oauth.
      * @return String authorization token from the OAuth service.
      */
-    public String connect(String requestToken) throws MalformedURLException, URISyntaxException {
+    public String connect(final String authorizationCode) throws MalformedURLException, URISyntaxException {
         
         logger.log(
                 Level.INFO,
-                String.format("Client ID is {} clientSecret is {} callbackURL is {}", config.getApiKey(),
+                String.format("Client ID is %s clientSecret is %s callbackURL is %s", config.getApiKey(),
                         config.getApiSecret(), config.getCallback()));
         
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
                 .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();
         
-        logger.log(Level.INFO, String.format("Oauth request token {}", requestToken));
+        logger.log(Level.INFO, String.format("Oauth request token %s", authorizationCode));
         
-        Verifier verifier = new Verifier(requestToken);
+        Verifier verifier = new Verifier(authorizationCode);
         accessToken = service.getAccessToken(null, verifier);
         return accessToken.getRawResponse();
-        
-        /*
-         * // Raw REST implementation.
-         * 
-         * String endpoint = sliApi.getAccessTokenEndpoint();
-         * Invocation.Builder builder = client.target(endpoint).request(MediaType.APPLICATION_JSON);
-         * builder.header("client_id", config.getApiKey());
-         * builder.header("client_secret", config.getApiSecret());
-         * builder.header("code", requestToken);
-         * builder.header("grant_type", "authorization_code");
-         * 
-         * Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity("",
-         * MediaType.APPLICATION_FORM_URLENCODED));
-         * return i.invoke();
-         */
     }
     
     /**
@@ -182,7 +172,7 @@ public class RESTClient {
             throws URISyntaxException {
         
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         
@@ -227,7 +217,7 @@ public class RESTClient {
                     throws URISyntaxException, MalformedURLException {
         
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url.toString());
+            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         
@@ -269,7 +259,7 @@ public class RESTClient {
                     throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         
@@ -307,7 +297,7 @@ public class RESTClient {
             throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
-            logger.log(Level.SEVERE, "Token is null in call to RESTClient for url" + url);
+            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
         
