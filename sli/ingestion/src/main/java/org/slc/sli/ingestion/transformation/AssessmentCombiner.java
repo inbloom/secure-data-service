@@ -34,14 +34,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     /**
      * The chaining of transformation steps.  This implementation assumes that all data will be processed in "one-go"
-     * 
+     *
      */
     public void performTransformation() {
         loadData();
         transform();
         persist();
     }
-    
+
     @Override
     public void loadData() {
         LOG.info("Loading data for transformation.");
@@ -101,7 +101,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 	   Map<String, String> paths = new HashMap<String, String>();
 	   paths.put("body.codeValue", assessmentPeriodDescriptorRef);
 
-	   Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("assessmentPeriodDescriptor", paths);
+	   Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths("assessmentPeriodDescriptor", paths);
 
 	   if(data.iterator().hasNext()){
 		return data.iterator().next().getAttributes();
@@ -116,7 +116,7 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
 
 	  paths.put("body.id", objectiveAssessmentRef);
 
-	   Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("objectiveAssessment", paths);
+	   Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths("objectiveAssessment", paths);
 
 	   Map<String, Object> objectiveAssessment = data.iterator().next().getAttributes();
 	   objectiveAssessment.remove("id");
