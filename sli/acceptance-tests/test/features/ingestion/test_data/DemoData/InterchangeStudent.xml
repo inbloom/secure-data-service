@@ -23,6 +23,7 @@
     <Address AddressType="Home">
       <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
       <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>351</BuildingSiteNumber>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60908-1028</PostalCode>
@@ -31,11 +32,10 @@
     </Address>
     <Address AddressType="Work">
       <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10698-9832</PostalCode>
-      <NameOfCounty>Kings</NameOfCounty>
-      <CountryCode>US</CountryCode>
+      <City>Toronto</City>
+      <StateAbbreviation>WA</StateAbbreviation>
+      <PostalCode>A1B 2C3</PostalCode>
+      <CountryCode>CA</CountryCode>
     </Address>
     <ElectronicMail EmailAddressType="Other">
       <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
@@ -1322,7 +1322,7 @@
     <BirthData>
       <BirthDate>1999-12-17</BirthDate>
     </BirthData>
-    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
       <TelephoneNumber>708-929-8507</TelephoneNumber>
     </Telephone>
   </Student>
