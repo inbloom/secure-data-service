@@ -34,7 +34,7 @@ Then I should see following map of entry counts in the corresponding collections
         | educationOrganization       | 3     |
         | school                      | 5     |
         | section                     | 25    |
-        | studentSectionAssociation   | 158   |
+        | studentSectionAssociation   | 160   |
         | teacher                     | 4     |
         | teacherSchoolAssociation    | 6     |
         | teacherSectionAssociation   | 20    |
@@ -52,7 +52,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 816 records." in the resulting batch job file
+    And I should see "Processed 818 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 95" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 95" in the resulting batch job file
@@ -69,8 +69,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 283" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 283" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 285" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 285" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata.xml records considered: 17" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 17" in the resulting batch job file
@@ -94,7 +94,7 @@ Then I should see following map of entry counts in the corresponding collections
         | educationOrganization       | 3     |
         | school                      | 5     |
         | section                     | 25    |
-        | studentSectionAssociation   | 158   |
+        | studentSectionAssociation   | 160   |
         | teacher                     | 4     |
         | teacherSchoolAssociation    | 6     |
         | teacherSectionAssociation   | 20    |
@@ -112,7 +112,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 816 records." in the resulting batch job file
+    And I should see "Processed 818 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 95" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 95" in the resulting batch job file
@@ -129,8 +129,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 283" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 283" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 285" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 285" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata.xml records considered: 17" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 17" in the resulting batch job file
