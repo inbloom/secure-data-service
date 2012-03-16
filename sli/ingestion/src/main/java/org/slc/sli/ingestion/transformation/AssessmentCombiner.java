@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.transformation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -64,6 +65,23 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
+            List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
+            List<Map<String, Object>> objectiveAssessments = new ArrayList<Map<String, Object>>();
+            if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
+
+	            for(String objectiveAssessmentRef : objectiveAssessmentRefs){
+
+	            	objectiveAssessments.add(getObjectiveAssessment(objectiveAssessmentRef));
+	            	attrs.put("objectiveAssessment", objectiveAssessments);
+	            }
+            }
+
+            String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");
+            if (assessmentPeriodDescriptorRef !=null) {
+
+            	attrs.put("assessmentPeriodDescriptor", getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+
+            }
             neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
@@ -72,7 +90,37 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
 
 
-   @SuppressWarnings("unchecked")
+   private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
+	   Map<String, String> paths = new HashMap<String, String>();
+	   paths.put("body.codeValue", assessmentPeriodDescriptorRef);
+
+	   Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("assessmentPeriodDescriptor", paths);
+
+	   if(data.iterator().hasNext()){
+		return data.iterator().next().getAttributes();
+	   }
+
+	   return null;
+
+	}
+
+private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef) {
+	   Map<String, String> paths = new HashMap<String, String>();
+
+	  paths.put("body.id", objectiveAssessmentRef);
+
+	   Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("objectiveAssessment", paths);
+
+	   Map<String, Object> objectiveAssessment = data.iterator().next().getAttributes();
+	   objectiveAssessment.remove("id");
+
+		return objectiveAssessment;
+
+
+	  // return null;
+	}
+
+@SuppressWarnings("unchecked")
     private String getAssocationFamilyMap(String key, HashMap<String, Map<String, Object>> deepFamilyMap, String familyHierarchyName) {
 
         Map<String, String> paths = new HashMap<String, String>();

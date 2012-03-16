@@ -39,6 +39,10 @@
         <jb:value property="maxRawScore" data="attributes maxRawScore" decoder="Integer"></jb:value>
         <jb:value property="minRawScore" data="attributes minRawScore" decoder="Integer"></jb:value>
          <jb:value property="nomenclature" data="attributes nomenclature"></jb:value>
+
+         <jb:wiring property="objectiveAssessment" beanIdRef="ObjectiveAssessmentTypeArray"/>
+
+         <jb:wiring property="assessmentPeriodDescriptor" beanIdRef="AssessmentPeriodDescriptorType"/>
     </jb:bean>
 
     <jb:bean beanId="AssessmentIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
@@ -67,5 +71,27 @@
         <jb:value property="description" data="element performanceLevelDescriptor description"></jb:value>
         <jb:value property="performanceBaseConversion" data="element performanceLevelDescriptor performanceBaseConversion"></jb:value>
     </jb:bean>
+
+
+    <jb:bean beanId="ObjectiveAssessmentTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="ObjectiveAssessmentType"/>
+    </jb:bean>
+
+    <jb:bean beanId="ObjectiveAssessmentType" class="java.util.HashMap" createOnElement="objectiveAssessment element">
+        <jb:value property="identificationCode" data="objectiveAssessment element identificationCode" />
+        <jb:value property="maxRawScore" data="objectiveAssessment element MaxRawScore" decoder="Integer" />
+        <!-- <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" /> -->
+        <jb:value property="percentOfAssessment" data="objectiveAssessment element percentOfAssessment" decoder="Integer"/>
+       <jb:value property="nomenclature" data="objectiveAssessment element nomenclature" />
+    </jb:bean>
+
+   <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="codeValue" data="assessmentPeriodDescriptor codeValue" />
+        <jb:value property="description" data="assessmentPeriodDescriptor description" />
+        <jb:value property="shortDescription" data="assessmentPeriodDescriptor shortDescription" />
+        <jb:value property="beginDate" data="assessmentPeriodDescriptor beginDate" />
+        <jb:value property="endDate" data="assessmentPeriodDescriptor endDate" />
+  </jb:bean>
+
 
 </smooks-resource-list>

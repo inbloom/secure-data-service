@@ -1163,6 +1163,7 @@
     <jb:expression property="recordType">'objectiveAssessment'
     </jb:expression>
 
+    <jb:value property="localId" data="ObjectiveAssessment/@id" />
     <jb:wiring property="attributes" beanIdRef="objectiveAssessmentAttributes" />
 
   </jb:bean>
@@ -1274,7 +1275,7 @@
   <!-- AssessmentPeriodDescriptorType -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentPeriodDescriptor">
     <jb:expression property="recordType">'assessmentPeriodDescriptor'</jb:expression>
-    <jb:value property="localId" data="InterchangeAssessmentMetadata/Assessment/AssessmentPeriodDescriptor/@id" />
+    <jb:value property="localId" data="InterchangeAssessmentMetadata/AssessmentPeriodDescriptor/CodeValue" />
     <jb:wiring property="attributes" beanIdRef="assessmentPeriodDescriptorAttributes" />
   </jb:bean>
 
