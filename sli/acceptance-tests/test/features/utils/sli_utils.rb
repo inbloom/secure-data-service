@@ -284,6 +284,10 @@ module DataProvider
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
+      "administration_url" => "https://slidev.org/admin",
+      "image_url" => "https://slidev.org/image",
+      "application_url" => "https://slidev.org/image",
+      "version" => "3.14",
       "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
     }
   end
