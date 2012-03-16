@@ -13,15 +13,15 @@
 
     <dependencies>
 
-          <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>domain</artifactId>
-            </dependency>
+         <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>domain</artifactId>
+         </dependency>
 
         <dependency>
-        <groupId>org.slc.sli.dal</groupId>
-        <artifactId>dal</artifactId>
-          </dependency>
+            <groupId>org.slc.sli.dal</groupId>
+            <artifactId>dal</artifactId>
+         </dependency>
 
         <dependency>
             <groupId>org.slc.sli.dal</groupId>
