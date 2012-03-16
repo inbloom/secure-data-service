@@ -61,7 +61,7 @@
         <Telephone TelephoneNumberType="Other">
             <TelephoneNumber>3095555341</TelephoneNumber>
         </Telephone>
-        <ElectronicMail EmailAddressType="Home">
+        <ElectronicMail EmailAddressType="Home/Personal">
             <EmailAddress>ti.troung@gmail.com</EmailAddress>
         </ElectronicMail>
         <ElectronicMail EmailAddressType="Work">
@@ -225,7 +225,7 @@
         </StudentReference>
         <ParentReference>
             <ParentIdentity>
-                <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+                <ParentUniqueStateId>0798132465</ParentUniqueStateId>
             </ParentIdentity>
         </ParentReference>
         <Relation>Mother</Relation>
