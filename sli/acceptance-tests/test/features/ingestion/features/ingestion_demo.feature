@@ -52,10 +52,10 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 816 records." in the resulting batch job file
+    And I should see "Processed 815 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 95" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 95" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 23" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 23" in the resulting batch job file
@@ -112,10 +112,10 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 816 records." in the resulting batch job file
+    And I should see "Processed 815 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 95" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 95" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 23" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 23" in the resulting batch job file
