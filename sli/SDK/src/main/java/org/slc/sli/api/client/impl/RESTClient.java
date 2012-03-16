@@ -18,7 +18,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
+
 import org.slc.sli.api.client.Constants;
+import org.slc.sli.api.client.security.SliApi;
 
 /**
  * Generic REST client. Provides the ability to connect to a ReSTful web service and make
@@ -32,26 +39,80 @@ public class RESTClient {
     private static Logger logger = Logger.getLogger("RESTClient");
     protected String apiServerUri = null;
     private Client client = null;
+    private SliApi sliApi = null;
     private String sessionToken = null;
-    protected String securityServerUri = null;
+    private OAuthConfig config;
+    
+    private Token accessToken;
     
     /**
      * Construct a new RESTClient instance, using the JSON message converter.
+     * 
+     * @param apiServerURL
+     *            Fully qualified URL to the root of the API server.
+     * @param clientId
+     *            Unique client identifier for this application.
+     * @param clientSecret
+     *            Unique client secret value for this application.
+     * @param callbackURL
+     *            URL used to redirect after authentication.
      */
-    public RESTClient(final URL apiServerURL, final URL securityServerURL) {
+    public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final String callbackURL) {
         client = ClientFactory.newClient();
         apiServerUri = apiServerURL.toString() + Constants.API_SERVER_PATH;
-        securityServerUri = securityServerURL.toString();
+        
+        sliApi = new SliApi();
+        sliApi.setBaseUrl(apiServerURL);
+        
+        config = new OAuthConfig(clientId, clientSecret, callbackURL, null, null, null);
+    }
+    
+    /**
+     * Get the URL used to authenticate with the IDP.
+     * 
+     * @return URL
+     */
+    public URL getLoginURL() throws MalformedURLException {
+        return new URL(sliApi.getAuthorizationUrl(config));
     }
     
     /**
      * Connect to the IDP and redirect to the callback URL.
      * 
-     * @return String sessionId
+     * @param requestToken
+     *            Request token code returned by oauth.
+     * @return String authorization token from the OAuth service.
      */
-    public String connect() throws MalformedURLException, URISyntaxException {
+    public String connect(String requestToken) throws MalformedURLException, URISyntaxException {
         
-        return sessionCheck(null);
+        logger.log(
+                Level.INFO,
+                String.format("Client ID is {} clientSecret is {} callbackURL is {}", config.getApiKey(),
+                        config.getApiSecret(), config.getCallback()));
+        
+        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
+                .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();
+        
+        logger.log(Level.INFO, String.format("Oauth request token {}", requestToken));
+        
+        Verifier verifier = new Verifier(requestToken);
+        accessToken = service.getAccessToken(null, verifier);
+        return accessToken.getRawResponse();
+        
+        /*
+         * // Raw REST implementation.
+         * 
+         * String endpoint = sliApi.getAccessTokenEndpoint();
+         * Invocation.Builder builder = client.target(endpoint).request(MediaType.APPLICATION_JSON);
+         * builder.header("client_id", config.getApiKey());
+         * builder.header("client_secret", config.getApiSecret());
+         * builder.header("code", requestToken);
+         * builder.header("grant_type", "authorization_code");
+         * 
+         * Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity("",
+         * MediaType.APPLICATION_FORM_URLENCODED));
+         * return i.invoke();
+         */
     }
     
     /**
@@ -75,7 +136,7 @@ public class RESTClient {
     public String sessionCheck(final String token) throws MalformedURLException, URISyntaxException {
         logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
         
-        URL url = new URL(securityServerUri + "/" + SESSION_CHECK_PREFIX);
+        URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
         
         Response response = getRequest(url);
         
@@ -287,5 +348,4 @@ public class RESTClient {
         
         return builder;
     }
-    
 }

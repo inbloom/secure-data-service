@@ -80,7 +80,7 @@
     <jb:bean beanId="ObjectiveAssessmentType" class="java.util.HashMap" createOnElement="objectiveAssessment element">
         <jb:value property="identificationCode" data="objectiveAssessment element identificationCode" />
         <jb:value property="maxRawScore" data="objectiveAssessment element MaxRawScore" decoder="Integer" />
-        <!-- <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" /> -->
+        <jb:wiring property="assessmentPerformanceLevel" beanIdRef="OAssessmentPerformanceLevelTypeArray" />
         <jb:value property="percentOfAssessment" data="objectiveAssessment element percentOfAssessment" decoder="Integer"/>
        <jb:value property="nomenclature" data="objectiveAssessment element nomenclature" />
     </jb:bean>

@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  * Transformer for Assessment Entities
@@ -28,13 +27,21 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
 
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
-
     public AssessmentCombiner() {
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
         this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
+    /**
+     * The chaining of transformation steps.  This implementation assumes that all data will be processed in "one-go"
+     * 
+     */
+    public void performTransformation() {
+        loadData();
+        transform();
+        persist();
+    }
+    
     @Override
     public void loadData() {
         LOG.info("Loading data for transformation.");
@@ -126,7 +133,7 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
         Map<String, String> paths = new HashMap<String, String>();
         paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
 
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByPaths("assessmentFamily", paths);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths("assessmentFamily", paths);
 
         Map<String, Object> associationAttrs;
 
@@ -176,7 +183,7 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
                 NeutralRecord neutralRecord = neutralRecordEntry.getValue();
                 neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
 
-                neutralRecordMongoAccess.getRecordRepository().create(neutralRecord);
+                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
             }
         }
     }
@@ -188,9 +195,9 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
      */
     private void loadCollectionFromDb(String collectionName) {
 
-        Criteria jobIdCriteria = Criteria.where("batchJobId").is(batchJobId);
+        Criteria jobIdCriteria = Criteria.where("batchJobId").is(getBatchJobId());
 
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQuery(collectionName,
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
                 new Query(jobIdCriteria), 0, 0);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
@@ -203,20 +210,6 @@ private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef
         }
 
         collections.put(collectionName, collection);
-    }
-
-    /**
-     * @return the neutralRecordMongoAccess
-     */
-    public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
-        return neutralRecordMongoAccess;
-    }
-
-    /**
-     * @param neutralRecordMongoAccess the neutralRecordMongoAccess to set
-     */
-    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
 
 }

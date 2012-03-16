@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -253,7 +254,7 @@ public class SmooksEdFi2SLITransformerTest {
 
         Map<String, String> assessmentFilterFields = new HashMap<String, String>();
         assessmentFilterFields.put("body.assessmentTitle", ASSESSMENT_TITLE);
-        assessmentFilterFields.put(REGION_ID_FIELD, REGION_ID);
+        assessmentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         assessmentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
 
         List<Entity> le = new ArrayList<Entity>();
@@ -262,6 +263,8 @@ public class SmooksEdFi2SLITransformerTest {
         when(mockedEntityRepository.findByPaths("assessment", assessmentFilterFields)).thenReturn(le);
 
         List<SimpleEntity> res = transformer.handle(assessmentRC);
+
+        verify(mockedEntityRepository).findByPaths("assessment", assessmentFilterFields);
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));

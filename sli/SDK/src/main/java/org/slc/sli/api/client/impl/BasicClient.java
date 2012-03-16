@@ -1,6 +1,5 @@
 package org.slc.sli.api.client.impl;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -17,6 +16,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
+import org.scribe.exceptions.OAuthException;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
@@ -29,8 +30,7 @@ import org.slc.sli.api.client.impl.transform.GenericEntityFromJson;
 import org.slc.sli.api.client.impl.transform.GenericEntityToJson;
 
 /**
- * Class defining the methods available to SLI API client applications. The BasicClient
- * follows a builder pattern for creating a connection to the SLI API server. It provides
+ * Class defining the methods available to SLI API client applications. It provides
  * basic CRUD operations once the client connection is established.
  * 
  * @author asaarela
@@ -41,56 +41,28 @@ public final class BasicClient implements SLIClient {
     private Gson gson = null;
     private static Logger logger = Logger.getLogger("BasicClient");
     
-    /**
-     * SLIClientBuilder Builder for an BasicClient instance.
-     */
-    public static class Builder {
-        private String apiHost = "http://localhost:8080";
-        private String securityHost = "http://localhost:8080";
-        
-        /**
-         * Construct a new Builder.
-         */
-        public static Builder create() {
-            return new Builder();
-        }
-        
-        /**
-         * Initialize the builder connection host. This should include protocol and optional
-         * port. For example: https://localhost:443
-         * 
-         * @param host
-         *            for the API server.
-         * @return an BasicClient.Builder
-         */
-        public Builder apiHost(final String host) {
-            apiHost = host;
-            return this;
-        }
-        
-        /**
-         * Initialize the builder security host. This should include protocol and optional
-         * port. For example: https://localhost:443
-         * 
-         * @param host
-         *            for the SLI security server.
-         * @return an BasicClient.Builder
-         */
-        public Builder securityHost(final String host) {
-            securityHost = host;
-            return this;
-        }
-        
-        /**
-         * Create an BasicClient instance.
-         * @return BasicClient
-         */
-        public SLIClient build() throws IOException {
-            BasicClient client = new BasicClient();
-            client.init(new URL(apiHost), new URL(securityHost));
-            return client;
-        }
+    @Override
+    public URL getLoginURL() throws MalformedURLException {
+        return restClient.getLoginURL();
     }
+    
+    @Override
+    public String connect(String requestToken) throws OAuthException {
+        try {
+            return restClient.connect(requestToken);
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+        } catch (URISyntaxException e) {
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+        }
+        return null;
+    }
+    
+    @Override
+    public void logout() {
+        // TODO - implement this when logout becomes available.
+    }
+    
     
     /**
      * CRUD operations
@@ -174,46 +146,10 @@ public final class BasicClient implements SLIClient {
         return response;
     }
     
-    /*
-     * Don't allow direct instantiation of BasicClient instances; use the builder instead.
-     */
-    private BasicClient() {
+    public BasicClient() {
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
                 .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter())
                 .create();
     }
-    
-    @Override
-    public void init(URL apiURL, URL securityURL) {
-        restClient = new RESTClient(apiURL, securityURL);
-    }
-    
-    @Override
-    public String login() throws IOException {
-        try {
-            return restClient.connect();
-        } catch (URISyntaxException e) {
-            logger.log(Level.SEVERE, "Failed to log into security server: {}", restClient.securityServerUri);
-            return null;
-        }
-    }
-    
-    @Override
-    public void logout() {
-        restClient.disconnect();
-    }
-    
-    @Override
-    public String checkSession(final String token) {
-        try {
-            return restClient.sessionCheck(token);
-        } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE, "Failed to log into call session check: {}", e.toString());
-        } catch (URISyntaxException e) {
-            logger.log(Level.SEVERE, "Failed to log into security server: {}", restClient.securityServerUri);
-        }
-        return null;
-    }
-    
 }
