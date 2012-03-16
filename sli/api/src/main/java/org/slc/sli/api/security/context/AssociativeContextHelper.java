@@ -43,7 +43,7 @@ public class AssociativeContextHelper {
             String sourceKey = keys.get(0);
             String targetKey = keys.get(1);
             Query query = new Query(Criteria.where("body." + sourceKey).in(ids));
-            query.fields().include(targetKey);
+            query.fields().include("body." + targetKey);
             Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), query, 0, 9999);
 
             ids.clear();
