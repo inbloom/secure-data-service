@@ -146,10 +146,23 @@ public final class BasicClient implements SLIClient {
         return response;
     }
     
-    public BasicClient() {
+    /**
+     * Construct a new BasicClient instance, using the JSON message converter.
+     * 
+     * @param apiServerURL
+     *            Fully qualified URL to the root of the API server.
+     * @param clientId
+     *            Unique client identifier for this application.
+     * @param clientSecret
+     *            Unique client secret value for this application.
+     * @param callbackURL
+     *            URL used to redirect after authentication.
+     */
+    public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret,
+            final String callbackURL) {
+        restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
-                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter())
-                .create();
+                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter()).create();
     }
 }
