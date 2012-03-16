@@ -201,6 +201,9 @@ public class StudentProgressManager implements Manager {
         params.put(Constants.ATTR_SECTION_ID, selectedSection);
         params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED + "," + Constants.ATTR_GRADEBOOK_ENTRY_ID);
         
+        Map<String, String> gradebookParams = new HashMap<String, String>();
+        gradebookParams.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
+        
         for (String studentId : studentIds) {
             total = 0.0;
             log.debug("Progress data [studentId] " + studentId);
@@ -212,7 +215,7 @@ public class StudentProgressManager implements Manager {
                 studentGradebookEntry.remove("entityType");
                 log.debug("Progress data [studentGradebookEntry]" + studentGradebookEntry);
                 
-                GenericEntity gradebookEntry = getGradebookEntry(token, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID));
+                GenericEntity gradebookEntry = entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID), gradebookParams);
                 
                 //add the gradebook entry Id                
                 studentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, gradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
@@ -235,14 +238,9 @@ public class StudentProgressManager implements Manager {
                 results.get(studentId).put("Average", calculateAndCreateAverageEntity(total, studentGradebookEntries.size()));
         }
         
+        
+        
         return results;
-    }
-    
-    protected GenericEntity getGradebookEntry(String token, String id) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
-     
-        return entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, id, params);
     }
     
     /**
