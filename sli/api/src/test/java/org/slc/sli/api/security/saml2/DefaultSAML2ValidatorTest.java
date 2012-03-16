@@ -1,10 +1,14 @@
 package org.slc.sli.api.security.saml2;
 
+import java.io.InputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,9 +17,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 
 /**
@@ -60,6 +62,7 @@ public class DefaultSAML2ValidatorTest {
         Document doc = getDocument("complete-valid2.xml");
         Assert.isTrue(validator.isSignatureValid(doc));
     }
+    
     @Test
     public void testIsSignatureValidWithInvalid() throws Exception {
         Document doc = getDocument("complete-invalid.xml");
@@ -72,6 +75,12 @@ public class DefaultSAML2ValidatorTest {
         Assert.isTrue(validator.isDocumentValid(doc));
     }
 
+    @Test
+    public void testValidatingAnInvalidDocument() throws Exception {
+        Document doc = getDocument("complete-invalid.xml");
+        Assert.isTrue(!validator.isDocumentValid(doc));
+    }
+    
     @Test
     public void testIsDigestValidWithValid() throws Exception {
         Document doc = getDocument("complete-valid.xml");
@@ -89,10 +98,17 @@ public class DefaultSAML2ValidatorTest {
         Document doc = getDocument("complete-invalid.xml");
         Assert.isTrue(!validator.isDigestValid(doc));
     }
-
+    
+    // @Test
+    // public void testIsTrustedAssertionTrusted() throws Exception {
+    //     Document doc = getDocument("adfs-valid.xml");
+    //     Assert.isTrue(validator.isDocumentTrusted(doc));
+    // }
+    
     @Test
-    public void testValidatingAnInvalidDocument() throws Exception {
-        Document doc = getDocument("complete-invalid.xml");
-        Assert.isTrue(!validator.isDocumentValid(doc));
+    public void testIsUntrustedAssertionTrusted() throws Exception {
+        Document doc = getDocument("adfs-invalid.xml");
+        Assert.isTrue(!validator.isDocumentTrusted(doc));
     }
+    
 }
