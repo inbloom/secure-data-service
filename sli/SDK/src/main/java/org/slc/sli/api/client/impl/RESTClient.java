@@ -46,7 +46,7 @@ public class RESTClient {
     private Token accessToken;
     
     /**
-     * Construct a new RESTClient instance, using the JSON message converter.
+     * Construct a new RESTClient instance.
      * 
      * @param apiServerURL
      *            Fully qualified URL to the root of the API server.
@@ -324,18 +324,17 @@ public class RESTClient {
      * @return
      */
     private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers) {
-        if (headers != null) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                builder.header(entry.getKey(), entry.getValue());
-            }
-        } else {
+        
+        if (headers == null) {
             headers = new HashMap<String, Object>();
         }
         
-        if (sessionToken != null) {
-            headers.put("Authorization", "Bearer" + sessionToken);
-        }
+        headers.put("Authorization", String.format("Bearer%s", sessionToken));
         
+        for (Map.Entry<String, Object> entry : headers.entrySet()) {
+            builder.header(entry.getKey(), entry.getValue());
+        }
+
         return builder;
     }
 }

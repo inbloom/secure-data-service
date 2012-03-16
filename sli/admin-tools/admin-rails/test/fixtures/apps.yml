@@ -10,7 +10,6 @@ admin:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
-    vendor: "SLI"
     version: "1.0"
     method: "Full Window App"
     is_admin: true
@@ -31,7 +30,6 @@ waffles:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
-    vendor: "SLI"
     version: ".waffles"
     method: "Full Window App"
     is_admin: true
