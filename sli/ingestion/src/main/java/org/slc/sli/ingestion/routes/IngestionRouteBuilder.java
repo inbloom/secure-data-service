@@ -26,6 +26,7 @@ import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Ingestion route builder.
@@ -159,8 +160,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
-                        // get job from exchange
-                        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+                        // TODO get job from the batch job db
+                        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
                         Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
 
@@ -223,6 +224,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
+                        
+                        BatchJobUtils.saveBatchJobUsingStateManager(job);
+                        BatchJobUtils.completeBatchJob(job.getId());
                     }
 
                 });

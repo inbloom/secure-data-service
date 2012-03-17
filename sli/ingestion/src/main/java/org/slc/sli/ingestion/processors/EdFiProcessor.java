@@ -38,12 +38,24 @@ public class EdFiProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
+        // TODO get the batchjob from the state manager, define the stageName explicitly
+        // Get the batch job ID from the exchange
+//        String batchJobId = exchange.getIn().getBody(String.class);
+//        BatchJobUtils.startStage(batchJobId, this.getClass().getName());
+//        BatchJob batchJob = BatchJobUtils.getBatchJob(batchJobId);
         BatchJob batchJob = BatchJobUtils.getBatchJobUsingStateManager(exchange);
-
+        
         try {
+            
             for (IngestionFileEntry fe : batchJob.getFiles()) {
+                
+                // TODO BatchJobUtil.startMetric(batchJobId, this.getClass().getName(), fe.getFileName())
+
                 processFileEntry(fe);
                 batchJob.getFaultsReport().append(fe.getFaultsReport());
+
+                // TODO Add recordCount variables to IngestionFileEntry to be populated when files are added or processed initially
+                // TODO BatchJobUtil.stopMetric(batchJobId, this.getClass().getName(), fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
             }
 
             // set headers
@@ -56,9 +68,13 @@ public class EdFiProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
+            // TODO JobLogStatus.log
         }
 
         BatchJobUtils.saveBatchJobUsingStateManager(batchJob);
+        // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
+        BatchJobUtils.stopStage(batchJob.getId(), this.getClass().getName());
+
     }
 
     public void processFileEntry(IngestionFileEntry fe) {
@@ -70,6 +86,7 @@ public class EdFiProcessor implements Processor {
             // get the handler for this file format
             AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap
                     .get(fileFormat);
+            
             if (fileHandler != null) {
 
                 fileHandler.handle(fe);
