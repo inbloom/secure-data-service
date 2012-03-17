@@ -120,7 +120,7 @@ public class MockRepo implements EntityRepository {
             } else if (criteria.getOperator().equals("in")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
                     
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey()));
                     
                     List<String> validValues = (List<String>) criteria.getValue();
                     if (validValues.contains(entityValue)) {

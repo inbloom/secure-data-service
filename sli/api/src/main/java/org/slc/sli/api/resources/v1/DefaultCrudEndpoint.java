@@ -140,7 +140,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-                neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+                //neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+                List<String> valueList = new ArrayList<String>(Arrays.asList(value.split(",")));
+                neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 
                 // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
