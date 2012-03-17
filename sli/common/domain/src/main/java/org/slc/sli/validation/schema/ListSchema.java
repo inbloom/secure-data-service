@@ -60,7 +60,7 @@ public class ListSchema extends NeutralSchema {
     public boolean isSimple() {
         return false;
     }
-
+    
     /**
      * This is a temp hack to fix a bug.
      * Annotations do not inherit from list to it's members

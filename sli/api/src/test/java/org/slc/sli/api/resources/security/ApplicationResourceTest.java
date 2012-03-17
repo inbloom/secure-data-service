@@ -5,6 +5,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -22,6 +23,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.oauth.SliClientDetailService;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -31,14 +42,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.oauth.SliClientDetailService;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
 
 /**
  * 
@@ -85,7 +88,7 @@ public class ApplicationResourceTest {
         
         // test create during dup check
         Mockito.when(
-                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<String>());
         
         
@@ -99,9 +102,10 @@ public class ApplicationResourceTest {
     public void testBadCreate1() {   //include id in POST
         EntityBody app = getNewApp();
         app.put("id", "123");
+        
         // test create during dup check
         Mockito.when(
-                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<String>());
         
         Response resp = resource.createApplication(app, uriInfo);
@@ -112,9 +116,10 @@ public class ApplicationResourceTest {
     public void testBadCreate2() {   //include client_id in POST
         EntityBody app = getNewApp();
         app.put("client_id", "123");
+        
         // test create during dup check
         Mockito.when(
-                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<String>());
         
         Response resp = resource.createApplication(app, uriInfo);
@@ -125,9 +130,10 @@ public class ApplicationResourceTest {
     public void testBadCreate3() {   //include client_secret in POST
         EntityBody app = getNewApp();
         app.put("client_secret", "123");
+        
         // test create during dup check
         Mockito.when(
-                service.list(Mockito.eq(0), Mockito.eq(1), Mockito.anyString()))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<String>());
         
         Response resp = resource.createApplication(app, uriInfo);
@@ -156,7 +162,7 @@ public class ApplicationResourceTest {
         toDelete.put("id", uuid);
         existingEntitiesIds.add(uuid);
         Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(existingEntitiesIds);
         Response resp = resource.deleteApplication(clientId);
         assertEquals(STATUS_DELETED, resp.getStatus());
@@ -165,9 +171,6 @@ public class ApplicationResourceTest {
     @Test
     public void testBadDelete() {
         String uuid = "9999999999";
-
-        String clientId = null;
-        List<String> existingEntitiesIds = null;
         Mockito.doThrow(new EntityNotFoundException("Entity Not Found")).when(service).delete(uuid);
         Response resp = resource.deleteApplication(uuid);
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
@@ -218,7 +221,7 @@ public class ApplicationResourceTest {
         toGet.put("id", uuid);
         existingEntitiesIds.add(uuid);
         Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(existingEntitiesIds);
         Mockito.when(service.get(uuid)).thenReturn(toGet);
         Response resp = resource.getApplication(clientId);
@@ -242,7 +245,7 @@ public class ApplicationResourceTest {
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         existingEntitiesIds.add(uuid);
         Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(existingEntitiesIds);
         
         EntityBody mockApp = getNewApp();
@@ -262,10 +265,9 @@ public class ApplicationResourceTest {
     @Test(expected = OAuth2Exception.class)
     public void testBadClientLookup() {
         String clientId = "1234567890";
-
         //return empty list
         Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
+                service.listIds(any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<String>());
         detailsService.loadClientByClientId(clientId);
     }
@@ -273,6 +275,11 @@ public class ApplicationResourceTest {
     @Test
     public void testUpdate() {
         String uuid = "123";
+
+        List<String> existingUuids = new ArrayList<String>();
+        existingUuids.add(uuid);
+        Mockito.when(service.listIds(any(NeutralQuery.class))).thenReturn(existingUuids);
+
         EntityBody app = getNewApp();
         Mockito.when(service.update(uuid, app)).thenReturn(true);
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app).getStatus());

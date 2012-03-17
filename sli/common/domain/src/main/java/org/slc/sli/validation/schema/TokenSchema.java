@@ -42,7 +42,13 @@ public class TokenSchema extends NeutralSchema {
     public boolean isPrimitive() {
         return false;
     }
-
+    
+    @Override
+    public Object convert(Object value) {
+        return value;
+    }
+    
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

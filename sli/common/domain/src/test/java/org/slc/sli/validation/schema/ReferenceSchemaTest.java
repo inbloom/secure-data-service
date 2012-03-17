@@ -16,14 +16,13 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.EntityQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -105,42 +104,19 @@ public class ReferenceSchemaTest {
         }
         
         @Override
-        public Iterable<Entity> findAll(String collectionName, int skip, int max) {
+        public Iterable<Entity> findAll(String collectionName, NeutralQuery query) {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public Entity find(String collectionName, Map<String, String> queryParameters) {
+        public Entity find(String collectionName, NeutralQuery queryParameters) {
             // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
             return null;
         }
 
         @Override
         public Iterable<Entity> findAll(String collectioName) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-        
-        @Override
-        public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-        
-        @Override
-        public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
             // TODO Auto-generated method stub
             return null;
         }
@@ -182,7 +158,7 @@ public class ReferenceSchemaTest {
         }
         
         @Override
-        public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+        public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
             // TODO Auto-generated method stub
             return null;
         }
@@ -194,28 +170,21 @@ public class ReferenceSchemaTest {
         }
         
         @Override
-        public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-        
-        @Override
-        public long count(String collectionName, Query query) {
+        public long count(String collectionName, NeutralQuery query) {
             // TODO Auto-generated method stub
             return 0;
         }
 
         @Override
-        public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        public Entity findOne(String collectionName, NeutralQuery query) {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public Entity findOne(String collectionName, Query query) {
-            // TODO Auto-generated method stub
+        public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
+         // TODO Auto-generated method stub
             return null;
         }
-        
     }
 }

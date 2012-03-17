@@ -37,6 +37,16 @@ public class StringSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.STRING;
     }
+    
+
+    
+
+    @Override
+    public Object convert(Object value) {
+        return value;
+    }
+    
+    
 
     /**
      * Validates the given entity

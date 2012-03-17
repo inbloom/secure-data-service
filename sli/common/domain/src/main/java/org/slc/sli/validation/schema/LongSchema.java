@@ -37,6 +37,12 @@ public class LongSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.LONG;
     }
+
+    @Override
+    public Object convert(Object value) {
+        return Long.parseLong((String) value);
+    }
+    
     
     /**
      * Validates the given entity

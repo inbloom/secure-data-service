@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,14 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.api.service.query.ApiQuery;
 
 
 /**
@@ -65,18 +70,24 @@ public class AggregateResource {
         Entity userEntity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
 
         // build the param map
-        Map<String, String> params = new HashMap<String, String>();
+        NeutralQuery neutralQuery = new ApiQuery(uriInfo);
         if (userEntity != null) {
-            params.put("id", userEntity.getEntityId());
-            params.put("type", userEntity.getType());
+            if (userEntity.getType().equals("staff")) {
+                List<String> associatedEdOrgs = new ArrayList<String>();
+                for (EntityBody e : this.entityDefs.lookupByEntityType("educationOrganization").getService().list(neutralQuery)) {
+                    associatedEdOrgs.add((String) e.get("id")); 
+                }
+                neutralQuery.addCriteria(new NeutralCriteria("groupBy.districtId" , "in", associatedEdOrgs));
+            }
+            
         }
-
+        
         // return as browser response
-        return getLinksResponse(associationURLCreator, uriInfo, params);
+        return getLinksResponse(associationURLCreator, uriInfo, neutralQuery);
     }
 
     /**
-     * Returns the aggregations based on distrct and the given query params
+     * Returns the aggregations based on district and the given query params
      *
      * @param districtId
      * @param gradeId
@@ -89,10 +100,9 @@ public class AggregateResource {
     @GET
     public Response getDistrictBasedAggregates(@Context final UriInfo uriInfo) {
 
-        // build the param map
-        Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
-
-        return getLinksResponse(aggregateURLCreator, uriInfo, params);
+        NeutralQuery neutralQuery = new ApiQuery(uriInfo);
+        
+        return getLinksResponse(aggregateURLCreator, uriInfo, neutralQuery);
     }
 
     /**
@@ -109,28 +119,9 @@ public class AggregateResource {
     @GET
     public Response getSchoolBasedAggregates(@Context final UriInfo uriInfo) {
 
-        Map<String, String> params = combineParameters(uriInfo.getPathParameters(), uriInfo.getQueryParameters());
+        NeutralQuery neutralQuery = new ApiQuery(uriInfo);
 
-        return getLinksResponse(aggregateURLCreator, uriInfo, params);
-    }
-
-    /**
-     * Combines the query params and the path params to create one map
-     *
-     * @param pathParams
-     *            The path params from the request
-     * @param queryParams
-     *            The query params from the request
-     * @return
-     */
-    protected Map<String, String> combineParameters(Map<String, List<String>> pathParams,
-            Map<String, List<String>> queryParams) {
-        // build the param map
-        Map<String, String> params = ResourceUtil.convertToMap(pathParams);
-
-        params.putAll(ResourceUtil.convertToMap(queryParams));
-
-        return params;
+        return getLinksResponse(aggregateURLCreator, uriInfo, neutralQuery);
     }
 
     /**
@@ -140,9 +131,17 @@ public class AggregateResource {
      * @param params
      * @return
      */
-    private Response getLinksResponse(URLCreator creator, final UriInfo uriInfo, Map<String, String> params) {
+    private Response getLinksResponse(URLCreator creator, final UriInfo uriInfo, NeutralQuery neutralQuery) {
         // get the aggregate URLs
-        List<EmbeddedLink> links = creator.getUrls(uriInfo, params);
+        Entity userEntity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
+        List<EmbeddedLink> links = null; 
+        
+        if (userEntity != null) {
+            links = creator.getUrls(uriInfo, (String) userEntity.getEntityId(), userEntity.getType(), neutralQuery);
+        } else {
+            links = creator.getUrls(uriInfo, "", "", neutralQuery);
+        }
+        
 
         // create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();
