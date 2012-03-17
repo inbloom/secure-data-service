@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 
@@ -221,6 +222,11 @@ public class ReferenceSchemaTest {
         }
 
         public CommandResult execute(DBObject command) {
+            return null;
+        }
+
+        @Override
+        public DBCollection getCollection(String collectionName) {
             return null;
         }
         
