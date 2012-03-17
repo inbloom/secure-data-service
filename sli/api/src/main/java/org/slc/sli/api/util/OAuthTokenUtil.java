@@ -23,7 +23,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
@@ -47,6 +49,9 @@ public class OAuthTokenUtil {
     
     @Autowired
     private IdConverter converter;
+    
+    @Autowired
+    private RolesToRightsResolver resolver;
     
     /**
      * Name of the collection in Mongo that stores OAuth 2.0 session
@@ -123,12 +128,18 @@ public class OAuthTokenUtil {
         return reconstituteAuth(principal, data);
     }
     
-    public static OAuth2Authentication reconstituteAuth(SLIPrincipal principal,
+    public OAuth2Authentication reconstituteAuth(final SLIPrincipal principal,
             Map data) {
         Set<String> scope = listToSet((List) data.get("scope"));
         Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
         Collection<GrantedAuthority> clientAuthorities = deserializeAuthorities(listToSet((List) data.get("clientAuthorities")));
-        Collection<GrantedAuthority> userAuthorities = deserializeAuthorities(listToSet((List) data.get("userAuthorities")));
+        Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
+            @Override
+            public Collection<GrantedAuthority> execute() {
+                return resolver.resolveRoles(principal.getRealm(), principal.getRoles());
+            }
+        });
+
         ClientToken client = new ClientToken((String) data.get("clientId"), 
                 resourceIds, 
                 (String) data.get("clientSecret"), 

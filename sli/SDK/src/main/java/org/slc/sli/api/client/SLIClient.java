@@ -33,7 +33,7 @@ public interface SLIClient {
      * 
      * @return A URL that directs the user to authenticate with the appropriate IDP.
      */
-    public abstract URL getLoginURL() throws MalformedURLException;
+    public abstract URL getLoginURL();
     
     /**
      * Connect to the SLI ReSTful API web service and v with the IDP. The IDP will redirect
@@ -42,12 +42,12 @@ public interface SLIClient {
      * invalid, an exception is thrown.
      * 
      * @param requestToken
-     *            Oauth2 request token returned by the login URL.
+     *            Oauth2 authorization code returned by the login URL.
      * 
      *            String authorization token for the authenticated user, or null if
      *            authentication fails.
      */
-    public abstract String connect(String requestToken) throws OAuthException;
+    public abstract String connect(final String authorizationCode) throws OAuthException;
     
     /**
      * Logout and invalidate the session.
@@ -125,7 +125,7 @@ public interface SLIClient {
      *            Query to append to the resource.
      * @return ClientResponse from the ReST call.
      */
-    public abstract Response getResource(EntityCollection entities, URL resourceURL, Query query)
+    public abstract Response getResource(EntityCollection entities, final URL resourceURL, final Query query)
             throws MalformedURLException, URISyntaxException;
     
 }

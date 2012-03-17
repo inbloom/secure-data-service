@@ -42,18 +42,18 @@ public final class BasicClient implements SLIClient {
     private static Logger logger = Logger.getLogger("BasicClient");
     
     @Override
-    public URL getLoginURL() throws MalformedURLException {
+    public URL getLoginURL() {
         return restClient.getLoginURL();
     }
     
     @Override
-    public String connect(String requestToken) throws OAuthException {
+    public String connect(final String authorizationCode) throws OAuthException {
         try {
-            return restClient.connect(requestToken);
+            return restClient.connect(authorizationCode);
         } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         } catch (URISyntaxException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: {}", e.toString()));
+            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         }
         return null;
     }
@@ -146,10 +146,23 @@ public final class BasicClient implements SLIClient {
         return response;
     }
     
-    public BasicClient() {
+    /**
+     * Construct a new BasicClient instance, using the JSON message converter.
+     * 
+     * @param apiServerURL
+     *            Fully qualified URL to the root of the API server.
+     * @param clientId
+     *            Unique client identifier for this application.
+     * @param clientSecret
+     *            Unique client secret value for this application.
+     * @param callbackURL
+     *            URL used to redirect after authentication.
+     */
+    public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret,
+            final String callbackURL) {
+        restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
-                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter())
-                .create();
+                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter()).create();
     }
 }

@@ -3,13 +3,13 @@ require 'selenium-webdriver'
 And /^there are "([^"]*)" Tabs$/ do |tabCount|
   allTabs = @driver.find_element(:id, "tabs")
   tab = allTabs.find_elements(:tag_name, "li")
-  assert(tabCount.to_i == tab.length, "Actual Tab Count: " + tabCount)
+  assert(tabCount.to_i == tab.length, "Actual Tab Count: " + tab.length.to_s)
 end
 
 Given /^in Tab "([^"]*)", there is "([^"]*)" Panels$/ do |tabIndex, panelCount|
   element = @driver.find_element(:id, "page-tab" + (tabIndex.to_i+1).to_s)
   tabs = element.find_elements(:class, "panel")
-  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + panelCount)
+  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + tabs.length.to_s)
 end
 
 Given /^Tab "([^"]*)" is titled "([^"]*)"$/ do |tabIndex, tabTitle|
@@ -22,7 +22,7 @@ end
 When /^in Tab ID "([^"]*)", there is "([^"]*)" Panels$/ do |tabId, panelCount|
   element = @driver.find_element(:id, "page-tab" + tabId)
   tabs = element.find_elements(:class, "panel")
-  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + panelCount)
+  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + tabs.length.to_s)
 end
 
 When /^Tab has a title named "([^"]*)"$/ do |tabTitle|
