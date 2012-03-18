@@ -102,10 +102,10 @@ public class MongoQueryConverter {
                         }
                         return Criteria.where(MONGO_ID).in(databaseIds);
                     } catch (ClassCastException cce) {
-                        LOG.debug("input not a list: " + value);
+                        LOG.debug("input not a list: {}", value);
                         return Criteria.where(MONGO_ID).in(value);
                     } catch (Exception e) {
-                        LOG.debug("input not a list2: " + value + e);
+                        LOG.debug("input not a list2: {}{}", value, e);
                         return Criteria.where(MONGO_ID).in(value);
                     }
                 } else {
