@@ -64,6 +64,7 @@ public class StudentResource {
     private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
     private static final String ENTRY_DATE = "entryDate";
     private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    private static final String GRADE_LEVEL = "gradeLevel";
     
 
     @Autowired
@@ -154,19 +155,30 @@ public class StudentResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response readWithGrade(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+
+        // Most recent grade level, not available till found
+        String mostRecentGradeLevel = "Not Available";
         
         //Retrieve student entity for student with id = studentId
         Response studentResponse = read(studentId, headers, uriInfo);
+        
+        if((studentResponse == null) || !(studentResponse.getEntity() instanceof Map))
+            return studentResponse;
         Map student = (Map) studentResponse.getEntity();
         
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
+        
+        if((studentSchoolAssociationsResponse == null) || !(studentSchoolAssociationsResponse.getEntity() instanceof List)){
+            student.put(GRADE_LEVEL, mostRecentGradeLevel);
+            return studentResponse;
+        }
+        
         List<Map> studentSchoolAssociationList = (List<Map>) studentSchoolAssociationsResponse.getEntity();
         
-        //Variable initialization for date functions and storing grade
+        //Variable initialization for date functions
         Date currentDate = new Date();
         Date mostRecentEntry = null;
-        String mostRecentGradeLevel = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
         //Try catch to stifle unexpected exceptions, and log them.
@@ -201,15 +213,10 @@ public class StudentResource {
             }
         } catch (Exception e) {
             LOGGER.debug("Exception while retrieving current gradeLevel for student with id: "+studentId + " Exception: "+e.getMessage());
-            mostRecentGradeLevel = null;
+            mostRecentGradeLevel = "Not Available";
         }
         
-        //If grade level could not be calculated, or an exception was caught, return "Not Available" for gradeLevel
-        if (mostRecentGradeLevel != null)
-            student.put("gradeLevel", mostRecentGradeLevel);
-        else 
-            student.put("gradeLevel", "Not Available");
-        
+        student.put(GRADE_LEVEL, mostRecentGradeLevel);
         return studentResponse;
     }
     
