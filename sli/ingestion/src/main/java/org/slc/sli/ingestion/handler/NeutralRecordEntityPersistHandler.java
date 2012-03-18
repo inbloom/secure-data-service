@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.WordUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -132,7 +133,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                     break;
                 }
             } else {
-                collection = externalIdEntry.getKey().toLowerCase();
+                collection = WordUtils.uncapitalize(externalIdEntry.getKey());
                 fieldName = collection + "Id";
             }
             String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
@@ -219,7 +220,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
-                String referencedCollection = externalReference.getKey().toLowerCase();
+                String referencedCollection = WordUtils.uncapitalize(externalReference.getKey());
                 String referencedId = referencedCollection + "Id";
 
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
