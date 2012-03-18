@@ -34,6 +34,7 @@ import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -78,12 +79,19 @@ public class PersistenceProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) {
+        
+        // TODO get the batchjob from the state manager, define the stageName explicitly
+        // Get the batch job ID from the exchange
+//      String batchJobId = exchange.getIn().getBody(String.class);
+//      BatchJobUtils.startStage(batchJobId, this.getClass().getName());
+//      BatchJob batchJob = BatchJobUtils.getBatchJob(batchJobId);
+        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
         try {
+            // TODO BatchJobUtils this won't be needed later
             long startTime = System.currentTimeMillis();
 
-            BatchJob job = exchange.getIn().getBody(BatchJob.class);
-
+            // TODO this should be determined based on the sourceId
             String idNamespace = job.getProperty("idNamespace", "SLI");
 
             this.exchange = exchange;
@@ -96,6 +104,8 @@ public class PersistenceProcessor implements Processor {
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
+                // TODO BatchJobUtil.startMetric(job.getId(), this.getClass().getName(), fe.getFileName())
+
                 ErrorReport errorReportForFile = null;
                 try {
                     errorReportForFile = processIngestionStream(fe, idNamespace, getTransformedCollections(), new HashSet<String>());
@@ -103,6 +113,9 @@ public class PersistenceProcessor implements Processor {
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
                 }
+
+                // TODO Add a recordCount variables to IngestionFileEntry for each file (i.e. original, neutral, ...) - see if things have changed with transform
+                // TODO BatchJobUtil.stopMetric(job.getId(), this.getClass().getName(), fe.getFileName(), fe.getNeutralRecordCount(), fe.getFaultsReport.getFaults().size())
 
                 // Inform user if there were any record-level errors encountered
                 if (errorReportForFile != null && errorReportForFile.hasErrors()) {
@@ -118,6 +131,10 @@ public class PersistenceProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
             long endTime = System.currentTimeMillis();
+
+            BatchJobUtils.saveBatchJobUsingStateManager(job);
+            // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
+            BatchJobUtils.stopStage(job.getId(), this.getClass().getName());
 
             // Log statistics
             LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
@@ -253,6 +270,7 @@ public class PersistenceProcessor implements Processor {
                 }
             }
 
+                // TODO store record counts in batch job db
             if (exchange != null) {
                 LOG.info("Setting records.processed value on exchange header");
 

@@ -14,6 +14,8 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 /**
  *
  * @author ablum
@@ -102,7 +104,8 @@ public class IdNormalizer {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
              StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
-             String pathCollection = tokenizer.nextToken().toLowerCase();
+             String pathCollection = tokenizer.nextToken();
+             pathCollection = WordUtils.uncapitalize(pathCollection);
 
              if (pathCollection.equals(collection) && searchCriteriaEntry.getValue() != null) {
 
@@ -161,7 +164,8 @@ public class IdNormalizer {
     */
     private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, String idNamespace, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
-        String pathCollection = tokenizer.nextToken().toLowerCase();
+        String pathCollection = tokenizer.nextToken();
+        pathCollection = WordUtils.uncapitalize(pathCollection);
         String referencePath = tokenizer.nextToken();
 
         Map<String, String> tempFilter = new HashMap<String, String>();

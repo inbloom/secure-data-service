@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
+import java.security.cert.Certificate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -32,6 +34,7 @@ import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -58,25 +61,33 @@ public class SamlFederationResource {
     @Autowired
     private SamlAttributeTransformer transformer;
     
-    @Value("${sli.security.sp.issuerName}")
-    private String metadataSpIssuerName;
+    @Autowired
+    private XmlSignatureHelper signatureHelper;
     
     @Autowired
     private MongoAuthorizationCodeServices authCodeServices;
+    
+    @Value("${sli.security.sp.issuerName}")
+    private String metadataSpIssuerName;
     
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
     
     private String metadata;
     
+    @SuppressWarnings("unused")
     @PostConstruct
     private void processMetadata() throws IOException {
         InputStream is = metadataTemplateResource.getInputStream();
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
         is.close();
+        Certificate cert = signatureHelper.getX509CertificateFromKeystore();
+        
         metadata = writer.toString();
         metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
+        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.x509\\.signing\\.certificate\\}",
+                Base64.encodeBase64String(cert.getPublicKey().getEncoded()));
     }
     
     @POST
@@ -97,7 +108,8 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
         
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
+        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
+                .getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -114,7 +126,8 @@ public class SamlFederationResource {
         
         // TODO change everything authRealm to use issuer instead of authRealm
         
-        final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
+        final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"),
+                attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());

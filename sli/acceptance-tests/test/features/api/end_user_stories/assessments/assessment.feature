@@ -4,9 +4,9 @@ Background: None
 
 	Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
     Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
 
      Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
@@ -91,9 +91,9 @@ Examples:
 
 Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
      Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
 
      Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
@@ -170,9 +170,9 @@ Examples:
 
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals "Aggregate Viewer"
-    And I am authenticated on "SLI Realm"
+    And I am authenticated on "SLI"
 
     When I navigate to GET "/teachers/<'Ms. Smith' ID>"
     Then I should receive a return code of 403

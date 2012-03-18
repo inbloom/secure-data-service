@@ -5,6 +5,9 @@ import java.util.Map;
 
 /**
  * Encapsulates a query object to be used by the DAL
+ * 
+ * Use NeutralQuery or ApiQuery instead
+ * 
  * @author srupasinghe
  *
  */

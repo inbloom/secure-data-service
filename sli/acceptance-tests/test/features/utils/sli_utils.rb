@@ -11,6 +11,23 @@ include REXML
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
+$SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
+                "jdoe_SLI" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
+                "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
+                "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
+                "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
+                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85",
+                "educator_SLI"=> "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
+                "leader_SLI"=> "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
+                "administrator_SLI"=> "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
+                "aggregator_SLI"=> "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
+                "baduser_SLI"=> "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
+                "nouser_SLI"=> "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
+                "teacher_SLI"=> "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
+                "prince_SLI"=> "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
+                "root_SLI"=> "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "bigbro_SLI"=> "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85"}
+
 def assert(bool, message = 'assertion failure')
   raise message unless bool
 end
@@ -24,22 +41,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpLogin(user, passwd)
-  @longLiveSession = false
-  if ["demo", "jdoe", "tbear", "john_doe", "ejane", "linda.kim"].include?(user)
-    @sessionId = "e88cb6d1-771d-46ac-a207-2e58d7f12196" if user == "demo"
-    @sessionId = "c88ab6d7-117d-46aa-a207-2a58d1f72796" if user == "jdoe"
-    @sessionId = "c77ab6d7-227d-46bb-a207-2a58d1f82896" if user == "tbear"
-    @sessionId = "a69ab2d7-137d-46ba-c281-5a57d1f22706" if user == "john_doe"
-    @sessionId = "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701" if user == "ejane"
-    @sessionId = "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85" if user == "linda.kim"
-    @longLiveSession = true
-  else
-   url = PropLoader.getProps['sli_idp_server_url']+"/identity/authenticate?username="+user+"&password="+passwd
-   res = RestClient.get(url){|response, request, result| response }
-    @sessionId = res.body[res.body.rindex('=')+1..-2]
-  end
-
-  puts(@sessionId) if $SLI_DEBUG
+  idpRealmLogin(user, passwd, "SLI")
 end
 
 # Function idpRealmLogin
@@ -51,13 +53,21 @@ end
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
-def idpRealmLogin(user, passwd, realm="sli")
-  realmType = 'sli_idp_server_url' # Default case
-  realmType = 'sea_idp_server_url' if realm == "idp1"
-  realmType = 'lea_idp_server_url' if realm == "idp2"
-  url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
-  res = RestClient.get(url){|response, request, result| response }
-  @sessionId = res.body[res.body.rindex('=')+1..-2]
+def idpRealmLogin(user, passwd, realm="SLI")
+  @longLiveSession = false
+  token = $SESSION_MAP[user+"_"+realm]
+  if token != nil
+    @sessionId = token
+    @longLiveSession = true
+  else
+    raise("Could not find user")
+    realmType = 'sli_idp_server_url' # Default case
+    realmType = 'sea_idp_server_url' if realm == "idp1"
+    realmType = 'lea_idp_server_url' if realm == "idp2"
+    url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
+    res = RestClient.get(url){|response, request, result| response }
+    @sessionId = res.body[res.body.rindex('=')+1..-2]
+  end
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -285,6 +295,10 @@ module DataProvider
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
+      "administration_url" => "https://slidev.org/admin",
+      "image_url" => "https://slidev.org/image",
+      "application_url" => "https://slidev.org/image",
+      "version" => "3.14",
       "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
     }
   end

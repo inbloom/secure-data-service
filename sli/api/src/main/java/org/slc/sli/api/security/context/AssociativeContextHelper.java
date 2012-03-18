@@ -42,7 +42,9 @@ public class AssociativeContextHelper {
             List<String> keys = getAssocKeys(searchType, ad);
             String sourceKey = keys.get(0);
             String targetKey = keys.get(1);
-            Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
+            Query query = new Query(Criteria.where("body." + sourceKey).in(ids));
+            query.fields().include("body." + targetKey);
+            Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), query, 0, 9999);
 
             ids.clear();
             for (Entity e : entities) {
@@ -89,16 +91,15 @@ public class AssociativeContextHelper {
     /**
      * Searches a collection to find entities that contain a reference form a list
      *
-     *
-     *
      * @param collectionName    collection to query
      * @param referenceLocation location of the reference in the collection (eg "body.referenceId")
      * @param referenceIds      reference values to query
      * @return Ids of entities containing a referenceId at the referenceLocation
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation, List<String> referenceIds) {
-        Iterable<Entity> entities = repository.findByQuery(collectionName,
-                new Query(Criteria.where(referenceLocation).in(referenceIds)), 0, 9999);
+        Query query = new Query(Criteria.where(referenceLocation).in(referenceIds));
+        query.fields().include("_id");
+        Iterable<Entity> entities = repository.findByQuery(collectionName, query, 0, 9999);
 
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entities) {

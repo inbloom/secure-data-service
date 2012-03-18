@@ -385,7 +385,7 @@ public class EntityManager extends ApiClientManager {
         headers.add(API_SESSION_KEY, token);
         HttpEntity httpEntity = new HttpEntity(headers);
         
-        log.debug("Accessing API: " + url);  
+        log.debug("Accessing API: {}", url);  
         
         HttpEntity<String> apiResponse = template.exchange(url, HttpMethod.GET, httpEntity, String.class);
 

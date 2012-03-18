@@ -34,6 +34,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.oauth.SliClientDetailService;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -163,12 +164,12 @@ public class ApplicationResourceTest {
 
     @Test
     public void testBadDelete() {
-        String clientId = "9999999999";
+        String uuid = "9999999999";
 
-        Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
-                .thenReturn(new ArrayList<String>());
-        Response resp = resource.deleteApplication("9999999999");
+        String clientId = null;
+        List<String> existingEntitiesIds = null;
+        Mockito.doThrow(new EntityNotFoundException("Entity Not Found")).when(service).delete(uuid);
+        Response resp = resource.deleteApplication(uuid);
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 
@@ -226,12 +227,10 @@ public class ApplicationResourceTest {
 
     @Test
     public void testBadGet() {
-        String clientId = "9999999999";
+        String uuid = "9999999999";
 
-        Mockito.when(
-                service.list(0, 1, "client_id=" + clientId))
-                .thenReturn(new ArrayList<String>());
-        Response resp = resource.getApplication("9999999999");
+        Mockito.doThrow(new EntityNotFoundException("EntityNotFound")).when(service).get(uuid);
+        Response resp = resource.getApplication(uuid);
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 
@@ -273,14 +272,10 @@ public class ApplicationResourceTest {
 
     @Test
     public void testUpdate() {
-        String clientId = "1234567890";
         String uuid = "123";
-        List<String> existingUuids = new ArrayList<String>();
-        existingUuids.add(uuid);
-        Mockito.when(service.list(0, 1, "client_id" + "=" + clientId)).thenReturn(existingUuids);
         EntityBody app = getNewApp();
         Mockito.when(service.update(uuid, app)).thenReturn(true);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(clientId, app).getStatus());
+        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app).getStatus());
 
     }
 

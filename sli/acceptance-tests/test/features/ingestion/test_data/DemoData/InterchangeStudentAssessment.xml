@@ -2885,9 +2885,9 @@
 	<ScoreResults AssessmentReportingMethod="Mastery level">
       <Result>3</Result>
     </ScoreResults>
-	<ScoreResults AssessmentReportingMethod="Percentile">
-      <Result>75</Result>
-    </ScoreResults>
+	<PerformanceLevels>
+    	<Description>3</Description>
+    </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>2312321</StudentUniqueStateId>
@@ -2911,9 +2911,9 @@
     <ScoreResults AssessmentReportingMethod="Mastery level">
       <Result>4</Result>
     </ScoreResults>
-	<ScoreResults AssessmentReportingMethod="Percentile">
-      <Result>95</Result>
-    </ScoreResults>
+	<PerformanceLevels>
+    	<Description>4</Description>
+    </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>2312321</StudentUniqueStateId>
@@ -2937,9 +2937,9 @@
     <ScoreResults AssessmentReportingMethod="Mastery level">
       <Result>2</Result>
     </ScoreResults>
-	<ScoreResults AssessmentReportingMethod="Percentile">
-      <Result>55</Result>
-    </ScoreResults>
+	<PerformanceLevels>
+    	<Description>2</Description>
+    </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>2312320</StudentUniqueStateId>
@@ -2963,9 +2963,9 @@
     <ScoreResults AssessmentReportingMethod="Mastery level">
       <Result>3</Result>
     </ScoreResults>
-	<ScoreResults AssessmentReportingMethod="Percentile">
-      <Result>65</Result>
-    </ScoreResults>
+	<PerformanceLevels>
+    	<Description>3</Description>
+    </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>2312320</StudentUniqueStateId>
