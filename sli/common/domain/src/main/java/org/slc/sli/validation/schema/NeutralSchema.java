@@ -84,18 +84,6 @@ public abstract class NeutralSchema {
         return true;
     }
     
-    public Object convert(Object value) {
-        throw new RuntimeException("Unsupported Neutral Schema Type: ");
-    }
-    
-    public boolean isPii() {
-        if (this.getAppInfo() == null) {
-            return false;
-        }
-
-        return this.getAppInfo().isPersonallyIdentifiableInfo();
-    }
-    
     public void setVersion(String version) {
         this.version = version;
     }

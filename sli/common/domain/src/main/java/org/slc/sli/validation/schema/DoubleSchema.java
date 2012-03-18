@@ -37,12 +37,6 @@ public class DoubleSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.DOUBLE;
     }
-
-    @Override
-    public Object convert(Object value) {
-        return Double.parseDouble((String) value);
-    }
-    
     
     /**
      * Validates the given entity

@@ -2,8 +2,9 @@ package org.slc.sli.api.service;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.api.service.query.SortOrder;
 
+import java.util.Map;
 
 
 /**
@@ -60,7 +61,7 @@ public interface EntityService {
      *            all parameters to be included in query
      * @return the body of the entity
      */
-    public EntityBody get(String id, NeutralQuery neutralQuery);
+    public EntityBody get(String id, Map<String, String> queryParameters);
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
@@ -69,16 +70,7 @@ public interface EntityService {
      *            all parameters to be included in query
      * @return the body of the entity
      */
-    public Iterable<EntityBody> list(NeutralQuery neutralQuery);
-
-    /**
-     * Retrieves an entity from the data store with certain fields added/removed.
-     * 
-     * @param queryParameters
-     *            all parameters to be included in query
-     * @return the body of the entity
-     */
-    public Iterable<String> listIds(NeutralQuery neutralQuery);
+    public Iterable<EntityBody> list(Map<String, String> queryParameters);
     
     /**
      * Get multiple entities from the data store
@@ -100,7 +92,48 @@ public interface EntityService {
      *            sort order
      * @return the entities matching the given ids
      */
-    public Iterable<EntityBody> get(Iterable<String> ids, NeutralQuery neutralQuery);
+    public Iterable<EntityBody> get(Iterable<String> ids, String sortBy, SortOrder sortOrder);
+    
+    /**
+     * List the ids of the entities in the data store
+     * 
+     * @param start
+     *            the index of the first index to return
+     * @param numResults
+     *            the number of results to return
+     * @return the ids of the entities in the data store
+     */
+    public Iterable<String> list(int start, int numResults);
+    
+    /**
+     * List the ids of the entities in the data store, filtered by a query
+     * 
+     * @param start
+     *            the index of the first index to return
+     * @param numResults
+     *            the number of results to return
+     * @param queryString
+     *            the string to query against
+     * @return a list of ids of matching entities
+     */
+    public Iterable<String> list(int start, int numResults, String queryString);
+    
+    /**
+     * List the ids of the entities in the data store, filtered by a query
+     * 
+     * @param start
+     *            the index of the first index to return
+     * @param numResults
+     *            the number of results to return
+     * @param queryString
+     *            the string to query against
+     * @param sortOrder
+     *            the field to sort against
+     * @param sortOrder
+     *            the order of the sort
+     * @return a list of ids of matching entities
+     */
+    public Iterable<String> list(int start, int numResults, String queryString, String sortBy, SortOrder sortOrder);
     
     /**
      * Whether or not an element exists with the given id

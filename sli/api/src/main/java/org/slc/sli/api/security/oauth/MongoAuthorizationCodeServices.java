@@ -9,8 +9,9 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -34,8 +35,6 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
@@ -97,13 +96,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     }
     
     public String createAuthorizationCodeForMessageId(String samlId, final SLIPrincipal principal) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("samlId", "=", samlId));
-        
-        
-        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
+        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE, new Query(Criteria.where("body.samlId")
+                .is(samlId)), 0, 1);
         Entity e = results.iterator().next();
         
         final String id = e.getEntityId();
@@ -137,12 +131,8 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
      */
     @Override
     protected UnconfirmedAuthorizationCodeAuthenticationTokenHolder remove(String code) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("value", "=", code));
-        
-        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
+        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE,
+                new Query(Criteria.where("body.value").is(code)), 0, 1);
         final Map<String, Object> body = results.iterator().next().getBody();
         UnconfirmedAuthorizationCodeAuthenticationTokenHolder toReturn = null;
     
@@ -154,9 +144,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             Set<String> scope = new HashSet<String>();
             scope.addAll(client.getScope());
             UnconfirmedAuthorizationCodeClientToken clientToken = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), client.getClientSecret(), scope, state, body.get("redirectUri").toString());
-            NeutralQuery neutralQuery2 = new NeutralQuery();
-            neutralQuery2.addCriteria(new NeutralCriteria("_id", "=", body.get("userRealm").toString()));
-            Entity realm = repo.findOne("realm", neutralQuery2);
+            Entity realm = repo.findOne("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(body.get("userRealm").toString()))));
             SLIPrincipal user = userLocator.locate((String) realm.getBody().get("regionId"), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());

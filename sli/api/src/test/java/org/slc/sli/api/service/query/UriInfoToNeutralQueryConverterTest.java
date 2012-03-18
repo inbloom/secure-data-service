@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
 
 /**
  * Neutral Query Converter Test
@@ -101,7 +100,6 @@ public class UriInfoToNeutralQueryConverterTest {
             String queryString = "offset=four";
             URI requestUri = new URI(URI_STRING + "?" + queryString);
             when(uriInfo.getRequestUri()).thenReturn(requestUri);
-            //when(uriInfo.getRequestUri().getQuery()).thenReturn(queryString);
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }

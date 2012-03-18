@@ -30,7 +30,7 @@ public class TeacherToStudentParentAssociationResolver implements EntityContextR
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return helper.findEntitiesContainingReference(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId", studentIds);
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_PARENT_ASSOCIATION, "body.studentId", studentIds);
     }
 
 

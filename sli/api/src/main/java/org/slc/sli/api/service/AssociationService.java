@@ -1,6 +1,6 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.api.service.query.SortOrder;
 
 /**
  * Extension of EntityService for associations.
@@ -24,7 +24,8 @@ public interface AssociationService extends EntityService {
      * @return the ids of association entities
      */
     
-    public Iterable<String> getAssociationsWith(String id, NeutralQuery neutralQuery);
+    public Iterable<String> getAssociationsWith(String id, int start, int numResults, String queryString,
+            String sortBy, SortOrder sortOrder);
     
     /**
      * Gets the associations associated with a given target entity in the data store
@@ -43,7 +44,8 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of associations associated to the given entity
      */
-    public Iterable<String> getAssociationsTo(String id, NeutralQuery neutralQuery);
+    public Iterable<String> getAssociationsTo(String id, int start, int numResults, String queryString, String sortBy,
+            SortOrder sortOrder);
     
     /**
      * Get the entities associated with a given source entity in the data store
@@ -62,7 +64,8 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of associated entities
      */
-    public EntityIdList getAssociatedEntitiesWith(String id, NeutralQuery neutralQuery);
+    public EntityIdList getAssociatedEntitiesWith(String id, int start, int numResults, String queryString,
+            String sortBy, SortOrder sortOrder);
     
     /**
      * Gets the entities associated with a given target entity in the data store
@@ -81,7 +84,8 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of entities associated to the given entity
      */
-    public EntityIdList getAssociatedEntitiesTo(String id, NeutralQuery neutralQuery);
+    public EntityIdList getAssociatedEntitiesTo(String id, int start, int numResults, String queryString,
+            String sortBy, SortOrder sortOrder);
     
     /**
      * Gets the entities associated with a given entity in the data store. Checks both target and
@@ -101,7 +105,8 @@ public interface AssociationService extends EntityService {
      *            sort order
      * @return the ids of entities associated to the given entity
      */
-    public Iterable<String> getAssociationsFor(String id, NeutralQuery neutralQuery);
+    public Iterable<String> getAssociationsFor(String id, int start, int numResults, String queryString, String sortBy,
+            SortOrder sortOrder);
     
     /**
      * Get the count of associations associated with a given source entity in the data store
@@ -112,7 +117,7 @@ public interface AssociationService extends EntityService {
      *            the query string to filter returned collection results
      * @return the number of associations
      */
-    public long countAssociationsWith(String id, NeutralQuery neutralQuery);
+    public long countAssociationsWith(String id, String queryString);
     
     /**
      * Get the count of associations associated with a given target entity in the data store
@@ -123,7 +128,7 @@ public interface AssociationService extends EntityService {
      *            the query string to filter returned collection results
      * @return the number of associations
      */
-    public long countAssociationsTo(String id, NeutralQuery neutralQuery);
+    public long countAssociationsTo(String id, String queryString);
     
     /**
      * Gets the count of entities associated with a given entity in the data store. Checks both
@@ -135,7 +140,7 @@ public interface AssociationService extends EntityService {
      *            the query string to filter returned collection results
      * @return the number of associations
      */
-    public long countAssociationsFor(String id, NeutralQuery neutralQuery);
+    public long countAssociationsFor(String id, String queryString);
     
     /**
      * 

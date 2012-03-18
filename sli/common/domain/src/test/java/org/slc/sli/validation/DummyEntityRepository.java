@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import org.slc.sli.domain.EntityQuery;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Mock entity repository for testing purposes
@@ -39,13 +40,13 @@ public class DummyEntityRepository implements EntityRepository {
     }
 
     @Override
-    public Entity find(String collectionName, NeutralQuery queryParameters) {
+    public Entity find(String collectionName, Map<String, String> queryParameters) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery queryParameters) {
+    public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -54,6 +55,12 @@ public class DummyEntityRepository implements EntityRepository {
     public Entity find(String collectioName, String id) {
         Map<String, Entity> collection = entities.get(collectioName);
         return collection.get(id);
+    }
+    
+    @Override
+    public Iterable<Entity> findAll(String collectionName, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
     @Override
@@ -99,7 +106,19 @@ public class DummyEntityRepository implements EntityRepository {
     }
     
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -111,20 +130,32 @@ public class DummyEntityRepository implements EntityRepository {
     }
     
     @Override
-    public long count(String collectionName, NeutralQuery query) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public Entity findOne(String collectionName, NeutralQuery query) {
+    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         // TODO Auto-generated method stub
         return null;
     }
     
     @Override
-    public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
-     // TODO Auto-generated method stub
+    public long count(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public Entity findOne(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        return null;
+    }
+    
 }

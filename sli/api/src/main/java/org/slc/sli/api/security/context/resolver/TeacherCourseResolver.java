@@ -4,10 +4,8 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityQuery;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,21 +45,25 @@ public class TeacherCourseResolver implements EntityContextResolver {
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        
+
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
 
-        List<String> ids = new ArrayList<String>();
-        for (String sectionId : sectionIds) {
-            ids.add(sectionId);
+        StringBuilder query = new StringBuilder();
+        String separator = "";
+
+        for (String s : sectionIds) {
+            query.append(separator);
+            separator = ",";
+            query.append(s);
         }
-        
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        
-        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
-        
+
+        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
+        queryBuilder.addField("_id", query.toString());
+
+        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
+
         Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : entities) {

@@ -1,6 +1,6 @@
 Feature: Security for Attendance CRUD 
 As a product owner, I want to validate that my attendance entity is properly secured up to current SLI standards
-
+	
 Scenario: Showing attendance event list link in Student's available links
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
@@ -9,7 +9,6 @@ When I make an API call to get the student "Marvin Miller"
 Then I receive a JSON response
 And I should see a link to get the list of its attendance events in the response labeled "attendances"
 
-@wip
 Scenario: Authorized user tries to hit the attendance events list URL directly
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
@@ -17,7 +16,6 @@ And I teach the student "Marvin Miller"
 When I make an API call to get the student "Marvin Miller"'s attendance events list
 Then I should receive a list containing the student "Marvin Miller"'s attendance events
 
-@wip
 Scenario: Unauthorized authenticated user tries to hit the attendance events list URL directly
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
@@ -25,7 +23,6 @@ And I do not teach the student "Delilah D. Sims"
 When I make an API call to get the student "Delilah D. Sims"'s attendance events list
 Then I get a message that I am not authorized
 
-@wip
 Scenario: Authorized user accessing a specific attendance event of a student
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP
@@ -33,7 +30,6 @@ And I teach the student "Marvin Miller"
 When I make an API call to get the specific attendance event "Marvin Miller Attendance event"
 Then I should receive a JSON object of the attendance event
 
-@wip
 Scenario: Unauthorized user accessing a specific attendance event of a student
 Given I am user "linda.kim" in IDP "SLI"
 And I am assigned the Educator role in my IDP

@@ -1,20 +1,19 @@
 package org.slc.sli.api.security.resolve.impl;
 
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralQuery;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityRepository;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -36,16 +35,10 @@ public class MongoUserLocator implements UserLocator {
         LOG.info("Locating user {}@{}", externalUserId, regionId);
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + regionId);
         user.setExternalId(externalUserId);
-        
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("metaData.idNamespace", regionId);
-        paths.put("body.staffUniqueStateId", externalUserId);
-        
+
+        Query query = new Query(Criteria.where("metaData.idNamespace").is(regionId).and("body.staffUniqueStateId").is(externalUserId));
         for (String entityName : ENTITY_NAMES) {
-            Iterable<Entity> staff = repo.findByPaths(entityName, paths, neutralQuery);
+            Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
 
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();

@@ -37,11 +37,6 @@ public class IntegerSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.INTEGER;
     }
-
-    @Override
-    public Object convert(Object value) {
-        return Integer.parseInt((String) value);
-    }
     
     /**
      * Validates the given entity

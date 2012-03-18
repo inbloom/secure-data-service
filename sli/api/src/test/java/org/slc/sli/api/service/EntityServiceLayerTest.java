@@ -33,10 +33,9 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.AssociationService.EntityIdList;
+import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.NeutralCriteria;
 
 //import org.slc.sli.validation.EntityValidationException;
 
@@ -187,15 +186,9 @@ public class EntityServiceLayerTest {
         assertEquals(student4.get("lastName"), retrievedStudent4.get("lastName"));
         assertEquals(Arrays.asList(retrievedStudent1, retrievedStudent2, retrievedStudent3, retrievedStudent4),
                 studentService.get(Arrays.asList(id1, id2, id3, id4)));
-        NeutralQuery zeroToTwoQuery = new NeutralQuery();
-        zeroToTwoQuery.setOffset(0);
-        zeroToTwoQuery.setLimit(2);
-        List<String> firstSet = iterableToList(studentService.listIds(zeroToTwoQuery));
+        List<String> firstSet = iterableToList(studentService.list(0, 2));
         assertEquals(2, firstSet.size());
-        NeutralQuery twoToFourQuery = new NeutralQuery();
-        twoToFourQuery.setOffset(2);
-        twoToFourQuery.setLimit(2);
-        List<String> secondSet = iterableToList(studentService.listIds(twoToFourQuery));
+        List<String> secondSet = iterableToList(studentService.list(2, 2));
         assertEquals(2, secondSet.size());
         Set<String> wholeSet = new HashSet<String>();
         wholeSet.addAll(firstSet);
@@ -205,10 +198,7 @@ public class EntityServiceLayerTest {
         studentService.delete(id2);
         studentService.delete(id3);
         studentService.delete(id4);
-        NeutralQuery zeroToFourQuery = new NeutralQuery();
-        zeroToFourQuery.setOffset(0);
-        zeroToFourQuery.setLimit(4);
-        assertEquals(new ArrayList<EntityBody>(), studentService.list(zeroToFourQuery));
+        assertEquals(new ArrayList<EntityBody>(), studentService.list(0, 4));
     }
     
     @Test
@@ -284,80 +274,55 @@ public class EntityServiceLayerTest {
         assoc4.put("entryGradeLevel", "Fourth grade");
         String assocId4 = studentSchoolAssociationService.create(assoc4);
         EntityBody retrievedAssoc4 = studentSchoolAssociationService.get(assocId4);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(4);
-        NeutralQuery neutralQueryA = new NeutralQuery(neutralQuery);
-        NeutralQuery neutralQueryB = new NeutralQuery(neutralQuery);
-        NeutralQuery neutralQueryC = new NeutralQuery(neutralQuery);
-        NeutralQuery neutralQueryD = new NeutralQuery(neutralQuery);
         assertEquals(retrievedAssoc4.get("schoolId"), assoc4.get("schoolId"));
         assertEquals(retrievedAssoc4.get("studentId"), assoc4.get("studentId"));
         assertEquals(retrievedAssoc4.get("startDate"), assoc4.get("startDate"));
         assertEquals(Arrays.asList(retrievedAssoc1, retrievedAssoc2, retrievedAssoc3, retrievedAssoc4),
                 studentSchoolAssociationService.get(Arrays.asList(assocId1, assocId2, assocId3, assocId4)));
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsWith(id1, neutralQueryA));
-        assertEquals(Arrays.asList(assocId2), studentSchoolAssociationService.getAssociationsWith(id2, neutralQueryB));
-        assertEquals(Arrays.asList(assocId3), studentSchoolAssociationService.getAssociationsWith(id3, neutralQueryC));
-        assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociationsWith(id4, neutralQueryD));
-        assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4), 
-                studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery));
+        assertEquals(Arrays.asList(assocId1),
+                studentSchoolAssociationService.getAssociationsWith(id1, 0, 4, null, null, null));
+        assertEquals(Arrays.asList(assocId2),
+                studentSchoolAssociationService.getAssociationsWith(id2, 0, 4, null, null, null));
+        assertEquals(Arrays.asList(assocId3),
+                studentSchoolAssociationService.getAssociationsWith(id3, 0, 4, null, null, null));
+        assertEquals(Arrays.asList(assocId4),
+                studentSchoolAssociationService.getAssociationsWith(id4, 0, 4, null, null, null));
+        assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
+                studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null, null, null));
         
         // test query fields
-        NeutralQuery neutralQuery1 = new NeutralQuery();
-        neutralQuery1.setLimit(4);
-        neutralQuery1.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "First grade"));
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsWith(id1, neutralQuery1));
-        NeutralQuery neutralQuery2 = new NeutralQuery();
-        neutralQuery2.setLimit(4);
-        neutralQuery2.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "Second grade"));
-        assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, neutralQuery2).iterator().hasNext());
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsWith(id1, 0, 4,
+                "entryGradeLevel=First grade", null, null));
+        assertFalse(studentSchoolAssociationService
+                .getAssociationsWith(id1, 0, 4, "entryGradeLevel=Second grade", null, null).iterator().hasNext());
         
-        NeutralQuery neutralQuery3 = new NeutralQuery();
-        neutralQuery3.setLimit(4);
-        neutralQuery3.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "First grade"));
-        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery3));
-        NeutralQuery neutralQuery4 = new NeutralQuery();
-        neutralQuery4.setLimit(4);
-        neutralQuery4.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "Fifth grade"));
-        assertFalse(studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery4).iterator().hasNext());
+        assertEquals(Arrays.asList(assocId1), studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4,
+                "entryGradeLevel=First grade", null, null));
+        assertFalse(studentSchoolAssociationService
+                .getAssociationsTo(schoolId, 0, 4, "entryGradeLevel=Fifth grade", null, null).iterator().hasNext());
         
-        NeutralQuery neutralQuery5 = new NeutralQuery();
-        neutralQuery5.setLimit(4);
-        neutralQuery5.addCriteria(new NeutralCriteria("nameOfInstitution", "=", "Battle School"));
-        EntityIdList idList1 = studentSchoolAssociationService.getAssociatedEntitiesWith(id1, neutralQuery5);
+        EntityIdList idList1 = studentSchoolAssociationService.getAssociatedEntitiesWith(id1, 0, 4,
+                "nameOfInstitution=Battle School", null, null);
         assertEquals(Arrays.asList(schoolId), iterableToList(idList1));
         assertEquals(1, idList1.getTotalCount());
-        NeutralQuery neutralQuery6 = new NeutralQuery();
-        neutralQuery6.setLimit(4);
-        neutralQuery6.addCriteria(new NeutralCriteria("nameOfInstitution", "=", "new Battle School"));
-        assertFalse(studentSchoolAssociationService.getAssociatedEntitiesWith(id1, neutralQuery6).iterator().hasNext());
+        assertFalse(studentSchoolAssociationService
+                .getAssociatedEntitiesWith(id1, 0, 4, "nameOfInstitution=new Battle School", null, null).iterator()
+                .hasNext());
         
-        NeutralQuery neutralQuery7 = new NeutralQuery();
-        neutralQuery7.setLimit(4);
-        neutralQuery7.addCriteria(new NeutralCriteria("studentUniqueStateId", "=", "0"));
-        EntityIdList idList2 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, neutralQuery7);
+        EntityIdList idList2 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4,
+                "studentUniqueStateId=0", null, null);
         assertEquals(Arrays.asList(id1), iterableToList(idList2));
         assertEquals(4, idList2.getTotalCount());
-        NeutralQuery neutralQuery8 = new NeutralQuery();
-        neutralQuery8.setLimit(4);
-        neutralQuery8.addCriteria(new NeutralCriteria("name.firstName", "=", "non exist"));
         assertFalse(studentSchoolAssociationService
-                .getAssociatedEntitiesTo(schoolId, neutralQuery8).iterator().hasNext());
+                .getAssociatedEntitiesTo(schoolId, 0, 4, "name.firstName=non exist", null, null).iterator().hasNext());
         
         // test sorting
-        NeutralQuery neutralQuery9 = new NeutralQuery();
-        neutralQuery9.setLimit(4);
-        neutralQuery9.setSortBy("entryGradeLevel");
-        neutralQuery9.setSortOrder(NeutralQuery.SortOrder.ascending);
-        assertEquals(Arrays.asList(assocId1, assocId4, assocId2, assocId3), 
-                studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery9));
+        assertEquals(Arrays.asList(assocId1, assocId4, assocId2, assocId3),
+                studentSchoolAssociationService.getAssociationsTo(schoolId, 0, 4, null, "entryGradeLevel",
+                        SortOrder.ascending));
         
-        NeutralQuery neutralQuery10 = new NeutralQuery();
-        neutralQuery10.setLimit(4);
-        neutralQuery10.setSortBy("studentUniqueStateId");
-        neutralQuery10.setSortOrder(NeutralQuery.SortOrder.descending);
-        EntityIdList idList3 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, neutralQuery10);
+        EntityIdList idList3 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, 0, 4, null,
+                "studentUniqueStateId", SortOrder.descending);
         assertEquals(Arrays.asList(id4, id3, id2, id1), iterableToList(idList3));
         assertEquals(4, idList3.getTotalCount());
         

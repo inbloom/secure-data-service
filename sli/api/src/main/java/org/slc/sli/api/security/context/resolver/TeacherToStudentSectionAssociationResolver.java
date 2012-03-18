@@ -31,6 +31,6 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId", studentIds);
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "body.studentId", studentIds);
     }
 }

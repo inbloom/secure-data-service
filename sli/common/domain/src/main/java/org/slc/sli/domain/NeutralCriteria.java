@@ -51,8 +51,4 @@ public class NeutralCriteria {
     public Object getValue() {
         return this.value;
     }
-    
-    public String toString() {
-        return this.key + this.operator + this.value.toString();
-    }
 }

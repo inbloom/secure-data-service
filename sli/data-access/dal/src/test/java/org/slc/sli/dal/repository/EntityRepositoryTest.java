@@ -16,14 +16,15 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * JUnits for DAL
@@ -50,10 +51,7 @@ public class EntityRepositoryTest {
         assertTrue(!id.equals(""));
         
         // test findAll
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(20);
-        Iterable<Entity> entities = repository.findAll("student", neutralQuery);
+        Iterable<Entity> entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
         assertEquals(found.getBody().get("birthDate"), student.get("birthDate"));
@@ -66,10 +64,34 @@ public class EntityRepositoryTest {
         assertEquals(foundOne.getBody().get("birthDate"), student.get("birthDate"));
         assertEquals((found.getBody()).get("firstName"), "Jane");
         
+        // test find by field
+        Map<String, String> searchFields = new HashMap<String, String>();
+        searchFields.put("firstName", "Jane");
+        Iterable<Entity> searchResults = repository.findByFields("student", searchFields, 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        searchResults = repository.findByFields("student", searchFields);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        
+        // test find by query
+        Query query = new Query();
+        query.addCriteria(Criteria.where("body.firstName").is("Jane"));
+        searchResults = repository.findByQuery("student", query, 0, 20);
+        assertNotNull(searchResults);
+        assertEquals(searchResults.iterator().next().getBody().get("firstName"), "Jane");
+        Query query1 = new Query();
+        query1.addCriteria(Criteria.where("body.birthDate").lt("2011-10-01"));
+        searchResults = repository.findByQuery("student", query1, 0, 20);
+        assertTrue(searchResults.iterator().hasNext());
+        query = null;
+        searchResults = repository.findByQuery("student", query, 0, 20);
+        assertTrue(searchResults.iterator().hasNext());
+        
         // test update
         found.getBody().put("firstName", "Mandy");
         assertTrue(repository.update("student", found));
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", 0, 20);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
         assertEquals(updated.getBody().get("firstName"), "Mandy");
@@ -77,7 +99,7 @@ public class EntityRepositoryTest {
         // test delete by id
         Map<String, Object> student2Body = buildTestStudentEntity();
         Entity student2 = repository.create("student", student2Body);
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", 0, 20);
         assertNotNull(entities.iterator().next());
         repository.delete("student", student2.getEntityId());
         Entity zombieStudent = repository.find("student", student2.getEntityId());
@@ -87,7 +109,7 @@ public class EntityRepositoryTest {
         
         // test deleteAll by entity type
         repository.deleteAll("student");
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", 0, 20);
         assertFalse(entities.iterator().hasNext());
     }
     
@@ -121,13 +143,9 @@ public class EntityRepositoryTest {
         repository.create("student", body4);
         
         // sort entities by firstName with ascending order
-        NeutralQuery sortQuery1 = new NeutralQuery();
-        sortQuery1.setSortBy("firstName");
-        sortQuery1.setSortOrder(NeutralQuery.SortOrder.ascending);
-        sortQuery1.setOffset(0);
-        sortQuery1.setLimit(100);
-        
-        Iterable<Entity> entities = repository.findAll("student", sortQuery1);
+        Query query = new Query();
+        query.sort().on("body.firstName", Order.ASCENDING);
+        Iterable<Entity> entities = repository.findByQuery("student", query, 0, 100);
         assertNotNull(entities);
         Iterator<Entity> it = entities.iterator();
         assertEquals("Austin", it.next().getBody().get("firstName"));
@@ -136,12 +154,9 @@ public class EntityRepositoryTest {
         assertEquals("Suzy", it.next().getBody().get("firstName"));
         
         // sort entities by firstName with descending order
-        NeutralQuery sortQuery2 = new NeutralQuery();
-        sortQuery2.setSortBy("firstName");
-        sortQuery2.setSortOrder(NeutralQuery.SortOrder.descending);
-        sortQuery2.setOffset(0);
-        sortQuery2.setLimit(100);
-        entities = repository.findAll("student", sortQuery2);
+        query = new Query();
+        query.sort().on("body.firstName", Order.DESCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("Suzy", it.next().getBody().get("firstName"));
@@ -150,12 +165,9 @@ public class EntityRepositoryTest {
         assertEquals("Austin", it.next().getBody().get("firstName"));
         
         // sort entities by performanceLevels which is an array with ascending order
-        NeutralQuery sortQuery3 = new NeutralQuery();
-        sortQuery3.setSortBy("performanceLevels");
-        sortQuery3.setSortOrder(NeutralQuery.SortOrder.ascending);
-        sortQuery3.setOffset(0);
-        sortQuery3.setLimit(100);
-        entities = repository.findAll("student", sortQuery3);
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.ASCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
@@ -164,12 +176,9 @@ public class EntityRepositoryTest {
         assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
         
         // sort entities by performanceLevels which is an array with descending order
-        NeutralQuery sortQuery4 = new NeutralQuery();
-        sortQuery4.setSortBy("performanceLevels");
-        sortQuery4.setSortOrder(NeutralQuery.SortOrder.descending);
-        sortQuery4.setOffset(0);
-        sortQuery4.setLimit(100);
-        entities = repository.findAll("student", sortQuery4);
+        query = new Query();
+        query.sort().on("body.performanceLevels", Order.DESCENDING);
+        entities = repository.findByQuery("student", query, 0, 100);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
@@ -188,10 +197,10 @@ public class EntityRepositoryTest {
         Map<String, Object> oddStudent = buildTestStudentEntity();
         oddStudent.put("cityOfBirth", "Nantucket");
         repository.create("student", oddStudent);
-        assertEquals(5, repository.count("student", new NeutralQuery()));
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=Nantucket"));
-        assertEquals(1, repository.count("student", neutralQuery));
+        assertEquals(5, repository.count("student", new Query()));
+        Query nantucket = new Query();
+        nantucket.addCriteria(Criteria.where("body.cityOfBirth").is("Nantucket"));
+        assertEquals(1, repository.count("student", nantucket));
     }
     
     private Map<String, Object> buildTestStudentEntity() {
@@ -262,11 +271,8 @@ public class EntityRepositoryTest {
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(100);
         
-        Iterable<String> ids = repository.findAllIds("student", neutralQuery);
+        Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
         List<String> idList = new ArrayList<String>();
         for (String id : ids) {
             idList.add(id);
@@ -282,10 +288,8 @@ public class EntityRepositoryTest {
         student.put("firstName", "Jadwiga");
         
         this.repository.create("student", student);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
         
-        assertNotNull(this.repository.findOne("student", neutralQuery));
+        assertNotNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
     }
 
     @Test
@@ -297,19 +301,15 @@ public class EntityRepositoryTest {
         this.repository.create("student", student);
         this.repository.create("student", student);
         this.repository.create("student", student);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
         
-        assertNotNull(this.repository.findOne("student", neutralQuery));
+        assertNotNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
     }
     
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student");
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
         
-        assertNull(this.repository.findOne("student", neutralQuery));
+        assertNull(this.repository.findOne("student", new Query(Criteria.where("body.firstName").is("Jadwiga"))));
     }
 
 }

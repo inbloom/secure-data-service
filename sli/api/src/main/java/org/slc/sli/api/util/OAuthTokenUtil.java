@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -27,8 +29,6 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -119,10 +119,8 @@ public class OAuthTokenUtil {
     public OAuth2Authentication createOAuth2Authentication(Map data) {
         String realm = (String) data.get("realm");
         String externalId = (String) data.get("externalId");
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realm));
         
-        Entity realmEntity = repo.findOne("realm", neutralQuery);
+        Entity realmEntity = repo.findOne("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(realm))));
         SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("regionId"), externalId);
         principal.setName((String) data.get("name"));
         principal.setRoles((List<String>) data.get("roles"));

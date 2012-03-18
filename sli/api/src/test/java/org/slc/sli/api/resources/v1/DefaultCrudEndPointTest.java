@@ -81,7 +81,7 @@ public class DefaultCrudEndPointTest {
     
     public Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", "1");
+        entity.put("field1", 1);
         entity.put("field2", 2);
         entity.put("studentUniqueStateId", 1234);
         return entity;
@@ -116,8 +116,7 @@ public class DefaultCrudEndPointTest {
     @SuppressWarnings("unchecked")
     public void testReadMultipleResources() {
         for (String resource : resourceList) {
-            String idList = getIDList(resource);
-            Response response = crudEndPoint.read(resource, idList, httpHeaders, uriInfo);
+            Response response = crudEndPoint.read(resource, getIDList(resource), httpHeaders, uriInfo);
             assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
             
             List<EntityBody> results = (List<EntityBody>) response.getEntity();
@@ -208,6 +207,25 @@ public class DefaultCrudEndPointTest {
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);
         }
+    }
+    
+    @Test
+    public void testCreateAssociationQueryParameters() {
+        String key = "someKey";
+        String value = "someValue";
+        String includeField = "field1";
+        
+        Map<String, String> resMap = new HashMap<String, String>();
+        resMap.put("limit", "10");
+        resMap.put("offset", "2");
+        
+        Map<String, String> map = crudEndPoint.createAssociationQueryParameters(resMap, key, value, includeField);
+        
+        assertEquals("Size should be 4", map.size(), 4);
+        assertEquals("key==value", map.get("someKey"), "someValue");
+        assertEquals("limit should be 10", map.get("limit"), "10");
+        assertEquals("offset should be 2", map.get("offset"), "2");
+        assertEquals("includeField should be field1", map.get("includeFields"), "field1");
     }
     
     @Test

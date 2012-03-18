@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -32,8 +34,6 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityRepository;
 import org.slc.sli.domain.enums.Right;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -106,12 +106,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
         
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("regionId", "=", "SLI"));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        
-        Iterable<Entity> realms = repo.findAll("realm", neutralQuery);
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.regionId").is("SLI")), 0, 1);
         
         String idp = null;
         for (Entity firstRealm : realms) {

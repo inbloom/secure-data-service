@@ -36,7 +36,7 @@ public class TimeSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.TIME;
     }
-    
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

@@ -13,7 +13,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +28,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.admin.RealmResource;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Tests Realm info fetch and resolve to ssoInit URL
@@ -141,13 +139,12 @@ public class RealmResourceTest {
         Mockito.when(store.lookupByResourceName(ENTITY_TYPE_NAME)).thenReturn(ed);
 
         Mockito.when(es.getEntityDefinition()).thenReturn(ed);
-        //Mockito.when(es.list(0, 9999)).thenReturn(Arrays.asList(VALID_REALM_ID));
+        Mockito.when(es.list(0, 9999)).thenReturn(Arrays.asList(VALID_REALM_ID));
 
         EntityBody entity = this.entities.get(VALID_REALM_ID);
 
         Mockito.when(es.get(VALID_REALM_ID)).thenReturn(entity);
         Mockito.when(es.get(Arrays.asList(VALID_REALM_ID))).thenReturn(Arrays.asList(entity));
-        Mockito.when(es.list(any(NeutralQuery.class))).thenReturn(Arrays.asList(entity));
 
         return store;
     }

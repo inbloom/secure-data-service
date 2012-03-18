@@ -20,8 +20,6 @@ import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGREGATION;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS;
@@ -50,12 +48,12 @@ public class AggregateURLCreatorTest {
 
     @Test
     public void testValidParamGetURL() {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("groupBy.educationOrganization", "=", ED_ORG_ID));
-        neutralQuery.addCriteria(new NeutralCriteria("groupBy.grade", "=", GRADE_ID));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("educationOrganization", ED_ORG_ID);
+        params.put("grade", GRADE_ID);
 
         try {
-            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
+            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), params);
             assertEquals("Should have one link", 1, list.size());
 
             EmbeddedLink link = list.get(0);
@@ -71,15 +69,33 @@ public class AggregateURLCreatorTest {
 
     @Test
     public void testInvalidParamGetUrl() {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("groueducationOrganization", "=", "56"));
-        neutralQuery.addCriteria(new NeutralCriteria("grade", "=", GRADE_ID));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("educationOrganization", "56");
+        params.put("grade", GRADE_ID);
 
         try {
-            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), "", "", neutralQuery);
+            List<EmbeddedLink> list = creator.getUrls(buildMockUriInfo(""), params);
             assertEquals("Should have not have any links", 0, list.size());
         } catch (Exception e) {
             fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testConvertParamsToEnitiyFormat() {
+        Map<String, String> initParams = new HashMap<String, String>();
+        initParams.put("districtId", "1234");
+        initParams.put("schoolId", "45678");
+        initParams.put("gradeId", "123");
+
+        Map<String, String> params = creator.convertParamsToEnitiyFormat(initParams);
+
+        assertEquals("Maps should be same size", params.size(), initParams.size());
+
+        for (Map.Entry<String, String> e : initParams.entrySet()) {
+            String key = ENTITY_BODY_GROUPBY + "." + e.getKey();
+
+            assertEquals("Values should match", e.getValue(), params.get(key));
         }
     }
 

@@ -34,7 +34,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -135,13 +134,8 @@ public class RealmRoleManagerResource {
     
     @GET
     public List<EntityBody> getRealms(@QueryParam("realm") @DefaultValue("") String realm, @Context UriInfo info) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(100);
-        
-        
         List<EntityBody> result = new ArrayList<EntityBody>();
-        Iterable<String> realmList = service.listIds(neutralQuery);
+        Iterable<String> realmList = service.list(0, 100);
         for (String id : realmList) {
             EntityBody curEntity = getMappings(id);
             if (realm.length() == 0) {

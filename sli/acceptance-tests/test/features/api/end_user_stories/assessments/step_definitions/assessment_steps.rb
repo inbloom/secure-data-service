@@ -39,10 +39,6 @@ Transform /(\/[^"].*\/)<(.+)>$/ do |arg1, arg2|
   id
 end
 
-When /^I examine the filtered and sorted results$/ do
-  step "I navigate to \"link\" with URI \"#{@filterSortPaginationHref}\""
-end
-
 #Given /^I am a valid SEA\/LEA end user <username> with password <password>$/ do
 #    @user = "aggregator"
 #    @passwd = "aggregator1234"
@@ -176,7 +172,7 @@ Then /^I should receive a collection of (\d+) ([\w-]+) link$/ do |arg1, arg2|
     counter=0
     @ids = Array.new
     dataH.each do|link|
-      if link["link"]["rel"]=="self" and link["link"]["href"]. =~ /{arg2}/
+      if link["link"]["rel"]=="self" and link["link"]["href"].include? @collectionType
         counter=counter+1
         @ids.push(link["id"])
       end

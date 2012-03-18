@@ -14,7 +14,6 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.NeutralQuery;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -43,13 +42,8 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     
     @Override
     public Role findRoleByName(String name) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(100);
-        
-        
         // TODO find a way to "findAll" from entity service
-        Iterable<String> ids = service.listIds(neutralQuery);
+        Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body;
             body = service.get(id); // FIXME massive hack for roles disappearing sporadically
@@ -63,11 +57,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     
     @Override
     public Role findRoleBySpringName(String springName) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(100);
-        
-        Iterable<String> ids = service.listIds(neutralQuery);
+        Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
             Role tempRole = getRoleWithBodyAndID(id, body);
@@ -83,12 +73,8 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     
     @Override
     public List<Role> fetchAllRoles() {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(100);
-        
         List<Role> roles = new ArrayList<Role>();
-        Iterable<String> ids = service.listIds(neutralQuery);
+        Iterable<String> ids = service.list(0, 100);
         for (String id : ids) {
             EntityBody body = service.get(id);
             roles.add(getRoleWithBodyAndID(id, body));

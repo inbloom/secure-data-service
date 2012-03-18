@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.slc.sli.domain.QueryParseException;
 
 /**
  * Query Converter Test
