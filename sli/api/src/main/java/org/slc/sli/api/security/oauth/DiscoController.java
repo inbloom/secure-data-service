@@ -75,7 +75,7 @@ public class DiscoController {
             @RequestParam(value = "state", required = false) final String state,
             @CookieValue(value = "realmCookie", required = false) final String cookie,
             final HttpServletResponse res, final Model model) throws IOException {
-        LOG.debug("Realm Cookie is " + cookie);
+        LOG.debug("Realm Cookie is {}", cookie);
         
         if (cookie != null && cookie.length() > 0) {
             return ssoInit(cookie, relayState, clientId, state, res, model);
@@ -162,13 +162,13 @@ public class DiscoController {
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
 
         authCodeService.create(clientId, state, tuple.getLeft());
-        LOG.debug("redirecting to: " + endpoint);
+        LOG.debug("redirecting to: {}", endpoint);
         Cookie cookie = new Cookie("realmCookie", realmId);
         cookie.setMaxAge(60 * 60);
         cookie.setDomain(".slidev.org");
         cookie.setPath("/");
         res.addCookie(cookie);
-        LOG.debug("Set the realm cookie to " + realmId);
+        LOG.debug("Set the realm cookie to {}", realmId);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
 

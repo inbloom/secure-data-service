@@ -76,7 +76,7 @@ public class PopulationManager implements Manager {
             studentAssessmentMap.put(studentId, studentAssessments);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: {}\t Avg per student: {}", endTime, endTime
                 / studentIds.size());
         
         Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
@@ -104,13 +104,13 @@ public class PopulationManager implements Manager {
         for (String studentId : studentIds) {
             long studentTime = System.nanoTime();
             List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, null, null);
-            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
+            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: {}", (System.nanoTime() - studentTime) * 1.0e-9);
             
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: {}\t Avg per student: {}", endTime, endTime
                 / studentIds.size());
         return studentAttendanceMap;
     }

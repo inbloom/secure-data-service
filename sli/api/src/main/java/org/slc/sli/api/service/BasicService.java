@@ -366,7 +366,10 @@ public class BasicService implements EntityService {
                         referencingEntityService.delete(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
-                    LOG.debug("No " + referencingEntity.getResourceName() + " have " + referenceField + " = " + sourceId);
+                    LOG.debug("No {} have {}={}", new Object[] {
+                            referencingEntity.getResourceName(),
+                            referenceField,
+                            sourceId});
                 }
             }
         }
@@ -422,7 +425,7 @@ public class BasicService implements EntityService {
         if (auths.contains(Right.FULL_ACCESS)) {
             LOG.debug("User has full access");
         } else if (auths.contains(neededRight)) {
-            LOG.debug("User has needed right: " + neededRight);
+            LOG.debug("User has needed right: {}", neededRight);
         } else {
             throw new AccessDeniedException("Insufficient Privileges");
         }

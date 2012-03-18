@@ -70,11 +70,11 @@ public class AssociationURLCreator extends URLCreator {
                     NeutralQuery neutralQuery = new NeutralQuery();
                     neutralQuery.addCriteria(new NeutralCriteria(assoc.getSourceKey(), "=", entityId));
     
-                    LOG.debug("entityDef type : " + entityDef.getType());
+                    LOG.debug("entityDef type : {}", entityDef.getType());
     
                     // get the actual associations
                     Iterable<Entity> entityList = repo.findAll(assoc.getStoredCollectionName(), neutralQuery);
-                    LOG.debug("assoc type : " + assoc.getType());
+                    LOG.debug("assoc type : {}", assoc.getType());
     
                     for (Entity e : entityList) {
                         // add the link to the list

@@ -195,7 +195,7 @@ public class MockRepo implements EntityRepository {
                 }
                 results = results2;
             } else {
-                LOG.warn("Unsupported operator: " + criteria.getOperator());
+                LOG.warn("Unsupported operator: {}", criteria.getOperator());
             }
         }
         

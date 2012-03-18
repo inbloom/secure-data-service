@@ -130,8 +130,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from " + entityDef.getStoredCollectionName() + " where " + key + " = "
-                        + value);
+                logger.debug("Attempting to read from {} where {} = {}", new Object[] {
+                        entityDef.getStoredCollectionName(), key, value});
                 
                 long totalCount = 0;
                 if (entityDef instanceof AssociationDefinition) {
@@ -200,9 +200,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                logger.debug("Attempting to list from " + resource1 + " where " + key + " = " + value);
+                logger.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
                 logger.debug("Then for each result, ");
-                logger.debug(" going to read from " + resource2 + " where \"_id\" = " + resource1 + "." + idKey);
+                logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
+                        resource2, resource1, idKey});
                 
 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);

@@ -141,7 +141,7 @@ public class ApplicationResource {
                 EntityBody entityBody = service.get(uuid);
                 return Response.status(Status.OK).entity(entityBody).build();
             } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id " + uuid);
+                LOG.debug("Could not find application with id {}", uuid);
             }
         }
 
@@ -158,7 +158,7 @@ public class ApplicationResource {
                 service.delete(uuid);
                 return Response.status(Status.NO_CONTENT).build();
             } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id " + uuid + " to delete");
+                LOG.debug("Could not find application with id {} to delete", uuid);
             }
         }
 

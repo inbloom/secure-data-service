@@ -35,10 +35,10 @@ public class RESTClient {
      * @throws NoSessionException
      */
     public JsonObject sessionCheck(String token) {
-        logger.info("Session check URL = " + Constants.SESSION_CHECK_PREFIX);
+        logger.info("Session check URL = {}", Constants.SESSION_CHECK_PREFIX);
         // String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
         String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token, true);
-        logger.info("jsonText = " + jsonText);
+        logger.info("jsonText = {}", jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
     }
@@ -65,10 +65,10 @@ public class RESTClient {
             headers.add("Authorization", "Bearer" + token);
             entity = new HttpEntity(headers);
         }
-        logger.info("Accessing API at: " + url.toString());
+        logger.info("Accessing API at: {}", url.toString());
 
         HttpEntity<String> response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
-        logger.info("JSON response for roles: " + response.getBody());
+        logger.info("JSON response for roles: {}", response.getBody());
         // String jsonText = template.getForObject(url.toString(), String.class);
         // logger.info("JSON response for roles: " + jsonText);
         return response.getBody();
@@ -95,19 +95,19 @@ public class RESTClient {
             // headers.add(API_SESSION_KEY, token);
             headers.add("Authorization", "Bearer" + token);
             HttpEntity entity = new HttpEntity(headers);
-            logger.debug("Accessing API at: " + url);
+            logger.debug("Accessing API at: {}", url);
             HttpEntity<String> response = null;
             try {
                 response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
             } catch (HttpClientErrorException e) {
-                logger.debug("Catch HttpClientException: " + e.getStatusCode().toString());
+                logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
             }
             if (response == null) {
                 return null;
             }
             return response.getBody();
         }
-        logger.debug("Token is null in call to RESTClient for path" + path);
+        logger.debug("Token is null in call to RESTClient for path {}", path);
 
         return null;
     }
