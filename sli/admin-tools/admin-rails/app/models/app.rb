@@ -6,6 +6,7 @@ class App < SessionResource
     string "vendor", "version", "method"
     boolean "is_admin", "license_acceptance"
     date "created_on", "updated_on"
-    string "organization", "client_type", "scope"
+    string "organization", "client_type", "scope", "developer_info"
   end
 end
+

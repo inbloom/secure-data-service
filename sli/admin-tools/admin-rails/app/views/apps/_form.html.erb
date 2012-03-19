@@ -20,8 +20,7 @@
 	<%= f.text_field :client_secret, :disabled => true %>
 </div>
 
-
-<%= f.fields_for :developer_info do |dev| %>
+<%= f.fields_for app.developer_info do |dev| %>
 	<div class = "field">
 		<%= dev.label :organization, "Vendor" %>
 		<%= dev.text_field :organization %>
@@ -30,7 +29,6 @@
 		<%= dev.label :license_acceptance, "License Accepted" %>
 		<%= dev.check_box :license_acceptance %>
 	</div>
-
 <% end %>
 
 <div class = "field">
