@@ -100,8 +100,8 @@ public class GradebookEntryResolverTest {
         Map<String, String> student3 = new HashMap<String, String>();
         student3.put("id", "DOES NOT EXIST");
 
-        assertEquals("86", gradebookEntryResolver.getAverage(student1));
-        assertEquals("89", gradebookEntryResolver.getAverage(student2));
+        assertEquals("86%", gradebookEntryResolver.getAverage(student1));
+        assertEquals("89%", gradebookEntryResolver.getAverage(student2));
         assertEquals("Missing information should return a dash", "-",
                 gradebookEntryResolver.getAverage(student3));
     }

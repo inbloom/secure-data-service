@@ -4,6 +4,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -48,12 +50,30 @@ public class GradebookEntryResolver {
     }
 
     private String getAverage(String studentId) {
+        List<Double> grades = new ArrayList<Double>();
+        Map<String, GenericEntity> studentData = gradebookData.get(studentId);
+
+        if (studentData == null) return "-";
+
+        for (GenericEntity genericEntity : studentData.values()) {
+            Double grade = Double.parseDouble(genericEntity.get(GRADE_KEY).toString());
+            grades.add(grade);
+        }
+
+        return average(grades);
+    }
+
+    private String average(List<Double> numbers) {
+        Double total = 0.0;
+        for (Double num : numbers) {
+            total += num;
+        }
+
         try {
-            Map<String, GenericEntity> studentRecord = gradebookData.get(studentId);
-            GenericEntity average = studentRecord.get(AVERAGE_KEY);
-            Long avg = Math.round((Double) average.get(GRADE_KEY));
-            return avg.toString() + "%";
-        } catch (NullPointerException npe) {
+            Double average = total / numbers.size();
+            Long roundedAverage = Math.round(average);
+            return  roundedAverage + "%";
+        } catch (ArithmeticException ae) {
             return "-";
         }
     }
@@ -66,8 +86,12 @@ public class GradebookEntryResolver {
      */
     private String getGrade(String studentId, String gradebookEntryId) {
         String grade = getValue(studentId, gradebookEntryId, GRADE_KEY);
-        Long rounded = Math.round(Double.parseDouble(grade));
-        return rounded.toString();
+        try {
+            Long rounded = Math.round(Double.parseDouble(grade));
+            return rounded.toString();
+        } catch (NumberFormatException nfe) {
+            return grade;
+        }
     }
 
     /**
