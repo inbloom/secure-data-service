@@ -266,7 +266,8 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Agency representative</Relation>
-        <EmergencyContactStatus>false</EmergencyContactStatus>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>3</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
         <StudentReference>
