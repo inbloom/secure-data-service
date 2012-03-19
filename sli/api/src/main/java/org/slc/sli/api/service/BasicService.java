@@ -1,19 +1,16 @@
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.service.query.QueryConverter;
-import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.SmartQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +25,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.service.query.QueryConverter;
+import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.SmartQuery;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -438,9 +439,9 @@ public class BasicService implements EntityService {
         Collection<GrantedAuthority> auths = auth.getAuthorities();
 
         if (auths.contains(Right.FULL_ACCESS)) {
-            LOG.debug("User has full access");
+            LOG.trace("User has full access");
         } else if (auths.contains(neededRight)) {
-            LOG.debug("User has needed right: {}", neededRight);
+            LOG.trace("User has needed right: {}", neededRight);
         } else {
             throw new AccessDeniedException("Insufficient Privileges");
         }

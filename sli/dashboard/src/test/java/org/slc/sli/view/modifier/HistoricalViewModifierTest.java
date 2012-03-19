@@ -1,9 +1,8 @@
-package org.slc.sli.unit.manager;
+package org.slc.sli.view.modifier;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.config.ViewConfig;
-import org.slc.sli.manager.HistoricalViewManager;
 import org.slc.sli.view.HistoricalDataResolver;
 import org.slf4j.Logger;
 import org.junit.runner.RunWith;
@@ -20,16 +19,16 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 /**
- * Test class for HistoricalViewManager
+ * Test class for HistoricalViewModifier
  * @author jstokes
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
 
-public class HistoricalViewManagerTest {
-    private static Logger log = LoggerFactory.getLogger(HistoricalViewManagerTest.class);
+public class HistoricalViewModifierTest {
+    private static Logger log = LoggerFactory.getLogger(HistoricalViewModifierTest.class);
     
-    private HistoricalViewManager historicalViewManager; // class under test
+    private HistoricalViewModifier historicalViewModifier; // class under test
     
     @Before
     public void setup() {
@@ -41,14 +40,14 @@ public class HistoricalViewManagerTest {
         when(historicalDataResolver.getSchoolYears()).thenReturn(schoolYears);
         when(historicalDataResolver.getSubjectArea()).thenReturn("Test Subject Area");
         
-        historicalViewManager = new HistoricalViewManager(historicalDataResolver);
+        historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
     }
     
     @Test
     public void addHistoricalData() {
         ViewConfig testConfig = new ViewConfig();
         
-        historicalViewManager.addHistoricalData(testConfig);
+        historicalViewModifier.modify(testConfig);
         assertEquals("There should have been two display sets added", 2, testConfig.getDisplaySet().size());
         assertEquals("Display name should have been set properly", "2009-2010",
                 testConfig.getDisplaySet().get(0).getDisplayName());
