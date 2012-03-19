@@ -2,6 +2,10 @@ package org.slc.sli.domain;
 
 import java.util.Map;
 
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
@@ -225,5 +229,21 @@ public interface Repository<T> {
      * @return
      */
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
+
+    /**
+     * Execute a mongo command
+     * 
+     * @param command the command to execute
+     * @return the result of that command
+     */
+    public abstract CommandResult execute(DBObject command);
+    
+    /**
+     * Get the actual db collection
+     * 
+     * @param collectionName the collection name
+     * @return the mongo db collection
+     */
+    public DBCollection getCollection(String collectionName);
 
 }
