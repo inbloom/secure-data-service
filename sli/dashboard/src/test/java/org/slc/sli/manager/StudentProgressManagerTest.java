@@ -252,16 +252,7 @@ public class StudentProgressManagerTest {
         assertEquals("First element should match", "2010-05-02", tests.first().getString("dateFulfilled"));
         assertEquals("First element should match", "2011-06-30", tests.last().getString("dateFulfilled"));
     }
-    
-    @Test
-    public void testCalculateAndCreateAverageEntity() {
-        assertEquals("Should match", 0.00, manager.calculateAndCreateAverageEntity(0, 1).get("numericGradeEarned"));
-        assertEquals("Should match", 1.00, manager.calculateAndCreateAverageEntity(1, 1).get("numericGradeEarned"));
-        assertEquals("Should match", 0.00, manager.calculateAndCreateAverageEntity(77.7, 0).get("numericGradeEarned"));
-        assertEquals("Should match", 44.10, manager.calculateAndCreateAverageEntity(88.2, 2).get("numericGradeEarned"));
-        assertEquals("Should match", 33.33, manager.calculateAndCreateAverageEntity(100, 3).get("numericGradeEarned"));
-    }
-    
+
     @Test
     public void testParseNumericGrade() {
         assertEquals("Should match", 0.00, manager.parseNumericGrade(null), 0.1);

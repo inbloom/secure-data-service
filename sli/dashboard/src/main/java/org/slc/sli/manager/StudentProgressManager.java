@@ -194,7 +194,6 @@ public class StudentProgressManager implements Manager {
     public Map<String, Map<String, GenericEntity>> getCurrentProgressForStudents(final String token, List<String> studentIds, 
             String selectedSection) {
         Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
-        double total = 0.0;
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
@@ -205,7 +204,6 @@ public class StudentProgressManager implements Manager {
         gradebookParams.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
         
         for (String studentId : studentIds) {
-            total = 0.0;
             log.debug("Progress data [studentId] {}", studentId);
             
             List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
@@ -229,38 +227,13 @@ public class StudentProgressManager implements Manager {
                     
                     results.put(studentId, gradebookEntries);
                 }
-                
-                //add it to the total
-                total += parseNumericGrade(studentGradebookEntry.get(Constants.ATTR_NUMERIC_GRADE_EARNED));
+
             }
-            
-            if (results.get(studentId) != null)
-                results.get(studentId).put("Average", calculateAndCreateAverageEntity(total, studentGradebookEntries.size()));
         }
         
         
         
         return results;
-    }
-    
-    /**
-     * Calculates the average and adds it to a GenericEntity
-     * @param total The total score
-     * @param size Number of tests
-     * @return
-     */
-    protected GenericEntity calculateAndCreateAverageEntity(double total, int size) {
-        double average = 0.0;
-        GenericEntity entity = new GenericEntity();
-        
-        //calculate the average
-        if (size > 0)
-            average = total / size;
-        
-        //add it to the entity
-        entity.put(Constants.ATTR_NUMERIC_GRADE_EARNED, Double.parseDouble(String.format("%.2f", average)));
-        
-        return entity;
     }
     
     /**
