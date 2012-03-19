@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
@@ -19,8 +21,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.SmartQuery;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -99,6 +101,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
     
     @Override
+    public DBCollection getCollection(String collectionName) {
+        return template.getCollection(collectionName);
+    }
+
+    @Override
     public abstract boolean update(String collection, T record);
     
     protected boolean update(String collection, T record, Map<String, Object> body) {
@@ -116,6 +123,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 new Update().set("body", body), collection);
         LOG.info("update a record in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
+    }
+
+    public CommandResult execute(DBObject command) {
+        return template.executeCommand(command);
     }
     
     @Override

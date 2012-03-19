@@ -76,7 +76,7 @@
                 <xs:element name="image_url" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="https://.*" />
+                            <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -89,6 +89,8 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                
+                <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
 
 				<xs:element name="developer_info" type="developer_info"
 					minOccurs="1" />

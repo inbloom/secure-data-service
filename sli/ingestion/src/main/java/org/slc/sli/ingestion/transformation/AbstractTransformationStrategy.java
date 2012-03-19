@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
@@ -10,7 +12,9 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
 
+    protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     private String batchJobId;
+    @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Override
@@ -19,7 +23,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         this.performTransformation();
     }
     
-    abstract void performTransformation();
+    protected abstract void performTransformation();
 
     /**
      * @return the neutralRecordMongoAccess
