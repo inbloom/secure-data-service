@@ -4,6 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+@wip
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "assessmentMetaData.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -11,7 +12,6 @@ Given I post "assessmentMetaData.zip" file as the payload of the ingestion job
      | assessment                  |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-  And "30" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | assessment                  | 4     |
