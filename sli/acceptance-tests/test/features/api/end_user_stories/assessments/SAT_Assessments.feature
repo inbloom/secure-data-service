@@ -6,11 +6,12 @@ Background: None
 # ==========================================================
 # MOVE THIS TO V1 WHEN COMPLETE, MAKE SURE TESTS PASS
 # ==========================================================
+@wip
 Scenario Outline:  As a teacher for my class I want to get the most recent values SAT including Critical Reading, Writing, Mathematics
 	Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
     
      Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
@@ -90,8 +91,8 @@ When I navigate to "getAssessments" with URI "/section-assessment-associations/<
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
 #| "educator"      | "educator1234"      | "Educator"         |
-| "administrator" | "administrator1234" | "IT Administrator" |
-| "leader"        | "leader1234"        | "Leader"           |
+#| "administrator" | "administrator1234" | "IT Administrator" |
+#| "leader"        | "leader1234"        | "Leader"           |
 
 
 # negative security case docuemented in another file.

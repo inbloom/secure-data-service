@@ -129,8 +129,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from " + entityDef.getStoredCollectionName() + " where " + key + " = "
-                        + value);
+                logger.debug("Attempting to read from {} where {} = {}", new Object[] {
+                        entityDef.getStoredCollectionName(), key, value});
                 // get references to query parameters
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
                 String query = uriInfo.getRequestUri().getQuery();
@@ -197,9 +197,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                logger.debug("Attempting to list from " + resource1 + " where " + key + " = " + value);
+                logger.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
                 logger.debug("Then for each result, ");
-                logger.debug(" going to read from " + resource2 + " where \"_id\" = " + resource1 + "." + idKey);
+                logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
+                        resource2, resource1, idKey});
                 
                 // query parameters for association and resolution lookups
                 Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
@@ -217,7 +218,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 String entityIds = ids.toString();
-                logger.debug("entityIds = " + entityIds);
+                logger.debug("entityIds = {}", entityIds);
                 
                 if (entityIds.length() == 0) {
                     return Response.ok(finalResults).build();

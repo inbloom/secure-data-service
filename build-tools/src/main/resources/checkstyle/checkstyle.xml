@@ -173,7 +173,13 @@
       <property name="format" value="System\.out\.print" />
       <property name="illegalPattern" value="true" />
       <property name="ignoreComments" value="true" />
+    </module>
+    <module name="Regexp">
+      <property name="format" value="(LOG|log).*\.(debug|trace).*\+" />
+      <property name="illegalPattern" value="true" />
+      <property name="ignoreComments" value="true" />
     </module> 
+    
 
   </module>
 

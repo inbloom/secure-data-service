@@ -24,12 +24,12 @@
 		<RevisionDate>2005-01-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 		<AssessmentPeriod>
 			<CodeValue>BOY</CodeValue>
@@ -58,12 +58,12 @@
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 		<AssessmentPeriod>
 			<CodeValue>MOY</CodeValue>
@@ -92,12 +92,12 @@
 		<RevisionDate>2005-05-12</RevisionDate>
 		<MaxRawScore>122</MaxRawScore>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 		<AssessmentPeriod>
 			<CodeValue>EOY</CodeValue>
@@ -119,12 +119,12 @@
 			<ID>Dibels 6th Edition</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -135,12 +135,12 @@
 			<ID>Dibels Next</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -151,12 +151,12 @@
 			<ID>Dibels Next Kindergarten</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -167,14 +167,14 @@
 			<ID>Dibels Next Grade 1</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode>
 					<AssessmentFamilyIdentificationCode
 						IdentificationSystem="Test Contractor">
 						<ID>Dibels Next</ID>
 					</AssessmentFamilyIdentificationCode>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -185,12 +185,12 @@
 			<ID>Dibels Next Grade 2</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -201,12 +201,12 @@
 			<ID>Dibels Next Grade 3</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>Dibels Next</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
@@ -233,7 +233,7 @@
 		<BeginDate>2005-05-01</BeginDate>
 		<EndDate>2005-06-01</EndDate>
 	</AssessmentPeriodDescriptor>
-	
-	<!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> 
+
+	<!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description>
 		<PerformanceBaseConversion>Proficient</PerformanceBaseConversion> </PerformanceLevelDescriptor> -->
 </InterchangeAssessmentMetadata>

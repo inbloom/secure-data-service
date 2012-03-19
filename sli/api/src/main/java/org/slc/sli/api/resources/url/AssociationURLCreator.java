@@ -76,12 +76,12 @@ public class AssociationURLCreator extends URLCreator {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put(assoc.getSourceKey(), entityId);
     
-                    LOG.debug("entityDef type : " + entityDef.getType());
+                    LOG.debug("entityDef type : {}", entityDef.getType());
     
                     // get the actual associations
                     Iterable<Entity> entityList = repo
                             .findByFields(assoc.getStoredCollectionName(), params);
-                    LOG.debug("assoc type : " + assoc.getType());
+                    LOG.debug("assoc type : {}", assoc.getType());
     
                     for (Entity e : entityList) {
                         // add the link to the list

@@ -18,7 +18,7 @@ public class NeutralRecordTest {
         NeutralRecord nr = new NeutralRecord();
 
         nr.setSourceId("source");
-        nr.setJobId("job");
+        nr.setBatchJobId("job");
         nr.setLocalId("12345");
         nr.setRecordType("Student");
         nr.getAttributes().put("firstName", "Jane");
@@ -29,7 +29,7 @@ public class NeutralRecordTest {
 
         // not much to assert so far -
         assertEquals(nr.getSourceId(), "source");
-        assertEquals(nr.getJobId(), "job");
+        assertEquals(nr.getBatchJobId(), "job");
         assertEquals(nr.getLocalId(), "12345");
         assertEquals(nr.getRecordType(), "Student");
         assertEquals(nr.getAttributes().size(), 3);
@@ -47,7 +47,7 @@ public class NeutralRecordTest {
         NeutralRecord nr2 = mapper
                 .readValue(nr.toString(), NeutralRecord.class);
         assertEquals(nr2.getSourceId(), nr.getSourceId());
-        assertEquals(nr2.getJobId(), nr.getJobId());
+        assertEquals(nr2.getBatchJobId(), nr.getBatchJobId());
         assertEquals(nr2.getLocalId(), nr.getLocalId());
         assertEquals(nr2.getRecordType(), nr.getRecordType());
         assertEquals(nr2.getAttributes(), nr.getAttributes());

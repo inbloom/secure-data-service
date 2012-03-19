@@ -8,9 +8,9 @@ Background: None
 # ==========================================================
 Scenario Outline:  As a leader I want to get the following attrubutes for all the students in my school, AP English Score, AP Calculus Score, AP US History Score
     Given  I am valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
 
     When I navigate to GET "/school/<'Apple Elementary School' ID>"
     Then I should receive a link named "getSessions" with URI "/school-session-associations/<'Apple Elementary School' ID>/targets"
@@ -72,9 +72,9 @@ Examples:
 # ==========================================================
 Scenario Outline:  As a AggregateViewer I should not get Access to all students in a school
     Given I am a valid SEA/LEA end user <username> with password <password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals "Aggregate Viewer"
-    And I am authenticated on "SLI Realm"
+    And I am authenticated on "SLI"
 
     When I navigate to GET "/schools/<'Apple Alternative Elementary School' ID>"
     And I should receive a return code of 403

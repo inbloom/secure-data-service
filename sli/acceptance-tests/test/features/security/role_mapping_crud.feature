@@ -12,7 +12,7 @@ Scenario: Unauthenticated users can access a list of realms
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
-	Given I am a valid "sli" end user <Username> with password <Password>
+	Given I am a valid "SLI" end user <Username> with password <Password>
 	And I am authenticated to SEA/LEA IDP
 	When I try to access the URI "/realm" with operation <Operation>
 	Then I should be denied access
@@ -23,7 +23,7 @@ Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 	
 Scenario Outline: Deny access to users using non-allowed methods
 
-  Given I am a valid "sli" end user <Username> with password <Password>
+  Given I am a valid "SLI" end user <Username> with password <Password>
   And I am authenticated to SEA/LEA IDP
   When I try to access the URI "/realm" with operation <Operation>
 Then I should receive a return code of 405
@@ -34,7 +34,7 @@ Then I should receive a return code of 405
 
 Scenario: Create a new realm
 
-	Given I am a valid "sli" end user "demo" with password "demo1234"
+	Given I am a valid "SLI" end user "demo" with password "demo1234"
 	And I am authenticated to SEA/LEA IDP
 	When I POST a new realm
 	Then I should receive a return code of 201
@@ -42,7 +42,7 @@ Scenario: Create a new realm
      	
 Scenario: Read a list of realms
 
-  Given I am a valid "sli" end user "demo" with password "demo1234"
+  Given I am a valid "SLI" end user "demo" with password "demo1234"
   And I am authenticated to SEA/LEA IDP
   When I GET a list of realms
   Then I should receive a return code of 200
@@ -50,7 +50,7 @@ Scenario: Read a list of realms
 
 Scenario: Read an existing realm
 
-Given I am a valid "sli" end user "demo" with password "demo1234"
+Given I am a valid "SLI" end user "demo" with password "demo1234"
 And I am authenticated to SEA/LEA IDP
 When I GET a specific realm "SLI"
 Then I should receive a return code of 200
@@ -58,28 +58,28 @@ And I should see a valid object returned
 
 Scenario: Update an existing realm
 
-	Given I am a valid "sli" end user "demo" with password "demo1234"
+	Given I am a valid "SLI" end user "demo" with password "demo1234"
 	And I am authenticated to SEA/LEA IDP
 	When I PUT to change the realm "Fake Realm" to add a mapping between default role "Educator" to role "Blah"
 	Then I should receive a return code of 204
 
 Scenario: Delete an existing realm
 
-	Given I am a valid "sli" end user "demo" with password "demo1234"
+	Given I am a valid "SLI" end user "demo" with password "demo1234"
 	And I am authenticated to SEA/LEA IDP
 	When I DELETE the realm "Another Fake Realm"
 	Then I should receive a return code of 204
 
 Scenario: Deny mappings from non-SLI Default roles to custom roles
 
-	Given I am a valid "sli" end user "demo" with password "demo1234"
+	Given I am a valid "SLI" end user "demo" with password "demo1234"
 	And I am authenticated to SEA/LEA IDP
 	When I add a mapping between non-existent role "Governator" and custom role "blah" for realm "Fake Realm"
 	Then I should receive a return code of 400
 
 Scenario: Deny mapping the same custom role to multiple default SLI roles
 
-	Given I am a valid "sli" end user "demo" with password "demo1234"
+	Given I am a valid "SLI" end user "demo" with password "demo1234"
 	And I am authenticated to SEA/LEA IDP
 	When I add a mapping between default role "Educator" and custom role "foo" for realm "Fake Realm"
 	Then I should receive a return code of 204
@@ -88,7 +88,7 @@ Scenario: Deny mapping the same custom role to multiple default SLI roles
 
 Scenario: Deny mapping the same custom role to the default role twice
 
-  Given I am a valid "sli" end user "demo" with password "demo1234"
+  Given I am a valid "SLI" end user "demo" with password "demo1234"
   And I am authenticated to SEA/LEA IDP
   When I add a mapping between default role "Aggregate Viewer" and custom role "Observer" for realm "Fake Realm"
   Then I should receive a return code of 204

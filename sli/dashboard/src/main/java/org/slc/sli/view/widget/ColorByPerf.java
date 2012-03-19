@@ -79,7 +79,7 @@ public class ColorByPerf {
 
         // range check
         if (level <= 0 || level > numLevels || numLevels > MAX_LEVELS) {
-            logger.info("Invalid input to getColorIndex. Perf level " + level + ", numLevels " + numLevels);
+            logger.info("Invalid input to getColorIndex. Perf level {}, numLevels {}", level, numLevels);
             return 0;
         }
 

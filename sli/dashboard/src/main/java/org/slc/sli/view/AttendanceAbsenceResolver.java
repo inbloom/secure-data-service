@@ -41,7 +41,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         int count = 0;
         if (attendances != null) {
             for (Map attendance : attendances) {
-                logger.debug("Attendance: " + attendance);
+                logger.debug("Attendance: {}", attendance);
                 String value = (String) attendance.get(CATEGORY);
                 String compareValue = null;
                 if (configField.getValue().equals(TARDY_VALUE)) {

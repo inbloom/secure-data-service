@@ -3,7 +3,7 @@ package org.slc.sli.api.security.context;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AssociativeContextHelper {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     @Autowired
     private EntityDefinitionStore definitions;

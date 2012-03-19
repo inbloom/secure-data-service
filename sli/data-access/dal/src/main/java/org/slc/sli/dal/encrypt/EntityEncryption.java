@@ -86,7 +86,7 @@ public class EntityEncryption {
         for (Entry<String, Object> piiField : piiMap.entrySet()) {
             Object fieldValue = body.get(piiField.getKey());
             if (fieldValue == null) {
-                LOG.debug("PII field was null: " + piiField.getKey());
+                LOG.debug("PII field was null: {}", piiField.getKey());
                 continue;
             } else if (fieldValue instanceof Map) {
                 if (!(piiField.getValue() instanceof Map)) {
@@ -96,9 +96,7 @@ public class EntityEncryption {
                 encryptInPlace((Map<String, Object>) piiField.getValue(), (Map<String, Object>) fieldValue, op);
             } else if (fieldValue instanceof List) {
                 List<Object> list = (List<Object>) fieldValue;
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("En/decrypting PII list: " + piiField.getKey() + ", size=" + list.size());
-                }
+                LOG.debug("En/decrypting PII list: {}, size={}", piiField.getKey(), list.size());
                 for (int i = 0; i < list.size(); i++) {
                     Object item = list.get(i);
                     if (item instanceof Map) {
@@ -125,8 +123,8 @@ public class EntityEncryption {
                             }
                         }
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("En/decrypting PII list field: " + piiField.getKey() + ", item=" + i + ", old="
-                                + item + ", new=" + newValue);
+                            LOG.debug("En/decrypting PII list field: {}, item={}, old={}, new={}", 
+                                    new Object[] {piiField.getKey(), i, item, newValue});
                         }
                         list.set(i, newValue);
                     }
@@ -151,7 +149,7 @@ public class EntityEncryption {
                     }
                 }
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("En/decrypting PII value: " + piiField.getKey() + ", old=" + fieldValue + ", new=" + newValue);
+                    LOG.debug("En/decrypting PII value: {}, old={}, new={}", new Object[] {piiField.getKey(), fieldValue, newValue});
                 }
                 body.put(piiField.getKey(), newValue);
             }
