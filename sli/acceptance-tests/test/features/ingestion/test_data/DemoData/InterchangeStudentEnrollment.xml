@@ -4149,7 +4149,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-    <HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>false</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -4500,7 +4500,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-    <HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>false</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
