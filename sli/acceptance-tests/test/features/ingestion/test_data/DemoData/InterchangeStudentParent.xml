@@ -96,6 +96,9 @@
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>3095550000</TelephoneNumber>
         </Telephone>
+        <Telephone>
+            <TelephoneNumber>3095550001</TelephoneNumber>
+        </Telephone>
         <Address>
             <StreetNumberName>34 Eastside Ave</StreetNumberName>
             <City>Daybreak</City>
@@ -266,7 +269,8 @@
             </ParentIdentity>
         </ParentReference>
         <Relation>Agency representative</Relation>
-        <EmergencyContactStatus>false</EmergencyContactStatus>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>3</ContactPriority>
     </StudentParentAssociation>
     <StudentParentAssociation>
         <StudentReference>

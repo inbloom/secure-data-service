@@ -26,6 +26,7 @@ public class PathConstants {
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
+    public static final String STUDENT_WITH_GRADE = "studentWithGrade";
 
     public static final String ASSESSMENTS = "assessments";
     public static final String ATTENDANCES = "attendances";
