@@ -162,14 +162,14 @@ public class StudentResource {
         //Retrieve student entity for student with id = studentId
         Response studentResponse = read(studentId, headers, uriInfo);
         
-        if((studentResponse == null) || !(studentResponse.getEntity() instanceof Map))
+        if ((studentResponse == null) || !(studentResponse.getEntity() instanceof Map))
             return studentResponse;
         Map student = (Map) studentResponse.getEntity();
         
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
         
-        if((studentSchoolAssociationsResponse == null) || !(studentSchoolAssociationsResponse.getEntity() instanceof List)){
+        if ((studentSchoolAssociationsResponse == null) || !(studentSchoolAssociationsResponse.getEntity() instanceof List)) {
             student.put(GRADE_LEVEL, mostRecentGradeLevel);
             return studentResponse;
         }
@@ -190,7 +190,7 @@ public class StudentResource {
                 // If student has an exitWithdrawDate earlier than today, continue searching for current grade
                 if (studentSchoolAssociation.containsKey(EXIT_WITHDRAW_DATE)) {
                     Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(EXIT_WITHDRAW_DATE));
-                    if(ssaDate.compareTo(currentDate) <= 0) {
+                    if (ssaDate.compareTo(currentDate) <= 0) {
                         continue;
                     }
                 }
@@ -203,7 +203,7 @@ public class StudentResource {
                     if (mostRecentEntry == null) {
                         mostRecentEntry = ssaDate;
                         mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
-                    }else {
+                    } else {
                         if (ssaDate.compareTo(mostRecentEntry) > 0) {
                             mostRecentEntry = ssaDate;
                             mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
@@ -212,7 +212,8 @@ public class StudentResource {
                 }
             }
         } catch (Exception e) {
-            LOGGER.debug("Exception while retrieving current gradeLevel for student with id: "+studentId + " Exception: "+e.getMessage());
+            String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  " + studentId + " Exception: " + e.getMessage();
+            LOGGER.debug(exceptionMessage);
             mostRecentGradeLevel = "Not Available";
         }
         
