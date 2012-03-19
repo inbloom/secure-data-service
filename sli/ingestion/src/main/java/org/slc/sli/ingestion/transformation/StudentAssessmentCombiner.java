@@ -1,10 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -18,14 +15,17 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
+/**
+ * Transformer for StudentAssessment entities
+ */
 @Scope("prototype")
-@Component(StudentAssessmentCombiner.SOA_EDFI_COLLECTION_NAME+"TransformationStrategy")
+@Component(StudentAssessmentCombiner.SOA_EDFI_COLLECTION_NAME + "TransformationStrategy")
 public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
-    public final static String SA_EDFI_COLLECTION_NAME = "studentAssessmentAssociation";
-    public final static String SOA_EDFI_COLLECTION_NAME = "studentObjectiveAssessment";
+    public static final String SA_EDFI_COLLECTION_NAME = "studentAssessmentAssociation";
+    public static final String SOA_EDFI_COLLECTION_NAME = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
     
@@ -45,8 +45,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             body.remove(STUDENT_ASSESSMENT_REFERENCE);
             body.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
             LOG.debug("body is {}", body);
-            LOG.debug("references student-assessment {} and objective assessment {}", new Object[]{studentAssessmentRef, objectiveAssessmentRef});
-            //look up related student objective assessments
+            LOG.debug("references student-assessment {} and objective assessment {}", new Object[] {
+                    studentAssessmentRef, objectiveAssessmentRef });
+            // look up related student objective assessments
         }
     }
     
