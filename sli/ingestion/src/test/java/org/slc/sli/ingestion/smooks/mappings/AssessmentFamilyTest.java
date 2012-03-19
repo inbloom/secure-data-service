@@ -17,13 +17,13 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Tests for smooks mappings of AssessmentFamily
- * 
+ *
  * @author jtully
  *
  */
 public class AssessmentFamilyTest {
     @Test
-    public void edfiXmlCourseTest() throws IOException, SAXException {
+    public void edfiXmlAssessmentFamilyTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -76,7 +76,7 @@ public class AssessmentFamilyTest {
 
         checkValidAssessmentFamilyNeutralRecord(neutralRecord);
     }
-    
+
     @Ignore
     @Test
     public void csvAssessmentFamilyTest() throws Exception {
@@ -88,7 +88,8 @@ public class AssessmentFamilyTest {
                 + "Reading,Third grade,Fourth grade,State Standard,2002,2002-09-01,the nomenclature,theid,theref,code value,short desc,descript,"
                 + "tk31,TAKSReading3-1,firstRefIdentificationSystem,firstRefAssigningOrganizationCode,firstRefId,refFamilyTitle,1";
 
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, assessmentFamilyCsv);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
+                assessmentFamilyCsv);
 
         checkValidAssessmentFamilyNeutralRecord(neutralRecord);
     }
@@ -96,43 +97,52 @@ public class AssessmentFamilyTest {
     @SuppressWarnings("rawtypes")
     private void checkValidAssessmentFamilyNeutralRecord(NeutralRecord neutralRecord) {
 
-        assertEquals("record type was not AssessmentFamily", "AssessmentFamily", neutralRecord.getRecordType());
-        
+        assertEquals("record type was not AssessmentFamily", "assessmentFamily", neutralRecord.getRecordType());
+
         assertEquals("record localId does not match", "familyTitle", neutralRecord.getLocalId());
-        
+
         assertEquals("id does not match", "familyid", neutralRecord.getAttributes().get("id"));
-        
-        assertEquals("AssessmentFamilyTitle does not match", "familyTitle", neutralRecord.getAttributes().get("AssessmentFamilyTitle"));
-        
+
+        assertEquals("AssessmentFamilyTitle does not match", "familyTitle",
+                neutralRecord.getAttributes().get("AssessmentFamilyTitle"));
+
         List identificationCodeList = (List) neutralRecord.getAttributes().get("AssessmentFamilyIdentificationCode");
         assertNotNull("AssessmentFamilyIdentificationCode list is null", identificationCodeList);
         assertFalse("empty AssessmentFamilyIdentificationCode list", identificationCodeList.isEmpty());
-        
+
         Map firstIdCodeMap = (Map) identificationCodeList.get(0);
         assertNotNull("first AssessmentFamilyIdentificationCode map is null", firstIdCodeMap);
         EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "ID", "firstId");
         EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "IdentificationSystem", "firstIdentificationSystem");
-        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "AssigningOrganizationCode", "firstAssigningOrganizationCode");
-        
+        EntityTestUtils.assertObjectInMapEquals(firstIdCodeMap, "AssigningOrganizationCode",
+                "firstAssigningOrganizationCode");
+
         if (identificationCodeList.size() > 1) {
             // TODO: remove if block when we support lists in CSV
             Map secondIdCodeMap = (Map) identificationCodeList.get(1);
             assertNotNull("second AssessmentFamilyIdentificationCode map is null", secondIdCodeMap);
             EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "ID", "secondId");
-            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "IdentificationSystem", "secondIdentificationSystem");
-            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "AssigningOrganizationCode", "secondAssigningOrganizationCode");
+            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "IdentificationSystem",
+                    "secondIdentificationSystem");
+            EntityTestUtils.assertObjectInMapEquals(secondIdCodeMap, "AssigningOrganizationCode",
+                    "secondAssigningOrganizationCode");
         }
-        
-        assertEquals("AssessmentCategory does not match", "State summative assessment 3-8 general", neutralRecord.getAttributes().get("AssessmentCategory"));
+
+        assertEquals("AssessmentCategory does not match", "State summative assessment 3-8 general", neutralRecord
+                .getAttributes().get("AssessmentCategory"));
         assertEquals("AcademicSubject does not match", "Reading", neutralRecord.getAttributes().get("AcademicSubject"));
-        assertEquals("GradeLevelAssessed does not match", "Third grade", neutralRecord.getAttributes().get("GradeLevelAssessed"));
+        assertEquals("GradeLevelAssessed does not match", "Third grade",
+                neutralRecord.getAttributes().get("GradeLevelAssessed"));
 
-        assertEquals("LowestGradeLevelAssessed does not match", "Fourth grade", neutralRecord.getAttributes().get("LowestGradeLevelAssessed"));
+        assertEquals("LowestGradeLevelAssessed does not match", "Fourth grade",
+                neutralRecord.getAttributes().get("LowestGradeLevelAssessed"));
 
-        assertEquals("ContentStandard does not match", "State Standard", neutralRecord.getAttributes().get("ContentStandard"));
+        assertEquals("ContentStandard does not match", "State Standard",
+                neutralRecord.getAttributes().get("ContentStandard"));
         assertEquals("Version does not match", "2002", neutralRecord.getAttributes().get("Version"));
-        assertEquals("Nomenclature does not match", "the nomenclature", neutralRecord.getAttributes().get("Nomenclature"));
-        
+        assertEquals("Nomenclature does not match", "the nomenclature",
+                neutralRecord.getAttributes().get("Nomenclature"));
+
         List assessmentPeriodsList = (List) neutralRecord.getAttributes().get("AssessmentPeriods");
         assertNotNull("AssessmentPeriods list is null", assessmentPeriodsList);
         assertFalse("empty AssessmentPeriods list", assessmentPeriodsList.isEmpty());
@@ -162,32 +172,6 @@ public class AssessmentFamilyTest {
             List secondDescriptionChoiceList = (List) secondAssesmentPeriod.get("Descriptions");
             if (!secondDescriptionChoiceList.isEmpty())
                 assertEquals("descript2", secondDescriptionChoiceList.get(0));
-        }
-                
-        Map referenceMap = (Map) neutralRecord.getAttributes().get("AssessmentFamilyReference");
-        EntityTestUtils.assertObjectInMapEquals(referenceMap, "id", "tk31");
-        EntityTestUtils.assertObjectInMapEquals(referenceMap, "ref", "TAKSReading3-1");
-        assertNotNull("AssessmentFamilyReference map is null", referenceMap);
-        Map referenceIdentityMap = (Map) referenceMap.get("AssessmentFamilyIdentity");
-        assertNotNull("AssessmentFamilyIdentity map is null", referenceIdentityMap);
-        
-        List referenceIdCodeList = (List) referenceIdentityMap.get("AssessmentFamilyIdentificationCode");
-        assertNotNull("AssessmentFamilyIdentificationCode list is null", referenceIdCodeList);
-        assertFalse("empty AssessmentFamilyIdentificationCode list", referenceIdCodeList.isEmpty());
-        
-        Map firstRefIdCodeMap = (Map) referenceIdCodeList.get(0);
-        assertNotNull("first AssessmentFamilyIdentificationCode map is null", firstRefIdCodeMap);
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "ID", "firstRefId");
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "IdentificationSystem", "firstRefIdentificationSystem");
-        EntityTestUtils.assertObjectInMapEquals(firstRefIdCodeMap, "AssigningOrganizationCode", "firstRefAssigningOrganizationCode");
-        
-        if (referenceIdCodeList.size() > 1) {
-            // TODO: remove if block when we support lists in CSV
-            Map secondRefIdCodeMap = (Map) referenceIdCodeList.get(1);
-            assertNotNull("first AssessmentFamilyIdentificationCode map is null", secondRefIdCodeMap);
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "ID", "secondRefId");
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "IdentificationSystem", "secondRefIdentificationSystem");
-            EntityTestUtils.assertObjectInMapEquals(secondRefIdCodeMap, "AssigningOrganizationCode", "secondRefAssigningOrganizationCode");
         }
     }
 }

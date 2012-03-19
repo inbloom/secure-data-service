@@ -42,11 +42,11 @@
   </mongo:mapping-converter>
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-  <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
-<!--   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
+<!--    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />  -->
+   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
     <property name="keyStore" value="${sli.encryption.keyStore}" />
     <property name="propertiesFile" value="${sli.encryption.properties}" />
-  </bean> -->
+  </bean>
 
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg ref="mongoDbFactory" />
@@ -56,9 +56,12 @@
     </property>
   </bean>
 
+  <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
+
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
+    <property name="idConverter" ref="mongoIdConverter" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.dal" />

@@ -2,13 +2,14 @@ package org.slc.sli.api.client;
 
 
 /**
+ * 
  * Enumeration of available entity types in SLI. Entities are currently mapped to
- * specific resources in the ReSTful API.
+ * specific resources in the API.
  * 
  * @author asaarela
  */
 public enum EntityType {
-    /**
+    /*
      * Note: this is overly complex for what we're doing here but we're inconsistent in our
      * naming conventions between entity type name, ReST path, and entity type reported by the API
      * in JSON. If these become reconciled, this enum becomes simple.
@@ -41,8 +42,8 @@ public enum EntityType {
     /** Association between a school and an educational organization */
     EDUCATIONAL_ORGANIZATION_SCHOOL_ASSOCIATIONS("educationOrganizationSchoolAssociation",
             "educationOrganization-school-associations"),
-    
-    /** Association between on educational organization and another */
+            
+    /** Association between one educational organization and another */
     EDUCATIONAL_ORGANIZATION_ASSOCOCATIONS("educationOrganizationAssociation", "educationOrganization-associations"),
     
     /**
@@ -116,7 +117,7 @@ public enum EntityType {
     }
     
     /**
-     * Find a matching enum given the json type.
+     * Find a matching enum given the API type.
      * 
      * @param s
      *            String to match

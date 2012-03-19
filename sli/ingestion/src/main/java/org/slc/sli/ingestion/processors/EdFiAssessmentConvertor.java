@@ -3,8 +3,14 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +30,21 @@ import org.slc.sli.ingestion.util.FileUtils;
  */
 @Component
 public class EdFiAssessmentConvertor {
+    private static final String PERIOD_CODE_VALUE = "codeValue";
+    private static final String PERIOD_DESCRIPTOR_REF = "periodDescriptorRef";
+    private static final String ASSESSMENT_FAMILY_IDENTIFICATION_CODE = "AssessmentFamilyIdentificationCode";
+    private static final String PARENT_ASSESSMENT_FAMILY_ID = "parentAssessmentFamilyId";
+    private static final String OBJ_ASSESSMENT_ID_FIELD = "id";
+    private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle";
+    private static final String ASSESSMENT = "assessment";
+    private static final String ASSESSMENT_FAMILY = "AssessmentFamily";
+    private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
+    private static final String OBJECTIVE_ASSESSMENT_REFS = "objectiveAssessmentRefs";
     private static final Logger LOG = LoggerFactory.getLogger(EdFiAssessmentConvertor.class);
     private final FileUtils fileUtils;
+    private final List<String> inspectRecordTypes = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY,
+            ASSESSMENT_PERIOD_DESCRIPTOR, OBJECTIVE_ASSESSMENT);
     
     @Autowired
     public EdFiAssessmentConvertor(FileUtils fileUtils) {
@@ -36,13 +55,22 @@ public class EdFiAssessmentConvertor {
     public void doConversion(IngestionFileEntry fileEntry) throws IOException {
         LOG.debug("Converting ingested ed fi file {}", fileEntry);
         NeutralRecordFileReader reader = new NeutralRecordFileReader(fileEntry.getNeutralRecordFile());
-        List<NeutralRecord> edfiRecords = new ArrayList<NeutralRecord>();
+        Map<String, List<NeutralRecord>> edfiRecords = new HashMap<String, List<NeutralRecord>>();
+        for (String type : inspectRecordTypes) {
+            edfiRecords.put(type, new ArrayList<NeutralRecord>());
+        }
         try {
             while (reader.hasNext()) {
-                edfiRecords.add(reader.next());
+                NeutralRecord record = reader.next();
+                LOG.debug("Recieved neutral record {}", record);
+                if (edfiRecords.keySet().contains(record.getRecordType())) {
+                    edfiRecords.get(record.getRecordType()).add(record);
+                }
             }
         } finally {
-            reader.close();
+            if (reader != null) {
+                reader.close();
+            }
         }
         List<NeutralRecord> sliRecords = convert(edfiRecords);
         File tempFile = fileUtils.createTempFile();
@@ -66,8 +94,84 @@ public class EdFiAssessmentConvertor {
      *            the set of edfi assessments
      * @return the corresponding set of sli assessments
      */
-    protected List<NeutralRecord> convert(List<NeutralRecord> orig) {
-        return orig;
+    protected List<NeutralRecord> convert(Map<String, List<NeutralRecord>> orig) {
+        Map<Object, NeutralRecord> assessmentFamilies = getAssessmentFamilyMap(orig.get(ASSESSMENT_FAMILY));
+        Map<Object, NeutralRecord> assessmentPeriodDescriptors = getMapByField(orig.get(ASSESSMENT_PERIOD_DESCRIPTOR),
+                PERIOD_CODE_VALUE);
+        Map<Object, NeutralRecord> objectiveAssessments = getMapByField(orig.get(OBJECTIVE_ASSESSMENT),
+                OBJ_ASSESSMENT_ID_FIELD);
+        LOG.debug("Assessment family map is {}", assessmentFamilies);
+        List<NeutralRecord> assessments = orig.get(ASSESSMENT);
+        for (NeutralRecord record : assessments) {
+            LOG.debug("converting assessment {}", record);
+            List<String> familyHierarchy = resolveFamily(record, assessmentFamilies, new HashSet<Object>());
+            record.setAttributeField("assessmentFamilyHierarchyName", StringUtils.join(familyHierarchy, "."));
+            record.getAttributes().remove(PARENT_ASSESSMENT_FAMILY_ID);
+            Object periodRef = record.getAttributes().get(PERIOD_DESCRIPTOR_REF);
+            if (periodRef != null) {
+                Map<String, Object> periodDescriptor = assessmentPeriodDescriptors.get(periodRef).getAttributes();
+                record.setAttributeField(ASSESSMENT_PERIOD_DESCRIPTOR, periodDescriptor);
+            }
+            record.getAttributes().remove(PERIOD_DESCRIPTOR_REF);
+            addObjectiveAssessments(record, objectiveAssessments);
+        }
+        return assessments;
     }
     
+    private void addObjectiveAssessments(NeutralRecord record, Map<Object, NeutralRecord> objectiveAssessments) {
+        List<?> objectiveRefs = (List<?>) record.getAttributes().get(OBJECTIVE_ASSESSMENT_REFS);
+        record.getAttributes().remove(OBJECTIVE_ASSESSMENT_REFS);
+        if (objectiveRefs == null || objectiveRefs.isEmpty()) {
+            return;
+        }
+        List<Map<String, Object>> objAssmtsForAssmt = new ArrayList<Map<String, Object>>(objectiveRefs.size());
+        for (Object ref : objectiveRefs) {
+            NeutralRecord objAssmt = objectiveAssessments.get(ref);
+            if (objAssmt == null) {
+                LOG.warn("Could not find objective assessment with id {}", ref);
+            } else {
+                Map<String, Object> objAssmtMap = new HashMap<String, Object>(objAssmt.getAttributes());
+                objAssmtMap.remove(OBJ_ASSESSMENT_ID_FIELD);
+                objAssmtsForAssmt.add(objAssmtMap);
+            }
+        }
+        record.setAttributeField(OBJECTIVE_ASSESSMENT, objAssmtsForAssmt);
+    }
+    
+    private Map<Object, NeutralRecord> getAssessmentFamilyMap(List<NeutralRecord> records) {
+        // instance #1754 I wish Java had function literals...
+        Map<Object, NeutralRecord> assessmentFamilies = new HashMap<Object, NeutralRecord>();
+        for (NeutralRecord record : records) {
+            @SuppressWarnings("unchecked")
+            List<Map<?, ?>> identities = (List<Map<?, ?>>) record.getAttributes().get(
+                    ASSESSMENT_FAMILY_IDENTIFICATION_CODE);
+            for (Map<?, ?> identity : identities) {
+                if (identity != null) {
+                    assessmentFamilies.put(identity.get("ID"), record);
+                }
+            }
+        }
+        return assessmentFamilies;
+    }
+    
+    private Map<Object, NeutralRecord> getMapByField(List<NeutralRecord> records, String field) {
+        // instance #1755 I wish Java had function literals...
+        Map<Object, NeutralRecord> map = new HashMap<Object, NeutralRecord>();
+        for (NeutralRecord record : records) {
+            map.put(record.getAttributes().get(field), record);
+        }
+        return map;
+    }
+    
+    private List<String> resolveFamily(NeutralRecord rec, Map<Object, NeutralRecord> families, Set<Object> visited) {
+        Object familyId = rec.getAttributes().get(PARENT_ASSESSMENT_FAMILY_ID);
+        NeutralRecord family = families.get(familyId);
+        List<String> hierarchy = new ArrayList<String>();
+        if (family != null && !visited.contains(family)) {
+            visited.add(family);
+            hierarchy = resolveFamily(family, families, visited);
+            hierarchy.add(family.getAttributes().get(ASSESSMENT_FAMILY_TITLE).toString());
+        }
+        return hierarchy;
+    }
 }

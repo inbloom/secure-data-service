@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class NeutralRecordFileReader implements Iterator {
      */
     protected NeutralRecord getNeutralRecord(GenericData.Record avroRecord) throws IOException {
         NeutralRecord nr = new NeutralRecord();
-        nr.setJobId(getStringNullable(avroRecord, "jobId"));
+        nr.setBatchJobId(getStringNullable(avroRecord, "jobId"));
         nr.setSourceId(getStringNullable(avroRecord, "sourceId"));
         nr.setLocalId(getStringNullable(avroRecord, "localId"));
         nr.setAssociation((Boolean) avroRecord.get("association"));
@@ -72,7 +73,7 @@ public class NeutralRecordFileReader implements Iterator {
         }
 
         if (avroRecord.get("localParentIds") != null) {
-            nr.setLocalParentIds(unencodeMap((Map<Utf8, Utf8>) avroRecord.get("localParentIds")));
+            nr.setLocalParentIds(jsonToMap(avroRecord.get("localParentIds")));
         }
 
         nr.setAttributesCrc(getStringNullable(avroRecord, "attributesCrc"));
@@ -81,7 +82,7 @@ public class NeutralRecordFileReader implements Iterator {
 
     private Map<String, Object> jsonToMap(Object object) throws IOException {
         Map<String, Object> attributesMap = jsonObjectMapper.readValue(object.toString(), Map.class);
-        LOG.debug("decoded json to map: " + attributesMap);
+        LOG.debug("decoded json to map: {}", attributesMap);
         return attributesMap;
     }
 

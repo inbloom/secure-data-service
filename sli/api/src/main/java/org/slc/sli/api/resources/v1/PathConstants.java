@@ -24,6 +24,8 @@ public class PathConstants {
     public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganizationAssociations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
+    public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
 
     public static final String ASSESSMENTS = "assessments";
     public static final String ATTENDANCES = "attendances";
@@ -32,6 +34,7 @@ public class PathConstants {
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
+    public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
     public static final String SECTIONS = "sections";
@@ -40,6 +43,8 @@ public class PathConstants {
     public static final String STUDENTS = "students";  
     public static final String TEACHERS = "teachers";
     public static final String STAFF = "staff";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    
     
     /*
      * This map should go away when we switch basic definition store association names to camel case.
@@ -59,21 +64,26 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, COURSE_SECTION_ASSOCIATIONS);
-        
+        TEMP_MAP.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, STUDENT_TRANSCRIPT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
+
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
+        TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
         TEMP_MAP.put(ResourceNames.COURSES, COURSES);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_INCIDENTS, DISCIPLINE_INCIDENTS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATIONS, EDUCATION_ORGANIZATIONS);
+        TEMP_MAP.put(ResourceNames.GRADEBOOK_ENTRIES, GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.PARENTS, PARENTS);
         TEMP_MAP.put(ResourceNames.PROGRAMS, PROGRAMS);
         TEMP_MAP.put(ResourceNames.SECTIONS, SECTIONS);
         TEMP_MAP.put(ResourceNames.SESSIONS, SESSIONS);
         TEMP_MAP.put(ResourceNames.SCHOOLS, SCHOOLS);
         TEMP_MAP.put(ResourceNames.STUDENTS, STUDENTS);
-        TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
         TEMP_MAP.put(ResourceNames.STAFF, STAFF);
+        TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
+        TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
     }
     
 

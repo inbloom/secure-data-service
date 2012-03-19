@@ -10,8 +10,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Default converter for client roles to sli roles Does absolutely nothing but
@@ -24,7 +25,10 @@ import org.slc.sli.domain.EntityRepository;
 public class DefaultClientRoleResolver implements ClientRoleResolver {
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
+    
+    @Autowired
+    private IdConverter converter;
     
     /**
      */
@@ -32,7 +36,7 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
     @Override
     public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
-        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("body.idp.id").is(realmId)), 0, 1);
+        Iterable<Entity> realms = repo.findByQuery("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(realmId))), 0, 1);
         Map<String, Object> realm = null;
         for (Entity firstRealm : realms) {
             realm = firstRealm.getBody();

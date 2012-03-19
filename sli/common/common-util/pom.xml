@@ -51,7 +51,8 @@
 	    <artifactId>commons-jexl</artifactId>
 	    <version>${jexl.version}</version>
 	</dependency>
-  </dependencies>
+
+    </dependencies>
   
   <build>
     <defaultGoal>install</defaultGoal>

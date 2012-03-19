@@ -1,0 +1,78 @@
+<%= form_for(app, :remote => true) do |f| %>
+<div class = "field">
+	<%= f.label :name, "Name" %>
+	<%= f.text_field :name %>
+</div>
+<div class = "field">
+	<%= f.label :description, "Description" %>
+	<%= f.text_area :description %>
+</div>
+<div class = "field">
+	<%= f.label :version, "Version" %>
+	<%= f.text_field :version %>
+</div>
+<div class = "client">
+	<%= f.label :client_id, "Client Id" %>
+	<%= f.text_field :client_id, :disabled => true %>
+</div>
+<div class = "client">
+	<%= f.label :client_secret, "Shared Secret" %>
+	<%= f.text_field :client_secret, :disabled => true %>
+</div>
+
+
+	<%= f.fields_for :developer_info do |dev| %>
+	<div class = "field">
+		<%= dev.label :organization, "Vendor" %>
+		<%= dev.text_field :organization %>
+	</div>
+	<div class = "field">
+		<%= dev.label :license_acceptance, "License Accepted" %>
+		<%= dev.check_box :license_acceptance %>
+	</div>
+	
+	<% end %>
+
+<div class = "field">
+	<%= f.label :application_url, "Url" %>
+	<%= f.text_field :application_url, :placeholder => 'https://' %>
+</div>
+<div class = "field">
+	<%= f.label :administration_url, "Admin Url" %>
+	<%= f.text_field :administration_url, :placeholder => 'https://' %>
+</div>
+<div class = "field">
+	<%= f.label :is_admin, "Admin Application" %>
+	<%= f.check_box :is_admin %>
+</div>
+<div class = "field">
+	<%= f.label :method, "Display Method" %>
+	<%= select_tag(:method, options_for_select([['iframe'], ['WSRP'], ['Full Window App']]))%>
+</div>
+<div class = "field">
+	<%= f.label :redirect_uri, "Redirect Url" %>
+	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
+</div>
+<div class = "field">
+	<%= f.label :client_type, "Public" %>
+	<%= f.radio_button :client_type, :PUBLIC %>
+	<%= f.label :client_type, "Confidential" %>
+	<%= f.radio_button :client_type, :CONFIDENTIAL %>
+</div>
+<div class = "field">
+	<%= f.label :scope, "Enabled" %>
+	<%= f.radio_button :scope, :ENABLED %>
+	<%= f.label :scope, "Disabled" %>
+	<%= f.radio_button :scope, :DISABLED %>
+</div>
+
+
+<div class = "field">
+	<%= image_tag app.image_url, :title => "Image", :class => "app-image" %>
+	<%= f.label :image_url, "Image Url" %>
+	<%= f.text_field :image_url %>
+</div>
+<div class = "actions">
+	<%= f.submit "Submit", :disable_with => 'Submitting...' %>
+</div>
+<% end %>

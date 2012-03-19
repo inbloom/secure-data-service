@@ -110,7 +110,7 @@ public class AggregationLoader {
      */
     public boolean loadJavascriptFile(File file) {
 
-        LOG.debug("Loading definition file: " + file.getAbsolutePath());
+        LOG.debug("Loading definition file: {}", file.getAbsolutePath());
 
         // file IO can throw IOException(s)
         try {
@@ -129,7 +129,7 @@ public class AggregationLoader {
             return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(fileData.toString()) + "\"}")
                     .ok();
         } catch (IOException ioe) {
-            LOG.debug("Failed to load definition file: " + file.getAbsolutePath());
+            LOG.debug("Failed to load definition file: {}", file.getAbsolutePath());
             return false;
         }
     }

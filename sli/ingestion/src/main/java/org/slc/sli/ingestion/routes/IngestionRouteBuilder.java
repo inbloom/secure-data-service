@@ -21,13 +21,13 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
-import org.slc.sli.ingestion.processors.DataModelTransformationProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Ingestion route builder.
@@ -52,9 +52,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     TransformationProcessor transformationProcessor;
-    
-    @Autowired
-    DataModelTransformationProcessor dataModelTransformationProcessor;
     
     @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
@@ -122,17 +119,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)
-            
-                //transformation workflow - camel routing
             .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-            .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_MODEL_TRANSFORMATION.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data Model Transformation.")
-                .process(dataModelTransformationProcessor)
-                .to(workItemQueueUri)
-                
             .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
                 .process(nrMergeProcessor)
                 .to(workItemQueueUri)
@@ -178,8 +168,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
-                        // get job from exchange
-                        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+                        // TODO get job from the batch job db
+                        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
                         Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
 
@@ -187,9 +177,29 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         jobLogger.info("jobId: " + job.getId());
 
                         for (IngestionFileEntry fileEntry : job.getFiles()) {
-                            jobLogger.info("[file] " + fileEntry.getFileName()
-                                    + " (" + fileEntry.getFileFormat() + "/"
-                                    + fileEntry.getFileType() + ")");
+                            String id = "[file] " + fileEntry.getFileName();
+                            jobLogger.info(id + " (" + fileEntry.getFileFormat()
+                                    + "/" + fileEntry.getFileType() + ")");
+                            Long numProcessed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.processed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records considered: "
+                                    + numProcessed);
+                            }
+
+                            Long numPassed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.passed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records ingested successfully: "
+                                    + numPassed);
+                            }
+
+                            Long numFailed = exchange.getProperty(fileEntry.getFileName()
+                                    + ".records.failed", Long.class);
+                            if (numProcessed != null) {
+                                jobLogger.info(id + " records failed: "
+                                    + numFailed);
+                            }
                         }
 
                         Enumeration names = job.propertyNames();
@@ -222,6 +232,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
+                        
+                        BatchJobUtils.saveBatchJobUsingStateManager(job);
+                        BatchJobUtils.completeBatchJob(job.getId());
                     }
 
                 });

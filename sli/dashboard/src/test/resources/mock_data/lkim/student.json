@@ -1,467 +1,1595 @@
 [
-{
-  "id": "453827070",
-  "studentUniqueStateId": "453827070",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "studentUniqueStateId": "453827070", 
   "name": {
-    "firstName": "Marvin",
-    "middleName": "",
-    "lastSurname": "Miller"
-  },
+   "middleName": "", 
+   "lastSurname": "Miller", 
+   "firstName": "Marvin"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2002-07-05"
-  },
-  "cohortYear": "Second grade"
-},{
-  "id": "943715230",
-  "studentUniqueStateId": "943715230",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2002-07-05"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "815-126-3941", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-241-9753", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "224-880-3309", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "815-049-6452", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60927-8918", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6561 Front Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "453827070", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "M.Miller@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
+  "studentUniqueStateId": "943715230", 
   "name": {
-    "firstName": "Jolene",
-    "middleName": "Colt",
-    "lastSurname": "Ashley"
-  },
+   "middleName": "Colt", 
+   "lastSurname": "Ashley", 
+   "firstName": "Jolene"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2000-12-20"
-  },
-  "cohortYear": "Eighth grade"
-},{
-  "id": "164420088",
-  "studentUniqueStateId": "164420088",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2000-12-20"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "630-196-0500", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-503-8057", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-470-5216", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-007-3326", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "630-971-1951", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-828-9469", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60836-2298", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "7538 Humboldt Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "otherName": [
+   {
+    "otherNameType": "nickname", 
+    "firstName": "Jolene", 
+    "middleName": "Juggernaut", 
+    "personalTitlePrefix": "Ms", 
+    "lastSurname": "Ashley", 
+    "generationCodeSuffix": "IV"
+   }
+  ], 
+  "id": "943715230", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Jolene_Ashley@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "J.Ashley@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Jolene_Ashley@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "studentUniqueStateId": "164420088", 
   "name": {
-    "firstName": "Ursa",
-    "middleName": "Kellie",
-    "lastSurname": "Oconnor"
-  },
+   "middleName": "Kellie", 
+   "lastSurname": "Oconnor", 
+   "firstName": "Ursa"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1995-06-25"
-  },
-  "cohortYear": "First grade"
-},{
-  "id": "505331723",
-  "studentUniqueStateId": "505331723",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1995-06-25"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "815-560-1528", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "847-479-5655", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "847-166-0265", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Other", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 2399", 
+    "postalCode": "60619-7239", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8838 Pioneer Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "164420088", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "U.Oconnor@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Ursa.Oconnor@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "studentUniqueStateId": "505331723", 
   "name": {
-    "firstName": "Gannon",
-    "middleName": "Eric",
-    "lastSurname": "Roman"
-  },
+   "middleName": "Eric", 
+   "lastSurname": "Roman", 
+   "firstName": "Gannon"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2004-08-22"
-  },
-  "cohortYear": "First grade"
-},{
-  "id": "530425896",
-  "studentUniqueStateId": "530425896",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2004-08-22"
+  }, 
+  "telephone": [], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Work", 
+    "countryCode": "US", 
+    "postalCode": "60150-4290", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "651 Banner 3rd Terrace"
+   }, 
+   {
+    "nameOfCounty": "New York", 
+    "city": "New York", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8352", 
+    "postalCode": "10079-9386", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "4656 India Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "505331723", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "G.Roman@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Gannon_Roman@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Gannon.Roman@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Eighth grade"
+  ], 
+  "studentUniqueStateId": "530425896", 
   "name": {
-    "firstName": "Rhonda",
-    "middleName": "Shannon",
-    "lastSurname": "Delgado"
-  },
+   "middleName": "Shannon", 
+   "lastSurname": "Delgado", 
+   "firstName": "Rhonda"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2006-07-02"
-  },
-  "cohortYear": "Eighth grade"
-},{
-  "id": "429526969",
-  "studentUniqueStateId": "429526969",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2006-07-02"
+  }, 
+  "telephone": [], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 4221", 
+    "buildingSiteNumber": "351", 
+    "postalCode": "60908-1028", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3655 Brighton 2nd Lane"
+   }, 
+   {
+    "city": "Toronto", 
+    "addressType": "Work", 
+    "countryCode": "CA", 
+    "postalCode": "A1B 2C3", 
+    "stateAbbreviation": "ON", 
+    "streetNumberName": "9857 Kingsborough 2nd Walk"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "530425896", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Rhonda_Delgado@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "R.Delgado@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Rhonda.Delgado@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "studentUniqueStateId": "429526969", 
   "name": {
-    "firstName": "Nicholas",
-    "middleName": "A",
-    "lastSurname": "Burks"
-  },
+   "middleName": "A", 
+   "lastSurname": "Burks", 
+   "firstName": "Nicholas"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-12-17"
-  },
-  "cohortYear": "Twelfth grade"
-},{
-  "id": "178828452",
-  "studentUniqueStateId": "178828452",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-12-17"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "708-929-8507", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "429526969", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "178828452", 
   "name": {
-    "firstName": "Tyrone",
-    "middleName": "",
-    "lastSurname": "Burnett Jones"
-  },
+   "middleName": "", 
+   "lastSurname": "Burnett Jones", 
+   "firstName": "Tyrone"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2001-10-04"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "525878920",
-  "studentUniqueStateId": "525878920",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2001-10-04"
+  }, 
+  "telephone": [], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 495", 
+    "postalCode": "60499-8718", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "7540 Huntington Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "178828452", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Tyrone_Burnett_Jones@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Tyrone.Burnett_Jones@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "T.Burnett_Jones@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "studentUniqueStateId": "525878920", 
   "name": {
-    "firstName": "Delilah",
-    "middleName": "D",
-    "lastSurname": "Sims"
-  },
+   "middleName": "D", 
+   "lastSurname": "Sims", 
+   "firstName": "Delilah"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2004-12-04"
-  },
-  "cohortYear": "Twelfth grade"
-},{
-  "id": "510152105",
-  "studentUniqueStateId": "510152105",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2004-12-04"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "847-208-3627", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "815-573-2778", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "773-341-0525", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-668-5605", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-602-4116", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8224", 
+    "postalCode": "60620-0477", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3427 Park Avenue"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "525878920", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Delilah_Sims@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "D.Sims@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Delilah_Sims@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
+  "studentUniqueStateId": "510152105", 
   "name": {
-    "firstName": "TaShya",
-    "middleName": "Nicole",
-    "lastSurname": "Alston"
-  },
+   "middleName": "Nicole", 
+   "lastSurname": "Alston", 
+   "firstName": "TaShya"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1997-06-01"
-  },
-  "cohortYear": "Sixth grade"
-},{
-  "id": "802709591",
-  "studentUniqueStateId": "802709591",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1997-06-01"
+  }, 
+  "telephone": [], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "510152105", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Fifth grade"
+  ], 
+  "studentUniqueStateId": "802709591", 
   "name": {
-    "firstName": "Imelda",
-    "middleName": "Sydnee",
-    "lastSurname": "Lindsey"
-  },
+   "middleName": "Sydnee", 
+   "lastSurname": "Lindsey", 
+   "firstName": "Imelda"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1997-03-07"
-  },
-  "cohortYear": "Fifth grade"
-},{
-  "id": "437680177",
-  "studentUniqueStateId": "437680177",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1997-03-07"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "708-432-9033", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 7776", 
+    "postalCode": "60139-2152", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1558 4th Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "802709591", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Imelda_Lindsey@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "studentUniqueStateId": "437680177", 
   "name": {
-    "firstName": "Kimberley",
-    "middleName": "Yuli",
-    "lastSurname": "Pennington"
-  },
+   "middleName": "Yuli", 
+   "lastSurname": "Pennington", 
+   "firstName": "Kimberley"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2000-04-23"
-  },
-  "cohortYear": "First grade"
-},{
-  "id": "170011136",
-  "studentUniqueStateId": "170011136",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2000-04-23"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "708-871-2733", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-732-8563", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-623-4408", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-420-2449", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "437680177", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Kimberley_Pennington@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "170011136", 
   "name": {
-    "firstName": "Arsenio",
-    "middleName": "",
-    "lastSurname": "Durham"
-  },
+   "middleName": "", 
+   "lastSurname": "Durham", 
+   "firstName": "Arsenio"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2001-01-23"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "547028299",
-  "studentUniqueStateId": "547028299",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2001-01-23"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "708-471-5210", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "630-153-1787", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-040-1709", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "312-608-2213", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60057-1857", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1313 Brighton 3rd Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "170011136", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "547028299", 
   "name": {
-    "firstName": "Alec",
-    "middleName": "",
-    "lastSurname": "Swanson"
-  },
+   "middleName": "", 
+   "lastSurname": "Swanson", 
+   "firstName": "Alec"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1999-11-15"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "258392050",
-  "studentUniqueStateId": "258392050",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-11-15"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "630-115-0626", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-328-5624", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-861-1785", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-152-6310", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-860-2296", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "815-462-0519", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "312-230-0970", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60605-1327", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3372 Montague Terrace"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "547028299", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "studentUniqueStateId": "258392050", 
   "name": {
-    "firstName": "Patricia",
-    "middleName": "",
-    "lastSurname": "Harper"
-  },
+   "middleName": "", 
+   "lastSurname": "Harper", 
+   "firstName": "Patricia"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-01-09"
-  },
-  "cohortYear": "Second grade"
-},{
-  "id": "178875887",
-  "studentUniqueStateId": "178875887",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-01-09"
+  }, 
+  "telephone": [], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Billing", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 1999", 
+    "postalCode": "60561-5469", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "2393 Manhattan Court"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "10952-6484", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "5961 Mermaid Avenue"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "258392050", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Eleventh grade"
+  ], 
+  "studentUniqueStateId": "178875887", 
   "name": {
-    "firstName": "Astra",
-    "middleName": "Deirdre",
-    "lastSurname": "Vincent"
-  },
+   "middleName": "Deirdre", 
+   "lastSurname": "Vincent", 
+   "firstName": "Astra"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2000-10-14"
-  },
-  "cohortYear": "Eleventh grade"
-},{
-  "id": "100644447",
-  "studentUniqueStateId": "100644447",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2000-10-14"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "630-504-5490", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "178875887", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Astra_Vincent@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
+  "studentUniqueStateId": "100644447", 
   "name": {
-    "firstName": "Brielle",
-    "middleName": "W",
-    "lastSurname": "Klein"
-  },
+   "middleName": "W", 
+   "lastSurname": "Klein", 
+   "firstName": "Brielle"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2006-06-02"
-  },
-  "cohortYear": "Fourth grade"
-},{
-  "id": "376191021",
-  "studentUniqueStateId": "376191021",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2006-06-02"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "630-667-8063", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "773-445-2464", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60848-7633", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8124 Brighton 3 Place"
+   }, 
+   {
+    "nameOfCounty": "New York", 
+    "city": "New York", 
+    "addressType": "Physical", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 330", 
+    "postalCode": "10753-2389", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "1537 Steuben Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "100644447", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Brielle_Klein@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "B.Klein@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Brielle.Klein@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "376191021", 
   "name": {
-    "firstName": "Jeanette",
-    "middleName": "",
-    "lastSurname": "Graves"
-  },
+   "middleName": "", 
+   "lastSurname": "Graves", 
+   "firstName": "Jeanette"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1994-08-30"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "336344132",
-  "studentUniqueStateId": "336344132",
-  "sex": "Male",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1994-08-30"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "219-189-5867", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "847-315-9744", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "773-546-9943", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Work", 
+    "countryCode": "US", 
+    "postalCode": "60063-3281", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "3297 35th Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "376191021", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "J.Graves@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Jeanette.Graves@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "336344132", 
   "name": {
-    "firstName": "Odysseus",
-    "middleName": "",
-    "lastSurname": "Merrill"
-  },
+   "middleName": "", 
+   "lastSurname": "Merrill", 
+   "firstName": "Odysseus"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "2003-03-25"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "711411586",
-  "studentUniqueStateId": "711411586",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2003-03-25"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "262-298-8577", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-608-1144", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60447-1536", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "498 Dorchester Road"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "addressType": "Mailing", 
+    "countryCode": "US", 
+    "postalCode": "10180-7445", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "7472 Ross Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "336344132", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "O.Merrill@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Odysseus.Merrill@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Twelfth grade"
+  ], 
+  "studentUniqueStateId": "711411586", 
   "name": {
-    "firstName": "Rafael",
-    "middleName": "",
-    "lastSurname": "Kirk"
-  },
+   "middleName": "", 
+   "lastSurname": "Kirk", 
+   "firstName": "Rafael"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2006-01-08"
-  },
-  "cohortYear": "Twelfth grade"
-},{
-  "id": "131758477",
-  "studentUniqueStateId": "131758477",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2006-01-08"
+  }, 
+  "telephone": [], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 5116", 
+    "postalCode": "60941-6938", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6055 Vermont Street"
+   }, 
+   {
+    "nameOfCounty": "Kings", 
+    "city": "New York", 
+    "addressType": "Other", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 3394", 
+    "postalCode": "10913-4746", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "1004 Boerum Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "711411586", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "R.Kirk@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Sixth grade"
+  ], 
+  "studentUniqueStateId": "131758477", 
   "name": {
-    "firstName": "Deirdre",
-    "middleName": "Tashya",
-    "lastSurname": "Gentry"
-  },
+   "middleName": "Tashya", 
+   "lastSurname": "Gentry", 
+   "firstName": "Deirdre"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1997-07-22"
-  },
-  "cohortYear": "Sixth grade"
-},{
-  "id": "670703438",
-  "studentUniqueStateId": "670703438",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1997-07-22"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "224-167-3247", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Work", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 8027", 
+    "postalCode": "60267-4406", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8823 Blake Court"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "131758477", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Deirdre_Gentry@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Deirdre.Gentry@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "First grade"
+  ], 
+  "studentUniqueStateId": "670703438", 
   "name": {
-    "firstName": "Zachary",
-    "middleName": "Melvin",
-    "lastSurname": "Patton"
-  },
+   "middleName": "Melvin", 
+   "lastSurname": "Patton", 
+   "firstName": "Zachary"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2002-04-10"
-  },
-  "cohortYear": "First grade"
-},{
-  "id": "851123275",
-  "studentUniqueStateId": "851123275",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "2002-04-10"
+  }, 
+  "telephone": [], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Billing", 
+    "countryCode": "US", 
+    "postalCode": "60886-1475", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "4447 Brighton 5th Street"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "addressType": "Temporary", 
+    "countryCode": "US", 
+    "postalCode": "10798-3311", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "9041 Scholes Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "670703438", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Zachary.Patton@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "studentUniqueStateId": "851123275", 
   "name": {
-    "firstName": "Hoyt",
-    "middleName": "",
-    "lastSurname": "Hicks"
-  },
+   "middleName": "", 
+   "lastSurname": "Hicks", 
+   "firstName": "Hoyt"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-06-13"
-  },
-  "cohortYear": "Second grade"
-},{
-  "id": "423037202",
-  "studentUniqueStateId": "423037202",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1999-06-13"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "773-549-3782", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-911-6597", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "847-279-6758", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "773-504-6501", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "574-277-5271", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Temporary", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 5760", 
+    "postalCode": "60457-1957", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "4606 Albemarle Road"
+   }, 
+   {
+    "nameOfCounty": "Kings", 
+    "city": "New York", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "10473-1436", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "4256 Wyckoff Street"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "851123275", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "H.Hicks@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Fourth grade"
+  ], 
+  "studentUniqueStateId": "423037202", 
   "name": {
-    "firstName": "Nomlanga",
-    "middleName": "Deacon",
-    "lastSurname": "Mccormick"
-  },
+   "middleName": "Deacon", 
+   "lastSurname": "Mccormick", 
+   "firstName": "Nomlanga"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1999-06-05"
-  },
-  "cohortYear": "Fourth grade"
-},{
-  "id": "250918988",
-  "studentUniqueStateId": "250918988",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1999-06-05"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "219-142-2682", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-140-4235", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "574-194-5932", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "312-591-8324", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "423037202", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Nomlanga.Mccormick@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Nomlanga_Mccormick@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Nomlanga_Mccormick@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "studentUniqueStateId": "250918988", 
   "name": {
-    "firstName": "Uriah",
-    "middleName": "W",
-    "lastSurname": "Jordan"
-  },
+   "middleName": "W", 
+   "lastSurname": "Jordan", 
+   "firstName": "Uriah"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "2005-04-06"
-  },
-  "cohortYear": "Seventh grade"
-},{
-  "id": "421216329",
-  "studentUniqueStateId": "421216329",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "2005-04-06"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "224-943-5187", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "815-148-0970", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-998-2531", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "815-456-2929", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-374-7108", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "708-068-6766", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-251-1448", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "250918988", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "U.Jordan@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Work", 
+    "emailAddress": "Uriah_Jordan@gmail.com"
+   }, 
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Uriah_Jordan@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Second grade"
+  ], 
+  "studentUniqueStateId": "421216329", 
   "name": {
-    "firstName": "Madeline",
-    "middleName": "",
-    "lastSurname": "Hinton"
-  },
+   "middleName": "", 
+   "lastSurname": "Hinton", 
+   "firstName": "Madeline"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-03-17"
-  },
-  "cohortYear": "Second grade"
-},{
-  "id": "111111111",
-  "studentUniqueStateId": "111111111",
-  "sex": "Female",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-03-17"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "779-512-3391", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Other", 
+    "countryCode": "US", 
+    "postalCode": "60053-4640", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "8690 Gaylord Drive"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "421216329", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Madeline_Hinton@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Organization", 
+    "emailAddress": "M.Hinton@yahoo.com"
+   }, 
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Madeline.Hinton@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Ninth grade"
+  ], 
+  "studentUniqueStateId": "111111111", 
   "name": {
-    "firstName": "Bacon",
-    "middleName": "",
-    "lastSurname": "Burger"
-  },
+   "middleName": "", 
+   "lastSurname": "Burger", 
+   "firstName": "Bacon"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-03-17"
-  },
-  "cohortYear": "Ninth grade"
-},{
-  "id": "222222222",
-  "studentUniqueStateId": "222222222",
-  "sex": "Female",
-  "economicDisadvantaged": "false",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-03-17"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "815-243-8536", 
+    "telephoneNumberType": "Unlisted", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "708-330-7758", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-877-2085", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "224-449-9923", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-019-4059", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "No", 
+  "address": [], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "111111111", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Home/Personal", 
+    "emailAddress": "Student.Fake@gmail.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Third grade"
+  ], 
+  "studentUniqueStateId": "222222222", 
   "name": {
-    "firstName": "Salmon",
-    "middleName": "",
-    "lastSurname": "Burger"
-  },
+   "middleName": "", 
+   "lastSurname": "Burger", 
+   "firstName": "Salmon"
+  }, 
+  "economicDisadvantaged": "false", 
   "birthData": {
-    "birthDate": "1994-04-17"
-  },
-  "cohortYear": "Third grade"
-},{
-  "id": "333333333",
-  "studentUniqueStateId": "333333333",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "Yes",
-  "schoolFoodServiceEligibility": "Reduced",
+   "birthDate": "1994-04-17"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "630-248-4247", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "312-413-0054", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "779-444-0280", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-343-1565", 
+    "telephoneNumberType": "Emergency 2", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Female", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Billing", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 9959", 
+    "postalCode": "60746-2709", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6256 Old New Utrecht Road"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "222222222", 
+  "electronicMail": []
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "studentUniqueStateId": "333333333", 
   "name": {
-    "firstName": "Fabio",
-    "middleName": "",
-    "lastSurname": "De Silva"
-  },
+   "middleName": "", 
+   "lastSurname": "De Silva", 
+   "firstName": "Fabio"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-05-17"
-  },
-  "cohortYear": "Seventh grade"
-},{
-  "id": "444444444",
-  "studentUniqueStateId": "444444444",
-  "sex": "Male",
-  "economicDisadvantaged": "true",
-  "limitedEnglishProficiency": "No",
-  "schoolFoodServiceEligibility": "Free",
+   "birthDate": "1994-05-17"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "224-531-2436", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "574-500-6964", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "219-782-8585", 
+    "telephoneNumberType": "Other", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "331-747-1945", 
+    "telephoneNumberType": "Home", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "Yes", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Mailing", 
+    "countryCode": "US", 
+    "postalCode": "60248-9017", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "6243 98th Street"
+   }, 
+   {
+    "nameOfCounty": "Bronx", 
+    "city": "New York", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 878", 
+    "postalCode": "10395-8698", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "2738 Duryea Place"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Reduced", 
+  "id": "333333333", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Fabio_De_Silva@yahoo.com"
+   }
+  ]
+ }, 
+ {
+  "cohortYears": [
+   "Seventh grade"
+  ], 
+  "studentUniqueStateId": "444444444", 
   "name": {
-    "firstName": "Raphael",
-    "middleName": "",
-    "lastSurname": "De Silva"
-  },
+   "middleName": "", 
+   "lastSurname": "De Silva", 
+   "firstName": "Raphael"
+  }, 
+  "economicDisadvantaged": "true", 
   "birthData": {
-    "birthDate": "1994-05-18"
-  },
-  "cohortYear": "Seventh grade"
-}
+   "birthDate": "1994-05-18"
+  }, 
+  "telephone": [
+   {
+    "telephoneNumber": "312-265-8668", 
+    "telephoneNumberType": "Work", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "708-741-0568", 
+    "telephoneNumberType": "Mobile", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "708-212-6213", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "262-360-8911", 
+    "telephoneNumberType": "Fax", 
+    "primaryTelephoneNumberIndicator": false
+   }, 
+   {
+    "telephoneNumber": "224-666-4990", 
+    "telephoneNumberType": "Emergency 1", 
+    "primaryTelephoneNumberIndicator": true
+   }
+  ], 
+  "sex": "Male", 
+  "limitedEnglishProficiency": "No", 
+  "address": [
+   {
+    "nameOfCounty": "Cook", 
+    "city": "Chicago", 
+    "addressType": "Home", 
+    "countryCode": "US", 
+    "postalCode": "60683-4656", 
+    "stateAbbreviation": "IL", 
+    "streetNumberName": "1725 Meadow Street"
+   }, 
+   {
+    "nameOfCounty": "Queens", 
+    "city": "New York", 
+    "addressType": "Billing", 
+    "countryCode": "US", 
+    "apartmentRoomSuiteNumber": "APT 1721", 
+    "postalCode": "10078-7909", 
+    "stateAbbreviation": "NY", 
+    "streetNumberName": "318 Ocean Avenue"
+   }
+  ], 
+  "schoolFoodServiceEligibility": "Free", 
+  "id": "444444444", 
+  "electronicMail": [
+   {
+    "emailAddressType": "Other", 
+    "emailAddress": "Raphael_De_Silva@gmail.com"
+   }
+  ]
+ }
 ]

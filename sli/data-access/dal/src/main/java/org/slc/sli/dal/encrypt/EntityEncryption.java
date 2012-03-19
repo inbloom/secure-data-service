@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,25 +32,46 @@ public class EntityEncryption {
     @Autowired
     SchemaRepository schemaReg;
     
+    Map<NeutralSchema, Map<String, Object>> piiMapCache = new ConcurrentHashMap<NeutralSchema, Map<String, Object>>();
+    
     public Map<String, Object> encrypt(String entityType, Map<String, Object> body) {
-        Map<String, Object> clonedEntity = cloneEntity(body);
-        
         NeutralSchema schema = schemaReg.getSchema(entityType);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> piiMap = (Map<String, Object>) buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(schema);
+        if (piiMap == null) {
+            return body;
+        }
         
+        Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.ENCRYPT);
         return clonedEntity;
     }
     
     public Map<String, Object> decrypt(String entityType, Map<String, Object> body) {
-        Map<String, Object> clonedEntity = cloneEntity(body);
-        
         NeutralSchema schema = schemaReg.getSchema(entityType);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> piiMap = (Map<String, Object>) buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(schema);
+        if (piiMap == null) {
+            return body;
+        }
+        
+        Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.DECRYPT);
         return clonedEntity;
+    }
+    
+    public String encryptSingleValue(Object value) {
+        return aes.encrypt(value);
+    }
+    
+    public Object decryptSingleValue(Object value) {
+        if (!(value instanceof String)) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+        }
+        Object decrypted = aes.decrypt((String) value);
+        if (decrypted == null) {
+            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            return value;
+        }
+        return decrypted;
     }
     
     private static enum Operation {
@@ -64,6 +86,7 @@ public class EntityEncryption {
         for (Entry<String, Object> piiField : piiMap.entrySet()) {
             Object fieldValue = body.get(piiField.getKey());
             if (fieldValue == null) {
+                LOG.debug("PII field was null: {}", piiField.getKey());
                 continue;
             } else if (fieldValue instanceof Map) {
                 if (!(piiField.getValue() instanceof Map)) {
@@ -73,6 +96,7 @@ public class EntityEncryption {
                 encryptInPlace((Map<String, Object>) piiField.getValue(), (Map<String, Object>) fieldValue, op);
             } else if (fieldValue instanceof List) {
                 List<Object> list = (List<Object>) fieldValue;
+                LOG.debug("En/decrypting PII list: {}, size={}", piiField.getKey(), list.size());
                 for (int i = 0; i < list.size(); i++) {
                     Object item = list.get(i);
                     if (item instanceof Map) {
@@ -98,10 +122,14 @@ public class EntityEncryption {
                                 newValue = item;
                             }
                         }
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("En/decrypting PII list field: {}, item={}, old={}, new={}", 
+                                    new Object[] {piiField.getKey(), i, item, newValue});
+                        }
                         list.set(i, newValue);
                     }
                 }
-                return;
+                continue;
             } else {
                 Object newValue;
                 if (Operation.ENCRYPT == op) {
@@ -119,6 +147,9 @@ public class EntityEncryption {
                                 + fieldValue);
                         newValue = fieldValue;
                     }
+                }
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("En/decrypting PII value: {}, old={}, new={}", new Object[] {piiField.getKey(), fieldValue, newValue});
                 }
                 body.put(piiField.getKey(), newValue);
             }
@@ -171,14 +202,38 @@ public class EntityEncryption {
         }
     }
     
-    private Object buildPiiMap(NeutralSchema schema) {
+    /**
+     * Build a tree structure where all leaves are fields that should be PII.
+     * Returns null if no data for this schema is PII
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> buildPiiMap(NeutralSchema schema) {
+        if (schema == null) {
+            return null;
+        }
+        Map<String, Object> piiMap = piiMapCache.get(schema);
+        if (piiMap == null) {
+            piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema);
+            if (piiMap == null) {
+                piiMap = new HashMap<String, Object>();
+            }
+            piiMapCache.put(schema, piiMap);
+        }
+        if (piiMap.size() == 0) {
+            return null;
+        } else {
+            return piiMap;
+        }
+    }
+    
+    private Object recursiveBuildPiiMap(NeutralSchema schema) {
         if (schema == null) {
             return null;
         }
         if (schema instanceof ComplexSchema || schema instanceof ChoiceSchema) {
             Map<String, Object> fields = new HashMap<String, Object>();
             for (Map.Entry<String, NeutralSchema> field : schema.getFields().entrySet()) {
-                Object result = buildPiiMap(field.getValue());
+                Object result = recursiveBuildPiiMap(field.getValue());
                 if (result != null) {
                     fields.put(field.getKey(), result);
                 }
@@ -187,53 +242,17 @@ public class EntityEncryption {
         } else if (schema instanceof ListSchema) {
             List<NeutralSchema> possibleSchemas = ((ListSchema) schema).getList();
             if (possibleSchemas.size() != 1) {
-                // this list.getList() stuff is legacy that has been replaced with ChoiceSchemas
-                // TODO remove when Removing choice from ListSchema techdebt item is resolved.
+                // TODO remove when multiple list types are removed. This is a tech debt item.
+                // ChoiceSchema should be used for this case.
                 throw new RuntimeException("Unable to handle multiple list schemas.");
             }
             NeutralSchema listContent = possibleSchemas.get(0);
-            return buildPiiMap(listContent);
+            return recursiveBuildPiiMap(listContent);
         } else {
             if (schema.getAppInfo() == null) {
                 return null;
             }
             return schema.getAppInfo().isPersonallyIdentifiableInfo() ? true : null;
-        }
-    }
-    
-    // TODO REMOVE DEBUG CODE
-    @SuppressWarnings("unchecked")
-    public static void printMap(String depth, Object v) {
-        if (v instanceof Map) {
-            System.err.println(depth + "{");
-            for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) v).entrySet()) {
-                printMap(depth + "\t", entry);
-            }
-            System.err.println(depth + "}");
-        } else if (v instanceof List) {
-            System.err.println(depth + "[");
-            for (Object item : (List<Object>) v) {
-                printMap(depth + "\t", item);
-            }
-            System.err.println(depth + "]");
-        } else if (v instanceof Map.Entry) {
-            Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) v;
-            System.err.print(depth + entry.getKey() + " : ");
-            if (entry.getValue() instanceof Map) {
-                System.err.println("{");
-                printMap(depth + "\t", entry.getValue());
-                System.err.println(depth + "}");
-            } else if (entry.getValue() instanceof List) {
-                System.err.println("[");
-                for (Object e : (List<Object>) entry.getValue()) {
-                    printMap(depth + "\t", e);
-                }
-                System.err.println(depth + "]");
-            } else {
-                System.err.println(entry.getValue());
-            }
-        } else {
-            System.err.println(depth + v);
         }
     }
 }

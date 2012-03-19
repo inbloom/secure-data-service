@@ -13,6 +13,10 @@ When /^I wait for a second$/ do
   sleep(1)
 end
 
+When /^I wait for "([^"]*)" seconds$/ do |secs|
+  sleep(Integer(secs))
+end
+
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"
   @driver.quit if @driver
@@ -24,6 +28,17 @@ AfterStep('@pause') do
   print "Press Return to continue..." 
   STDIN.getc  
 end 
+
+AfterStep do |scenario|
+	@count ||= 0
+	if ENV['SCREENSHOTS']
+		@count = @count + 1
+		#filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
+		filename = scenario.line.to_s() + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
+		#filename = filename.gsub(' ', '_').gsub(',', '')
+		system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng -compression 9 > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
+	end
+end
 
 def assertWithWait(msg, &blk)
   wait = Selenium::WebDriver::Wait.new(:timeout => 5)

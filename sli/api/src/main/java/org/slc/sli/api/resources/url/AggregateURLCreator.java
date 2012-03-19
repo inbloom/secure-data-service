@@ -32,7 +32,7 @@ public class AggregateURLCreator extends URLCreator {
     public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
         List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
 
-        LOG.debug("aggregation params : " + params);
+        LOG.debug("aggregation params : {}", params);
 
         // get the aggregations that match the query params
         Iterable<Entity> aggregations = repo.findByFields(ResourceConstants.ENTITY_TYPE_AGGREGATION, convertParamsToEnitiyFormat(params));

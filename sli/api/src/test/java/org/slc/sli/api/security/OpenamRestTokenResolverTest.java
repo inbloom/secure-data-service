@@ -10,6 +10,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -32,6 +33,7 @@ import org.slc.sli.domain.enums.Right;
 /**
  * Unit tests for the OpenamRestTokenResolver.
  */
+@Ignore // Unit is going away
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
@@ -63,6 +65,7 @@ public class OpenamRestTokenResolverTest {
         Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.add(Right.READ_GENERAL);
         when(rightsResolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
+        when(rightsResolver.resolveRoles("mock", Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }))).thenReturn(rights);
     }
     
     @Test

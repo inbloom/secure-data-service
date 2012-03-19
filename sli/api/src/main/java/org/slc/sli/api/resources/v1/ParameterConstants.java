@@ -23,11 +23,14 @@ public class ParameterConstants {
      * An indication not to start from the first result.
      */
     public static final String DEFAULT_OFFSET = "0";
+    public static final int DEFAULT_OFFSET_INT = Integer.parseInt(DEFAULT_OFFSET);
+
 
     /**
      * Maximum number of results to display at one time.
      */
     public static final String DEFAULT_LIMIT = "50";
+    public static final int DEFAULT_LIMIT_INT = Integer.parseInt(DEFAULT_LIMIT);
 
     /**
      * Number of links to traverse when presenting a high-level document.
@@ -45,6 +48,30 @@ public class ParameterConstants {
     public static final String EXCLUDE_FIELDS = "excludeFields";
 
     /**
+     * Query parameter for sorting.
+     */
+    public static final String SORT_BY = "sortBy";
+
+    /**
+     * Query parameter for sort order.
+     */
+    public static final String SORT_ORDER = "sortOrder";
+
+    /**
+     * Query parameter for order ascending.
+     */
+    public static final String SORT_ASCENDING = "ascending";
+
+    /**
+     * Query parameter for order descending.
+     */
+    public static final String SORT_DESCENDING = "descending";
+
+    public static final String HEADER_LINK = "Link";
+    public static final String HEADER_TOTAL_COUNT = "TotalCount";
+
+
+    /**
      * Entity/Association IDs
      */
     public static final String ASSESSMENT_ID = "assessmentId";
@@ -59,6 +86,7 @@ public class ParameterConstants {
     public static final String STAFF_ID = "staffId";
     public static final String STUDENT_ID = "studentId";
     public static final String TEACHER_ID = "teacherId";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRY_ID = "studentSectionGradebookEntryId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";
@@ -72,5 +100,6 @@ public class ParameterConstants {
     public static final String SESSION_COURSE_ASSOCIATION_ID = "sessionCourseAssociationId";
     public static final String STUDENT_ASSESSMENT_ASSOCIATION_ID = "studentAssessmentAssociationId";
     public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
-
+    public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
+    public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
 }

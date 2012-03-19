@@ -15,13 +15,15 @@ import org.slc.sli.domain.MongoEntity;
  */
 public class EntityReadConverter implements Converter<DBObject, Entity> {
     
-    @Autowired
+    @Autowired(required = false)
     EntityEncryption encrypt;
     
     @Override
     public Entity convert(DBObject dbObj) {
         MongoEntity me = MongoEntity.fromDBObject(dbObj);
-        me.decrypt(encrypt);
+        if (encrypt != null) {
+            me.decrypt(encrypt);
+        }
         return me;
     }
     

@@ -10,7 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.dal.encrypt.Cipher;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
@@ -19,23 +20,27 @@ import org.slc.sli.validation.schema.NeutralSchema;
 /**
  * Default implementation of the QueryConverter interface
  * 
+ * Use NeutralQuery or ApiQuery instead.
+ * 
  * @author dong liu <dliu@wgen.net>
  * 
  */
-
+@Deprecated
 @Component
 public class BasicQueryConverter implements QueryConverter {
     
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
-            Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM };
+            Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM, ParameterConstants.OFFSET,
+            ParameterConstants.LIMIT, ParameterConstants.SORT_BY, ParameterConstants.SORT_ORDER,
+            ParameterConstants.INCLUDE_FIELDS, ParameterConstants.EXCLUDE_FIELDS };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
-    private static final String ENCRYPTION_ERROR = "Unable to perform requested operation on field ";
+    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
     
     @Autowired
     SchemaRepository schemaRepo;
     
-    @Autowired
-    Cipher cipher;
+    @Autowired(required = false)
+    EntityEncryption encryptor;
     
     @Override
     public Query stringToQuery(String entityType, String queryString) {
@@ -58,7 +63,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).gte(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -68,7 +73,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).lte(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -79,8 +84,8 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
-                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            if (type.isPii() && encryptor != null) {
+                                searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).ne(searchValue);
                         }
@@ -88,7 +93,7 @@ public class BasicQueryConverter implements QueryConverter {
                         String[] keyAndValue = getKeyAndValue(query, "=~");
                         ParamType type = findParamType(entityType, keyAndValue[0]);
                         if (type.isPii()) {
-                            new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                            throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                         }
                         if (keyAndValue != null) {
                             criteria = Criteria.where("body." + keyAndValue[0]).regex(keyAndValue[1]);
@@ -98,8 +103,8 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             Object searchValue = convertToType(type.getType(), keyAndValue[1]);
-                            if (type.isPii()) {
-                                searchValue = cipher.encrypt(keyAndValue[1]);
+                            if (type.isPii() && encryptor != null) {
+                                searchValue = encryptor.encryptSingleValue(keyAndValue[1]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).is(searchValue);
                         }
@@ -109,7 +114,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -120,7 +125,7 @@ public class BasicQueryConverter implements QueryConverter {
                         if (keyAndValue != null) {
                             ParamType type = findParamType(entityType, keyAndValue[0]);
                             if (type.isPii()) {
-                                new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
+                                throw new SortingException(ENCRYPTION_ERROR + keyAndValue[0]);
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(
                                     convertToType(type.getType(), keyAndValue[1]));
@@ -133,13 +138,17 @@ public class BasicQueryConverter implements QueryConverter {
             }
             
         } catch (RuntimeException e) {
-            LOG.debug("error parsing query String {}", queryString);
-            throw new QueryParseException(queryString);
+            LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
+            throw new QueryParseException(e.getMessage(), queryString);
         }
         
         if (sortBy != null && !sortBy.trim().isEmpty()) {
             ParamType type = findParamType(entityType, sortBy);
-            if (!"NULL".equals(type.getType()) && !type.isPii()) {
+            if (!"NULL".equals(type.getType())) {
+                
+                if (type.isPii()) {
+                    throw new SortingException("Unable to perform sort operation on PII field " + sortBy);
+                }
                 
                 if (sortOrder == null) {
                     sortOrder = SortOrder.ascending;
@@ -154,6 +163,12 @@ public class BasicQueryConverter implements QueryConverter {
         return mongoQuery;
     }
     
+    /**
+     * Simple holder class to allow methods to return multiple values.
+     * 
+     * This class is protected access level to support some of the existing unit tests. It is not
+     * intended to be used outside this class.
+     */
     protected static class ParamType {
         final String type;
         final boolean pii;
@@ -273,7 +288,7 @@ public class BasicQueryConverter implements QueryConverter {
                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
                     return Boolean.parseBoolean(value);
                 else
-                    throw new QueryParseException("");
+                    throw new RuntimeException("Invalid boolean value");
             } else if (type.equals("STRING") || type.equals("NULL")) {
                 return value;
             } else if (type.equals("TOKEN")) {
@@ -294,7 +309,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             throw new RuntimeException("Unsupported Neutral Schema Type: " + type);
         } catch (Exception e) {
-            throw new QueryParseException("");
+            throw new RuntimeException(e);
         }
         
     }

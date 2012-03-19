@@ -14,7 +14,7 @@ import org.slc.sli.util.Constants;
  * @author jstokes
  *
  */
-public class ViewManager extends Manager {
+public class ViewManager extends ApiClientManager {
     List<ViewConfig> viewConfigs;
     
     public List<ViewConfig> getViewConfigs() {
@@ -42,6 +42,7 @@ public class ViewManager extends Manager {
         
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
+            
             if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 
@@ -49,6 +50,7 @@ public class ViewManager extends Manager {
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
                 List<GenericEntity> students = entityManager.getStudents(token, uids);
                 
+                if (students == null) { continue; } // protect against crashing when viewing no students.
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));

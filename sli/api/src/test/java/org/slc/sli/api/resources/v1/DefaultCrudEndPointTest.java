@@ -1,33 +1,25 @@
 package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
-
 import com.sun.jersey.api.uri.UriBuilderImpl;
-
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -35,11 +27,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * Unit tests for the default crud endpoint
@@ -158,12 +158,15 @@ public class DefaultCrudEndPointTest {
             //delete it
             Response response = crudEndPoint.delete(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-              
-            //try to get it
-            Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
-            assertEquals("Status code should be NOT_FOUND", Status.NOT_FOUND.getStatusCode(), getResponse.getStatus());            
-            List<EntityBody> results = (List<EntityBody>) getResponse.getEntity();
-            assertNull("Should not return an entity", results);
+
+            try {
+                Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+                fail("should have thrown EntityNotFoundException");
+            } catch (EntityNotFoundException e) {
+                return;
+            } catch (Exception e) {
+                fail("threw wrong exception: " + e);
+            }
         }
     }
     
@@ -204,20 +207,6 @@ public class DefaultCrudEndPointTest {
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);
         }
-    }
-    
-    @Test
-    public void testShouldIncludeLinks() {
-        List<String> acceptRequestHeaders = new ArrayList<String>();
-        acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
-        HttpHeaders httpHeaders = mock(HttpHeaders.class);
-        when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
-        
-        assertTrue("Should include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
-        
-        acceptRequestHeaders.clear();
-        assertFalse("Should not include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
     }
     
     @Test
@@ -266,6 +255,7 @@ public class DefaultCrudEndPointTest {
                 "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unused")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         //need to add to this test
         //MockRepo needs to be changed to get this test right
@@ -300,6 +290,12 @@ public class DefaultCrudEndPointTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
+            @Override
+            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         

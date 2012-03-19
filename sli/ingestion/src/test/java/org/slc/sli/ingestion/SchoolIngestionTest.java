@@ -27,7 +27,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
 
 /**
@@ -50,7 +50,7 @@ public class SchoolIngestionTest {
     // private SchoolRepository schoolRepository;
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     private static String schoolEntityType = "school";
 
@@ -66,7 +66,8 @@ public class SchoolIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        persistenceProcessor.processIngestionStream(neutralRecordsFile);
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
 
         verifySchools(repository, numberOfSchools);
 
@@ -91,7 +92,8 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifySchools(repository, 0);
 
@@ -117,7 +119,8 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifySchools(repository, numberOfSchools);
 
@@ -139,7 +142,8 @@ public class SchoolIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         assertEquals(2, IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType));
 
@@ -240,7 +244,7 @@ public class SchoolIngestionTest {
         return new MongoEntity(schoolEntityType, null, body, null);
     }
 
-    public static void verifySchools(EntityRepository repository, long numberOfSchools) {
+    public static void verifySchools(Repository repository, long numberOfSchools) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType);
 

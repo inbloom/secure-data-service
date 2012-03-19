@@ -1,58 +1,29 @@
 require "active_resource/base"
 
 class EntitiesController < ApplicationController
-  before_filter :set_params, :set_url
-  skip_before_filter :set_params, :only => [:index]  
-  
-  def set_params
-    split_path = params[:other].split('/')
-    redirect_to "entities/#{split_path.first}" if split_path.size == 1
-    id_index = split_path.index {|path| /[0-9]/ =~ path}
-    params[:type] = split_path.slice(0...id_index).join('/')
-    params[:id] = split_path.slice(id_index...split_path.size).join('/')
-  end
-  
-  def set_url
-      Entity.url_type = params[:type]
-      case params[:type]
-      when /association/
-        logger.debug {"Full json support on"}
-        Entity.format = ActiveResource::Formats::JsonFullFormat
-      else
-        logger.debug {"Full json support off"}
-        Entity.format = ActiveResource::Formats::JsonFormat
-      end
-    end
-  
-  # rescue_from ActiveResource::ResourceNotFound do |exception|
-  #   render :file => "404.html"
-  # end
-  
-  
-  # GET /entities
-  # GET /entities.json
-  def index
-    Entity.url_type = params[:type]
-    @entities = Entity.all
+  before_filter :set_url
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @entities }
-    end
+  def set_url
+    Entity.url_type = params[:other]
+    Entity.format = ActiveResource::Formats::JsonLinkFormat
   end
 
   # GET /entities/1
   # GET /entities/1.json
   def show
-    @entity = Entity.get_simple_and_complex(params[:id])
-    # @entity = Entity.find(:all, :from => "/api/rest/#{params[:other]}")
-    
+    @entity = Entity.get_simple_and_complex(request.query_parameters)
+
+    if params[:other] == 'home'
+      render :index
+      return
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entity }
     end
   end
-  
+
   # GET /entities/new
   # GET /entities/new.json
   # def new

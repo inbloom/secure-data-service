@@ -6,7 +6,8 @@ import java.util.Map;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -21,27 +22,27 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Scope("prototype")
 @Component
 public class ComplexSchema extends NeutralSchema {
-    
+
     // Constructors
     public ComplexSchema() {
         this(NeutralSchemaType.COMPLEX.getName());
     }
-    
+
     public ComplexSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
     @Override
     public boolean isPrimitive() {
         return false;
     }
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.COMPLEX;
     }
-    
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -58,13 +59,13 @@ public class ComplexSchema extends NeutralSchema {
      * @return true if valid
      */
     @Override
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid = true;
-        
+
         if (entity instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, ?> entityMap = (Map<String, ?>) entity;
-            
+
             // Make sure the entity contains all required fields
             for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
                 NeutralSchema schema = entry.getValue();
@@ -76,16 +77,16 @@ public class ComplexSchema extends NeutralSchema {
                     isValid = false;
                 }
             }
-            
+
             for (Map.Entry<String, ?> entry : entityMap.entrySet()) {
                 String name = entry.getKey();
                 Object fieldEntity = entry.getValue();
-                
+
                 NeutralSchema fieldSchema = getFields().get(name);
                 if (fieldSchema == null) {
                     return addError(false, name, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
-                
+
                 AppInfo appInfo = fieldSchema.getAppInfo();
                 if (fieldEntity == null) {
                     if (appInfo != null && appInfo.isRequired()) {
@@ -94,11 +95,11 @@ public class ComplexSchema extends NeutralSchema {
                 } else {
                     boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors, repo);
                     if (!isFieldValid) {
-                        
+
                         // Not valid since field failed, but continue gathering further field
                         // validation info
                         isValid = false;
-                        
+
                         // Return immediately since errors list was not indicated
                         if (errors == null) {
                             return false;
@@ -109,8 +110,13 @@ public class ComplexSchema extends NeutralSchema {
         } else {
             return addError(false, fieldName, entity, "Complex Map", ErrorType.INVALID_DATATYPE, errors);
         }
-        
+
         return isValid;
     }
-    
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+
 }

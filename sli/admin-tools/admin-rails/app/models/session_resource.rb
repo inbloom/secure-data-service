@@ -1,13 +1,15 @@
 class SessionResource < ActiveResource::Base
-  cattr_accessor :auth_id, :access_token
+  cattr_accessor :access_token
+  self.logger = Rails.logger
+  self.site = APP_CONFIG['api_base']
 
-  Rails.logger.debug { "Session ID: #{@auth_id}" }
+  Rails.logger.debug { "Session ID: #{@access_token}" }
   
   class << self
 
     def headers
       if !access_token.nil?
-        @headers = {"Authorization" => "Bearer#{self.access_token}"}
+        @headers = {"Authorization" => "Bearer #{self.access_token}"}
       else
         @headers = {}
       end
@@ -16,7 +18,7 @@ class SessionResource < ActiveResource::Base
     ## Remove format from the url.
      def element_path(id, prefix_options = {}, query_options = nil)
        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-       something = "#{prefix(prefix_options)}#{collection_name}/#{id}#{query_string(query_options)}?sessionId=#{self.auth_id}"
+       something = "#{prefix(prefix_options)}#{collection_name}/#{id}#{query_string(query_options)}"
        Rails.logger.debug { "element_path: #{something}" }
        something
      end
@@ -24,8 +26,7 @@ class SessionResource < ActiveResource::Base
      ## Remove format from the url.
      def collection_path(prefix_options = {}, query_options = nil)
        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-       sep = query_options.size == 0 ? '?' : '&'
-       something = "#{prefix(prefix_options)}#{collection_name}#{query_string(query_options)}#{sep}sessionId=#{self.auth_id}"
+       something = "#{prefix(prefix_options)}#{collection_name}#{query_string(query_options)}"
        Rails.logger.debug { "collection_path: #{something}" }
        something
      end

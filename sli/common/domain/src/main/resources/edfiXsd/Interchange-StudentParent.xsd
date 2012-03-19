@@ -8,7 +8,7 @@
 	</xs:annotation>
 	<xs:element name="InterchangeStudentParent">
 		<xs:annotation>
-			<xs:documentation>Thi interchange for student and parent data.</xs:documentation>
+			<xs:documentation>The interchange for student and parent data.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">

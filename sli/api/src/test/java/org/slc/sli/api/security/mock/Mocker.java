@@ -22,7 +22,8 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -37,7 +38,7 @@ public class Mocker {
 
     @Autowired
     private static SecurityTokenResolver openamRestTokenResolver;
-    
+
     public static final String MOCK_URL = "mock";
     public static final String VALID_TOKEN = "valid_token";
     public static final String INVALID_TOKEN = "invalid_token";
@@ -114,12 +115,14 @@ public class Mocker {
     public static UserLocator getLocator() {
         MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
         Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        Mockito.when(locator.locate("SLI", VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
         Mockito.when(locator.locate("dc=slidev,dc=net", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+        Mockito.when(locator.locate("SLI", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
         locator.setRepo(getRepo());
         return locator;
     }
 
-    private static EntityRepository getRepo() {
+    private static Repository<Entity> getRepo() {
         return new MockRepo();
     }
 

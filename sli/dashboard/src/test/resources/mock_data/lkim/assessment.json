@@ -21,15 +21,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"1233L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"4"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"4"
                         }
         ]
 },
@@ -55,15 +51,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"873L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"2"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"1"
                         }
         ]
 },
@@ -89,15 +81,161 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Reading-8th-grade-2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"85"
+                        },
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"335"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"94.45"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"1233L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Reading-8th-grade-2011",
+        "administrationDate":"2011-11-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"40"
+                        },
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"223"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"49.99"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"873L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"2"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Writing-8th-grade-2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"200"
+                        },
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"265"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"50.00"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"500L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Writing-8th-grade-2011",
+        "administrationDate":"2011-08-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"200"
+                        },
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"285"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"50.00"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"500L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"ISAT-Writing-8th-grade-2011",
+        "administrationDate":"2011-07-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Raw score",
+                            "result":"200"
+                        },
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"295"
+                        },
+                        {
+                            "assessmentReportingMethod":"Percentile",
+                            "result":"50.00"
+                        },
+                        {
+                            "assessmentReportingMethod":"Other",
+                            "result":"500L"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
                         }
         ]
 }

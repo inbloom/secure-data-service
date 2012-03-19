@@ -95,7 +95,7 @@ public class SessionResource {
      *                 item is accessable.}
      */
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(ResourceNames.SESSIONS, newEntityBody, headers, uriInfo);
@@ -191,7 +191,7 @@ public class SessionResource {
     
 
     /**
-     * Returns each $$school$$ associated to the given session through
+     * Returns each $$schools$$ associated to the given session through
      * a $$schoolSessionAssociations$$ 
      * 
      * @param sessionId

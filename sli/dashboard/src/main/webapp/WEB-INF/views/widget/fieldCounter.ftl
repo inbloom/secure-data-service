@@ -8,4 +8,4 @@
   -->
 
 <#assign fieldCounter = widgetFactory.createFieldCounter(field, student, attendances)>
-<span class="count-${fieldCounter.getColor()}">${fieldCounter.getText()}</span>
+<span class="countLevel${fieldCounter.getColorIndex()}">${fieldCounter.getText()}</span>

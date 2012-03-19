@@ -54,11 +54,11 @@ public class StaffEducationOrganizationAssociation {
     @Autowired
     public StaffEducationOrganizationAssociation(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
-        LOGGER.debug("New resource handler created: " + this);
+        LOGGER.debug("New resource handler created: {}", this);
     }
 
     /**
-     * Returns all &&staffEducationOrganizationAssociations&& entities for which the logged in User has permission and context.
+     * Returns all $$staffEducationOrganizationAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -81,7 +81,7 @@ public class StaffEducationOrganizationAssociation {
     }
 
     /**
-     * Create a new &&staffEducationOrganizationAssociations&& entity.
+     * Create a new $$staffEducationOrganizationAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -102,10 +102,10 @@ public class StaffEducationOrganizationAssociation {
     }
 
     /**
-     * Get a single &&staffEducationOrganizationAssociations&& entity
+     * Get a single $$staffEducationOrganizationAssociations$$ entity
      * 
      * @param staffEducationOrganizationId
-     *            The Id of the &&staffEducationOrganizationAssociations&&.
+     *            The Id of the $$staffEducationOrganizationAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -121,10 +121,10 @@ public class StaffEducationOrganizationAssociation {
     }
 
     /**
-     * Delete a &&staffEducationOrganizationAssociations&& entity
+     * Delete a $$staffEducationOrganizationAssociations$$ entity
      * 
      * @param staffEducationOrganizationId
-     *            The Id of the &&staffEducationOrganizationAssociations&&.
+     *            The Id of the $$staffEducationOrganizationAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -140,10 +140,10 @@ public class StaffEducationOrganizationAssociation {
     }
 
     /**
-     * Update an existing &&staffEducationOrganizationAssociations&& entity.
+     * Update an existing $$staffEducationOrganizationAssociations$$ entity.
      * 
      * @param staffEducationOrganizationId
-     *            The id of the &&staffEducationOrganizationAssociations&&.
+     *            The id of the $$staffEducationOrganizationAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -164,7 +164,7 @@ public class StaffEducationOrganizationAssociation {
 
     /**
      * Returns each $$staff$$ that
-     * references the given &&staffEducationOrganizationAssociations&&
+     * references the given $$staffEducationOrganizationAssociations$$
      * 
      * @param staffEducationOrganizationId
      *            The Id of the teacherSchoolAssociation.
@@ -192,8 +192,8 @@ public class StaffEducationOrganizationAssociation {
     }
     
     /**
-     * Returns each $$educationOrganizations$$ that
-     * references the given &&staffEducationOrganizationAssociations&&
+     * Returns each $$educationalOrganizations$$ that
+     * references the given $$staffEducationOrganizationAssociations$$
      * 
      * @param staffEducationOrganizationId
      *            The Id of the teacherSchoolAssociation.

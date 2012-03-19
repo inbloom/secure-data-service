@@ -12,31 +12,32 @@ import java.util.UUID;
 
 import com.mongodb.DBObject;
 
-import org.slc.sli.domain.EntityQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.SmartQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
 
 /**
- * Mock implementation of the EntityRepository for unit testing.
- * 
+ * Mock implementation of the Repository<Entity> for unit testing.
+ *
  */
 @Component
 @Primary
-public class MockRepo implements EntityRepository {
+public class MockRepo implements Repository<Entity> {
     private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
-    
+
     public MockRepo() {
         setup();
     }
-    
+
     private void setup() {
         repo.put("course", new LinkedHashMap<String, Entity>());
         repo.put("student", new LinkedHashMap<String, Entity>());
@@ -69,30 +70,31 @@ public class MockRepo implements EntityRepository {
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
     }
-    
+
     protected Map<String, Map<String, Entity>> getRepo() {
         return repo;
     }
-    
+
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
-    
+
     @Override
     public Entity find(String collectionName, Map<String, String> queryParameters) {
         return find(collectionName, queryParameters.get("_id"));
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String collectionName, Map<String, String> queryParameters) {
         return findByFields(collectionName, queryParameters, 0, 10);
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+    public Iterable<Entity> findAll(String collectionName, SmartQuery query) {
         Map<String, String> fields = query.getFields();
-        
+
         return findByFields(collectionName, fields);
     }
 
@@ -100,24 +102,24 @@ public class MockRepo implements EntityRepository {
     public Entity find(String entityType, String id) {
         return repo.get(entityType).get(id);
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String entityType, int skip, int max) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all.subList(skip, (Math.min(skip + max, all.size())));
     }
-    
+
     @Override
     public boolean update(String type, Entity entity) {
         repo.get(type).put(entity.getEntityId(), entity);
         return true;
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
         String id = generateId();
@@ -125,16 +127,16 @@ public class MockRepo implements EntityRepository {
         update(collectionName, newEntity);
         return newEntity;
     }
-    
+
     @Override
     public boolean delete(String entityType, String id) {
         return repo.get(entityType).remove(id) != null;
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields, int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        
+
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
@@ -154,39 +156,39 @@ public class MockRepo implements EntityRepository {
             } else {
                 value = entity.getBody().get(field.getKey());
             }
-            
+
             if (value == null || !field.getValue().contains(value.toString())) {
                 return false;
             }
         }
         return true;
-        
+
     }
-    
+
     @Override
     public void deleteAll(String entityType) {
         Map<String, Entity> repository = repo.get(entityType);
         if (repository != null) {
             repository.clear();
         }
-        
+
     }
-    
+
     public void deleteAll() {
         repo.clear();
         setup();
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all;
     }
-    
+
     @Override
     public Iterable<Entity> findByFields(String entityType, Map<String, String> fields) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        
+
         if (repo.containsKey(entityType)) {
             List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
             for (Entity entity : all) {
@@ -202,7 +204,7 @@ public class MockRepo implements EntityRepository {
     public long count(String collectionName, Query query) {
         return ((List<?>) findByQuery(collectionName, query, 0, Integer.MAX_VALUE)).size();
     }
-    
+
     private Iterable<Entity> findByFields(String entityType, Query query, Map<String, Integer> sortKeyOrderMap,
             int skip, int max) {
         List<Entity> toReturn = new ArrayList<Entity>();
@@ -224,7 +226,7 @@ public class MockRepo implements EntityRepository {
         }
         return toReturn.subList(skip, (Math.min(skip + max, toReturn.size())));
     }
-    
+
     private boolean matchQueries(Entity entity, Query query) throws Exception {
         if (query != null) {
             DBObject queryObject = query.getQueryObject();
@@ -236,7 +238,7 @@ public class MockRepo implements EntityRepository {
         }
         return true;
     }
-    
+
     private boolean matches(Entity entity, DBObject queryObject, String rawKey) throws Exception {
         boolean isId = rawKey.equals("_id");
         String key = isId ? "_id" : rawKey.substring("body.".length());
@@ -283,7 +285,7 @@ public class MockRepo implements EntityRepository {
         }
         return compareToValue(entityValue, bigValue.toString()) == 0;
     }
-    
+
     private int compareToValue(Object entityValue, String value) throws Exception {
         int compare = 0;
         if (entityValue instanceof String) {
@@ -293,35 +295,35 @@ public class MockRepo implements EntityRepository {
         }
         return compare;
     }
-    
+
     @Override
     public Iterable<Entity> findByQuery(String entityType, Query query, int skip, int max) {
         Map<String, Integer> sortKeyOrderMap = getSortKeyOrderMap(query);
         return findByFields(entityType, query, sortKeyOrderMap, skip, max);
     }
-    
+
     private String generateId() {
         return UUID.randomUUID().toString();
     }
-    
+
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
         // Not implemented
         return null;
     }
-    
+
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
         // Not implemented
         return null;
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         // Not implemented
         return null;
     }
-    
+
     private Map<String, Integer> getSortKeyOrderMap(Query query) {
         Map<String, Integer> sortKeyOrderMap = new LinkedHashMap<String, Integer>();
         if (query != null) {
@@ -332,14 +334,14 @@ public class MockRepo implements EntityRepository {
         }
         return sortKeyOrderMap;
     }
-    
+
     private class EntityComparator implements Comparator<Entity> {
         Map<String, Integer> sortKeyOrderMap;
-        
+
         EntityComparator(Map<String, Integer> sortKeyOrderMap) {
             this.sortKeyOrderMap = sortKeyOrderMap;
         }
-        
+
         @SuppressWarnings("unchecked")
         @Override
         public int compare(Entity entity1, Entity entity2) {
@@ -375,11 +377,11 @@ public class MockRepo implements EntityRepository {
             return 0;
         }
     }
-    
+
     private void sortEntities(List<Entity> entities, EntityComparator comparator) {
         Collections.sort(entities, comparator);
     }
-    
+
     @Override
     public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
         ArrayList<String> ids = new ArrayList<String>();
@@ -391,7 +393,17 @@ public class MockRepo implements EntityRepository {
 
     @Override
     public Entity findOne(String collectionName, Query query) {
-        throw new UnsupportedOperationException("Not implemented here yet, implement me! (We're agile. And toasted.");
+        Entity response = null;
+        
+        if (collectionName.equals("realm")) {
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("regionId", "SLI");
+            response = new MongoEntity("realm", body);
+            
+            return response;
+        } else {
+            throw new UnsupportedOperationException("Not supported yet.  Implement me please?");
+        }
     }
-    
+
 }

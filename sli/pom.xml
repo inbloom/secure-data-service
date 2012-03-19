@@ -10,9 +10,9 @@
 	<url>http://sli.wgen.net</url>
 
 	<scm>
-		<connection>git@github.com:WGEN-SLI/SLI.git</connection>
-		<developerConnection>git@github.com:WGEN-SLI/SLI.git</developerConnection>
-		<url>https://github.com/WGEN-SLI/SLI</url>
+		<connection>scm:git:git@git.slidev.org:sli/sli.git</connection>
+		<developerConnection>scm:git:git@git.slidev.org:sli/sli.git</developerConnection>
+		<url>https://git.slidev.org/sli/sli</url>
 	</scm>
 
 	<properties>
@@ -31,11 +31,16 @@
 		<maven.jaxb2.version>1.3.1</maven.jaxb2.version>
 		<maven.tomcat.version>1.1</maven.tomcat.version>
 		<maven.jetty.version>6.1.10</maven.jetty.version>
+		<maven.release.version>2.2</maven.release.version>
 
 		<!-- Spring Framework Versions -->
 		<spring.version>3.0.6.RELEASE</spring.version>
 		<springdata.version>1.2.0.M1</springdata.version>
 		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
+		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
+		<hsqldb.version>1.8.0.10</hsqldb.version>
+		<bean.validator.version>4.2.0.Final</bean.validator.version>
+
 
 		<!-- Java EE Versions -->
 		<javax.validation.version>1.0.0.GA</javax.validation.version>
@@ -45,11 +50,15 @@
 		<taglibs.version>1.1.2</taglibs.version>
 
 		<!-- Apache Versions -->
+		<commons.cli.version>1.2</commons.cli.version>
 		<commons.lang.version>3.0.1</commons.lang.version>
 		<commons.io.version>2.1</commons.io.version>
-		<commons.codec.version>1.5</commons.codec.version>
+		<commons.codec.version>1.6</commons.codec.version>
 		<xerces.version>2.4.0</xerces.version>
 		<avro.version>1.6.1</avro.version>
+		<commons.schema.version>1.4.7</commons.schema.version>
+        <commons.beanutils.version>1.8.3</commons.beanutils.version>
+
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
 		<jersey.version>1.9.1</jersey.version>
@@ -58,15 +67,10 @@
 		<!-- Persistence Framework Versions -->
 		<commons.dbcp.version>20030825.184428</commons.dbcp.version>
 		<commons.pool.version>20030825.183949</commons.pool.version>
-		<hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-		<hibernate.entity.version>3.6.0.Final</hibernate.entity.version>
-		<hibernate.validator.version>4.0.0.GA</hibernate.validator.version>
-		<mysql.connector.version>5.1.18</mysql.connector.version>
-		<hsqldb.version>1.8.0.10</hsqldb.version>
 
 		<!-- Logging Framework Versions -->
-		<slf4j.version>1.6.2</slf4j.version>
-		<logback.version>0.9.29</logback.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<logback.version>1.0.1</logback.version>
 
 		<!-- Testing Framework Versions -->
 		<junit.version>4.9</junit.version>
@@ -107,8 +111,8 @@
 			<id>dev</id>
 			<properties>
 				<sli.env>dev</sli.env>
-				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devKeyStore.jks</sli.encryption.keyStore>
-				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devEncryption.properties</sli.encryption.properties>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
 
@@ -127,10 +131,32 @@
 			<id>devapp1</id>
 			<properties>
 				<sli.env>devapp1</sli.env>
-				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/devApp1KeyStore.jks</sli.encryption.keyStore>
-				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/devApp1Encryption.properties</sli.encryption.properties>
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
 			</properties>
 		</profile>
+
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>acceptance-tests</id>
+            <properties>
+                <sli.env>acceptance-tests</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
+
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>nxbuild2</id>
+            <properties>
+                <sli.env>nxbuild2</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
 
 		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->
@@ -141,13 +167,12 @@
 		<module>common</module>
 		<module>api</module>
 		<module>data-access</module>
+                <!-- module>admin-tools</module -->
 		<module>ingestion</module>
 		<module>dashboard</module>
-		<module>admin</module>
-		<module>disco</module>
 		<module>acceptance-tests</module>
 		<module>ingestion-sli-configuration</module>
-    <module>SDK</module>
+        <module>SDK</module>
   </modules>
 
 	<dependencyManagement>
@@ -163,6 +188,12 @@
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
 				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.common</groupId>
+				<artifactId>common-util</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -217,12 +248,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.slc.sli.admin</groupId>
-				<artifactId>admin</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.slc.sli</groupId>
 				<artifactId>client</artifactId>
 				<version>${project.version}</version>
@@ -234,6 +259,13 @@
 				<version>${project.version}</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>SDK</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 
 			<!-- Spring Framework -->
 
@@ -342,14 +374,6 @@
 				</exclusions>
 			</dependency>
 
-			<!-- Spring ORM dependency -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${spring.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
 			<!-- Spring Web MVC dependency -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -438,6 +462,13 @@
 
 			<!-- Apache Framework -->
 
+			<!-- Apache Commons CLI dependency -->
+			<dependency>
+				<groupId>commons-cli</groupId>
+				<artifactId>commons-cli</artifactId>
+				<version>${commons.cli.version}</version>
+			</dependency>
+
 			<!-- Apache Commons Lang dependency -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -466,6 +497,11 @@
 				<version>${xerces.version}</version>
 			</dependency>
 
+            <dependency>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils</artifactId>
+              <version>${commons.beanutils.version}</version>
+            </dependency>
 
 			<!-- Rest Services (JAX-RS) Framework -->
 
@@ -574,85 +610,12 @@
 				<scope>compile</scope>
 			</dependency>
 
-			<!-- Hibernate JPA dependency -->
-			<dependency>
-				<groupId>org.hibernate.javax.persistence</groupId>
-				<artifactId>hibernate-jpa-2.0-api</artifactId>
-				<version>${hibernate.jpa.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- Hibernate EntityManager dependency -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>${hibernate.entity.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- Hibernate Validator dependency -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.validator.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- MySQL Connector dependency -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.connector.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
 			<!-- HSQLDB dependency -->
 			<dependency>
 				<groupId>hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
 				<version>${hsqldb.version}</version>
 			</dependency>
-
-
-			<!-- Logging Framework -->
-
-			<!-- SLF4J dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<!-- SLF4J JCL dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<!-- SLF4J Log4J dependency -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<!-- Logback(Log4J) Core dependency -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-
-			<!-- Logback(Log4J) Classic dependency -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-
 
 			<!-- Testing Framework -->
 
@@ -672,57 +635,52 @@
 				<scope>test</scope>
 			</dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- bean validation -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${bean.validator.version}</version>
+    </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+	    <!-- common dependencies used across all projects -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Logging Framework -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- SLF4J dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
 
-		<!-- SLF4J JCL dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-
-		<!-- SLF4J Log4J dependency -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-		</dependency>
-
-		<!-- Logback(Log4J) Core dependency -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-
-		<!-- Logback(Log4J) Classic dependency -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-
-
-		<!-- Testing Framework -->
-
-		<!-- JUnit dependency -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-
-		<!-- Mockito dependency -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
 
 	</dependencies>
 
@@ -740,6 +698,12 @@
 						<target>${java.version}</target>
 						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
+				</plugin>
+
+				<plugin>
+				     <groupId>org.apache.maven.plugins</groupId>
+				     <artifactId>maven-release-plugin</artifactId>
+				     <version>${maven.release.version}</version>
 				</plugin>
 
 				<plugin>
@@ -955,17 +919,10 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>${maven.jetty.version}</version>
-				<configuration>
-					<systemPropertyVariables>
-						<sli.env>${sli.env}</sli.env>
-						<sli.dal.encryption.keyStore>${sli.dal.encryption.keyStore}</sli.dal.encryption.keyStore>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-release-plugin</artifactId>
+            </plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

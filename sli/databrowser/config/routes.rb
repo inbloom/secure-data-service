@@ -1,33 +1,13 @@
 DbRails::Application.routes.draw do
-  get "schools/index"
-
-  get "teachers/index"
-
-  get "students/index"
-
-  # resources "teacher-section-associations", :as => :teacher_section_associations, :controller => :teacher_section_associations
-  # resources "teacher-school-associations", :as => :teacher_school_associations, :controller => :teacher_school_associations
-  # resources :sections
-  # 
-  # resources :teachers
-  # 
-  # resources :schools
-  # 
-  # resources :homes
+  #OAuth
+  match '/callback', :to => 'application#callback'
   
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'entities#index', :defaults => {:type => "home"}
-  match '/entities/:type' => 'entities#index'
+  root :to => redirect('/entities/home')
   match '/entities/*other' => 'entities#show'
 
-
-  # match '/entities/:type/:id/:targets' => 'entities#show'
-  
-  match '/students' => 'students#index'
-  match '/teachers' => 'teachers#index'
-  match '/schools' => 'schools#index'
-  match '/logout' => 'checks#logout'  
+  match '/logout' => 'checks#logout'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

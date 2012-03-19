@@ -28,6 +28,9 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private String checksum;
     private FaultsReport faultsReport;
 
+    // will only be set when this is added to a BatchJob
+    private String batchJobId;
+
     // Constructors
     public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
         this.fileFormat = fileFormat;
@@ -157,6 +160,14 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     @Override
     public ErrorReport getErrorReport() {
         return getFaultsReport();
+    }
+
+    public String getBatchJobId() {
+        return batchJobId;
+    }
+
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
     }
 
 }

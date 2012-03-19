@@ -10,9 +10,9 @@ Feature: SLI Default Roles and Permissions
 Scenario Outline:  SEA/LEA user with a valid Default SLI Role making API call
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>
-And I have a Role attribute returned from the "SEA/LEA IDP"
+And I have a Role attribute returned from the "SLI"
 And the role attribute equals <AnyDefaultSLIRole>
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 When I make a REST API call 
 Then I get the JSON response displayed
 Examples:
@@ -25,24 +25,24 @@ Examples:
 Scenario:  SEA/LEA user with an invalid Default SLI Role making API call
  
 Given I am valid SEA/LEA end user "baduser" with password "baduser1234"
-And I have a Role attribute returned from the "SEA/LEA IDP"
+And I have a Role attribute returned from the "SLI"
 And the role attribute equals "teacher"
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
  
 Scenario:  SEA/LEA user without Role attribute making API call
  
 Given  I am valid SEA/LEA end user "nouser" with password "nouser1234" 
-And I do not have a Role attribute returned from the "SEA/LEA IDP"
-And I am authenticated on "SEA/LEA IDP"
+And I do not have a Role attribute returned from the "SLI"
+And I am authenticated on "SLI"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 And the role attribute equals "IT Administrator"
 And "IT Administrator" is allowed to change Student address
 When I make an API call to change the Student address to "1234 Somewhere"
@@ -52,7 +52,7 @@ Then the Student address is changed
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 And the role attribute equals <Role>
 And <Role> is not allowed to change Student address
 When I make an API call to change the Student address to "9876 Nowhere"
@@ -65,7 +65,7 @@ Examples:
 Scenario: Unauthorized SLI Default Role trying to view Student object
 
 Given  I am valid SEA/LEA end user "aggregator" with password "aggregator1234" 
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 And the role attribute equals "Aggregate Viewer"
 And "Aggregate Viewer" is not allowed to view Student data
 When I make an API call to view a Student's data
@@ -74,7 +74,7 @@ Then a message is displayed that the "Aggregate Viewer" role cannot view this da
 Scenario: Authorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "leader" with password "leader1234"
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 And the role attribute equals "Leader"
 And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
@@ -83,7 +83,7 @@ Then the Student restricted fields are visible in the response
 Scenario: Unauthorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "educator" with password "educator1234"
-And I am authenticated on "SEA/LEA IDP"
+And I am authenticated on "SLI"
 And the role attribute equals "Educator"
 And "Educator" is not allowed to view restricted Student fields
 When I make an API call to view a Student's data

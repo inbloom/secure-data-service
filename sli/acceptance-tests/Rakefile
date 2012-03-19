@@ -11,6 +11,8 @@ EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 
 COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
+OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
+
 #######################################################
 
 $SUCCESS=true
@@ -30,7 +32,7 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{COLOR} -f junit --out . -f pretty" do |success, exit_code|
+  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -85,6 +87,7 @@ task :realmInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("application", "application_fixture.json")
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json", "test/data", false)
 end
 
 # Task that initializes the application registration fixture
@@ -123,7 +126,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -147,9 +150,39 @@ task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
 end
 
+desc "Run Ingestion Encryption Tests"
+task :ingestionEncryptionTests do
+  runTests("test/features/ingestion/features/encryption_testing.feature")
+end
+
 desc "Run Ingestion Daily Attendance Tests"
 task :ingestionAttendanceTests do
   runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
+end
+
+desc "Run Ingestion Assessment Tests"
+task :ingestionAssessmentTests do
+  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
+end
+
+desc "Run Student Parents Tests"
+task :ingestionStudentParentsTests do
+  runTests("test/features/ingestion/features/ingestion_student_parents.feature")
+end
+
+desc "Run Student Transcript Association Test"
+task :ingestionStudentTranscriptAssociationTests do
+  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
+end
+
+desc "Run idNamespace Test"
+task :ingestionidNamespaceTest do
+  runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
+end
+
+desc "Run Ingestion Gradebook Entry Test"
+task :ingestionGradebookEntryTests do
+  runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
 end
 
 ########
@@ -161,10 +194,96 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:v1SessionTests, :v1SchoolTests, :v1StudentTests, :v1TeacherTests, :v1SectionTests, :v1AssessmentTests, :v1homeUriTests, :v1ValidationTests,
-                     :v1StaffTests, :v1SchoolSessionAssociationTests, :v1CourseTests, :v1AttendanceTests, :v1EducationOrganizationTests, :v1StudentSchoolAssociationTests, :v1SessionCourseAssociationTests,
-					 :v1StaffEdOrgAssociationTests, :v1StudentSectionAssociationTests, :v1SectionAssessmentAssociationTests, :v1TeacherSectionAssociationTests] do
+task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1AssociationTests,
+                     :v1homeUriTests,
+                     :v1ValidationTests,
+                     :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests,
+                     :v1CascadeDeletionTests,
+                     :v1EncryptionTests,
+                     :v1SortingAndPagingTests,
+                     :v1ListTests,
+                     :v1TargetTests,
+                     :v1EndUserStoryAssessmentTests] do
   displayFailureReport()
+end
+
+task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1AttendanceTests,
+                           :v1CourseTests,
+                           :v1EducationOrganizationTests,
+                           :v1GradebookEntryTests,
+                           :v1ParentTests,
+                           :v1ParentSecurityTests,
+                           :v1SchoolTests,
+                           :v1SectionTests,
+                           :v1SessionTests,
+                           :v1StaffTests,
+                           :v1StudentTests,
+                           :v1StudentSectionGradebookEntryTests,
+                           :v1TeacherTests] do
+end
+
+task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
+                                :v1SectionAssessmentAssociationTests,
+                                :v1SessionCourseAssociationTests,
+                                :v1StaffEdOrgAssociationTests,
+                                :v1StudentAssessmentAssociationTests,
+                                :v1StudentParentAssociationTests,
+                                :v1StudentSchoolAssociationTests,
+                                :v1StudentSectionAssociationTests,
+                                :v1StudentTranscriptAssociationTests,
+                                :v1TeacherSchoolAssociationTests,
+                                :v1TeacherSectionAssociationTests] do
+end
+
+desc "Run V1 Student Section Gradebook Entry Tests"
+task :v1StudentSectionGradebookEntryTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("section", "section_fixture.json")
+  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
+  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
+  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
+  runTests("test/features/apiV1/entities/studentSectionGradebookEntry")
+end
+
+desc "Run V1 Gradebook Entry Tests"
+task :v1GradebookEntryTests => [:realmInit] do
+  setFixture("section", "section_fixture.json")
+  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
+  runFixtureAndTests("test/features/apiV1/entities/gradebookEntry", "gradebookEntry", "gradebookEntry_fixture.json")
+end
+
+desc "Run V1 Cascade Deletion Tests"
+task :v1CascadeDeletionTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/cascadeDeletion")
+end
+
+desc "Run V1 Direct References Tests"
+task :v1DirectReferencesTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Student Parent Association Tests"
+task :v1StudentParentAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("parent", "parent_fixture.json")
+  setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentParentAssociation")
+end
+
+desc "Run V1 Student Transcript Association Tests"
+task :v1StudentTranscriptAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("course", "course_fixture.json")
+  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
+  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
 end
 
 desc "Run V1 Teacher School Association Tests"
@@ -331,6 +450,18 @@ task :v1AssessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
 end
 
+desc "Run V1 Parent Tests"
+task :v1ParentTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
+end
+
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
@@ -343,6 +474,60 @@ task :v1homeUriTests => [:realmInit] do
   runTests("test/features/apiV1/home_uri")
 end
 
+desc "Run V1 Hierachy Traversal Tests"
+task :v1HierarchyTraversalTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
+end
+
+desc "Run V1 Validation Tests"
+task :v1ValidationTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation")
+end
+
+desc "Run Sorting and Paging Tests"
+task :v1SortingAndPagingTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/sorting_paging")
+end
+
+desc "Run Encryption Tests"
+task :v1EncryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/apiV1/encryption")
+end
+
+desc "Run Target Tests"
+task :v1TargetTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/targets")
+end
+
+desc "Run List Tests"
+task :v1ListTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/lists")
+end
+
+desc "Run V1 Assessment User Story Tests"
+task :v1EndUserStoryAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -351,7 +536,7 @@ end
 # API tests start
 ############################################################
 desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :sortingAndPagingTests, :attendanceTests] do
+task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :endUserStorySATAssessmentTests, :sortingAndPagingTests, :attendanceTests, :encryptionTests] do
 displayFailureReport()
 end
 
@@ -378,7 +563,7 @@ task :sectionTests => [:realmInit] do
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/api/entities/section", "section", "section_fixture.json")
 end
-
+0
 desc "Run School Tests"
 task :schoolTests => [:realmInit] do
   runFixtureAndTests("test/features/api/entities/school", "school", "school_fixture.json")
@@ -400,9 +585,19 @@ task :assessmentTests => [:realmInit] do
 end
 
 desc "Run Attendance Tests"
-task :attendanceTests => [:realmInit] do
+task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
+end
+
+desc "Run Attendance CRUD Tests"
+task :attendanceCrudTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/api/entities/attendance","attendance","attendance_fixture.json")
+  runFixtureAndTests("test/features/api/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
+end
+
+desc "Run Attendance Security Tests"
+task :attendanceSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/entities/attendance/attendance_security.feature")
 end
 
 desc "Run Validation Tests"
@@ -413,12 +608,15 @@ task :validationTests => [:realmInit] do
   runTests("test/features/api/validation")
 end
 
-desc "Run V1 Validation Tests"
-task :v1ValidationTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
-  setFixture("teacher", "teacher_fixture.json")
-  setFixture("student", "student_fixture.json")
-  runTests("test/features/apiV1/validation")
+desc "Run Encryption Tests"
+task :encryptionTests => [:realmInit] do
+  files = {
+    "school" => "school_fixture.json",
+    "student" => "student_fixture.json",
+    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
+  }
+  setMultipleFixtureFiles(files)
+  runTests("test/features/api/encryption")
 end
 
 desc "Run List-Filter Tests"
@@ -468,7 +666,6 @@ task :associationTests => [:realmInit] do
   runTests("test/features/api/associations/teacher_section_association")
   runTests("test/features/api/associations/school_session_association")
   runTests("test/features/api/associations/session_course_association")
-  runTests("test/features/api/associations/directEntityRelations")
 end
 
 desc "Run Home URI Tests"
@@ -492,6 +689,12 @@ desc "Run Assessment User Story Tests"
 task :endUserStoryAssessmentTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api/end_user_stories/assessments/assessment.feature")
+end
+
+desc "Run SAT-Assessment User Story Tests"
+task :endUserStorySATAssessmentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/assessments/SAT_Assessments.feature")
 end
 
 ############################################################
@@ -558,66 +761,119 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :MostRecentResultTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
-  
+
 end
 
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/population_widget.feature")
+  runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
-  runTests("test/features/dashboard/k3view.feature")
+  runTests("test/features/dashboard/dash/k3view.feature")
 end
 
 desc "Run Dashboard High School view Tests"
 task :dashboardHSViewTests do
-  runTests("test/features/dashboard/high_school_view.feature")
+  runTests("test/features/dashboard/dash/high_school_view.feature")
 end
 
 desc "Run Dashboard Program Participation and Student Info Tests"
 task :dashboardLozengesTests do
-  runTests("test/features/dashboard/lozenges.feature")
+  runTests("test/features/dashboard/dash/lozenges.feature")
 end
-
-# desc "Run Dashboard YY Tests"
-# task :dashboardTests do
-#   runTests("test/features/dashboard")
-#   runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
-# 
-# end
 
 desc "Run Dashboard user based view selection tests"
 task :dashboardUserBasedViewTests do
-  runTests("test/features/dashboard/user_based_views.feature")
+  runTests("test/features/dashboard/dash/user_based_views.feature")
 end
 
 desc "Run Dashboard integration acceptance tests"
 task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dashboard_api_integration.feature")
+    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
 end
 
 
 desc "Run Dashboard login acceptance tests"
 task :dashboardLoginTests do
-    runTests("test/features/dashboard/dashboard_login.feature")
+    runTests("test/features/dashboard/dash/dashboard_login.feature")
+end
+
+desc "Run Dashboard Assessment tests"
+task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
 end
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
-    runTests("test/features/api/end_user_stories/assessments/Vertical_Slice/MostRecent.feature")
+    runTests("test/features/dashboard/assessments/MostRecent.feature")
 end
+
+desc "Run Dashboard highest ever result acceptance tests"
+task :HighestEverResultTests do
+    runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+end
+
+desc "Run Dashboard performance level acceptance tests"
+task :PerformanceLevels do
+    runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
+end
+
+desc "Run dashboard attendance related tests"
+task :dashboardAttendance do
+  runTests("test/features/dashboard/dash/attendance.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardStudentProfileTests do
+  runTests("test/features/dashboard/dash/student_profile.feature")
+end
+
+desc "Run dashboard student profile tests"
+task :dashboardTabPanelTests do
+  runTests("test/features/dashboard/dash/pages_panel.feature")
+end
+
+desc "Run dashboard student historical data tests"
+task :dashboardStudentHistoricalDataTests do
+  runTests("test/features/dashboard/students/HistoricalData.feature")
+end
+
+desc "Run dashboard student contact info tests"
+task :dashboardStudentContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info.feature")
+end
+
+desc "Run dashboard student display/hide pages based on grade tests"
+task :dashboardHidePagesTests do
+  runTests("test/features/dashboard/dash/display_hide_pages.feature")
+end
+
+
 ############################################################
 # Dashboard tests end
 ############################################################
+
+############################################################
+# SDK Tests
+############################################################
+desc "Run SDK Tests Tests"
+task :sdkTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/api/end_user_stories/JavaSDK")
+end
+
+############################################################
+# SDK Tests end
+############################################################
+
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
@@ -626,9 +882,12 @@ task :importSandboxData do
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
     "student" => "student_fixture.json",
+    "parent" => "parent_fixture.json",
+    "studentParentAssociation" => "studentParentAssociation_fixture.json",
     "teacher" => "teacher_fixture.json",
     "staff" => "staff_fixture.json",
     "assessment" => "assessment_fixture.json",
+    "attendance" => "attendance_fixture.json",
     "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json",
     "teacherSectionAssociation" => "teacherSectionAssociation_fixture.json",
     "studentAssessmentAssociation" => "studentAssessmentAssociation_fixture.json",
@@ -641,7 +900,10 @@ task :importSandboxData do
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
     "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
-    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json"
+    "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
+    "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
+    "gradebookEntry" => "gradebookEntry_fixture.json",
+    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
@@ -669,7 +931,27 @@ task :importSandboxData do
   addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
 
+desc "Import Unified Data Set"
+task :importUnifiedData do
+  testHash = Hash[
+    "assessment"                   => "unified_data/uds_assessments.json",
+    "attendance"                   => "unified_data/uds_attendance.json",
+    "section"                      => "unified_data/uds_sections.json",
+    "session"                      => "unified_data/uds_sessions.json",
+    "course"                       => "unified_data/uds_courses.json",
+    "school"                       => "unified_data/uds_schools.json",
+    "student"                      => "unified_data/uds_students.json",
+    "teacher"                      => "unified_data/uds_teachers.json",
+    "studentSchoolAssociation"     => "unified_data/uds_student_school_associations.json",
+    "teacherSectionAssociation"    => "unified_data/uds_teacher_section_associations.json",
+    "studentAssessmentAssociation" => "unified_data/uds_student_assessment_associations.json",
+    "studentSectionAssociation"    => "unified_data/uds_student_section_associations.json",
+    "teacherSchoolAssociation"     => "unified_data/uds_teacher_school_associations.json",
+    "educationOrganization"        => "unified_data/uds_education_organizations.json"
 
+  ]
+  setMultipleFixtureFiles(testHash)
+end
 
 desc "Help information for this Rakefile"
 task :help do
@@ -704,6 +986,7 @@ sea_idp_server_url     This property selects which running IDP should be used as
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
+OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos
 
 end

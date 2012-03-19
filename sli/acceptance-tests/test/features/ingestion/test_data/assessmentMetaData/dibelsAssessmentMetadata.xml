@@ -1,0 +1,239 @@
+<InterchangeAssessmentMetadata
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+	<Assessment id="DIBELS-Next-Kindergarten-1-BOY">
+		<AssessmentTitle>DIBELS-Next-Kindergarten BOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-BOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-01-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>BOY</CodeValue>
+		</AssessmentPeriod>
+	</Assessment>
+
+	<Assessment id="DIBELS-Next-Kindergarten-1-MOY">
+		<AssessmentTitle>DIBELS-Next-Kindergarten MOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-MOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>MOY</CodeValue>
+		</AssessmentPeriod>
+	</Assessment>
+
+	<Assessment id="DIBELS-Next-Kindergarten-1-EOY">
+		<AssessmentTitle>DIBELS-Next-Kindergarten EOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-EOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-05-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+		<AssessmentPeriod>
+			<CodeValue>EOY</CodeValue>
+		</AssessmentPeriod>
+	</Assessment>
+
+	<AssessmentFamily id="DIEBLS">
+		<AssessmentFamilyTitle>DIBELS</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIEBLS6th">
+		<AssessmentFamilyTitle>DIBELS 6th Edition</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels 6th Edition</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIBELSNext">
+		<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels Next</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIBELSNextK">
+		<AssessmentFamilyTitle>DIBELS Next Kindergarten</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels Next Kindergarten</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIBELSNext1">
+		<AssessmentFamilyTitle>DIBELS Next Grade 1</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels Next Grade 1</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode>
+					<AssessmentFamilyIdentificationCode
+						IdentificationSystem="Test Contractor">
+						<ID>Dibels Next</ID>
+					</AssessmentFamilyIdentificationCode>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIBELSNext2">
+		<AssessmentFamilyTitle>DIBELS Next Grade 2</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels Next Grade 2</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIBELSNext3">
+		<AssessmentFamilyTitle>DIBELS Next Grade 3</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Dibels Next Grade 3</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Dibels Next</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentPeriodDescriptor id="apd_boy">
+		<CodeValue>BOY</CodeValue>
+		<ShortDescription>Beginning of the Year assessment period</ShortDescription>
+		<Description>Assessment period at the beginning of the school year</Description>
+		<BeginDate>2005-01-01</BeginDate>
+		<EndDate>2005-02-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_moy">
+		<CodeValue>MOY</CodeValue>
+		<ShortDescription>Middle of the Year assessment period</ShortDescription>
+		<Description>Assessment period in the middle of the school year</Description>
+		<BeginDate>2005-02-01</BeginDate>
+		<EndDate>2005-05-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_eoy">
+		<CodeValue>EOY</CodeValue>
+		<ShortDescription>End of the Year assessment period</ShortDescription>
+		<Description>Assessment period at the end of the school year</Description>
+		<BeginDate>2005-05-01</BeginDate>
+		<EndDate>2005-06-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description>
+		<PerformanceBaseConversion>Proficient</PerformanceBaseConversion> </PerformanceLevelDescriptor> -->
+</InterchangeAssessmentMetadata>
