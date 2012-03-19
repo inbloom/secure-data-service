@@ -1,0 +1,1066 @@
+<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
+    
+  <Student>
+    <StudentUniqueStateId>453827070</StudentUniqueStateId>
+    <Name>
+      <FirstName>Marvin</FirstName>
+      <MiddleName/>
+      <LastSurname>Miller</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2002-07-05</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>6561 Front Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60927-8918</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-126-3941</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-241-9753</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-880-3309</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>815-049-6452</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>M.Miller@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>943715230</StudentUniqueStateId>
+    <Name>
+      <FirstName>Jolene</FirstName>
+      <MiddleName>Colt</MiddleName>
+      <LastSurname>Ashley</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2000-12-20</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>7538 Humboldt Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60836-2298</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-196-0500</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-503-8057</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-470-5216</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-007-3326</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-971-1951</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-828-9469</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Jolene_Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Jolene_Ashley@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>164420088</StudentUniqueStateId>
+    <Name>
+      <FirstName>Ursa</FirstName>
+      <MiddleName>Kellie</MiddleName>
+      <LastSurname>Oconnor</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1995-06-25</BirthDate>
+    </BirthData>
+    <Address AddressType="Other">
+      <StreetNumberName>8838 Pioneer Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 2399</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60619-7239</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-560-1528</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-479-5655</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-166-0265</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>U.Oconnor@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Ursa.Oconnor@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>505331723</StudentUniqueStateId>
+    <Name>
+      <FirstName>Gannon</FirstName>
+      <MiddleName>Eric</MiddleName>
+      <LastSurname>Roman</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2004-08-22</BirthDate>
+    </BirthData>
+    <Address AddressType="Work">
+      <StreetNumberName>651 Banner 3rd Terrace</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60150-4290</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Home">
+      <StreetNumberName>4656 India Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 8352</ApartmentRoomSuiteNumber>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10079-9386</PostalCode>
+      <NameOfCounty>New York</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>G.Roman@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Gannon_Roman@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Gannon.Roman@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rhonda</FirstName>
+      <MiddleName>Shannon</MiddleName>
+      <LastSurname>Delgado</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60908-1028</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Work">
+      <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10698-9832</PostalCode>
+      <NameOfCounty>Kings</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>429526969</StudentUniqueStateId>
+    <Name>
+      <FirstName>Nicholas</FirstName> 
+      <MiddleName>A</MiddleName>
+      <LastSurname>Burks</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1999-12-17</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-929-8507</TelephoneNumber>
+    </Telephone>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>178828452</StudentUniqueStateId>
+    <Name>
+      <FirstName>Tyrone</FirstName>
+      <MiddleName/>
+      <LastSurname>Burnett Jones</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2001-10-04</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>7540 Huntington Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 495</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60499-8718</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Tyrone_Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Tyrone.Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>T.Burnett_Jones@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>525878920</StudentUniqueStateId>
+    <Name>
+      <FirstName>Delilah</FirstName>
+      <MiddleName>D</MiddleName>
+      <LastSurname>Sims</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2004-12-04</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>3427 Park Avenue</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 8224</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60620-0477</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-208-3627</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-573-2778</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-341-0525</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-668-5605</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-602-4116</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Delilah_Sims@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>D.Sims@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Delilah_Sims@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>510152105</StudentUniqueStateId>
+    <Name>
+      <FirstName>TaShya</FirstName>
+      <MiddleName>Nicole</MiddleName>
+      <LastSurname>Alston</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1997-06-01</BirthDate>
+    </BirthData>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>802709591</StudentUniqueStateId>
+    <Name>
+      <FirstName>Imelda</FirstName>
+      <MiddleName>Sydnee</MiddleName>
+      <LastSurname>Lindsey</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1997-03-07</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>1558 4th Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 7776</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60139-2152</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>708-432-9033</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Imelda_Lindsey@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>437680177</StudentUniqueStateId>
+    <Name>
+      <FirstName>Kimberley</FirstName>
+      <MiddleName>Yuli</MiddleName>
+      <LastSurname>Pennington</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2000-04-23</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-871-2733</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-732-8563</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-623-4408</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-420-2449</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Kimberley_Pennington@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>170011136</StudentUniqueStateId>
+    <Name>
+      <FirstName>Arsenio</FirstName>
+      <MiddleName/>
+      <LastSurname>Durham</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2001-01-23</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60057-1857</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-471-5210</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-153-1787</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-040-1709</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-608-2213</TelephoneNumber>
+    </Telephone>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>547028299</StudentUniqueStateId>
+    <Name>
+      <FirstName>Alec</FirstName>
+      <MiddleName/>
+      <LastSurname>Swanson</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1999-11-15</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>3372 Montague Terrace</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60605-1327</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-115-0626</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-328-5624</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-861-1785</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-152-6310</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-860-2296</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-462-0519</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-230-0970</TelephoneNumber>
+    </Telephone>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>258392050</StudentUniqueStateId>
+    <Name>
+      <FirstName>Patricia</FirstName>
+      <MiddleName/>
+      <LastSurname>Harper</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1994-01-09</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>2393 Manhattan Court</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 1999</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60561-5469</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Home">
+      <StreetNumberName>5961 Mermaid Avenue</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10952-6484</PostalCode>
+      <NameOfCounty>Queens</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>178875887</StudentUniqueStateId>
+    <Name>
+      <FirstName>Matt</FirstName>
+      <MiddleName>D</MiddleName>
+      <LastSurname>Sollars</LastSurname>
+      <GenerationCodeSuffix></GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>True</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities>Motor Impairment</Section504Disabilities>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2000-10-14</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>630-504-5490</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Astra_Vincent@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>100644447</StudentUniqueStateId>
+    <Name>
+      <FirstName>Brielle</FirstName>
+      <MiddleName>W</MiddleName>
+      <LastSurname>Klein</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2006-06-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>8124 Brighton 3 Place</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60848-7633</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Physical">
+      <StreetNumberName>1537 Steuben Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 330</ApartmentRoomSuiteNumber>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10753-2389</PostalCode>
+      <NameOfCounty>New York</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>630-667-8063</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>773-445-2464</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Brielle_Klein@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>B.Klein@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Brielle.Klein@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>376191021</StudentUniqueStateId>
+    <Name>
+      <FirstName>Jeanette</FirstName>
+      <MiddleName/>
+      <LastSurname>Graves</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1994-08-30</BirthDate>
+    </BirthData>
+    <Address AddressType="Work">
+      <StreetNumberName>3297 35th Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60063-3281</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-189-5867</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-315-9744</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>773-546-9943</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>J.Graves@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Jeanette.Graves@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>336344132</StudentUniqueStateId>
+    <Name>
+      <FirstName>Odysseus</FirstName>
+      <MiddleName/>
+      <LastSurname>Merrill</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2003-03-25</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>498 Dorchester Road</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60447-1536</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Mailing">
+      <StreetNumberName>7472 Ross Street</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10180-7445</PostalCode>
+      <NameOfCounty>Queens</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-298-8577</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-608-1144</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>O.Merrill@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Odysseus.Merrill@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>711411586</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rafael</FirstName>
+      <MiddleName/>
+      <LastSurname>Kirk</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2006-01-08</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>6055 Vermont Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 5116</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60941-6938</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Other">
+      <StreetNumberName>1004 Boerum Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 3394</ApartmentRoomSuiteNumber>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10913-4746</PostalCode>
+      <NameOfCounty>Kings</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Kirk@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>131758477</StudentUniqueStateId>
+    <Name>
+      <FirstName>Deirdre</FirstName>
+      <MiddleName>Tashya</MiddleName>
+      <LastSurname>Gentry</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1997-07-22</BirthDate>
+    </BirthData>
+    <Address AddressType="Work">
+      <StreetNumberName>8823 Blake Court</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 8027</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60267-4406</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>224-167-3247</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Deirdre_Gentry@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Deirdre.Gentry@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>670703438</StudentUniqueStateId>
+    <Name>
+      <FirstName>Zachary</FirstName>
+      <MiddleName>Melvin</MiddleName>
+      <LastSurname>Patton</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2002-04-10</BirthDate>
+    </BirthData>
+    <Address AddressType="Billing">
+      <StreetNumberName>4447 Brighton 5th Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60886-1475</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Temporary">
+      <StreetNumberName>9041 Scholes Street</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10798-3311</PostalCode>
+      <NameOfCounty>Queens</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Zachary.Patton@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>851123275</StudentUniqueStateId>
+    <Name>
+      <FirstName>Hoyt</FirstName>
+      <MiddleName/>
+      <LastSurname>Hicks</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1999-06-13</BirthDate>
+    </BirthData>
+    <Address AddressType="Temporary">
+      <StreetNumberName>4606 Albemarle Road</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 5760</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60457-1957</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Home">
+      <StreetNumberName>4256 Wyckoff Street</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10473-1436</PostalCode>
+      <NameOfCounty>Kings</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-549-3782</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>779-911-6597</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-279-6758</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>773-504-6501</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>574-277-5271</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>H.Hicks@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>423037202</StudentUniqueStateId>
+    <Name>
+      <FirstName>Nomlanga</FirstName>
+      <MiddleName>Deacon</MiddleName>
+      <LastSurname>Mccormick</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1999-06-05</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-142-2682</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-140-4235</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>574-194-5932</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-591-8324</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Nomlanga.Mccormick@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Nomlanga_Mccormick@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Nomlanga_Mccormick@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>250918988</StudentUniqueStateId>
+    <Name>
+      <FirstName>Uriah</FirstName>
+      <MiddleName>W</MiddleName>
+      <LastSurname>Jordan</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>2005-04-06</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-943-5187</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-148-0970</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>331-998-2531</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>815-456-2929</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>219-374-7108</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>708-068-6766</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>262-251-1448</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>U.Jordan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Uriah_Jordan@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Uriah_Jordan@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+  <Student>
+    <StudentUniqueStateId>421216329</StudentUniqueStateId>
+    <Name>
+      <FirstName>Madeline</FirstName>
+      <MiddleName/>
+      <LastSurname>Hinton</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+    <DisplacementStatus/>
+    <BirthData>
+      <BirthDate>1994-03-17</BirthDate>
+    </BirthData>
+    <Address AddressType="Other">
+      <StreetNumberName>8690 Gaylord Drive</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60053-4640</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>779-512-3391</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Madeline_Hinton@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>M.Hinton@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Madeline.Hinton@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+
+</InterchangeStudent>

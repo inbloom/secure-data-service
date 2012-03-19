@@ -8,9 +8,9 @@ Background: None
 
 Scenario Outline:  As a fourth grade teacher, for my class, I want to get the final grade for Session I in reading
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
+	And I have a Role attribute returned from the "SLI"
 	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+	And I am authenticated on "SLI"
 
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
@@ -81,9 +81,9 @@ Examples:
 
 Scenario Outline:  As a AggregateViewer I should not see assessment data
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
+	And I have a Role attribute returned from the "SLI"
 	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+	And I am authenticated on "SLI"
 
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"

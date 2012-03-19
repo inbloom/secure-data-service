@@ -1,6 +1,5 @@
-@wip
-Feature: Display student list contents
-As a SEA/LEA user, I want to be able to select different views in my dashboard application, that will change the subset of information that is displayed.
+Feature: Display student historical data
+As a SLI user, I want to be able to select different views in my dashboard application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
@@ -9,7 +8,7 @@ Background:
 Scenario: Displaying historical data for all students
   Given I am authenticated to SLI as "jjones" "jjones1234"
   When I go to "/studentlist"
-  When I select <edOrg> "Illinois State Board of Education"
+  When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Algebra-11"
     And I select <section> "Algebra-11-A"

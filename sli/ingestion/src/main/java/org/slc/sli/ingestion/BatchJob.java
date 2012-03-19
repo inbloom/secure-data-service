@@ -24,19 +24,19 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
     private static final long serialVersionUID = -340538024579162600L;
 
     /**
-     * holds references to the files involved in this Job
+     * stores a globally unique ID for the Job
      */
-    private List<IngestionFileEntry> files;
+    private final String id;
 
     /**
      * stores the date upon which the Job was created
      */
-    private Date creationDate;
+    private final Date creationDate;
 
     /**
-     * stores a globally unique ID for the Job
+     * holds references to the files involved in this Job
      */
-    private String id;
+    private List<IngestionFileEntry> files;
 
     /**
      * stores configuration properties for the Job
@@ -51,7 +51,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
     /**
      * non-public constructor; use factory methods
      */
-    private BatchJob() {
+    private BatchJob(String id) {
+        this.id = id;
+        this.creationDate = new Date();
     }
 
     /**
@@ -63,17 +65,16 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
         return BatchJob.createDefault(null);
     }
 
-
     /**
      * Initialize a BatchJob with default settings for initialization
      *
-     * @param filename string representation of incoming file
+     * @param filename
+     *            string representation of incoming file
      * @return BatchJob with default settings
      */
     public static BatchJob createDefault(String filename) {
-        BatchJob job = new BatchJob();
-        job.id = createId(filename);
-        job.creationDate = new Date();
+        BatchJob job = new BatchJob(createId(filename));
+
         job.configProperties = new Properties();
         job.files = new ArrayList<IngestionFileEntry>();
         job.faults = new FaultsReport();
@@ -94,12 +95,14 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
     /**
      * Adds a file.
      *
-     * @param file
+     * @param ingestionFileEntry
      * @return
      * @see java.util.List#add(java.lang.Object)
      */
-    public boolean addFile(IngestionFileEntry file) {
-        return files.add(file);
+    public boolean addFile(IngestionFileEntry ingestionFileEntry) {
+
+        ingestionFileEntry.setBatchJobId(id);
+        return files.add(ingestionFileEntry);
     }
 
     /**

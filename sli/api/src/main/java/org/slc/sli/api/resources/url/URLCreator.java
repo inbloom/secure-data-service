@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 
 /**
  * Handles creating different types of URL sets.
@@ -22,7 +23,7 @@ public abstract class URLCreator {
     protected EntityDefinitionStore store;
 
     @Autowired
-    protected EntityRepository repo;
+    protected Repository<Entity> repo;
 
     /**
      * Returns a list of embedded Urls that matches the given parameters
@@ -37,7 +38,7 @@ public abstract class URLCreator {
         this.store = store;
     }
 
-    public void setRepo(EntityRepository repo) {
+    public void setRepo(Repository repo) {
         this.repo = repo;
     }
 }

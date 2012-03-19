@@ -16,14 +16,14 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.EntityQuery;
+import org.slc.sli.domain.SmartQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -77,7 +77,7 @@ public class ReferenceSchemaTest {
      * @author srupasinghe
      * 
      */
-    static class ValidationRepo implements EntityRepository {
+    static class ValidationRepo implements Repository<Entity> {
         Map<String, List<Entity>> data = new HashMap<String, List<Entity>>();
         
         public void addEntity(String collectionName, Entity entity) {
@@ -123,7 +123,7 @@ public class ReferenceSchemaTest {
         }
 
         @Override
-        public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
+        public Iterable<Entity> findAll(String collectionName, SmartQuery query) {
             return null;
         }
 

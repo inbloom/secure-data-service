@@ -13,11 +13,15 @@ import org.slc.sli.domain.Entity;
  */
 public class NeutralRecordEntity implements Entity {
 
-    private final NeutralRecord neutralRecord;
+    private NeutralRecord neutralRecord;
 
     private long recordNumberInFile;
     private Map<String, Object> metaData;  // Added 2/2/2012 by Thomas Shewchuk
     private String entityId;  // Added 2/2/2012 by Thomas Shewchuk
+
+    public NeutralRecordEntity() {
+         this(null, 0);
+    }
 
     public NeutralRecordEntity(NeutralRecord neutralRecord) {
         this(neutralRecord, 0);
@@ -102,6 +106,14 @@ public class NeutralRecordEntity implements Entity {
      */
     public void setEntityId(String entityId) {
         this.entityId = entityId;
+    }
+
+    public NeutralRecord getNeutralRecord() {
+        return neutralRecord;
+    }
+
+    public void setNeutralRecord(NeutralRecord neutralRecord) {
+        this.neutralRecord = neutralRecord;
     }
 
 }

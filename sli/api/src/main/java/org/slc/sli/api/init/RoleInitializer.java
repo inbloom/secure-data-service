@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -40,7 +40,7 @@ public class RoleInitializer {
     private static final String WRITE_RESTRICTED  = "WRITE_RESTRICTED";
     
     @Autowired
-    private EntityRepository    repository;
+    private Repository<Entity>    repository;
     
     @PostConstruct
     public void init() {
@@ -119,7 +119,7 @@ public class RoleInitializer {
         return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
     }
     
-    public void setRepository(EntityRepository repo) {
+    public void setRepository(Repository repo) {
         repository = repo;
     }
     

@@ -40,7 +40,7 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -66,7 +66,7 @@ public class MongoTokenStoreTest {
     private static final String BAD_TOKEN_VALUE = "bad-token";
     
     @Spy
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Mock
     private EntityService service;

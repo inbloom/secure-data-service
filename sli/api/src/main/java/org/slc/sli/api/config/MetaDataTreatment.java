@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
- * Add the "updated" and "created" fields to the response body. 
- * 
+ * Add the "updated" and "created" fields to the response body.
+ *
  * @author jnanney
  *
  */
@@ -18,11 +18,11 @@ import org.slc.sli.domain.EntityRepository;
 public class MetaDataTreatment implements Treatment {
 
     @Autowired
-    private EntityRepository repo;
-    
+    private Repository<Entity> repo;
+
     public static final String METADATA = "metaData";
-    
-    
+
+
     @Override
     public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
         exposed.remove(METADATA);
@@ -35,5 +35,5 @@ public class MetaDataTreatment implements Treatment {
         stored.put(METADATA, entity.getMetaData());
         return stored;
     }
-    
+
 }

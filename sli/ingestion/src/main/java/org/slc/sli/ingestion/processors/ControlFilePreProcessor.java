@@ -38,17 +38,23 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         try {
 
+            // TODO JobLogStatus.createBatchJob(file)
+            // Batchjob state management should start here so we can store parsing errors of the ctl file in the db.
+            // May not need to store this stage ... JobLogStatus.startStage(batchJobId, stageName)
             ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
 
             // set headers for ingestion routing
             exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
 
+            // TODO May not need this ... JobLogStatus.completeStage(batchJobId, stageName)
+
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:",  exception);
         }
+
     }
 
 }
