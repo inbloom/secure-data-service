@@ -147,8 +147,6 @@ Examples:
 | "SLI"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "SLI"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
-#Temporary WIP, need to figure out why they were commented out and why the regression was not addressed
-@wip
 Scenario Outline: Authenticated Educator makes API call to get not own Section
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -157,11 +155,11 @@ When I make an API call to get the section <Section>
 Then I should get a message that I am not authorized
 Examples:
 | Realm  | Username   | Password       | Section          |
-| "SLI"  | "jdoe"     | "jdoe1234"     | "FHS-English101" |
+#| "SLI"  | "jdoe"     | "jdoe1234"     | "FHS-English101" | - historical data story (-wds)
 #| "idp2" | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
 #| "idp2" | "ejane"    | "ejane1234"    | "WES-Math"       |
 | "SLI"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
-| "SLI"  | "tbear"    | "tbear1234"    | "FHS-Math101"    |
+#| "SLI"  | "tbear"    | "tbear1234"    | "FHS-Math101"    | - historical data story (-wds)
 | "SLI"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 #Student
@@ -180,8 +178,6 @@ Examples:
 | "SLI"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "SLI"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
-#Temporary WIP, need to figure out why they were commented out and why the regression was not addressed
-@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they do not teach
 Given I am a valid <Realm> end user <Username> with password <Password>
 And I am authenticated to SEA/LEA IDP
@@ -190,11 +186,11 @@ When I make an API call to get a list of students in the section <Section>
 Then I should get a message that I am not authorized
 Examples:
 | Realm  | Username   | Password       | Section          |
-| "SLI"  | "jdoe"     | "jdoe1234"     | "FHS-English101" |
+#| "SLI"  | "jdoe"     | "jdoe1234"     | "FHS-English101" | - historical data story (-wds)
 #| "idp2" | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
 #| "idp2" | "ejane"    | "ejane1234"    | "WES-Math"       |
 | "SLI"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
-| "SLI"  | "tbear"    | "tbear1234"    | "FHS-Math101"    |
+#| "SLI"  | "tbear"    | "tbear1234"    | "FHS-Math101"    | - historical data story (-wds)
 | "SLI"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
