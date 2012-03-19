@@ -40,6 +40,8 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
     private static final String SESSION_URL = "/sessions/";
+
+    private static final String STUDENT_WITH_GRADE_PARAMETER = "/studentWithGrade";
     
     private static final String ED_ORG_LINK = "getEducationOrganization";
     private static final String COURSE_LINK = "getCourse";
@@ -185,7 +187,7 @@ public class LiveAPIClient implements APIClient {
      * Get one student
      */
     public GenericEntity getStudent(String token, String id) {
-        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token, true);
+        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, true);
     }
     
     /**
