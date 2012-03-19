@@ -99,21 +99,24 @@ public class StudentListContentController extends DashboardController {
             ViewConfig viewConfig = viewManager.getViewConfigs().get(viewIndex);
             viewManager.setActiveViewConfig(viewConfig);
 
-            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
-
-                HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids);
-                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
-                
-                ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
-                viewManager.apply(historicalViewModifier);
-
-                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
-                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
-
-                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
-                viewManager.apply(gradebookViewModifier);
-
-            }
+            /*Commenting this part out due to performance issues
+            * TODO: uncomment
+            * */
+//            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
+//
+//                HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids);
+//                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
+//
+//                ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
+//                viewManager.apply(historicalViewModifier);
+//
+//                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
+//                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
+//
+//                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
+//                viewManager.apply(gradebookViewModifier);
+//
+//            }
             
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
             
