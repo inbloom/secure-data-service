@@ -50,7 +50,11 @@ public class GradebookViewModifer implements ViewModifier {
      */
     private ViewConfig addGradebookEntries(ViewConfig view) {
         view.getDisplaySet().add(createCurrentGrade());
-        view.getDisplaySet().add(createUnitTests());
+
+        DisplaySet unitTests = createUnitTests();
+        if (unitTests != null) {
+            view.getDisplaySet().add(unitTests);
+        }
 
         return view;
     }
@@ -64,12 +68,16 @@ public class GradebookViewModifer implements ViewModifier {
     }
 
     private DisplaySet createUnitTests() {
+        if (gradebookIds.isEmpty()) { return null; }
+
         DisplaySet unitTests = new DisplaySet();
         unitTests.setDisplayName(GRADES);
 
         for (GenericEntity entry : gradebookIds) {
             Field unitField = createUnitTest(entry.getString(GRADEBOOK_ENTRY_TYPE), entry.getString(GRADEBOOK_ENTRY_ID));
-            unitTests.getField().add(unitField);
+            if (unitField != null) {
+                unitTests.getField().add(unitField);
+            }
         }
 
         return unitTests;
@@ -87,6 +95,8 @@ public class GradebookViewModifer implements ViewModifier {
     }
 
     private Field createUnitTest(String testType, String testName) {
+        if (testType == null || testName == null) { return null; }
+
         Field unitTest = new Field();
 
         unitTest.setDisplayName(testType);
