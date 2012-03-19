@@ -1,6 +1,6 @@
 <div class="csi">
 <div id="CSIImage" style="height:100px;width:100px;float:left;">
-<img src="/dashboard/static/images/juggernaut.jpg" WIDTH="100" HEIGHT="100" /></div>
+<img src="/dashboard/static/images/sample_student.png" WIDTH="85" HEIGHT="100" /></div>
 <@includePanelModel panelId="csi"/>
 
 <div id="CSIcontent">
