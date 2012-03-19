@@ -51,7 +51,8 @@ public class GradebookEntryResolver {
         try {
             Map<String, GenericEntity> studentRecord = gradebookData.get(studentId);
             GenericEntity average = studentRecord.get(AVERAGE_KEY);
-            return average.get(GRADE_KEY).toString();
+            Long avg = Math.round((Double) average.get(GRADE_KEY));
+            return avg.toString() + "%";
         } catch (NullPointerException npe) {
             return "-";
         }
@@ -64,7 +65,9 @@ public class GradebookEntryResolver {
      * @return grade (string)
      */
     private String getGrade(String studentId, String gradebookEntryId) {
-        return getValue(studentId, gradebookEntryId, GRADE_KEY);
+        String grade = getValue(studentId, gradebookEntryId, GRADE_KEY);
+        Long rounded = Math.round(Double.parseDouble(grade));
+        return rounded.toString();
     }
 
     /**
