@@ -1,4 +1,4 @@
-package org.slc.sli.unit.view;
+package org.slc.sli.view.modifier;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,8 @@ import org.slc.sli.config.DisplaySet;
 import org.slc.sli.config.Field;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.view.GradebookEntryViewManager;
+import org.slc.sli.unit.view.HistoricalDataResolverTest;
+import org.slc.sli.view.GradebookEntryResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,6 +23,7 @@ import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,14 +33,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
-public class GradebookEntryViewManagerTest {
+public class GradebookViewModifierTest {
     private static Logger log = LoggerFactory.getLogger(HistoricalDataResolverTest.class);
 
-    private GradebookEntryViewManager gradebookEntryViewManager; // class under test
-
-    private static final String CURRENT = "Current";
-    private static final String GRADES = "<center>Unit Tests</center>";
-    private static final String AVERAGE = "Average";
+    private GradebookViewModifer gradebookViewModifer; // class under test
 
     @Mock
     private Comparator<GenericEntity> comparator;
@@ -51,42 +49,47 @@ public class GradebookEntryViewManagerTest {
         SortedSet<GenericEntity> gradebookIds = new TreeSet<GenericEntity>(comparator);
 
         GenericEntity ge1 = new GenericEntity();
-        ge1.put("id", "1234GBE");
-        ge1.put("dateFulfilled", "10-11-2011");
+        ge1.put(GradebookViewModifer.DATE_FULFILLED, "10-11-2011");
+        ge1.put(GradebookViewModifer.GRADEBOOK_ENTRY_TYPE, "Unit Test");
+        ge1.put(GradebookViewModifer.GRADEBOOK_ENTRY_ID, "123GBE");
 
         GenericEntity ge2 = new GenericEntity();
-        ge2.put("id", "4567GBE");
-        ge2.put("dateFulfilled", "10-15-2011");
+        ge2.put(GradebookViewModifer.DATE_FULFILLED, "10-15-2011");
+        ge2.put(GradebookViewModifer.GRADEBOOK_ENTRY_TYPE, "Writing Assessment");
+        ge2.put(GradebookViewModifer.GRADEBOOK_ENTRY_ID, "456GBE");
 
         gradebookIds.add(ge1);
         gradebookIds.add(ge2);
 
-        gradebookEntryViewManager = new GradebookEntryViewManager(gradebookIds);
+        GradebookEntryResolver gradebookEntryResolver = mock(GradebookEntryResolver.class);
+        when(gradebookEntryResolver.getGradebookIds()).thenReturn(gradebookIds);
+
+        gradebookViewModifer = new GradebookViewModifer(gradebookEntryResolver);
     }
 
+
     @Test
-    public void testAddGradebookEntries() {
+    public void testModify() {
         ViewConfig testView = new ViewConfig();
-        testView = gradebookEntryViewManager.addGradebookEntries(testView);
+        testView = gradebookViewModifer.modify(testView);
 
         List<DisplaySet> testDisplaySet = testView.getDisplaySet();
         assertEquals(2, testDisplaySet.size());
 
         DisplaySet current = testDisplaySet.get(0);
         DisplaySet grades = testDisplaySet.get(1);
-        assertEquals(CURRENT, current.getDisplayName());
-        assertEquals(GRADES, grades.getDisplayName());
+        assertEquals(GradebookViewModifer.CURRENT, current.getDisplayName());
+        assertEquals(GradebookViewModifer.GRADES, grades.getDisplayName());
 
         assertEquals(1, current.getField().size());
         Field average = current.getField().get(0);
-        assertEquals(AVERAGE, average.getDisplayName());
+        assertEquals(GradebookViewModifer.AVERAGE, average.getDisplayName());
 
         assertEquals(2, grades.getField().size());
         Field firstUnitTest = grades.getField().get(0);
         Field secondUnitTest = grades.getField().get(1);
 
-        assertEquals("10-11-2011", firstUnitTest.getDisplayName());
-        assertEquals("10-15-2011", secondUnitTest.getDisplayName());
+        assertEquals("Unit Test", firstUnitTest.getDisplayName());
+        assertEquals("Writing Assessment", secondUnitTest.getDisplayName());
     }
-
 }

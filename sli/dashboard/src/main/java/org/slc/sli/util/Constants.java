@@ -54,6 +54,7 @@ public class Constants {
     public static final String MM_KEY_CONSTANTS = "constants";
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
+    public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
     
     // entity attributes
     public static final String ATTR_COURSES = "courses";
@@ -128,11 +129,15 @@ public class Constants {
     public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
     public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
     public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
+    public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
+    public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
+    public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     
     //Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
+    public static final String MIDDLE_SCHOOL_VIEW = "IL_3-8_ELA";
     
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
