@@ -46,7 +46,7 @@ class AppsController < ApplicationController
   # POST /apps.json
   def create
     @app = App.new(params[:app])
-    logger.debug {"#{@app}"}
+    logger.debug {"#{@app.to_s}"}
     respond_to do |format|
       if @app.save
         format.html { redirect_to @app, notice: 'App was successfully created.' }
