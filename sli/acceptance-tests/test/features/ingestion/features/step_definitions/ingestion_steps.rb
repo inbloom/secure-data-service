@@ -150,7 +150,7 @@ When /^a batch job log has been created$/ do
       end
     end
   else
-    sleep(2) # waiting to poll job file removes race condition (windows-specific)
+    sleep(7) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? @landing_zone_path
         puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
@@ -257,7 +257,8 @@ def checkForContentInFileGivenPrefix(message, prefix)
     if @resultOfIngestion.include? @messageString
       assert(true, "Processed all the records.")
     else
-      assert(false, "Did't process all the records.")
+      puts "Actual message was " + @resultOfIngestion
+      assert(false, "Didn't process all the records.")
     end
 
   else

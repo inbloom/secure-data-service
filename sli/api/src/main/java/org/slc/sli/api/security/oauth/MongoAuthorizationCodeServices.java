@@ -34,7 +34,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
@@ -61,7 +61,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     RolesToRightsResolver roleResolver;
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private EntityDefinitionStore store;

@@ -1,6 +1,9 @@
 package org.slc.sli.manager;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +12,10 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +76,7 @@ public class PopulationManager implements Manager {
             studentAssessmentMap.put(studentId, studentAssessments);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: " + endTime + "\t Avg per student: " + endTime
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: {}\t Avg per student: {}", endTime, endTime
                 / studentIds.size());
         
         Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
@@ -97,13 +104,13 @@ public class PopulationManager implements Manager {
         for (String studentId : studentIds) {
             long studentTime = System.nanoTime();
             List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, null, null);
-            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: " + (System.nanoTime() - studentTime) * 1.0e-9);
-            
+            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: {}", (System.nanoTime() - studentTime) * 1.0e-9);
+
             if (studentAttendance != null && !studentAttendance.isEmpty())
                 studentAttendanceMap.put(studentId, studentAttendance);
         }
         double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: " + endTime + "\t Avg per student: " + endTime
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: {}\t Avg per student: {}", endTime, endTime
                 / studentIds.size());
         return studentAttendanceMap;
     }
@@ -188,7 +195,7 @@ public class PopulationManager implements Manager {
     }
     
     /**
-     * Get student with additional info
+     * Get enriched student entity
      * 
      * @param token
      * @param studentId
@@ -200,6 +207,67 @@ public class PopulationManager implements Manager {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
+    
+    @EntityMapping("studentAttendance")
+    public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
+        String studentId = (String) studentIdObj;
+        // TODO: start using periods
+        String period = config.getParams() == null ? null : (String) config.getParams().get("daysBack");
+        DateTime now = new DateTime();
+        int daysBack = (period == null) ? 360 : Integer.parseInt(period);
+        MutableDateTime daysBackTime = new DateTime().toMutableDateTime();
+        daysBackTime.addDays(-1 * daysBack);
+        
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTimeFormatter dtfMonth = DateTimeFormat.forPattern("yyyy-MM");
+        List<GenericEntity> attendanceList = 
+                this.getStudentAttendance(token, studentId, null, null);
+        Collections.sort(attendanceList, new Comparator<GenericEntity>() {
+
+            @Override
+            public int compare(GenericEntity att1, GenericEntity att2) {
+                return ((String) att2.get("eventDate")).compareTo((String) att1.get("eventDate"));
+            }
+            
+        });
+        GenericEntity attendance = new GenericEntity();
+        GenericEntity currentEntry;
+        String currentMonth = null, month;
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(0);
+        int tardyCount = 0, eAbsenceCount = 0, uAbsenceCount = 0, totalCount = 0;
+        for (GenericEntity entry : attendanceList) {
+            month = dtf.parseDateTime((String) entry.get("eventDate")).toString(dtfMonth);
+            if (currentMonth == null) {
+                currentMonth = month;
+            } else if (!currentMonth.equals(month)) {
+                currentEntry = new GenericEntity();
+                currentEntry.put("eventDate", month);
+                currentEntry.put("totalCount", totalCount);
+                currentEntry.put("excusedAbsenceCount", eAbsenceCount);
+                currentEntry.put("unexcusedAbsenceCount", uAbsenceCount);
+                currentEntry.put("tardyCount", tardyCount);
+                currentEntry.put("tardyRate", nf.format(100. * tardyCount / totalCount));
+                currentEntry.put("attendanceRate", nf.format(100. * (totalCount - (uAbsenceCount + eAbsenceCount)) / totalCount));
+                attendance.appendToList("attendance", currentEntry);
+                currentMonth = month;
+                uAbsenceCount = 0;
+                eAbsenceCount = 0;
+                tardyCount = 0;
+                totalCount = 0;
+            } 
+            String value = (String) entry.get("attendanceEventCategory");
+            if (value.contains("Tardy")) {
+                tardyCount++;
+            } else if  (value.contains("Excused Absence")) {
+                eAbsenceCount++;
+            } else if  (value.contains("Unexcused Absence")) {
+                uAbsenceCount++;
+            }
+            totalCount++;
+        }
+        return attendance;
+    } 
     
     public List<String> getSessionDates(String token, String sessionId) {
         // Get the session first.

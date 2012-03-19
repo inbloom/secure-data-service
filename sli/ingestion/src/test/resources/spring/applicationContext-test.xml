@@ -33,6 +33,8 @@
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
+  <import resource="persistence-context.xml" />
+
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
     /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
@@ -110,9 +112,8 @@
   </camelContext>
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="sliSmooksFactory">
-      <ref bean="sliSmooksFactory" />
-    </property>
+    <property name="sliSmooksFactory" ref="sliSmooksFactory" />
+    <property name="lzDirectory" value="${landingzone.inbounddir}" />
   </bean>
 
   <bean id="xmlFileHandler" parent="smooksFileHandler">

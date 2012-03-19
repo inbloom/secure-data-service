@@ -348,8 +348,8 @@ public class AssessmentMetaDataResolver {
     }
     
     private boolean s1ContainsS2(String s1, String s2) {
-        String[] strings1 = s1.replace("-", " ").replace(".", " ").split(" ");
-        String[] strings2 = s2.replace("-", " ").replace(".", " ").split(" ");
+        String[] strings1 = s1.replace("-", " ").replace(".", " ").replace("_", " ").split(" ");
+        String[] strings2 = s2.replace("-", " ").replace(".", " ").replace("_", " ").split(" ");
         boolean match = false;
         for (String string2 : strings2) {
             match = false;

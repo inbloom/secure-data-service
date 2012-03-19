@@ -19,14 +19,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.api.security.saml.SamlAttributeTransformer;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.security.saml2.XmlSignatureHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +28,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
+
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.security.saml.SamlAttributeTransformer;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.security.saml2.XmlSignatureHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Process SAML assertions
@@ -52,7 +53,7 @@ public class SamlFederationResource {
     private SamlHelper saml;
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private UserLocator users;

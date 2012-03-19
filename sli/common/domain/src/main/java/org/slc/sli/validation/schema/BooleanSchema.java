@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -49,10 +50,10 @@ public class BooleanSchema extends NeutralSchema {
      * @param errors
      *            list of current errors
      * @param repo
-     *            reference to the entity repository           
+     *            reference to the entity repository
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         return addError(Boolean.class.isInstance(entity), fieldName, entity, "Boolean", ErrorType.INVALID_DATATYPE,
                 errors);
     }

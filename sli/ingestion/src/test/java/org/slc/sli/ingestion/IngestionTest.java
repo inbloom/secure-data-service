@@ -26,7 +26,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.util.ResourceUtils;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 
@@ -181,7 +181,7 @@ public class IngestionTest {
         return list;
     }
 
-    public static long getTotalCountOfEntityInRepository(EntityRepository repository, String entityType) {
+    public static long getTotalCountOfEntityInRepository(Repository repository, String entityType) {
         int count = 0;
         Iterator<Entity> entities = repository.findAll(entityType).iterator();
 

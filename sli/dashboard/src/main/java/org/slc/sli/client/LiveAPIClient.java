@@ -40,6 +40,8 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
     private static final String ASSMT_URL = "/assessments/";
     private static final String SESSION_URL = "/sessions/";
+
+    private static final String STUDENT_WITH_GRADE_PARAMETER = "/studentWithGrade";
     
     private static final String ED_ORG_LINK = "getEducationOrganization";
     private static final String COURSE_LINK = "getCourse";
@@ -185,7 +187,7 @@ public class LiveAPIClient implements APIClient {
      * Get one student
      */
     public GenericEntity getStudent(String token, String id) {
-        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token, true);
+        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, true);
     }
     
     /**
@@ -213,7 +215,7 @@ public class LiveAPIClient implements APIClient {
         GenericEntity session = null;
         try {
             session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token, false);
-            LOGGER.debug("Session: " + session.toString());
+            LOGGER.debug("Session: {}", session);
         } catch (Exception e) {
             LOGGER.warn("Error occured while getting session", e);
             session = new GenericEntity();
@@ -473,7 +475,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
-        LOGGER.info("Getting attendance for ID: " + studentId);
+        LOGGER.info("Getting attendance for ID: {}", studentId);
         String url = "/v1" + STUDENTS_URL + studentId + ATTENDANCES_URL;
         if (start != null && start.length() > 0) {
             url += "?eventDate>=" + start;
@@ -482,12 +484,12 @@ public class LiveAPIClient implements APIClient {
         try {
             long startTime = System.nanoTime();
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, false);
-            LOGGER.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: " + (System.nanoTime() - startTime)
+            LOGGER.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: {}", (System.nanoTime() - startTime)
                     * 1.0e-9);
             LOGGER.debug(attendances.toString());
             return attendances;
         } catch (Exception e) {
-            LOGGER.error("Couldn't retrieve attendance for id:" + studentId, e);
+            LOGGER.error("Couldn't retrieve attendance for:" + studentId, e);
             return new ArrayList<GenericEntity>();
         }
     }
@@ -506,7 +508,7 @@ public class LiveAPIClient implements APIClient {
      * @return the entity
      */
     private GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
-        LOGGER.info("Querying API: " + url);
+        LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;
@@ -532,7 +534,7 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
         
         // Parse JSON
-        LOGGER.info("Querying API for list: " + url);
+        LOGGER.info("Querying API for list: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
             return null;

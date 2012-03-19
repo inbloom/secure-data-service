@@ -16,7 +16,17 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
                 "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
                 "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
-                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"}  
+                "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85",
+                "educator_SLI"=> "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
+                "leader_SLI"=> "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
+                "administrator_SLI"=> "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
+                "aggregator_SLI"=> "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
+                "baduser_SLI"=> "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
+                "nouser_SLI"=> "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
+                "teacher_SLI"=> "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
+                "prince_SLI"=> "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
+                "root_SLI"=> "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "bigbro_SLI"=> "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85"}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -25,7 +35,7 @@ end
 # Function idpLogin
 # Inputs: (String) user = Username to login to the IDP with
 # Inputs: (String) passwd = Password associated with the username
-# Output: sets @sessionId, a string containing the session from the IDP that can be referenced throughout the Gherkin scenario
+# Output: sets @sessionId, a string containing the OAUTH session that can be referenced throughout the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
@@ -35,28 +45,18 @@ def idpLogin(user, passwd)
 end
 
 # Function idpRealmLogin
-# Inputs: (Enum/String) realm = ("sli" "idp1" or "idp2") Which IDP you want to login with
+# Inputs: (Enum/String) realm = ("SLI" "IL" or "NY") Which IDP you want to login with
 # Inputs: (String) user = Username to login to the IDP with
 # Inputs: (String) passwd = Password associated with the username
-# Output: sets @sessionId, a string containing the session from the IDP that can be referenced throughout the Gherkin scenario
+# Output: sets @sessionId, a string containing the OAUTH session that can be referenced throughout the Gherkin scenario
 # Returns: Nothing, see Output
 # Description: Helper function that logs in to the specified IDP using the supplied credentials
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
-  @longLiveSession = false
   token = $SESSION_MAP[user+"_"+realm]
-  if token != nil
-    @sessionId = token
-    @longLiveSession = true
-  else
-    realmType = 'sli_idp_server_url' # Default case
-    realmType = 'sea_idp_server_url' if realm == "idp1"
-    realmType = 'lea_idp_server_url' if realm == "idp2"
-    url = PropLoader.getProps[realmType]+"/identity/authenticate?username="+user+"&password="+passwd
-    res = RestClient.get(url){|response, request, result| response }
-    @sessionId = res.body[res.body.rindex('=')+1..-2]
-  end
+  assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
+  @sessionId = token
   puts(@sessionId) if $SLI_DEBUG
 end
 
@@ -75,7 +75,7 @@ def restHttpPost(id, data, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into POST was nil")
 
-  urlHeader = makeUrlAndHeaders('post',@longLiveSession,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('post',id,sessionId,format)
   @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -95,7 +95,7 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
-  urlHeader = makeUrlAndHeaders('get',@longLiveSession,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -116,7 +116,7 @@ def restHttpPut(id, data, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into PUT was nil")
 
-  urlHeader = makeUrlAndHeaders('put',@longLiveSession,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('put',id,sessionId,format)
   @res = RestClient.put(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
@@ -136,24 +136,21 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into DELETE was nil")
 
-  urlHeader = makeUrlAndHeaders('delete',@longLiveSession,id,sessionId,format)
+  urlHeader = makeUrlAndHeaders('delete',id,sessionId,format)
   @res = RestClient.delete(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,longLiveSession,id,sessionId,format)
+def makeUrlAndHeaders(verb,id,sessionId,format)
   if(verb == 'put' || verb == 'post')
     headers = {:content_type => format}
   else
     headers = {:accept => format}
   end
 
-  if longLiveSession
-    headers.store(:Authorization, "bearer "+sessionId)
-  else
-    headers.store(:sessionId, sessionId)
-  end
+  headers.store(:Authorization, "bearer "+sessionId)
+
   url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
@@ -164,16 +161,7 @@ end
 ##############################################################################
 ###### After hook(s) #########################################################
 
-After do |scenario|
-
-  if @sessionId
-    #This After hook block is to logout a user if @sessionId exists
-    url = PropLoader.getProps['sli_idp_server_url']+"/identity/logout?subjectid="+@sessionId
-    @res = RestClient.get(url, {}){|response, request, result| response }
-    puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
-  end
-
-end
+# None remaining
 
 ##############################################################################
 ##############################################################################
@@ -284,6 +272,11 @@ module DataProvider
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
+      "is_admin" => true,
+      "administration_url" => "https://slidev.org/admin",
+      "image_url" => "https://slidev.org/image",
+      "application_url" => "https://slidev.org/image",
+      "version" => "3.14",
       "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
     }
   end

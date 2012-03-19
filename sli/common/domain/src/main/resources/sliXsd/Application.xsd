@@ -76,7 +76,7 @@
                 <xs:element name="image_url" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="https://.*" />
+                            <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
@@ -84,11 +84,13 @@
                 <xs:element name="version" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9])*" />
-                            <xs:minLength value="48" />
+                            <xs:pattern value="([a-zA-Z0-9.])*" />
+                            <xs:minLength value="3" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+                
+                <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
 
 				<xs:element name="developer_info" type="developer_info"
 					minOccurs="1" />

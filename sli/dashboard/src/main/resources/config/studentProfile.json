@@ -7,11 +7,11 @@
   }, 
   items: [
     {id : "csi", name: "Student Info", type: "PANEL"},
-    {id: "tab6", name: "Overview",  type : "TAB", items: [{id : "enrollmentHist", type: "PANEL"}]},
-    {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "csi", type: "PANEL"}]},
-    {id: "tab3", name: "Assessments",  type : "TAB", items: [{id : "csi", type: "PANEL"}, {id : "csi", type: "PANEL"}]},
+    {id: "tab6", name: "Overview",  type : "TAB", items: [{id : "enrollmentHist", type: "GRID"}]},
+    {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "attendanceHist", type: "GRID"}]},
+    {id: "tab3", name: "Assessments",  type : "TAB", items: [{id : "csi", type: "PANEL"}]},
     {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [{id : "csi", type: "PANEL"}]},
     {id: "tab5", name: "Advanced Academics",  type : "TAB", items: []},
-    {id: "tab1", name: "ELL", condition: {field: "limitedEnglishProficiency", value: ["yes"]}, type : "TAB", items: []}
+    {id: "tab1", name: "ELL", condition: {field: "limitedEnglishProficiency", value: ["Limited"]}, type : "TAB", items: []}
   ]
 }

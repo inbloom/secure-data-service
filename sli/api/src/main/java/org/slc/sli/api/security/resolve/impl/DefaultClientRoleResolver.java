@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Default converter for client roles to sli roles Does absolutely nothing but
@@ -25,7 +25,7 @@ import org.slc.sli.domain.EntityRepository;
 public class DefaultClientRoleResolver implements ClientRoleResolver {
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private IdConverter converter;

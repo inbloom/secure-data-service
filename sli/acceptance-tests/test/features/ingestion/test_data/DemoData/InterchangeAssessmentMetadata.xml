@@ -468,8 +468,16 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>122</MaxRawScore>
 	<AssessmentPeriod>
-		<CodeValue>DIEBELS-BOY</CodeValue>
+		<CodeValue>DIBELS-BOY</CodeValue>
 	</AssessmentPeriod>
+	<AssessmentFamilyReference>
+		<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentificationCode
+				IdentificationSystem="Test Contractor">
+				<ID>DIBELS_NEXT</ID>
+			</AssessmentFamilyIdentificationCode>
+		</AssessmentFamilyIdentiy>
+	</AssessmentFamilyReference>
   </Assessment>
 
   <Assessment id="DIBELS_NEXT_GRADE_1_MOY">
@@ -485,21 +493,50 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>122</MaxRawScore>
 	<AssessmentPeriod>
-		<CodeValue>DIEBELS-MOY</CodeValue>
+		<CodeValue>DIBELS-MOY</CodeValue>
 	</AssessmentPeriod>
+	<AssessmentFamilyReference>
+		<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentificationCode
+				IdentificationSystem="Test Contractor">
+				<ID>DIBELS_NEXT</ID>
+			</AssessmentFamilyIdentificationCode>
+		</AssessmentFamilyIdentiy>
+	</AssessmentFamilyReference>
   </Assessment>
 
+	<AssessmentFamily id="DIBELS">
+		<AssessmentFamilyTitle>DIBELS</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
+  	<AssessmentFamily id="DIBELS_NEXT">
+		<AssessmentFamilyTitle>DIBELS_NEXT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS_NEXT</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentiy>
+				<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+					<ID>DIBELS</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentiy>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
   <AssessmentPeriodDescriptor>
-	<CodeValue>DIEBELS-BOY</CodeValue>
+	<CodeValue>DIBELS-BOY</CodeValue>
 	<Description>Beginning of Year 2011-2012</Description>
-	<ShortDescription>DIEBELS-BOY</ShortDescription>
+	<ShortDescription>DIBELS-BOY</ShortDescription>
 	<BeginDate>2011-08-01</BeginDate>
 	<EndDate>2011-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
-	<CodeValue>DIEBELS-MOY</CodeValue>
+	<CodeValue>DIBELS-MOY</CodeValue>
 	<Description>Middle of Year 2011-2012</Description>
-	<ShortDescription>DIEBELS-MOY</ShortDescription>
+	<ShortDescription>DIBELS-MOY</ShortDescription>
 	<BeginDate>2012-01-01</BeginDate>
 	<EndDate>2012-03-30</EndDate>
   </AssessmentPeriodDescriptor>

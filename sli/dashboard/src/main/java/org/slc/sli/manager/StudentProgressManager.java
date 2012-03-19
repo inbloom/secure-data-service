@@ -53,14 +53,14 @@ public class StudentProgressManager implements Manager {
         params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_COURSE_TITLE);
         
         for (String studentId : studentIds) {
-            log.debug("Historical data [studentId] " + studentId);
+            log.debug("Historical data [studentId] {}", studentId);
             
             //get the courses in the subject area for the given student
             List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
-            log.debug("Historical data [courses] " + courses);
+            log.debug("Historical data [courses] {}", courses);
             
             for (GenericEntity course : courses) {
-                log.debug("Historical data [course] " + course);
+                log.debug("Historical data [course] {}", course);
                 
                 //get the sections for the course
                 List<GenericEntity> sections = getSectionsForCourse(token, studentId, course.getString(Constants.ATTR_ID));
@@ -138,7 +138,7 @@ public class StudentProgressManager implements Manager {
                 List<GenericEntity> transcripts = getStudentCourseAssociations(token, studentId, section.getString(Constants.ATTR_COURSE_ID));
                 
                 for (GenericEntity transcript : transcripts) {                    
-                    log.debug("Historical data [studentTranscriptAssociations] " + transcript);
+                    log.debug("Historical data [studentTranscriptAssociations] {}", transcript);
                     
                     section.put(Constants.ATTR_FINAL_LETTER_GRADE, transcript.getString(Constants.ATTR_FINAL_LETTER_GRADE));
                     section.put(Constants.ATTR_SCHOOL_YEAR, session.getString(Constants.ATTR_SCHOOL_YEAR) 
@@ -194,63 +194,46 @@ public class StudentProgressManager implements Manager {
     public Map<String, Map<String, GenericEntity>> getCurrentProgressForStudents(final String token, List<String> studentIds, 
             String selectedSection) {
         Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
-        double total = 0.0;
         
         //build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constants.ATTR_SECTION_ID, selectedSection);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED);
+        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED + "," + Constants.ATTR_GRADEBOOK_ENTRY_ID);
+        
+        Map<String, String> gradebookParams = new HashMap<String, String>();
+        gradebookParams.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
         
         for (String studentId : studentIds) {
-            total = 0.0;
-            log.debug("Progress data [studentId] " + studentId);
+            log.debug("Progress data [studentId] {}", studentId);
             
             List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
             
             for (GenericEntity studentGradebookEntry : studentGradebookEntries) {
                 studentGradebookEntry.remove("links");
                 studentGradebookEntry.remove("entityType");
-                log.debug("Progress data [studentGradebookEntry]" + studentGradebookEntry);
+                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
+                
+                GenericEntity gradebookEntry = entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID), gradebookParams);
+                
+                //add the gradebook entry Id                
+                studentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, gradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
                 
                 //add the student gradebook entry to the map
                 if (results.get(studentId) != null) {
-                    results.get(studentId).put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
+                    results.get(studentId).put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
                 } else {
                     Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
-                    gradebookEntries.put(studentGradebookEntry.getString(Constants.ATTR_DATE_FULFILLED), studentGradebookEntry);
+                    gradebookEntries.put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
                     
                     results.put(studentId, gradebookEntries);
                 }
-                
-                //add it to the total
-                total += parseNumericGrade(studentGradebookEntry.get(Constants.ATTR_NUMERIC_GRADE_EARNED));
+
             }
-            
-            if (results.get(studentId) != null)
-                results.get(studentId).put("Average", calculateAndCreateAverageEntity(total, studentGradebookEntries.size()));
         }
         
+        
+        
         return results;
-    }
-    
-    /**
-     * Calculates the average and adds it to a GenericEntity
-     * @param total The total score
-     * @param size Number of tests
-     * @return
-     */
-    protected GenericEntity calculateAndCreateAverageEntity(double total, int size) {
-        double average = 0.0;
-        GenericEntity entity = new GenericEntity();
-        
-        //calculate the average
-        if (size > 0)
-            average = total / size;
-        
-        //add it to the entity
-        entity.put(Constants.ATTR_NUMERIC_GRADE_EARNED, Double.parseDouble(String.format("%.2f", average)));
-        
-        return entity;
     }
     
     /**

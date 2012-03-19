@@ -93,8 +93,8 @@ public class NeutralRecordFileWriter {
         }
 
         // populate the jobId if present
-        if (record.getJobId() != null) {
-            avroRecord.put("jobId", new Utf8(record.getJobId()));
+        if (record.getBatchJobId() != null) {
+            avroRecord.put("jobId", new Utf8(record.getBatchJobId()));
         } else {
             avroRecord.put("jobId", null);
         }
@@ -145,7 +145,7 @@ public class NeutralRecordFileWriter {
 
     private String maptoJson(Map<String, Object> attributes) throws IOException {
         String jsonVal = jsonObjectMapper.writeValueAsString(attributes);
-        LOG.debug("encoded attributes map to json: " + jsonVal);
+        LOG.debug("encoded attributes map to json: {}", jsonVal);
         return jsonVal;
     }
 

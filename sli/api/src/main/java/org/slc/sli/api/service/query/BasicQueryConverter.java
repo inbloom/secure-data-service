@@ -20,10 +20,12 @@ import org.slc.sli.validation.schema.NeutralSchema;
 /**
  * Default implementation of the QueryConverter interface
  * 
+ * Use NeutralQuery or ApiQuery instead.
+ * 
  * @author dong liu <dliu@wgen.net>
  * 
  */
-
+@Deprecated
 @Component
 public class BasicQueryConverter implements QueryConverter {
     

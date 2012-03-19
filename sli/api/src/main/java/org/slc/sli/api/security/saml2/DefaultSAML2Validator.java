@@ -142,8 +142,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
                         params);
                 TrustAnchor ta = result.getTrustAnchor();
                 trusted = true;
-                LOG.debug("X509 Certificate is trusted --> Signed by: " + ta.getCAName());
-                System.out.println("trust anchor: " + ta.getCAName());
+                LOG.debug("X509 Certificate is trusted --> Signed by: {}", ta.getCAName());
             } catch (CertPathValidatorException e) {
                 LOG.warn("X509 Certificate is not trusted.");
             }

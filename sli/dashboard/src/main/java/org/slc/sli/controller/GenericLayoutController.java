@@ -54,6 +54,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS_JSON, JsonConverter.toJson(modelAndConfig.getComponentViewConfigMap()));
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
+        model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
         
         // TODO: refactor so the below params can be removed
         model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());

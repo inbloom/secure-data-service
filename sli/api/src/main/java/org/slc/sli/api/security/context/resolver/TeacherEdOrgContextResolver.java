@@ -4,7 +4,7 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ import java.util.Set;
 public class TeacherEdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private AssociativeContextHelper helper;
 

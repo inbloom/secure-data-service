@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,9 +28,9 @@ public class GradebookEntryResolverTest {
 
     private static final String STUDENT_1_ID = "1234";
     private static final String STUDENT_2_ID = "4567";
+    private static final String GRADEBOOK_ENTRY_1_ID = "123GBE";
+    private static final String GRADEBOOK_ENTRY_2_ID = "456GBE";
     private static final String GRADE_KEY = "numericGradeEarned";
-    private static final String DATE_1 = "10-09-2011";
-    private static final String DATE_2 = "10-12-2011";
     private static final String AVERAGE_KEY = "Average";
 
     private GradebookEntryResolver gradebookEntryResolver; // class under test
@@ -56,10 +58,10 @@ public class GradebookEntryResolverTest {
         GenericEntity avg2 = new GenericEntity();
         avg2.put(GRADE_KEY, "89");
 
-        gradebookEntries1.put(DATE_1, ge1);
-        gradebookEntries1.put(DATE_2, ge2);
+        gradebookEntries1.put(GRADEBOOK_ENTRY_1_ID, ge1);
+        gradebookEntries1.put(GRADEBOOK_ENTRY_2_ID, ge2);
         gradebookEntries1.put(AVERAGE_KEY, avg1);
-        gradebookEntries2.put(DATE_2, ge3);
+        gradebookEntries2.put(GRADEBOOK_ENTRY_2_ID, ge3);
         gradebookEntries2.put(AVERAGE_KEY, avg2);
 
         gradebookData.put(STUDENT_1_ID, gradebookEntries1);
@@ -70,19 +72,45 @@ public class GradebookEntryResolverTest {
 
     @Test
     public void testGetGrade() {
-        assertEquals("97", gradebookEntryResolver.getGrade(STUDENT_1_ID, DATE_1));
-        assertEquals("89", gradebookEntryResolver.getGrade(STUDENT_2_ID, DATE_2));
-        assertEquals("75", gradebookEntryResolver.getGrade(STUDENT_1_ID, DATE_2));
+        Map<String, String> student1 = new HashMap<String, String>();
+        student1.put("id", STUDENT_1_ID);
+
+        Map<String, String> student2 = new HashMap<String, String>();
+        student2.put("id", STUDENT_2_ID);
+
+        Map<String, String> student3 = new HashMap<String, String>();
+        student3.put("id", "DOES NOT EXIST");
+
+        assertEquals("97", gradebookEntryResolver.getGrade(GRADEBOOK_ENTRY_1_ID, student1));
+        assertEquals("89", gradebookEntryResolver.getGrade(GRADEBOOK_ENTRY_2_ID, student2));
+        assertEquals("75", gradebookEntryResolver.getGrade(GRADEBOOK_ENTRY_2_ID, student1));
         assertEquals("Missing information should return a dash", "-",
-                gradebookEntryResolver.getGrade("DOES_NOT_EXIST", "DOES_NOT_EXIST"));
+                gradebookEntryResolver.getGrade("DOES_NOT_EXIST", student3));
 
     }
 
     @Test
     public void testGetAverage() {
-        assertEquals("86", gradebookEntryResolver.getAverage(STUDENT_1_ID));
-        assertEquals("89", gradebookEntryResolver.getAverage(STUDENT_2_ID));
+        Map<String, String> student1 = new HashMap<String, String>();
+        student1.put("id", STUDENT_1_ID);
+
+        Map<String, String> student2 = new HashMap<String, String>();
+        student2.put("id", STUDENT_2_ID);
+
+        Map<String, String> student3 = new HashMap<String, String>();
+        student3.put("id", "DOES NOT EXIST");
+
+        assertEquals("86%", gradebookEntryResolver.getAverage(student1));
+        assertEquals("89%", gradebookEntryResolver.getAverage(student2));
         assertEquals("Missing information should return a dash", "-",
-                gradebookEntryResolver.getAverage("DOES_NOT_EXIST"));
+                gradebookEntryResolver.getAverage(student3));
     }
+
+    @Test
+    public void testSetAndGetGradebookIds() {
+        SortedSet<GenericEntity> testSet = new TreeSet<GenericEntity>();
+        gradebookEntryResolver.setGradebookIds(testSet);
+        assertEquals(testSet, gradebookEntryResolver.getGradebookIds());
+    }
+
 }

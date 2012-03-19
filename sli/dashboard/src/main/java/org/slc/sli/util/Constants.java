@@ -47,12 +47,14 @@ public class Constants {
     public static final String MM_KEY_VIEW_CONFIGS_JSON = "viewConfigsJson";
     public static final String MM_KEY_LAYOUT = "layout";
     public static final String MM_KEY_DATA = "data";
+    public static final String MM_KEY_DATA_JSON = "dataJson";
     public static final String MM_KEY_ASSESSMENTS = "assessments";
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
     public static final String MM_KEY_CONSTANTS = "constants";
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
+    public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
     
     // entity attributes
     public static final String ATTR_COURSES = "courses";
@@ -127,18 +129,22 @@ public class Constants {
     public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
     public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
     public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
+    public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
+    public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
+    public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     
     //Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
+    public static final String MIDDLE_SCHOOL_VIEW = "IL_3-8_ELA";
     
     public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
     
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
     // Program Participation Constants
-    public static final String SHOW_ELL_LOZENGE = "Yes";
+    public static final String SHOW_ELL_LOZENGE = "Limited";
     
     /**
      * Contains the possible values for FRE participation
