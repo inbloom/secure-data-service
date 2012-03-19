@@ -7,9 +7,9 @@ Background: None
 # ==========================================================
 Scenario Outline:  As a teacher for my class I want to get the most recent values of the following attributes: ISAT Reading test PerformaceLevel, ScaleScore and Lexile
 	Given  I am valid SEA/LEA end user <Username> with password <Password>
-	And I have a Role attribute returned from the "SEA/LEA IDP"
+	And I have a Role attribute returned from the "SLI"
 	And the role attribute equals <AnyDefaultSLIRole>
-	And I am authenticated on "SEA/LEA IDP"
+	And I am authenticated on "SLI"
 
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
 	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"

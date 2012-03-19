@@ -221,10 +221,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 ReferenceSchema schema = fieldSchema.getValue(); //access to the reference schema
                 String resource  = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
                 EntityDefinition referencedEntity = this.mapping.get(resource);
-                
-                LOG.debug("* New reference: " + referringDefinition.getStoredCollectionName() + "." + fieldSchema.getKey() 
-                        + " -> " + schema.getResourceName() + "._id");
-                
+                LOG.debug("* New reference: {}.{} -> {}._id", new Object[] {
+                        referringDefinition.getStoredCollectionName(),
+                        fieldSchema.getKey(),
+                        schema.getResourceName()});               
                 //tell the referenced entity that some entity definition refers to it
                 referencedEntity.addReferencingEntity(referringDefinition);
                 referencesLoaded++;
@@ -232,7 +232,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         }
         
         //print stats
-        LOG.debug("" + referencesLoaded + " direct references loaded.");
+        LOG.debug("{} direct references loaded.", referencesLoaded);
     }
     
     public void addDefinition(EntityDefinition defn) {

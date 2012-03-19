@@ -1,0 +1,16 @@
+{
+"collectionName":"TeacherSectionAssociation",
+"fields":[
+	"fieldPath":"body.teacherId",
+	"fieldValue": {
+			"collectionName":"Teacher",
+			"fields":
+				[
+					"fieldPath":"metadata.externalId",
+					"fieldValue":"StaffUniqueStateId"
+				]
+			  }
+	]
+}
+
+

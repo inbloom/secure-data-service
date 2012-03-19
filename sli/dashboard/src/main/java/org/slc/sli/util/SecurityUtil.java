@@ -26,9 +26,9 @@ public class SecurityUtil {
     
     public static String getToken() {
         UserDetails user = getPrincipal();
-        logger.info("******** User.getUsername: " + user.getUsername());
+        logger.info("******** User.getUsername: {}", user.getUsername());
         if (user instanceof SLIPrincipal) {
-            logger.info("******** User.getId: " + ((SLIPrincipal) user).getId());
+            logger.info("******** User.getId: {}", ((SLIPrincipal) user).getId());
             return ((SLIPrincipal) user).getId();
         } else {
             // gets here in mock server mode

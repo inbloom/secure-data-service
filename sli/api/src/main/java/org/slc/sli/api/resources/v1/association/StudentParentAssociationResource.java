@@ -50,7 +50,7 @@ public class StudentParentAssociationResource {
     @Autowired
     public StudentParentAssociationResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
-        LOGGER.debug("New resource handler created" + this);
+        LOGGER.debug("New resource handler created {}", this);
     }
 
     /**

@@ -16,21 +16,21 @@ import org.slc.sli.domain.Entity;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class TeacherSectionResolver implements EntityContextResolver {
-    
+
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
     }
-    
+
     @Override
     public List<String> findAccessible(Entity principal) {
         List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(

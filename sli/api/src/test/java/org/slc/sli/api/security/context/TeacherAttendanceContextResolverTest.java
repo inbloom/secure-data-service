@@ -23,7 +23,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.resolver.TeacherAttendanceContextResolver;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the TeacherAttendanceContextResolver class
@@ -31,41 +31,37 @@ import org.slc.sli.domain.EntityRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherAttendanceContextResolverTest {
-    
+
     @Autowired
     private TeacherAttendanceContextResolver resolver;
-    
+
     @Autowired
     private MockRepo mockRepo;
-    
-    @Autowired
-    private EntityDefinitionStore definitionStore;
-    
-    
-    
+
     @Test
     public void testFindAccessible() throws Exception {
         resolver.setRepository(mockRepo);
         Entity principal = Mockito.mock(Entity.class);
         Assert.assertTrue(resolver.findAccessible(principal).isEmpty());
-        
+
         // TODO resolve principal ID, add association objects, add entities
         // TODO findAccessible should return only ids with context
     }
-    
+
+    @SuppressWarnings("unchecked")
     @Test
     public void testSetRepository() throws Exception {
-        EntityRepository repository = Mockito.mock(EntityRepository.class);
+        Repository<Entity> repository = Mockito.mock(Repository.class);
         when(repository.findByQuery(anyString(), any(Query.class), anyInt(), anyInt())).thenReturn(
                 new ArrayList<Entity>());
         resolver.setRepository(repository);
-        
+
         Entity principal = Mockito.mock(Entity.class);
         resolver.setRepository(repository);
         resolver.findAccessible(principal);
         verify(repository, atLeastOnce()).findByQuery(anyString(), any(Query.class), anyInt(), anyInt());
     }
-    
+
     @Test
     public void testSetDefinitionStore() throws Exception {
         EntityDefinitionStore definitionStore = Mockito.mock(EntityDefinitionStore.class);

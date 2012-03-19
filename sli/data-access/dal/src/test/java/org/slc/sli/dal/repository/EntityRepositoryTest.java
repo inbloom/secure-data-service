@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * JUnits for DAL
@@ -34,7 +34,7 @@ import org.slc.sli.domain.EntityRepository;
 public class EntityRepositoryTest {
     
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     
     @Test
     public void testCRUDEntityRepository() {

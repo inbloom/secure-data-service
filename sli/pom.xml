@@ -57,6 +57,7 @@
 		<xerces.version>2.4.0</xerces.version>
 		<avro.version>1.6.1</avro.version>
 		<commons.schema.version>1.4.7</commons.schema.version>
+        <commons.beanutils.version>1.8.3</commons.beanutils.version>
 
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
@@ -496,6 +497,11 @@
 				<version>${xerces.version}</version>
 			</dependency>
 
+            <dependency>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils</artifactId>
+              <version>${commons.beanutils.version}</version>
+            </dependency>
 
 			<!-- Rest Services (JAX-RS) Framework -->
 

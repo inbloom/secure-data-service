@@ -47,6 +47,7 @@ public class Constants {
     public static final String MM_KEY_VIEW_CONFIGS_JSON = "viewConfigsJson";
     public static final String MM_KEY_LAYOUT = "layout";
     public static final String MM_KEY_DATA = "data";
+    public static final String MM_KEY_DATA_JSON = "dataJson";
     public static final String MM_KEY_ASSESSMENTS = "assessments";
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
@@ -144,6 +145,7 @@ public class Constants {
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Yes";
+
     
     /**
      * Contains the possible values for FRE participation

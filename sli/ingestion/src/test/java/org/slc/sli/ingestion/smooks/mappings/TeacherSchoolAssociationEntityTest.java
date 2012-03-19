@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
@@ -43,7 +43,7 @@ public class TeacherSchoolAssociationEntityTest {
     private EntityValidator validator;
 
     @Mock
-    private EntityRepository mockRepository;
+    private Repository<Entity> mockRepository;
 
     String xmlTestData = "<InterchangeStaffAssociation xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StaffAssociation.xsd\">"
             + "<TeacherSchoolAssociation>"
@@ -80,12 +80,12 @@ public class TeacherSchoolAssociationEntityTest {
         String targetSelector = "InterchangeStaffAssociation/TeacherSchoolAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
-        
+
         // mock repository will simulate "finding" the references
         Entity returnEntity = mock(Entity.class);
         Mockito.when(mockRepository.find("teacher", "333333332")).thenReturn(returnEntity);
         Mockito.when(mockRepository.find("school", "123456111")).thenReturn(returnEntity);
-        
+
         EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
     }
 

@@ -53,14 +53,14 @@ public class StudentProgressManager implements Manager {
         params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_COURSE_TITLE);
         
         for (String studentId : studentIds) {
-            log.debug("Historical data [studentId] " + studentId);
+            log.debug("Historical data [studentId] {}", studentId);
             
             //get the courses in the subject area for the given student
             List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
-            log.debug("Historical data [courses] " + courses);
+            log.debug("Historical data [courses] {}", courses);
             
             for (GenericEntity course : courses) {
-                log.debug("Historical data [course] " + course);
+                log.debug("Historical data [course] {}", course);
                 
                 //get the sections for the course
                 List<GenericEntity> sections = getSectionsForCourse(token, studentId, course.getString(Constants.ATTR_ID));
@@ -138,7 +138,7 @@ public class StudentProgressManager implements Manager {
                 List<GenericEntity> transcripts = getStudentCourseAssociations(token, studentId, section.getString(Constants.ATTR_COURSE_ID));
                 
                 for (GenericEntity transcript : transcripts) {                    
-                    log.debug("Historical data [studentTranscriptAssociations] " + transcript);
+                    log.debug("Historical data [studentTranscriptAssociations] {}", transcript);
                     
                     section.put(Constants.ATTR_FINAL_LETTER_GRADE, transcript.getString(Constants.ATTR_FINAL_LETTER_GRADE));
                     section.put(Constants.ATTR_SCHOOL_YEAR, session.getString(Constants.ATTR_SCHOOL_YEAR) 
@@ -206,14 +206,14 @@ public class StudentProgressManager implements Manager {
         
         for (String studentId : studentIds) {
             total = 0.0;
-            log.debug("Progress data [studentId] " + studentId);
+            log.debug("Progress data [studentId] {}", studentId);
             
             List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
             
             for (GenericEntity studentGradebookEntry : studentGradebookEntries) {
                 studentGradebookEntry.remove("links");
                 studentGradebookEntry.remove("entityType");
-                log.debug("Progress data [studentGradebookEntry]" + studentGradebookEntry);
+                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
                 
                 GenericEntity gradebookEntry = entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID), gradebookParams);
                 

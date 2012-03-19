@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,7 +71,13 @@ public class DiscoController {
             @RequestParam(value = "RealmName", required = false) final String realmName, 
             @RequestParam(value = "client_id", required = true) final String clientId, 
             @RequestParam(value = "state", required = false) final String state,
-            final Model model) throws IOException {
+            @CookieValue(value = "realmCookie", required = false) final String cookie,
+            final HttpServletResponse res, final Model model) throws IOException {
+        LOG.debug("Realm Cookie is {}", cookie);
+        
+        if (cookie != null && cookie.length() > 0) {
+            return ssoInit(cookie, relayState, clientId, state, res, model);
+        }
         
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
@@ -81,7 +90,7 @@ public class DiscoController {
                     if (realmName != null && realmName.length() > 0) {
                         if (realmName.equals(node.get("name"))) {
                             try {
-                                return ssoInit(node.get("id").toString(), relayState, clientId, state, model);
+                                return ssoInit(node.get("id").toString(), relayState, clientId, state, res, model);
                             } catch (IOException e) {
                                 LOG.error("Error initiating SSO", e);
                             }
@@ -124,7 +133,7 @@ public class DiscoController {
             @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
             @RequestParam(value = "clientId", required = true) final String clientId, 
             @RequestParam(value = "state", required = false) final String state,
-            Model model) throws IOException {
+            HttpServletResponse res, Model model) throws IOException {
 
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
@@ -147,7 +156,13 @@ public class DiscoController {
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
 
         authCodeService.create(clientId, state, tuple.getLeft());
-        LOG.debug("redirecting to: " + endpoint);
+        LOG.debug("redirecting to: {}", endpoint);
+        Cookie cookie = new Cookie("realmCookie", realmId);
+        cookie.setMaxAge(60 * 60);
+        cookie.setDomain(".slidev.org");
+        cookie.setPath("/");
+        res.addCookie(cookie);
+        LOG.debug("Set the realm cookie to {}", realmId);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
 
