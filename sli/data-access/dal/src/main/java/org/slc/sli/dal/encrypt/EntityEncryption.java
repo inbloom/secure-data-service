@@ -64,11 +64,12 @@ public class EntityEncryption {
     
     public Object decryptSingleValue(Object value) {
         if (!(value instanceof String)) {
-            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
+            return value;
         }
         Object decrypted = aes.decrypt((String) value);
         if (decrypted == null) {
-            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
             return value;
         }
         return decrypted;
@@ -123,8 +124,8 @@ public class EntityEncryption {
                             }
                         }
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("En/decrypting PII list field: {}, item={}, old={}, new={}", 
-                                    new Object[] {piiField.getKey(), i, item, newValue});
+                            LOG.debug("En/decrypting PII list field: {}, item={}, old={}, new={}", new Object[] {
+                                    piiField.getKey(), i, item, newValue });
                         }
                         list.set(i, newValue);
                     }
@@ -149,7 +150,8 @@ public class EntityEncryption {
                     }
                 }
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("En/decrypting PII value: {}, old={}, new={}", new Object[] {piiField.getKey(), fieldValue, newValue});
+                    LOG.debug("En/decrypting PII value: {}, old={}, new={}", new Object[] { piiField.getKey(),
+                            fieldValue, newValue });
                 }
                 body.put(piiField.getKey(), newValue);
             }
