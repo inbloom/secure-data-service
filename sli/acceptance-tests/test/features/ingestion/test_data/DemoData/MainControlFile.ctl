@@ -7,5 +7,5 @@ edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,cd75ba30b24edd98604e
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,11feb6f1184148aa5d618fce2b4ab62c
 edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,45e777fdb6d8185f1beec563468160bb
 edfi-xml,StudentGrades,InterchangeStudentGrade.xml,5ade4a36aef1ec550b78b5d1d1830539
-edfi-xml,Parent,InterchangeStudentParent.xml,176c212a6fe43d1a837fbb27512dba1f
+edfi-xml,Parent,InterchangeStudentParent.xml,95ae5754be10de5992ad3a25f0e386a8
 
