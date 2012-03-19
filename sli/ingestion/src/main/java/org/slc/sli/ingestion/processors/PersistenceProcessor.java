@@ -203,7 +203,7 @@ public class PersistenceProcessor implements Processor {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
                         //this doesn't exist in collection, persist
 
-                        LOG.debug("processing " + neutralRecord);
+                        LOG.debug("processing {}", neutralRecord);
 
                         // map NeutralRecord to Entity
                         NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
@@ -219,7 +219,7 @@ public class PersistenceProcessor implements Processor {
                     }
                 } else {
                     //process collection of the entities from db
-                    LOG.debug("processing staged collection: " + neutralRecord.getRecordType());
+                    LOG.debug("processing staged collection: {}", neutralRecord.getRecordType());
 
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
@@ -263,7 +263,7 @@ public class PersistenceProcessor implements Processor {
             File errorLog = lz.getFile(errorLogger.getName());
             if (errorLog != null) {
                 if (errorLog.length() == 0L) {
-                    LOG.debug(errorLog.getName() + " is empty, deleting");
+                    LOG.debug("{} is empty, deleting", errorLog.getName());
                     if (!errorLog.delete()) {
                         LOG.error(errorLog.getName() + " is empty but could not be deleted");
                     }

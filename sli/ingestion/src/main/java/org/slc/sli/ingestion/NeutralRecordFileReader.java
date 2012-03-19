@@ -82,7 +82,7 @@ public class NeutralRecordFileReader implements Iterator {
 
     private Map<String, Object> jsonToMap(Object object) throws IOException {
         Map<String, Object> attributesMap = jsonObjectMapper.readValue(object.toString(), Map.class);
-        LOG.debug("decoded json to map: " + attributesMap);
+        LOG.debug("decoded json to map: {}", attributesMap);
         return attributesMap;
     }
 

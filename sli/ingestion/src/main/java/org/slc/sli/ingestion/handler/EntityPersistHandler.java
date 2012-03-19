@@ -13,8 +13,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 /**
  * Handles the persisting of Entity objects
  *

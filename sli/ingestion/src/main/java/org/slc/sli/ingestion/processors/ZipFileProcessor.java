@@ -5,19 +5,19 @@ import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.landingzone.ZipFileUtil;
-import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
-import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.util.performance.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
+import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
+import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.util.performance.Profiled;
 
 /**
  * Zip file handler.
