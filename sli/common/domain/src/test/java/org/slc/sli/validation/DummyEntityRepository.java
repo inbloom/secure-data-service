@@ -3,6 +3,10 @@ package org.slc.sli.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+
 
 import org.slc.sli.domain.SmartQuery;
 import org.springframework.data.mongodb.core.query.Query;
@@ -155,6 +159,15 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Iterable<Entity> findAll(String collectionName, SmartQuery query) {
+        return null;
+    }
+
+    public CommandResult execute(DBObject command) {
+        return null;
+    }
+
+    @Override
+    public DBCollection getCollection(String collectionName) {
         return null;
     }
     
