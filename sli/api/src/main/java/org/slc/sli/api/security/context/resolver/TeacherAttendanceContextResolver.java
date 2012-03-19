@@ -14,7 +14,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * TeacherAttendanceContextResolver
@@ -25,7 +25,7 @@ import org.slc.sli.domain.EntityRepository;
 public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private EntityDefinitionStore definitionStore;
 
@@ -80,7 +80,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         }
     }
 
-    public void setRepository(EntityRepository repository) {
+    public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -28,7 +28,7 @@ public class MongoUserLocator implements UserLocator {
     private static final List<String> ENTITY_NAMES = Arrays.asList("teacher", "staff");
 
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
 
     @Override
     public SLIPrincipal locate(String regionId, String externalUserId) {
@@ -47,11 +47,15 @@ public class MongoUserLocator implements UserLocator {
                 break;
             }
         }
+        
+        if (user.getEntity() == null) {
+            LOG.warn("Failed to locate user {} in the datastore", user.getId());
+        }
 
         return user;
     }
 
-    public void setRepo(EntityRepository repo) {
+    public void setRepo(Repository repo) {
         this.repo = repo;
     }
 }

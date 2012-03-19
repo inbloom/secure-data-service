@@ -29,32 +29,32 @@ class AppsController < ApplicationController
   # GET /apps/new
   # GET /apps/new.json
   def new
-    @App = App.new
+    @app = App.new
   
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @App }
+      format.json { render json: @app }
     end
   end
 
-  # GET /apps/1/edit
+  # # GET /apps/1/edit
   # def edit
-  #   @App = App.find(params[:id])
+  #   @app = App.find(params[:id])
   # end
 
   # POST /apps
   # POST /apps.json
   def create
-    @App = App.new(params[:App])
-  
+    @app = App.new(params[:app])
+    logger.debug {"#{@app}"}
     respond_to do |format|
-      if @App.save
-        format.html { redirect_to @App, notice: 'App was successfully created.' }
-        format.json { render json: @App, status: :created, location: @App }
+      if @app.save
+        format.html { redirect_to @app, notice: 'App was successfully created.' }
+        format.json { render json: @app, status: :created, location: @app }
         format.js
       else
         format.html { render action: "new" }
-        format.json { render json: @App.errors, status: :unprocessable_entity }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
         format.js
       end
     end
@@ -63,15 +63,15 @@ class AppsController < ApplicationController
   # PUT /apps/1
   # PUT /apps/1.json
   def update
-    @App = App.find(params[:id])
-    puts "App found (Update): #{@App.attributes}"
+    @app = App.find(params[:id])
+    puts "App found (Update): #{@app.attributes}"
     respond_to do |format|
-      if @App.update_attributes(params[:App])
-        format.html { redirect_to @App.id, notice: 'App was successfully updated.' }
+      if @app.update_attributes(params[:App])
+        format.html { redirect_to @app.id, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @App.errors, status: :unprocessable_entity }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -79,8 +79,8 @@ class AppsController < ApplicationController
   # DELETE /apps/1
   # DELETE /apps/1.json
   def destroy
-    @App = App.find(params[:id])
-    @App.destroy
+    @app = App.find(params[:id])
+    @app.destroy
   
     respond_to do |format|
       format.js

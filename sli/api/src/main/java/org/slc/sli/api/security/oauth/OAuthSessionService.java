@@ -1,20 +1,27 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.util.OAuthTokenUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.RandomValueTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Handles Authorization and Resource Server token services by extending
@@ -31,7 +38,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getAccessTokenValidity();
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private TokenStore mongoTokenStore;
@@ -55,7 +62,9 @@ public class OAuthSessionService extends RandomValueTokenServices {
             Map data = (Map) oauth2Session.getBody().get("authentication");
             return util.createOAuth2Authentication(data);
         }
-        return null;
+        
+        String time = "" + System.currentTimeMillis();
+        return new OAuth2Authentication(new ClientToken("UNKNOWM", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
     }
      
 }

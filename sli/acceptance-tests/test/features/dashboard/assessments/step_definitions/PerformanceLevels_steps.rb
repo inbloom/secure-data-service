@@ -9,3 +9,9 @@ Then /^I should see his\/her most recent ISAT Writing Perf\. level is "([^"]*)"$
   level.should_not be nil
   level.text.should == perfLevel
 end
+
+Then /^I should see his\/her Perf\.level for DIBELS Next for most recent window is "([^"]*)"$/ do |perfLevel|
+  level = @driver.find_element(:id, @studentName+".DIBELS_NEXT.Mastery level")
+  level.should_not be nil
+  level.text.should == perfLevel
+end

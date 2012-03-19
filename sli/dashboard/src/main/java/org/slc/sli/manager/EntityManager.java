@@ -128,7 +128,7 @@ public class EntityManager extends ApiClientManager {
      *         - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
-        GenericEntity student = getStudent(token, studentId);
+        GenericEntity student = ContactSorter.sort(getStudent(token, studentId));
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
@@ -385,7 +385,7 @@ public class EntityManager extends ApiClientManager {
         headers.add(API_SESSION_KEY, token);
         HttpEntity httpEntity = new HttpEntity(headers);
         
-        log.debug("Accessing API: " + url);  
+        log.debug("Accessing API: {}", url);  
         
         HttpEntity<String> apiResponse = template.exchange(url, HttpMethod.GET, httpEntity, String.class);
 

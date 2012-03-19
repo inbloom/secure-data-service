@@ -27,7 +27,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
 
 /**
@@ -50,7 +50,7 @@ public class SchoolIngestionTest {
     // private SchoolRepository schoolRepository;
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     private static String schoolEntityType = "school";
 
@@ -244,7 +244,7 @@ public class SchoolIngestionTest {
         return new MongoEntity(schoolEntityType, null, body, null);
     }
 
-    public static void verifySchools(EntityRepository repository, long numberOfSchools) {
+    public static void verifySchools(Repository repository, long numberOfSchools) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType);
 

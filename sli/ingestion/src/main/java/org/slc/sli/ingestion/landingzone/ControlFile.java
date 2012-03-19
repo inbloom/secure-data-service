@@ -1,5 +1,10 @@
 package org.slc.sli.ingestion.landingzone;
 
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -10,11 +15,6 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Represents control file information.
@@ -39,6 +39,7 @@ public class ControlFile implements Serializable {
         String line;
         FileFormat fileFormat;
         FileType fileType;
+        int lineNumber = 1;
 
         Properties configProperties = new Properties();
         ArrayList<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
@@ -46,12 +47,6 @@ public class ControlFile implements Serializable {
         LOG.debug("parsing control file: {}", file);
 
         try {
-            try {
-                // TODO: remove this sleep - using for now to test theory on possible race condition
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             while (scanner.hasNextLine()) {
 
                 line = scanner.nextLine();
@@ -61,8 +56,8 @@ public class ControlFile implements Serializable {
                 if (fileItemMatcher.matches()) {
                     fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));
                     fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
-                    fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3),
-                            fileItemMatcher.group(4)));
+                    fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3), fileItemMatcher
+                            .group(4)));
                     continue;
                 }
 
@@ -77,8 +72,10 @@ public class ControlFile implements Serializable {
                 if (line.trim().length() > 0) {
                     // line was not parseable
                     // TODO fault or custom exception?
-                    throw new RuntimeException("invalid control file entry: " + line);
+                    throw new RuntimeException("invalid control file entry. line number:"
+                            + lineNumber + ", line: \"" + line + "\"");
                 }
+                lineNumber += 1;
             }
 
             return new ControlFile(file, fileEntries, configProperties);

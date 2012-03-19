@@ -1,6 +1,7 @@
 {
   id : "enrollmentHist",
-  type : "PANEL",
+  type : "GRID",
+  name : "Enrollment History",
   data :{
     entity: "student",
     alias: "student"

@@ -54,7 +54,7 @@ public class StaffEducationOrganizationAssociation {
     @Autowired
     public StaffEducationOrganizationAssociation(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
-        LOGGER.debug("New resource handler created: " + this);
+        LOGGER.debug("New resource handler created: {}", this);
     }
 
     /**

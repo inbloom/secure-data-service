@@ -4,7 +4,7 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,48 +23,34 @@ import java.util.Set;
 public class TeacherEdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private AssociativeContextHelper helper;
 
     @Override
     public List<String> findAccessible(Entity principal) {
-
         // find schools the teacher can reach
         List<String> schoolIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS));
 
         // find edOrgs directly referenced by schools
-        Set<String> edOrgIds = new HashSet<String>();
+        List<String> edorgIds = new ArrayList<String>();
         for (String schoolId : schoolIds) {
             Entity school = this.repository.find(EntityNames.SCHOOL, schoolId);
-            edOrgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
+            edorgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
         }
 
-        // from those edOrgs, build the closure under the "parent" relationship 
-        Set<String> retVal = new HashSet<String>();
-        retVal.addAll(edOrgIds);
-        while (true) { //TODO this could result in an infinite loop if circular references exist
-            // in this loop, "edOrgIds" contains ids added in the previous round
-            Set<String> toAdd = new HashSet<String>(); // this contains ids to be added in this round
-            for (String edOrgId : edOrgIds) {
-                Entity edOrg = this.repository.find(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-                Object newId = edOrg.getBody().get("parentEducationAgencyReference");
-                if (newId != null && !retVal.contains(newId.toString())) {
-                    toAdd.add(newId.toString());
-                }
+        Set<String> finalEdorgIds = new HashSet<String>(edorgIds);
+        boolean added = true;
+        while (added) {
+            added = false;
+            edorgIds = helper.findEntitiesContainingReference(EntityNames.EDUCATION_ORGANIZATION, "body.parentEducationAgencyReference", edorgIds);
+
+            for (String crntEdorgId : edorgIds) {
+                added |= finalEdorgIds.add(crntEdorgId);
             }
-            if (toAdd.isEmpty()) {
-                break; // no new ids to add; closure is reached.  
-            }
-            retVal.addAll(toAdd);
-            edOrgIds = toAdd;
         }
 
-        return new ArrayList<String>(retVal);
-    }
-
-    public void setRepository(EntityRepository repository) {
-        this.repository = repository;
+        return new ArrayList<String>(finalEdorgIds);
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
@@ -34,7 +34,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     private SchemaRepository entitySchemaRegistry;
     
     @Autowired
-    private EntityRepository validationRepo;
+    private Repository<Entity> validationRepo;
     
     // Constructors
     public NeutralSchemaValidator() {
@@ -73,7 +73,7 @@ public class NeutralSchemaValidator implements EntityValidator {
         entitySchemaRegistry = schemaRegistry;
     }
     
-    public void setEntityRepository(EntityRepository entityRepo) {
+    public void setEntityRepository(Repository entityRepo) {
         this.validationRepo = entityRepo;
     }
 

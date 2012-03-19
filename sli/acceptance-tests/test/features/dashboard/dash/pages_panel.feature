@@ -21,7 +21,7 @@ And I view its student profile
 And there are "5" Tabs
 And in Tab ID "6", there is "1" Panels
 And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "2" Panels
+And in Tab ID "3", there is "1" Panels
 And in Tab ID "4", there is "1" Panels 
 And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Overview"
@@ -52,7 +52,7 @@ And I view its student profile
 And there are "5" Tabs
 And in Tab ID "6", there is "1" Panels
 And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "2" Panels
+And in Tab ID "3", there is "1" Panels
 And in Tab ID "4", there is "1" Panels 
 And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Overview"

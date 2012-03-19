@@ -120,7 +120,7 @@ public class AssessmentResolver {
                 }
             }
         }
-
+        
         // find the right field value by match dataPointName
         List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         
@@ -135,15 +135,19 @@ public class AssessmentResolver {
         if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)
                 && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
             return findPerfLevelFromDescriptor(perfLevelDescriptors);
-
-            // if performance level not specified in performance level descriptor, then calculate it
-            // based on the scale score
+            
+            // if performance level not specified in performance level descriptor, then return blank
         } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
-            String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
-            String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
-            if (assmtId != null && !assmtId.equals("") && scaleScore != null && !scaleScore.equals("")) {
-                return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);
-            }
+            /*
+             * calculate the performance level if not provided in performance level descriptor
+             * 
+             * String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
+             * String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
+             * if (assmtId != null && !assmtId.equals("") && scaleScore != null &&
+             * !scaleScore.equals("")) {
+             * return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);}
+             */
+            return "";
         }
         return "";
     }
@@ -155,15 +159,17 @@ public class AssessmentResolver {
     public List<Integer> getCutpoints(Field field, Map student) {
         
         // look up the assessment.
-        GenericEntity chosenAssessment = resolveAssessment(field, student);
+        GenericEntity chosenStudentAssessment = resolveAssessment(field, student);
         
-        if (chosenAssessment == null) {
+        if (chosenStudentAssessment == null) {
             return null;
         }
         
         // get the cutpoints
         String dataPointId = field.getValue();
-        String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
+        String assmtId = chosenStudentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
+        GenericEntity assessment = metaDataResolver.getAssmtById(assmtId);
+        String assmtName = assessment.getString(Constants.ATTR_ASSESSMENT_TITLE);
         return metaDataResolver.findCutpointsForFamily(assmtName);
     }
     
@@ -266,7 +272,7 @@ public class AssessmentResolver {
             return strs[2];
         return "";
     }
-
+    
     private boolean hasPerfLevelScoreResults(List<Map> scoreResults) {
         boolean found = false;
         for (Map scoreResult : scoreResults) {

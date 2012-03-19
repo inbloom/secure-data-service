@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Logic used by a widget that displays assessment results color-coded by performance level
- *
+ * 
  * @author dwu
  */
 public class ColorByPerf {
@@ -25,12 +25,12 @@ public class ColorByPerf {
     private static final int MAX_LEVELS = 5;
 
     // mapping of performance level to color index
-    private static int[][] perfToColor = {{0, 0, 0, 0, 0}, // 1 level
-                                          {1, 5, 0, 0, 0}, // 2 levels
-                                          {1, 2, 5, 0, 0}, // 3 levels
-                                          {1, 2, 4, 5, 0}, // 4 levels
-                                          {1, 2, 3, 4, 5}};  // 5 levels
-                                         
+    private static int[][] perfToColor = { { 0, 0, 0, 0, 0 }, // 1 level
+            { 1, 5, 0, 0, 0 }, // 2 levels
+            { 1, 2, 5, 0, 0 }, // 3 levels
+            { 1, 2, 4, 5, 0 }, // 4 levels
+            { 1, 2, 3, 4, 5 } };  // 5 levels
+
     public ColorByPerf(Field field, Map student, AssessmentResolver assmts) {
 
         this.field = field;
@@ -56,13 +56,20 @@ public class ColorByPerf {
 
         // get number of levels and assmt result level
         Integer numLevels = assmts.getMetaData().findNumRealPerfLevelsForFamily(assmtName);
-        if (numLevels == null) { numLevels = 0; }
+        if (numLevels == null) {
+            numLevels = 0;
+        }
 
         GenericEntity assmt = assmts.resolveAssessment(perfField, student);
-        if (assmt == null) { return 0; }
-        
-        int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL, null))));
-        return getColorIndex(level, numLevels);
+        if (assmt == null) {
+            return 0;
+        }
+        try {
+            int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL, null))));
+            return getColorIndex(level, numLevels);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /*
@@ -72,7 +79,7 @@ public class ColorByPerf {
 
         // range check
         if (level <= 0 || level > numLevels || numLevels > MAX_LEVELS) {
-            logger.info("Invalid input to getColorIndex. Perf level " + level + ", numLevels " + numLevels);
+            logger.info("Invalid input to getColorIndex. Perf level {}, numLevels {}", level, numLevels);
             return 0;
         }
 

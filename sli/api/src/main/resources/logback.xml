@@ -7,8 +7,15 @@
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
+  
+  <logger name="org.springframework.security" level="INFO" />
+  <logger name="org.springframework.beans.factory" level="INFO" />
+  <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />
+  
+  <logger name="org.slc.sli.dal.repository" level="INFO" />
+  <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="INFO" />
 
-  <root level="warn">
+  <root level="debug">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

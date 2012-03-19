@@ -95,7 +95,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         SliApi.setBaseUrl(apiUrl);
-        LOG.debug("Client ID is " + clientId + ", clientSecret is " + clientSecret + ", callbackUrl is " + callbackUrl);
+        LOG.debug("Client ID is {}, clientSecret is {}, callbackUrl is {}", new Object[] {clientId, clientSecret, callbackUrl});
         OAuthService service = new ServiceBuilder().provider(SliApi.class).
                 apiKey(clientId).apiSecret(clientSecret).callback(callbackUrl).
                 build();
@@ -103,7 +103,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         HttpSession session = request.getSession();
         Object token = session.getAttribute(OAUTH_TOKEN);
-        LOG.debug("Oauth token in session - " + session.getAttribute(OAUTH_TOKEN) + " and access code - " + request.getParameter("code") + " and request URL is " + request.getRequestURL());
+        LOG.debug("Oauth token in session - {} and access code - {} and request URL is {}", 
+                new Object[] {session.getAttribute(OAUTH_TOKEN), request.getParameter("code"), request.getRequestURL()});
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = service.getAccessToken(null, verifier);
@@ -121,7 +122,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             String authUrl = service.getAuthorizationUrl(null);
             response.sendRedirect(authUrl);
         } else {
-            LOG.debug("Using access token " + token);
+            LOG.debug("Using access token {}", token);
             addAuthentication((String) token);
             response.sendRedirect(request.getRequestURI());
         }
