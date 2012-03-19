@@ -295,6 +295,7 @@ module DataProvider
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
+      "is_admin" => true,
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
