@@ -6,7 +6,7 @@ require_relative '../../utils/selenium_common.rb'
 
 Then /^The user "([^"]*)" who is a "([^"]*)" can now log in to SLI as a "([^"]*)" from my realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   # Login and get a session ID
-  idpRealmLogin(arg1, arg1+"1234", realm)
+  idpRealmLogin(arg1, arg1+"1234", arg4)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
@@ -27,7 +27,7 @@ end
 
 Then /^The user "([^"]*)" who is a "([^"]*)" can not access SLI as a "([^"]*)" from my realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   # Login and get a session ID
-  idpRealmLogin(arg1, arg1+"1234", realm)
+  idpRealmLogin(arg1, arg1+"1234", arg4)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
