@@ -30,6 +30,7 @@ class AppsController < ApplicationController
   # GET /apps/new.json
   def new
     @app = App.new
+    @app.developer_info = App::DeveloperInfo.new
   
     respond_to do |format|
       format.html # new.html.erb
@@ -47,15 +48,29 @@ class AppsController < ApplicationController
   def create
     @app = App.new(params[:app])
     logger.debug {"#{@app.to_s}"}
+    case @app.is_admin
+    when "1"
+      @app.is_admin = true
+    when "0"
+      @app.is_admin = false
+    end
+    
+    case @app.developer_info.license_acceptance
+    when "1"
+      @app.developer_info.license_acceptance = true
+    when "0"
+      @app.developer_info.license_acceptance = false
+    end
+    
     respond_to do |format|
       if @app.save
-        format.html { redirect_to @app, notice: 'App was successfully created.' }
+        format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
-        format.js
+        # format.js
       else
         format.html { render action: "new" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
-        format.js
+        # format.js
       end
     end
   end
