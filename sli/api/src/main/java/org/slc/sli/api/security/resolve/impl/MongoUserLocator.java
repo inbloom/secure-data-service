@@ -47,6 +47,10 @@ public class MongoUserLocator implements UserLocator {
                 break;
             }
         }
+        
+        if (user.getEntity() == null) {
+            LOG.warn("Failed to locate user {} in the datastore", user.getId());
+        }
 
         return user;
     }
