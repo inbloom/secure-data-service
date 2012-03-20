@@ -47,7 +47,7 @@ class AppsController < ApplicationController
   # POST /apps.json
   def create
     @app = App.new(params[:app])
-    logger.debug {"#{@app.to_s}"}
+    logger.debug{"Application is valid? #{@app.valid?}"}
     case @app.is_admin
     when "1"
       @app.is_admin = true
@@ -79,9 +79,22 @@ class AppsController < ApplicationController
   # PUT /apps/1.json
   def update
     @app = App.find(params[:id])
-    puts "App found (Update): #{@app.attributes}"
+    logger.debug {"App found (Update): #{@app.attributes}"}
+    case params[:app][:is_admin]
+    when "1"
+      params[:app][:is_admin] = true
+    when "0"
+      params[:app][:is_admin] = false
+    end
+    
+    case params[:app][:developer_info][:license_acceptance]
+    when "1"
+      params[:app][:developer_info][:license_acceptance] = true
+    when "0"
+      params[:app][:developer_info][:license_acceptance] = false
+    end
     respond_to do |format|
-      if @app.update_attributes(params[:App])
+      if @app.update_attributes(params[:app])
         format.html { redirect_to @app.id, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
