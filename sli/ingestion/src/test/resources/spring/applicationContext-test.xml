@@ -21,7 +21,7 @@
         <!-- create this file with custom settings for your dev environment -->
         <value>classpath:ingestion-dev.properties</value>
 
-        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
+        <value>classpath:/config/${sli.env}/ingestion/test.properties </value>
         
         <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
 
