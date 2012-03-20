@@ -35,7 +35,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -101,7 +101,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -170,7 +170,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -210,7 +210,7 @@
         "schoolFoodServiceEligibility": "Reduced",
         "telephone": [],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -263,7 +263,7 @@
         "schoolFoodServiceEligibility": "Free",
         "telephone": [],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -322,7 +322,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [],
         "id": "429526969",
         "electronicMail": []
@@ -342,7 +342,7 @@
         "schoolFoodServiceEligibility": "Free",
         "telephone": [],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -412,7 +412,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -456,7 +456,7 @@
         "schoolFoodServiceEligibility": "Free",
         "telephone": [],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [],
         "id": "510152105",
         "electronicMail": []
@@ -482,7 +482,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -539,7 +539,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [],
         "id": "437680177",
         "electronicMail": [
@@ -585,7 +585,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -651,7 +651,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -681,7 +681,7 @@
         "schoolFoodServiceEligibility": "Free",
         "telephone": [],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -727,7 +727,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [],
         "id": "178875887",
         "electronicMail": [
@@ -763,7 +763,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -832,7 +832,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -882,7 +882,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -930,7 +930,7 @@
         "schoolFoodServiceEligibility": "Free",
         "telephone": [],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -982,7 +982,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1022,7 +1022,7 @@
         "schoolFoodServiceEligibility": "Reduced",
         "telephone": [],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1092,7 +1092,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1158,7 +1158,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [],
         "id": "423037202",
         "electronicMail": [
@@ -1227,7 +1227,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [],
         "id": "250918988",
         "electronicMail": [
@@ -1266,7 +1266,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1335,7 +1335,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [],
         "id": "111111111",
         "electronicMail": [
@@ -1381,7 +1381,7 @@
             }
         ],
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1433,7 +1433,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "address": [
             {
                 "nameOfCounty": "Cook",
@@ -1504,7 +1504,7 @@
             }
         ],
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "address": [
             {
                 "nameOfCounty": "Cook",
