@@ -4,7 +4,7 @@ As a super-admin I want to be able to create new application keys to allow the o
 Background:
 Given I have an open web browser
 
-@wip
+@foo
 Scenario: SLI Administrator Logging in
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
