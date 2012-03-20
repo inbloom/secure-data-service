@@ -8,7 +8,6 @@ import java.security.cert.Certificate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,10 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
@@ -102,7 +101,11 @@ public class SamlFederationResource {
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
         
-        Entity realm = fetchOne("realm", new Query(Criteria.where("body.idp.id").is(issuer)));
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
+        Entity realm = fetchOne("realm", neutralQuery);
         
         if (realm == null) {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
@@ -142,11 +145,11 @@ public class SamlFederationResource {
         // TODO slo will post something here, what? Need those arguments
     }
     
-    private Entity fetchOne(String collection, Query query) {
-        Iterable<Entity> results = repo.findByQuery(collection, query, 0, 1);
+    private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
+        Iterable<Entity> results = repo.findAll(collection, neutralQuery);
         
         if (!results.iterator().hasNext()) {
-            throw new EntityNotFoundException("Not found");
+            throw new RuntimeException("Not found");
         }
         
         return results.iterator().next();

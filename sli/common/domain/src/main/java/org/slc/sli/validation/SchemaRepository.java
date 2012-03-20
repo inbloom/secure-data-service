@@ -18,5 +18,13 @@ public interface SchemaRepository {
      * @return the actual schema
      */
     public NeutralSchema getSchema(String type);
+    
+    /**
+     * Gets the schema for an underlying field on the given type
+     *
+     * @param type the type for the schema to look up
+     * @param field the potentially nested field whose schema is to be returned
+     */
+    public NeutralSchema getSchema(String type, String field);
 
 }

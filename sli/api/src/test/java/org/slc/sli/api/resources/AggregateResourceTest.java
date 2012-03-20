@@ -1,21 +1,13 @@
 package org.slc.sli.api.resources;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGREGATION;
-import static org.slc.sli.api.resources.util.ResourceConstants.PATH_PARAM_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.QUERY_PARAM_GRADE;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
 
@@ -67,7 +59,9 @@ public class AggregateResourceTest {
 
     @Test
     public void testResourceMethods() throws Exception {
-        UriInfo info = buildMockUriInfo(null);
+        buildMockUriInfo(null);
+        
+        /* TODO: Uncomment once aggregates are re-installed
 
         // test district based aggregates
         // test basic case
@@ -85,27 +79,8 @@ public class AggregateResourceTest {
         Response response3 = aggApi.getSchoolBasedAggregates(info);
         assertNotNull(response3);
         assertEquals(Status.OK.getStatusCode(), response3.getStatus());
-    }
-
-    @Test
-    public void testCombineParams() {
-        Map<String, List<String>> pathParams = new HashMap<String, List<String>>();
-        Map<String, List<String>> queryParams = new HashMap<String, List<String>>();
-
-        List<String> pathValues = new ArrayList<String>();
-        pathValues.add(PATH_VALUE);
-
-        List<String> queryValues = new ArrayList<String>();
-        queryValues.add(QUERY_VALUE);
-
-        pathParams.put(PATH_PARAM_DISTRICT, pathValues);
-        queryParams.put(QUERY_PARAM_GRADE, queryValues);
-
-        Map<String, String> params = aggApi.combineParameters(pathParams, queryParams);
-
-        assertEquals("Should have 2 values", params.size(), 2);
-        assertEquals("Distrct value should match", params.get(PATH_PARAM_DISTRICT), PATH_VALUE);
-        assertEquals("Grade value should match", params.get(QUERY_PARAM_GRADE), QUERY_VALUE);
+        
+        */
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
@@ -132,8 +107,7 @@ public class AggregateResourceTest {
             }
         });
 
-        // when(mock.getRequestUri()).thenReturn(new
-        // UriBuilderImpl().replaceQuery(queryString).build(null));
+        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(null));
         return mock;
     }
 

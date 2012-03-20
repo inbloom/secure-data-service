@@ -91,8 +91,8 @@ public class StudentSectionAssociationTest {
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.find("section", "MT100")).thenReturn(returnEntity);
-        Mockito.when(mockRepository.find("student", "111220001")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("section", "MT100")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("student", "111220001")).thenReturn(returnEntity);
 
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSectionAssociation", validator);
     }

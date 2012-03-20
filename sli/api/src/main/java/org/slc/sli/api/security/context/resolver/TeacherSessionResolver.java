@@ -13,8 +13,9 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.SmartQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -45,27 +46,23 @@ public class TeacherSessionResolver implements EntityContextResolver {
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-
+        
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
-
-        StringBuilder query = new StringBuilder();
-        String separator = "";
-
-        for (String s : sectionIds) {
-            query.append(separator);
-            separator = ",";
-            query.append(s);
+        
+        List<String> ids = new ArrayList<String>();
+        for (String id : sectionIds) {
+            ids.add(id);
         }
-
-        SmartQuery.SmartQueryBuilder queryBuilder = new SmartQuery.SmartQueryBuilder();
-        queryBuilder.addField("_id", query.toString());
-
-        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
 
         Set<String> sessionIds = new HashSet<String>();
 
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        
+        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
+        
         for (Entity e : entities) {
             String sessionId = (String) e.getBody().get("sessionId");
             if (sessionId != null) {
