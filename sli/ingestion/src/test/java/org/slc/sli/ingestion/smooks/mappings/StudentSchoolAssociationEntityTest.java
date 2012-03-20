@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
@@ -37,7 +37,7 @@ public class StudentSchoolAssociationEntityTest {
     private EntityValidator validator;
 
     @Mock
-    private EntityRepository mockRepository;
+    private Repository<Entity> mockRepository;
 
     String xmlTestData = "<InterchangeStudentEnrollment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentEnrollment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentSchoolAssociation>"
@@ -108,8 +108,8 @@ public class StudentSchoolAssociationEntityTest {
         
         // mock repository will simulate "finding" the references
         Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.find("school", "990000001")).thenReturn(returnEntity);
-        Mockito.when(mockRepository.find("student", "900000001")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("school", "990000001")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("student", "900000001")).thenReturn(returnEntity);
         
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
     }

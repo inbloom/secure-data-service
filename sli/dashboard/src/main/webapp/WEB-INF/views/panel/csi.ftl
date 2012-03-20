@@ -1,13 +1,28 @@
 <div class="csi">
 <div id="CSIImage" style="height:100px;width:100px;float:left;">
-<img src="/dashboard/static/images/juggernaut.jpg" WIDTH="100" HEIGHT="100" /></div>
+<img src="/dashboard/static/images/sample_student.png" WIDTH="85" HEIGHT="100" /></div>
+<@includePanelModel panelId="csi"/>
+
 <div id="CSIcontent">
-<b>${student.name.firstName}<#if student.name.middleName != ""> ${student.name.middleName}</#if> ${student.name.lastSurname}</b>
+<b>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
+<#if panelData.name.generationCodeSuffix?? &&   panelData.name.generationCodeSuffix != ""> ${ panelData.name.generationCodeSuffix}</#if>
+<#if panelData.otherName??>
+<#list panelData.otherName as oName>
+<#if oName.otherNameType == "nickname">
+(<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>
+${oName.firstName} 
+<#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>
+${oName.lastSurname}
+<#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
+</#if>
+</#list>
+</#if>
+</b>
  
 <#list programUtil.getProgramCodesForStudent() as program>
-<#if programUtil.hasProgramParticipation(student, program)>
+<#if programUtil.hasProgramParticipation(panelData, program)>
 <#assign lozengeConfig = lozengeConfigs.get(program)>
-<#assign id = "${student.id}.lozenge.${lozengeConfig.getLabel()}">
+<#assign id = getDivId(panelData.id + "-lozenge-" + lozengeConfig.getLabel())>
     <#-- drawing code -->
     <span id="${id}" class="lozenge"></span>
     <script>
@@ -16,15 +31,15 @@
     </script>
 </#if>
 </#list>
-
 <table border="0" width = "90%">
 <col width="50" />
 <col width="550" />
 <col width="70"/>
 <col width="550"/>
 <col width="70"/>
-<tr><td height="1">Grade</td><td><#if student.cohortYears?size != 0>${student.cohortYears[0]} </#if></td> <td>ID</td><td>${student.id}</td><td></td><td></td></tr>
-<tr><td>Class</td><td>${student.sectionId}</td><td>Teacher</td><td>${student.teacherId}</td><td></td><td></td></tr>
+<tr><td height="1">Grade</td><td><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevel}<#else>!</#if></td> <td>ID</td><td>${panelData.studentUniqueStateId}</td><td></td><td></td></tr>
+<tr><td>Class</td><td>${panelData.sectionId}</td><td>Teacher</td><td><#if panelData.teacherName.personalTitlePrefix?? &&  panelData.teacherName.personalTitlePrefix != ""> ${panelData.teacherName.personalTitlePrefix}</#if>
+${panelData.teacherName.firstName} <#if panelData.teacherName.middleName?? &&  panelData.teacherName.middleName != ""> ${panelData.teacherName.middleName}</#if> ${panelData.teacherName.lastSurname}</td><td></td><td></td></tr>
 <tr><td></td><td></td><td /><td /><td /><td></td></tr>
 </table>
 </div>

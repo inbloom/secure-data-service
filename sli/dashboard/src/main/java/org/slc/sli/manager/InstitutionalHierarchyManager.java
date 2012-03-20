@@ -18,17 +18,17 @@ import org.slc.sli.util.Constants;
  * @author syau
  *
  */
-public class InstitutionalHierarchyManager extends Manager {
+public class InstitutionalHierarchyManager extends ApiClientManager {
 
     // resource String
     public static final String DUMMY_EDORG_NAME = "No Ed-Org";
 
     // accessors 
     public List<GenericEntity> getSchools(String token) {
-        return apiClient.getSchools(token, null);
+        return getApiClient().getSchools(token, null);
     }
     public GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
-        return apiClient.getParentEducationalOrganization(token, edOrgOrSchool);
+        return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
     }
 
     /**

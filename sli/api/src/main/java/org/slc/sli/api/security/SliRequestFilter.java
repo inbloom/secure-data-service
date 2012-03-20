@@ -41,7 +41,7 @@ public class SliRequestFilter extends GenericFilterBean {
         String authToken = http.getHeader("Authorization");
         String sessionId = getSessionIdFromRequest(http);
         
-        LOG.debug("Request URL: " + http.getRequestURL() + (http.getQueryString() == null ? "" : http.getQueryString()));
+        LOG.debug("Request URL: {}{}", http.getRequestURL(), (http.getQueryString() == null ? "" : http.getQueryString()));
         
         Authentication auth = resolver.resolve(sessionId);
         if (auth != null) {
@@ -59,7 +59,7 @@ public class SliRequestFilter extends GenericFilterBean {
     private String getSessionIdFromRequest(HttpServletRequest req) {
         
         String sessionId = req.getHeader(HEADER_SESSION_NAME);
-        LOG.debug("Session Id: " + sessionId);
+        LOG.debug("Session Id: {}", sessionId);
         
         return sessionId;
     }

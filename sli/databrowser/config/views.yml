@@ -6,7 +6,13 @@ student:
     - name/firstName
     - name/lastSurname
     - studentUniqueStateId
-    
+
+parent:
+    - id
+    - name/firstName
+    - name/lastSurname
+    - parentUniqueStateId
+
 teacher:
     - id
     - staffUniqueStateId

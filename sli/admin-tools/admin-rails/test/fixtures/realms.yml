@@ -5,8 +5,9 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-    id: 1
-    state: Shared Learning Initiative
+    id: "1"
+    name: Shared Learning Initiative
+    regionId: http://slidev.org
     idp:
       id: http://slidev.org
     realm: "dc=slidev,dc=org"
@@ -14,8 +15,9 @@ one:
 # column: value
 #
 two:
-    id: 2
-    state: Tardis
+    id: "2"
+    name: Tardis
+    regionId: http://timelords.com 
     idp: 
       id: http://timelords.com 
     realm: "dc=timelors,dc=org"

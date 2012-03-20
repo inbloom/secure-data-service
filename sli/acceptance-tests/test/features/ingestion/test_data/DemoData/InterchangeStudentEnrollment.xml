@@ -1,5 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2312321</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2312320</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -846,7 +874,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -874,7 +902,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -888,7 +916,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
@@ -916,7 +944,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -930,7 +958,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -944,7 +972,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -958,7 +986,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -972,7 +1000,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -986,7 +1014,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -1000,7 +1028,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -1014,7 +1042,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -1028,7 +1056,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -1042,7 +1070,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -1056,7 +1084,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -1070,7 +1098,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -1084,7 +1112,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -1098,7 +1126,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -1112,7 +1140,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -1126,7 +1154,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -1140,7 +1168,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -1154,7 +1182,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -1168,7 +1196,7 @@
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
-  	<HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>true</HomeroomIndicator>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -1263,19 +1291,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 144</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
@@ -1743,19 +1758,6 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
@@ -1873,18 +1875,20 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+        <StudentUniqueStateId>288598192</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        <UniqueSectionCode>Sec 145</UniqueSectionCode>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
 
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>111111111</StudentUniqueStateId>
@@ -1898,6 +1902,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>222222222</StudentUniqueStateId>
@@ -1911,6 +1917,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>333333333</StudentUniqueStateId>
@@ -1924,6 +1932,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>444444444</StudentUniqueStateId>
@@ -1937,6 +1947,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>453827070</StudentUniqueStateId>
@@ -1950,6 +1962,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -1963,6 +1977,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>164420088</StudentUniqueStateId>
@@ -1976,6 +1992,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -1989,6 +2007,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
@@ -2002,6 +2022,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -2015,6 +2037,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -2028,6 +2052,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -2041,6 +2067,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -2054,6 +2082,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -2067,6 +2097,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -2080,6 +2112,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -2093,6 +2127,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -2106,6 +2142,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -2119,6 +2157,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -2132,6 +2172,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -2145,6 +2187,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -2158,6 +2202,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -2171,6 +2217,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -2184,6 +2232,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -2197,6 +2247,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -2210,6 +2262,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -2223,6 +2277,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -2236,6 +2292,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -2249,6 +2307,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -2262,9 +2322,11 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>111111111</StudentUniqueStateId>
+        <StudentUniqueStateId>288598192</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -2272,9 +2334,11 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
@@ -2288,6 +2352,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -2301,6 +2367,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -2314,6 +2382,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -2327,6 +2397,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -2340,6 +2412,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -2353,6 +2427,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -2366,6 +2442,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -2379,6 +2457,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -2392,6 +2472,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -2405,19 +2487,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -2431,6 +2502,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -2444,6 +2517,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -2457,6 +2532,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -2470,6 +2547,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -2483,6 +2562,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -2496,6 +2577,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -2509,6 +2592,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -2522,6 +2607,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -2535,6 +2622,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -2548,6 +2637,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -2561,6 +2652,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -2574,6 +2667,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -2587,6 +2682,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -2600,6 +2697,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>170011136</StudentUniqueStateId>
@@ -2613,6 +2712,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>547028299</StudentUniqueStateId>
@@ -2626,6 +2727,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>258392050</StudentUniqueStateId>
@@ -2639,19 +2742,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>178875887</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -2665,6 +2757,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>376191021</StudentUniqueStateId>
@@ -2678,6 +2772,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>336344132</StudentUniqueStateId>
@@ -2691,6 +2787,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>711411586</StudentUniqueStateId>
@@ -2704,6 +2802,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -2717,6 +2817,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -2730,6 +2832,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>851123275</StudentUniqueStateId>
@@ -2743,6 +2847,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -2756,6 +2862,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -2769,6 +2877,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>421216329</StudentUniqueStateId>
@@ -2782,6 +2892,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>746199592</StudentUniqueStateId>
@@ -2795,6 +2907,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>323538529</StudentUniqueStateId>
@@ -2808,6 +2922,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>428250371</StudentUniqueStateId>
@@ -2821,6 +2937,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>114989598</StudentUniqueStateId>
@@ -2834,6 +2952,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>558780133</StudentUniqueStateId>
@@ -2847,6 +2967,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>196038854</StudentUniqueStateId>
@@ -2860,6 +2982,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>992193581</StudentUniqueStateId>
@@ -2873,6 +2997,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>541397175</StudentUniqueStateId>
@@ -2886,6 +3012,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>555685100</StudentUniqueStateId>
@@ -2899,6 +3027,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>453827023</StudentUniqueStateId>
@@ -2912,6 +3042,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>555685177</StudentUniqueStateId>
@@ -2925,6 +3057,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>453827070</StudentUniqueStateId>
@@ -2938,6 +3072,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -2951,6 +3087,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>164420088</StudentUniqueStateId>
@@ -2964,6 +3102,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -2977,6 +3117,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
@@ -2990,6 +3132,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -3003,6 +3147,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>178828452</StudentUniqueStateId>
@@ -3016,6 +3162,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919001</StudentUniqueStateId>
@@ -3029,6 +3177,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919002</StudentUniqueStateId>
@@ -3042,6 +3192,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919003</StudentUniqueStateId>
@@ -3055,6 +3207,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919004</StudentUniqueStateId>
@@ -3068,6 +3222,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919005</StudentUniqueStateId>
@@ -3081,6 +3237,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919006</StudentUniqueStateId>
@@ -3094,6 +3252,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919007</StudentUniqueStateId>
@@ -3107,6 +3267,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919008</StudentUniqueStateId>
@@ -3120,6 +3282,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919009</StudentUniqueStateId>
@@ -3133,6 +3297,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919010</StudentUniqueStateId>
@@ -3146,6 +3312,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919011</StudentUniqueStateId>
@@ -3159,6 +3327,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919012</StudentUniqueStateId>
@@ -3172,6 +3342,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919013</StudentUniqueStateId>
@@ -3185,6 +3357,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919014</StudentUniqueStateId>
@@ -3198,6 +3372,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919015</StudentUniqueStateId>
@@ -3211,6 +3387,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919016</StudentUniqueStateId>
@@ -3224,6 +3402,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919017</StudentUniqueStateId>
@@ -3237,6 +3417,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919018</StudentUniqueStateId>
@@ -3250,6 +3432,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919019</StudentUniqueStateId>
@@ -3263,6 +3447,8 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>91919020</StudentUniqueStateId>
@@ -3275,4 +3461,1254 @@
     </SchoolReference>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
+   <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174708</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174704</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174703</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174702</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174701</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>187780388</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174699</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174698</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174697</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174696</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174695</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174694</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174693</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174692</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation> 
+   
+   
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174689</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSectionAssociation> 
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174708</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+    
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174706</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174705</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174704</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174703</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174702</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174701</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>187780388</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174700</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174699</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174698</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174697</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174696</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174695</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174694</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174693</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174692</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+    
+    
+  <StudentSchoolAssociation>
+    <EntryDate>2012-01-01</EntryDate>
+    <ExitWithdrawDate>2012-01-02</ExitWithdrawDate>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>20174689</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryGradeLevel>First grade</EntryGradeLevel>
+  </StudentSchoolAssociation>  
+    
+  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>510152105</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>802709591</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>false</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>250918988</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>510152105</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>802709591</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>false</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>178875887</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>250918988</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <HomeroomIndicator>true</HomeroomIndicator>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  
 </InterchangeStudentEnrollment>

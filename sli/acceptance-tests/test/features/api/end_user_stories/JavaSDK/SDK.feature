@@ -3,24 +3,23 @@ Feature: Test Authentication, CRUD, optional flag and simple display with SDK
 
 Background: None
 
-	Scenario Outline:  As a educator (teacher) or leader I can acess a filtered list of my students
-    Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
-
-     Given format "application/json"
-	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
+Scenario:  As an application developer, I want to log in as an educator and access a filtered list of my students
+    Given  I am a valid SEA/LEA end user "linda.kim" with password "linda.kim1234"
+    And I am authenticated with the "Illinois Realm" Realm
+    And the role attribute equals "Educator"
+   
+   Given format "application/json"
+	When I navigate to GET "/teachers/<'Linda Kim' ID>"
 	Then I should receive a return code of 200
-		And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
-		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-		And I should receive a link named "self" with URI "/teachers/<'Ms. Jones' ID>"
+		And I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Linda Kim' ID>"
+		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Linda Kim' ID>/targets"
+		And I should receive a link named "self" with URI "/teachers/<'Linda Kim' ID>"
 		
-	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
+	When I navigate to "getSections" with URI "/teacher-section-associations/<'Linda Kim' ID>/targets"
 	Then I should receive a return code of 200
 		And I should receive a collection of 2 section links 
-		And I should find section with uniqueSectionCode is "Section I" 
-		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "L. Kim - 7th Grade English - Sec. 1" 
+		And I should find section with uniqueSectionCode is "L. Kim - 7th Grade English - Sec. 2"  with <'ImportantSection' ID>
 				
 	When I navigate to GET "getStudents" with URI "/student-sections-association/<'ImportantSection' ID>/targets" 
 		And filter by  "sex" = "Female" 
@@ -35,29 +34,24 @@ Background: None
 			And I should find Student with <'Jill Doe' ID>
 			And I should find Student with <'Jenny Deer' ID>
 					     
-Examples:
-| Username        | Password            | AnyDefaultSLIRole  |
-| "educator"      | "educator1234"      | "Educator"         |
-| "leader"        | "leader1234"        | "Leader"           |
 
-
-
-Scenario Outline:  As a IT admin I should be able to CRUD a student and association
-     Given  I am a valid SEA/LEA end user <Username> with password <Password>
+@wip
+Scenario:  As a IT admin I should be able to CRUD a student and association
+     Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And I have a Role attribute returned from the "SEA/LEA IDP"
-    And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And the role attribute equals "IT Administrator"
+    And I am authenticated on "Shared Learning Infrastructure"
 
     Given format "application/json"
-	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
-	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Ms. Jones' ID>"
-		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
-		And I should receive a link named "self" with URI "/teachers/<'Ms. Jones' ID>"
+	When I navigate to GET "/teachers/<'Linda Kim' ID>"
+	Then I should receive a link named "getTeacherSectionAssociations" with URI "/teacher-section-associations/<'Linda Kim' ID>"
+		And I should receive a link named "getSections" with URI "/teacher-section-associations/<'Linda Kim' ID>"/targets"
+		And I should receive a link named "self" with URI "/teachers/<'Linda Kim' ID>"
 		
-	When I navigate to "getSections" with URI "/teacher-section-associations/<'Ms. Jones' ID>/targets"
+	When I navigate to "getSections" with URI "/teacher-section-associations/<'Linda Kim' ID>"/targets"
 	Then I should receive a collection of 2 section links 
-		And I should find section with uniqueSectionCode is "Section I" 
-		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
+		And I should find section with uniqueSectionCode is "L. Kim - 7th Grade English - Sec. 1" 
+		And I should find section with uniqueSectionCode is "L. Kim - 7th Grade English - Sec. 2"  with <'ImportantSection' ID>
 	
 	When I navigate to GET "getStudents" with URI "/student-sections-association/<'ImportantSection' ID>/targets" 
 	Then I should receive a collection of 5 student links
@@ -119,36 +113,26 @@ Scenario Outline:  As a IT admin I should be able to CRUD a student and associat
 	 	And I should find Student with <'Dong Steve' ID>
 	 	And I should find Student with <'Jason Barker' ID> 
      
-Examples:
-| Username        | Password            | AnyDefaultSLIRole  |
-| "administrator" | "administrator1234" | "IT Administrator" |
-
-
-Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
-    Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+@wip
+Scenario:  As a AggregateViewer I should not see personally identifiable information data
+    Given I am a valid SEA/LEA end user "mdorgan" with password "mdorgan1234"
+    And I am authenticated on "Illinois Realm" Realm
     And the role attribute equals "Aggregate Viewer"
-    And I am authenticated on "SLI Realm"
 
-    When I navigate to GET "/teachers/<'Ms. Smith' ID>"
+    When I navigate to GET "/teachers/<'Linda Kim' ID>"
     Then I should receive a return code of 403
         
-    When I navigate to GET "/teacher-section-associations/<'Teacher Ms. Jones and Section Algebra II' ID>/targets"
+    When I navigate to GET "/teacher-section-associations/<'Linda Kim and 7th Grade English - Sec. 1' ID>/targets"
     Then I should receive a return code of 403
 
-    When I navigate to GET "/student-section-associations/<'Algebra II' ID>/targets"
+    When I navigate to GET "/student-section-associations/<'7th Grade English - Sec. 1' ID>/targets"
     Then I should receive a return code of 403
          
     When I navigate to GET "/students/<'Jane Doe' ID>"      
     Then I should receive a return code of 403
     
-    When I navigate to GET "/sections/<'Algebra II' ID>"      
+    When I navigate to GET "/sections/<'7th Grade English - Sec. 1' ID>"      
     Then I should receive a return code of 403
         
     When I navigate to GET "/assessments/<'Grade 2 BOY DIBELS' ID>"
     Then I should receive a return code of 403
-
-Examples:
-| Username         | Password             | AnyDefaultSLIRole  |
-| "aggregator"     | "aggregator1234"     | "AggregateViewer"  |
-     

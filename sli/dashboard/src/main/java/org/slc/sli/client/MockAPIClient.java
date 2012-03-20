@@ -83,8 +83,21 @@ public class MockAPIClient implements APIClient {
      * We aren't going to bother with this for now.
      */
     @Override
-    public List<GenericEntity> getStudentAttendance(String token, String studentId) {
+    public List<GenericEntity> getStudentAttendance(String token, String studentId, String start, String end) {
         return null;
+    }
+
+    @Override
+    public GenericEntity getSession(String token, String sessionId) {
+        GenericEntity session = new GenericEntity();
+        session.put("beginDate", "2010-01-01");
+        session.put("endDate", "2011-12-31");
+        return session;
+    }
+
+    @Override
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        return new ArrayList<GenericEntity>();
     }
 
     @Override
@@ -227,19 +240,26 @@ public class MockAPIClient implements APIClient {
         return null;
     }
     
-    public String getHomeRoomForStudent(String studentId, String token) {
+    /**
+     * In mock data, each student only exists in one section
+     * Retrieves the population hierarchy and returns the section containing the student, populated with minimal data
+     */
+    public GenericEntity getHomeRoomForStudent(String studentId, String token) {
         List<GenericEntity> hierarchy = getSchools(token, null);
-        System.out.println(hierarchy);
+
         for (GenericEntity school : hierarchy) {
-            List<LinkedHashMap> courses = school.getList("courses");
+            List<LinkedHashMap> courses = school.getList(Constants.ATTR_COURSES);
+            
             for (LinkedHashMap course : courses) {
-                System.out.println(course);
-                List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get("sections");
+                List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get(Constants.ATTR_SECTIONS);
+                
                 for (LinkedHashMap section : sections) {
-                    List<String> studentUIDs = (List<String>) section.get("studentUIDs");
+                    List<String> studentUIDs = (List<String>) section.get(Constants.ATTR_STUDENT_UIDS);
                     if (studentUIDs.contains(studentId)) {
-                        System.out.println(section.get("sectionName"));
-                        return (String) section.get("sectionName");
+                        GenericEntity sectionEntity = new GenericEntity();
+                        sectionEntity.put(Constants.ATTR_UNIQUE_SECTION_CODE, section.get(Constants.ATTR_SECTION_NAME));
+                        sectionEntity.put(Constants.ATTR_ID, section.get(Constants.ATTR_SECTION_NAME));
+                        return sectionEntity;
                     }
                 }
             }
@@ -248,8 +268,19 @@ public class MockAPIClient implements APIClient {
         return null;
     }
     
-    public String getTeacherIdForSection(String sectionId, String token) {
-        return token;
+    /**
+     * Returns teacher with only name object, with first, last, middle names, and prefix populated
+     * Token is the username of logged in user, we use it to populate the name
+     */
+    public GenericEntity getTeacherForSection(String sectionId, String token) {
+        GenericEntity name = new GenericEntity();
+        name.put(Constants.ATTR_FIRST_NAME, token);
+        name.put(Constants.ATTR_LAST_SURNAME, "");
+        name.put(Constants.ATTR_MIDDLE_NAME, "");
+        name.put(Constants.ATTR_PERSONAL_TITLE_PREFIX, "Dr");
+        GenericEntity teacher = new GenericEntity();
+        teacher.put(Constants.ATTR_NAME, name);
+        return teacher;
     }
 
     /**
@@ -322,6 +353,11 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
+        return null;
+    }
+    
+    @Override
+    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         return null;
     }
 

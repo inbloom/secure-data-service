@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 
 /**
  * Simple test for RoleInitializer
@@ -18,11 +18,11 @@ import org.slc.sli.domain.EntityRepository;
 public class RoleInitializerTest {
 
     private RoleInitializer roleInitializer;
-    private EntityRepository mockRepo;
+    private Repository<Entity> mockRepo;
 
     @Before
     public void setUp() throws Exception {
-        mockRepo = mock(EntityRepository.class);
+        mockRepo = mock(Repository.class);
         roleInitializer = new RoleInitializer();
         roleInitializer.setRepository(mockRepo);
     }

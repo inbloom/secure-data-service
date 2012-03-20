@@ -27,6 +27,7 @@
     <property name="locations">
       <list>
         <value>classpath:ingestion.properties</value>
+        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
         <!-- create this file with custom settings for your dev environment -->
         <value>classpath:ingestion-dev.properties</value>
       </list>
@@ -54,8 +55,11 @@
             </constructor-arg>
             <constructor-arg index="1">
               <map>
-                <entry key="host" value="${queues.workItem.host}" />
-                <entry key="port" value="${queues.workItem.port}" />
+                <entry key="host" value="${sli.ingestion.queue.workItem.host}" />
+                <entry key="port" value="${sli.ingestion.queue.workItem.port}" />
+                <entry key="ssl-enabled" value="true" />
+                <entry key="key-store-path" value="${sli.ingestion.queue.workItem.keystore}" />
+                <entry key="key-store-password" value="${sli.ingestion.queue.workItem.keystorePassword}" />
               </map>
             </constructor-arg>
           </bean>
@@ -67,19 +71,20 @@
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
+  <import resource="persistence-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
 
-  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges" 
-    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property 
+  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
+    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
     name="showOutBody" value="true" /> <property name="showOutBodyType" value="true" /> </bean> -->
 
   <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor"
     /> -->
 
-  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))" 
+  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
     /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
 
 
@@ -115,9 +120,8 @@
   </bean>
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="sliSmooksFactory">
-      <ref bean="sliSmooksFactory" />
-    </property>
+    <property name="sliSmooksFactory" ref="sliSmooksFactory" />
+    <property name="lzDirectory" value="${landingzone.inbounddir}" />
   </bean>
 
   <bean id="xmlFileHandler" parent="smooksFileHandler">
@@ -149,16 +153,10 @@
     </property>
   </bean>
 
-
-  <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
-    <property name="entityRepository" ref="mongoEntityRepository" />
-    <property name="messageSource" ref="messageSource" />
-  </bean>
-
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="entityPersistHandler">
-      <ref bean="entityPersistHandler" />
-    </property>
+    <property name="entityPersistHandler" ref="entityPersistHandler" />
+    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
+    <property name="persistedCollections" ref="persistedEntities" />
   </bean>
 
 </beans>

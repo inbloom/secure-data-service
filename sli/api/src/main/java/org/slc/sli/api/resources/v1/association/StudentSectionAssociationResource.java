@@ -54,7 +54,7 @@ public class StudentSectionAssociationResource {
     @Autowired
     public StudentSectionAssociationResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
-        LOGGER.debug("New resource handler created" + this);
+        LOGGER.debug("New resource handler created {}", this);
     }
 
     /**

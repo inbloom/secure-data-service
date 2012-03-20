@@ -72,6 +72,7 @@ public class OAuthTokenUtilTest {
         roles.add("FULL_ACCESS");
         principal = new SLIPrincipal();
         principal.setExternalId("demo");
+        principal.setAdminRealm("adminRealm");
         principal.setId("testId");
         principal.setName("demo user");
         principal.setRealm("foo");
@@ -148,7 +149,6 @@ public class OAuthTokenUtilTest {
         OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
         
         assertEquals("checking value", value, refresh.getValue());
-        System.out.println(reconst.getClass());
         assertTrue("Ensuring type", reconst instanceof ExpiringOAuth2RefreshToken);
         assertEquals("checking expiration", expiration, ((ExpiringOAuth2RefreshToken) reconst).getExpiration());
     }
@@ -189,6 +189,7 @@ public class OAuthTokenUtilTest {
         assertEquals(principal.getId(), slip.getId());
         assertEquals(principal.getName(), slip.getName());
         assertEquals(principal.getRealm(), slip.getRealm());
+        assertEquals(principal.getAdminRealm(), slip.getAdminRealm());
         assertTrue(principal.getRoles().containsAll(slip.getRoles()));
         
         assertTrue(reconst.getAuthorities().containsAll(auth.getAuthorities()));

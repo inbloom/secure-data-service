@@ -21,15 +21,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"1233L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"4"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"4"
                         }
         ]
 },
@@ -55,15 +51,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"873L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"2"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"2"
                         }
         ]
 },
@@ -89,15 +81,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
                         }
         ]
 },
@@ -123,15 +111,11 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
-                        {
-                            "assessmentReportingMethod":"Mastery level",
-                            "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
                         }
         ]
 },
@@ -157,15 +141,183 @@
                         {
                             "assessmentReportingMethod":"Other",
                             "result":"500L"
-                        },
+                        }
+                       ],
+        "performanceLevelDescriptors":[
                         {
-                            "assessmentReportingMethod":"Mastery level",
+                            "description":"4"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"SAT",
+        "administrationDate":"2011-07-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "gradeLevelWhenAssessed":"Twelfth grade",
+        "scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"2060"},
+        {"assessmentReportingMethod":"Percentile",
+        "result":"90"}
+        ],
+        "studentObjectiveAssessments":[
+        {"scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"680"},
+        {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Writing"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"680"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Math"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"680"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"85"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Reading"}
+         }
+         ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"At or Above Benchmark"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"SAT",
+        "administrationDate":"2011-06-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"2st Retest",
+        "gradeLevelWhenAssessed":"Twelfth grade",
+        "scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"2060"},
+        {"assessmentReportingMethod":"Percentile",
+        "result":"90"}
+        ],
+        "studentObjectiveAssessments":[
+        {"scoreResults":[
+        {"assessmentReportingMethod":"Scale score",
+        "result":"700"},
+        {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Writing"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"700"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Math"
+         }
+         },
+         {"scoreResults":[
+         {"assessmentReportingMethod":"Scale score",
+         "result":"700"},
+         {"assessmentReportingMethod":"Percentile",
+         "result":"88"}
+         ],
+         "objectiveAssessment":{
+         "identificationCode":"SAT-Reading"}
+         }
+         ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"At or Above Benchmark"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LITERATURE_2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"4"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LITERATURE_2011",
+        "administrationDate":"2011-10-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
                             "result":"3"
                         }
                        ],
         "performanceLevelDescriptors":[
                         {
-                            "description":"At or Above Benchmark"
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LANGUAGE_2011",
+        "administrationDate":"2011-10-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"3"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LANGUAGE_2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"4"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
                         }
         ]
 }

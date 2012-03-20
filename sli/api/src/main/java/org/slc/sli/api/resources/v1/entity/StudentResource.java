@@ -1,5 +1,10 @@
 package org.slc.sli.api.resources.v1.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -51,6 +56,16 @@ public class StudentResource {
      * Interface capable of performing CRUD operations.
      */
     private final CrudEndpoint crudDelegate;
+    
+    /*
+     *Constants for readWithGrade 
+     * 
+     */
+    private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
+    private static final String ENTRY_DATE = "entryDate";
+    private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    private static final String GRADE_LEVEL = "gradeLevel";
+    
 
     @Autowired
     public StudentResource(CrudEndpoint crudDelegate) {
@@ -120,6 +135,93 @@ public class StudentResource {
         return this.crudDelegate.read(ResourceNames.STUDENTS, studentId, headers, uriInfo);
     }
 
+    
+    /**
+     * Get a single $$students$$ entity, with the grade included
+     * Calculates the current grade based on entryDate and exitWithdrawDate in studentSchoolAssociations
+     * Returns student with gradeLevel "Not Available" when information is insufficient, or the code experiences an exception
+     * 
+     * @param studentId
+     *            The Id of the $$students$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single student entity
+     * @throws ParseException 
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_WITH_GRADE)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response readWithGrade(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+
+        // Most recent grade level, not available till found
+        String mostRecentGradeLevel = "Not Available";
+        
+        //Retrieve student entity for student with id = studentId
+        Response studentResponse = read(studentId, headers, uriInfo);
+        
+        if ((studentResponse == null) || !(studentResponse.getEntity() instanceof Map))
+            return studentResponse;
+        Map student = (Map) studentResponse.getEntity();
+        
+        //Retrieve studentSchoolAssociations for student with id = studentId
+        Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
+        
+        if ((studentSchoolAssociationsResponse == null) || !(studentSchoolAssociationsResponse.getEntity() instanceof List)) {
+            student.put(GRADE_LEVEL, mostRecentGradeLevel);
+            return studentResponse;
+        }
+        
+        List<Map> studentSchoolAssociationList = (List<Map>) studentSchoolAssociationsResponse.getEntity();
+        
+        //Variable initialization for date functions
+        Date currentDate = new Date();
+        Date mostRecentEntry = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        //Try catch to stifle unexpected exceptions, and log them.
+        //Returns "Not Available" for gradeLevel, when an exception is caught.
+        try {
+            // Loop through studentSchoolAssociations
+            for (Map studentSchoolAssociation : studentSchoolAssociationList) {
+                
+                // If student has an exitWithdrawDate earlier than today, continue searching for current grade
+                if (studentSchoolAssociation.containsKey(EXIT_WITHDRAW_DATE)) {
+                    Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(EXIT_WITHDRAW_DATE));
+                    if (ssaDate.compareTo(currentDate) <= 0) {
+                        continue;
+                    }
+                }
+    
+                //If student has no exitWithdrawDate, check for the latest entryDate
+                // Mark the entryGradeLevel with the most recent entryDate as the current grade
+                if (studentSchoolAssociation.containsKey(ENTRY_DATE)) {
+                    Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(ENTRY_DATE));
+                    
+                    if (mostRecentEntry == null) {
+                        mostRecentEntry = ssaDate;
+                        mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
+                    } else {
+                        if (ssaDate.compareTo(mostRecentEntry) > 0) {
+                            mostRecentEntry = ssaDate;
+                            mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  " + studentId + " Exception: " + e.getMessage();
+            LOGGER.debug(exceptionMessage);
+            mostRecentGradeLevel = "Not Available";
+        }
+        
+        student.put(GRADE_LEVEL, mostRecentGradeLevel);
+        return studentResponse;
+    }
+    
+    
     /**
      * Delete a $$students$$ entity
      * 
@@ -333,7 +435,8 @@ public class StudentResource {
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
+
     /**
      * $$studentTranscriptAssociations$$ - courses lookup
      * 
@@ -355,4 +458,38 @@ public class StudentResource {
     }
 
 
+    /**
+     * $$studentParentAssociations$$
+     *
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
+    public Response getStudentParentAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                 @Context HttpHeaders headers,
+                                                 @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
+    }
+
+
+    /**
+     * $$studentParentAssociations$$ - parent lookup
+     *
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.PARENTS)
+    public Response getStudentParentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                       @Context HttpHeaders headers,
+                                                       @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, "parentId", ResourceNames.PARENTS, headers, uriInfo);
+    }
 }

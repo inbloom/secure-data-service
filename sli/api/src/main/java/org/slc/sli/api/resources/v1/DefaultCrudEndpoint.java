@@ -7,6 +7,9 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Prototype new api end points and versioning base class
@@ -36,7 +37,7 @@ import java.util.Map;
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
-
+    
     /* Access to entity definitions */
     private EntityDefinitionStore entityDefs;
     
@@ -54,7 +55,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Constructor.
      * 
-     * @param entityDefs access to entity definitions
+     * @param entityDefs
+     *            access to entity definitions
      */
     @Autowired
     public DefaultCrudEndpoint(EntityDefinitionStore entityDefs) {
@@ -64,8 +66,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Constructor.
      * 
-     * @param entityDefs access to entity definitions
-     * @param logger Logger utility to use to output debug, warning, or other messages to the "console"
+     * @param entityDefs
+     *            access to entity definitions
+     * @param logger
+     *            Logger utility to use to output debug, warning, or other messages to the "console"
      */
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final Logger logger) {
         if (entityDefs == null) {
@@ -82,22 +86,23 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Creates a new entity in a specific location or collection.
      * 
      * @param collectionName
-     *      where the entity should be located
-     * @param newEntityBody 
-     *      new map of keys/values for entity
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            where the entity should be located
+     * @param newEntityBody
+     *            new map of keys/values for entity
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return resulting status from request
      */
     @Override
-    public Response create(final String collectionName, final EntityBody newEntityBody, final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response create(final String collectionName, final EntityBody newEntityBody, final HttpHeaders headers,
+            final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, entityDef.getResourceName(), id).toString();
+                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -107,128 +112,122 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Reads one or more entities from a specific location or collection.
      * 
      * @param resourceName
-     *      where the entity should be located
-     * @param key 
-     *      field to be queried against
-     * @param value 
-     *      expected value to be found in the key 
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            where the entity should be located
+     * @param key
+     *            field to be queried against
+     * @param value
+     *            expected value to be found in the key
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return requested information or error status
      */
     @Override
-    public Response read(final String resourceName, final String key, final String value, final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response read(final String resourceName, final String key, final String value, final HttpHeaders headers,
+            final UriInfo uriInfo) {
         // /v1/entity/{id}/associations
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from " + entityDef.getStoredCollectionName() + " where " + key + " = " + value);
-                //get references to query parameters
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                String query = uriInfo.getRequestUri().getQuery();
-                //add additional query key/value pair
-                queryParameters.put(key, value);
-
+                logger.debug("Attempting to read from {} where {} = {}", new Object[] {
+                        entityDef.getStoredCollectionName(), key, value});
+                
                 long totalCount = 0;
                 if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    totalCount = associationDefinition.getService().countAssociationsTo(value, query);
+                    totalCount = associationDefinition.getService().countAssociationsTo(value, new ApiQuery(uriInfo));
                 }
-
-                //a new list to store results
-                List<EntityBody> results = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
-                //list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : entityDef.getService().list(queryParameters)) {
-                    //if links should be included then put them in the entity body
-                    if (shouldIncludeLinks) {
-                        entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, entityBody, uriInfo));
-                    }
-                    //add entity to resulting response
+                NeutralQuery neutralQuery = new ApiQuery(uriInfo);
+                //neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+                List<String> valueList = new ArrayList<String>(Arrays.asList(value.split(",")));
+                neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
+                
+                // a new list to store results
+                List<EntityBody> results = new ArrayList<EntityBody>();
+                
+                // list all entities matching query parameters and iterate over results
+                for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                            entityDefs, entityDef, entityBody, uriInfo));
+                    // add entity to resulting response
                     results.add(entityBody);
                 }
-
+                
+                
                 Response.ResponseBuilder responseBuilder;
                 responseBuilder = Response.ok(results);
                 return addPagingHeaders(responseBuilder, totalCount, uriInfo).build();
                 
-                //turn results into response
-//                return Response.ok(results).build();
+                // turn results into response
+                // return Response.ok(results).build();
             }
         });
     }
     
+    
     /**
-     * Searches "resourceName" for entries where "key" equals "value", then for each result 
-     * uses "idkey" field's value to query "resolutionResourceName" against the ID field. 
+     * Searches "resourceName" for entries where "key" equals "value", then for each result
+     * uses "idkey" field's value to query "resolutionResourceName" against the ID field.
      * 
      * @param resourceName
-     *      where the entity should be located
-     * @param key 
-     *      field to be queried against (when searching resources)
-     * @param value 
-     *      expected value to be found in the key 
-     * @param idKey 
-     *      field in resource that contains the ID to be resolved
-     * @param resolutionResourceName 
-     *      where to query for the entity with the ID taken from the "idKey" field
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            where the entity should be located
+     * @param key
+     *            field to be queried against (when searching resources)
+     * @param value
+     *            expected value to be found in the key
+     * @param idKey
+     *            field in resource that contains the ID to be resolved
+     * @param resolutionResourceName
+     *            where to query for the entity with the ID taken from the "idKey" field
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return requested information or error status
      */
     @Override
-    public Response read(final String resourceName, final String key, final String value, final String idKey, final String resolutionResourceName,
-            final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response read(final String resourceName, final String key, final String value, final String idKey,
+            final String resolutionResourceName, final HttpHeaders headers, final UriInfo uriInfo) {
         // /v1/entity/{id}/associations/entity
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                //look up information on association
+                // look up information on association
                 EntityDefinition endpointEntity = entityDefs.lookupByResourceName(resolutionResourceName);
-                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 String resource1 = entityDef.getStoredCollectionName();
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
-                //write some information to debug
-                logger.debug("Attempting to list from " + resource1 + " where " + key + " = " + value);
+                // write some information to debug
+                logger.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
                 logger.debug("Then for each result, ");
-                logger.debug(" going to read from " + resource2 + " where \"_id\" = " + resource1 + "." + idKey);
-                logger.debug("Final results will " + (shouldIncludeLinks ? "" : "NOT ") + "include links.");
+                logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
+                        resource2, resource1, idKey});
                 
-                //query parameters for association and resolution lookups
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                Map<String, String> associationQueryParameters =
-                       createAssociationQueryParameters(queryParameters, key, value, idKey);
-                
-                //final/resulting information
-                List<EntityBody> finalResults = new ArrayList<EntityBody>();
 
-                StringBuilder ids = new StringBuilder();
-                //for each association
-                for (EntityBody entityBody : entityDef.getService().list(associationQueryParameters)) {
-                    ids.append((String) entityBody.get(idKey));
-                    ids.append(",");
+                NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
+                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value, idKey);
+                
+                // final/resulting information
+                List<EntityBody> finalResults = new ArrayList<EntityBody>();
+                
+                List<String> ids = new ArrayList<String>();
+                // for each association
+                for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
+                    ids.add((String) entityBody.get(idKey));
                 }
                 
-                String entityIds = ids.toString();
-                logger.debug("entityIds = " + entityIds);
-
-                if (entityIds.length() == 0) {
+                if (ids.size() == 0) {
                     return Response.ok(finalResults).build();
                 }
-                entityIds = entityIds.substring(0, entityIds.length() - 1); //remove trailing comma
                 
-                queryParameters.put("_id", entityIds);
-                for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
-                    //if links should be included then put them in the entity body
-                    if (shouldIncludeLinks) {
-                        result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
-                    }
+                endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                    result.put(
+                            ResourceConstants.LINKS,
+                            ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
+                                    entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     finalResults.add(result);
                 }
                 
@@ -241,23 +240,24 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Reads one or more entities from a specific location or collection.
      * 
      * @param resourceName
-     *      where the entity should be located
-     * @param idList 
-     *      a single ID or a comma separated list of IDs
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            where the entity should be located
+     * @param idList
+     *            a single ID or a comma separated list of IDs
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return requested information or error status
      */
     @Override
-    public Response read(final String resourceName, final String idList, final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response read(final String resourceName, final String idList, final HttpHeaders headers,
+            final UriInfo uriInfo) {
         // /v1/entity/{id}
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 int idLength = idList.split(",").length;
-
+                
                 if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Status errorStatus = Status.PRECONDITION_FAILED;
                     String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
@@ -267,30 +267,34 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
                                     errorMessage)).build();
                 }
-
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                queryParameters.put("_id", idList);
-
-                //final/resulting information
+                
+                List<String> ids = new ArrayList<String>();
+                
+                for (String id : idList.split(",")) {
+                    ids.add(id);
+                }
+                
+                NeutralQuery neutralQuery = new ApiQuery(uriInfo);
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                
+                // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
-
+                
                 Iterable<EntityBody> entities;
                 if (idLength == 1) {
-                    entities = Arrays.asList(new EntityBody[]{ entityDef.getService().get(idList, queryParameters) });
+                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
                 } else {
-                    entities = entityDef.getService().list(queryParameters);
+                    entities = entityDef.getService().list(neutralQuery);
                 }
-
+                
                 for (EntityBody result : entities) {
                     if (result != null) {
-                        if (shouldIncludeLinks) {
-                            result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, result, uriInfo));
-                        }
+                        result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                                entityDefs, entityDef, result, uriInfo));
                     }
                     finalResults.add(result);
                 }
-
+                
                 // Return results as an array if multiple IDs were requested (comma separated list),
                 // single entity otherwise
                 if (finalResults.isEmpty()) {
@@ -308,13 +312,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Deletes a given entity from a specific location or collection.
      * 
      * @param resourceName
-     *      where the entity should be located
+     *            where the entity should be located
      * @param id
-     *      ID of object being deleted
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            ID of object being deleted
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return resulting status from request
      */
     @Override
@@ -332,20 +336,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Updates a given entity in a specific location or collection.
      * 
      * @param resourceName
-     *      where the entity should be located
+     *            where the entity should be located
      * @param id
-     *      ID of object being updated
-     * @param newEntityBody 
-     *      new map of keys/values for entity
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            ID of object being updated
+     * @param newEntityBody
+     *            new map of keys/values for entity
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return resulting status from request
      */
     @Override
-    public Response update(final String resourceName, final String id, final EntityBody newEntityBody, final HttpHeaders headers,
-            final UriInfo uriInfo) {
+    public Response update(final String resourceName, final String id, final EntityBody newEntityBody,
+            final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -363,11 +367,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Reads all entities from a specific location or collection.
      * 
      * @param collectionName
-     *      where the entity should be located
-     * @param headers 
-     *      HTTP header information (which includes request headers) 
-     * @param uriInfo 
-     *      URI information including path and query parameters
+     *            where the entity should be located
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return requested information or error status
      */
     @Override
@@ -376,17 +380,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             // v1/entity
             @Override
             public Response run(final EntityDefinition entityDef) {
-                //final/resulting information
+                // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                boolean shouldIncludeLinks = shouldIncludeLinks(headers);
                 
-                //loop for each entity returned by performing a list operation
-
-                for (EntityBody entityBody : entityDef.getService().list(ResourceUtil.convertToMap(uriInfo.getQueryParameters()))) {
-                    //if links should be included then put them in the entity body
-                    if (shouldIncludeLinks) {
-                        entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs, entityDef, entityBody, uriInfo));
-                    }
+                for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
+                    // if links should be included then put them in the entity body
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                            entityDefs, entityDef, entityBody, uriInfo));
                     results.add(entityBody);
                 }
                 
@@ -413,68 +413,30 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     /**
-     * Returns true if the headers contain an "accept" request header with a HypermediaType.VENDOR_SLC_JSON value, false otherwise
+     * Creates a query that looks up an association where key = value and only returns the specified field.
+     * A convenience method for querying for associations when resolving their endpoints.
      * 
-     * @param headers headers from HTTP request
-     * @return true if the headers contain an "accept" request header with a HypermediaType.VENDOR_SLC_JSON value, false otherwise
+     * @param endpointNeutralQuery
+     * @param key
+     * @param value
+     * @param includeField
+     * @return
      */
-    protected boolean shouldIncludeLinks(final HttpHeaders headers) {
-        //get the request headers for ACCEPT
-        List<String> acceptRequestHeaders = headers.getRequestHeader("accept");
-        
-        //confirm request headers were found
-        if (acceptRequestHeaders != null) {
-            //return true if specific media type was listed
-            return (acceptRequestHeaders.contains(HypermediaType.VENDOR_SLC_JSON));
-        }
-        
-        //no request headers for ACCEPT at all? no links then
-        return false;
+    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value, String includeField) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+        neutralQuery.setIncludeFields(includeField);
+        return neutralQuery;
     }
     
-    /**
-     * Creates a new map with they key mapped to the specified value, "includeFields" mapped to the specified includeField, and with "limit" and
-     * "offset" inherited from the supplied resolutionQueryParameters (if those keys exist in that map).
-     * 
-     * @param resolutionQueryParameters query parameters from HTTP request
-     * @param key key portion of key/value pair to add to new map
-     * @param value value portion of key/value pair to add to new map
-     * @param includeField field to be specified as the only field(s) to be returned in the results
-     * @return map containing specified key (and value), "includeFields" (and value), and possibly "limit" and "offset" (with values) 
-     */
-    protected Map<String, String> createAssociationQueryParameters(Map<String, String> resolutionQueryParameters, 
-            String key, String value, String includeField) {
-        //create a new map
-        Map<String, String> associationQueryParameters = new HashMap<String, String>();
-        //put the new query parameter key and value
-        associationQueryParameters.put(key, value);
-        //put that the only field to be returned is/are the specified field(s)
-        associationQueryParameters.put("includeFields", includeField);
-        
-        //inherit "limit", if key existed in original query parameters
-        String limit = resolutionQueryParameters.get("limit");
-        if (limit != null) {
-            associationQueryParameters.put("limit", limit);
-        }
-        
-        //inherit "offset", if key existed in original query parameters
-        String offset = resolutionQueryParameters.get("offset");
-        if (offset != null) {
-            associationQueryParameters.put("offset", offset);
-        }
-        
-        //return map
-        return associationQueryParameters;
-    }
-
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
         MultivaluedMap<String, String> queryParams = info.getQueryParameters(true);
-
-        int offset = Integer.parseInt(queryParams.containsKey(ParameterConstants.OFFSET)
-                ? queryParams.getFirst(ParameterConstants.OFFSET) : ParameterConstants.DEFAULT_OFFSET);
-        int limit = Integer.parseInt(queryParams.containsKey(ParameterConstants.LIMIT)
-                ? queryParams.getFirst(ParameterConstants.LIMIT) : ParameterConstants.DEFAULT_LIMIT);
-
+        
+        int offset = Integer.parseInt(queryParams.containsKey(ParameterConstants.OFFSET) ? queryParams
+                .getFirst(ParameterConstants.OFFSET) : ParameterConstants.DEFAULT_OFFSET);
+        int limit = Integer.parseInt(queryParams.containsKey(ParameterConstants.LIMIT) ? queryParams
+                .getFirst(ParameterConstants.LIMIT) : ParameterConstants.DEFAULT_LIMIT);
+        
         int nextStart = offset + limit;
         if (nextStart < total) {
             String nextLink = info.getRequestUriBuilder().replaceQueryParam(ParameterConstants.OFFSET, nextStart)

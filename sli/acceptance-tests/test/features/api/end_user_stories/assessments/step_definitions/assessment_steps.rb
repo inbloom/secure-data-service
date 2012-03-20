@@ -5,11 +5,13 @@ require_relative '../../../../utils/sli_utils.rb'
 Transform /^<.+>$/ do |arg1|
   id = "cb7a932f-2d44-800c-d574-cdb25a29fc76" if arg1 == "<'ImportantSection' ID>"
   id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7" if arg1 == "<'Grade 2 MOY DIBELS' ID>"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if arg1 == "<'Most recent SAT' ID>"
   id = "2899a720-4196-6112-9874-edde0e2541db" if arg1 == "<'John Doe' ID>"
   id = "9e6d1d73-a488-4311-877a-718b897a17c5" if arg1 == "<'Sean Deer' ID>"
   id = "54c6548e-1196-86ca-ad5c-b8d72496bf78" if arg1 == "<'Suzy Queue' ID>"
   id = "a63ee073-cd6c-9a12-a124-fa6a1b4dfc7c" if arg1 == "<'Mary Line' ID>"
   id = "51dbb0cd-4f25-2d58-b587-5fac7605e4b3" if arg1 == "<'Dong Steve' ID>"
+  id = "60779bc1-873b-6dd3-99f4-066a505d79e4" if arg1 == "<'Current_student' ID>"
   id
 end
 
@@ -27,6 +29,7 @@ end
 Transform /(\/[^"].*\/)<(.+)>$/ do |arg1, arg2|
   id = arg1+"a936f73f-7745-b450-922f-87ad78fd6bd1" if arg2 == "'Ms. Jones' ID"
   id = arg1+"dd916592-7dfe-4e27-a8ac-bec5f4b757b7" if arg2 == "'Grade 2 MOY DIBELS' ID"
+  id = arg1+"dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if arg2 == "'Most recent SAT' ID"
   id = arg1+"e24b24aa-2556-994b-d1ed-6e6f71d1be97" if arg2 == "'Ms. Smith' ID"
   id = arg1+"58c9ef19-c172-4798-8e6e-c73e68ffb5a3" if arg2 == "'Algebra II' ID"
   id = arg1+"12f25c0f-75d7-4e45-8f36-af1bcc342871" if arg2 == "'Teacher Ms. Jones and Section Algebra II' ID"
@@ -34,6 +37,10 @@ Transform /(\/[^"].*\/)<(.+)>$/ do |arg1, arg2|
   id = arg1+"dd9165f2-65fe-4e27-a8ac-bec5f4b757f6" if arg2 == "'Grade 2 BOY DIBELS' ID"
   id = arg1+"eb3b8c35-f582-df23-e406-6947249a19f2" if arg2 == "'Apple Alternative Elementary School' ID"
   id
+end
+
+When /^I examine the filtered and sorted results$/ do
+  step "I navigate to \"link\" with URI \"#{@filterSortPaginationHref}\""
 end
 
 #Given /^I am a valid SEA\/LEA end user <username> with password <password>$/ do
@@ -169,7 +176,7 @@ Then /^I should receive a collection of (\d+) ([\w-]+) link$/ do |arg1, arg2|
     counter=0
     @ids = Array.new
     dataH.each do|link|
-      if link["link"]["rel"]=="self" and link["link"]["href"].include? @collectionType
+      if link["link"]["rel"]=="self" and link["link"]["href"]. =~ /{arg2}/
         counter=counter+1
         @ids.push(link["id"])
       end

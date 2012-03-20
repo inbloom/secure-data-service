@@ -20,9 +20,9 @@ body {
 <body>
 	<div style="color: red;width: 35%;">${errorMsg}</div>
 	<form:form action="/api/oauth/sso" method="GET" commandName="dummy">
-		<input type="hidden" name="RelayState" value="${relayState}" />
+		<input type="hidden" name="redirect_uri" value="${redirect_uri}" />
 		<input type="hidden" name="clientId" value="${clientId}" />
-		<c:if test="${state} != null">
+		<c:if test="${not empty state}">
 		<input type="hidden" name="state" value="${state}" />
 		</c:if>
 		Please choose your State/District:

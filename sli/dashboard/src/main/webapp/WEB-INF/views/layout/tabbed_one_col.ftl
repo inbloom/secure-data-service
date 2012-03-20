@@ -1,7 +1,7 @@
 <html>
 <head>
 <#include "layout_includes.ftl">
-
+<#assign layoutConfig = viewConfigs>
 <script>
     $(document).ready( function() {
         DashboardUtil.makeTabs("#tabs");
@@ -23,37 +23,48 @@
   </div>
     
   <div id="content">
-    
-    <div class="panel">
-       <#include "../panel/csi.ftl">
-    </div>
+    <#-- create header panels -->
+    <#list layout as item>     
+      <#if item.type == "PANEL">
+        <div class="panel">
+          <#include "../panel/" + item.id + ".ftl">
+        </div>
+      </#if>
+    </#list> 
 
-  
     <#-- create tab div -->
     <div id="tabs">
     <ul>
       
     <#-- create individual tabs -->
-    <#list viewConfigs as tab>
-      <li><a href="#tabs-${tab_index}">${tab.name}</a></li>
+     <#list layout as item>
+      <#if item.type == "TAB">
+      <li><a href="#page-${item.id}">${item.name}</a></li>
+      </#if>
     </#list>
       
     </ul>
       
-    <#-- create tab pages -->
-    <#list viewConfigs as tab>
-      <div id="tabs-${tab_index}">
-      
-      <#-- create panels -->
-      <#list tab.getDisplaySet() as panel>
-        
-        <div class="panel">
-          <#include "../panel/" + panel.displayName + ".ftl">
+    <#-- create pages -->
+   <#list layout as item>
+      <#if item.type == "TAB">
+       
+        <div id="page-${item.id}">
+        <#-- create panels -->
+        <#list item.items as panel>
+         <#if panel.type == "PANEL">
+          <div class="panel">
+            <#include "../panel/" + panel.id + ".ftl">
+          </div>
+         </#if>   
+         <#if panel.type == "GRID">
+          <div class="panel">
+            <@includeGrid gridId=panel.id/>
+          </div>
+         </#if>         
+        </#list>
         </div>
-        
-      </#list>
-      
-      </div>
+       </#if>
         
     </#list>
      

@@ -29,7 +29,11 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Creates Spring Authentication object by calling openAM restful API
@@ -41,18 +45,21 @@ import org.slc.sli.domain.enums.Right;
 @Primary
 public class OpenamRestTokenResolver implements SecurityTokenResolver {
 
-    private static final Logger   LOG  = LoggerFactory.getLogger(OpenamRestTokenResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenamRestTokenResolver.class);
 
-    private RestTemplate          rest = new RestTemplate();
+    private RestTemplate rest = new RestTemplate();
 
     @Value("${sli.security.tokenService.url}")
-    private String                tokenServiceUrl;
+    private String tokenServiceUrl;
 
     @Autowired
     private RolesToRightsResolver resolver;
 
     @Autowired
-    private UserLocator           locator;
+    private UserLocator locator;
+
+    @Autowired
+    private Repository<Entity> repo;
 
     /**
      * Populates Authentication object by calling openAM with given token id
@@ -95,14 +102,29 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
     }
 
     private Authentication buildAuthentication(String token, String payload) {
-        final SLIPrincipal principal = locator.locate(tokenServiceUrl, extractValue("uid", payload));
+        final SLIPrincipal principal = locator.locate("SLI", extractValue("uid", payload));
         principal.setName(extractValue("cn", payload));
         principal.setRoles(extractRoles(payload));
+        
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("regionId", "=", "SLI"));
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        
+        Iterable<Entity> realms = repo.findAll("realm", neutralQuery);
+        
+        String idp = null;
+        for (Entity firstRealm : realms) {
+            idp = firstRealm.getEntityId();
+            break;
+        }
+
+        final String realmId = idp;
 
         Set<GrantedAuthority> grantedAuthorities = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {
             @Override
             public Set<GrantedAuthority> execute() {
-                return resolver.resolveRoles(principal.getRealm(), principal.getRoles());
+                return resolver.resolveRoles(realmId, principal.getRoles());
             }
         });
 
@@ -129,6 +151,7 @@ public class OpenamRestTokenResolver implements SecurityTokenResolver {
      *            OpenAM user attributes.
      * @return String containing realm information.
      */
+    @SuppressWarnings("unused")
     private String extractRealm(String payload) {
         String value = extractValue("dn", payload);
         String myRealm = "";

@@ -9,6 +9,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.QueryParseException;
+
+
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -20,10 +23,12 @@ import org.slc.sli.validation.schema.NeutralSchema;
 /**
  * Default implementation of the QueryConverter interface
  * 
+ * Use NeutralQuery or ApiQuery instead.
+ * 
  * @author dong liu <dliu@wgen.net>
  * 
  */
-
+@Deprecated
 @Component
 public class BasicQueryConverter implements QueryConverter {
     
@@ -254,7 +259,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             return null;
         default: {
-            throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
+            throw new QueryParseException("Unknown Schema Type: " + schema.getSchemaType(), field);
         }
         }
     }

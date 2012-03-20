@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidator;
@@ -40,7 +40,7 @@ public class LocalEducationAgencyTest {
     private EntityValidator validator;
 
     @Mock
-    private EntityRepository mockRepository;
+    private Repository<Entity> mockRepository;
 
     private static final String EDFI_XML = "<InterchangeEducationOrganization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<LocalEducationAgency>"
@@ -104,7 +104,7 @@ public class LocalEducationAgencyTest {
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.find("educationOrganization", "SEA123")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("educationOrganization", "SEA123")).thenReturn(returnEntity);
 
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "educationOrganization", validator);
     }

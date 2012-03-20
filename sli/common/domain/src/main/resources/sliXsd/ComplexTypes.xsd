@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified" attributeFormDefault="qualified"
 	xmlns:sli="http://slc-sli/ed-org/0.1">
 
 	<xs:include schemaLocation="SimpleTypes.xsd" />
+
+	<!-- This file contains the complex types for the SLI database schema representation. -->
 
 	<xs:complexType name="complexObjectType" abstract="true">
 	</xs:complexType>
@@ -147,6 +149,41 @@
 				<xs:annotation>
 					<xs:documentation>The maximum score to make the indicated level of
 						performance.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="learningStyles">
+		<xs:annotation>
+			<xs:documentation>The student's relative preference to visual,
+				auditory and tactile
+				learning expressed as percentages.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="visualLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						visual learning.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="auditoryLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						auditory learning.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tactileLearning" type="percent">
+				<xs:annotation>
+					<xs:documentation>The student's relative preference expressed as a
+						percent to
+						kinesthetic or tactile learning.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -662,6 +699,62 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="postSecondaryEvent">
+		<xs:annotation>
+			<xs:documentation>
+				This entity captures significant postsecondary
+				events during a student's high school tenure (e.g.,
+				FASFSA
+				application, or college application, acceptance, and enrollment).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="eventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The date the event occurred or was recorded.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="postSecondaryEventCategory" type="postSecondaryEventCategoryType">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary event that is logged (e.g.,
+								FAFSA application, college
+								application, college acceptance).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nameOfInstitution" type="nameOfInstitution"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The postsecondary institution associated with
+								the event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="institutionId" type="institutionId"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ID of the postsecondary institution.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="studentId" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The student associated with the postsecondary
+								event.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="restraintEvent">
 		<xs:annotation>
 			<xs:documentation>This event entity represents the instances where a
@@ -807,7 +900,8 @@
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and
 				record-keeping
-				purposes by schools, social services, or other agencies to refer to staff
+				purposes by schools, social services, or other
+				agencies to refer to staff
 				member.
 			</xs:documentation>
 		</xs:annotation>
@@ -816,7 +910,8 @@
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a staff
-						member by a school, school system, a state, or other agency or entity.
+						member by a school, school system, a state, or other agency
+						or entity.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -824,7 +919,8 @@
 				<xs:annotation>
 					<xs:documentation>A coding scheme that is used for identification
 						and record-keeping
-						purposes by schools, social services, or other agencies to refer to a
+						purposes by schools, social services, or other
+						agencies to refer to a
 						staff
 						member.
 					</xs:documentation>
@@ -841,35 +937,44 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
+
 	<xs:complexType name="serviceDescriptor">
 		<xs:annotation>
 			<xs:documentation>
-				This descriptor defines the services provided an education organization to populations of students
-				associated with a program.
+				This descriptor defines the services provided an
+				education organization to populations of students
+				associated with a
+				program.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="codeValue" type="codeValue">
 				<xs:annotation>
 					<xs:documentation>
-						A code or abbreviation that is used to refer to the service.
+						A code or abbreviation that is used to refer to
+						the service.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="shortDescription" type="shortDescription">
 				<xs:annotation>
-					<xs:documentation>A shortened description for the service.</xs:documentation>
+					<xs:documentation>A shortened description for the service.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="description" type="description" minOccurs="0">
+			<xs:element name="description" type="description"
+				minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The description of the service.</xs:documentation>
+					<xs:documentation>The description of the service.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="serviceCategory" type="serviceCategory" minOccurs="0">
+			<xs:element name="serviceCategory" type="serviceCategory"
+				minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
+					<xs:documentation>A classification of the behavior for reporting
+						types.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -879,22 +984,32 @@
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual who performs
 				specified activities
-				for any public or private education institution or agency that provides
-				instructional and/or support services to students or staff at the
+				for any public or private education institution
+				or agency that provides
+				instructional and/or support services to
+				students or staff at the
 				early childhood
-				level through high school completion. For example, this includes: 1) an
+				level through high school
+				completion. For example, this includes: 1) an
 				"employee"
-				who performs services under the direction of the employing institution
-				or agency, is
-				compensated for such services by the employer, and is eligible for employee
-				benefits
-				and wage or salary tax withholdings; 2) a "contractor" or "consultant"
 				who performs
-				services for an agreed upon fee, or an employee of a management service
+				services under the direction of the employing institution
+				or agency,
+				is
+				compensated for such services by the employer, and is eligible for
+				employee
+				benefits
+				and wage or salary tax withholdings; 2) a
+				"contractor" or "consultant"
+				who performs
+				services for an agreed upon
+				fee, or an employee of a management service
 				contracted
-				to work on site; 3) a "volunteer" who performs services on a voluntary
+				to work on
+				site; 3) a "volunteer" who performs services on a voluntary
 				and
-				uncompensated basis; 4) an in kind service provider; or 5) an independent
+				uncompensated basis; 4) an in kind service provider; or 5) an
+				independent
 				contractor
 				or businessperson working at a school site.
 			</xs:documentation>
@@ -915,7 +1030,8 @@
 						<xs:annotation>
 							<xs:documentation>A unique number or alphanumeric code assigned
 								to a
-								staff member by a school, school system, a state, or other agency or
+								staff member by a school, school system, a state, or other
+								agency or
 								entity.
 							</xs:documentation>
 						</xs:annotation>
@@ -970,7 +1086,8 @@
 						<xs:annotation>
 							<xs:documentation>The numbers, letters, and symbols used to
 								identify an
-								electronic mail (e-mail) user within the network to which the
+								electronic mail (e-mail) user within the network to
+								which the
 								individual or organization belongs.
 							</xs:documentation>
 						</xs:annotation>
@@ -980,10 +1097,13 @@
 						<xs:annotation>
 							<xs:documentation>An indication that the individual traces his or
 								her
-								origin or descent to Mexico, Puerto Rico, Cuba, Central and South
-								America, and other Spanish cultures, regardless of race. The
+								origin or descent to Mexico, Puerto Rico, Cuba, Central and
+								South
+								America, and other Spanish cultures, regardless of race.
+								The
 								term,
-								"Spanish origin," can be used in addition to "Hispanic or Latino."
+								"Spanish origin," can be used in addition to "Hispanic
+								or Latino."
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -993,18 +1113,21 @@
 							<xs:documentation>Previous definition of Ethnicity combining
 								Hispanic/Latino and race: 1 - American Indian or Alaskan Native
 								2 -
-								Asian or Pacific Islander 3 - Black, not of Hispanic origin 4 -
+								Asian or Pacific Islander 3 - Black, not of Hispanic origin 4
+								-
 								Hispanic 5 - White, not of Hispanic origin
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="race" type="raceItemType" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="race" type="raceItemType" minOccurs="0"
+						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The general racial category which most clearly
 								reflects the individual's recognition of his or her community or
 								with which the individual most identifies. The way this data
 								element
-								is listed, it must allow for multiple entries so that each
+								is listed, it must allow for multiple entries so that
+								each
 								individual can specify all appropriate races.
 							</xs:documentation>
 						</xs:annotation>
@@ -1024,7 +1147,8 @@
 						<xs:annotation>
 							<xs:documentation>The total number of years that an individual
 								has
-								previously held a similar professional position in one or more
+								previously held a similar professional position in one or
+								more
 								education institutions.
 							</xs:documentation>
 						</xs:annotation>
@@ -1060,12 +1184,13 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="staffEducationOrganizationAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates the education
 				organization to which a staff
-				member provides services. Also known as school of service.
+				member provides services. Also known as
+				school of service.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -1073,9 +1198,9 @@
 				<xs:annotation>
 					<xs:documentation>The staff assigned to the education organization.
 					</xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>staff</sli:ReferenceType>
-                        </xs:appinfo>
+					<xs:appinfo>
+						<sli:ReferenceType>staff</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="educationOrganizationReference" type="reference">
@@ -1084,9 +1209,9 @@
 						memeber
 						provides services
 					</xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                        </xs:appinfo>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="staffClassification" type="staffClassificationType">
@@ -1108,7 +1233,8 @@
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the start or effective
 						date of a staff
-						member's employment, contract or relationship with the LEA.
+						member's employment, contract or relationship with
+						the LEA.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -1116,77 +1242,39 @@
 				<xs:annotation>
 					<xs:documentation>Month, day and year of the end or termination
 						date of a staff
-						member's employment, contract or relationship with the LEA.
+						member's employment, contract or relationship with
+						the LEA.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
- 	<!--xs:complexType name="staffEducationOrgEmploymentAssociation">
-		<xs:annotation>
-			<xs:documentation>This association indicates the education
-				organization an employee,
-				contractor, volunteer or other service provider is formally associated with,
-				typically indicated by which organization the staff member has a
-				services contract
-				with or receives their compensation.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="staffReference" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>The staff employed by the education organization.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="educationOrganizationReference" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>The Education Organization with which the staff
-						is employed.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="employmentStatus" type="employmentStatusType">
-				<xs:annotation>
-					<xs:documentation>Reflects the type of employment or contract; for
-						example:
-						Probationary Contractual Substitute/temporary Tenured or permanent
-						Volunteer/no contract ...
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="employmentPeriod" type="employmentPeriod">
-				<xs:annotation>
-					<xs:documentation>The set of elements defining and characterizing a
-						person's
-						period of employment including start and end dates and the type and
-						reason
-						for separation.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="department" type="department" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The department or suborganization the
-						employee/contractor is
-						associated with in the Education Organization.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="fullTimeEquivalency" type="percent"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The ratio between the hours of work expected in a
-						position and
-						the hours of work normally expected in a full-time position in the
-						same
-						setting.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType-->
+
+	<!--xs:complexType name="staffEducationOrgEmploymentAssociation"> <xs:annotation> 
+		<xs:documentation>This association indicates the education organization an 
+		employee, contractor, volunteer or other service provider is formally associated 
+		with, typically indicated by which organization the staff member has a services 
+		contract with or receives their compensation. </xs:documentation> </xs:annotation> 
+		<xs:sequence> <xs:element name="staffReference" type="xs:string"> <xs:annotation> 
+		<xs:documentation>The staff employed by the education organization. </xs:documentation> 
+		</xs:annotation> </xs:element> <xs:element name="educationOrganizationReference" 
+		type="xs:string"> <xs:annotation> <xs:documentation>The Education Organization 
+		with which the staff is employed. </xs:documentation> </xs:annotation> </xs:element> 
+		<xs:element name="employmentStatus" type="employmentStatusType"> <xs:annotation> 
+		<xs:documentation>Reflects the type of employment or contract; for example: 
+		Probationary Contractual Substitute/temporary Tenured or permanent Volunteer/no 
+		contract ... </xs:documentation> </xs:annotation> </xs:element> <xs:element 
+		name="employmentPeriod" type="employmentPeriod"> <xs:annotation> <xs:documentation>The 
+		set of elements defining and characterizing a person's period of employment 
+		including start and end dates and the type and reason for separation. </xs:documentation> 
+		</xs:annotation> </xs:element> <xs:element name="department" type="department" 
+		minOccurs="0"> <xs:annotation> <xs:documentation>The department or suborganization 
+		the employee/contractor is associated with in the Education Organization. 
+		</xs:documentation> </xs:annotation> </xs:element> <xs:element name="fullTimeEquivalency" 
+		type="percent" minOccurs="0"> <xs:annotation> <xs:documentation>The ratio 
+		between the hours of work expected in a position and the hours of work normally 
+		expected in a full-time position in the same setting. </xs:documentation> 
+		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType -->
 
 	<xs:complexType name="studentAcademicRecord">
 		<xs:annotation>
@@ -1375,64 +1463,141 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="studentGradebookEntry">
+	<xs:complexType name="studentCharacteristic">
 		<xs:annotation>
-			<xs:documentation>This entity holds a student’s grade or competency
-				level for a GradeBookEntry.
+			<xs:documentation>Reflects important characteristics of the student's
+				home situation:
+				Displaced Homemaker, Homeless, Immigrant, Migratory,
+				Military Parent,
+				Pregnant Teen,
+				Single Parent, Unaccompanied Youth
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="complexObjectType">
-				<xs:sequence>
-					<xs:element name="gradebookEntryReference" type="xs:string">
-						<xs:annotation>
-							<xs:documentation>The GradebookEntry for which the performance is
-								recorded.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="dateFulfilled" type="xs:date"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The date an assignment was turned in or the
-								date of an assessment.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="letterGradeEarned" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A final or interim (grading period) indicator
-								of student performance in a class as submitted by the
-								instructor.
-							</xs:documentation>
-						</xs:annotation>
-						<xs:simpleType>
-							<xs:restriction base="gradeEarned">
-								<xs:maxLength value="20" />
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="numericGradeEarned" type="xs:integer"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A final or interim (grading period) indicator
-								of student performance in a class as submitted by the
-								instructor.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="diagnosticStatement" type="text"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A statement provided by the teacher that
-								provides information in addition to the grade or assessment
-								score.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+		<xs:sequence>
+			<xs:element name="characteristic" type="studentCharacteristicType">
+				<xs:annotation>
+					<xs:documentation>The characteristic designated for the student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the characteristic was designated.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the characteristic was removed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						characteristic.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="studentIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A coding scheme that is used for identification and
+				record-keeping
+				purposes by schools, social services, or other
+				agencies to refer to a
+				student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identificationCode" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						a student by
+						a school, school system, a state, or other agency or
+						entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identificationSystem" type="studentIdentificationSystemType">
+				<xs:annotation>
+					<xs:documentation>A coding scheme that is used for identification
+						and record-keeping
+						purposes by schools, social services, or other
+						agencies to refer to a
+						student.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="assigningOrganizationCode" type="identificationCode"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The organization code or name assigning the
+						student Identification
+						Code.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+
+	</xs:complexType>
+
+	<xs:complexType name="studentIndicator">
+		<xs:annotation>
+			<xs:documentation>An indicator or metric computed for the student
+				(e.g., at risk) to
+				influence more effective education or direct
+				specific interventions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="indicatorGroup" type="indicatorName"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name for a group of indicators.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indicatorName" type="indicatorName">
+				<xs:annotation>
+					<xs:documentation>The name of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="indicator" type="indicator">
+				<xs:annotation>
+					<xs:documentation>The value of the indicator or metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date when the indicator was assigned or
+						computed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the indicator or metric was sunset or
+						removed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						program association.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="studentObjectiveAssessment">
@@ -1505,6 +1670,43 @@
 					<xs:documentation>An indication that the telephone number should be
 						used as the
 						principal number for an individual or organization.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="disability">
+		<xs:annotation>
+			<xs:documentation>This type represents an impairment of body
+				structure or function, a
+				limitation in activities, or a restriction
+				in participation, as ordered by
+				severity
+				of impairment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="disability" type="disabilityType">
+				<xs:annotation>
+					<xs:documentation>A disability category that describes a child's
+						impairment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="disabilityDiagnosis" type="disabilityDiagnosis"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A description of the disability diagnosis.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="orderOfDisability" type="xs:int"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The order by severity of student's disabilities:
+						1- Primary, 2
+						- Secondary, 3 - Tertiary, etc.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -1625,6 +1827,200 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="educationOrganization">
+		<xs:annotation>
+			<xs:documentation>This entity represents any public or private
+				institution,
+				organization, or agency that provides instructional or
+				support services to
+				students
+				or staff at any level.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="stateOrganizationId" type="identificationCode">
+						<xs:annotation>
+							<xs:documentation>The identifier assigned to an education
+								organization
+								by the State Education Agency (SEA).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned
+								to an
+								education organization by a school, school system, a state,
+								or other
+								agency or entity.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="nameOfInstitution" type="nameOfInstitution">
+						<xs:annotation>
+							<xs:documentation>The full, legally accepted name of the
+								institution.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortNameOfInstitution" type="nameOfInstitution"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A short name for the institution.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="organizationCategories" type="educationOrganizationCategoryType"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The classification of the education agency
+								within the
+								geographic boundaries of a state according to the
+								level of
+								administrative and operational control granted by the
+								state.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="address" type="address" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The set of elements that describes the physical
+								location of the education entity, including the street address,
+								city, state, ZIP code, and ZIP code + 4.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="telephone" type="institutionTelephone"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The 10-digit telephone number, including the
+								area
+								code, for the education entity.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="webSite" type="webSite" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The public web site address (URL) for the
+								educational
+								organization.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="operationalStatus" type="operationalStatusType"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The current operational status of the education
+								organization (e.g., active, inactive).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="accountabilityRatings" type="accountabilityRating"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The accountability ratings assessed for the
+								education
+								organization.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="programReference" type="xs:string"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The programs offered at the education
+								organization.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="agencyHierarchyName" type="xs:string"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An optional hierarchical name for the Ed Org
+								using '.' separators.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="parentEducationAgencyReference" type="reference"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the parent Education Organization
+								in a hierarchy.
+							</xs:documentation>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="educationOrgIdentificationCode">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code that is
+				assigned to an education
+				organization by a school, school system, a
+				state, or other agency or entity.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code that is
+						assigned to an
+						education organization by a school, school system, a
+						state, or other agency
+						or entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identificationSystem" type="educationOrgIdentificationSystemType">
+				<xs:annotation>
+					<xs:documentation>The school system, state, or agency assigning the
+						identification
+						code.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="educationalOrgIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be
+				used to lookup the
+				identity of educational organizations, especially
+				ESCs, LEAs (districts),
+				and
+				schools.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="stateOrganizationId" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>The identifier assigned to an education agency by
+						the State
+						Education Agency (SEA). Also known as the State LEA ID.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned to
+						an education
+						organization by a school, school system, a state, or
+						other agency or entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="electronicMail">
@@ -2086,12 +2482,82 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="creditsByCourse">
+		<xs:annotation>
+			<xs:documentation>The total credits required to graduation by taking
+				a specific course,
+				or by taking one or more from a set of courses.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="courseCode" type="courseCode" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The code that identifies the organization of
+						subject matter
+						and related learning experiences provided for the
+						instruction of
+						students.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="credits" type="credits">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the
+						completion of a course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gradeLevel" type="gradeLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The grade level when the student is planned to
+						take the
+						course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="creditsBySubject">
+		<xs:annotation>
+			<xs:documentation>The total credits required in subject to graduate.
+				Only those courses
+				identified as a high school course requirement are
+				eligible to meet subject
+				credit
+				requirements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subjectArea" type="academicSubjectType">
+				<xs:annotation>
+					<xs:documentation>The intended major subject area of the graduation
+						requirement.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="credits" type="credits">
+				<xs:annotation>
+					<xs:documentation>The value of credits or units of value awarded
+						for the
+						completion of a course.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="diploma">
 		<xs:annotation>
-			<xs:documentation>This educational entity represents the conferring
-				or certification by an educational organization that the student has
+			<xs:documentation>
+				This educational entity represents the conferring
+				or certification by an educational organization that
+				the student has
 				successfully completed a particular course of study. It represents
-				the electronic version of its physical document counterpart.
+				the electronic
+				version of its physical document counterpart.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2099,16 +2565,20 @@
 				<xs:sequence>
 					<xs:element name="diplomaAwardDate" type="xs:date">
 						<xs:annotation>
-							<xs:documentation>The month, day, and year on which the student
-								met graduation requirements and was awarded a diploma.
+							<xs:documentation>
+								The month, day, and year on which the student
+								met graduation requirements and was
+								awarded a diploma.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="diplomaLevel" type="diplomaLevelType"
 						minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The level of diploma/credential that is awarded
-								to a student in recognition of his/her completion of the
+							<xs:documentation>
+								The level of diploma/credential that is awarded
+								to a student in recognition of
+								his/her completion of the
 								curricular requirements.
 								Minimum high school program
 								Recommended
@@ -2119,35 +2589,41 @@
 					</xs:element>
 					<xs:element name="diplomaType" type="diplomaType">
 						<xs:annotation>
-							<xs:documentation>The type of diploma/credential that is awarded
-								to a student in recognition of his/her completion of the
+							<xs:documentation>
+								The type of diploma/credential that is awarded
+								to a student in recognition of
+								his/her completion of the
 								curricular requirements.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="cteCompleter" type="xs:boolean"
+					<xs:element name="CTECompleter" type="xs:boolean"
 						minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Indicated a student who reached a state–defined
-								threshold of vocational education and who attained a high school
+							<xs:documentation>
+								Indicated a student who reached a state–defined
+								threshold of vocational education
+								and who attained a high school
 								diploma or its recognized state equivalent or GED.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="academicHonor" type="academicHonor"
+					<xs:element name="academicHonors" type="academicHonor"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Academic distinctions earned by or awarded to
+							<xs:documentation>
+								Academic distinctions earned by or awarded to
 								the student.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="recognition" type="recognition"
+					<xs:element name="recognitions" type="recognition"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Recognitions given to the student for
-								accomplishments in a co-curricular, or extra-curricular
-								activity.
+							<xs:documentation>
+								Recognitions given to the student for
+								accomplishments in a co-curricular, or
+								extra-curricular activity.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -2258,6 +2734,42 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="feederSchoolType">
+		<xs:annotation>
+			<xs:documentation>The feeder school relationship between two schools.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="beginDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year of the first day of the
+						feeder school
+						association.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year of the last day of the
+						feeder school
+						association.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="feederRelationshipDescription" type="description"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the relationship from the feeder school
+						to the
+						receiving school, for example by program emphasis, such as
+						special
+						education, language immersion, science or performing art.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="gradingPeriod">
 		<xs:annotation>
 			<xs:documentation>
@@ -2308,6 +2820,106 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="graduationPlan">
+		<xs:annotation>
+			<xs:documentation>This entity is a plan outlining the required
+				credits, credits by
+				subject, credits by course, and other criteria
+				required for graduation. A
+				graduation
+				plan may be one or more standard
+				plans defined by an education
+				organization and/or
+				individual plans for
+				some or all students.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="GraduationPlanType">
+						<xs:annotation>
+							<xs:documentation>The type of academic plan the student is
+								following for
+								graduation: for example, Minimum, Recommended,
+								Distinguished, or
+								Standard.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="graduationPlanType" />
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="individualPlan" type="xs:boolean"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An indicator of whether the graduation plan is
+								tailored for an individual.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="totalCreditsRequired" type="credits">
+						<xs:annotation>
+							<xs:documentation>The total number of credits required for
+								graduation
+								under this plan.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="creditsBySubject" type="creditsBySubject"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The total credits required in subject to
+								graduate.
+								Only those courses identified as a high school course
+								requirement
+								are eligible to meet subject credit requirements.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="creditsByCourse" type="creditsByCourse"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The total credits required to graduation by
+								taking a
+								specific course, or by taking one or more from a set of
+								courses.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="institutionTelephone">
+		<xs:annotation>
+			<xs:documentation>The 10-digit telephone number, including the area
+				code, for the
+				organization
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="telephoneNumber" type="telephoneNumber">
+				<xs:annotation>
+					<xs:documentation>The telephone number including the area code, and
+						extension,
+						if applicable.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="institutionTelephoneNumberType" type="institutionTelephoneNumberType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of communication number listed for an
+						individual or
+						organization.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="learningObjective">
@@ -2447,6 +3059,29 @@
 				<xs:annotation>
 					<xs:documentation>The name of the content standard from which the
 						learning standard was derived.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cohortYear">
+		<xs:annotation>
+			<xs:documentation>The type and year of a cohort (e.g., 9th grade) the
+				student belongs
+				to.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="schoolYear" type="schoolYearType">
+				<xs:annotation>
+					<xs:documentation>The value of the school year for the cohort.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cohortYearType" type="cohortYearType">
+				<xs:annotation>
+					<xs:documentation>The type of cohort year (9th grade, graduation)
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -2631,6 +3266,67 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="birthData">
+		<xs:annotation>
+			<xs:documentation>The set of elements that capture relevant data
+				regarding a person's
+				birth, including birth date and place of birth.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="birthDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The month, day, and year on which an individual
+						was born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cityOfBirth" type="city" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The city the student was born in.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stateOfBirthAbbreviation" type="stateAbbreviationType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The abbreviation for the name of the state
+						(within the United
+						States) or extra-state jurisdiction in which an
+						individual was born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="countryOfBirthCode" type="countryCodeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique two digit International Organization
+						for
+						Standardization (ISO) code for the country in which an
+						individual is born.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateEnteredUS" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>For students born outside of the US, the date the
+						student
+						entered the US.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="multipleBirthStatus" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether the student was born with
+						other siblings
+						(i.e., twins, triplets, etc.)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="calendarDate">
 		<xs:annotation>
 			<xs:documentation>This entity represents a day in the school
@@ -2707,6 +3403,47 @@
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Date class ranking was determined.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="programParticipation">
+		<xs:annotation>
+			<xs:documentation>Programs the student is participating in or
+				receiving services.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="program" type="programType">
+				<xs:annotation>
+					<xs:documentation>The program the student is associated with or
+						receiving
+						services from.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="beginDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the student was associated with the
+						program or
+						service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="endDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the program participation ended.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="designatedBy" type="designatedBy"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person, organization, or department that
+						designated the
+						program association.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>

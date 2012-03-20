@@ -3,12 +3,16 @@ package org.slc.sli.ingestion.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.EntityQuery;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+
+
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Mock entity repository for testing purposes
@@ -17,7 +21,7 @@ import org.slc.sli.domain.EntityRepository;
  *
  */
 @Component
-public class IngestionDummyEntityRepository implements EntityRepository {
+public class IngestionDummyEntityRepository implements Repository<Entity> {
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
 
@@ -29,15 +33,9 @@ public class IngestionDummyEntityRepository implements EntityRepository {
     }
 
     @Override
-    public Entity find(String collectioName, String id) {
+    public Entity findById(String collectioName, String id) {
         Map<String, Entity> collection = entities.get(collectioName);
         return collection.get(id);
-    }
-
-    @Override
-    public Iterable<Entity> findAll(String collectionName, int skip, int max) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -82,69 +80,43 @@ public class IngestionDummyEntityRepository implements EntityRepository {
     }
 
     @Override
-    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields, int skip, int max) {
+    public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths, int skip, int max) {
+    public Iterable<Entity> findAll(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<Entity> findByFields(String collectionName, Map<String, String> fields) {
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
+    public Entity findOne(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long count(String collectionName, Query query) {
+    public long count(String collectionName, NeutralQuery query) {
         // TODO Auto-generated method stub
         return 0;
     }
     
-    @Override
-    public Entity find(String collectionName, Map<String, String> query) {
-        // TODO Auto-generated method stub
+
+    public CommandResult execute(DBObject command) {
         return null;
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, Map<String, String> query) {
-        // TODO Auto-generated method stub
+    public DBCollection getCollection(String collectionName) {
         return null;
     }
-
-    @Override
-    public Iterable<Entity> findAll(String collectionName, EntityQuery query) {
-        return null;
-    }
-
-    @Override
-    public Entity findOne(String collectionName, Query query) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    
 }

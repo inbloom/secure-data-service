@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
+
+  <StudentAssessment id="saa_id_43">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>851123275</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_3">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>64.28</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>871L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>943715230</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_15">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>525878920</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_31">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>100644447</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_39">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>131758477</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_55">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>164420088</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_73">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>170011136</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_13">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>178828452</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_27">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>258392050</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_35">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>336344132</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_83">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>376191021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_99">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>421216329</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_45">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>423037202</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+   <StudentAssessment id="saa_id_61">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>429526969</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+   <StudentAssessment id="saa_id_71">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>437680177</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_1">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>94.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>1233L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>453827070</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_7">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>505331723</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_9">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+   <StudentAssessment id="saa_id_25">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>547028299</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  <StudentAssessment id="saa_id_41">
+    <AdministrationDate>2011-05-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>320</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>670703438</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+    <StudentAssessment id="saa_id_87">
+    <AdministrationDate>2011-03-01</AdministrationDate>
+    <SerialNumber>0</SerialNumber>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>350</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Percentile">
+      <Result>72.45</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Other">
+      <Result>969L</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>711411586</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>Grade 8 2011 ISAT Reading</ID>
+        </AssessmentIdentificationCode>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+
+  </InterchangeStudentAssessment>
