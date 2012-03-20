@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -33,12 +32,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     protected String getRecordId(Entity entity) {
         return entity.getEntityId();
     }
-    
+
     @Override
     protected Class<Entity> getRecordClass() {
         return Entity.class;
     }
-    
+
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
@@ -46,31 +45,32 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
         this.addTimestamps(entity);
-        
+
         return super.create(entity, collectionName);
     }
-    
+
     @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
-        
+
         return super.update(collection, entity, entity.getBody());
     }
-    
+
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
         // String now = DateTimeUtil.getNowInUTC();
         Date now = DateTimeUtil.getNowInUTC();
-        
+
         Map<String, Object> metaData = entity.getMetaData();
         metaData.put(EntityMetadataKey.CREATED.getKey(), now);
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-    
+
     /** Update the updated timestamp on the document metadata. */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
+
 }
