@@ -4,7 +4,6 @@ As a super-admin I want to be able to create new application keys to allow the o
 Background:
 Given I have an open web browser
 
-@foo
 Scenario: SLI Administrator Logging in
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -15,7 +14,6 @@ Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
 
-@wip
 Scenario: Non-SLI hosted user tries to access the App Registration Tool
 
 Given I am a valid IT Administrator "administrator" from the "SLI" hosted directory
@@ -23,7 +21,6 @@ When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
 And I authenticate with username "administrator" and password "administrator1234"
 Then I receive a message that I am not authorized
-
 
 Scenario: Register a new application
 
@@ -41,7 +38,6 @@ Then I am redirected to the Application Registration Tool page
 And the application is listed in the table on the top
 And a client ID is created for the new application that can be used to access SLI
 
-@wip
 Scenario: View application details
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -54,7 +50,7 @@ Then the row expands
 And I see the details of "NewApp"
 And all the fields are read only 
 
-@wip
+
 Scenario: Edit application
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -62,14 +58,12 @@ When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
 And I authenticate with username "demo" and password "demo1234"
 Then I am redirected to the Application Registration Tool page
-And I clicked on the button Edit
-And the row of the app "NewApp" expanded
+And I clicked on the button Edit for the application "NewApp"
 And every field except the shared secret and the app ID became editable
-And I have edited the field named "Image URL" to say "Kittens"
+And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-Then the info for "NewApp" was updated
-And I the field named "Image URL" still says "Kittens"
+And I the field named "Image URL" still says "http://placekitten.com/100/100"
 And I the field named "Description" still says "Kittens"
 
 Scenario: Removing (Un-registering) Application
