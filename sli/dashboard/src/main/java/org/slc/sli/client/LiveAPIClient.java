@@ -187,7 +187,8 @@ public class LiveAPIClient implements APIClient {
      * Get one student
      */
     public GenericEntity getStudent(String token, String id) {
-        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, true);
+        //TODO: Remove v1, when api is switched over
+        return createEntityFromAPI(getApiUrl() +"/v1" + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, false);
     }
     
     /**

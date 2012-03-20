@@ -10,8 +10,6 @@ import java.util.Set;
 import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -32,8 +30,9 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -69,9 +68,6 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     @Autowired
     private SliClientDetailService clientDetailService;
 
-    @Autowired
-    private IdConverter converter;
-    
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
         assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
@@ -96,8 +92,13 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     }
     
     public String createAuthorizationCodeForMessageId(String samlId, final SLIPrincipal principal) {
-        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE, new Query(Criteria.where("body.samlId")
-                .is(samlId)), 0, 1);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("samlId", "=", samlId));
+        
+        
+        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
         Entity e = results.iterator().next();
         
         final String id = e.getEntityId();
@@ -111,6 +112,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userRoles", StringUtils.collectionToCommaDelimitedString(principal.getRoles()));
                 authorizationCode.put("userRealm", principal.getRealm());
                 authorizationCode.put("userName", principal.getName());
+                authorizationCode.put("adminRealm", principal.getAdminRealm());
 
                 getService().update(id, authorizationCode);
                 return authorizationCode;
@@ -131,8 +133,12 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
      */
     @Override
     protected UnconfirmedAuthorizationCodeAuthenticationTokenHolder remove(String code) {
-        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE,
-                new Query(Criteria.where("body.value").is(code)), 0, 1);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("value", "=", code));
+        
+        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
         final Map<String, Object> body = results.iterator().next().getBody();
         UnconfirmedAuthorizationCodeAuthenticationTokenHolder toReturn = null;
     
@@ -144,13 +150,16 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             Set<String> scope = new HashSet<String>();
             scope.addAll(client.getScope());
             UnconfirmedAuthorizationCodeClientToken clientToken = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), client.getClientSecret(), scope, state, body.get("redirectUri").toString());
-            Entity realm = repo.findOne("realm", new Query(Criteria.where("_id").is(converter.toDatabaseId(body.get("userRealm").toString()))));
+            NeutralQuery neutralQuery2 = new NeutralQuery();
+            neutralQuery2.addCriteria(new NeutralCriteria("_id", "=", body.get("userRealm").toString()));
+            Entity realm = repo.findOne("realm", neutralQuery2);
             SLIPrincipal user = userLocator.locate((String) realm.getBody().get("regionId"), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
             user.setRoles(new ArrayList<String>(roleNamesSet));
             user.setName((String) body.get("userName"));
             user.setRealm(realm.getEntityId());
+            user.setAdminRealm((String) body.get("adminRealm"));
 
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);

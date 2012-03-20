@@ -31,7 +31,7 @@ public class MetaDataTreatment implements Treatment {
 
     @Override
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id) {
-        Entity entity = repo.find(defn.getStoredCollectionName(), id);
+        Entity entity = repo.findById(defn.getStoredCollectionName(), id);
         stored.put(METADATA, entity.getMetaData());
         return stored;
     }

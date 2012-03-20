@@ -27,8 +27,11 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+
 
 /**
  * a set of test for school ingestion
@@ -244,17 +247,17 @@ public class SchoolIngestionTest {
         return new MongoEntity(schoolEntityType, null, body, null);
     }
 
-    public static void verifySchools(Repository repository, long numberOfSchools) {
+    public static void verifySchools(Repository<Entity> repository, long numberOfSchools) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType);
 
         assertEquals(numberOfSchools, repositorySize);
 
         for (int index = 1; index <= repositorySize; index++) {
-            Map<String, String> queryMap = new HashMap<String, String>();
-            queryMap.put("schoolId", Integer.toString(index));
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria("schoolId", "=", Integer.toString(index)));
 
-            Iterator<Entity> schools = (repository.findByFields(schoolEntityType, queryMap)).iterator();
+            Iterator<Entity> schools = (repository.findAll(schoolEntityType, neutralQuery)).iterator();
             if (schools.hasNext()) {
                 verifySchool(index, schools.next());
             }

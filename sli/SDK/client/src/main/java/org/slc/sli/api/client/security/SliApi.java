@@ -10,7 +10,7 @@ import org.scribe.utils.Preconditions;
 
 /**
  * @author jnanney
- *
+ * 
  */
 public class SliApi extends DefaultApi20 {
     

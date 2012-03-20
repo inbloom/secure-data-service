@@ -12,6 +12,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.IdNormalizer;
@@ -190,7 +191,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             return;
         }
 
-        Iterable<Entity> match = entityRepository.findByPaths(entity.getType(), matchFilter);
+        Iterable<Entity> match = entityRepository.findAllByPaths(entity.getType(), matchFilter, new NeutralQuery());
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();

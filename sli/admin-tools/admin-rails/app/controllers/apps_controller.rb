@@ -8,7 +8,7 @@ class AppsController < ApplicationController
   # GET /apps
   # GET /apps.json
   def index
-   @apps = App.all
+   @apps = App.all.sort { |a,b| a.metaData.updated <=> b.metaData.updated }
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @apps }
@@ -116,4 +116,14 @@ class AppsController < ApplicationController
       # format.json { head :ok }
     end
   end
+
+  def sort_column
+    puts App.inspect
+    App.include?(params[:sort]) ? params[:sort] : "name"
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 end

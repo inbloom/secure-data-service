@@ -183,35 +183,36 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 1,
                 "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 2,
                 "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 3,
                 "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 4,
                 "maximumScore": 4
             },
             {
                 "performanceLevel": "5",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 5,
                 "maximumScore": 5
             }
-        ]
+        ],
+        "assessmentFamilyHierarchyName":"AP.AP LANGUAGE 2011"
     },
     {
         "id": "AP_LITERATURE_2011",
@@ -221,35 +222,36 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 1,
                 "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 2,
                 "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 3,
                 "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 4,
                 "maximumScore": 4
             },
             {
                 "performanceLevel": "5",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 5,
                 "maximumScore": 5
             }
-        ]
+        ],
+         "assessmentFamilyHierarchyName":"AP.AP LITERATURE 2011"
     },
     {
         "id": "SAT",

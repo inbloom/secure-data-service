@@ -5,7 +5,7 @@ class App < SessionResource
     string "name", "client_id", "application_url", "administration_url"
     string "vendor", "version", "method"
     boolean "is_admin", "license_acceptance"
-    date "created_on", "updated_on"
+    time "created", "updated"
     string "organization", "client_type", "scope", "developer_info"
   end
   

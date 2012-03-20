@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -18,6 +20,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 public class TransformationFactory implements ApplicationContextAware {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TransformationFactory.class);
+    
     private ApplicationContext applicationContext;
 
     private String transformationStrategySuffix;
@@ -45,8 +49,11 @@ public class TransformationFactory implements ApplicationContextAware {
 
         for (String strategy : collectionNames) {
             String expectedTransformationStrategy = strategy + getTransformationStrategySuffix();
+            LOG.debug("looking up transformation strategy for {}", expectedTransformationStrategy);
             if (applicationContext.containsBeanDefinition(expectedTransformationStrategy)) {
-                transformationStrategies.add(applicationContext.getBean(expectedTransformationStrategy, TransformationStrategy.class));
+                TransformationStrategy bean = applicationContext.getBean(expectedTransformationStrategy, TransformationStrategy.class);
+                LOG.debug("found transformation strategy {}", bean);
+                transformationStrategies.add(bean);
             }
         }
 

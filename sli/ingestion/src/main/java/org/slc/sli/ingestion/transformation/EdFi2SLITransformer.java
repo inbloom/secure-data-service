@@ -9,6 +9,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -95,7 +96,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
-        Iterable<Entity> match = entityRepository.findByPaths(entity.getType(), matchFilter);
+        Iterable<Entity> match = entityRepository.findAllByPaths(entity.getType(), matchFilter, new NeutralQuery());
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();
