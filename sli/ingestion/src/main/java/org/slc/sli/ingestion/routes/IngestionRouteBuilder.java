@@ -62,10 +62,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    @Value("${sli.ingestion.queue.workItem.queueURI}")
+    @Value("${queues.workItem.queueURI}")
     private String workItemQueue;
 
-    @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
+    @Value("${queues.workItem.concurrentConsumers}")
     private int concurrentConsumers;
 
     @Override
