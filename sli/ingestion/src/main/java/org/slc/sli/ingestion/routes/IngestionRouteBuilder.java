@@ -62,10 +62,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    @Value("${queues.workItem.queueURI}")
+    @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
 
-    @Value("${queues.workItem.concurrentConsumers}")
+    @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
 
     @Override
@@ -89,7 +89,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
-                        + "/.error")
+                        + "/.error"
+                        + "&readLock=changed")
                 .routeId("zipFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)

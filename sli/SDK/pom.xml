@@ -15,7 +15,6 @@
 
   <modules>
     <module>client</module>
-    <module>sample</module>
     <module>oauth2-sample</module>
   </modules>
 
