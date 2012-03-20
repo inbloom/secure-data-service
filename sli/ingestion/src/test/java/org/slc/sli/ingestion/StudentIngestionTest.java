@@ -27,6 +27,8 @@ import org.xml.sax.SAXException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -265,7 +267,7 @@ public class StudentIngestionTest {
         return new MongoEntity(studentEntityType, null, body, null);
     }
 
-    public static void verifyStudents(Repository repository, long numberOfStudents) {
+    public static void verifyStudents(Repository<Entity> repository, long numberOfStudents) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, studentEntityType);
 
@@ -274,10 +276,10 @@ public class StudentIngestionTest {
         }
 
         for (int index = 1; index <= repositorySize; index++) {
-            Map<String, String> queryMap = new HashMap<String, String>();
-            queryMap.put("StudentId", Integer.toString(index));
-
-            Iterator<Entity> students = (repository.findByFields(studentEntityType, queryMap)).iterator();
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria("StudentId", "=", Integer.toString(index)));
+            
+            Iterator<Entity> students = (repository.findAll(studentEntityType, neutralQuery)).iterator();
 
             if (students.hasNext())
                 verifyStudent(index, students.next());

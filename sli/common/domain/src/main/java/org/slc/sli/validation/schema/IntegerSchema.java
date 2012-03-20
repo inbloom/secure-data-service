@@ -39,6 +39,11 @@ public class IntegerSchema extends NeutralSchema {
         return NeutralSchemaType.INTEGER;
     }
 
+    @Override
+    public Object convert(Object value) {
+        return Integer.parseInt((String) value);
+    }
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

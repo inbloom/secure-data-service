@@ -1,12 +1,12 @@
 package org.slc.sli.api.security;
 
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.Entity;
-
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Attribute holder for SLI Principal
@@ -22,6 +22,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String name;
     private String realm;
     private String externalId;
+    private String adminRealm;
     private List<String> roles;
 
     private Entity entity;
@@ -86,6 +87,14 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getAdminRealm() {
+        return adminRealm;
+    }
+
+    public void setAdminRealm(String adminRealm) {
+        this.adminRealm = adminRealm;
     }
 
 }

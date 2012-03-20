@@ -104,7 +104,7 @@ public class LocalEducationAgencyTest {
 
         // mock repository will simulate "finding" the referenced educationOrganization
         Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.find("educationOrganization", "SEA123")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("educationOrganization", "SEA123")).thenReturn(returnEntity);
 
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "educationOrganization", validator);
     }

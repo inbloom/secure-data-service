@@ -248,5 +248,77 @@
                             "description":"At or Above Benchmark"
                         }
         ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LITERATURE_2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"4"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LITERATURE_2011",
+        "administrationDate":"2011-10-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"3"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LANGUAGE_2011",
+        "administrationDate":"2011-10-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"3"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"3"
+                        }
+        ]
+},
+{
+        "studentId":"525878920",
+        "assessmentId":"AP_LANGUAGE_2011",
+        "administrationDate":"2011-09-15",
+        "administrationEndDate":"2011-12-15",
+        "retestIndicator":"1st Retest",
+        "scoreResults":[
+                        {
+                            "assessmentReportingMethod":"Scale score",
+                            "result":"4"
+                        }
+                       ],
+        "performanceLevelDescriptors":[
+                        {
+                            "description":"4"
+                        }
+        ]
 }
 ]

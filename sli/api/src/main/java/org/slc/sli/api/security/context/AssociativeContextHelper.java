@@ -5,9 +5,9 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +42,11 @@ public class AssociativeContextHelper {
             List<String> keys = getAssocKeys(searchType, ad);
             String sourceKey = keys.get(0);
             String targetKey = keys.get(1);
-            Query query = new Query(Criteria.where("body." + sourceKey).in(ids));
-            query.fields().include("body." + targetKey);
-            Iterable<Entity> entities = this.repository.findByQuery(ad.getStoredCollectionName(), query, 0, 9999);
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.setOffset(0);
+            neutralQuery.setLimit(9999);
+            neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", ids));
+            Iterable<Entity> entities = this.repository.findAll(ad.getStoredCollectionName(), neutralQuery);
 
             ids.clear();
             for (Entity e : entities) {
@@ -97,9 +99,11 @@ public class AssociativeContextHelper {
      * @return Ids of entities containing a referenceId at the referenceLocation
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation, List<String> referenceIds) {
-        Query query = new Query(Criteria.where(referenceLocation).in(referenceIds));
-        query.fields().include("_id");
-        Iterable<Entity> entities = repository.findByQuery(collectionName, query, 0, 9999);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(9999);
+        Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
 
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entities) {

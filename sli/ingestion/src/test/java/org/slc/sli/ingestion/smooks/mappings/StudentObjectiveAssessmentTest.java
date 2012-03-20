@@ -31,7 +31,7 @@ public class StudentObjectiveAssessmentTest {
             + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
             + "<Result>12</Result>"
             + "</ScoreResults>"
-            + "<StudentTestAssessmentReference>STA-TAKS-Reading-8-2011-604844</StudentTestAssessmentReference>"
+            + "<StudentTestAssessmentReference ref=\"STA-TAKS-Reading-8-2011-604844\"></StudentTestAssessmentReference>"
             + "<ObjectiveAssessmentReference>"
             + "<ObjectiveAssessmentIdentity>"
             + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
