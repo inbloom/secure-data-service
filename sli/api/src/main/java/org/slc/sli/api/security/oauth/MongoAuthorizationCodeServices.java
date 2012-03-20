@@ -9,10 +9,10 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeAuthenticationTokenHolder;
@@ -32,9 +32,9 @@ import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
@@ -74,9 +74,14 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
     }
     
-    protected void create(String clientId, String state, String samlId) {
+    protected void create(String clientId, String state, String clientRedirectUri, String samlId) {
         final EntityBody authorizationCode = new EntityBody();
         String redirectUri = clientDetailService.loadClientByClientId(clientId).getWebServerRedirectUri();
+        if (clientRedirectUri != null && clientRedirectUri.startsWith(redirectUri)) {
+            redirectUri = clientRedirectUri;
+        } else {
+            throw new OAuth2Exception("Redirect URI " + clientRedirectUri + " does not start with " + redirectUri + " or is null");
+        }
         long expiration = AUTHORIZATION_CODE_VALIDITY * 1000L;
         authorizationCode.put("expiration", new Date().getTime() + expiration);
         authorizationCode.put("redirectUri", redirectUri);
@@ -113,6 +118,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userRoles", StringUtils.collectionToCommaDelimitedString(principal.getRoles()));
                 authorizationCode.put("userRealm", principal.getRealm());
                 authorizationCode.put("userName", principal.getName());
+                authorizationCode.put("adminRealm", principal.getAdminRealm());
 
                 getService().update(id, authorizationCode);
                 return authorizationCode;
@@ -159,6 +165,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             user.setRoles(new ArrayList<String>(roleNamesSet));
             user.setName((String) body.get("userName"));
             user.setRealm(realm.getEntityId());
+            user.setAdminRealm((String) body.get("adminRealm"));
 
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);

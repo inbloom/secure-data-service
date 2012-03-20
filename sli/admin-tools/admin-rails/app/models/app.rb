@@ -8,5 +8,12 @@ class App < SessionResource
     time "created", "updated"
     string "organization", "client_type", "scope", "developer_info"
   end
+  
+  class DeveloperInfo < SessionResource
+    schema do
+      string "organization"
+      boolean "license_acceptance"
+    end
+  end
 end
 

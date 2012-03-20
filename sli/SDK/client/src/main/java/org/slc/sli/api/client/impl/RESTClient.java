@@ -57,14 +57,14 @@ public class RESTClient {
      * @param callbackURL
      *            URL used to redirect after authentication.
      */
-    public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final String callbackURL) {
+    public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
         client = ClientFactory.newClient();
         apiServerUri = apiServerURL.toString() + Constants.API_SERVER_PATH;
         
         sliApi = new SliApi();
         sliApi.setBaseUrl(apiServerURL);
         
-        config = new OAuthConfig(clientId, clientSecret, callbackURL, null, null, null);
+        config = new OAuthConfig(clientId, clientSecret, callbackURL.toString(), null, null, null);
     }
     
     /**
@@ -334,7 +334,7 @@ public class RESTClient {
         for (Map.Entry<String, Object> entry : headers.entrySet()) {
             builder.header(entry.getKey(), entry.getValue());
         }
-
+        
         return builder;
     }
 }
