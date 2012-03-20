@@ -13,9 +13,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slc.sli.api.client.impl.BasicClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.api.client.impl.BasicClient;
 
 public class AuthFilter implements Filter {
     
@@ -23,7 +24,7 @@ public class AuthFilter implements Filter {
     private String clientId;
     private String clientSecret;
     private URL apiUrl;
-    private String callbackUrl;
+    private URL callbackUrl;
     private String afterCallbackRedirect;
     
     @Override
@@ -81,9 +82,17 @@ public class AuthFilter implements Filter {
         String env = System.getProperty("sli.env");
         if (env != null && "local".equalsIgnoreCase(env)) {
             // use the default value in the web.xml
-            callbackUrl = conf.getInitParameter("callbackUrl");
+            try {
+                callbackUrl = new URL(conf.getInitParameter("callbackUrl"));
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
         } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
-            callbackUrl = "https://nxbuild2.slidev.org/oauth2-sample/callback";
+            try {
+                callbackUrl = new URL("https://nxbuild2.slidev.org/oauth2-sample/callback");
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
             clientId = "ET1k3PdHzX";
             clientSecret = "Ok2iofHvnmguiGXvePLQY2K6UHFK+WZNNgVfYQaBYcAa3iXQ";
         } else {

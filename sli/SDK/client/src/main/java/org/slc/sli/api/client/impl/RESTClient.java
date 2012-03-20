@@ -35,7 +35,6 @@ public class RESTClient {
     
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
     
-    
     private static Logger logger = Logger.getLogger("RESTClient");
     protected String apiServerUri = null;
     private Client client = null;
@@ -102,6 +101,7 @@ public class RESTClient {
         
         Verifier verifier = new Verifier(authorizationCode);
         accessToken = service.getAccessToken(null, verifier);
+        sessionToken = accessToken.getToken();
         return accessToken.getRawResponse();
     }
     
@@ -168,8 +168,7 @@ public class RESTClient {
      *            key / value pairs of the headers to attach to the request.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers)
-            throws URISyntaxException {
+    public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers) throws URISyntaxException {
         
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
@@ -183,7 +182,6 @@ public class RESTClient {
         return i.invoke();
     }
     
-    
     /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
      * 
@@ -193,8 +191,7 @@ public class RESTClient {
      *            Json entity to post.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public Response postRequest(final URL url, final String json) throws URISyntaxException,
-    MalformedURLException {
+    public Response postRequest(final URL url, final String json) throws URISyntaxException, MalformedURLException {
         
         return postRequestWithHeaders(url, json, null);
     }
@@ -212,9 +209,8 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public Response postRequestWithHeaders(final URL url, final String json,
-            final Map<String, Object> headers)
-                    throws URISyntaxException, MalformedURLException {
+    public Response postRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
+            throws URISyntaxException, MalformedURLException {
         
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
@@ -254,9 +250,8 @@ public class RESTClient {
      *            to multiple values.
      * @return ClientResponse containing the status code and return value(s).
      */
-    public Response putRequestWithHeaders(final URL url, final String json,
-            final Map<String, Object> headers)
-                    throws MalformedURLException, URISyntaxException {
+    public Response putRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
+            throws MalformedURLException, URISyntaxException {
         
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
