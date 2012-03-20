@@ -154,8 +154,9 @@ public class DiscoController {
 
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
+        
 
-        authCodeService.create(clientId, state, tuple.getLeft());
+        authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
         LOG.debug("redirecting to: {}", endpoint);
         Cookie cookie = new Cookie("realmCookie", realmId);
         cookie.setMaxAge(60 * 60);
