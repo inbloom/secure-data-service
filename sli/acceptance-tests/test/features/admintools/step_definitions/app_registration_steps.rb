@@ -3,7 +3,7 @@ require 'json'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
-
+require 'date'
 
 Given /^I am a valid SLI Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
@@ -24,15 +24,31 @@ When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1,
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do
-  assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("Application Registration") != nil}
+  assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
 Then /^I see all of the applications that are registered to SLI$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
 end
 
 Then /^those apps are sorted by the Last Update column$/ do
-  pending # express the regexp above with the code you wish you had
+  appsTable = @driver.find_element(:id, "applications")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) + 1 if arg.text == "Last Update"    
+  end
+  tableRows = appsTable.find_elements(:xpath, ".//tr/td/a[text()='Edit']/../..")
+  lastDate = nil
+  tableRows.each do |row|
+    td = row.find_element(:xpath, ".//td[#{index}]")
+    date = Date.parse(td.text)
+    if lastDate == nil
+      lastDate = date
+    end
+    assert(date <= lastDate, "Last Update column should be sorted")
+    lastDate = date
+  end
 end
 
 Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
