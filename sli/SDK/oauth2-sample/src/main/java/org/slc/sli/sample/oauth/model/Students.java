@@ -10,7 +10,6 @@ import java.util.Random;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
-import org.slc.sli.api.client.Query;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slf4j.Logger;
@@ -31,14 +30,13 @@ public class Students {
         for(Entity student: collection){
             String firstName = (String) ((Map<String, Object>) student.getData().get("name")).get("firstName");
             String lastName = (String) ((Map<String, Object>) student.getData().get("name")).get("lastSurname");
-            toReturn.add(student.getData().get("name").toString());
+            toReturn.add(lastName + ", " + firstName);
         }
         return toReturn;
     }
     
     public static int getGrade(BasicClient client, String studentName) {
-        Random r = new Random();
-        return r.nextInt(100);
+        return 0;
     }
 
 }
