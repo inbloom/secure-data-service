@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -29,6 +30,9 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
+
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * 
@@ -88,13 +92,25 @@ public class ApplicationResource {
     }
 
     private boolean isDuplicateToken(String token) {
-        return (service.list(0, 1, CLIENT_ID + "=" + token)).iterator().hasNext();
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + token));
+        try {
+            return (service.list(neutralQuery)).iterator().hasNext();
+        } catch (NullPointerException npe) {
+            return false;
+        }
     }
 
     @GET
     public List<EntityBody> getApplications(@Context UriInfo info) {
         List<EntityBody> results = new ArrayList<EntityBody>();
-        Iterable<String> realmList = service.list(0, 1000);
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1000);
+        Iterable<String> realmList = service.listIds(neutralQuery);
         for (String id : realmList) {
             EntityBody result = service.get(id);
 
@@ -159,5 +175,25 @@ public class ApplicationResource {
         return Response.status(Status.BAD_REQUEST).build();
     }
     
-
+    /**
+     * Since entries are keyed off a uuid instead of the client ID,
+     * we need to look up the uuid using the client id.
+     * 
+     * @param clientId
+     * @return a uuid, or null if not found
+     */
+    private String lookupIdFromClientId(String clientId) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + clientId));
+        Iterable<String> results = service.listIds(neutralQuery);
+        try {
+            return results.iterator().next();
+        } catch (NoSuchElementException nsee) {
+            return null;
+        } catch (NullPointerException npe) {
+            return null;
+        }
+    }
 }

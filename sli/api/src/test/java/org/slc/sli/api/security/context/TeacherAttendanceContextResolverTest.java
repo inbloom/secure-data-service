@@ -2,7 +2,7 @@ package org.slc.sli.api.security.context;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
+//import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +22,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.resolver.TeacherAttendanceContextResolver;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -52,14 +52,14 @@ public class TeacherAttendanceContextResolverTest {
     @Test
     public void testSetRepository() throws Exception {
         Repository<Entity> repository = Mockito.mock(Repository.class);
-        when(repository.findByQuery(anyString(), any(Query.class), anyInt(), anyInt())).thenReturn(
+        when(repository.findAll(anyString(), any(NeutralQuery.class))).thenReturn(
                 new ArrayList<Entity>());
         resolver.setRepository(repository);
 
         Entity principal = Mockito.mock(Entity.class);
         resolver.setRepository(repository);
         resolver.findAccessible(principal);
-        verify(repository, atLeastOnce()).findByQuery(anyString(), any(Query.class), anyInt(), anyInt());
+        verify(repository, atLeastOnce()).findAll(anyString(), any(NeutralQuery.class));
     }
 
     @Test

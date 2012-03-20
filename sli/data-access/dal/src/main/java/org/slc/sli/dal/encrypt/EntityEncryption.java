@@ -64,11 +64,12 @@ public class EntityEncryption {
     
     public Object decryptSingleValue(Object value) {
         if (!(value instanceof String)) {
-            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
+            return value;
         }
         Object decrypted = aes.decrypt((String) value);
         if (decrypted == null) {
-            LOG.warn("Value was expected to be encrypted but wasn't: " + value);
+            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
             return value;
         }
         return decrypted;
@@ -86,7 +87,6 @@ public class EntityEncryption {
         for (Entry<String, Object> piiField : piiMap.entrySet()) {
             Object fieldValue = body.get(piiField.getKey());
             if (fieldValue == null) {
-                LOG.debug("PII field was null: {}", piiField.getKey());
                 continue;
             } else if (fieldValue instanceof Map) {
                 if (!(piiField.getValue() instanceof Map)) {
@@ -122,10 +122,6 @@ public class EntityEncryption {
                                 newValue = item;
                             }
                         }
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("En/decrypting PII list field: {}, item={}, old={}, new={}", 
-                                    new Object[] {piiField.getKey(), i, item, newValue});
-                        }
                         list.set(i, newValue);
                     }
                 }
@@ -147,9 +143,6 @@ public class EntityEncryption {
                                 + fieldValue);
                         newValue = fieldValue;
                     }
-                }
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("En/decrypting PII value: {}, old={}, new={}", new Object[] {piiField.getKey(), fieldValue, newValue});
                 }
                 body.put(piiField.getKey(), newValue);
             }

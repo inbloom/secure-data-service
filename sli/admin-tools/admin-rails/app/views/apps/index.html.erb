@@ -14,8 +14,8 @@
 	    	<td><%= app.name %></td>
 		    <td><%= app.version %></td>
 			<td><%= app.developer_info.organization %></td>
-		    <td><%= app[:created_on] unless !app.has_key? :created_on %></td>
-			<td><%= app[:updated_on] unless !app.has_key? :updated_on %></td>
+		        <td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
+		        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
 			<td><%= link_to 'Edit', "#", :class=> 'edit-link' %> | <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
 		</tr>
 		<tr>

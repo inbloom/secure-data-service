@@ -6,6 +6,7 @@ Background: Logged in as a super-user and using the small data set
 	Given I am logged in using "demo" "demo1234"
 	 	And I have access to all students
 
+       
 Scenario: Student data created via the API should be encrypted
     Given format "application/json"
 		And no record exists in "student" with a "body.studentUniqueStateId" of "530425896"
@@ -61,14 +62,14 @@ Scenario: Student data created via the API should be encrypted
 
 Scenario: Sorting on PII across a hop should fail
 	Given format "application/json"
-		And parameter "sort-by" is "name.firstName"
-		And parameter "sort-order" is "descending"
+		And parameter "sortBy" is "name.firstName"
+		And parameter "sortOrder" is "descending"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a return code of 400
 	Given parameter "full-entities" is "true"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a return code of 400
-	Given parameter "sort-by" is "studentUniqueStateId"
+	Given parameter "sortBy" is "studentUniqueStateId"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a return code of 200
 

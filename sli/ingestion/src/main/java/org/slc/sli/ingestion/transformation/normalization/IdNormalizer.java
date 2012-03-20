@@ -7,11 +7,11 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -66,16 +66,15 @@ public class IdNormalizer {
 
         String collection = refConfig.getCollectionName();
 
-        Query filter = new Query();
+        NeutralQuery filter = new NeutralQuery();
 
         try {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
-                Query choice = new Query();
-
-                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()))
-                    .equals(idNamespace);
-
-                for (Field field: fields) {
+                NeutralQuery choice = new NeutralQuery();
+                String key = METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey();
+                choice.addCriteria(new NeutralCriteria(key, "=", idNamespace, false));
+                
+                for (Field field : fields) {
                     List<Object> filterValues = new ArrayList<Object>();
 
                     for (FieldValue fv : field.getValues()) {
@@ -92,10 +91,10 @@ public class IdNormalizer {
                         }
                     }
 
-                    choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
+                    choice.addCriteria(new NeutralCriteria(field.getPath(), "in", filterValues));
                 }
 
-                filter.or(choice);
+                filter.addOrQuery(choice);
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
@@ -106,7 +105,7 @@ public class IdNormalizer {
             return null;
         }
 
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+        Iterable<Entity> foundRecords = entityRepository.findAll(collection, filter);
 
         List<String> ids = new ArrayList<String>();
 

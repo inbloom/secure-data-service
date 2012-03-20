@@ -24,8 +24,8 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
 
-  And I should see "Processed 4 records." in the resulting batch job file
+  And I should see "Processed 18 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
-  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records considered: 13" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 13" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records failed: 0" in the resulting batch job file

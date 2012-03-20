@@ -1591,7 +1591,7 @@
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="plDescriptorsArray" />
     <jb:wiring property="oAReference" beanIdRef="OAReferenceType" />
-    <jb:value property="sTAReference" data="StudentObjectiveAssessment/StudentTestAssessmentReference" />
+    <jb:value property="sTAReference" data="StudentTestAssessmentReference/@ref" />
   </jb:bean>
 
   <jb:bean beanId="ScoreResultsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">

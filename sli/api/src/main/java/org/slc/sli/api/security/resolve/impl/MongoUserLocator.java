@@ -2,18 +2,19 @@ package org.slc.sli.api.security.resolve.impl;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -35,10 +36,16 @@ public class MongoUserLocator implements UserLocator {
         LOG.info("Locating user {}@{}", externalUserId, regionId);
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + regionId);
         user.setExternalId(externalUserId);
-
-        Query query = new Query(Criteria.where("metaData.idNamespace").is(regionId).and("body.staffUniqueStateId").is(externalUserId));
+        
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("metaData.idNamespace", regionId);
+        paths.put("body.staffUniqueStateId", externalUserId);
+        
         for (String entityName : ENTITY_NAMES) {
-            Iterable<Entity> staff = repo.findByQuery(entityName, query, 0, 1);
+            Iterable<Entity> staff = repo.findAllByPaths(entityName, paths, neutralQuery);
 
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
@@ -46,6 +53,10 @@ public class MongoUserLocator implements UserLocator {
                 user.setEntity(entity);
                 break;
             }
+        }
+        
+        if (user.getEntity() == null) {
+            LOG.warn("Failed to locate user {} in the datastore", user.getId());
         }
 
         return user;

@@ -11,6 +11,7 @@ import java.util.Map;
  * @author srupasinghe
  *
  */
+ @Deprecated
 public class SmartQuery {
     protected String includeFields;
     protected String excludeFields;

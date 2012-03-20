@@ -6,7 +6,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.service.query.QueryParseException;
+import org.slc.sli.domain.QueryParseException;
 
 /**
  * Hander for Query Parsing errors

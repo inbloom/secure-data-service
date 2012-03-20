@@ -1,4 +1,4 @@
-package org.slc.sli.api.service.query;
+package org.slc.sli.domain;
 
 /**
  * Exception indicating a http query request string could not be parsed
@@ -12,7 +12,7 @@ public class QueryParseException extends RuntimeException {
     private static final long serialVersionUID = 3777997711710333578L;
     private String queryString;
     
-    QueryParseException(String message, String queryString) {
+    public QueryParseException(String message, String queryString) {
         super(message);
         this.queryString = queryString;
     }
