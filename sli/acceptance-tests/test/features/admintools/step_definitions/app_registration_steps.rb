@@ -131,24 +131,34 @@ Then /^all the fields are read only$/ do
   assert(@driver.find_element(:css, 'input[id="app_scope_enabled"]').attribute("disabled"), "app scope isn't disabled" )
 end
 
-Then /^I clicked on the button Edit$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
+  row = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
+  assert(row)
+  @id = row.attribute('id')
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[text()='Edit']").click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+ invisible = @driver.find_elements(:css, "tr[display='none']").count
+ visible = @driver.find_elements(:css, "tr.odd").count
+ assert(invisible == visible -1)
 end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
-  pending # express the regexp above with the code you wish you had
+  @form = @driver.find_element(:id, "edit_app_#{@id}")
+  editible = @form.find_elements(:css, "input").count
+  uneditible = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(editible - uneditible == 19)
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  field = @form.find_element(:name, "app[#{arg1.gsub(' ', '_').downcase}]")
+  field.clear
+  field.send_keys arg2
 end
 
 When /^I clicked Save$/ do
-  pending # express the regexp above with the code you wish you had
+  @form.find_element(:name, 'commit').click
 end
 
 Then /^the info for "([^"]*)" was updated$/ do |arg1|
@@ -156,7 +166,9 @@ Then /^the info for "([^"]*)" was updated$/ do |arg1|
 end
 
 Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  @form = @driver.find_element(:id, "edit_app_#{@id}")
+  value = @form.find_element(:name, "app[#{arg1.gsub(' ', '_').downcase}]").attribute('value')
+  assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
 end
 
 Then /^I have clicked on the button 'X' for the application named "([^"]*)"$/ do |arg1|

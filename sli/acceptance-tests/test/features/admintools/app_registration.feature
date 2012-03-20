@@ -50,7 +50,7 @@ Then the row expands
 And I see the details of "NewApp"
 And all the fields are read only 
 
-@wip
+
 Scenario: Edit application
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -58,14 +58,12 @@ When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
 And I authenticate with username "demo" and password "demo1234"
 Then I am redirected to the Application Registration Tool page
-And I clicked on the button Edit
-And the row of the app "NewApp" expanded
+And I clicked on the button Edit for the application "NewApp"
 And every field except the shared secret and the app ID became editable
-And I have edited the field named "Image URL" to say "Kittens"
+And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-Then the info for "NewApp" was updated
-And I the field named "Image URL" still says "Kittens"
+And I the field named "Image URL" still says "http://placekitten.com/100/100"
 And I the field named "Description" still says "Kittens"
 
 Scenario: Removing (Un-registering) Application
