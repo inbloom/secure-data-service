@@ -9,11 +9,10 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.any;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 
@@ -55,8 +54,8 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findAll(Mockito.eq("MyCollection"), any(NeutralQuery.class))).thenReturn(Arrays.asList(expectedRecord));
-        Mockito.when(repoNull.findAll(Mockito.eq("MyCollection"), any(NeutralQuery.class))).thenReturn(null);
+        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(repoNull.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(null);
 
         idNorm.setEntityRepository(repo);
 
@@ -109,7 +108,7 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findAll(Mockito.eq("MyCollection"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
 
         idNorm.setEntityRepository(repo);
 
@@ -168,7 +167,7 @@ public class IdNormalizationTest {
         records.add(thirdRecord);
 
 
-        Mockito.when(repo.findAll(Mockito.eq("MyCollection"), Mockito.any(NeutralQuery.class))).thenReturn(records);
+        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(records);
 
         idNorm.setEntityRepository(repo);
 
@@ -218,11 +217,11 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findAll(Mockito.eq("MyCollection"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
 
         Entity secondRecord = Mockito.mock(Entity.class);
         Mockito.when(secondRecord.getEntityId()).thenReturn("456");
-        Mockito.when(repo.findAll(Mockito.eq("secondCollection"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(secondRecord));
+        Mockito.when(repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(secondRecord));
 
         idNorm.setEntityRepository(repo);
 

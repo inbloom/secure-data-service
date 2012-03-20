@@ -1,18 +1,19 @@
 package org.slc.sli.ingestion.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.ErrorReport;
-
-import org.apache.commons.lang3.text.WordUtils;
 
 /**
  *
@@ -41,14 +42,14 @@ public class IdNormalizer {
         Map<String, String> filterFields = new HashMap<String, String>();
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, neutralQuery, idNamespace, errorReport);
+        Query query = new Query();
+        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, idNamespace, errorReport);
 
-        Iterable<Entity> found = entityRepository.findAll(collection, neutralQuery);
+        Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
         if (found == null || !found.iterator().hasNext()) {
            errorReport.error(
-                   "Cannot find [" + collection + "] record using the following filter: " + neutralQuery.toString(),
+                   "Cannot find [" + collection + "] record using the following filter: " + query.getQueryObject().toString(),
                    IdNormalizer.class);
 
             return null;
@@ -79,7 +80,7 @@ public class IdNormalizer {
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
 
-        Iterable<Entity> found = entityRepository.findAllByPaths(collection, filterFields, new NeutralQuery());
+        Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
         if (found == null || !found.iterator().hasNext()) {
             errorReport.error(
                     "Cannot find [" + collection + "] record using the following filter: " + filterFields.toString(),
@@ -98,7 +99,7 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param query
     */
-    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, NeutralQuery neutralQuery, String idNamespace, ErrorReport errorReport) {
+    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String idNamespace, ErrorReport errorReport) {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
              StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
@@ -108,11 +109,11 @@ public class IdNormalizer {
              if (pathCollection.equals(collection) && searchCriteriaEntry.getValue() != null) {
 
                 resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
-//                addSearchPathsToQuery(neutralQuery, filterFields);
+                addSearchPathsToQuery(query, filterFields);
 
              } else {
 
-                resolveDifferentCollectionCriteria(entityRepository, neutralQuery, searchCriteriaEntry, idNamespace, errorReport);
+                resolveDifferentCollectionCriteria(entityRepository, query, searchCriteriaEntry, idNamespace, errorReport);
 
              }
         }
@@ -160,14 +161,14 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param errorReport
     */
-    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, NeutralQuery neutralQuery,  Map.Entry<?, ?> searchCriteriaEntry, String idNamespace, ErrorReport errorReport) {
+    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, String idNamespace, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
         String pathCollection = tokenizer.nextToken();
         pathCollection = WordUtils.uncapitalize(pathCollection);
         String referencePath = tokenizer.nextToken();
 
         Map<String, String> tempFilter = new HashMap<String, String>();
-        NeutralQuery referenceQuery = new NeutralQuery();
+        Query referenceQuery = new Query();
         resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, idNamespace, errorReport);
 
         if (tempFilter.isEmpty()) {
@@ -175,7 +176,7 @@ public class IdNormalizer {
             return;
         }
         tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
-        Iterable<Entity> referenceFound = entityRepository.findAllByPaths(pathCollection, tempFilter, new NeutralQuery());
+        Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {
             errorReport.error(
@@ -185,21 +186,30 @@ public class IdNormalizer {
 
         Map<String, String> orFilter = new HashMap<String, String>();
 
-        if (referenceFound != null) {
-            for (Entity found : referenceFound) {
-                orFilter.put(referencePath, found.getEntityId());
-            }
+        for (Entity found : referenceFound) {
+
+               orFilter.put(referencePath, found.getEntityId());
+
         }
 
-        addOrToQuery(neutralQuery, orFilter);
+        addOrToQuery(query, orFilter);
 
     }
 
-    private static void addOrToQuery(NeutralQuery neutralQuery, Map<String, String> orFilter) {
-        NeutralQuery orQuery = new NeutralQuery();
-        for (Map.Entry<String, String> field : orFilter.entrySet()) {
-            orQuery.addCriteria(new NeutralCriteria(field.getKey(), "=", field.getValue()));
+    private static Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
+        for (Map.Entry<String, String> field : searchPaths.entrySet()) {
+            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
+            query.addCriteria(criteria);
         }
-        neutralQuery.addOrQuery(orQuery);
+
+        return query;
+    }
+
+    private static void addOrToQuery(Query query, Map<String, String> orFilter) {
+        List<Query> queries = new ArrayList<Query>();
+        for (Map.Entry<String, String> field : orFilter.entrySet()) {
+            queries.add(new Query(Criteria.where(field.getKey()).is(field.getValue())));
+        }
+        query.or(queries.toArray(new Query[0]));
     }
 }
