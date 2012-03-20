@@ -67,7 +67,7 @@ public class AuthFilter implements Filter {
     
     @Override
     public void init(FilterConfig conf) throws ServletException {
-        // TODO refector to use spring + env specific config files
+        // TODO refector to use spring + env specific config files as soon as possible
         clientId = conf.getInitParameter("clientId");
         clientSecret = conf.getInitParameter("clientSecret");
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
@@ -84,6 +84,8 @@ public class AuthFilter implements Filter {
             callbackUrl = conf.getInitParameter("callbackUrl");
         } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
             callbackUrl = "https://nxbuild2.slidev.org/oauth2-sample/callback";
+            clientId = "ET1k3PdHzX";
+            clientSecret = "Ok2iofHvnmguiGXvePLQY2K6UHFK+WZNNgVfYQaBYcAa3iXQ";
         } else {
             throw new RuntimeException("Unsuported environment: " + env);
         }
