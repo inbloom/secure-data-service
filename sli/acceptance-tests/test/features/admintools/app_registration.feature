@@ -31,9 +31,9 @@ And I get redirected to the IDP login page
 And I authenticate with username "demo "and password "demo1234"
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
-And a new row was created in the table
+And I am redirected to a new application page
 When I entered the name "NewApp" into the field titled "Name"
-And I have ented data into the other requried fields except for the shared secret and the app id which are read-only
+And I have entered data into the other required fields except for the shared secret and the app id which are read-only
 And I click on the button Save
 Then the new application is created
 And the application is listed in the table on the top
