@@ -9,6 +9,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.QueryParseException;
+
+
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -256,7 +259,7 @@ public class BasicQueryConverter implements QueryConverter {
             }
             return null;
         default: {
-            throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
+            throw new QueryParseException("Unknown Schema Type: " + schema.getSchemaType(), field);
         }
         }
     }

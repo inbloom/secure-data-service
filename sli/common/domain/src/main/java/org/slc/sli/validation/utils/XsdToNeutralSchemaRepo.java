@@ -108,6 +108,78 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return ns;
     }
     
+
+    /**
+     * Gets the schema for an underlying field on the given type
+     *
+     * @param type the type for the schema to look up
+     * @param field the potentially nested field whose schema is to be returned
+     */
+    @Override
+    public NeutralSchema getSchema(String type, String field) {
+        
+        //get schema for entity
+        NeutralSchema schema = this.getSchema(type);
+        
+        //loop through dotted notation for nested schemas
+        for (String fieldName : field.split("\\.")) {
+            schema = getNestedSchema(schema, fieldName);
+            if (schema != null) {
+                LOG.info("nested schema type is {}", schema.getSchemaType());
+            } else {
+                LOG.info("nested schema type is {}", "NULL");
+            }
+        }
+        
+        return schema;
+    }
+    
+
+    private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
+        if (schema == null)
+            return null;
+        switch (schema.getSchemaType()) {
+        case STRING:
+        case INTEGER:
+        case DATE:
+        case TIME:
+        case DATETIME:
+        case ID:
+        case IDREF:
+        case INT:
+        case LONG:
+        case DOUBLE:
+        case BOOLEAN:
+        case TOKEN:
+            return null;
+        case LIST:
+            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                if (getNestedSchema(possibleSchema, field) != null) {
+                    return getNestedSchema(possibleSchema, field);
+                }
+            }
+            return null;
+        case COMPLEX:
+            for (String key : schema.getFields().keySet()) {
+                NeutralSchema possibleSchema = schema.getFields().get(key);
+                if (key.startsWith("*")) {
+                    key = key.substring(1);
+                }
+                if (key.equals(field)) {
+                    return possibleSchema;
+                }
+            }
+            return null;
+        default: {
+            throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
+        }
+        }
+    }
+    
+    
+    
+    
     public List<NeutralSchema> getSchemas() {
         ArrayList<NeutralSchema> allSchemas = new ArrayList<NeutralSchema>(schemas.values());
         allSchemas.addAll(elementSchemas.values());

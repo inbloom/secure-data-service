@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<context-param>
+		<param-name>debug</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+
+	<servlet>
+		<display-name>Student Servlets</display-name>
+		<servlet-name>Students</servlet-name>
+		<servlet-class>org.slc.sli.sample.oauth.StudentServlet</servlet-class>
+		<init-param>
+			<param-name>sleep-time-in-seconds</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Students</servlet-name>
+		<url-pattern>/students</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>org.slc.sli.sample.oauth.AuthFilter</filter-class>
+		<init-param>
+		  <param-name>apiUrl</param-name>
+		  <param-value>https://devapp1.slidev.org/</param-value>
+		</init-param>
+		<init-param>
+          <param-name>callbackUrl</param-name>
+          <param-value>http://local.slidev.org:8080/sample/callback</param-value>
+        </init-param>
+		<init-param>
+          <param-name>clientId</param-name>
+          <param-value>fm67sH6vZZ</param-value>
+        </init-param>
+        <init-param>
+          <param-name>clientSecret</param-name>
+          <param-value>sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4</param-value>
+        </init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

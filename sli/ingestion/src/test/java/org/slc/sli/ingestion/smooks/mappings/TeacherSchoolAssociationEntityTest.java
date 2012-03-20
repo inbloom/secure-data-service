@@ -83,8 +83,8 @@ public class TeacherSchoolAssociationEntityTest {
 
         // mock repository will simulate "finding" the references
         Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.find("teacher", "333333332")).thenReturn(returnEntity);
-        Mockito.when(mockRepository.find("school", "123456111")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("teacher", "333333332")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.findById("school", "123456111")).thenReturn(returnEntity);
 
         EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
     }

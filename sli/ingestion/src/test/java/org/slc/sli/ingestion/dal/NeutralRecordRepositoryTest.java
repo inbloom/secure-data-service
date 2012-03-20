@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,13 +23,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
@@ -72,7 +73,9 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(student);
         when(mockedMongoTemplate.find(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student")))
                 .thenReturn(expectedRecords);
-        Iterable<NeutralRecord> records = repository.findAll("student", 0, 20);
+        NeutralQuery neutralQuery1 = new NeutralQuery();
+        neutralQuery1.setLimit(20);
+        Iterable<NeutralRecord> records = repository.findAll("student", neutralQuery1);
         assertNotNull(records);
         NeutralRecord found = records.iterator().next();
         assertEquals(found.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
@@ -82,34 +85,35 @@ public class NeutralRecordRepositoryTest {
         // test find by id
         when(mockedMongoTemplate.findById(Mockito.any(Object.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(student);
-        NeutralRecord foundOne = repository.find("student", saved.getRecordId());
+        NeutralRecord foundOne = repository.findById("student", saved.getRecordId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
         assertEquals((found.getAttributes()).get("firstName"), "Jane");
 
         // test find by field
-        Map<String, String> searchFields = new HashMap<String, String>();
-        searchFields.put("firstName", "Jane");
-        Iterable<NeutralRecord> searchResults = repository.findByFields("student", searchFields, 0, 20);
+        NeutralQuery neutralQuery2 = new NeutralQuery();
+        neutralQuery2.addCriteria(new NeutralCriteria("firstName", "=", "Jane"));
+        neutralQuery2.setLimit(20);
+        Iterable<NeutralRecord> searchResults = repository.findAll("student", neutralQuery2);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getAttributes().get("firstName"), "Jane");
-        searchResults = repository.findByFields("student", searchFields);
+        searchResults = repository.findAll("student", neutralQuery2);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getAttributes().get("firstName"), "Jane");
 
         // test find by query
-        Query query = new Query();
-        query.addCriteria(Criteria.where("body.firstName").is("Jane"));
-        when(mockedMongoTemplate.find(query, NeutralRecord.class, "student")).thenReturn(expectedRecords);
-        searchResults = repository.findByQuery("student", query, 0, 20);
+        NeutralQuery neutralQuery3 = new NeutralQuery();
+        neutralQuery3.addCriteria(new NeutralCriteria("body.firstName", "=", "Jane", false));
+        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        searchResults = repository.findAll("student", neutralQuery3);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getAttributes().get("firstName"), "Jane");
-        Query query1 = new Query();
-        query1.addCriteria(Criteria.where("body.birthDate").lt("2011-10-01"));
-        searchResults = repository.findByQuery("student", query1, 0, 20);
+        
+        NeutralQuery neutralQuery4 = new NeutralQuery();
+        neutralQuery4.addCriteria(new NeutralCriteria("body.birthDate", "<", "2011-10-01", false));
+        searchResults = repository.findAll("student", neutralQuery4);
         assertTrue(searchResults.iterator().hasNext());
-        query = null;
-        searchResults = repository.findByQuery("student", query, 0, 20);
+        searchResults = repository.findAll("student", new NeutralQuery());
         assertTrue(searchResults.iterator().hasNext());
 
         // test update
@@ -120,7 +124,7 @@ public class NeutralRecordRepositoryTest {
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(goodResult);
         assertTrue(repository.update("student", found));
-        records = repository.findAll("student", 0, 20);
+        records = repository.findAll("student", neutralQuery1);
         assertNotNull(records);
         NeutralRecord updated = records.iterator().next();
         assertEquals(updated.getAttributes().get("firstName"), "Mandy");
@@ -128,7 +132,7 @@ public class NeutralRecordRepositoryTest {
         // test delete by id
         NeutralRecord student2Body = buildTestStudentNeutralRecord();
         NeutralRecord student2 = repository.create(student2Body, "student");
-        records = repository.findAll("student", 0, 20);
+        records = repository.findAll("student", neutralQuery1);
         assertNotNull(records.iterator().next());
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
@@ -136,7 +140,7 @@ public class NeutralRecordRepositoryTest {
         repository.delete("student", student2.getRecordId());
         when(mockedMongoTemplate.findById(Mockito.any(Object.class), Mockito.eq(NeutralRecord.class),
                 Mockito.eq("student"))).thenReturn(null);
-        NeutralRecord zombieStudent = repository.find("student", student2.getRecordId());
+        NeutralRecord zombieStudent = repository.findById("student", student2.getRecordId());
         assertNull(zombieStudent);
         WriteResult badResult = mock(WriteResult.class);
         when(badResult.getN()).thenReturn(0);
@@ -153,7 +157,7 @@ public class NeutralRecordRepositoryTest {
         repository.deleteAll("teacher");
         when(mockedMongoTemplate.find(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student")))
                 .thenReturn(new LinkedList<NeutralRecord>());
-        records = repository.findAll("student", 0, 20);
+        records = repository.findAll("student", neutralQuery1);
         assertFalse(records.iterator().hasNext());
     }
 
@@ -187,15 +191,15 @@ public class NeutralRecordRepositoryTest {
         repository.create(body4, "student");
 
         // sort records by firstName with ascending order
-        Query query = new Query();
-        query.sort().on("body.firstName", Order.ASCENDING);
         List<NeutralRecord> expectedRecords = new LinkedList<NeutralRecord>();
         expectedRecords.add(body1);
         expectedRecords.add(body2);
         expectedRecords.add(body3);
         expectedRecords.add(body4);
-        when(mockedMongoTemplate.find(query, NeutralRecord.class, "student")).thenReturn(expectedRecords);
-        Iterable<NeutralRecord> records = repository.findByQuery("student", query, 0, 100);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy("firstName");
+        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        Iterable<NeutralRecord> records = repository.findAll("student", neutralQuery);
         assertNotNull(records);
         Iterator<NeutralRecord> it = records.iterator();
         assertEquals("Austin", it.next().getAttributes().get("firstName"));
@@ -204,15 +208,14 @@ public class NeutralRecordRepositoryTest {
         assertEquals("Suzy", it.next().getAttributes().get("firstName"));
 
         // sort records by firstName with descending order
-        query = new Query();
-        query.sort().on("body.firstName", Order.DESCENDING);
         expectedRecords = new LinkedList<NeutralRecord>();
         expectedRecords.add(body4);
         expectedRecords.add(body3);
         expectedRecords.add(body2);
         expectedRecords.add(body1);
-        when(mockedMongoTemplate.find(query, NeutralRecord.class, "student")).thenReturn(expectedRecords);
-        records = repository.findByQuery("student", query, 0, 100);
+        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
+        records = repository.findAll("student", neutralQuery);
         assertNotNull(records);
         it = records.iterator();
         assertEquals("Suzy", it.next().getAttributes().get("firstName"));
@@ -221,8 +224,6 @@ public class NeutralRecordRepositoryTest {
         assertEquals("Austin", it.next().getAttributes().get("firstName"));
 
         // sort records by performanceLevels which is an array with ascending order
-        query = new Query();
-        query.sort().on("body.performanceLevels", Order.ASCENDING);
         List<String> performanceLevels1 = new LinkedList<String>();
         List<String> performanceLevels2 = new LinkedList<String>();
         List<String> performanceLevels3 = new LinkedList<String>();
@@ -240,8 +241,10 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(body2);
         expectedRecords.add(body3);
         expectedRecords.add(body4);
-        when(mockedMongoTemplate.find(query, NeutralRecord.class, "student")).thenReturn(expectedRecords);
-        records = repository.findByQuery("student", query, 0, 100);
+        NeutralQuery neutralQuery2 = new NeutralQuery();
+        neutralQuery2.setSortBy("performanceLevels");
+        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        records = repository.findAll("student", neutralQuery2);
         assertNotNull(records);
         it = records.iterator();
         assertEquals("1", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
@@ -250,15 +253,14 @@ public class NeutralRecordRepositoryTest {
         assertEquals("4", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
 
         // sort records by performanceLevels which is an array with descending order
-        query = new Query();
-        query.sort().on("body.performanceLevels", Order.DESCENDING);
+        neutralQuery2.setSortOrder(NeutralQuery.SortOrder.descending);
         expectedRecords = new LinkedList<NeutralRecord>();
         expectedRecords.add(body4);
         expectedRecords.add(body3);
         expectedRecords.add(body2);
         expectedRecords.add(body1);
-        when(mockedMongoTemplate.find(query, NeutralRecord.class, "student")).thenReturn(expectedRecords);
-        records = repository.findByQuery("student", query, 0, 100);
+        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        records = repository.findAll("student", neutralQuery2);
         assertNotNull(records);
         it = records.iterator();
         assertEquals("4", ((List<String>) (it.next().getAttributes().get("performanceLevels"))).get(0));
@@ -319,7 +321,7 @@ public class NeutralRecordRepositoryTest {
         }
         when(mockedMongoTemplate.find(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student")))
                 .thenReturn(expectedRecords);
-        Iterable<String> ids = repository.findIdsByQuery("student", null, 0, 100);
+        Iterable<String> ids = repository.findAllIds("student", new NeutralQuery());
         List<String> idList = new ArrayList<String>();
         for (String id : ids) {
             idList.add(id);

@@ -12,7 +12,7 @@
             "birthDate": "2004-12-04"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "525878920"
     },
@@ -29,7 +29,7 @@
             "birthDate": "1997-03-07"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "802709591"
     },
@@ -46,7 +46,7 @@
             "birthDate": "2000-04-23"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "437680177"
     },
@@ -63,7 +63,7 @@
             "birthDate": "2001-01-23"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "170011136"
     },
@@ -80,7 +80,7 @@
             "birthDate": "1999-11-15"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "547028299"
     },
@@ -97,7 +97,7 @@
             "birthDate": "2000-10-14"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "178875887"
     },
@@ -114,7 +114,7 @@
             "birthDate": "1994-08-30"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "Reduced",
         "id": "376191021"
     },
@@ -131,7 +131,7 @@
             "birthDate": "2002-04-10"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "Free",
         "id": "670703438"
     },
@@ -148,7 +148,7 @@
             "birthDate": "1999-06-13"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "Reduced",
         "id": "851123275"
     },
@@ -165,7 +165,7 @@
             "birthDate": "2005-04-06"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "250918988"
     },
@@ -182,7 +182,7 @@
             "birthDate": "1994-03-17"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "421216329"
     },
@@ -199,7 +199,7 @@
             "birthDate": "2001-01-16"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "746199592"
     },
@@ -216,7 +216,7 @@
             "birthDate": "2004-03-30"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "323538529"
     },
@@ -233,7 +233,7 @@
             "birthDate": "1996-09-23"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "428250371"
     },
@@ -250,7 +250,7 @@
             "birthDate": "2005-07-16"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "114989598"
     },
@@ -267,7 +267,7 @@
             "birthDate": "1995-10-15"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "558780133"
     },
@@ -284,7 +284,7 @@
             "birthDate": "1999-06-27"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "Free",
         "id": "196038854"
     },
@@ -301,7 +301,7 @@
             "birthDate": "2001-01-25"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "992193581"
     },
@@ -318,7 +318,7 @@
             "birthDate": "1996-10-24"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "541397175"
     },
@@ -335,7 +335,7 @@
             "birthDate": "2006-02-13"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "555685100"
     },
@@ -352,7 +352,7 @@
             "birthDate": "2002-07-05"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "453827023"
     },
@@ -369,7 +369,7 @@
             "birthDate": "2006-02-13"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "Free",
         "id": "555685177"
     },
@@ -386,7 +386,7 @@
             "birthDate": "2002-07-05"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "453827070"
     },
@@ -403,7 +403,7 @@
             "birthDate": "2000-12-20"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "943715230"
     },
@@ -420,7 +420,7 @@
             "birthDate": "1995-06-25"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "164420088"
     },
@@ -437,7 +437,7 @@
             "birthDate": "2004-08-22"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "505331723"
     },
@@ -454,7 +454,7 @@
             "birthDate": "2006-07-02"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "530425896"
     },
@@ -471,7 +471,7 @@
             "birthDate": "1999-12-17"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "429526969"
     },
@@ -488,7 +488,7 @@
             "birthDate": "2001-10-04"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "178828452"
     },
@@ -505,7 +505,7 @@
             "birthDate": "1997-06-01"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "510152105"
     },
@@ -522,7 +522,7 @@
             "birthDate": "1994-01-09"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "258392050"
     },
@@ -539,7 +539,7 @@
             "birthDate": "2006-06-02"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "None",
         "id": "100644447"
     },
@@ -556,7 +556,7 @@
             "birthDate": "2003-03-25"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "schoolFoodServiceEligibility": "None",
         "id": "336344132"
     },
@@ -573,7 +573,7 @@
             "birthDate": "2006-01-08"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "711411586"
     },
@@ -590,7 +590,7 @@
             "birthDate": "1997-07-22"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "131758477"
     },
@@ -607,7 +607,7 @@
             "birthDate": "1999-06-05"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "schoolFoodServiceEligibility": "Free",
         "id": "423037202"
     }

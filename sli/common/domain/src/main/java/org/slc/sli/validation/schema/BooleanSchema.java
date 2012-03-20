@@ -36,6 +36,11 @@ public class BooleanSchema extends NeutralSchema {
         return NeutralSchemaType.BOOLEAN;
     }
 
+    @Override
+    public Object convert(Object value) {
+        return Boolean.parseBoolean((String) value);
+    }
+    
     // Methods
 
     /**
