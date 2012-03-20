@@ -52,11 +52,11 @@
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
 
-  <bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
+  <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />-->
 
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
-    <property name="idConverter" ref="neutralRecordMongoIdConverter" />
+    <property name="idConverter" ref="mongoIdConverter" />
   </bean>
 
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" >
