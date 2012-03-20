@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.handler;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -79,7 +80,7 @@ public class IdNormalizerTest {
         Map<String, String> simpleSectionFilter = new HashMap<String, String>();
         simpleSectionFilter.put("metaData.externalId", "aSectionId");
         simpleSectionFilter.put("metaData." + EntityMetadataKey.ID_NAMESPACE.getKey() , REGION_ID);
-        when(mockedEntityRepository.findAllByPaths("section", simpleSectionFilter, Mockito.any(NeutralQuery.class))).thenReturn(sectionList);
+        when(mockedEntityRepository.findAllByPaths(eq("section"), eq(simpleSectionFilter), Mockito.any(NeutralQuery.class))).thenReturn(sectionList);
 
         String internalId = IdNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, "aSectionId", mock(ErrorReport.class));
         Assert.assertEquals("aSectionId", internalId);
@@ -94,7 +95,8 @@ public class IdNormalizerTest {
         when(section.getEntityId()).thenReturn("aSectionId");
         sectionList.add(section);
 
-        when(mockedEntityRepository.findAll(Mockito.eq("section"), Mockito.any(NeutralQuery.class))).thenReturn(sectionList);
+        when(mockedEntityRepository.findAllByPaths(Mockito.any(String.class), Mockito.any(Map.class), Mockito.any(NeutralQuery.class))).thenReturn(sectionList);
+        when(mockedEntityRepository.findAll(Mockito.any(String.class), Mockito.any(NeutralQuery.class))).thenReturn(sectionList);
 
         String internalId = IdNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, complexReference, mock(ErrorReport.class));
 

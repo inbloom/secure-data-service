@@ -8,7 +8,8 @@ class AppsController < ApplicationController
   # GET /apps
   # GET /apps.json
   def index
-   @apps = App.all.sort { |a,b| a.metaData.updated <=> b.metaData.updated }
+    @title = "Application Registration Tool"
+    @apps = App.all.sort { |a,b| b.metaData.updated <=> a.metaData.updated }
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @apps }
@@ -29,6 +30,7 @@ class AppsController < ApplicationController
   # GET /apps/new
   # GET /apps/new.json
   def new
+    @title = "New Application"
     @app = App.new
     @app.developer_info = App::DeveloperInfo.new
   
@@ -64,6 +66,7 @@ class AppsController < ApplicationController
     
     respond_to do |format|
       if @app.save
+        logger.debug {"Redirecting to #{apps_path}"}
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js
@@ -95,7 +98,7 @@ class AppsController < ApplicationController
     end
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        format.html { redirect_to @app.id, notice: 'App was successfully updated.' }
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -115,15 +118,6 @@ class AppsController < ApplicationController
       # format.html { redirect_to apps_url }
       # format.json { head :ok }
     end
-  end
-
-  def sort_column
-    puts App.inspect
-    App.include?(params[:sort]) ? params[:sort] : "name"
-  end
-  
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end
