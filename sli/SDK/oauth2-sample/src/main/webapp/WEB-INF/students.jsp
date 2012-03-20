@@ -13,11 +13,11 @@
 <body>
     <table>
         <tr>
-            <th>Student</th><th>Grade</th>
+            <th id="header.Student">Student</th><th id="header.Grade">Grade</th>
         </tr>
         <c:forEach var="student" items="${grades}">
             <tr>
-                <td>${student.key}</td><td>${student.value}</td>
+                <td id="name.${student.key}">${student.key}</td><td id="grade.${student.value}">${student.value}</td>
             </tr>
         </c:forEach>
     </table>

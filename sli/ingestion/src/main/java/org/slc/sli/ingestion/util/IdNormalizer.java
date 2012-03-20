@@ -108,7 +108,7 @@ public class IdNormalizer {
              if (pathCollection.equals(collection) && searchCriteriaEntry.getValue() != null) {
 
                 resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
-                //addSearchPathsToQuery(neutralQuery, filterFields);
+//                addSearchPathsToQuery(neutralQuery, filterFields);
 
              } else {
 
@@ -185,10 +185,10 @@ public class IdNormalizer {
 
         Map<String, String> orFilter = new HashMap<String, String>();
 
-        for (Entity found : referenceFound) {
-
-               orFilter.put(referencePath, found.getEntityId());
-
+        if (referenceFound != null) {
+            for (Entity found : referenceFound) {
+                orFilter.put(referencePath, found.getEntityId());
+            }
         }
 
         addOrToQuery(neutralQuery, orFilter);

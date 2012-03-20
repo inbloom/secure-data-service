@@ -316,11 +316,14 @@ public class AssessmentMetaDataResolver {
         return found;
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public String calculatePerfLevel(String assmtId, String scaleScore) {
         String perfLevel = "";
+
         Map assmt = getAssmtById(assmtId);
         if (assmt != null) {
             List<Double> minScores = new ArrayList<Double>();
+
             List<Map> perfLevelDescriptors = (List<Map>) (assmt.get(Constants.ATTR_ASSESSMENT_PERF_LEVEL));
             if (perfLevelDescriptors != null && perfLevelDescriptors.size() > 0) {
                 for (Map perfLevelDescriptor : perfLevelDescriptors) {

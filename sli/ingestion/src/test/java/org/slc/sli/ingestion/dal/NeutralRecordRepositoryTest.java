@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +72,7 @@ public class NeutralRecordRepositoryTest {
         // test findAll
         List<NeutralRecord> expectedRecords = new LinkedList<NeutralRecord>();
         expectedRecords.add(student);
-        when(mockedMongoTemplate.find(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class), Mockito.eq("student")))
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student")))
                 .thenReturn(expectedRecords);
         NeutralQuery neutralQuery1 = new NeutralQuery();
         neutralQuery1.setLimit(20);
@@ -83,8 +84,8 @@ public class NeutralRecordRepositoryTest {
         assertEquals((found.getAttributes()).get("lastName"), "Doe");
 
         // test find by id
-        when(mockedMongoTemplate.findById(Mockito.any(Object.class), Mockito.eq(NeutralRecord.class),
-                        Mockito.eq("student"))).thenReturn(student);
+        when(mockedMongoTemplate.findById(any(Object.class), eq(NeutralRecord.class),
+                        eq("student"))).thenReturn(student);
         NeutralRecord foundOne = repository.findById("student", saved.getRecordId());
         assertNotNull(foundOne);
         assertEquals(foundOne.getAttributes().get("birthDate"), student.getAttributes().get("birthDate"));
@@ -104,7 +105,7 @@ public class NeutralRecordRepositoryTest {
         // test find by query
         NeutralQuery neutralQuery3 = new NeutralQuery();
         neutralQuery3.addCriteria(new NeutralCriteria("body.firstName", "=", "Jane", false));
-        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(expectedRecords);
         searchResults = repository.findAll("student", neutralQuery3);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getAttributes().get("firstName"), "Jane");
@@ -198,7 +199,7 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(body4);
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setSortBy("firstName");
-        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(expectedRecords);
         Iterable<NeutralRecord> records = repository.findAll("student", neutralQuery);
         assertNotNull(records);
         Iterator<NeutralRecord> it = records.iterator();
@@ -213,7 +214,7 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(body3);
         expectedRecords.add(body2);
         expectedRecords.add(body1);
-        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(expectedRecords);
         neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
         records = repository.findAll("student", neutralQuery);
         assertNotNull(records);
@@ -243,7 +244,7 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(body4);
         NeutralQuery neutralQuery2 = new NeutralQuery();
         neutralQuery2.setSortBy("performanceLevels");
-        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(expectedRecords);
         records = repository.findAll("student", neutralQuery2);
         assertNotNull(records);
         it = records.iterator();
@@ -259,7 +260,7 @@ public class NeutralRecordRepositoryTest {
         expectedRecords.add(body3);
         expectedRecords.add(body2);
         expectedRecords.add(body1);
-        when(mockedMongoTemplate.find(any(Query.class), NeutralRecord.class, "student")).thenReturn(expectedRecords);
+        when(mockedMongoTemplate.find(any(Query.class), eq(NeutralRecord.class), eq("student"))).thenReturn(expectedRecords);
         records = repository.findAll("student", neutralQuery2);
         assertNotNull(records);
         it = records.iterator();
