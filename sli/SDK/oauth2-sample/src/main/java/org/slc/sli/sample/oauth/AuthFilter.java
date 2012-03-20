@@ -67,22 +67,19 @@ public class AuthFilter implements Filter {
         // TODO refector to use spring + env specific config files
         clientId = conf.getInitParameter("clientId");
         clientSecret = conf.getInitParameter("clientSecret");
-        callbackUrl = conf.getInitParameter("callbackUrl");
+        
+        try {
+            apiUrl = new URL(conf.getInitParameter("apiUrl"));
+        } catch (MalformedURLException e) {
+            throw new ServletException("Bad API URL: " + apiUrl, e);
+        }
         
         String env = System.getProperty("sli.env");
         if (env != null && "local".equalsIgnoreCase(env)) {
-            // use the default values in the web.xml
-            try {
-                apiUrl = new URL(conf.getInitParameter("apiUrl"));
-            } catch (MalformedURLException e) {
-                throw new ServletException("Bad API URL: " + apiUrl, e);
-            }
+            // use the default value in the web.xml
+            callbackUrl = conf.getInitParameter("callbackUrl");
         } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
-            try {
-                apiUrl = new URL("https://nxbuild2.slidev.org/oauth2-sample/callback");
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
+            callbackUrl = "https://nxbuild2.slidev.org/oauth2-sample/callback";
         } else {
             throw new RuntimeException("Unsuported environment: " + env);
         }
