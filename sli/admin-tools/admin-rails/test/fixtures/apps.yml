@@ -18,6 +18,9 @@ admin:
     developer_info: 
         license_acceptance: true
         organization: SLI
+    metaData:
+        updated: 10000000
+        created: 10000000
 waffles:
     id: 2
     client_type: PUBLIC
@@ -33,11 +36,12 @@ waffles:
     version: ".waffles"
     method: "Full Window App"
     is_admin: true
-    created_on: 1231670018
-    updated_on: 1251670018
     developer_info: 
         license_acceptance: true
         organization: SLI
+    metaData:
+        updated: 10000000
+        created: 10000000
         
 update:
     id: 1
