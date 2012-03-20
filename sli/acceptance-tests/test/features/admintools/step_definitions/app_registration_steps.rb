@@ -153,6 +153,3 @@ Then /^the previously generated client ID can no longer be used to access SLI$/ 
   pending # express the regexp above with the code you wish you had
 end
 
-When /^I have entered data into the other required fields except for the shared secret and the app id which are read\-only$/ do
-  pending # express the regexp above with the code you wish you had
-end
