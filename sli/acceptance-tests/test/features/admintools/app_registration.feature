@@ -83,4 +83,3 @@ And I have clicked on the button 'X' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
 When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI
-And the previously generated client ID can no longer be used to access SLI

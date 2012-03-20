@@ -131,23 +131,22 @@ end
 
 Then /^I have clicked on the button 'X' for the application named "([^"]*)"$/ do |arg1|
   list = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']")
-  assert_not_nil(list)
-  # Make sure that the new custom role is mapped to the default role we expect
+  assert(list)
+  @id = list.attribute('id')
   @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[text()='Delete']").click
-  @driver.storeConfirmation("Ok")
     
 end
 
 Then /^I got warning message saying 'You are trying to remove this application from SLI\. By doing so, you will prevent any active user to access it\. Do you want to continue\?'$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.switch_to.alert
 end
 
 When /^I click 'Yes'$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.switch_to.alert.accept
 end
 
 Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+    assertWithWait("Shouldn't see a NewApp") {!@driver.find_element(:xpath, "//tr[2]").attribute('id') != @id}
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
