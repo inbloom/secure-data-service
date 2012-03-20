@@ -79,7 +79,7 @@ public class GradebookViewModifierTest {
         DisplaySet current = testDisplaySet.get(0);
         DisplaySet grades = testDisplaySet.get(1);
         assertEquals(GradebookViewModifer.CURRENT, current.getDisplayName());
-        assertEquals(GradebookViewModifer.GRADES, grades.getDisplayName());
+        assertEquals("Current", grades.getDisplayName());
 
         assertEquals(1, current.getField().size());
         Field average = current.getField().get(0);
