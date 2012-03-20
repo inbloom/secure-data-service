@@ -16,4 +16,4 @@ And I select section "Sec 145"
 And I wait for "2" seconds
 And I select user view "IL_9-12"
 And I wait for "4" seconds
-Then the table includes header "ACT;SAT;PSAT/NMSQT;Reading Test Scores (Highest);Writing Test Scores (Highest)"
+Then the table includes header "SAT;Reading Test Scores (Highest);Writing Test Scores (Highest)"

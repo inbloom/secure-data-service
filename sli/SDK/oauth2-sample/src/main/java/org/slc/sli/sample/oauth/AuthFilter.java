@@ -29,10 +29,10 @@ public class AuthFilter implements Filter {
     public void destroy() {
         LOG.info("Destroy auth filter");
     }
-
+    
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         if (req.getRequestURI().equals("/sample/callback")) {
             handleCallback(request, response);
@@ -42,36 +42,47 @@ public class AuthFilter implements Filter {
             chain.doFilter(request, response);
         }
     }
-
+    
     private void handleCallback(ServletRequest request, ServletResponse response) {
-        BasicClient client = (BasicClient) ((HttpServletRequest)request).getSession().getAttribute("client");
-        String code = ((HttpServletRequest)request).getParameter("code");
+        BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
+        String code = ((HttpServletRequest) request).getParameter("code");
         LOG.debug("Got authoriation code: {}", code);
         String accessToken = client.connect(code);
         LOG.debug("Got access token: {}", accessToken);
     }
-
+    
     private void authenticate(ServletRequest req, ServletResponse res) {
- 
+        
         BasicClient client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
         try {
-            ((HttpServletResponse)res).sendRedirect(client.getLoginURL().toExternalForm());
+            ((HttpServletResponse) res).sendRedirect(client.getLoginURL().toExternalForm());
         } catch (IOException e) {
             LOG.error("Bad redirect", e);
         }
-        ((HttpServletRequest)req).getSession().setAttribute("client", client);
+        ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
-
+    
     @Override
     public void init(FilterConfig conf) throws ServletException {
+        // TODO refector to use spring + env specific config files
         clientId = conf.getInitParameter("clientId");
         clientSecret = conf.getInitParameter("clientSecret");
+        
         try {
             apiUrl = new URL(conf.getInitParameter("apiUrl"));
         } catch (MalformedURLException e) {
             throw new ServletException("Bad API URL: " + apiUrl, e);
         }
-        callbackUrl = conf.getInitParameter("callbackUrl");
+        
+        String env = System.getProperty("sli.env");
+        if (env != null && "local".equalsIgnoreCase(env)) {
+            // use the default value in the web.xml
+            callbackUrl = conf.getInitParameter("callbackUrl");
+        } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
+            callbackUrl = "https://nxbuild2.slidev.org/oauth2-sample/callback";
+        } else {
+            throw new RuntimeException("Unsuported environment: " + env);
+        }
     }
-
+    
 }

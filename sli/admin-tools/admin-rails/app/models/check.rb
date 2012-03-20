@@ -7,7 +7,12 @@ class Check
     Rails.logger.debug {"Json response: #{json}"}
     @full_name = json['full_name']
     @authenticated = json['authenticated']
-    @realm = json['realm']
+    #TODO: Once all users have an adminRealm defined, we won't need to failover to realm
+    if json['adminRealm']
+      @realm = json['adminRealm']
+    else
+      @realm = json['realm']
+    end
   end
 
 

@@ -776,7 +776,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -839,6 +839,11 @@ end
 desc "Run Dashboard performance level acceptance tests"
 task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
 end
 
 desc "Run dashboard attendance related tests"
