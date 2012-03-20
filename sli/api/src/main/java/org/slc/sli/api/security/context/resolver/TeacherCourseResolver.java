@@ -1,20 +1,22 @@
 package org.slc.sli.api.security.context.resolver;
 
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.SmartQuery;
 
 
 /**
@@ -46,25 +48,20 @@ public class TeacherCourseResolver implements EntityContextResolver {
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-
+        
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
 
-        StringBuilder query = new StringBuilder();
-        String separator = "";
-
-        for (String s : sectionIds) {
-            query.append(separator);
-            separator = ",";
-            query.append(s);
+        List<String> ids = new ArrayList<String>();
+        for (String sectionId : sectionIds) {
+            ids.add(sectionId);
         }
-
-        SmartQuery.SmartQueryBuilder queryBuilder = new SmartQuery.SmartQueryBuilder();
-        queryBuilder.addField("_id", query.toString());
-
-        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
-
+        
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        
+        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
         Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : entities) {

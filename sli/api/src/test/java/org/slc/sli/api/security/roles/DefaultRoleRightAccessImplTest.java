@@ -7,6 +7,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.enums.Right;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Set of tests for the basic RoleRightsAccessImpl
@@ -69,7 +71,7 @@ public class DefaultRoleRightAccessImplTest {
         when(mockService.get("BadID")).thenReturn(getEntityBody());
         when(mockService.get("ITID")).thenReturn(getITEntityBody());
 
-        when(mockService.list(0, 100)).thenReturn(ids);
+        when(mockService.listIds(any(NeutralQuery.class))).thenReturn(ids);
     }
 
     @After

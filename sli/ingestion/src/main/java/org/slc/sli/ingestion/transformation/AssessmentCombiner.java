@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
@@ -101,8 +101,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         Map<String, String> paths = new HashMap<String, String>();
         paths.put("body.codeValue", assessmentPeriodDescriptorRef);
         
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "assessmentPeriodDescriptor", paths);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByPaths(
+                "assessmentPeriodDescriptor", paths, new NeutralQuery());
         
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
@@ -117,8 +117,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         
         paths.put("body.id", objectiveAssessmentRef);
         
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "objectiveAssessment", paths);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByPaths(
+                "objectiveAssessment", paths, new NeutralQuery());
         
         Map<String, Object> objectiveAssessment = data.iterator().next().getAttributes();
         objectiveAssessment.remove("id");
@@ -135,8 +135,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         Map<String, String> paths = new HashMap<String, String>();
         paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
         
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "assessmentFamily", paths);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByPaths(
+                "assessmentFamily", paths, new NeutralQuery());
         
         Map<String, Object> associationAttrs;
         
@@ -197,11 +197,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      * @param collectionName
      */
     private void loadCollectionFromDb(String collectionName) {
-
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
-                new Query(jobIdCriteria), 0, 0);
+        
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, "=", getBatchJobId()));
+        
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAll(collectionName, neutralQuery);
         
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;

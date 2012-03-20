@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
 import javax.ws.rs.core.UriInfo;
 
 /**

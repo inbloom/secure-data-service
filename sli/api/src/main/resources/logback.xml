@@ -1,5 +1,6 @@
 <configuration>
-
+  <property resource="api.properties" />
+    
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
@@ -8,6 +9,18 @@
     </encoder>
   </appender>
   
+  <appender name="API_CALL_LOGGER" class="ch.qos.logback.core.FileAppender">
+    <File>${log.path}/apicall.log</File>
+    <Append>true</Append>
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] - %msg%n</Pattern>
+    </encoder>
+  </appender>
+  
+  <logger name="APICallLogger" level="INFO">
+    <appender-ref ref="API_CALL_LOGGER" />
+  </logger>
+
   <logger name="org.springframework.security" level="INFO" />
   <logger name="org.springframework.beans.factory" level="INFO" />
   <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />

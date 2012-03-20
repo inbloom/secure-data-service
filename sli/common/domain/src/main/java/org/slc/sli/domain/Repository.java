@@ -6,7 +6,6 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -16,72 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
  *
  */
 public interface Repository<T> {
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param id
-     *            the global unique id of the object
-     * @return the object retrieved
-     */
-    public T find(String collectionName, String id);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param id
-     *            the global unique id of the object
-     * @param query
-     *            all parameters to be included in query
-     * @return the object retrieved
-     */
-    public T find(String collectionName, Map<String, String> query);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param query
-     *            all parameters to be included in query
-     * @return the object retrieved
-     */
-    public Iterable<T> findAll(String collectionName, Map<String, String> query);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param query
-     *            all parameters to be included in query
-     * @return the object retrieved
-     */
-    public Iterable<T> findAll(String collectionName, SmartQuery query);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param skip
-     *            the beginning index of the object that will be returned
-     * @param max
-     *            the max number of objects that will be returned
-     * @return the collection of objects
-     */
-    public Iterable<T> findAll(String collectionName, int skip, int max);
-
-    /**
-     * @param collectioName
-     *            the name of the collection to look in
-     * @return the collection of objects
-     */
-    public Iterable<T> findAll(String collectioName);
-
-    /**
-     * @param collection
-     *            the collection the object is in
-     * @param object
-     *            the object that will be updated
-     * @return whether or not the object was updated
-     */
-    public boolean update(String collection, T object);
-
+    
     /**
      * Create an entry with the collection set to the type name
      *
@@ -92,7 +26,7 @@ public interface Repository<T> {
      * @return the object that has been persisted
      */
     public T create(String type, Map<String, Object> body);
-
+    
     /**
      * @param type
      *            the type of object to be persisted
@@ -103,7 +37,7 @@ public interface Repository<T> {
      * @return the object that has been persisted
      */
     public T create(String type, Map<String, Object> body, String collectionName);
-
+    
     /**
      * @param type
      *            the type of object to be persisted
@@ -116,71 +50,34 @@ public interface Repository<T> {
      * @return the object that has been persisted
      */
     public T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
-
+    
     /**
      * @param collectionName
-     *            the name of the collection to delete from
+     *            the name of the collection to look in
      * @param id
      *            the global unique id of the object
+     * @return the object retrieved
      */
-    public boolean delete(String collectionName, String id);
-
+    public T findById(String collectionName, String id);
+    
     /**
+     * Fetches first element from given query
+     *
      * @param collectionName
-     *            the name of the collection to delete from
+     * @param query
+     * @return
      */
-    public void deleteAll(String collectionName);
-
+    public T findOne(String collectionName, NeutralQuery neutralQuery);
+    
     /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param fields
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("firstName","Jane")
-     * @param skip
-     *            the beginning index of the object that will be returned
-     * @param max
-     *            the max number of objects that will be returned
-     * @return the collection of objects
-     */
-    public Iterable<T> findByFields(String collectionName, Map<String, String> fields, int skip, int max);
-
-    /**
+     * Get the number of elements in the collection matching a particular query
+     * 
      * @param collectionName
      *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.regionId","Region")
-     * @param skip
-     *            the beginning index of the object that will be returned
-     * @param max
-     *            the max number of objects that will be returned
      * @return the collection of objects
      */
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths, int skip, int max);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param fields
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("firstName","Jane")
-     * @return the collection of objects
-     */
-    public Iterable<T> findByFields(String collectionName, Map<String, String> fields);
-
-    /**
-     * @param collectionName
-     *            the name of the collection to look in
-     * @param paths
-     *            a map with key value pairs as string that define the search
-     *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.regionId","Region")
-     * @return the collection of objects
-     */
-    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths);
-
+    public Iterable<T> findAll(String collectionName);
+    
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -193,28 +90,19 @@ public interface Repository<T> {
      *
      * @return the collection of objects
      */
-    public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max);
-
+    public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery);
+    
     /**
-     * Fetches first element from given query
-     *
-     * @param collectionName
-     * @param query
-     * @return
-     */
-    public T findOne(String collectionName, Query query);
-
-    /**
-     * Get the number of elements in the collection matching a particular query
-     *
      * @param collectionName
      *            the name of the collection to look in
-     * @param query
-     *            the query to look for
-     * @return the number of objects matching the query in the collection
+     * @param paths
+     *            a map with key value pairs as string that define the search
+     *            criteria for example: new HashMap().put("body.firstName","Jane"),
+     *            or new HashMap().put("metadata.regionId","Region")
+     * @return the collection of objects
      */
-    public long count(String collectionName, Query query);
-
+    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery);
+    
     /**
      * Filter a collection of IDs by
      *
@@ -228,7 +116,41 @@ public interface Repository<T> {
      *            maximum number of results returned
      * @return
      */
-    public Iterable<String> findIdsByQuery(String collectionName, Query query, int skip, int max);
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery);
+    
+    /**
+     * Get the number of elements in the collection matching a particular query
+     *
+     * @param collectionName
+     *            the name of the collection to look in
+     * @param query
+     *            the query to look for
+     * @return the number of objects matching the query in the collection
+     */
+    public long count(String collectionName, NeutralQuery neutralQuery);
+    
+    /**
+     * @param collection
+     *            the collection the object is in
+     * @param object
+     *            the object that will be updated
+     * @return whether or not the object was updated
+     */
+    public boolean update(String collection, T object);
+    
+    /**
+     * @param collectionName
+     *            the name of the collection to delete from
+     * @param id
+     *            the global unique id of the object
+     */
+    public boolean delete(String collectionName, String id);
+    
+    /**
+     * @param collectionName
+     *            the name of the collection to delete from
+     */
+    public void deleteAll(String collectionName);
 
     /**
      * Execute a mongo command

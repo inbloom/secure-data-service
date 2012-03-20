@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Realm handling api
@@ -61,10 +62,13 @@ public class RealmResource implements IdpResolver {
         Iterable<EntityBody> entities = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
             @Override
             public Iterable<EntityBody> execute() {
-                return getService().get(getService().list(0, MAX_REALMS));
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(MAX_REALMS);
+                return getService().list(neutralQuery);
             }
         });
-
+        
         Set<EntityBody> set = new HashSet<EntityBody>();
         for (EntityBody eb : entities) {
             eb.remove("mappings");
