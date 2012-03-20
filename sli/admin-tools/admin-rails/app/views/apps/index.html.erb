@@ -10,7 +10,7 @@
 		<th>Actions</th>
 	</tr>
 	<% @apps.each do |app| %>
-		<tr>
+		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
 		    <td><%= app.version %></td>
 			<td><%= app.developer_info.organization %></td>
