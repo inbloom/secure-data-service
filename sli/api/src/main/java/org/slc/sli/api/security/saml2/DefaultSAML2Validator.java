@@ -16,9 +16,7 @@ import java.security.cert.CertPathValidator;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.PKIXCertPathValidatorResult;
 import java.security.cert.PKIXParameters;
-import java.security.cert.TrustAnchor;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -119,10 +117,10 @@ public class DefaultSAML2Validator implements SAML2Validator {
                 X509Data xd = (X509Data) xmlStructure;
                 @SuppressWarnings("unchecked")
                 Iterator<Object> data = xd.getContent().iterator();
-                for (; data.hasNext();) {
-                    Object o = data.next();
-                    if (o instanceof X509Certificate) {
-                        certificate = (X509Certificate) o;
+                while (data.hasNext()) {
+                    Object nextElement = data.next();
+                    if (nextElement instanceof X509Certificate) {
+                        certificate = (X509Certificate) nextElement;
                         break;
                     }
                 }
@@ -132,22 +130,20 @@ public class DefaultSAML2Validator implements SAML2Validator {
         if (certificate != null) {
             KeyStore cacerts = loadCaCerts();
             PKIXParameters params = new PKIXParameters(cacerts);
-            params.setRevocationEnabled(true);
+            params.setRevocationEnabled(false);
             
             CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
             CertPath certPath = certFactory.generateCertPath(Arrays.asList(certificate));
             CertPathValidator certPathValidator = CertPathValidator.getInstance(CertPathValidator.getDefaultType());
             try {
-                PKIXCertPathValidatorResult result = (PKIXCertPathValidatorResult) certPathValidator.validate(certPath,
-                        params);
-                TrustAnchor ta = result.getTrustAnchor();
+                certPathValidator.validate(certPath, params);
                 trusted = true;
-                LOG.debug("X509 Certificate is trusted --> Signed by: {}", ta.getCAName());
+                LOG.debug("X509 Certificate is trusted.");
             } catch (CertPathValidatorException e) {
-                LOG.warn("X509 Certificate is not trusted.");
+                LOG.error("X509 Certificate is not trusted.");
             }
         } else {
-            LOG.warn("X509 Certificate is null --> no trust can be established.");
+            LOG.error("X509 Certificate is null --> no trust can be established.");
         }
         return trusted;
     }
@@ -183,8 +179,14 @@ public class DefaultSAML2Validator implements SAML2Validator {
      *            Document containing SAML assertion.
      * @return true if the SAML assertion has been signed by a trusted certificate authority, as
      *         well as passes validation. false, otherwise.
+     * @throws MarshalException
+     * @throws NoSuchAlgorithmException
+     * @throws CertificateException
+     * @throws InvalidAlgorithmParameterException
+     * @throws KeyStoreException
      */
-    public boolean isDocumentTrustedAndValid(Document samlDocument) {
+    public boolean isDocumentTrustedAndValid(Document samlDocument) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException {
         return isDocumentTrusted(samlDocument) && isDocumentValid(samlDocument);
     }
     
@@ -195,22 +197,15 @@ public class DefaultSAML2Validator implements SAML2Validator {
      *            Document containing SAML assertion.
      * @return true if the SAML assertion has been signed by a trusted certificate authority. false,
      *         otherwise.
+     * @throws MarshalException
+     * @throws NoSuchAlgorithmException
+     * @throws CertificateException
+     * @throws InvalidAlgorithmParameterException
+     * @throws KeyStoreException
      */
-    public boolean isDocumentTrusted(Document samlDocument) {
-        try {
-            return isSignatureTrusted(getSignature(samlDocument));
-        } catch (MarshalException e) {
-            LOG.warn("Couldn't validate Document", e);
-        } catch (InvalidAlgorithmParameterException e) {
-            LOG.warn("Invalid or inappropriate algorithm parameters", e);
-        } catch (CertificateException e) {
-            LOG.warn("There is an issue with the X509 Certificate", e);
-        } catch (NoSuchAlgorithmException e) {
-            LOG.warn("Requested cryptographic algorithm is invalid or unavailable in the current environment", e);
-        } catch (KeyStoreException e) {
-            LOG.warn("There is an issue with the trusted Certificate Authority store", e);
-        }
-        return false;
+    public boolean isDocumentTrusted(Document samlDocument) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException {
+        return isSignatureTrusted(getSignature(samlDocument));
     }
     
     /**

@@ -4,6 +4,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -262,7 +263,7 @@ public class SmooksEdFi2SLITransformerTest {
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findAllByPaths("assessment", assessmentFilterFields, any(NeutralQuery.class))).thenReturn(le);
+        when(mockedEntityRepository.findAllByPaths(eq("assessment"), eq(assessmentFilterFields), any(NeutralQuery.class))).thenReturn(le);
 
         List<SimpleEntity> res = transformer.handle(assessmentRC);
 

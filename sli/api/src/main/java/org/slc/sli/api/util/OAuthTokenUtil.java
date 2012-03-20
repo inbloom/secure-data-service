@@ -111,6 +111,13 @@ public class OAuthTokenUtil {
         return ACCESS_TOKEN_VALIDITY;
     }
 
+    /**
+     * This method will create an OAuth2Authentication based on the data
+     * that comes from the access token table.
+     * 
+     * @param data - the data that comes from the access token table
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public OAuth2Authentication createOAuth2Authentication(Map data) {
         String realm = (String) data.get("realm");
@@ -127,7 +134,13 @@ public class OAuthTokenUtil {
         return reconstituteAuth(principal, data);
     }
     
-    public OAuth2Authentication reconstituteAuth(final SLIPrincipal principal,
+    /**
+     * Helper method used by createOAuth2Authentication
+     * @param principal
+     * @param data
+     * @return
+     */
+    protected OAuth2Authentication reconstituteAuth(final SLIPrincipal principal,
             Map data) {
         Set<String> scope = listToSet((List) data.get("scope"));
         Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
@@ -153,6 +166,12 @@ public class OAuthTokenUtil {
         return new OAuth2Authentication(client, user);
     }
 
+    /**
+     * Given an OAuth2Authentication object, this method will create Entity data
+     * out of that object so that it can be saved to Mongo and reconstituted at a later time
+     * @param auth
+     * @return
+     */
     public static EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
         EntityBody body = new EntityBody();
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
