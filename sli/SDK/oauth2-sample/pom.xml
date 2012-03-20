@@ -49,18 +49,13 @@
 					<systemProperties>
 						<systemProperty>
 							<name>sli.env</name>
-							<value>test</value>
+							<value>${sli.env}</value>
 						</systemProperty>
 					</systemProperties>
 
-					<contextPath>sample</contextPath>
 					<connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>60000</maxIdleTime>
-							<!-- increase header buffer size to support our aggressive linking 
-								strategy -->
-							<headerBufferSize>16384</headerBufferSize>
+							<port>8081</port>
 						</connector>
 					</connectors>
 				</configuration>

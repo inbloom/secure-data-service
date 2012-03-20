@@ -37,7 +37,7 @@
 		</init-param>
 		<init-param>
           <param-name>callbackUrl</param-name>
-          <param-value>http://local.slidev.org:8080/sample/callback</param-value>
+          <param-value>http://local.slidev.org:8081/oauth2-sample/callback</param-value>
         </init-param>
 		<init-param>
           <param-name>clientId</param-name>
