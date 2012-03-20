@@ -4,7 +4,6 @@ As a super-admin I want to be able to create new application keys to allow the o
 Background:
 Given I have an open web browser
 
-@foo
 Scenario: SLI Administrator Logging in
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -24,7 +23,6 @@ And I get redirected to the IDP login page
 And I authenticate with username "administrator" and password "administrator1234"
 Then I receive a message that I am not authorized
 
-
 Scenario: Register a new application
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
@@ -41,7 +39,6 @@ Then I am redirected to the Application Registration Tool page
 And the application is listed in the table on the top
 And a client ID is created for the new application that can be used to access SLI
 
-@wip
 Scenario: View application details
 
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
