@@ -2,7 +2,7 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../dash/step_definitions/selenium_common_dash.rb'
 
 Given /^the sampleApp is deployed on sampleApp server$/ do
-  @appPrefix = "/oauth2-sample/students"
+  @appPrefix = "oauth2-sample/students"
 end
 
 When /^I navigate to the sampleApp home page$/ do
@@ -44,15 +44,20 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
 end
 
 When /^I go to List of Students$/ do
-  pending # express the regexp above with the code you wish you had
+  url = PropLoader.getProps['sampleApp_server_address']
+  url = url + @appPrefix
+  puts url
+  @driver.get url
 end
 
-Then /^the table includes header "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^the page should include a table with header "([^"]*)"$/ do |name|
+  headerName=@driver.find_element(:id, "header."+name)
+  headerName.text.should == name
 end
 
-Then /^I should see student sampeStudent" in the list$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I should see student "([^"]*)" in the student list$/ do |studentName|
+  name=@driver.find_element(:id, "name."+studentName)
+  name.text.should == studentName
 end
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
