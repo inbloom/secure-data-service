@@ -197,9 +197,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      * @param collectionName
      */
     private void loadCollectionFromDb(String collectionName) {
-        
-        Criteria jobIdCriteria = Criteria.where("batchJobId").is(getBatchJobId());
-        
+
+        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
+
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
                 new Query(jobIdCriteria), 0, 0);
         

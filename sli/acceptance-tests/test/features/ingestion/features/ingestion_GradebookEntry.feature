@@ -1,4 +1,4 @@
-Feature: StudentTranscriptAssociation Ingestion Test
+Feature: Gradebook Entry Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store

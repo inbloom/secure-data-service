@@ -21,6 +21,13 @@
     <appender-ref ref="API_CALL_LOGGER" />
   </logger>
 
+  <logger name="org.springframework.security" level="INFO" />
+  <logger name="org.springframework.beans.factory" level="INFO" />
+  <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />
+  
+  <logger name="org.slc.sli.dal.repository" level="INFO" />
+  <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="INFO" />
+
   <root level="debug">
     <appender-ref ref="STDOUT" />
   </root>
