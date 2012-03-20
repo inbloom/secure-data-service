@@ -47,6 +47,10 @@
           <param-name>clientSecret</param-name>
           <param-value>sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4</param-value>
         </init-param>
+        <init-param>
+          <param-name>afterCallbackRedirect</param-name>
+          <param-value>students</param-value>
+        </init-param>
 	</filter>
 	
 	<filter-mapping>

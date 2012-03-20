@@ -24,6 +24,7 @@ public class AuthFilter implements Filter {
     private String clientSecret;
     private URL apiUrl;
     private String callbackUrl;
+    private String afterCallbackRedirect;
     
     @Override
     public void destroy() {
@@ -34,8 +35,10 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (req.getRequestURI().equals("/sample/callback")) {
+        if (req.getRequestURI().equals("/oauth2-sample/callback")) {
             handleCallback(request, response);
+            ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
+            return;
         } else if (req.getSession().getAttribute("client") == null) {
             authenticate(request, response);
         } else {
@@ -64,9 +67,10 @@ public class AuthFilter implements Filter {
     
     @Override
     public void init(FilterConfig conf) throws ServletException {
-        // TODO refector to use spring + env specific config files
+        // TODO refector to use spring + env specific config files as soon as possible
         clientId = conf.getInitParameter("clientId");
         clientSecret = conf.getInitParameter("clientSecret");
+        afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
         
         try {
             apiUrl = new URL(conf.getInitParameter("apiUrl"));
@@ -80,6 +84,8 @@ public class AuthFilter implements Filter {
             callbackUrl = conf.getInitParameter("callbackUrl");
         } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
             callbackUrl = "https://nxbuild2.slidev.org/oauth2-sample/callback";
+            clientId = "ET1k3PdHzX";
+            clientSecret = "Ok2iofHvnmguiGXvePLQY2K6UHFK+WZNNgVfYQaBYcAa3iXQ";
         } else {
             throw new RuntimeException("Unsuported environment: " + env);
         }
