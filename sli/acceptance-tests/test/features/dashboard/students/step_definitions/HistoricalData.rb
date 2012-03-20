@@ -2,8 +2,8 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  # url = PropLoader.getProps['api_server_url']
-  url = PropLoader.getProps['dashboard_server_address']
+  url = PropLoader.getProps['api_server_url']
+  # url = PropLoader.getProps['dashboard_server_address']
   url = url + PropLoader.getProps[@appPrefix]
   
   @driver.get(url)

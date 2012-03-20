@@ -39,6 +39,7 @@ public class AssessmentResolver {
      * Looks up a representation for the result of the assessment, taken by the student
      * Returns the string representation of the result, identified by the Field
      */
+    @SuppressWarnings("rawtypes")
     public String get(Field field, Map student) {
         // look up the assessment.
         GenericEntity chosenAssessment = resolveAssessment(field, student);
@@ -86,6 +87,7 @@ public class AssessmentResolver {
      * @return the string value of field or attribute specified by dataPointName in student
      *         assessment association
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public String getScore(GenericEntity studentAssmt, String dataPointName, String objAssmtCode) {
         
         List<Map> scoreResults = new ArrayList<Map>();
@@ -138,15 +140,6 @@ public class AssessmentResolver {
             
             // if performance level not specified in performance level descriptor, then return blank
         } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
-            /*
-             * calculate the performance level if not provided in performance level descriptor
-             * 
-             * String assmtId = studentAssmt.getString(Constants.ATTR_ASSESSMENT_ID);
-             * String scaleScore = getScore(studentAssmt, Constants.ATTR_SCALE_SCORE, null);
-             * if (assmtId != null && !assmtId.equals("") && scaleScore != null &&
-             * !scaleScore.equals("")) {
-             * return metaDataResolver.calculatePerfLevel(assmtId, scaleScore);}
-             */
             return "";
         }
         return "";
@@ -156,6 +149,7 @@ public class AssessmentResolver {
      * Looks up the cutpoints for the result returned by get(field, student);
      * (used by fuel gauge visualization widget)
      */
+    @SuppressWarnings({ "rawtypes", "unused" })
     public List<Integer> getCutpoints(Field field, Map student) {
         
         // look up the assessment.
@@ -181,6 +175,7 @@ public class AssessmentResolver {
     /*
      * Looks up a representation for the result of the assessment, taken by the student
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public GenericEntity resolveAssessment(Field field, Map student) {
         
         // filter out assessments based on dataset path
@@ -273,6 +268,7 @@ public class AssessmentResolver {
         return "";
     }
     
+    @SuppressWarnings("rawtypes")
     private boolean hasPerfLevelScoreResults(List<Map> scoreResults) {
         boolean found = false;
         for (Map scoreResult : scoreResults) {
@@ -284,6 +280,7 @@ public class AssessmentResolver {
         return found;
     }
     
+    @SuppressWarnings("rawtypes")
     private String findPerfLevelFromDescriptor(List<Map> descriptors) {
         if (descriptors == null)
             return "";

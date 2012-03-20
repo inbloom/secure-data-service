@@ -1,4 +1,2 @@
-jQuery('a[method="delete"]').bind('ajax:success'), function() {
-	jQuery(this).closest('tr').fadeOut();
-	jQuery(this).closest('tr').next().fadeOut();
-});
+jQuery("#<%=@app.id%>").next().fadeOut("normal", function() {$(this).remove();})
+jQuery("#<%=@app.id%>").fadeOut("normal", function() {$(this).remove();})

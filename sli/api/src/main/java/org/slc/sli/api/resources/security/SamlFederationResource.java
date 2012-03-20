@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
-import java.security.cert.Certificate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -25,16 +23,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -61,9 +58,6 @@ public class SamlFederationResource {
     private SamlAttributeTransformer transformer;
     
     @Autowired
-    private XmlSignatureHelper signatureHelper;
-    
-    @Autowired
     private MongoAuthorizationCodeServices authCodeServices;
     
     @Value("${sli.security.sp.issuerName}")
@@ -81,11 +75,9 @@ public class SamlFederationResource {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
         is.close();
-        Certificate cert = signatureHelper.getX509CertificateFromKeystore();
         
         metadata = writer.toString();
         metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
-        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.x509\\.signing\\.certificate\\}", Base64.encodeBase64String(cert.getPublicKey().getEncoded()));
     }
     
     @POST
@@ -110,7 +102,8 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
         
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
+        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
+                .getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
