@@ -58,7 +58,7 @@ When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
 And I authenticate with username "demo" and password "demo1234"
 Then I am redirected to the Application Registration Tool page
-And I clicked on the button ‘Edit’ 
+And I clicked on the button Edit
 And the row of the app "NewApp" expanded
 And every field except the shared secret and the app ID became editable
 And I have edited the field named "Image URL" to say "Kittens"
