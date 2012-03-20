@@ -64,6 +64,7 @@ class AppsController < ApplicationController
     
     respond_to do |format|
       if @app.save
+        logger.debug {"Redirecting to #{apps_path}"}
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js
@@ -95,7 +96,7 @@ class AppsController < ApplicationController
     end
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        format.html { redirect_to @app.id, notice: 'App was successfully updated.' }
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

@@ -6,23 +6,25 @@ require_relative '../../utils/selenium_common.rb'
 
 
 Given /^I am a valid SLI Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  # No code needed, done as configuration
 end
 
 When /^I hit the Application Registration Tool URL$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
 
 When /^I get redirected to the IDP login page$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
 end
 
-When /^I authenticate with username "([^"]*)"and password "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
+  @driver.find_element(:id, "IDToken1").send_keys arg1
+  @driver.find_element(:id, "IDToken2").send_keys arg2
+  @driver.find_element(:name, "Login.Submit").click
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("Application Registeration") != nil}
 end
 
 Then /^I see all of the applications that are registered to SLI$/ do
@@ -34,11 +36,7 @@ Then /^those apps are sorted by the Last Update column$/ do
 end
 
 Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  # No code needed, done as configuration
 end
 
 Then /^I receive a message that I am not authorized$/ do
@@ -93,7 +91,7 @@ Then /^all the fields are read only$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I clicked on the button ‘Edit’$/ do
+Then /^I clicked on the button Edit$/ do
   pending # express the regexp above with the code you wish you had
 end
 
@@ -138,5 +136,13 @@ Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to a new application page$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I have entered data into the other required fields except for the shared secret and the app id which are read\-only$/ do
   pending # express the regexp above with the code you wish you had
 end
