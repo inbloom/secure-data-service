@@ -71,7 +71,7 @@ public class GradebookViewModifer implements ViewModifier {
         if (gradebookIds.isEmpty()) { return null; }
 
         DisplaySet unitTests = new DisplaySet();
-        unitTests.setDisplayName(GRADES);
+        unitTests.setDisplayName("Current");
 
         for (GenericEntity entry : gradebookIds) {
             Field unitField = createUnitTest(entry.getString(GRADEBOOK_ENTRY_TYPE), entry.getString(GRADEBOOK_ENTRY_ID));
