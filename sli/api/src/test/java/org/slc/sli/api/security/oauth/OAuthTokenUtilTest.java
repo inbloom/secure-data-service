@@ -72,6 +72,7 @@ public class OAuthTokenUtilTest {
         roles.add("FULL_ACCESS");
         principal = new SLIPrincipal();
         principal.setExternalId("demo");
+        principal.setAdminRealm("adminRealm");
         principal.setId("testId");
         principal.setName("demo user");
         principal.setRealm("foo");
@@ -188,6 +189,7 @@ public class OAuthTokenUtilTest {
         assertEquals(principal.getId(), slip.getId());
         assertEquals(principal.getName(), slip.getName());
         assertEquals(principal.getRealm(), slip.getRealm());
+        assertEquals(principal.getAdminRealm(), slip.getAdminRealm());
         assertTrue(principal.getRoles().containsAll(slip.getRoles()));
         
         assertTrue(reconst.getAuthorities().containsAll(auth.getAuthorities()));

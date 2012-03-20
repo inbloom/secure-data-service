@@ -98,6 +98,7 @@ public class DefaultSAML2ValidatorTest {
         Assert.isTrue(!validator.isDigestValid(doc));
     }
     
+    // TECH DEBT : enable this test when ADFS signing token has been correctly set up --> post PI3 demo
     // @Test
     // public void testIsTrustedAssertionTrusted() throws Exception {
     // Document doc = getDocument("adfs-valid.xml");

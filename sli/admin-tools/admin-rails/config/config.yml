@@ -6,7 +6,7 @@ development:
 test:
     api_base: https://devapp1.slidev.org/api/rest
 deployment:
-    api_base: https://devapp1.slidev.org/api/rest
+    api_base: https://nxbuild.slidev.org/api/rest
     client_id: BsgPgjFApl
     client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
     redirect_uri: https://devadmin1.slidev.org/callback

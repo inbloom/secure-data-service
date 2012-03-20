@@ -1,4 +1,6 @@
-
+<div id="notice">
+	<%= notice %>
+</div>
 
 <table id="applications">
 	<tr>
@@ -31,7 +33,16 @@
 		jQuery(':input:enabled').attr('disabled', true);
 		jQuery("a.edit-link").click(function() {
 			//Enable input on this form.
-			jQuery(this).closest("tr").next().find(':input').attr('disabled', false);
+			var set = null;
+			set = jQuery(this).closest("tr").next().find(':input:not(.read_only):disabled');
+			if(set.length == 0) {
+			jQuery(this).closest("tr").next().find(':input:not(.read_only):enabled').attr('disabled', true);
+			}
+			else {
+				set.removeAttr('disabled');
+				
+			}
+
 		});
 		jQuery("#applications tr:odd").addClass("odd");
 		        jQuery("#applications tr:not(.odd)").hide();
