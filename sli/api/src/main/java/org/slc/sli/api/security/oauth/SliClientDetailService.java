@@ -19,6 +19,8 @@ import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -81,7 +83,12 @@ public class SliClientDetailService implements ClientDetailsService {
         Iterable<String> results = SecurityUtil.sudoRun(new SecurityTask<Iterable<String>>() {
             @Override
             public Iterable<String> execute() {
-                return service.list(0, 1, ApplicationResource.CLIENT_ID + "=" + clientId);
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(1);
+                neutralQuery.addCriteria(new NeutralCriteria(ApplicationResource.CLIENT_ID, "=", clientId));
+                
+                return service.listIds(neutralQuery);
             }
         });
         if (results.iterator().hasNext()) {

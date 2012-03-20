@@ -2,6 +2,8 @@ package org.slc.sli.validation.schema;
 
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +39,14 @@ public class DateTimeSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.DATETIME;
     }
-
+    
+    @Override
+    public Object convert(Object value) {
+        DatatypeConverter.parseDateTime((String) value).toString();
+        return value;
+    }
+    
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

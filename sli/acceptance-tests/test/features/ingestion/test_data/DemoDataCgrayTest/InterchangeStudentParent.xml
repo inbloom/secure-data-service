@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+    <Parent>
+        <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+        <Name>
+            <FirstName>Ignatio</FirstName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>c.ortiz@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <Address>
+            <StreetNumberName>213 Central Ave</StreetNumberName>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
+    </Parent>
+
+    <Parent>
+        <ParentUniqueStateId>0798132465</ParentUniqueStateId>
+        <Name>
+            <FirstName>Felizia</FirstName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+    </Parent>
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>453827023</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>0798132464</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <LivesWith>true</LivesWith>
+        <PrimaryContactStatus>true</PrimaryContactStatus>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+
+        <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>453827023</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>0798132465</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>2</ContactPriority>
+    </StudentParentAssociation>
+</InterchangeStudentParent>

@@ -183,7 +183,7 @@ public class StudentResource {
         
         //Try catch to stifle unexpected exceptions, and log them.
         //Returns "Not Available" for gradeLevel, when an exception is caught.
-        try{
+        try {
             // Loop through studentSchoolAssociations
             for (Map studentSchoolAssociation : studentSchoolAssociationList) {
                 

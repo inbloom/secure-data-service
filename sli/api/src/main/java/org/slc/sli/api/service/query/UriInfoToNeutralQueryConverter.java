@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 
@@ -99,19 +100,23 @@ public class UriInfoToNeutralQueryConverter {
     public NeutralQuery convert(NeutralQuery neutralQuery, UriInfo uriInfo) {
         if (neutralQuery != null && uriInfo != null) {
             String queryString = uriInfo.getRequestUri().getQuery();
-            try {
-                for (String criteriaString : queryString.split("&")) {
-                    NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
-                    NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
-                    if (nci == null) {
-                        neutralQuery.addCriteria(neutralCriteria);
-                    } else {
-                        nci.convert(neutralQuery, neutralCriteria.getValue());
+            if (queryString != null) {
+                try {
+                    for (String criteriaString : queryString.split("&")) {
+                        NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
+                        NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
+                        if (nci == null) {
+                            if (!neutralCriteria.getKey().equals("full-entities")) {
+                                neutralQuery.addCriteria(neutralCriteria);
+                            }
+                        } else {
+                            nci.convert(neutralQuery, neutralCriteria.getValue());
+                        }
                     }
+                } catch (RuntimeException re) {
+                    LOG.error("error parsing query String {} {}", re.getMessage(), queryString);
+                    throw new QueryParseException(re.getMessage(), queryString);
                 }
-            } catch (RuntimeException re) {
-                LOG.error("error parsing query String {} {}", re.getMessage(), queryString);
-                throw new QueryParseException(re.getMessage(), queryString);
             }
         }
         

@@ -49,6 +49,11 @@ public class ReferenceSchema extends NeutralSchema {
         return super.getAppInfo().getReferenceType();
     }
 
+    @Override
+    public Object convert(Object value) {
+        return value;
+    }
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -73,7 +78,7 @@ public class ReferenceSchema extends NeutralSchema {
 
         try {
             // try to find an entity with the given id
-            found = (repo.find(getAppInfo().getReferenceType(), (String) entity) != null);
+            found = (repo.findById(getAppInfo().getReferenceType(), (String) entity) != null);
         } catch (Exception e) {
             // repo.find is currently throwing multiple kinds of exceptions so we will catch all for
             // now, as we sort out what is thrown and why
