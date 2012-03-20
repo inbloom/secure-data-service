@@ -13,10 +13,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slc.sli.api.client.impl.BasicClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.impl.BasicClient;
+
+/**
+ * Basic authentication example using the SLI SDK.
+ */
 public class AuthFilter implements Filter {
     
     private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
