@@ -85,8 +85,7 @@ public class SamlFederationResource {
         
         metadata = writer.toString();
         metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
-        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.x509\\.signing\\.certificate\\}",
-                Base64.encodeBase64String(cert.getPublicKey().getEncoded()));
+        metadata = metadata.replaceAll("\\$\\{sli\\.security\\.x509\\.signing\\.certificate\\}", Base64.encodeBase64String(cert.getPublicKey().getEncoded()));
     }
     
     @POST
@@ -111,8 +110,7 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
         
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
-                .getChild("AttributeStatement", SamlHelper.SAML_NS);
+        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -127,13 +125,11 @@ public class SamlFederationResource {
         // Apply transforms
         attributes = transformer.apply(realm, attributes);
         
-        // TODO change everything authRealm to use issuer instead of authRealm
-        
-        final SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"),
-                attributes.getFirst("userId"));
+        SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
+        principal.setAdminRealm(attributes.getFirst("adminRealm"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
