@@ -57,7 +57,7 @@ Then /^I should receive a collection with (\d+) elements$/ do |count|;
   count = convert(count)
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")
-  @result.length.should == count 
+  @result.length.should == count
 end
 
 Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
@@ -74,28 +74,28 @@ Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
   singleValue.should == value
 end
 
-Then /^the a next link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+Then /^the a next link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
   links = @res.raw_headers["link"];
   links.should be_a Array
   found_link = false
   links.each do |link|
     if /rel=next/.match link
-      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
-      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
       found_link = true
     end
   end
   found_link.should == true
 end
 
-Then /^the a previous link exists with start\-index equal to (\d+) and max\-results equal to (\d+)$/ do |start, max|
+Then /^the a previous link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
   links = @res.raw_headers["link"];
   links.should be_a Array
   found_link = false
   links.each do |link|
     if /rel=prev/.match link
-      assert(Regexp.new("start-index=" + start).match(link), "start-index is not correct: #{link}")
-      assert(Regexp.new("max-results=" + max).match(link), "max-results is not correct: #{link}")
+      assert(Regexp.new("offset=" + start).match(link), "offset is not correct: #{link}")
+      assert(Regexp.new("limit=" + max).match(link), "limit is not correct: #{link}")
       found_link = true
     end
   end
