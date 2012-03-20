@@ -8,7 +8,8 @@ class AppsController < ApplicationController
   # GET /apps
   # GET /apps.json
   def index
-   @apps = App.all.sort { |a,b| b.metaData.updated <=> a.metaData.updated }
+    @title = "Application Registration Tool"
+    @apps = App.all.sort { |a,b| b.metaData.updated <=> a.metaData.updated }
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @apps }
@@ -29,6 +30,7 @@ class AppsController < ApplicationController
   # GET /apps/new
   # GET /apps/new.json
   def new
+    @title = "New Application"
     @app = App.new
     @app.developer_info = App::DeveloperInfo.new
   

@@ -739,6 +739,11 @@ task :adminToolsTests => [:realmInit] do
   end
 end
 
+desc "App registration tests"
+task :appRegistrationTests do
+  runTests("test/features/admintools/app_registration.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser")
