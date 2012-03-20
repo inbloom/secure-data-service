@@ -24,6 +24,7 @@ public class AuthFilter implements Filter {
     private String clientSecret;
     private URL apiUrl;
     private String callbackUrl;
+    private String afterCallbackRedirect;
     
     @Override
     public void destroy() {
@@ -34,8 +35,10 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (req.getRequestURI().equals("/sample/callback")) {
+        if (req.getRequestURI().equals("/oauth2-sample/callback")) {
             handleCallback(request, response);
+            ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
+            return;
         } else if (req.getSession().getAttribute("client") == null) {
             authenticate(request, response);
         } else {
@@ -67,6 +70,7 @@ public class AuthFilter implements Filter {
         // TODO refector to use spring + env specific config files
         clientId = conf.getInitParameter("clientId");
         clientSecret = conf.getInitParameter("clientSecret");
+        afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
         
         try {
             apiUrl = new URL(conf.getInitParameter("apiUrl"));
