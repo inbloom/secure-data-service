@@ -24,11 +24,19 @@ When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1,
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do
-  assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("Application Registeration") != nil}
+  assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
 Then /^I see all of the applications that are registered to SLI$/ do
-  pending # express the regexp above with the code you wish you had
+  appsTable = @driver.find_element(:id, "applications")
+  assert(appsTable != nil)
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) if arg.text == "Last Update"    
+  end
+  tableRows = appsTable.find_elements(:xpath, ".//tr/td/a[]")
+  
 end
 
 Then /^those apps are sorted by the Last Update column$/ do
