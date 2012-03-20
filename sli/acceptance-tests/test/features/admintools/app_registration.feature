@@ -14,7 +14,6 @@ Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
 
-@wip
 Scenario: Non-SLI hosted user tries to access the App Registration Tool
 
 Given I am a valid IT Administrator "administrator" from the "SLI" hosted directory

@@ -56,7 +56,7 @@ Given /^I am a valid IT Administrator "([^"]*)" from the "([^"]*)" hosted direct
 end
 
 Then /^I receive a message that I am not authorized$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find forbidden message")  {@driver.page_source.index("Forbidden") != nil}
 end
 
 Then /^I have clicked to the button New$/ do
