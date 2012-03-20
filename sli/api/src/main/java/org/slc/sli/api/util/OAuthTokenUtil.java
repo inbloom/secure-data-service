@@ -25,9 +25,9 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -123,6 +123,7 @@ public class OAuthTokenUtil {
         principal.setName((String) data.get("name"));
         principal.setRoles((List<String>) data.get("roles"));
         principal.setRealm(realm);
+        principal.setAdminRealm((String) data.get("adminRealm"));
         return reconstituteAuth(principal, data);
     }
     
@@ -159,6 +160,7 @@ public class OAuthTokenUtil {
         body.put("externalId", principal.getExternalId());
         body.put("name", principal.getName());
         body.put("roles", principal.getRoles());
+        body.put("adminRealm", principal.getAdminRealm());
         body.put("clientId", auth.getClientAuthentication().getClientId());
         body.put("clientSecret", auth.getClientAuthentication().getClientSecret());
         body.put("scope", auth.getClientAuthentication().getScope());
