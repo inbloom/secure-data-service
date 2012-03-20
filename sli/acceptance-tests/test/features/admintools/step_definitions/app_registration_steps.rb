@@ -101,7 +101,7 @@ Then /^all the fields are read only$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I clicked on the button 'Edit'$/ do
+Then /^I clicked on the button Edit$/ do
   pending # express the regexp above with the code you wish you had
 end
 
@@ -150,5 +150,13 @@ Then /^the application named "([^"]*)" is removed from the SLI$/ do |arg1|
 end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to a new application page$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I have entered data into the other required fields except for the shared secret and the app id which are read\-only$/ do
   pending # express the regexp above with the code you wish you had
 end

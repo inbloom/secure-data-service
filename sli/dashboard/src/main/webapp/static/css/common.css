@@ -227,3 +227,30 @@ th.ui-th-column div {
     height: auto !important;
     padding: 2px;
 }
+
+.studentContactInfo {
+	display:table; 
+	font-size: 12px;
+}
+
+.contactInfoTypeRow {
+	display:table-row;
+}
+
+.contactInfoCol1 {
+	display:table-cell;
+	width: 80px;
+}
+
+.contactInfoCol2 {
+	padding-bottom: 5px;
+	display:table-cell;
+}
+
+.section {
+	padding: 10px; 
+}
+
+.bold {
+	font-weight:bold;
+}
