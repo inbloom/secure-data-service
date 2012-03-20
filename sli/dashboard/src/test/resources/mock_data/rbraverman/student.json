@@ -11,7 +11,7 @@
             "birthDate": "2005-01-01"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "111111111",
         "id": "111111111"
     },
@@ -27,7 +27,7 @@
             "birthDate": "2006-07-02"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "530425896",
         "id": "530425896"
     },
@@ -43,7 +43,7 @@
             "birthDate": "1999-12-17"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "429526969",
         "id": "429526969"
     },
@@ -59,7 +59,7 @@
             "birthDate": "2001-10-04"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "178828452",
         "id": "178828452"
     },
@@ -75,7 +75,7 @@
             "birthDate": "2004-12-04"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "525878920",
         "id": "525878920"
     },
@@ -91,7 +91,7 @@
             "birthDate": "1997-06-01"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "510152105",
         "id": "510152105"
     },
@@ -107,7 +107,7 @@
             "birthDate": "1997-03-07"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "802709591",
         "id": "802709591"
     },
@@ -123,7 +123,7 @@
             "birthDate": "2000-04-23"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "437680177",
         "id": "437680177"
     },
@@ -139,7 +139,7 @@
             "birthDate": "2001-01-23"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "170011136",
         "id": "170011136"
     },
@@ -155,7 +155,7 @@
             "birthDate": "1999-11-15"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "547028299",
         "id": "547028299"
     },
@@ -171,7 +171,7 @@
             "birthDate": "1994-01-09"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "258392050",
         "id": "258392050"
     },
@@ -187,7 +187,7 @@
             "birthDate": "2000-10-14"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "178875887",
         "id": "178875887"
     },
@@ -203,7 +203,7 @@
             "birthDate": "2006-06-02"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "100644447",
         "id": "100644447"
     },
@@ -219,7 +219,7 @@
             "birthDate": "1994-08-30"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "376191021",
         "id": "376191021"
     },
@@ -235,7 +235,7 @@
             "birthDate": "2003-03-25"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "336344132",
         "id": "336344132"
     },
@@ -251,7 +251,7 @@
             "birthDate": "2006-01-08"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "711411586",
         "id": "711411586"
     },
@@ -267,7 +267,7 @@
             "birthDate": "1997-07-22"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "131758477",
         "id": "131758477"
     },
@@ -283,7 +283,7 @@
             "birthDate": "2002-04-10"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "670703438",
         "id": "670703438"
     },
@@ -299,7 +299,7 @@
             "birthDate": "1999-06-13"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "Yes",
+        "limitedEnglishProficiency": "Limited",
         "studentUniqueStateId": "851123275",
         "id": "851123275"
     },
@@ -315,7 +315,7 @@
             "birthDate": "1999-06-05"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "423037202",
         "id": "423037202"
     },
@@ -331,7 +331,7 @@
             "birthDate": "2005-04-06"
         },
         "sex": "Male",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "250918988",
         "id": "250918988"
     },
@@ -347,7 +347,7 @@
             "birthDate": "1994-03-17"
         },
         "sex": "Female",
-        "limitedEnglishProficiency": "No",
+        "limitedEnglishProficiency": "NotLimited",
         "studentUniqueStateId": "421216329",
         "id": "421216329"
     }
