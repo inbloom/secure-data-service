@@ -158,8 +158,7 @@ public final class BasicClient implements SLIClient {
      * @param callbackURL
      *            URL used to redirect after authentication.
      */
-    public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret,
-            final String callbackURL) {
+    public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
         restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
