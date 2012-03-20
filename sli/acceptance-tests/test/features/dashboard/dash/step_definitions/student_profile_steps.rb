@@ -70,7 +70,7 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   
   all_lozenges = csiContent.find_elements(:tag_name, "svg")
 
-  assert(lozengesCount.to_i == all_lozenges.length, "Actual lozengws count is:" + lozengesCount)
+  assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
 
 def clickOnStudent(name)
