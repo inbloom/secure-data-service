@@ -151,11 +151,13 @@ public class LiveAPIClient implements APIClient {
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
         List<String> hrefs = extractLinksFromEntity(edOrg, ED_ORG_LINK);
         for (String href : hrefs) {
-            
-            // This hack needs be in because api doesn't distinguish between
+
+            // API provides *both* parent and children edOrgs in the "educationOrganization" link. 
+            // So this hack needs be made because api doesn't distinguish between
             // parent or children edOrgs. DE105 has been logged to resolve it.
-            // Filter out links that are for children edOrgs -- they contain a query.
-            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
+            // TODO: Remove the if statement once DE105 is resolved. 
+            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {  
+                // Links to children edOrgs are queries; ignore them.
                 continue;
             }
             
