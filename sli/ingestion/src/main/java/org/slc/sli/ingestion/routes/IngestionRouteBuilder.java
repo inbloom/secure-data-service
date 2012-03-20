@@ -67,7 +67,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-
+    
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
