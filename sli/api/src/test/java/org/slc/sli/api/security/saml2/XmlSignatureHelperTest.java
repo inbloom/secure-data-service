@@ -73,7 +73,6 @@ public class XmlSignatureHelperTest {
         Assert.assertTrue(!validator.isDocumentTrusted(document));
     }
     
-    @Ignore
     @Test
     public void signSamlArtifactResolve() throws JDOMException, TransformerException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, KeyException, MarshalException, XMLSignatureException,
