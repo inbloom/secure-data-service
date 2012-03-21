@@ -1591,7 +1591,7 @@
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="plDescriptorsArray" />
     <jb:wiring property="oAReference" beanIdRef="OAReferenceType" />
-    <jb:value property="sTAReference" data="StudentObjectiveAssessment/StudentTestAssessmentReference" />
+    <jb:value property="sTAReference" data="StudentTestAssessmentReference/@ref" />
   </jb:bean>
 
   <jb:bean beanId="ScoreResultsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
@@ -2104,7 +2104,7 @@
     <jb:wiring property="name" beanIdRef="StudentParentName" />
     <jb:value property="otherName" data="InterchangeStudentParent/Parent/OtherName" />
     <jb:value property="sex" data="InterchangeStudentParent/Parent/Sex" />
-    <jb:value property="address" data="InterchangeStudentParent/Parent/Address" />
+    <jb:wiring property="address" beanIdRef="parentAddressArray" />
     <jb:wiring property="telephone" beanIdRef="parentTelephoneArray" />
     <jb:wiring property="electronicMail" beanIdRef="parentEmailAddressArray" />
     <jb:value property="loginId" data="InterchangeStudentParent/Parent/LoginId" />
@@ -2115,6 +2115,29 @@
     <jb:value property="firstName" data="InterchangeStudentParent/Parent/Name/FirstName" />
     <jb:value property="middleName" data="InterchangeStudentParent/Parent/Name/MiddleName" />
     <jb:value property="lastSurname" data="InterchangeStudentParent/Parent/Name/LastSurname" />
+  </jb:bean>
+
+  <jb:bean beanId="parentAddressArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentParent/Parent">
+    <jb:wiring beanIdRef="parentAddress" />
+  </jb:bean>
+  
+  <jb:bean beanId="parentAddress" class="java.util.HashMap"
+    createOnElement="InterchangeStudentParent/Parent/Address">
+    <jb:value property="addressType" data="Parent/Address/@AddressType" />
+    <jb:value property="streetNumberName" data="Parent/Address/StreetNumberName" />
+    <jb:value property="apartmentRoomSuiteNumber" data="Parent/Address/ApartmentRoomSuiteNumber" />
+    <jb:value property="buildingSiteNumber" data="Parent/Address/BuildingSiteNumber" />
+    <jb:value property="city" data="Parent/Address/City" />
+    <jb:value property="stateAbbreviation" data="Parent/Address/StateAbbreviation" />
+    <jb:value property="postalCode" data="Parent/Address/PostalCode" />
+    <jb:value property="nameOfCounty" data="Parent/Address/NameOfCounty" />
+    <jb:value property="countyFIPSCode" data="Parent/Address/CountyFIPSCode" />
+    <jb:value property="countryCode" data="Parent/Address/CountryCode" />
+    <jb:value property="latitude" data="Parent/Address/Latitude" />
+    <jb:value property="longitude" data="Parent/Address/Longitude" />
+    <jb:value property="openDate" data="Parent/Address/OpenDate" />
+    <jb:value property="closeDate" data="Parent/Address/CloseDate" />
   </jb:bean>
 
   <jb:bean beanId="parentTelephoneArray" class="java.util.ArrayList"

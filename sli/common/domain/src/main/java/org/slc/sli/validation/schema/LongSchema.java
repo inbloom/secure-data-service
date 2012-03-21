@@ -39,6 +39,11 @@ public class LongSchema extends NeutralSchema {
         return NeutralSchemaType.LONG;
     }
 
+    @Override
+    public Object convert(Object value) {
+        return Long.parseLong((String) value);
+    }
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

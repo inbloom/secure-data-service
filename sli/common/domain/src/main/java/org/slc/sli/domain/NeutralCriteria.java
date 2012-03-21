@@ -13,10 +13,12 @@ public class NeutralCriteria {
     private String key;
     private String operator;
     private Object value;
+    private boolean canBePrefixed;
     
     public static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
     
     public NeutralCriteria(String criteria) {
+        this.canBePrefixed = true;
         for (String comparisonOperator : NeutralCriteria.SUPPORTED_COMPARISON_OPERATORS) {
             if (criteria.contains(comparisonOperator)) {
                 String[] keyAndValue = criteria.split(comparisonOperator);
@@ -33,11 +35,20 @@ public class NeutralCriteria {
         //looped through all known operators and couldn't find a match
         throw new RuntimeException("Unknown query operation: " + criteria);
     }
-    
+
     public NeutralCriteria(String newKey, String newOperator, Object newValue) {
+        this(newKey, newOperator, newValue, true);
+    }
+
+    public NeutralCriteria(String newKey, String newOperator, Object newValue, boolean canBePrefixed) {
         this.key = newKey;
         this.operator = newOperator;
         this.value = newValue;
+        this.canBePrefixed = canBePrefixed;
+    }
+
+    public int hashCode() {
+        return super.hashCode();
     }
     
     public String getKey() {
@@ -50,5 +61,43 @@ public class NeutralCriteria {
     
     public Object getValue() {
         return this.value;
+    }
+    
+    public boolean canBePrefixed() {
+        return this.canBePrefixed;
+    }
+    
+    public String toString() {
+        return this.key + " " + this.operator + " " + this.value.toString() 
+                + "(can" + (this.canBePrefixed ? " " : " not ") + "be prefixed)";
+    }
+    
+    private boolean valuesMatch(Object value1, Object value2) {
+        
+        //both null? they match
+        if (value1 == null && value2 == null) {
+            return true;
+        }
+        
+        //one null the other not? they dont match
+        if ((value1 == null && value2 != null) || (value1 != null && value2 == null)) {
+            return false;
+        }
+        
+        return value1.equals(value2);
+    }
+    
+    public boolean equals(Object o) {
+        if (o instanceof NeutralCriteria) {
+            NeutralCriteria nc = (NeutralCriteria) o;
+            boolean keysMatch = this.valuesMatch(this.key, nc.key);
+            boolean operatorsMatch = this.valuesMatch(this.operator, nc.operator);
+            boolean valuesMatch = this.valuesMatch(this.value, nc.value);
+            boolean prefixesMatch = (this.canBePrefixed == nc.canBePrefixed);
+
+            return (keysMatch && operatorsMatch && valuesMatch && prefixesMatch);
+        }
+        
+        return false;
     }
 }

@@ -39,6 +39,12 @@ public class DoubleSchema extends NeutralSchema {
         return NeutralSchemaType.DOUBLE;
     }
 
+    @Override
+    public Object convert(Object value) {
+        return Double.parseDouble((String) value);
+    }
+    
+    
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

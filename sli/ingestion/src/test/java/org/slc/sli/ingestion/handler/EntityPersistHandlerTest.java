@@ -1,9 +1,11 @@
 package org.slc.sli.ingestion.handler;
 
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -73,18 +76,18 @@ public class EntityPersistHandlerTest {
         mockedEntityRepository = mock(MongoEntityRepository.class);
         entityPersistHandler.setEntityRepository(mockedEntityRepository);
 
-        when(mockedEntityRepository.findByPaths("student", new HashMap<String, String>())).thenReturn(studentFound);
+        when(mockedEntityRepository.findAllByPaths(eq("student"), eq(new HashMap<String, String>()), any(NeutralQuery.class))).thenReturn(studentFound);
 
         // School search.
         schoolFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         schoolFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, SCHOOL_ID);
-        when(mockedEntityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolFound);
+        when(mockedEntityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolFound);
 
         // Student-School Association search.
         studentSchoolAssociationFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentSchoolAssociationFilterFields.put("body.studentId", INTERNAL_STUDENT_ID);
         studentSchoolAssociationFilterFields.put("body.schoolId", INTERNAL_SCHOOL_ID);
-        when(mockedEntityRepository.findByPaths("studentSchoolAssociation", studentSchoolAssociationFilterFields))
+        when(mockedEntityRepository.findAllByPaths(eq("studentSchoolAssociation"), eq(studentSchoolAssociationFilterFields), any(NeutralQuery.class)))
                 .thenReturn(studentSchoolAssociationFound);
 
     }
@@ -127,7 +130,7 @@ public class EntityPersistHandlerTest {
 
         List<Entity> le = new ArrayList<Entity>();
         le.add(studentEntity);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(le);
+        when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(le);
         when(entityRepository.update(studentEntity.getType(), studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
@@ -166,7 +169,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(
+        when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(
                 Arrays.asList((Entity) existingStudentEntity));
 
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
@@ -193,7 +196,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(
+        when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(
                 Arrays.asList((Entity) existingStudentEntity));
 
         ValidationError error = new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, "field", null,
@@ -229,7 +232,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(studentList);
+        when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(studentList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -237,7 +240,7 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
+        when(entityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
@@ -269,7 +272,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> studentFilterFields = new HashMap<String, String>();
         studentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         studentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("student", studentFilterFields)).thenReturn(studentList);
+        when(entityRepository.findAllByPaths(eq("student"), eq(studentFilterFields), any(NeutralQuery.class))).thenReturn(studentList);
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
@@ -277,14 +280,14 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
+        when(entityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
         SimpleEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
 
         existingStudentSchoolAssociationEntity.setEntityId(UUID.randomUUID().toString());
 
-        when(entityRepository.findByPaths("studentSchoolAssociation", studentSchoolAssociationFilterFields))
+        when(entityRepository.findAllByPaths(eq("studentSchoolAssociation"), eq(studentSchoolAssociationFilterFields), any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList((Entity) existingStudentSchoolAssociationEntity));
 
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
@@ -418,7 +421,7 @@ public class EntityPersistHandlerTest {
         Map<String, String> teacherFilterFields = new HashMap<String, String>();
         teacherFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
         teacherFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-        when(entityRepository.findByPaths("teacher", teacherFilterFields)).thenReturn(teacherList);
+        when(entityRepository.findAllByPaths(eq("teacher"), eq(teacherFilterFields), any(NeutralQuery.class))).thenReturn(teacherList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -426,7 +429,7 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findByPaths("school", schoolFilterFields)).thenReturn(schoolList);
+        when(entityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolList);
 
         SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);

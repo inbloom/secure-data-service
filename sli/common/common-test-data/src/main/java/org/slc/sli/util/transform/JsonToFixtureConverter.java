@@ -10,6 +10,9 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
@@ -24,6 +27,8 @@ import com.google.gson.stream.JsonReader;
  * 
  */
 public class JsonToFixtureConverter {
+    private static final Logger LOG = LoggerFactory.getLogger(JsonToFixtureConverter.class);
+
     private String dataDirectory = null;
     private FilenameFilter edOrgFilter = null;
     private FilenameFilter schoolEdOrgAssocFilter = null;
@@ -97,7 +102,7 @@ public class JsonToFixtureConverter {
         // recursively load and parse all the JSON documents, store the entities in memory
         File dir = new File(dataDirectory);
         if (!dir.isDirectory()) {
-            System.out.println("ERROR: '" + dataDirectory + "' is not a directory");
+            LOG.error("ERROR: '" + dataDirectory + "' is not a directory");
             return;
         }
         
@@ -829,7 +834,7 @@ public class JsonToFixtureConverter {
         usage += "    - same as above\n\n";
         usage += "java " + JsonToFixtureConverter.class.getSimpleName() + " <directory> -x\n";
         usage += "    - same as above, but convert the mock data to Ed-Fi XML ingestible format.\n\n";
-        System.out.println(usage);
+        LOG.info(usage);
         System.exit(0);
     }
     

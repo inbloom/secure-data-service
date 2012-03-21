@@ -1,8 +1,10 @@
 package org.slc.sli.ingestion.transformation;
 
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.eq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
@@ -260,11 +263,11 @@ public class SmooksEdFi2SLITransformerTest {
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findByPaths("assessment", assessmentFilterFields)).thenReturn(le);
+        when(mockedEntityRepository.findAllByPaths(eq("assessment"), eq(assessmentFilterFields), any(NeutralQuery.class))).thenReturn(le);
 
         List<SimpleEntity> res = transformer.handle(assessmentRC);
 
-        verify(mockedEntityRepository).findByPaths("assessment", assessmentFilterFields);
+        verify(mockedEntityRepository).findAllByPaths("assessment", assessmentFilterFields, new NeutralQuery());
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));

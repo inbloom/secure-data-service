@@ -46,6 +46,8 @@ import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
+
+
 /**
  * Unit tests for the generic Resource class.
  * 
@@ -732,6 +734,7 @@ public class ResourceTest {
         
         // check sorting on getFullHoppedRelatives
         assertEquals(2, hoppedCollection.size());
+        
         Map<String, Object> responseStudent1 = (Map<String, Object>) hoppedCollection.get(0);
         assertEquals(studentId2, responseStudent1.get("id"));
         Map<String, Object> responseStudent2 = (Map<String, Object>) hoppedCollection.get(1);
@@ -773,8 +776,8 @@ public class ResourceTest {
         CollectionResponse result1 = (CollectionResponse) response1.getEntity();
         assertEquals(1, result1.size());
         List<Object> links1 = response1.getMetadata().get("Link");
-        assertTrue(links1.contains("<request?start-index=1&max-results=1>; rel=next")
-                || links1.contains("<request?max-results=1&start-index=1>; rel=next"));
+        assertTrue(links1.contains("<request?offset=1&limit=1>; rel=next")
+                || links1.contains("<request?limit=1&offset=1>; rel=next"));
         assertEquals(1, links1.size());
         assertEquals(3L, response1.getMetadata().getFirst("TotalCount"));
         
@@ -782,10 +785,10 @@ public class ResourceTest {
         CollectionResponse result2 = (CollectionResponse) response2.getEntity();
         assertEquals(1, result2.size());
         List<Object> links2 = response2.getMetadata().get("Link");
-        assertTrue(links2.contains("<request?start-index=0&max-results=1>; rel=prev")
-                || links2.contains("<request?max-results=1&start-index=0>; rel=prev"));
-        assertTrue(links2.contains("<request?start-index=2&max-results=1>; rel=next")
-                || links2.contains("<request?max-results=1&start-index=2>; rel=next"));
+        assertTrue(links2.contains("<request?offset=0&limit=1>; rel=prev")
+                || links2.contains("<request?limit=1&offset=0>; rel=prev"));
+        assertTrue(links2.contains("<request?offset=2&limit=1>; rel=next")
+                || links2.contains("<request?limit=1&offset=2>; rel=next"));
         assertEquals(2, links2.size());
         assertEquals(3L, response2.getMetadata().getFirst("TotalCount"));
         
@@ -793,8 +796,8 @@ public class ResourceTest {
         CollectionResponse result3 = (CollectionResponse) response3.getEntity();
         assertEquals(1, result3.size());
         List<Object> links3 = response3.getMetadata().get("Link");
-        assertTrue(links3.contains("<request?start-index=1&max-results=1>; rel=prev")
-                || links3.contains("<request?max-results=1&start-index=1>; rel=prev"));
+        assertTrue(links3.contains("<request?offset=1&limit=1>; rel=prev")
+                || links3.contains("<request?limit=1&offset=1>; rel=prev"));
         assertEquals(1, links3.size());
         assertEquals(3L, response3.getMetadata().getFirst("TotalCount"));
     }

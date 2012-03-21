@@ -2,10 +2,10 @@ package org.slc.sli.dal.repository;
 
 import java.util.Date;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import org.slc.sli.domain.Entity;
@@ -27,22 +27,34 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     @Autowired
     private EntityValidator validator;
 
-    @Override
-    public boolean update(String collection, Entity entity) {
-        validator.validate(entity);
-        updateTimestamp(entity);
 
-        return update(collection, entity, entity.getBody());
+    @Override
+    protected String getRecordId(Entity entity) {
+        return entity.getEntityId();
     }
+
+    @Override
+    protected Class<Entity> getRecordClass() {
+        return Entity.class;
+    }
+
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
-        addTimestamps(entity);
+        this.addTimestamps(entity);
 
-        return create(entity, collectionName);
+        return super.create(entity, collectionName);
+    }
+
+    @Override
+    public boolean update(String collection, Entity entity) {
+        validator.validate(entity);
+        this.updateTimestamp(entity);
+
+        return super.update(collection, entity, entity.getBody());
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -61,13 +73,4 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    @Override
-    protected String getRecordId(Entity entity) {
-        return entity.getEntityId();
-    }
-
-    @Override
-    protected Class<Entity> getRecordClass() {
-        return Entity.class;
-    }
 }

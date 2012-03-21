@@ -7,6 +7,9 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Prototype new api end points and versioning base class
@@ -131,28 +132,29 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(final EntityDefinition entityDef) {
                 logger.debug("Attempting to read from {} where {} = {}", new Object[] {
                         entityDef.getStoredCollectionName(), key, value});
-                // get references to query parameters
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                String query = uriInfo.getRequestUri().getQuery();
-                // add additional query key/value pair
-                queryParameters.put(key, value);
                 
                 long totalCount = 0;
                 if (entityDef instanceof AssociationDefinition) {
                     AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    totalCount = associationDefinition.getService().countAssociationsTo(value, query);
+                    totalCount = associationDefinition.getService().countAssociationsTo(value, new ApiQuery(uriInfo));
                 }
+                
+                NeutralQuery neutralQuery = new ApiQuery(uriInfo);
+                //neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+                List<String> valueList = new ArrayList<String>(Arrays.asList(value.split(",")));
+                neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 
                 // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 
                 // list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : entityDef.getService().list(queryParameters)) {
+                for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
                     entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
                             entityDefs, entityDef, entityBody, uriInfo));
                     // add entity to resulting response
                     results.add(entityBody);
                 }
+                
                 
                 Response.ResponseBuilder responseBuilder;
                 responseBuilder = Response.ok(results);
@@ -163,6 +165,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         });
     }
+    
     
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
@@ -202,31 +205,25 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
                         resource2, resource1, idKey});
                 
-                // query parameters for association and resolution lookups
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                Map<String, String> associationQueryParameters = createAssociationQueryParameters(queryParameters, key,
-                        value, idKey);
+
+                NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
+                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value, idKey);
                 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 
-                StringBuilder ids = new StringBuilder();
+                List<String> ids = new ArrayList<String>();
                 // for each association
-                for (EntityBody entityBody : entityDef.getService().list(associationQueryParameters)) {
-                    ids.append((String) entityBody.get(idKey));
-                    ids.append(",");
+                for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
+                    ids.add((String) entityBody.get(idKey));
                 }
                 
-                String entityIds = ids.toString();
-                logger.debug("entityIds = {}", entityIds);
-                
-                if (entityIds.length() == 0) {
+                if (ids.size() == 0) {
                     return Response.ok(finalResults).build();
                 }
-                entityIds = entityIds.substring(0, entityIds.length() - 1); // remove trailing comma
                 
-                queryParameters.put("_id", entityIds);
-                for (EntityBody result : endpointEntity.getService().list(queryParameters)) {
+                endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                     result.put(
                             ResourceConstants.LINKS,
                             ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
@@ -271,17 +268,23 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     errorMessage)).build();
                 }
                 
-                Map<String, String> queryParameters = ResourceUtil.convertToMap(uriInfo.getQueryParameters());
-                queryParameters.put("_id", idList);
+                List<String> ids = new ArrayList<String>();
+                
+                for (String id : idList.split(",")) {
+                    ids.add(id);
+                }
+                
+                NeutralQuery neutralQuery = new ApiQuery(uriInfo);
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 
                 Iterable<EntityBody> entities;
                 if (idLength == 1) {
-                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, queryParameters) });
+                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
                 } else {
-                    entities = entityDef.getService().list(queryParameters);
+                    entities = entityDef.getService().list(neutralQuery);
                 }
                 
                 for (EntityBody result : entities) {
@@ -380,10 +383,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 
-                // loop for each entity returned by performing a list operation
-                
-                for (EntityBody entityBody : entityDef.getService().list(
-                        ResourceUtil.convertToMap(uriInfo.getQueryParameters()))) {
+                for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
                             entityDefs, entityDef, entityBody, uriInfo));
@@ -413,45 +413,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     /**
-     * Creates a new map with they key mapped to the specified value, "includeFields" mapped to the
-     * specified includeField, and with "limit" and
-     * "offset" inherited from the supplied resolutionQueryParameters (if those keys exist in that
-     * map).
+     * Creates a query that looks up an association where key = value and only returns the specified field.
+     * A convenience method for querying for associations when resolving their endpoints.
      * 
-     * @param resolutionQueryParameters
-     *            query parameters from HTTP request
+     * @param endpointNeutralQuery
      * @param key
-     *            key portion of key/value pair to add to new map
      * @param value
-     *            value portion of key/value pair to add to new map
      * @param includeField
-     *            field to be specified as the only field(s) to be returned in the results
-     * @return map containing specified key (and value), "includeFields" (and value), and possibly
-     *         "limit" and "offset" (with values)
+     * @return
      */
-    protected Map<String, String> createAssociationQueryParameters(Map<String, String> resolutionQueryParameters,
-            String key, String value, String includeField) {
-        // create a new map
-        Map<String, String> associationQueryParameters = new HashMap<String, String>();
-        // put the new query parameter key and value
-        associationQueryParameters.put(key, value);
-        // put that the only field to be returned is/are the specified field(s)
-        associationQueryParameters.put("includeFields", includeField);
-        
-        // inherit "limit", if key existed in original query parameters
-        String limit = resolutionQueryParameters.get("limit");
-        if (limit != null) {
-            associationQueryParameters.put("limit", limit);
-        }
-        
-        // inherit "offset", if key existed in original query parameters
-        String offset = resolutionQueryParameters.get("offset");
-        if (offset != null) {
-            associationQueryParameters.put("offset", offset);
-        }
-        
-        // return map
-        return associationQueryParameters;
+    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value, String includeField) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+        neutralQuery.setIncludeFields(includeField);
+        return neutralQuery;
     }
     
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {

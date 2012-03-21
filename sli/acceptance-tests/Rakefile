@@ -68,8 +68,18 @@ def setMultipleFixtureFiles(myHash)
 end
 
 def displayFailureReport()
+  startRed = "\e[31m"
+  startGreen = "\e[32m"
+  colorReset = "\e[0m"
+  
   $failures.each do |key, value|
-    puts "#{key} tests #{value}"
+    if ENV['FORCE_COLOR']
+      puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
+      puts "#{startGreen}#{key} tests #{value}#{colorReset}" if value == "Passed"
+    else
+      puts "#{key} tests #{value}"
+    end
+    
   end
 end
 
@@ -729,6 +739,11 @@ task :adminToolsTests => [:realmInit] do
   end
 end
 
+desc "App registration tests"
+task :appRegistrationTests do
+  runTests("test/features/admintools/app_registration.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser")
@@ -761,7 +776,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -824,6 +839,11 @@ end
 desc "Run Dashboard performance level acceptance tests"
 task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
 end
 
 desc "Run dashboard attendance related tests"

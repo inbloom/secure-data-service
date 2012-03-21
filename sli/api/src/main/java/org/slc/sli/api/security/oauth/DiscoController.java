@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.tuple.Pair;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Controller for Discovery Service
@@ -82,7 +84,11 @@ public class DiscoController {
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
-                Iterable<String> realmList = service.list(0, 9999);
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(9999);
+                Iterable<String> realmList = service.listIds(neutralQuery);
+
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = service.get(realmId);
@@ -154,8 +160,9 @@ public class DiscoController {
 
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
+        
 
-        authCodeService.create(clientId, state, tuple.getLeft());
+        authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
         LOG.debug("redirecting to: {}", endpoint);
         Cookie cookie = new Cookie("realmCookie", realmId);
         cookie.setMaxAge(60 * 60);

@@ -54,10 +54,10 @@ public class IdNormalizerTest {
     public void setup() {
         //mock complex reference source data
         Map<String, Object> schoolId = new HashMap<String, Object>();
-        schoolId.put("School#metaData.externalId", (Object) "aSchoolId");
+        schoolId.put("School#metaData.externalId", "aSchoolId");
 
         complexReference = new HashMap<String, Object>();
-        complexReference.put("Section#metaData.externalId", (Object) "aSectionId");
+        complexReference.put("Section#metaData.externalId", "aSectionId");
         complexReference.put("School#body.schoolId" , schoolId);
 
         //mock school collection in entity repository

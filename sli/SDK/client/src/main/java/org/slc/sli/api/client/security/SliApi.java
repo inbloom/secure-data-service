@@ -10,10 +10,11 @@ import org.scribe.utils.Preconditions;
 
 /**
  * @author jnanney
- *
+ * 
  */
 public class SliApi extends DefaultApi20 {
     
+    // TODO - this assumes we're sharing this across all sessions. Is this assumption valid?
     private static URL apiUrl;
     private static final String REQUEST_TOKEN_FRAGMENT = "%s/api/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String AUTH_TOKEN_FRAGMENT = "%s/api/oauth/token?grant_type=authorization_code";
@@ -36,11 +37,7 @@ public class SliApi extends DefaultApi20 {
         return new SliTokenExtractor();
     }
     
-    public URL getApiUrl() {
-        return apiUrl;
-    }
-    
-    public void setBaseUrl(URL baseUrl) {
-        apiUrl = baseUrl;
+    public static void setBaseUrl(URL baseUrl) {
+        SliApi.apiUrl = baseUrl;
     }
 }

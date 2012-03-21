@@ -1,4 +1,4 @@
-<%= form_for(app, :remote => true) do |f| %>
+<%= form_for(app) do |f| %>
 <div class = "field">
 	<%= f.label :name, "Name" %>
 	<%= f.text_field :name %>
@@ -13,15 +13,14 @@
 </div>
 <div class = "client">
 	<%= f.label :client_id, "Client Id" %>
-	<%= f.text_field :client_id, :disabled => true %>
+	<%= f.text_field :client_id, :disabled => true, :class => :read_only %>
 </div>
 <div class = "client">
 	<%= f.label :client_secret, "Shared Secret" %>
-	<%= f.text_field :client_secret, :disabled => true %>
+	<%= f.text_field :client_secret, :disabled => true, :class => :read_only %>
 </div>
 
-
-	<%= f.fields_for :developer_info do |dev| %>
+<%= f.fields_for :developer_info, app.developer_info do |dev| %>
 	<div class = "field">
 		<%= dev.label :organization, "Vendor" %>
 		<%= dev.text_field :organization %>
@@ -30,8 +29,7 @@
 		<%= dev.label :license_acceptance, "License Accepted" %>
 		<%= dev.check_box :license_acceptance %>
 	</div>
-	
-	<% end %>
+<% end %>
 
 <div class = "field">
 	<%= f.label :application_url, "Url" %>
@@ -47,7 +45,7 @@
 </div>
 <div class = "field">
 	<%= f.label :method, "Display Method" %>
-	<%= select_tag(:method, options_for_select([['iframe'], ['WSRP'], ['Full Window App']]))%>
+	<%= select_tag(:app_method, options_for_select([['iframe'], ['WSRP'], ['Full Window App']]))%>
 </div>
 <div class = "field">
 	<%= f.label :redirect_uri, "Redirect Url" %>

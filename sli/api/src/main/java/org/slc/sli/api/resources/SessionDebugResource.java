@@ -81,6 +81,7 @@ public class SessionDebugResource {
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
+            sessionDetails.put("adminRealm", principal.getAdminRealm());
             
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override

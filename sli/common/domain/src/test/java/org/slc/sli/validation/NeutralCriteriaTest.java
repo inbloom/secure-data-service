@@ -2,6 +2,8 @@ package org.slc.sli.validation;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -26,7 +28,28 @@ public class NeutralCriteriaTest {
             assertEquals(neutralCriteria.getKey(), key);
             assertEquals(neutralCriteria.getOperator(), operator);
             assertEquals(neutralCriteria.getValue(), value);
+            assertEquals(neutralCriteria.canBePrefixed(), true);
         }
+    }
+    
+    @Test
+    public void testEqualsComparison() {
+        NeutralCriteria neutralCriteria1 = new NeutralCriteria("key", "=", "value");
+        NeutralCriteria neutralCriteria2 = new NeutralCriteria("key", "=", "value");
+        NeutralCriteria neutralCriteria3 = new NeutralCriteria("differentKey", "=", "value");
+        NeutralCriteria neutralCriteria4 = new NeutralCriteria("key", "!=", "value");
+        NeutralCriteria neutralCriteria5 = new NeutralCriteria("key", "!=", "differentValue");
+        NeutralCriteria neutralCriteria6 = new NeutralCriteria("key", "=", "value", true);
+        NeutralCriteria neutralCriteria7 = new NeutralCriteria("key", "=", "value", false);
+
+        assertTrue(neutralCriteria1.equals(neutralCriteria2));
+        assertFalse(neutralCriteria1 == neutralCriteria2);
+        assertFalse(neutralCriteria1.equals(neutralCriteria3));
+        assertFalse(neutralCriteria1.equals(neutralCriteria4));
+        assertFalse(neutralCriteria1.equals(neutralCriteria5));
+        assertTrue(neutralCriteria1.equals(neutralCriteria6));
+        assertFalse(neutralCriteria1.equals(neutralCriteria7));
+
     }
 
     @Test(expected = RuntimeException.class)

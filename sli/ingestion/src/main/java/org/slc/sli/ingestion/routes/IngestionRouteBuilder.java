@@ -62,12 +62,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    @Value("${queues.workItem.queueURI}")
+    @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
 
-    @Value("${queues.workItem.concurrentConsumers}")
+    @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-
+    
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
@@ -78,7 +78,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.ctl$"
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
+                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
+                        + "&readLock=changed")
                 .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
@@ -88,7 +89,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
-                        + "/.error")
+                        + "/.error"
+                        + "&readLock=changed")
                 .routeId("zipFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)
