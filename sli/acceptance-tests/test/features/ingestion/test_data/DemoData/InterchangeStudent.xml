@@ -115,11 +115,11 @@
     <BirthData>
       <BirthDate>2000-10-14</BirthDate>
     </BirthData>
-    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
-      <TelephoneNumber>630-504-5490</TelephoneNumber>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>309-555-XXXX</TelephoneNumber>
     </Telephone>
     <ElectronicMail EmailAddressType="Other">
-      <EmailAddress>Astra_Vincent@yahoo.com</EmailAddress>
+      <EmailAddress>m.sollars@gmail.com</EmailAddress>
     </ElectronicMail>
   </Student>
   <Student>
@@ -1012,30 +1012,35 @@
       <BirthDate>2004-08-20</BirthDate>
     </BirthData>
     <Address AddressType="Home">
-      <StreetNumberName>2322 Van Sicklen Street</StreetNumberName>
-      <City>Chicago</City>
+      <StreetNumberName>34 Northshore Ave</StreetNumberName>
+      <BuildingSiteNumber>Apt 9B</BuildingSiteNumber>
+      <City>Daybreak</City>
       <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60361-2677</PostalCode>
-      <NameOfCounty>Cook</NameOfCounty>
+      <PostalCode>75229</PostalCode>
       <CountryCode>US</CountryCode>
     </Address>
-    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>779-463-5621</TelephoneNumber>
+    <Address AddressType="Work">
+      <StreetNumberName>82 N. Central Pkwy.</StreetNumberName>
+      <ApartmentRoomSuiteNumber>Suite B</ApartmentRoomSuiteNumber>
+      <City>Daybreak</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>75229</PostalCode>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>309-555-XXXX</TelephoneNumber>
     </Telephone>
-    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>262-802-8451</TelephoneNumber>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>309-555-5341</TelephoneNumber>
     </Telephone>
-    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>708-224-4195</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>312-499-6079</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
-      <TelephoneNumber>708-655-7220</TelephoneNumber>
-    </Telephone>
-    <ElectronicMail EmailAddressType="Organization">
-      <EmailAddress>D.Dawson@gmail.com</EmailAddress>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>ti.troung@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>ti.troung@unicef.org</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>ti.troung@yahoo.com</EmailAddress>
     </ElectronicMail>
   </Student>
   <Student>
@@ -1345,33 +1350,9 @@
     <BirthData>
       <BirthDate>2002-07-05</BirthDate>
     </BirthData>
-    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>708-449-6315</TelephoneNumber>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>309-555-XXXX</TelephoneNumber>
     </Telephone>
-    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>779-024-9453</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>574-623-2533</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>847-608-1367</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
-      <TelephoneNumber>779-086-7712</TelephoneNumber>
-    </Telephone>
-    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
-      <TelephoneNumber>312-974-2746</TelephoneNumber>
-    </Telephone>
-    <ElectronicMail EmailAddressType="Work">
-      <EmailAddress>Carmen_Ortiz@yahoo.com</EmailAddress>
-    </ElectronicMail>
-    <ElectronicMail EmailAddressType="Other">
-      <EmailAddress>Carmen_Ortiz@yahoo.com</EmailAddress>
-    </ElectronicMail>
-    <ElectronicMail EmailAddressType="Organization">
-      <EmailAddress>C.Ortiz@gmail.com</EmailAddress>
-    </ElectronicMail>
   </Student>
   <Student>
     <StudentUniqueStateId>670703438</StudentUniqueStateId>
