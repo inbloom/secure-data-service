@@ -32,7 +32,7 @@ Then I should get a message that I am not authorized to access the page
 Scenario: Go to Complex-Configurable Role Mapping Page when authenticated to SLI IDP, when having a role  Super Administrator
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I am a Super Administrator for "SLI"
 When I navigate to the Complex-Configurable Role Mapping Page
 Then I should be redirected to the Complex-Configurable Role Mapping Page for "SLI"
@@ -50,7 +50,7 @@ And I am user "demo"
 And "demo" is valid "SLI IDP" user
 And I have a Role attribute equal to "SLI IT Administrator"
 When I enter "demo" in the username text field
-And I enter "demo1234" in the password text field
+And I enter "changeit" in the password text field
 And I click the Go button
 Then I am now authenticated to SLI IDP
 And I am redirected to the Complex-Configurable Role Mapping Page
@@ -59,7 +59,7 @@ And I am redirected to the Complex-Configurable Role Mapping Page
 Scenario:  Complex-Configurable Role Mapping Page logout
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the Logout link
 Then I am not authenticated to SLI IDP
@@ -67,7 +67,7 @@ Then I am not authenticated to SLI IDP
 Scenario: Reset the mapping to default mappings
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the Reset Mapping button
 And I got warning message saying 'Are you sure you want to reset the role mappings?'
@@ -77,7 +77,7 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 Scenario Outline: Creating correct mappings for roles 
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
@@ -93,7 +93,7 @@ Examples:
  
  Scenario Outline: Removing mappings from roles
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the remove button between role <Role> and custom role <Custom Role>
 Then the custom role <Custom Role> is no longer mapped to the default role <Role> 
@@ -108,7 +108,7 @@ Examples:
 Scenario Outline: Creating duplicated mappings for different roles
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <First Role> radio button
 And I enter <Custom Role> in the text field
@@ -126,7 +126,7 @@ Examples:
 Scenario Outline: Click Save in case of repeating values for same roles
  
  Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
@@ -159,9 +159,11 @@ Examples:
 Scenario: Reset the mapping to default mappings when previous mappings exist
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have navigated to my Complex-Configurable Role Mapping Page
 And I see pre-existing mappings
 When I click on the Reset Mapping button
+And I got warning message saying 'Are you sure you want to reset the role mappings?'
+When I click 'OK'
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 And I no longer see the pre-existing mappings

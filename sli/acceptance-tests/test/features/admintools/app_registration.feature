@@ -9,7 +9,7 @@ Scenario: SLI Administrator Logging in
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "demo1234"
+And I authenticate with username "demo" and password "changeit"
 Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
@@ -27,7 +27,7 @@ Scenario: Register a new application
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "demo1234"
+And I authenticate with username "demo" and password "changeit"
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
@@ -43,7 +43,7 @@ Scenario: View application details
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "demo1234"
+And I authenticate with username "demo" and password "changeit"
 Then I am redirected to the Application Registration Tool page
 When I click on the row of application named "NewApp" in the table
 Then the row expands
@@ -56,7 +56,7 @@ Scenario: Edit application
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "demo1234"
+And I authenticate with username "demo" and password "changeit"
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And every field except the shared secret and the app ID became editable
@@ -71,7 +71,7 @@ Scenario: Removing (Un-registering) Application
 Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "demo1234"
+And I authenticate with username "demo" and password "changeit"
 Then I am redirected to the Application Registration Tool page
 And I have clicked on the button 'X' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'

@@ -97,7 +97,7 @@ task :realmInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("application", "application_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json", "test/data", false)
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
 end
 
 # Task that initializes the application registration fixture
@@ -776,7 +776,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -869,6 +869,11 @@ end
 desc "Run dashboard student contact info tests"
 task :dashboardStudentContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info.feature")
+end
+
+desc "Run dashboard student contact info live tests"
+task :dashboardStudentContactInfoLiveTests do
+  runTests("test/features/dashboard/dash/contact_info_live.feature")
 end
 
 desc "Run dashboard student display/hide pages based on grade tests"
