@@ -15,6 +15,6 @@ Scenario: Teacher sees list of students
 		When I login as "cgray" "cgray1234"
 		When I go to List of Students
 		Then the page should include a table with header "Student"
-#		And I should see student "Juan Valdez" in the student list
+		And I should see student "Swanson, Alec" in the student list
 
 
