@@ -34,7 +34,6 @@ import org.slc.sli.domain.enums.Right;
 public class OAuthSessionService extends RandomValueTokenServices {
 
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = OAuthTokenUtil.getOAuthAccessTokenCollectionName();
-    private static final int REFRESH_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getRefreshTokenValidity(); 
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getAccessTokenValidity();
     
     @Autowired
@@ -48,9 +47,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
     
     @PostConstruct
     public void init() {
-        setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
         setAccessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
-        setSupportRefreshToken(true);
+        setSupportRefreshToken(false);
         setTokenStore(mongoTokenStore);
     }
     
@@ -70,7 +68,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
         }
         
         String time = "" + System.currentTimeMillis();
-        return new OAuth2Authentication(new ClientToken("UNKNOWM", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
+        return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), 
+                new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
     }
      
 }

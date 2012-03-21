@@ -10,10 +10,9 @@ import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -41,7 +40,6 @@ public class MongoTokenStore implements TokenStore {
     
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = OAuthTokenUtil.getOAuthAccessTokenCollectionName();
 
-    private static final String OAUTH_REFRESH_TOKEN_COLLECTION = OAuthTokenUtil.getOAuthRefreshTokenCollectionName();
     /**
      * Finds the OAuth2Authentication object in the oauthSession collection that
      * corresponds to the specified Access Token. Assume that, if an Access
@@ -91,7 +89,6 @@ public class MongoTokenStore implements TokenStore {
         
         final EntityBody body = new EntityBody();
         body.put("token", tokenValue);
-        body.put("refreshToken", token.getRefreshToken().getValue());
         body.put("accessToken", OAuthTokenUtil.serializeAccessToken(token));
         body.put("authentication", OAuthTokenUtil.serializeOauth2Auth(authentication));
         final EntityService service = getAccessTokenService();
@@ -149,19 +146,7 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public void storeRefreshToken(ExpiringOAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
-        
-        String token = refreshToken.getValue();
-        final EntityBody body = new EntityBody();
-        body.put("token", token);
-        body.put("authentication", OAuthTokenUtil.serializeOauth2Auth(authentication));
-        body.put("refreshToken", OAuthTokenUtil.serializeRefreshToken(refreshToken));
-        SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
-            @Override
-            public Boolean execute() {
-                getRefreshTokenService().create(body);
-                return true;
-            }
-        });
+        throw new RuntimeException("Refresh tokens not supported");
     }
 
     /**
@@ -171,16 +156,8 @@ public class MongoTokenStore implements TokenStore {
     @Override
     public ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("token=" + tokenValue));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        Iterable<Entity> results = repo.findAll(OAUTH_REFRESH_TOKEN_COLLECTION, neutralQuery);
-       
-        for (Entity oauth2Session : results) {
-            return (ExpiringOAuth2RefreshToken) OAuthTokenUtil.deserializeRefreshToken((Map) oauth2Session.getBody().get("refreshToken"));
-        }
-        return null;
+        throw new RuntimeException("Refresh tokens not supported");
+        
     }
 
     /**
@@ -189,15 +166,7 @@ public class MongoTokenStore implements TokenStore {
     @Override
     public void removeRefreshToken(String tokenValue) {
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("token=" + tokenValue));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        Iterable<Entity> results = repo.findAll(OAUTH_REFRESH_TOKEN_COLLECTION, neutralQuery);
-       
-        for (Entity oauth2Session : results) {
-            getRefreshTokenService().delete(oauth2Session.getEntityId());
-        }
+        throw new RuntimeException("Refresh tokens not supported");
     }
 
     /**
@@ -208,15 +177,7 @@ public class MongoTokenStore implements TokenStore {
     @Override
     public void removeAccessTokenUsingRefreshToken(String refreshToken) {
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("refreshToken=" + refreshToken));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        Iterable<Entity> results = repo.findAll(OAUTH_ACCESS_TOKEN_COLLECTION, neutralQuery);
-       
-        for (Entity oauth2Session : results) {
-            getAccessTokenService().delete(oauth2Session.getEntityId());
-        }
+        throw new RuntimeException("Refresh tokens not supported");
     }
 
     /**
@@ -228,9 +189,5 @@ public class MongoTokenStore implements TokenStore {
         EntityDefinition defn = store.lookupByResourceName(OAUTH_ACCESS_TOKEN_COLLECTION);
         return defn.getService();
     }
-    
-    public EntityService getRefreshTokenService() {
-        EntityDefinition defn = store.lookupByResourceName(OAUTH_REFRESH_TOKEN_COLLECTION);
-        return defn.getService();
-    }
+
 }
