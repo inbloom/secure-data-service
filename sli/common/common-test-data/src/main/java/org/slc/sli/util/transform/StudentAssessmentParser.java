@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class StudentAssessmentParser {
-	private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentParser.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentParser.class);
     private String dataFile = null;
     private String dataDirectory = null;
     

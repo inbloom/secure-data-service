@@ -27,7 +27,7 @@ import com.google.gson.stream.JsonReader;
  * 
  */
 public class JsonToFixtureConverter {
-	private static final Logger LOG = LoggerFactory.getLogger(JsonToFixtureConverter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JsonToFixtureConverter.class);
 	
     private String dataDirectory = null;
     private FilenameFilter edOrgFilter = null;
