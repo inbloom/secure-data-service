@@ -102,7 +102,7 @@ public class JsonToFixtureConverter {
         // recursively load and parse all the JSON documents, store the entities in memory
         File dir = new File(dataDirectory);
         if (!dir.isDirectory()) {
-        	LOG.error("ERROR: '" + dataDirectory + "' is not a directory");
+            LOG.error("ERROR: '" + dataDirectory + "' is not a directory");
             return;
         }
         
