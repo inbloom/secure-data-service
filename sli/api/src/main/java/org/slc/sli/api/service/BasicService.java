@@ -25,6 +25,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.dal.convert.IdConverter;
@@ -433,10 +434,18 @@ public class BasicService implements EntityService {
     private List<String> findAccessible() {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal == null) throw new AccessDeniedException("Principal cannot be found");
-        EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(), defn.getType());
         
-        return resolver.findAccessible(principal.getEntity());
+        if (principal == null) throw new AccessDeniedException("Principal cannot be found");
+        
+        Entity entity = principal.getEntity();
+        String type = (entity != null ? entity.getType() : null);   //null for super admins because they don't contain mongo entries
+        
+        if (type == null && principal.getRoles().contains(Right.FULL_ACCESS)) { //Super admin
+            return AllowAllEntityContextResolver.SUPER_LIST;
+        } else {
+            EntityContextResolver resolver = contextResolverStore.findResolver(type, defn.getType());
+            return resolver.findAccessible(principal.getEntity());
+        }
     }
 
     /**
