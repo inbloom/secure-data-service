@@ -70,6 +70,8 @@ Given I have an open web browser
 And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the Reset Mapping button
+And I got warning message saying 'Are you sure you want to reset the role mappings?'
+When I click 'OK'
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
  
 Scenario Outline: Creating correct mappings for roles 
