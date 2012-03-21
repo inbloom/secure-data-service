@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The purpose of this class is to transform a CSV input file into Mongo-importable form. The CSV
  * file must be of a particular format
@@ -58,6 +61,7 @@ import java.util.Iterator;
  * 
  */
 public class StudentAssessmentParser {
+	private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentParser.class);
     private String dataFile = null;
     private String dataDirectory = null;
     
@@ -1185,7 +1189,7 @@ public class StudentAssessmentParser {
         usage += "    - same as above in the current directory, but convert the mock data to Ed-Fi XML ingestible format.\n\n";
         usage += "java " + StudentAssessmentParser.class.getSimpleName() + " <filename.csv> <directory> -x\n";
         usage += "    - same as above, using the named directory, but convert the mock data to Ed-Fi XML ingestible format.\n\n";
-        System.out.println(usage);
+        LOG.info(usage);
         System.exit(0);
     }
     
