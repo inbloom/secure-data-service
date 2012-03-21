@@ -1,7 +1,7 @@
 <h2>Viewing information for <%= params[:other] %>
 <p><%= link_to 'Back', :back %></p>
-<% if @entity.size == 1 %>
-	<%= render :partial => "detail", :locals => {:entity => @entity.first} %>
+<% if @entities.size == 1 %>
+	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
 <%else%>
-	<%= render :partial => "simple", :locals => {:entity => @entity} %>
+	<%= render :partial => "multi_record_table", :locals => {:entities => @entities} %>
 <% end %>

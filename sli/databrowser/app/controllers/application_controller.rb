@@ -43,30 +43,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   private 
   def not_found
     logger.debug {"Not found"}
     flash[:alert] = "No resource found with id: #{params[:id]}"
     redirect_to :back
   end
-
-  def check_login
-    # Check our session for a valid api key, if not, redirect out
-    if cookies.has_key? 'iPlanetDirectoryPro'
-      logger.debug 'We have a cookie set.'
-      SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-      Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
-      Check.url_type = "check"
-      # Get the state unique id and state to identify and key logging
-      session[:full_name] ||= Check.get("")["full_name"]
-    else
-      SessionResource.auth_id = nil
-      logger.debug { "No cookie set" }
-    end
-  end
-  
-
   
   def current_url
     request.url
@@ -84,6 +66,7 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
+        session[:full_name] ||= Check.get("")["full_name"]    
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
@@ -93,7 +76,6 @@ class ApplicationController < ActionController::Base
       end
     else
       logger.info { "OAuth disabled."}
-      check_login
     end
 
   end

@@ -61,7 +61,7 @@ And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
 And their id shown in proflie is "437680177"
-#And their grade is ""
+And their grade is "Eighth grade"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "2"
