@@ -79,7 +79,7 @@ private
   # but ultimately we need to get that somewhere else since the user will
   # always be authenticated to the SLI realm
   def get_user_realm
-    Check.new(SessionResource.access_token).realm
+    return session[:adminRealm]
   end
 
 end

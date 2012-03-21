@@ -53,6 +53,11 @@ class ApplicationController < ActionController::Base
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
         session[:full_name] ||= Check.get("")["full_name"]   
+        if Check.get("")["adminRealm"] != nil
+          session[:adminRealm] = Check.get("")["adminRealm"]
+        else
+          session[:adminRealm] = Check.get("")["realm"] #failover until we get adminRealm defined for all sys admins
+        end
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
         redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)
