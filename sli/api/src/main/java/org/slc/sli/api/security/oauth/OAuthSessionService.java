@@ -1,11 +1,16 @@
 package org.slc.sli.api.security.oauth;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+import org.bson.BSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -61,7 +66,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria("token", "=", accessTokenValue));
-        
+
+        util.removeExpiredTokens();
         
         Iterable<Entity> results = repo.findAll(OAUTH_ACCESS_TOKEN_COLLECTION, neutralQuery);
         for (Entity oauth2Session : results) {
@@ -70,7 +76,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
         }
         
         String time = "" + System.currentTimeMillis();
-        return new OAuth2Authentication(new ClientToken("UNKNOWM", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
-    }
-     
+        return new OAuth2Authentication(new ClientToken("UNKNOWM", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS))); }
+
+
+
 }

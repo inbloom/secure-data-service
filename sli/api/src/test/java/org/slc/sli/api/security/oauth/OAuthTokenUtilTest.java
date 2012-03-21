@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -59,7 +62,10 @@ public class OAuthTokenUtilTest {
     @Autowired
     @InjectMocks
     OAuthTokenUtil util;
-    
+
+    @Autowired
+    private Repository<Entity> repo;
+
     @Mock
     UserLocator locator;
     
@@ -152,7 +158,31 @@ public class OAuthTokenUtilTest {
         assertTrue("Ensuring type", reconst instanceof ExpiringOAuth2RefreshToken);
         assertEquals("checking expiration", expiration, ((ExpiringOAuth2RefreshToken) reconst).getExpiration());
     }
+
+    @Test
+    public void testRemoveExpiredTokens() throws Exception {
+        for (int i = 0; i < 20; ++i) {
+            repo.create()
+        }
+        for (int i = 0; i < 10; ++i) {
+            repo
+        }
+    }
     
+    private EntityBody createAccessToken(boolean expired) {
+        EntityBody body = new EntityBody();
+        long time = new Date().getTime();
+        if (expired) {
+            time -= 1000;
+        } else {
+            time += 100000;
+        }
+        Map<String, Object> accessToken = new HashMap<String, Object>();
+        accessToken.put("expires", time);
+        body.put("accessToken", accessToken);
+        return body;
+    }
+
     @Test
     public void testOauth2Serialization() {
         ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
