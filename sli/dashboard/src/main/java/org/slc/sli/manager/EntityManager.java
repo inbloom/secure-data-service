@@ -135,9 +135,7 @@ public class EntityManager extends ApiClientManager {
         GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
 
         if (teacher != null) {
-            List<GenericEntity> teachers = teacher.getList(Constants.ATTR_NAME);
-            if (teachers != null && !teachers.isEmpty())
-              student.put(Constants.ATTR_TEACHER_NAME, teachers.get(0)); 
+            student.put(Constants.ATTR_TEACHER_NAME, teacher.get(Constants.ATTR_NAME)); 
         } 
  
         /*GenericEntity program = getProgram(token, studentId);
