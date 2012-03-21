@@ -1,7 +1,7 @@
 <applicationDocs targetNamespace="http://wadl.dev.java.net/2009/02">
 
     <doc xml:lang="en" title="SLI REST API Documentation">
-        This document describes the SLI REST API 
+        This document describes the SLI REST API. 
     </doc>
 
 </applicationDocs> 
