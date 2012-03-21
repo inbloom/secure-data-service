@@ -1,8 +1,10 @@
 package org.slc.sli.sample.oauth;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -71,35 +73,29 @@ public class AuthFilter implements Filter {
     
     @Override
     public void init(FilterConfig conf) throws ServletException {
-        // TODO refector to use spring + env specific config files as soon as possible
-        clientId = conf.getInitParameter("clientId");
-        clientSecret = conf.getInitParameter("clientSecret");
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
         
-        try {
-            apiUrl = new URL(conf.getInitParameter("apiUrl"));
-        } catch (MalformedURLException e) {
-            throw new ServletException("Bad API URL: " + apiUrl, e);
-        }
-        
         String env = System.getProperty("sli.env");
-        if (env != null && "local".equalsIgnoreCase(env)) {
-            // use the default value in the web.xml
-            try {
-                callbackUrl = new URL(conf.getInitParameter("callbackUrl"));
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (env != null && "nxbuild2".equalsIgnoreCase(env)) {
-            try {
-                callbackUrl = new URL("https://nxbuild2.slidev.org/oauth2-sample/callback");
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-            clientId = "ET1k3PdHzX";
-            clientSecret = "Ok2iofHvnmguiGXvePLQY2K6UHFK+WZNNgVfYQaBYcAa3iXQ";
-        } else {
-            throw new RuntimeException("Unsuported environment: " + env);
+        if (env == null) {
+            throw new RuntimeException("sli.env system property is not set!");
+        }
+        InputStream propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
+        if (propStream == null) {
+            throw new RuntimeException("no properties file found for sli.env: " + env);
+        }
+        Properties props = new Properties();
+        try {
+            props.load(propStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clientId = props.getProperty("clientId");
+        clientSecret = props.getProperty("clientSecret");
+        try {
+            apiUrl = new URL(props.getProperty("apiUrl"));
+            callbackUrl = new URL(props.getProperty("callbackUrl"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
         }
     }
     
