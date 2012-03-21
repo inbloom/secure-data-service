@@ -86,6 +86,14 @@ When /^I click on the Reset Mapping button$/ do
   @driver.find_element(:id, "resetButton").click
 end
 
+Then /^I got warning message saying 'Are you sure you want to reset the role mappings\?'$/ do
+  @driver.switch_to.alert
+end
+
+When /^I click 'OK'$/ do
+  @driver.switch_to.alert.accept
+end
+
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 1)
   begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver

@@ -19,7 +19,7 @@ class Entity < SessionResource
     end
     entity
   end
-  
+
   def self.build_simple_hash(type, hash)
     return nil if hash.nil?
     type = get_basic_types(hash) if type.nil?

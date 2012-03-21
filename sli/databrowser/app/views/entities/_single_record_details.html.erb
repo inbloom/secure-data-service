@@ -1,9 +1,9 @@
 <%=
 html = ""
-if entity[:complex].empty?
+if entity.empty?
 	html << "Entity is empty"
 else
-	html << display_hash(entity[:complex])
+	html << display_hash(entity)
 end
 html.html_safe
 %>
