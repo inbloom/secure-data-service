@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
+        session[:full_name] ||= Check.get("")["full_name"]   
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
         redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)

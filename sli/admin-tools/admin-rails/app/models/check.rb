@@ -1,35 +1,5 @@
-require "net/http"
-class Check
-  attr_accessor :full_name, :authenticated, :realm
-
-  def initialize(access_token)
-    json =  Check.json_http_req("#{APP_CONFIG['api_base']}/system/session/check", access_token)
-    Rails.logger.debug {"Json response: #{json}"}
-    @full_name = json['full_name']
-    @authenticated = json['authenticated']
-    #TODO: Once all users have an adminRealm defined, we won't need to failover to realm
-    if json['adminRealm']
-      @realm = json['adminRealm']
-    else
-      @realm = json['realm']
-    end
-  end
-
-
-  def self.json_http_req(path, access_token)
-    headers = {}
-    if !access_token.nil?
-      headers = {"Authorization" => "Bearer #{access_token}"}
-    end
-    url = URI.parse(path)
-    req = Net::HTTP::Get.new(url.path, headers)
-    http = Net::HTTP.new(url.host, url.port)
-    if url.to_s.match(/^https/)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-    res = http.request(req)
-    return ActiveSupport::JSON.decode(res.body)
-  end
-
+class Check < SessionResource
+  self.site = "#{APP_CONFIG['api_base']}/system/session".gsub("v1/", "")
+  self.element_name = "check"
+  self.collection_name = "check"
 end

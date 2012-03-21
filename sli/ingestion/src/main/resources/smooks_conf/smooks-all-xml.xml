@@ -1853,7 +1853,11 @@
   <jb:bean beanId="studentTranscriptAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="Student" data="CourseTranscript/StudentUniqueStateId" />
-    <jb:value property="Course" data="CourseTranscript/CourseCode" />
+    <jb:wiring property="Course" beanIdRef="StudentTranscriptAssociation_CourseReference" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentTranscriptAssociation_CourseReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript">
+    <jb:value property="Course#metaData.externalId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="studentTranscriptAttributes" class="java.util.HashMap"
