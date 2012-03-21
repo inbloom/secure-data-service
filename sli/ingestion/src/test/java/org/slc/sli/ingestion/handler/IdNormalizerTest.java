@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.util.IdNormalizer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 /**
@@ -54,10 +54,10 @@ public class IdNormalizerTest {
     public void setup() {
         //mock complex reference source data
         Map<String, Object> schoolId = new HashMap<String, Object>();
-        schoolId.put("School#metaData.externalId", (Object) "aSchoolId");
+        schoolId.put("School#metaData.externalId", "aSchoolId");
 
         complexReference = new HashMap<String, Object>();
-        complexReference.put("Section#metaData.externalId", (Object) "aSectionId");
+        complexReference.put("Section#metaData.externalId", "aSectionId");
         complexReference.put("School#body.schoolId" , schoolId);
 
         //mock school collection in entity repository
@@ -123,8 +123,8 @@ public class IdNormalizerTest {
         filterFields.put("metaData.idNamespace", REGION_ID);
 
         PrivateAccessor.invoke(IdNormalizer.class, "resolveSearchCriteria",
-                new Class[]{EntityRepository.class, String.class, Map.class, Map.class, Query.class, ErrorReport.class},
-                new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, mock(ErrorReport.class)});
+                new Class[]{Repository.class, String.class, Map.class, Map.class, Query.class, String.class, ErrorReport.class},
+                new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, REGION_ID, mock(ErrorReport.class)});
 
         Assert.assertEquals(expectedQuery.getQueryObject().toString(), actualQuery.getQueryObject().toString());
     }

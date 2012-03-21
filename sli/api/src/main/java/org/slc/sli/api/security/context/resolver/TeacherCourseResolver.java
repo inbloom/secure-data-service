@@ -4,20 +4,26 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityQuery;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
 
 /**
  * Resolves which teachers a given teacher is allowed to see
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class TeacherCourseResolver implements EntityContextResolver {
@@ -26,41 +32,46 @@ public class TeacherCourseResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COURSE.equals(toEntityType);
     }
-    
+
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> ids = helper.findAccessible(principal, Arrays.asList(
+        List<String> teacherSectionIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+
+        List<String> studentSectionIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-
-        StringBuilder query = new StringBuilder();
-        String separator = "";
         
-        for (String s : ids) {
-            query.append(separator);
-            separator = ",";            
-            query.append(s);
+        Set<String> sectionIds = new HashSet<String>();
+        sectionIds.addAll(teacherSectionIds);
+        sectionIds.addAll(studentSectionIds);
+
+        List<String> ids = new ArrayList<String>();
+        for (String sectionId : sectionIds) {
+            ids.add(sectionId);
         }
         
-        EntityQuery.EntityQueryBuilder queryBuilder = new EntityQuery.EntityQueryBuilder();
-        queryBuilder.addField("_id", query.toString());
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
         
-        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, queryBuilder.build());
+        Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
+        Set<String> sessionIds = new HashSet<String>();
 
-        List<String> courseIds = new ArrayList<String>();
-        
         for (Entity e : entities) {
-            courseIds.add((String) e.getBody().get("courseId"));
+            String courseId = (String) e.getBody().get("courseId");
+            if (courseId != null) {
+                sessionIds.add(courseId);
+            }
         }
 
-        return courseIds;
+        return new ArrayList<String>(sessionIds);
     }
 
 }

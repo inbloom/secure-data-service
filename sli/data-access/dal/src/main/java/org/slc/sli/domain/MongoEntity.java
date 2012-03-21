@@ -1,7 +1,6 @@
 package org.slc.sli.domain;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -127,16 +126,9 @@ public class MongoEntity implements Entity, Serializable {
         UUID uuid = (UUID) dbObj.get("_id");
         String id = uuid.toString();
         
-        Map<?, ?> map = dbObj.toMap();
-        
-        Map<String, Object> body = new HashMap<String, Object>();
-        if (map.containsKey("body")) {
-            body.putAll((Map<String, ?>) map.get("body"));
-        }
-        Map<String, Object> metaData = new HashMap<String, Object>();
-        if (map.containsKey("metaData")) {
-            metaData.putAll((Map<String, ?>) map.get("metaData"));
-        }
+        Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
+        Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
+
         return new MongoEntity(type, id, body, metaData);
     }
     

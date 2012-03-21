@@ -32,6 +32,11 @@ public class NeutralRecord {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
+     * stores an Id value uniquely identifying the record within the data store.
+     */
+    protected String recordId;
+
+    /**
      * stores an Id value correlating the record to a certain external source,
      * such as a particular LEA (or possibly a specific source system within
      * that LEA).
@@ -42,7 +47,7 @@ public class NeutralRecord {
      * stores an Id value correlating the record to a particular batch or
      * processing request.
      */
-    protected String jobId;
+    protected String batchJobId;
 
     /**
      * stores a flag whether the current record is association.
@@ -88,6 +93,15 @@ public class NeutralRecord {
         // initialize the two Maps as a convenience
         this.localParentIds = new HashMap<String, Object>();
         this.attributes = new HashMap<String, Object>();
+
+        this.recordId = null;
+    }
+
+    /**
+     * @return the recordId
+     */
+    public String getRecordId() {
+        return recordId;
     }
 
     /**
@@ -95,6 +109,14 @@ public class NeutralRecord {
      */
     public Object getLocalId() {
         return localId;
+    }
+
+    /**
+     * @param recordId
+     *            the recordId to set
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
     /**
@@ -123,16 +145,16 @@ public class NeutralRecord {
     /**
      * @return the jobId
      */
-    public String getJobId() {
-        return jobId;
+    public String getBatchJobId() {
+        return batchJobId;
     }
 
     /**
-     * @param jobId
+     * @param batchJobId
      *            the jobId to set
      */
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
     }
 
     /**

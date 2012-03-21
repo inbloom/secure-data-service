@@ -1,5 +1,5 @@
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../dash/step_definitions/selenium_common.rb'
+require_relative '../../dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
   url = PropLoader.getProps['dashboard_server_address']
@@ -59,8 +59,8 @@ Then /^I should see a field "([^"]*)" in this table$/ do |fieldName|
 end
 
 Then /^I should see  "([^"]*)" in student field$/ do |studentName|
-  student = @driver.find_element(:id, studentName+".name_w_link")
-  student.should_not be_nil
+  student=@driver.find_element(:id, studentName+".name_w_link")
+  student.should_not be nil
   student.text.should include studentName
   @studentName = studentName
 end

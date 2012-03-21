@@ -294,23 +294,14 @@
     <RevisionDate>2011-03-12</RevisionDate>
     <MaxRawScore>450</MaxRawScore>
     <AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT Writing for Grade 8</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </Assessment>
-  
-  <AssessmentFamilyReference id="">
-		<AssessmentFamilyIdentiy>
-			<AssessmentFamilyIdentificationCode
-				IdentificationSystem="Test Contractor">
-				<ID>ISAT Writing for Grade 8</ID>
-			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
-	</AssessmentFamilyReference>
   
   <Assessment id="Grade 8 2011 ISAT Reading">
     <AssessmentTitle>Grade 8 2011 ISAT Reading</AssessmentTitle>
@@ -357,12 +348,12 @@
     <RevisionDate>2011-03-12</RevisionDate>
     <MaxRawScore>450</MaxRawScore>
 	<AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT Reading for Grade 8</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </Assessment>
   
@@ -381,12 +372,12 @@
 		<ID>ISAT Reading for Grades 3-8</ID>
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
@@ -397,12 +388,12 @@
 		<ID>ISAT Reading for Grade 8</ID>
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT Reading for Grades 3-8</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
@@ -413,12 +404,12 @@
 		<ID>ISAT Writing for Grades 3-8</ID>
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
@@ -429,12 +420,12 @@
 		<ID>ISAT Writing for Grade 8</ID>
 	</AssessmentFamilyIdentificationCode>
 	<AssessmentFamilyReference>
-		<AssessmentFamilyIdentiy>
+		<AssessmentFamilyIdentity>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
 				<ID>ISAT Writing for Grades 3-8</ID>
 			</AssessmentFamilyIdentificationCode>
-		</AssessmentFamilyIdentiy>
+		</AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>
   </AssessmentFamily>
   
@@ -463,6 +454,92 @@
     <RevisionDate>2005-03-12</RevisionDate>
     <MaxRawScore>122</MaxRawScore>
   </Assessment>
+
+  <Assessment id="DIBELS_NEXT_GRADE_1_BOY">
+    <AssessmentTitle>DIBELS-Next Grade 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>DIBELS-Next-Grade-1-BOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <ContentStandard>National Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2005-03-12</RevisionDate>
+    <MaxRawScore>122</MaxRawScore>
+	<AssessmentPeriod>
+		<CodeValue>DIBELS-BOY</CodeValue>
+	</AssessmentPeriod>
+	<AssessmentFamilyReference>
+		<AssessmentFamilyIdentity>
+			<AssessmentFamilyIdentificationCode
+				IdentificationSystem="Test Contractor">
+				<ID>DIBELS_NEXT</ID>
+			</AssessmentFamilyIdentificationCode>
+		</AssessmentFamilyIdentity>
+	</AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment id="DIBELS_NEXT_GRADE_1_MOY">
+    <AssessmentTitle>DIBELS-Next Grade 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>DIBELS-Next-Grade-1-MOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <ContentStandard>National Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2005-03-12</RevisionDate>
+    <MaxRawScore>122</MaxRawScore>
+	<AssessmentPeriod>
+		<CodeValue>DIBELS-MOY</CodeValue>
+	</AssessmentPeriod>
+	<AssessmentFamilyReference>
+		<AssessmentFamilyIdentity>
+			<AssessmentFamilyIdentificationCode
+				IdentificationSystem="Test Contractor">
+				<ID>DIBELS_NEXT</ID>
+			</AssessmentFamilyIdentificationCode>
+		</AssessmentFamilyIdentity>
+	</AssessmentFamilyReference>
+  </Assessment>
+
+	<AssessmentFamily id="DIBELS">
+		<AssessmentFamilyTitle>DIBELS</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
+  	<AssessmentFamily id="DIBELS_NEXT">
+		<AssessmentFamilyTitle>DIBELS_NEXT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS_NEXT</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+					<ID>DIBELS</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+  <AssessmentPeriodDescriptor>
+	<CodeValue>DIBELS-BOY</CodeValue>
+	<Description>Beginning of Year 2011-2012</Description>
+	<ShortDescription>DIBELS-BOY</ShortDescription>
+	<BeginDate>2011-08-01</BeginDate>
+	<EndDate>2011-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+	<CodeValue>DIBELS-MOY</CodeValue>
+	<Description>Middle of Year 2011-2012</Description>
+	<ShortDescription>DIBELS-MOY</ShortDescription>
+	<BeginDate>2012-01-01</BeginDate>
+	<EndDate>2012-03-30</EndDate>
+  </AssessmentPeriodDescriptor>
 
   <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     </PerformanceLevelDescriptor> -->

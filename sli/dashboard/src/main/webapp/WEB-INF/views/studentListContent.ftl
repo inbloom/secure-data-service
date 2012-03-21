@@ -98,6 +98,20 @@
             ${historicaldata.getGrade(field, student)}
           </#if>
 
+        <#elseif field.getType() == constants.FIELD_TYPE_CURRENT_TERM_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${gradebookEntryData.getAverage(student)}
+          </#if>
+
+        <#elseif field.getType() == constants.FIELD_TYPE_UNIT_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${gradebookEntryData.getGrade(field.getTimeSlot(), student)}
+          </#if>
+
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

@@ -98,8 +98,8 @@
         ]
     },
     {
-        "id": "DIBELS_NEXT_GRADE_2_BOY_ID",
-        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY",
+        "id": "DIBELS_NEXT_GRADE_2_BOY_ID_2010",
+        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY_2010",
         "maxRawScore": 364,
         "minRawScore": 0,
         "assessmentPerformanceLevel": [
@@ -127,7 +127,53 @@
                 "minimumScore": 278,
                 "maximumScore": 364
             }
-        ]
+        ],
+        "assessmentPeriodDescriptor": {
+        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2010",
+        	"description": "Beginning of Year",
+        	"shortDescription": "BOY",
+        	"beginDate": "2010-08-01",
+        	"endDate": "2010-12-31"
+        }
+    },
+    {
+        "id": "DIBELS_NEXT_GRADE_3_BOY_ID_2011",
+        "assessmentTitle": "DIBELS_NEXT_GRADE_3_BOY_2011",
+        "maxRawScore": 364,
+        "minRawScore": 0,
+        "assessmentPerformanceLevel": [
+            {
+                "performanceLevel": "1",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 80,
+                "maximumScore": 180
+            },
+            {
+                "performanceLevel": "2",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 180,
+                "maximumScore": 231
+            },
+            {
+                "performanceLevel": "3",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 231,
+                "maximumScore": 278
+            },
+            {
+                "performanceLevel": "4",
+                "assessmentReportingMethod": "Scale score",
+                "minimumScore": 278,
+                "maximumScore": 364
+            }
+        ],
+        "assessmentPeriodDescriptor": {
+        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2011",
+        	"description": "Beginning of Year",
+        	"shortDescription": "BOY",
+        	"beginDate": "2011-08-01",
+        	"endDate": "2011-12-31"
+        }
     },
     {
         "id": "AP_LANGUAGE_2011",
@@ -137,35 +183,36 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 1,
                 "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 2,
                 "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 3,
                 "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 4,
                 "maximumScore": 4
             },
             {
                 "performanceLevel": "5",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 5,
                 "maximumScore": 5
             }
-        ]
+        ],
+        "assessmentFamilyHierarchyName":"AP.AP LANGUAGE 2011"
     },
     {
         "id": "AP_LITERATURE_2011",
@@ -175,34 +222,65 @@
         "assessmentPerformanceLevel": [
             {
                 "performanceLevel": "1",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 1,
                 "maximumScore": 1
             },
             {
                 "performanceLevel": "2",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 2,
                 "maximumScore": 2
             },
             {
                 "performanceLevel": "3",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 3,
                 "maximumScore": 3
             },
             {
                 "performanceLevel": "4",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 4,
                 "maximumScore": 4
             },
             {
                 "performanceLevel": "5",
-                "assessmentReportingMethod": "Raw score",
+                "assessmentReportingMethod": "Scale score",
                 "minimumScore": 5,
                 "maximumScore": 5
             }
+        ],
+         "assessmentFamilyHierarchyName":"AP.AP LITERATURE 2011"
+    },
+    {
+        "id": "SAT",
+        "assessmentTitle": "SAT",
+        "assessmentFamilyHierarchyName":"SAT",
+        "assessmentCategory":"College Addmission Test",
+        "gradeLevelAssessed":"Twelfth grade", 
+        "lowestGradeLevelAssessed":"Eleventh grade",
+        "maxRawScore": 5,
+        "minRawScore": 1,
+        "assessmentPerformanceLevel": [ ],
+        "assessmentPeriodDescriptor":{
+        "codeValue":"assessment",
+        "description":"assessment",
+        "beginDate":"2011-01-01",
+        "endDate":"2011-02-01"
+        },
+        "maxRawScore": 2400,
+        "minRawScore": 600,
+        "objectiveAssessment":[
+        {"identificationCode":"SAT-Writing",
+        "maxRawScore":800,
+        "percentOfAssessment":33},
+        {"identificationCode":"SAT-Math",
+          "maxRawScore":800,
+          "percentOfAssessment":33},
+        {"identificationCode":"SAT-Critical Reading",
+        "maxRawScore":800,
+        "percentOfAssessment":33}
         ]
     }
 ]

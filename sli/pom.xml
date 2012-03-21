@@ -39,6 +39,7 @@
 		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
 		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
 		<hsqldb.version>1.8.0.10</hsqldb.version>
+		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
 
 		<!-- Java EE Versions -->
@@ -56,6 +57,7 @@
 		<xerces.version>2.4.0</xerces.version>
 		<avro.version>1.6.1</avro.version>
 		<commons.schema.version>1.4.7</commons.schema.version>
+        <commons.beanutils.version>1.8.3</commons.beanutils.version>
 
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
@@ -145,6 +147,16 @@
             </properties>
         </profile>
 
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>nxbuild2</id>
+            <properties>
+                <sli.env>nxbuild2</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
 
 		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->
@@ -155,6 +167,7 @@
 		<module>common</module>
 		<module>api</module>
 		<module>data-access</module>
+                <!-- module>admin-tools</module -->
 		<module>ingestion</module>
 		<module>dashboard</module>
 		<module>acceptance-tests</module>
@@ -484,6 +497,11 @@
 				<version>${xerces.version}</version>
 			</dependency>
 
+            <dependency>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils</artifactId>
+              <version>${commons.beanutils.version}</version>
+            </dependency>
 
 			<!-- Rest Services (JAX-RS) Framework -->
 
@@ -630,6 +648,13 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <!-- bean validation -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${bean.validator.version}</version>
+    </dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -656,6 +681,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+
 	</dependencies>
 
 	<build>

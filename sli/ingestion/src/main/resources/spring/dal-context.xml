@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-  xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -14,20 +13,23 @@
   <!-- SHARED CONFIG -->
 
   <tx:annotation-driven />
-  <bean id="placeholderConfig"
-    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location"
-      value="classpath:config/${sli.env}/data-access/db.properties" />
+  <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="classpath:config/${sli.env}/data-access/db.properties" />
   </bean>
 
   <!-- MONGODB CONFIG -->
 
-  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
-    host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
-  <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" -->
+<!--
+  <mongo:db-factory
+  	id="mongoDbStagingFactory"
+  	dbname="${sli.ingestion.staging.mongodb.database}"
+  	host="${sli.ingestion.staging.mongodb.host}"
+    port="${sli.ingestion.staging.mongodb.port}" />
+-->
+  <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
 
-  <mongo:mapping-converter id="neutralRecordMappingConverter"
-    base-package="org.slc.sli.ingestion.dal" db-factory-ref="mongoDbFactory">
+  <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal">
+    <!--db-factory-ref="mongoDbStagingFactory">-->
     <mongo:custom-converters>
       <mongo:converter>
         <bean class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter" />
@@ -38,15 +40,30 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
+<!--
   <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbFactory" />
-    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter"
-      ref="neutralRecordMappingConverter" />
+    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
+    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
+-->
+
+  <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate">
+    <constructor-arg value="${sli.ingestion.staging.mongodb.database}"  />
+    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
+  </bean>
+
+  <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />-->
 
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
+    <property name="idConverter" ref="mongoIdConverter" />
   </bean>
+
+  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" >
+    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
+  </bean>
+
+
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
 

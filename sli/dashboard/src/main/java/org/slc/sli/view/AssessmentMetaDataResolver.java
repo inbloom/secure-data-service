@@ -58,7 +58,7 @@ public class AssessmentMetaDataResolver {
          * }
          */
     }
-
+    
     /*
      * private void populateStructures(AssessmentMetaData metaData) {
      * 
@@ -82,7 +82,7 @@ public class AssessmentMetaDataResolver {
      * 
      * }
      */
-
+    
     /*
      * public PerfLevel findPerfLevelForFamily(String name, String perfLevel) {
      * 
@@ -96,7 +96,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     /*
      * public List<Period> findPeriodsForFamily(String name) {
      * 
@@ -113,7 +113,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     /*
      * public Period findPeriodForFamily(String name) {
      * 
@@ -180,7 +180,7 @@ public class AssessmentMetaDataResolver {
         List<Map> assmtPerfLevels = assmt.getList(Constants.ATTR_ASSESSMENT_PERF_LEVEL);
         int i = 0;
         for (Map assmtPerfLevel : assmtPerfLevels) {
-
+            
             if (assmtPerfLevel.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                 
                 // if it's the first level, add the min of the range
@@ -219,7 +219,7 @@ public class AssessmentMetaDataResolver {
      * return null;
      * }
      */
-
+    
     public Integer findNumRealPerfLevelsForFamily(String name) {
         /*
          * List<PerfLevel> perfLevels = findPerfLevelsForFamily(name);
@@ -296,7 +296,7 @@ public class AssessmentMetaDataResolver {
          */
         return false;
     }
-
+    
     /**
      * Returns true if the assmt identified by the assmtId belongs in the assmt family
      * 
@@ -305,19 +305,25 @@ public class AssessmentMetaDataResolver {
         boolean found = false;
         GenericEntity assmt = getAssmtById(assmtId);
         if (assmt != null) {
-            if (assmt.getString(Constants.ATTR_ASSESSMENT_TITLE).contains(assmtFamilyName)
-                    || assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME).contains(assmtFamilyName)) {
+            if (assmt.getString(Constants.ATTR_ASSESSMENT_TITLE) != null
+                    && s1ContainsS2(assmt.getString(Constants.ATTR_ASSESSMENT_TITLE), assmtFamilyName)) {
+                found = true;
+            } else if (assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME) != null
+                    && s1ContainsS2(assmt.getString(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME), assmtFamilyName)) {
                 found = true;
             }
         }
         return found;
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public String calculatePerfLevel(String assmtId, String scaleScore) {
         String perfLevel = "";
+
         Map assmt = getAssmtById(assmtId);
         if (assmt != null) {
             List<Double> minScores = new ArrayList<Double>();
+
             List<Map> perfLevelDescriptors = (List<Map>) (assmt.get(Constants.ATTR_ASSESSMENT_PERF_LEVEL));
             if (perfLevelDescriptors != null && perfLevelDescriptors.size() > 0) {
                 for (Map perfLevelDescriptor : perfLevelDescriptors) {
@@ -343,5 +349,22 @@ public class AssessmentMetaDataResolver {
         }
         return perfLevel;
     }
-
+    
+    private boolean s1ContainsS2(String s1, String s2) {
+        String[] strings1 = s1.replace("-", " ").replace(".", " ").replace("_", " ").split(" ");
+        String[] strings2 = s2.replace("-", " ").replace(".", " ").replace("_", " ").split(" ");
+        boolean match = false;
+        for (String string2 : strings2) {
+            match = false;
+            for (String string1 : strings1) {
+                if (string1.equals(string2)) {
+                    match = true;
+                }
+            }
+            if (!match)
+                return false;
+        }
+        return match;
+    }
+    
 }

@@ -27,7 +27,7 @@ public class TeacherToTeacherSectionAssociationResolver implements EntityContext
     @Override
     public List<String> findAccessible(Entity principal) {
         List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
-        return helper.findEntitiesContainingReference(EntityNames.TEACHER_SECTION_ASSOCIATION, "body.teacherId", ids);
+        return helper.findEntitiesContainingReference(EntityNames.TEACHER_SECTION_ASSOCIATION, "teacherId", ids);
     }
 
 

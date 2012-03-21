@@ -1,17 +1,56 @@
-<table>
+<div id="notice">
+	<%= notice %>
+</div>
+
+<table id="applications">
 	<tr>
-	<th>Name</th>
-	<th>Version</th>
-	<th>Vendor</th>
-	<th>Creation Date</th>
-	<th>Last Update</th>
+		<th>Name</th>
+		<th>Version</th>
+		<th>Vendor</th>
+		<th>Creation Date</th>
+		<th>Last Update</th>
+		<th>Actions</th>
 	</tr>
 	<% @apps.each do |app| %>
+		<tr id='<%= app.id %>'>
+	    	<td><%= app.name %></td>
+		    <td><%= app.version %></td>
+			<td><%= app.developer_info.organization %></td>
+		        <td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
+		        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
+			<td><%= link_to 'Edit', "#", :class=> 'edit-link' %> | <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
+		</tr>
 		<tr>
-	    <td><%= app.name %></td>
-	    <td><%= app.version %></td>
-	    <td><%= app.created_on %></td>
-		<td><%= app.updated_on %></td>
+			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>
 		</tr>
 	<% end %>
 </table>
+<%= link_to 'New Application', new_app_path %>
+
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function() {
+		jQuery.noConflict();
+		jQuery(':input:enabled').attr('disabled', true);
+		jQuery("a.edit-link").click(function() {
+			//Enable input on this form.
+			var set = null;
+			set = jQuery(this).closest("tr").next().find(':input:not(.read_only):disabled');
+			if(set.length == 0) {
+			jQuery(this).closest("tr").next().find(':input:not(.read_only):enabled').attr('disabled', true);
+			}
+			else {
+				set.removeAttr('disabled');
+				
+			}
+
+		});
+		jQuery("#applications tr:odd").addClass("odd");
+		        jQuery("#applications tr:not(.odd)").hide();
+		        jQuery("#applications tr:first-child").show();
+		        
+		        jQuery("#applications tr.odd").click(function(){
+		            jQuery(this).next("tr").slideToggle();
+		            // $(this).find(".arrow").toggleClass("up");
+		        });
+	});
+</script>

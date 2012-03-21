@@ -37,7 +37,7 @@ import org.slc.sli.util.SecurityUtil;
  * 
  */
 @Component
-public class EntityManager extends Manager {
+public class EntityManager extends ApiClientManager {
     
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
     
@@ -128,12 +128,18 @@ public class EntityManager extends Manager {
      *         - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
-        GenericEntity student = getStudent(token, studentId);
+        GenericEntity student = ContactSorter.sort(getStudent(token, studentId));
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
         GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
-        student.put(Constants.ATTR_TEACHER_NAME, teacher.get(Constants.ATTR_NAME));
+
+        if (teacher != null) {
+            List<GenericEntity> teachers = teacher.getList(Constants.ATTR_NAME);
+            if (teachers != null && !teachers.isEmpty())
+              student.put(Constants.ATTR_TEACHER_NAME, teachers.get(0)); 
+        } 
+ 
         /*GenericEntity program = getProgram(token, studentId);
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
@@ -385,7 +391,7 @@ public class EntityManager extends Manager {
         headers.add(API_SESSION_KEY, token);
         HttpEntity httpEntity = new HttpEntity(headers);
         
-        log.debug("Accessing API: " + url);  
+        log.debug("Accessing API: {}", url);  
         
         HttpEntity<String> apiResponse = template.exchange(url, HttpMethod.GET, httpEntity, String.class);
 
@@ -495,5 +501,9 @@ public class EntityManager extends Manager {
 
     public GenericEntity getSession(String token, String sessionId) {
         return getApiClient().getSession(token, sessionId);
+    }
+
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+        return getApiClient().getSessionsByYear(token, schoolYear);  //To change body of created methods use File | Settings | File Templates.
     }
 }

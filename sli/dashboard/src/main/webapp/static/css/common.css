@@ -215,10 +215,41 @@ h1
 .test
 {
     height: 100px;
-    border: 1px solid #000000;
 }
     
 .csi .col1
 {
     width: 
+}
+th.ui-th-column div {
+    white-space: normal !important;
+    height: auto !important;
+    padding: 2px;
+}
+
+.studentContactInfo {
+	display:table; 
+	font-size: 12px;
+}
+
+.contactInfoRow {
+	display:table-row;
+}
+
+.contactInfoCol1 {
+	display:table-cell;
+	width: 90px;
+}
+
+.contactInfoCol2 {
+	padding-bottom: 5px;
+	display:table-cell;
+}
+
+.section {
+	padding: 10px; 
+}
+
+.bold {
+	font-weight:bold;
 }

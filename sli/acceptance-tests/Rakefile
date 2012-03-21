@@ -68,8 +68,18 @@ def setMultipleFixtureFiles(myHash)
 end
 
 def displayFailureReport()
+  startRed = "\e[31m"
+  startGreen = "\e[32m"
+  colorReset = "\e[0m"
+  
   $failures.each do |key, value|
-    puts "#{key} tests #{value}"
+    if ENV['FORCE_COLOR']
+      puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
+      puts "#{startGreen}#{key} tests #{value}#{colorReset}" if value == "Passed"
+    else
+      puts "#{key} tests #{value}"
+    end
+    
   end
 end
 
@@ -87,6 +97,7 @@ task :realmInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("application", "application_fixture.json")
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json", "test/data", false)
 end
 
 # Task that initializes the application registration fixture
@@ -125,7 +136,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests] do
+task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -174,6 +185,16 @@ task :ingestionStudentTranscriptAssociationTests do
   runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
 end
 
+desc "Run idNamespace Test"
+task :ingestionidNamespaceTest do
+  runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
+end
+
+desc "Run Ingestion Gradebook Entry Test"
+task :ingestionGradebookEntryTests do
+  runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -204,6 +225,7 @@ task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1EducationOrganizationTests,
                            :v1GradebookEntryTests,
                            :v1ParentTests,
+                           :v1ParentSecurityTests,
                            :v1SchoolTests,
                            :v1SectionTests,
                            :v1SessionTests,
@@ -444,6 +466,12 @@ task :v1ParentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
 end
 
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
@@ -568,7 +596,6 @@ end
 
 desc "Run Attendance Tests"
 task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-
 end
 
 desc "Run Attendance CRUD Tests"
@@ -712,6 +739,11 @@ task :adminToolsTests => [:realmInit] do
   end
 end
 
+desc "App registration tests"
+task :appRegistrationTests do
+  runTests("test/features/admintools/app_registration.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser")
@@ -744,7 +776,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -809,6 +841,11 @@ task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+end
+
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
   runTests("test/features/dashboard/dash/attendance.feature")
@@ -828,6 +865,17 @@ desc "Run dashboard student historical data tests"
 task :dashboardStudentHistoricalDataTests do
   runTests("test/features/dashboard/students/HistoricalData.feature")
 end
+
+desc "Run dashboard student contact info tests"
+task :dashboardStudentContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info.feature")
+end
+
+desc "Run dashboard student display/hide pages based on grade tests"
+task :dashboardHidePagesTests do
+  runTests("test/features/dashboard/dash/display_hide_pages.feature")
+end
+
 
 ############################################################
 # Dashboard tests end

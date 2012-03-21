@@ -1,6 +1,7 @@
 package org.slc.sli.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Map;
  */
 public class GenericEntity extends LinkedHashMap<String, Object> {
     
+    private static final long serialVersionUID = -1398693068211322783L;
+
     public GenericEntity() {  
         super();
     }
@@ -26,22 +29,19 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         return (String) (get(key));
     }
     
-    public Map getMap(String key) {
-        return (Map) (get(key));    
-    }
-    
     public List getList(String key) {
-        return (List) (get(key));
+        @SuppressWarnings("unchecked")
+        List<Object> list = (List<Object>) (get(key));
+        return list == null ? Collections.emptyList() : list;
     }
     
     public void appendToList(String key, GenericEntity obj) {
         if (!containsKey(key)) {
             put(key, (Object) new ArrayList<GenericEntity>());
         }
-        ArrayList<GenericEntity> list = (ArrayList<GenericEntity>) get(key);
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> list = (List<GenericEntity>) get(key);
         list.add(obj);
         put(key, (Object) list);
     }
-    
-    
 }

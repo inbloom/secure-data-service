@@ -64,7 +64,7 @@ And their id shown in proflie is "437680177"
 #And their grade is ""
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
-And the lozenges count is "1"
+And the lozenges count is "2"
 And the lozenges include "FRE"
 @wip
 Scenario: View a student with other name

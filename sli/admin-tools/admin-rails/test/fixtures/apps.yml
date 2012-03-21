@@ -10,13 +10,69 @@ admin:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
-    vendor: "SLI"
     version: "1.0"
-    application_id: 1
     method: "Full Window App"
     is_admin: true
-    created_on: 1234123523415
-    updated_on: 1234123523415
+    created_on: 1331670018
+    updated_on: 1331670018
     developer_info: 
         license_acceptance: true
         organization: SLI
+    metaData:
+        updated: 10000000
+        created: 10000000
+waffles:
+    id: 2
+    client_type: PUBLIC
+    scope: ENABLED
+    client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
+    redirect_uri: https://devadmin1.slidev.org/callback
+    description: Waffle application
+    image_url: http://placekitten.com/150/150
+    name: Waffle Application (Deoployment)
+    client_id: kW1yIK2cMn
+    application_url: https://devadmin1.slidev.org/
+    administration_url: https://devadmin1.slidev.org/apps
+    version: ".waffles"
+    method: "Full Window App"
+    is_admin: true
+    developer_info: 
+        license_acceptance: true
+        organization: SLI
+    metaData:
+        updated: 10000000
+        created: 10000000
+        
+update:
+    id: 1
+    client_secret: "Waffle Copter"
+    client_type: PUBLIC
+    scope: ENABLED
+    redirect_uri: https://devadmin1.slidev.org/callback
+    description: Waffle application
+    image_url: http://placekitten.com/150/150
+    name: Waffle Application (Deoployment)
+    application_url: https://devadmin1.slidev.org/
+    administration_url: https://devadmin1.slidev.org/apps
+    version: ".waffles"
+    method: "Full Window App"
+    is_admin: "0"
+    developer_info: 
+        license_acceptance: "0"
+        organization: SLI
+new:
+    client_type: PUBLIC
+    scope: ENABLED
+    redirect_uri: https://devadmin1.slidev.org/callback
+    description: Waffle application
+    image_url: http://placekitten.com/150/150
+    name: Waffle Application (Deoployment)
+    application_url: https://devadmin1.slidev.org/
+    administration_url: https://devadmin1.slidev.org/apps
+    version: 1.0
+    method: "Full Window App"
+    is_admin: "0"
+    developer_info: 
+        license_acceptance: "0"
+        organization: SLI
+

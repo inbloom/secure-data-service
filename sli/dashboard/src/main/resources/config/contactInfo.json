@@ -1,0 +1,9 @@
+{
+  id : "contactInfo",
+  type : "PANEL",
+  name : "Contact Information",
+  data :{
+    entity: "student",
+    alias: "student"
+  }
+}

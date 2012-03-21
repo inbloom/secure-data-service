@@ -88,4 +88,6 @@ public interface APIClient {
     public GenericEntity getHomeRoomForStudent(String studentId, String token);
 
     public GenericEntity getSession(String token, String sessionId);
+
+    public List<GenericEntity> getSessionsByYear(String token, String schoolYear);
 }

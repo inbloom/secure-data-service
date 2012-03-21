@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="directEntities" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="directEntity" />
+    </jb:bean>
+
+    <jb:bean beanId="directEntity" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:wiring property="body" beanIdRef="directEntityBody" />
+    </jb:bean>
+
+    <jb:bean beanId="directEntityBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="field1" data="attributes field2"></jb:value>
+    </jb:bean>
+
+</smooks-resource-list>

@@ -193,6 +193,7 @@ getSliRoleObject = function(sliRole, roleData) {
         });
 
         $("#resetButton").click(function() {
+		if (confirm("Are you sure you want to reset the role mappings?")) {
                 rMap = [];
                 for (var i in SLI_ROLES) {
                       rMap.push([SLI_ROLES[i], SLI_ROLES[i]]);
@@ -204,6 +205,7 @@ getSliRoleObject = function(sliRole, roleData) {
                         drawTable(rMap, true);
                 }
                 save(success);
+		}
         });
 
 }

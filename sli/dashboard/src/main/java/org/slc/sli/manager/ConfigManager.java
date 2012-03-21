@@ -19,6 +19,7 @@ import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.StudentFilter;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.DashboardException;
 
 /**
@@ -29,13 +30,14 @@ import org.slc.sli.util.DashboardException;
  *
  * @author dwu
  */
-public class ConfigManager extends Manager {
+public class ConfigManager extends ApiClientManager {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     ConfigPersistor persistor;
     EntityManager entityManager;
     
     private String configLocation = "config";
+    private InstitutionalHierarchyManager institutionalHierarchyManager;
     
     public ConfigManager() {
         persistor = new ConfigPersistor();
@@ -179,6 +181,10 @@ public class ConfigManager extends Manager {
         persistor.setEntityManager(entityManager);
     }
     
+    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
+        this.institutionalHierarchyManager = institutionalHierarchyManager;
+    }
+    
     public void setConfigLocation(String configLocation) {
         this.configLocation = configLocation;
     }
@@ -187,7 +193,13 @@ public class ConfigManager extends Manager {
         return configLocation + "/" + componentId + ".json";
     }
     
+    private Config applyConfigRecursively(String userId, String componentId) {
+        List<GenericEntity> hierarchy = institutionalHierarchyManager.getInstHierarchy(userId);
+        return null;
+    }
+    
     public Config getComponentConfig(String userId, String componentId) {
+        //applyConfigRecursively(SecurityUtil.getToken(), componentId);
         Gson gson = new GsonBuilder().create();
         try {
             return gson.fromJson(

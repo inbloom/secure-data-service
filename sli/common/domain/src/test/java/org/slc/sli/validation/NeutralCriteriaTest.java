@@ -1,0 +1,75 @@
+package org.slc.sli.validation;
+
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import org.slc.sli.domain.NeutralCriteria;
+
+
+/**
+ * Various utility functions for test
+ * 
+ * @author kmyers
+ *
+ */
+public class NeutralCriteriaTest {
+
+    @Test
+    public void testValidParsingAbilities() {
+        String key = "key";
+        String value = "value";
+        
+        for (String operator : NeutralCriteria.SUPPORTED_COMPARISON_OPERATORS) {
+            NeutralCriteria neutralCriteria = new NeutralCriteria(key + operator + value);
+            assertEquals(neutralCriteria.getKey(), key);
+            assertEquals(neutralCriteria.getOperator(), operator);
+            assertEquals(neutralCriteria.getValue(), value);
+            assertEquals(neutralCriteria.canBePrefixed(), true);
+        }
+    }
+    
+    @Test
+    public void testEqualsComparison() {
+        NeutralCriteria neutralCriteria1 = new NeutralCriteria("key", "=", "value");
+        NeutralCriteria neutralCriteria2 = new NeutralCriteria("key", "=", "value");
+        NeutralCriteria neutralCriteria3 = new NeutralCriteria("differentKey", "=", "value");
+        NeutralCriteria neutralCriteria4 = new NeutralCriteria("key", "!=", "value");
+        NeutralCriteria neutralCriteria5 = new NeutralCriteria("key", "!=", "differentValue");
+        NeutralCriteria neutralCriteria6 = new NeutralCriteria("key", "=", "value", true);
+        NeutralCriteria neutralCriteria7 = new NeutralCriteria("key", "=", "value", false);
+
+        assertTrue(neutralCriteria1.equals(neutralCriteria2));
+        assertFalse(neutralCriteria1 == neutralCriteria2);
+        assertFalse(neutralCriteria1.equals(neutralCriteria3));
+        assertFalse(neutralCriteria1.equals(neutralCriteria4));
+        assertFalse(neutralCriteria1.equals(neutralCriteria5));
+        assertTrue(neutralCriteria1.equals(neutralCriteria6));
+        assertFalse(neutralCriteria1.equals(neutralCriteria7));
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testEmptyString() {
+        new NeutralCriteria("");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoKey() {
+        new NeutralCriteria("=5");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoOperator() {
+        new NeutralCriteria("key5");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoValue() {
+        new NeutralCriteria("key=");
+    }
+    
+}

@@ -13,16 +13,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | assessment                  | 3     |
+     | assessment                  | 4     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                              | searchValue                                      |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName           | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | BOY                                              |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | MOY                                              |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue    | EOY                                              |
+     | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |
+     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
 
-  And I should see "Processed 3 records." in the resulting batch job file
+  And I should see "Processed 18 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "assessmentMetadata.xml records considered: 3" in the resulting batch job file
-  And I should see "assessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
-  And I should see "assessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records considered: 13" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 13" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records failed: 0" in the resulting batch job file

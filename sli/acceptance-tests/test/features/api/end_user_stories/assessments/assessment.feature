@@ -2,11 +2,12 @@ Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 
+@wip
 	Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
     Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
 
      Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
@@ -20,11 +21,12 @@ Background: None
 		And I should find section with uniqueSectionCode is "Section II"  with <'ImportantSection' ID>
 				
 	When I navigate to "getAssessments" with URI "/section-assessment-associations/<'ImportantSection' ID>/targets" with filter sorting and pagination
-		And filter by  "assessmentFamilyHierarchyName" = "DIBELS Next" 
-		And "sort-by" = "assessmentPeriodDescriptor.beginDate"
-		 And "sort-order" = "descending" 
-		 And "start-index" = "0" 
-		 And "max-results" = "1"
+		And "assessmentFamilyHierarchyName" = "DIBELS Next" 
+		And "sortBy" = "assessmentPeriodDescriptor.beginDate"
+		 And "sortOrder" = "descending" 
+		 And "offset" = "0" 
+		 And "limit" = "1"
+         And I examine the filtered and sorted results
 	     Then  I should receive a collection of 1 assessment link
 	        And I should find Assessment with "<'Grade 2 MOY DIBELS' ID>"
         
@@ -88,12 +90,12 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
-
+@wip
 Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
      Given  I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
-    And I am authenticated on "SEA/LEA IDP"
+    And I am authenticated on "SLI"
 
      Given format "application/json"
 	When I navigate to GET "/teachers/<'Ms. Jones' ID>"
@@ -145,10 +147,10 @@ Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get th
 		     
 	    When for each student, I navigate to GET "/student-assessment-associations/<'Grade 2 MOY DIBELS' ID>" with filter sorting and pagination
 	 	 And for each student, filter by "studentId" = <'Current_student' ID> 
-		 And for each student, "sort-by" = "administrationDate"
-		 And for each student, "sort-order" = "descending"
-		 And for each student, "start-index" = "0" 
-		 And for each student, "max-results" = "1"
+		 And for each student, "sortBy" = "administrationDate"
+		 And for each student, "sortOrder" = "descending"
+		 And for each student, "offset" = "0" 
+		 And for each student, "limit" = "1"
 		 Then for each student, I should receive a collection of 1 studentAssessmentAssociation link 
 		  And for each student, I should receive a "student-assessment-association" with ID "<'Most Recent Assessment Association' ID>"
 	     
@@ -170,9 +172,9 @@ Examples:
 
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
-    And I have a Role attribute returned from the "SEA/LEA IDP"
+    And I have a Role attribute returned from the "SLI"
     And the role attribute equals "Aggregate Viewer"
-    And I am authenticated on "SLI Realm"
+    And I am authenticated on "SLI"
 
     When I navigate to GET "/teachers/<'Ms. Smith' ID>"
     Then I should receive a return code of 403

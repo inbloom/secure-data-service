@@ -23,7 +23,7 @@ public class SliTokenExtractor  implements AccessTokenExtractor {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(response).getAsJsonObject();
-        LOG.debug("Response to extract token from - " + json);
+        LOG.debug("Response to extract token from - ", json);
         return new Token(json.get("access_token").getAsString(), "", response);
     }
     

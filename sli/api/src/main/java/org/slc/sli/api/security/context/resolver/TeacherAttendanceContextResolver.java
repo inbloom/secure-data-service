@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
@@ -14,7 +12,9 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.NeutralCriteria;
 
 /**
  * TeacherAttendanceContextResolver
@@ -25,7 +25,7 @@ import org.slc.sli.domain.EntityRepository;
 public class TeacherAttendanceContextResolver implements EntityContextResolver {
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
     @Autowired
     private EntityDefinitionStore definitionStore;
 
@@ -42,8 +42,11 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         ids = findIdsFromAssociation(ids, EntityNames.SECTION, EntityNames.STUDENT, sectionStudentDef);
 
         List<String> attendanceIds = new ArrayList<String>();
-        Iterable<Entity> entities = this.repository.findByQuery(EntityNames.ATTENDANCE,
-                new Query(Criteria.where("body.studentId").in(ids)), 0, 9999);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(9999);
+        neutralQuery.addCriteria(new NeutralCriteria("studentId", "in", ids));
+        Iterable<Entity> entities = this.repository.findAll(EntityNames.ATTENDANCE, neutralQuery);
 
         for (Entity e : entities) {
             attendanceIds.add(e.getEntityId());
@@ -59,8 +62,12 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         String sourceKey = keys.get(0);
         String targetKey = keys.get(1);
 
-        Iterable<Entity> entities = this.repository.findByQuery(definition.getStoredCollectionName(),
-                new Query(Criteria.where("body." + sourceKey).in(ids)), 0, 9999);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(9999);
+        neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", ids));
+        
+        Iterable<Entity> entities = this.repository.findAll(definition.getStoredCollectionName(), neutralQuery);
 
         for (Entity e : entities) {
             associationIds.add((String) e.getBody().get(targetKey));
@@ -80,7 +87,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         }
     }
 
-    public void setRepository(EntityRepository repository) {
+    public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
 

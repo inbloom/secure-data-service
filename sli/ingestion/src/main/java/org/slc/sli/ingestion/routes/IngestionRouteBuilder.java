@@ -24,8 +24,10 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
+import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Ingestion route builder.
@@ -49,6 +51,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     PersistenceProcessor persistenceProcessor;
 
     @Autowired
+    TransformationProcessor transformationProcessor;
+    
+    @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
 
     @Autowired
@@ -57,12 +62,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     LocalFileSystemLandingZone tempLz;
 
-    @Value("${queues.workItem.queueURI}")
+    @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
 
-    @Value("${queues.workItem.concurrentConsumers}")
+    @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-
+    
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
@@ -73,7 +78,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.ctl$"
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}")
+                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
+                        + "&readLock=changed")
                 .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(new ControlFilePreProcessor(lz))
@@ -83,7 +89,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
-                        + "/.error")
+                        + "/.error"
+                        + "&readLock=changed")
                 .routeId("zipFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)
@@ -113,6 +120,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
+                .to(workItemQueueUri)
+            .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
+                .process(transformationProcessor)
                 .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
                 .process(nrMergeProcessor)
@@ -159,8 +170,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
-                        // get job from exchange
-                        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+                        // TODO get job from the batch job db
+                        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
                         Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
 
@@ -223,6 +234,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
+                        
+                        BatchJobUtils.saveBatchJobUsingStateManager(job);
+                        BatchJobUtils.completeBatchJob(job.getId());
                     }
 
                 });

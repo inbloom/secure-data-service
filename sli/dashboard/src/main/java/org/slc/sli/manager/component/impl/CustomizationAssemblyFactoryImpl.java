@@ -1,16 +1,24 @@
 package org.slc.sli.manager.component.impl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.manager.Manager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
@@ -20,49 +28,29 @@ import org.slc.sli.util.SecurityUtil;
  * @author agrebneva
  *
  */
-public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory {
+public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
+    private static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE = 
+            new Class[]{String.class, Object.class, Config.Data.class};
     private Logger logger = LoggerFactory.getLogger(getClass());
+    private ApplicationContext applicationContext;
     private ConfigManager configManager;
-    private PopulationManager populationManager;
+    private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
+
     
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
     }
-    
-    public void setPopulationManager(PopulationManager populationManager) {
-        this.populationManager = populationManager;
-    }
-    
-    private String getTokenId() {
+
+    protected String getTokenId() {
         return SecurityUtil.getToken();
     }
     
-    private String getUsername() {
+    protected String getUsername() {
         return SecurityUtil.getUsername();
     }
     
-    private Config getConfig(String componentId) {
+    protected Config getConfig(String componentId) {
         return configManager.getComponentConfig(getUsername(), componentId);
-    }
-    
-    private String getGetterName(Config.Data config) {
-        String value = config.getEntityRef();
-        return "get" + StringUtils.capitalize(value);
-    }
-    
-    private GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
-        try {
-            Method m = 
-                PopulationManager.class.getMethod(getGetterName(config), new Class[]{String.class, Object.class, Config.Data.class});
-            return (GenericEntity) m.invoke(populationManager, getTokenId(), entityKey, config);
-        } catch (NoSuchMethodException nsme) {
-            logger.error(
-                    "Invalid data component specified for " + componentId + " and entity id " + entityKey + ", config " + componentId, nsme);
-        } catch (Throwable t) {
-            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
-                    + ", config " + componentId, t);
-        }
-        return null;
     }
     
     /**
@@ -118,7 +106,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param parentEntity - parent entity
      * @param depth - depth of the recursion
      */
-    private void populateModelRecursively(
+    private Config populateModelRecursively(
         ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, 
         GenericEntity parentEntity, int depth
     ) {
@@ -134,21 +122,30 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
             } 
             Config.Data dataConfig = config.getData();
-            if (dataConfig != null) {
+            if (dataConfig != null && !model.hasDataForAlias(dataConfig.getAlias())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
                 model.addData(dataConfig.getAlias(), entity);
             }
             if (!checkCondition(config, entity))
-                return;
+                return null;
+        }
+        if (config.getItems() != null) {
+            List<Config.Item> items = new ArrayList<Config.Item>();
+            depth++;
+            Config newConfig;
+            for (Config.Item item : config.getItems()) {
+                if (checkCondition(item, entity)) {
+                    items.add(item);
+                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
+                    if (config.getType().isLayoutItem()) {
+                        model.addLayoutItem(newConfig);
+                    }
+                }
+            }
+            config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
         model.addComponentViewConfigMap(componentId, config);
-        if (config.getItems() != null) {
-            depth++;
-            for (Config.Item item : config.getItems()) {
-                if (checkCondition(item, entity))
-                    populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
-            }
-        }
+        return config;
     }
 
     @Override
@@ -157,5 +154,91 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
         populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, 0);
         return modelAndViewConfig;
+    }
+    
+    
+    /**
+     * Internal convenience class for method caching
+     * @author agrebneva
+     *
+     */
+    private class InvokableSet {
+        Manager manager;
+        Method method;
+        InvokableSet(Manager manager, Method method) {
+            this.manager = manager;
+            this.method = method;
+        }
+        public Manager getManager() {
+            return manager;
+        }
+        public Method getMethod() {
+            return method;
+        }
+    }
+    
+    private void populateEntityReferenceToManagerMethodMap() {
+        Map<String, InvokableSet> entityReferenceToManagerMethodMap = new HashMap<String, InvokableSet>();
+        Manager.EntityMapping entityMapping;
+        for (Manager manager : applicationContext.getBeansOfType(Manager.class).values())
+        {
+            logger.info(manager.getClass().getCanonicalName());
+            for (Method m : manager.getClass().getMethods()) {
+                entityMapping = m.getAnnotation(Manager.EntityMapping.class);
+                if (entityMapping != null) {
+                    if (entityReferenceToManagerMethodMap.containsKey(entityMapping.value()))
+                    {
+                        throw new DashboardException("Duplicate entity mapping references found for " + entityMapping.value() + ". Fix!!!");
+                    }
+                    if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
+                        throw new DashboardException(
+                                "Wrong signature for the method for " + entityMapping.value() + ". Expected is " 
+                                + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE + "!!!");
+                    }
+                    entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(manager, m));
+                }
+            }
+        }
+        this.entityReferenceToManagerMethodMap = Collections.unmodifiableMap(entityReferenceToManagerMethodMap);
+    }
+    
+    protected InvokableSet getInvokableSet(String entityRef) {
+        return this.entityReferenceToManagerMethodMap.get(entityRef);
+    }
+    
+    /**
+     * For UTs
+     * @param entityRef
+     * @return
+     */
+    public boolean hasCachedEntityMapperReference(String entityRef) {
+        return this.entityReferenceToManagerMethodMap.containsKey(entityRef);
+    }
+    
+    /**
+     * Get data for the declared entity reference
+     * @param componentId - component to get data for
+     * @param entityKey - entity key for the component
+     * @param config - data config for the component
+     * @return entity
+     */
+    protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        InvokableSet set = this.getInvokableSet(config.getEntityRef());
+        if (set == null) {
+            throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
+        }
+        try {
+            return (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
+        } catch (Throwable t) {
+            logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
+                    + ", config " + componentId, t);
+        }
+        return null;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+       this.applicationContext = applicationContext;
+       populateEntityReferenceToManagerMethodMap();
     }
 }

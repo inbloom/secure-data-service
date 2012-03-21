@@ -26,5 +26,7 @@ public interface AggregateRatioResolver {
      * @return
      */
     public int getSize(Field configField);
+    
+    public int[] getCutoffPoints(Field field);
 
 }

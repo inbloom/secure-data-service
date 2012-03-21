@@ -19,9 +19,9 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter               | searchValue     |
      | attendance                  | 15984               | body.educationalEnvironment   | Classroom       |
-     | attendance                  | 14374               | body.attendanceEventCategory  | In Attendance   |
-     | attendance                  | 837                 | body.attendanceEventCategory  | Excused Absence |
-     | attendance                  | 773                 | body.attendanceEventCategory  | Tardy           |
+     | attendance                  | 14358               | body.attendanceEventCategory  | In Attendance   |
+     | attendance                  | 846                 | body.attendanceEventCategory  | Excused Absence |
+     | attendance                  | 780                 | body.attendanceEventCategory  | Tardy           |
      | attendance                  | 72                  | body.eventDate                | 2011-09-01      |
      | attendance                  | 0                   | body.eventDate                | 2011-09-03      |
      | attendance                  | 0                   | body.eventDate                | 2012-07-01      |
@@ -46,9 +46,9 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter               | searchValue     |
      | attendance                  | 16056               | body.educationalEnvironment   | Classroom       |
-     | attendance                  | 14438               | body.attendanceEventCategory  | In Attendance   |
-     | attendance                  | 841                 | body.attendanceEventCategory  | Excused Absence |
-     | attendance                  | 777                 | body.attendanceEventCategory  | Tardy           |
+     | attendance                  | 14422               | body.attendanceEventCategory  | In Attendance   |
+     | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
+     | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
      | attendance                  | 72                  | body.eventDate                | 2012-07-09      |
 
    And I should see "Processed 72 records." in the resulting batch job file

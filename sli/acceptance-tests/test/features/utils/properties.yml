@@ -24,3 +24,5 @@ ingestion_mode: "local"
 
 DB_HOST: "localhost"
 api_database_name : "sli"
+
+sampleApp_server_address: "https://nxbuild2.slidev.org/"
