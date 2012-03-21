@@ -11,7 +11,12 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    @entity = Entity.get_simple_and_complex(request.query_parameters)
+    @entities = Entity.get("", request.query_parameters)
+    if @entities.is_a?(Hash)
+      tmp = Array.new()
+      tmp.push(@entities)
+      @entities = tmp
+    end
 
     if params[:other] == 'home'
       render :index
@@ -20,7 +25,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @entity }
+      format.json { render json: @entities }
     end
   end
 
