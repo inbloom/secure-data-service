@@ -31,22 +31,6 @@
 	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>org.slc.sli.sample.oauth.AuthFilter</filter-class>
-		<init-param>
-		  <param-name>apiUrl</param-name>
-		  <param-value>https://devapp1.slidev.org/</param-value>
-		</init-param>
-		<init-param>
-          <param-name>callbackUrl</param-name>
-          <param-value>http://local.slidev.org:8081/oauth2-sample/callback</param-value>
-        </init-param>
-		<init-param>
-          <param-name>clientId</param-name>
-          <param-value>fm67sH6vZZ</param-value>
-        </init-param>
-        <init-param>
-          <param-name>clientSecret</param-name>
-          <param-value>sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4</param-value>
-        </init-param>
         <init-param>
           <param-name>afterCallbackRedirect</param-name>
           <param-value>students</param-value>

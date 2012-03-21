@@ -159,8 +159,7 @@ public class TimedLogic {
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
         for (GenericEntity assessment : assessmentMetaData) {
             @SuppressWarnings("unchecked")
-            Map<String, String> periodDescriptor = (Map<String, String>) assessment
-                    .getMap(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
+            Map<String, String> periodDescriptor = (Map<String, String>) assessment.get(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
             if (periodDescriptor == null) {
                 continue;
             }

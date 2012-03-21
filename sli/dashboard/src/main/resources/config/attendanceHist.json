@@ -11,7 +11,7 @@
   root: 'attendance',
   items : [
     {id: "col0", name: "Month", type:"FIELD", datatype: "string", field: "eventDate", width: 90},
-    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, formatter: PercentCompleteFormatter, params:{low:91}},
+    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, formatter: PercentCompleteFormatter, params:{low:92}},
     {id: "col1", name: "Attendance Rate", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, formatter: PercentBarFormatter, params:{low:85, medium:92}},
     {id: "col2", name: "Absence Exc", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", width: 70},
     {id: "col3", name: "Absence Unex", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", width: 70},

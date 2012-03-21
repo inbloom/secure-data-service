@@ -7,8 +7,8 @@
   },
   view: {
     items : [
-      {name: "ELL", description: "English Language Learner", field: "limitedEnglishProficiency", value: "YES", params:{color: "#20c7c5", style: "solid"}},
-      {name: "FRE", description: "Free Lunch", field: "schoolFoodServiceEligibility", value: "FREE", params:{color: "#20c7c5", style: "solid"}}
+      {name: "ELL", description: "English Language Learner", field: "limitedEnglishProficiency", value: "Limited", params:{color: "#20c7c5", style: "solid"}},
+      {name: "FRE", description: "Free Lunch", field: "schoolFoodServicesEligibility", value: "FREE", params:{color: "#20c7c5", style: "solid"}}
     ] 
   }
 }
