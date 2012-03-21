@@ -4,7 +4,7 @@ require 'entities_helper'
 class EntitiesControllerTest < ActionController::TestCase
 
   test "should show entity for students" do
-    get :show, other: "students/"+ @student_fixtures['one']['id'].to_param
+    get :show, other: "students/#{@student_fixtures['one']['id']}".to_param
     assert_response :success
   end
   

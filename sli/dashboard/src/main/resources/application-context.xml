@@ -18,6 +18,7 @@
     <bean id="configManager"     class="org.slc.sli.manager.ConfigManager">
         <property name="apiClient" ref="apiClientRef"/>
         <property name="entityManager" ref="entityManager"/>
+        <property name="institutionalHierarchyManager" ref="institutionalHierarchyManager"/>
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
