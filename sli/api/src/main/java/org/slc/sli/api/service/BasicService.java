@@ -440,12 +440,13 @@ public class BasicService implements EntityService {
         Entity entity = principal.getEntity();
         String type = (entity != null ? entity.getType() : null);   //null for super admins because they don't contain mongo entries
         
-        if (type == null && principal.getRoles().contains(Right.FULL_ACCESS)) { //Super admin
+        if (type == null) { //Super admin
+            checkRights(Right.FULL_ACCESS);
             return AllowAllEntityContextResolver.SUPER_LIST;
-        } else {
-            EntityContextResolver resolver = contextResolverStore.findResolver(type, defn.getType());
-            return resolver.findAccessible(principal.getEntity());
         }
+
+        EntityContextResolver resolver = contextResolverStore.findResolver(type, defn.getType());
+        return resolver.findAccessible(principal.getEntity());
     }
 
     /**
