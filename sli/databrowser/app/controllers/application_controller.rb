@@ -76,7 +76,6 @@ class ApplicationController < ActionController::Base
       end
     else
       logger.info { "OAuth disabled."}
-      check_login
     end
 
   end
