@@ -57,7 +57,7 @@ module EntitiesHelper
 
   def display_hash (hash = {}, indent = 0)
   	html = ""
-  	return if hash.empty?
+    return hash if hash.empty? or !hash.is_a?(Hash)
     html << "<dl>" if indent != 0
   	hash.each do |key, value|
   			html << "<dt><b>#{t(key)}:</b></dt>"
