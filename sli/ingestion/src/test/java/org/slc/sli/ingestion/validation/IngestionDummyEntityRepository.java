@@ -3,12 +3,12 @@ package org.slc.sli.ingestion.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -108,8 +108,9 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return 0;
     }
-    
 
+
+    @Override
     public CommandResult execute(DBObject command) {
         return null;
     }
@@ -118,5 +119,17 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     public DBCollection getCollection(String collectionName) {
         return null;
     }
-    
+
+    @Override
+    public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

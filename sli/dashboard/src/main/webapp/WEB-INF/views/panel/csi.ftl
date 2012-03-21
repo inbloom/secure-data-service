@@ -38,8 +38,8 @@ ${oName.lastSurname}
 <col width="550"/>
 <col width="70"/>
 <tr><td height="1">Grade</td><td><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevel}<#else>!</#if></td> <td>ID</td><td>${panelData.studentUniqueStateId}</td><td></td><td></td></tr>
-<tr><td>Class</td><td>${panelData.sectionId}</td><td>Teacher</td><td><#if panelData.teacherName.personalTitlePrefix?? &&  panelData.teacherName.personalTitlePrefix != ""> ${panelData.teacherName.personalTitlePrefix}</#if>
-${panelData.teacherName.firstName} <#if panelData.teacherName.middleName?? &&  panelData.teacherName.middleName != ""> ${panelData.teacherName.middleName}</#if> ${panelData.teacherName.lastSurname}</td><td></td><td></td></tr>
+<tr><td>Class</td><td>${panelData.sectionId}</td><td>Teacher</td><td><#if panelData.teacherName??><#if panelData.teacherName.personalTitlePrefix?? &&  panelData.teacherName.personalTitlePrefix != ""> ${panelData.teacherName.personalTitlePrefix}</#if>
+${panelData.teacherName.firstName} <#if panelData.teacherName.middleName?? &&  panelData.teacherName.middleName != ""> ${panelData.teacherName.middleName}</#if> ${panelData.teacherName.lastSurname}<#else>!</#if></td><td></td><td></td></tr>
 <tr><td></td><td></td><td /><td /><td /><td></td></tr>
 </table>
 </div>

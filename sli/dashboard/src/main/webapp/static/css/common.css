@@ -215,7 +215,6 @@ h1
 .test
 {
     height: 100px;
-    border: 1px solid #000000;
 }
     
 .csi .col1
@@ -233,13 +232,13 @@ th.ui-th-column div {
 	font-size: 12px;
 }
 
-.contactInfoTypeRow {
+.contactInfoRow {
 	display:table-row;
 }
 
 .contactInfoCol1 {
 	display:table-cell;
-	width: 80px;
+	width: 90px;
 }
 
 .contactInfoCol2 {

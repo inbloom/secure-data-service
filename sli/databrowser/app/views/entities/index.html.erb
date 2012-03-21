@@ -1,6 +1,6 @@
 <div id='data'>
 <h1>Listing Home </h1>
-<% @entity.each do |e| %>
-	<p><%= link_to t(e[:complex]['rel']), localize_url(e[:complex]['href']) %></p>
+<% @entities.each do |e| %>
+	<p><%= link_to t(e['rel']), localize_url(e['href']) %></p>
 <% end %>
 </div>

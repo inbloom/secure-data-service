@@ -138,7 +138,21 @@ public class Config {
     protected Data data;
     protected Item[] items;
     protected String root;
+
+    public Config(String id, String name, Type type, Condition condition, Data data, Item[] items, String root) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.condition = condition;
+        this.data = data;
+        this.items = items;
+        this.root = root;
+    }
     
+    public Config() { 
+    }
+
     public String getId() {
         return id;
     }
@@ -165,5 +179,9 @@ public class Config {
 
     public Item[] getItems() {
         return items;
+    }
+    
+    public Config cloneWithItems(Item[] items) {
+        return new Config(id, name, type, condition, data, items, root);
     }
 }
