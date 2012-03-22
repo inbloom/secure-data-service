@@ -144,7 +144,7 @@ public class OAuthTokenUtilTest {
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, creds);
         OAuth2Authentication auth = new OAuth2Authentication(client, user);
         
-        EntityBody body = OAuthTokenUtil.serializeOauth2Auth(auth);
+        EntityBody body = util.serializeOauth2Auth(auth);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
         Map data = (Map) JSON.parse(JSON.serialize(obj));
         OAuth2Authentication reconst = util.createOAuth2Authentication(data);
