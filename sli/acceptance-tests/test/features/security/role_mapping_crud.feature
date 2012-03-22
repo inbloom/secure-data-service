@@ -2,14 +2,6 @@ Feature: Custom Role Mapping functions and Realm Listing functions
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 As any SLI application, I can access an API resource that only returns a list of realms, even while unauthenticated
 
-Scenario: Unauthenticated users can access a list of realms
-
-	Given I have not yet authenticated
-	When I make a call to get the list of realms
-	Then I should see a response that contains the list of realms
-	And I should see a URL for each realm that links to their IDP
-	And I should not see any data about any realm's role-mapping
-
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
 	Given I am a valid "SLI" end user <Username> with password <Password>

@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
+        Check.url_type = "check"
         session[:full_name] ||= Check.get("")["full_name"]    
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
