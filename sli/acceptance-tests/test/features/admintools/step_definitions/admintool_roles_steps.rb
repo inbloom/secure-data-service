@@ -17,19 +17,27 @@ Then /^I should be redirected to the Realm page$/ do
 end
 
 Given /^I am authenticated to SLI IDP$/ do
-  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
-  @driver.get url
+  @driver.get PropLoader.getProps['admintools_server_url']
+  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
   @driver.find_element(:id, "IDToken1").send_keys "demo"
-  @driver.find_element(:id, "IDToken2").send_keys "demo1234"
+  @driver.find_element(:id, "IDToken2").send_keys "changeit"
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = PropLoader.getProps['sli_idp_server_url']+"/UI/Login"
-  @driver.get url
+  @driver.get PropLoader.getProps['admintools_server_url']
+  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
@@ -38,6 +46,10 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
@@ -81,6 +93,10 @@ end
 
 When /^I click the Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Then /^I am now authenticated to SLI IDP$/ do

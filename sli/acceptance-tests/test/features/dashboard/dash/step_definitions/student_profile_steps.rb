@@ -10,11 +10,11 @@ end
 
 When /^I view its student profile$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
-  csiContent = wait.until{@driver.find_element(:id, "CSIcontent")}
-  table_cells = csiContent.find_elements(:css, "td")
+  csiContent = wait.until{@driver.find_element(:class, "csi")}
+  table_cells = csiContent.find_elements(:xpath, "//span")
   
   @info = Hash.new
-  sName = csiContent.find_element(:tag_name, "b") 
+  sName = csiContent.find_element(:class, "studentName") 
   
   @info["Name"] = sName.text
   
