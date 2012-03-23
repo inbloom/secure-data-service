@@ -91,7 +91,7 @@ public final class ContactSorter {
         }
         // sorting email addresses
         if (electronicMails.size() > 1) {
-            GenericSorter genericSorter = (new ContactSorter()).new GenericSorter("electronicMailAddress", emailPriority);
+            GenericSorter genericSorter = (new ContactSorter()).new GenericSorter("emailAddressType", emailPriority);
             Collections.sort(electronicMails , genericSorter);
         }
         return genericEntity;
