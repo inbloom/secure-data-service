@@ -6,6 +6,7 @@ import java.io.IOException;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class BatchJobLogger {
         patternLayout.setPattern("%date %-5level %msg%n");
         patternLayout.start();
 
-        FileAppender appender = new FileAppender();
+        FileAppender<ILoggingEvent> appender = new FileAppender<ILoggingEvent>();
         appender.setContext(lc);
         appender.setFile(logFile.getAbsolutePath()); // tricky if we're not localFS...
         appender.setLayout(patternLayout);
