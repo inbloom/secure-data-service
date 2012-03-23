@@ -150,7 +150,7 @@ public class OAuthTokenUtil {
      * @param auth
      * @return
      */
-    public static EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
+    public EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
         EntityBody body = new EntityBody();
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         body.put("realm", principal.getRealm());
@@ -170,7 +170,7 @@ public class OAuthTokenUtil {
         return body;
     }
 
-    public static EntityBody serializeAccessToken(OAuth2AccessToken token) {
+    public EntityBody serializeAccessToken(OAuth2AccessToken token) {
         EntityBody body = new EntityBody();
         body.put("type", token.getTokenType());
         body.put("expiration", token.getExpiration());
@@ -179,7 +179,7 @@ public class OAuthTokenUtil {
         return body;
     }
 
-    public static OAuth2AccessToken deserializeAccessToken(Map data) {
+    public OAuth2AccessToken deserializeAccessToken(Map data) {
         OAuth2AccessToken token = new OAuth2AccessToken((String) data.get("value"));
         token.setExpiration((Date) data.get("expiration"));
         token.setTokenType((String) data.get("type"));

@@ -1,7 +1,8 @@
 module EntitiesHelper
 
   def get_table_fields(entities)
-    tableFields = nil
+    tableFields = Array.new
+    return tableFields if entities.nil? || (entities.is_a?(Array) && entities.empty?)
 
     entity = entities.first
     if(entity.has_key?('entityType') && VIEW_CONFIG.has_key?(entity['entityType']))
@@ -9,7 +10,6 @@ module EntitiesHelper
     end
 
     if tableFields.nil?
-      tableFields = Array.new
       entity.each do |key,val|
         next if val.is_a?(Array) || val.is_a?(Hash)
         tableFields.push(val)

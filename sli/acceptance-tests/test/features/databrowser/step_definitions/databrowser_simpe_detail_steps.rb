@@ -35,6 +35,11 @@ end
 
 When /^I click the IDP page Go button$/ do
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
+
 end
 
 Then /^I should be redirected to the Data Browser home page$/ do

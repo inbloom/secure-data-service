@@ -89,8 +89,8 @@ public class MongoTokenStore implements TokenStore {
         
         final EntityBody body = new EntityBody();
         body.put("token", tokenValue);
-        body.put("accessToken", OAuthTokenUtil.serializeAccessToken(token));
-        body.put("authentication", OAuthTokenUtil.serializeOauth2Auth(authentication));
+        body.put("accessToken", util.serializeAccessToken(token));
+        body.put("authentication", util.serializeOauth2Auth(authentication));
         final EntityService service = getAccessTokenService();
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
 
@@ -118,7 +118,7 @@ public class MongoTokenStore implements TokenStore {
        
        
         for (Entity oauth2Session : results) {
-            return OAuthTokenUtil.deserializeAccessToken((Map) oauth2Session.getBody().get("accessToken"));
+            return util.deserializeAccessToken((Map) oauth2Session.getBody().get("accessToken"));
         }
         return null;
     }
