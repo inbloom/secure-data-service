@@ -87,8 +87,8 @@ Then /^I see a table displaying the associations in a list$/ do
 end
 
 Then /^those names include the IDs of both "([^"]*)" and "([^"]*)" in the association$/ do |arg1, arg2|
-  assertWithWait("Failed to find Coulumn title of "+arg1)  {@driver.find_element(:xpath, "//th/span[text()='#{arg1}']")}
-  assertWithWait("Failed to find Coulumn title of "+arg2)  {@driver.find_element(:xpath, "//th/span[text()='#{arg2}']")}
+  assertWithWait("Failed to find Coulumn title of "+arg1)  {@driver.find_element(:xpath, "//th/span[contains(text(),'#{arg1}')]")}
+  assertWithWait("Failed to find Coulumn title of "+arg2)  {@driver.find_element(:xpath, "//th/span[contains(text(),'#{arg2}')]")}
 end
 
 When /^I click on the row containing "([^"]*)"$/ do |arg1|
