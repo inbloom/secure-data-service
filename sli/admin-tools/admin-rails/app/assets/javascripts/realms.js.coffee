@@ -121,8 +121,8 @@ getSliRoleObject = function(sliRole, roleData) {
 
 
        $("#addButton").click(function() {
-                var cRoleName = $("#clientRole").val();
-                if (!cRoleName.match(/^\w+$/)) {
+                var cRoleName = $("#clientRole").val().trim();
+                if (!cRoleName.match(/^\w+(\s\w+)*$/)) { //at least one non-space characters, spaces allowed elsewhere
                   notifyError("Role name must contain only alphanumeric characters.");
                   return;
                 }

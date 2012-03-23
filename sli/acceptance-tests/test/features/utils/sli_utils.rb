@@ -12,10 +12,12 @@ include REXML
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
-                "jdoe_SLI" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
-                "tbear_SLI" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
-                "john_doe_SLI" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
-                "ejane_SLI" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
+                "jdoe_IL" => "c88ab6d7-117d-46aa-a207-2a58d1f72796",
+                "tbear_IL" => "c77ab6d7-227d-46bb-a207-2a58d1f82896",
+                "john_doe_IL" => "a69ab2d7-137d-46ba-c281-5a57d1f22706",
+                "ejane_IL" => "4ab8b6d4-51ad-c67a-1b0a-25e8d1f12701",
+                "johndoe_NY" => "a49cb2f7-a31d-06ba-f281-515b01f82706",
+                "ejane_NY" => "c17ab6d0-0caa-c87f-100a-2ae8d0f22601",
                 "linda.kim_SLI" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85",
                 "educator_SLI"=> "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
                 "leader_SLI"=> "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",

@@ -22,7 +22,7 @@ Given /^I click on the realm page Go button$/ do
 end
 
 Given /^I was redirected to the SLI IDP Login page$/ do
-  assertWithWait("Could not find the Go button")  { @driver.current_url.include?(PropLoader.getProps['sli_idp_server_url']) }
+  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
 end
 
 When /^I enter "([^"]*)" in the username text field$/ do |arg1|
