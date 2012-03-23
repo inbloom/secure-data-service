@@ -15,6 +15,8 @@ public class NeutralCriteria {
     private Object value;
     private boolean canBePrefixed;
     
+    public static final String CRITERIA_IN = "in";
+    
     public static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
     
     public NeutralCriteria(String criteria) {
