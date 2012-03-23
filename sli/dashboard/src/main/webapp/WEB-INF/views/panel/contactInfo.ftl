@@ -57,14 +57,12 @@
 				</#if>
 				</div>
 				<div class="contactInfoCol2">
-					${address.streetNumberName}
+					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
 					<!-- 
 					ignore apartmentRoomSuiteNumber is null.
 					otherwise display on the first line separated by comma after streetNumberName
 					-->
-					<#if address.apartmentRoomSuiteNumber ??>
-					, ${address.apartmentRoomSuiteNumber}
-					</#if>
+					
 					
 					<!--
 					ignore BuildingSiteNumber if null otherwise display it on its own line
