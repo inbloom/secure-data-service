@@ -107,7 +107,7 @@ When /^I click on the expanded row$/ do
 end
 
 Then /^the row collapses hiding the additional attributes$/ do
-  assertWithWait("Failed to find row collapsed row")  {@driver.find_element(:xpath, "//tr[contains(@style,'display: none')]//dd[text()='#{@expandedRow}']")}
+  assertWithWait("Failed to find row collapsed row")  {@driver.find_element(:xpath, "//dd[contains(text(),'#{@expandedRow}')]")}
 end
 
 When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
@@ -116,7 +116,7 @@ When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
 end
 
 Then /^I am redirected to a page that page lists all of the "([^"]*)" entity's fields$/ do |arg1|
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='#{arg1}']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[contains(text(),'#{arg1}')]")}
 end
 
 Then /^I am redirected to the particular associations Simple View$/ do
@@ -128,7 +128,7 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Fry High School']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[contains(text(),'Fry High School')]")}
 end
 
 When /^I click on any of the entity IDs$/ do
