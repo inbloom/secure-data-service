@@ -111,7 +111,6 @@ public class InstitutionalHierarchyManager extends ApiClientManager {
         try {
             GenericEntity obj = new GenericEntity();
             obj.put(Constants.ATTR_NAME, DUMMY_EDORG_NAME);
-            GenericEntity [] orphanSchoolsArr = new GenericEntity[schools.size()];
             obj.put(Constants.ATTR_SCHOOLS, schools);
             retVal.add(obj);
         } catch (Exception e) {
