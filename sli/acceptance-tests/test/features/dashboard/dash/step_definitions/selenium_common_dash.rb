@@ -136,8 +136,8 @@ def tableHeaderContains(desiredContent)
   
   nonFoundItems = desiredContentArray.length
   
-  retries = 10;
-  retry_sleep = 3
+  retries = 30;
+  retry_sleep = 10
   until headerNames.length > 0 || retries == 0
     puts "No headers found.  Sleeping for #{retry_sleep}.  #{retries} retries remaining."
     retries -= 1
