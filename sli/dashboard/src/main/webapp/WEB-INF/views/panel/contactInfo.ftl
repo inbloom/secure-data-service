@@ -7,6 +7,9 @@
 	Contact Information 
 </div>
 <div class="studentContactInfo">
+	<div class="top_section">
+	Student
+	</div>
 	<!-- display telephone numbers for student -->
 	<div class="section">
 		<#list panelData.telephone as telephone>

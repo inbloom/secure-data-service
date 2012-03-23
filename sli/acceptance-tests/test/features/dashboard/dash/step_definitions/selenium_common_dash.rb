@@ -136,9 +136,16 @@ def tableHeaderContains(desiredContent)
   
   nonFoundItems = desiredContentArray.length
   
+  retries = 30;
+  retry_sleep = 10
+  until headerNames.length > 0 || retries == 0
+    puts "No headers found.  Sleeping for #{retry_sleep}.  #{retries} retries remaining."
+    retries -= 1
+    sleep retry_sleep
+    headerNames = @driver.find_elements(:tag_name, "th")
+  end
   
   desiredContentArray.each do |searchValue|
-    
     puts "in 1st loop, searchValue = " + searchValue
     headerNames.each do |header|
       # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
