@@ -77,10 +77,12 @@ public class AuthFilter implements Filter {
         
         String env = System.getProperty("sli.env");
         if (env == null) {
+            System.err.println("sli.env not set!");
             throw new RuntimeException("sli.env system property is not set!");
         }
         InputStream propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
         if (propStream == null) {
+            System.err.println("no properties file found for sli.env: " + env);
             throw new RuntimeException("no properties file found for sli.env: " + env);
         }
         Properties props = new Properties();
