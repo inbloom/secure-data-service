@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.util.Utf8;
@@ -21,21 +22,21 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class NeutralRecordFileReader implements Iterator {
+public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
     protected File file;
 
-    protected GenericDatumReader datum;
-    protected DataFileReader reader;
+    protected GenericDatumReader<GenericRecord> datum;
+    protected DataFileReader<GenericRecord> reader;
     protected GenericData.Record avroRecord;
 
     protected ObjectMapper jsonObjectMapper;
 
     public NeutralRecordFileReader(File file) throws IOException {
-        this.datum = new GenericDatumReader();
-        this.reader = new DataFileReader(file, datum);
+        this.datum = new GenericDatumReader<GenericRecord>();
+        this.reader = new DataFileReader<GenericRecord>(file, datum);
         this.avroRecord = new GenericData.Record(reader.getSchema());
 
         this.jsonObjectMapper = new ObjectMapper();
@@ -81,6 +82,7 @@ public class NeutralRecordFileReader implements Iterator {
     }
 
     private Map<String, Object> jsonToMap(Object object) throws IOException {
+        @SuppressWarnings("unchecked")
         Map<String, Object> attributesMap = jsonObjectMapper.readValue(object.toString(), Map.class);
         LOG.debug("decoded json to map: {}", attributesMap);
         return attributesMap;

@@ -3,8 +3,6 @@ package org.slc.sli.ingestion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.avro.Schema;
@@ -25,12 +23,10 @@ public class NeutralRecordFileWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileWriter.class);
 
-    protected File outputFile;
-
-    protected Schema avroSchema;
-    protected GenericDatumWriter avroDatumWriter;
-    protected DataFileWriter avroDataFileWriter;
-    protected GenericRecord avroRecord;
+    private Schema avroSchema;
+    private GenericDatumWriter<GenericRecord> avroDatumWriter;
+    private DataFileWriter<GenericRecord> avroDataFileWriter;
+    private GenericRecord avroRecord;
 
     protected ObjectMapper jsonObjectMapper;
 
@@ -40,7 +36,6 @@ public class NeutralRecordFileWriter {
      */
     public NeutralRecordFileWriter(File outputFile) throws IOException {
 
-        this.outputFile = outputFile;
 
         try {
 
@@ -51,9 +46,9 @@ public class NeutralRecordFileWriter {
             Schema.Parser parser = new Schema.Parser();
 
             this.avroSchema = parser.parse(schemaFile);
-            this.avroDatumWriter = new GenericDatumWriter(this.avroSchema);
-            this.avroDataFileWriter = new DataFileWriter(this.avroDatumWriter);
-            this.avroDataFileWriter.create(this.avroSchema, this.outputFile);
+            this.avroDatumWriter = new GenericDatumWriter<GenericRecord>(this.avroSchema);
+            this.avroDataFileWriter = new DataFileWriter<GenericRecord>(this.avroDatumWriter);
+            this.avroDataFileWriter.create(this.avroSchema, outputFile);
 
             // initialize an empty instance of the record
             this.avroRecord = new GenericData.Record(this.avroSchema);
@@ -64,24 +59,6 @@ public class NeutralRecordFileWriter {
             LOG.error(fileNotFoundException.toString());
         }
 
-    }
-
-    protected HashMap<Utf8, Utf8> encodeMap(Map map) {
-        HashMap<Utf8, Utf8> avroMap = new HashMap<Utf8, Utf8>();
-        String key;
-        String value;
-
-        // RHB - modified to avoid ClassCastExceptions on non-String types (Enum, Long, etc.)
-
-        Iterator iterator = map.keySet().iterator();
-        while (iterator.hasNext()) {
-            key = (String) iterator.next();
-            value = map.get(key).toString();
-
-            avroMap.put(new Utf8(key), new Utf8(value));
-        }
-
-        return avroMap;
     }
 
     public void writeRecord(NeutralRecord record) throws IOException {

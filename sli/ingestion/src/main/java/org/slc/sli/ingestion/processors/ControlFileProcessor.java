@@ -30,8 +30,6 @@ public class ControlFileProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
-        String batchJobId = null;
-
         try {
             /* TODO JobLogStatus
                // Get the batch job ID from the exchange
