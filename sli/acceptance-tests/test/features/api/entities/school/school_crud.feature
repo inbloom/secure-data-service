@@ -3,8 +3,7 @@ Feature: As an SLI application, I want to be able to manage schools
     I want to have create, read, update, and delete functionality for a school.
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all schools
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 #### Happy Path 
 Scenario: Create a new school JSON

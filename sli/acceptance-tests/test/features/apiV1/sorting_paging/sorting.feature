@@ -1,9 +1,7 @@
-@wip
 Feature: Sort and page API results
 
 Background: 
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and schools
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Sorting a collection of student school association links by entryGradeLevel, ascending
 	Given format "application/json"
@@ -105,4 +103,3 @@ Scenario: Request the last and middle page of results from a API request
 			And the header "TotalCount" equals 3
 			And the a previous link exists with offset equal to 0 and limit equal to 1
 			And the a next link exists with offset equal to 2 and limit equal to 1
-

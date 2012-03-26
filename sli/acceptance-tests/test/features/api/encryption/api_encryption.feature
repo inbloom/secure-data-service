@@ -3,8 +3,7 @@ Feature: Test database encryption.
     I want to have create, read, update, and delete functionality for a student.
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	 	And I have access to all students
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
        
 Scenario: Student data created via the API should be encrypted
@@ -113,4 +112,3 @@ Scenario: Can not query PII fields by non-exact matching
 	Given parameter "name.firstName" matches via regex "Rhonda"
 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
 	Then I should receive a return code of 400
-	

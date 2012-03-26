@@ -4,7 +4,7 @@ Feature: In order to provide base information
 	This means all associations should be returned as links when accessing the Home URI.
 
 Scenario: Home URI returns valid links for user 'linda.kim'
-  Given I am logged in using "linda.kim" "linda.kim1234"
+  Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And I have access to all links
     And format "application/json"
   When I navigate to GET "/v1/home"
@@ -16,7 +16,7 @@ Scenario: Home URI returns valid links for user 'linda.kim'
     And I should receive a link named "getSchools" with URI "/v1/teachers/<'linda.kim' ID>/teacherSchoolAssociations/schools"
 
 Scenario: Home URI returns valid links for user 'demo'
-  Given I am logged in using "demo" "demo1234"
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
     And I have access to all links
     And format "application/json"
   When I navigate to GET "/v1/home"

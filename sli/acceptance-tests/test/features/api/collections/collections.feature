@@ -2,9 +2,7 @@ Feature: Efficient usage of API to retrieve and display student/assessment data 
 
 
 Background: 
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and schools
-
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: When using a application/vndslcfull+json media type, I get student objects instead of student links
 	Given format "application/vnd.slc.full+json"
