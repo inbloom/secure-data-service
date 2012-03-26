@@ -3,7 +3,9 @@ require 'selenium-webdriver'#run the file ruby selenium.rb 'Name of your selecti
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 #driver = Selenium::WebDriver.for :firefox
-
+profile = Selenium::WebDriver::Firefox::Profile.new
+profile['network.http.prompt-temp-redirect'] = false
+driver = Selenium::WebDriver.for :firefox, :profile => profile
 
 Given /^an admin user Demo exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
   
@@ -17,12 +19,12 @@ Given /^a normal user Educator exists with "([^\"]*)" and "([^\"]*)"$/ do |usern
 end
 
 Then /^I am on the Realm selection page$/ do
-  @driver.navigate.to "https://devlr2.slidev.org"
+  driver.navigate.to "https://devlr2.slidev.org"
 end
 
 Then /^I select "([^\"]*)"$/ do |text|
 
-a=@driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
+a=driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
 options=a.find_elements(:tag_name=>"option") # all the options of that select tag will be selected
 options.each do |g|
   if g.text == text
@@ -45,8 +47,8 @@ Given /^EULA has been accepted$/ do
 end
 
 When /^I go to the login page$/ do
-@driver.navigate.to "https://devlr2.slidev.org"
-a=@driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
+driver.navigate.to "https://devlr2.slidev.org"
+a=driver.find_element(:name,'realmId') #realmId should be the html tag name of select tag
 options=a.find_elements(:tag_name=>"option") # all the options of that select tag will be selected
 options.each do |g|
   if g.text == 'Shared Learning Infrastructure'
@@ -67,12 +69,12 @@ end
 
 
 Then /^I should logged out$/ do
-  @driver.find_element(:link, 'Logout').click
+  driver.find_element(:link, 'Logout').click
   #click_link('Logout')
 end
 
 Then /^I should be on the home page$/ do
-  @driver.find_element(:link, 'Logout').displayed? ||   @driver.find_element(:link, 'Sign out').displayed?
+  driver.find_element(:link, 'Logout').displayed? ||   @driver.find_element(:link, 'Sign out').displayed?
 
 end
 
@@ -99,7 +101,7 @@ When /^I login with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
   element.click
 end
 Then /^I should be on the authentication failed page$/ do
- @driver.navigate.to "https://devopenam1.slidev.org:80/idp2/UI/Login"
+ driver.navigate.to "https://devopenam1.slidev.org:80/idp2/UI/Login"
 end
 
 #When /^I login as Normal with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
@@ -113,7 +115,7 @@ end
 
 Then /^(?:|I )should see "([^\"]*)"$/ do |text|
   begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
+   link=driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
    link=true
   rescue
    link=false
@@ -124,7 +126,7 @@ end
 
 Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
   begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
+   link=driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
    link=true
   rescue
    link=false
@@ -134,7 +136,7 @@ Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
 #  page.should_not have_content(text)
 end
 When /^(?:|I )follow "([^\"]*)"$/ do |link|
-  @driver.find_element(:link, link).click
+  driver.find_element(:link, link).click
   #click_link(link)
 end
 

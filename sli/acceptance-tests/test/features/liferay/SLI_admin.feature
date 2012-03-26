@@ -3,9 +3,9 @@ Feature: title
   As an admin
   If you Login you should see SLI Administrator and as an normal User If you login, you should not see SLI administrator 
 
-  Background:
+ # Background:
 
-    Given an admin user exists with "demo" and "changeit"
+    #Given an admin user exists with "demo" and "changeit"
     
 
  Scenario: Admin User Login with wrong username and password
