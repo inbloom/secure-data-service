@@ -125,11 +125,11 @@
     </LocalEducationAgencyReference>
   </School>
   <School>
-    <StateOrganizationId>Daybreak Central High School</StateOrganizationId>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>Daybreak Central High School</ID>
+      <ID>Daybreak Central High</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>Daybreak Central High School</NameOfInstitution>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
