@@ -67,6 +67,8 @@ public class SessionDebugResource {
             throw new InsufficientAuthenticationException("User must be logged in");
         }
         
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
         return SecurityContextHolder.getContext();
     }
     
