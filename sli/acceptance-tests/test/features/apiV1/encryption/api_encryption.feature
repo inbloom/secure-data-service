@@ -4,8 +4,7 @@ Feature: Test database encryption.
     I want to have create, read, update, and delete functionality for a student.
 
 Background: Logged in as a super-user and using the small data set
-    Given I am logged in using "demo" "demo1234"
-      And I have access to all students
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
       And format "application/vnd.slc+json"
 
 Scenario: Student data created via the API should be encrypted

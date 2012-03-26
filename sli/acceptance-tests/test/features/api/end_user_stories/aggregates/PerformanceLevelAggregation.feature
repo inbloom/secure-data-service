@@ -2,8 +2,7 @@ Feature: Test aggregation creation for performance level aggregations
 
 Background: 
     Given I am connected to the sli database
-    Given I am logged in using "demo" "demo1234"
-    Given I have access to all aggregation definitions
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
     Given the aggregation table is clear
     Given format "application/json"
 

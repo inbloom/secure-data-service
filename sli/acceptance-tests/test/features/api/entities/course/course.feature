@@ -2,8 +2,7 @@ Feature: As an SLI application, I want to be able to manage courses of instructi
   This means I want to be able to perform CRUD on courses
 
 Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all courses
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a new course
   Given format "application/json"

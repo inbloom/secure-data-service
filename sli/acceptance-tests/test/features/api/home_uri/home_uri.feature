@@ -4,8 +4,7 @@ Feature: In order to provide base information
 	This means all associations should be returned as links when accessing the Home URI.
 
 Scenario: Home URI returns valid links for user 'linda.kim'
-  Given I am logged in using "linda.kim" "linda.kim1234"
-    And I have access to all links
+  Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/json"
   When I navigate to GET "/home"
   Then I should receive a return code of 200
@@ -16,8 +15,7 @@ Scenario: Home URI returns valid links for user 'linda.kim'
     And I should receive a link named "getSchools" with URI "/teacher-school-associations/<'linda.kim' ID>/targets"
 
 Scenario: Home URI returns valid links for user 'demo'
-  Given I am logged in using "demo" "demo1234"
-    And I have access to all links
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
     And format "application/json"
   When I navigate to GET "/home"
   Then I should receive a return code of 200
@@ -27,8 +25,7 @@ Scenario: Home URI returns valid links for user 'demo'
 
 @wip
 Scenario: Home URI returns valid links for user 'aggregator'
-  Given I am logged in using "aggregator" "aggregator1234"
-    And I have access to all links
+  Given I am logged in using "aggregator" "aggregator1234" to realm "SLI"
     And format "application/json"
   When I navigate to GET "/home"
   Then I should receive a return code of 200
@@ -38,8 +35,7 @@ Scenario: Home URI returns valid links for user 'aggregator'
 
 @wip
 Scenario: Home URI returns appropriate links for 'baduser'
-  Given I am logged in using "baduser" "baduser1234"
-    And I have access to all links
+  Given I am logged in using "baduser" "baduser1234" to realm "SLI"
     And format "application/json"
   When I navigate to GET "/home"
   Then I should receive a return code of 200

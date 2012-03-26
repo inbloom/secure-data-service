@@ -132,6 +132,17 @@ task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
 end
 
 
+desc "Run Liferay Tests"
+task :liferay => [:liferayTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+
 ############################################################
 # Ingestion tests start
 ############################################################
@@ -175,6 +186,9 @@ task :ingestionAssessmentTests do
   runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
 end
 
+task :liferayTest do
+  runTests("test/features/liferay/SLI_admin.feature")
+end
 desc "Run Student Parents Tests"
 task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
