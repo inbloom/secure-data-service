@@ -208,6 +208,22 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference></EducationOrganizationReference>
+    <CompetencyLevels id="CL-G1-1">
+      <CodeValue>CL-G1-1</CodeValue>
+      <Description>Express complete thoughts.</Description>
+    </CompetencyLevels>
+    <CompetencyLevels id="CL-G1-2">
+      <CodeValue>CL-G1-2</CodeValue>
+      <Description>Write multiple sentences about the same topic.</Description>
+    </CompetencyLevels>
+    <CompetencyLevels id="CL-G1-3">
+      <CodeValue>CL-G1-3</CodeValue>
+      <Description>Add on to writing in response to questions.</Description>
+    </CompetencyLevels>
+    <CompetencyLevels id="CL-G1-4">
+      <CodeValue>CL-G1-4</CodeValue>
+      <Description>Write for a variety of purposes.</Description>
+    </CompetencyLevels>
   </Course>
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
@@ -246,6 +262,56 @@
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Special Elective: Debate Clinic</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+
+  <!-- courses for progress history -->
+  <Course>
+    <CourseTitle>7th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>7th Grade Composition</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade Composition</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+    <Course>
+    <CourseTitle>Kindergarten Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Kindergarten Homeroom</ID>
     </CourseCode>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
