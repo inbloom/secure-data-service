@@ -132,6 +132,17 @@ task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
 end
 
 
+desc "Run Liferay Tests"
+task :liferay => [:liferayTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+
 ############################################################
 # Ingestion tests start
 ############################################################
