@@ -153,9 +153,9 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("<")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey()).toString();
                     if (entityValue != null) {
-                        if (entityValue.compareTo((String) criteria.getValue()) < 0) {
+                        if (entityValue.compareTo(criteria.getValue().toString()) < 0) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
                         }
                     }

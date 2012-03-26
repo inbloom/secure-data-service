@@ -25,6 +25,7 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class OAuthTokenUtilTest {
     @Test
     public void testTokenNotExpired() {
         long expiration = System.currentTimeMillis() + 9999;
-        assertFalse((new Date(expiration)).toString() + " shouldn't be expired.", 
+        assertFalse((new Date(expiration)).toString() + " shouldn't be expired.",
                 OAuthTokenUtil.isTokenExpired(expiration));
     }
     
@@ -126,15 +127,32 @@ public class OAuthTokenUtilTest {
 
     @Test
     public void testRemoveExpiredTokens() throws Exception {
-        for (int i = 0; i < 20; ++i) {
-            repo.create("oauth_access_token", createAccessToken(true));
+        int expiringTokens = 20;
+        int validTokens = 10;
+        String collectionName = "oauth_access_token";
+        for (int i = 0; i < expiringTokens; ++i) {
+            assert(repo.create(collectionName, createAccessToken(true)) != null);
         }
-        for (int i = 0; i < 10; ++i) {
-            repo.create("oauth_access_token", createAccessToken(false));
+        for (int i = 0; i < validTokens; ++i) {
+            assert (repo.create(collectionName, createAccessToken(false)) != null);
         }
         //We have 30 tokens
-        assert(repo.count("oauth_access_tokens", null) == 30);
+        long count = repo.count(collectionName, new NeutralQuery());
+        assert(count == expiringTokens + validTokens);
         //Lets destroy them.
+        util.removeExpiredTokens();
+        count = repo.count(collectionName, new NeutralQuery());
+        assert(count == validTokens);
+        
+        //Make sure this won't hurt on only valid tokens.
+        util.removeExpiredTokens();
+        assert( repo.count(collectionName, new NeutralQuery()) == validTokens);
+        
+        //Make sure this won't hurt on an empty repo.
+        repo.deleteAll(collectionName);
+        util.removeExpiredTokens();
+        assert(repo.count(collectionName, new NeutralQuery()) == 0);
+
 
 
     }
@@ -147,9 +165,8 @@ public class OAuthTokenUtilTest {
         } else {
             time += 100000;
         }
-        Map<String, Object> accessToken = new HashMap<String, Object>();
-        accessToken.put("expires", time);
-        body.put("accessToken", accessToken);
+        //This is really lame, but we don't support complex objects in the mock repo.
+        body.put("accessToken.expiration", new Date(time));
         return body;
     }
 
