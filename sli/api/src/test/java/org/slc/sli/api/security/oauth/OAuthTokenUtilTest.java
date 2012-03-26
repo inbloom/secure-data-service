@@ -162,11 +162,16 @@ public class OAuthTokenUtilTest {
     @Test
     public void testRemoveExpiredTokens() throws Exception {
         for (int i = 0; i < 20; ++i) {
-            repo.create()
+            repo.create("oauth_access_token", createAccessToken(true));
         }
         for (int i = 0; i < 10; ++i) {
-            repo
+            repo.create("oauth_access_token", createAccessToken(false));
         }
+        //We have 30 tokens
+        assert(repo.count("oauth_access_tokens", null) == 30);
+        //Lets destroy them.
+
+
     }
     
     private EntityBody createAccessToken(boolean expired) {
