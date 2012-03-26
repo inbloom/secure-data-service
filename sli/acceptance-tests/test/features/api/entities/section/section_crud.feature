@@ -3,8 +3,7 @@ Feature: As an SLI application, I want to be able to manage sections
     I want to have create, read, update, and delete functionality for a section.
 
 Background: Logged in as a super-user and using the small data set
-    Given I am logged in using "demo" "demo1234"
-    Given I have access to all sections
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 #### Happy Path 
 Scenario Outline: Create a new section

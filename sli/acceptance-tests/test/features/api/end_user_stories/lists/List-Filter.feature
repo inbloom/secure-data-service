@@ -7,8 +7,7 @@ Teacher = Ms. Jones
 Assume that Teacher, Student, Section, Assessment entity and associations are available
 
 Background: Logged in as a teacher and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students, assessments, and sections 
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 	Given format "application/json"

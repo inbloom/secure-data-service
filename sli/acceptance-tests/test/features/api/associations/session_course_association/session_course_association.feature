@@ -5,8 +5,7 @@ and verify the correct links from that resource to the appropriate session and c
   
   
 Background: Nothing yet
-    Given I am logged in using "demo" "demo1234"
-    And I have access to all sessions and courses
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a session-course-association
    Given format "application/json"

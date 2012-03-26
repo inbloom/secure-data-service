@@ -5,8 +5,7 @@ Feature: As an SLI application, I want to be able to traverse from education org
     I want to be able to start at a very high level and be able to access relevant students
 
 Background: 
-    Given I am logged in using "demo" "demo1234"
-    Given I have access to all data
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
     Given format "application/json"
     
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher

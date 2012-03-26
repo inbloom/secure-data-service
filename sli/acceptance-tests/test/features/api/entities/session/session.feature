@@ -2,8 +2,7 @@ Feature: As an SLI application, I want to be able to manage sessions of instruct
   This means I want to be able to perform CRUD on sessions
 
 Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all sessions
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a new session
   Given format "application/json"

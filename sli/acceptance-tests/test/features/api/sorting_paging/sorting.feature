@@ -1,8 +1,7 @@
 Feature: Sort and page API results
 
 Background: 
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and schools
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Sorting a collection of student school association links by entryGradeLevel, ascending
 	Given format "application/json"
