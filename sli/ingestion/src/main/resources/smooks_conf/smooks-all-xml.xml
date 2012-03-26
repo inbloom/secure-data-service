@@ -1305,9 +1305,9 @@
     <jb:wiring property="assessmentPerformanceLevel" beanIdRef="assessmentPerformanceLevelTypeArray" />
     <jb:value property="contentStandard" data="Assessment/ContentStandard" />
     <jb:value property="assessmentForm" data="Assessment/AssessmentForm" />
-    <jb:value property="version" data="Assessment/Version" decoder="Integer" default="null" />
+    <jb:value property="version" data="Assessment/Version" decoder="Integer" />
     <jb:value property="revisionDate" data="Assessment/RevisionDate" />
-    <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
+    <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
