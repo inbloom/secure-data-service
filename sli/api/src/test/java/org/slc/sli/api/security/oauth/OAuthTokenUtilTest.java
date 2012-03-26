@@ -2,11 +2,11 @@ package org.slc.sli.api.security.oauth;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -131,27 +131,27 @@ public class OAuthTokenUtilTest {
         int validTokens = 10;
         String collectionName = "oauth_access_token";
         for (int i = 0; i < expiringTokens; ++i) {
-            assert(repo.create(collectionName, createAccessToken(true)) != null);
+            assertNotNull("Expiring tokens are null", repo.create(collectionName, createAccessToken(true)));
         }
         for (int i = 0; i < validTokens; ++i) {
-            assert (repo.create(collectionName, createAccessToken(false)) != null);
+            assertNotNull("Valid tokens are null", repo.create(collectionName, createAccessToken(false)));
         }
         //We have 30 tokens
         long count = repo.count(collectionName, new NeutralQuery());
-        assert(count == expiringTokens + validTokens);
+        assertEquals("Expiring plus valid not equal to count", count, expiringTokens + validTokens);
         //Lets destroy them.
         util.removeExpiredTokens();
         count = repo.count(collectionName, new NeutralQuery());
-        assert(count == validTokens);
+        assertEquals("Valid tokens not equal to count after expired token removal", count, validTokens);
         
         //Make sure this won't hurt on only valid tokens.
         util.removeExpiredTokens();
-        assert( repo.count(collectionName, new NeutralQuery()) == validTokens);
+        assertEquals("Valid tokens not equal to value in repo after removal of expired tokens", validTokens, repo.count(collectionName, new NeutralQuery()));
         
         //Make sure this won't hurt on an empty repo.
         repo.deleteAll(collectionName);
         util.removeExpiredTokens();
-        assert(repo.count(collectionName, new NeutralQuery()) == 0);
+        assertEquals("There should be no tokens after deleteAll", 0, repo.count(collectionName, new NeutralQuery()));
 
 
 
