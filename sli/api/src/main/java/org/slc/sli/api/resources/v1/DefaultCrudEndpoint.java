@@ -389,6 +389,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Utility methods */
 
     protected static long getTotalCount(EntityService basicService, NeutralQuery neutralQuery) {
+        
+        if (basicService == null) {
+            return 0;
+        }
+        
+        if (neutralQuery == null) {
+            return basicService.count(neutralQuery);
+        }
+        
         int originalLimit = neutralQuery.getLimit();
         int originalOffset = neutralQuery.getOffset();
         neutralQuery.setLimit(0);
