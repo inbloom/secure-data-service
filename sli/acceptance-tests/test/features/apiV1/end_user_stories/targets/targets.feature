@@ -2,8 +2,7 @@
 Feature: Test resolution of targets link for different entities
 
 Background: Logged in as a super-user and using the small data set
-    Given I am logged in using "demo" "demo1234"
-      And I have access to all entities
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
       And format "application/vnd.slc+json"
 
 Scenario: Check targets resolution after reading an assessment by ID

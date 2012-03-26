@@ -65,7 +65,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 throw new DashboardException("Entity is null for a conditional item.");
             }
             Config.Condition condition = config.getCondition();
-            String[] tokens = condition.getField().split(".");
+            String[] tokens = condition.getField().split("\\.");
             tokens = (tokens.length == 0) ? new String[]{condition.getField()} : tokens;
             Object childEntity = entity;
             for (String token : tokens) {

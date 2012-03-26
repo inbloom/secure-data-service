@@ -1,0 +1,16 @@
+===System Requirement
+Use Ruby 1.9.2 or rvm use 1.9.2
+Mysql as an Database
+rails 3.0.9
+gem 'mysql'
+gem 'cucumber-rails'
+gem 'rspec'
+gem 'rspec-rails'
+#gem 'selenium-webdriver'
+
+gem 'capybara'
+gem 'database_cleaner'
+
+=======Add to the rails application
+
+rake cucumber #to run the cucumber

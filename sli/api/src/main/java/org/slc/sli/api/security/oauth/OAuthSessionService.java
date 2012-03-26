@@ -94,6 +94,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
+        util.removeExpiredTokens();
         neutralQuery.addCriteria(new NeutralCriteria("token", "=", token));
         return repo.findOne(OAUTH_ACCESS_TOKEN_COLLECTION, neutralQuery);
     }
