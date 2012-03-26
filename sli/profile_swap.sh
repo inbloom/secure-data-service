@@ -12,7 +12,7 @@ grep -lR "https://ci.slidev.org" acceptance-tests/test/data/team_application_fix
 echo "Altering rails applications to match..."
 grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -n -e "s/https:\/\/ci.slidev.org/https:\/\/$1.slidev.org/p"
 grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -n -e "s/https:\/\/ci.slidev.org/https:\/\/$1.slidev.org/p"
-grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/deployment/team.rb | xargs -L 1 sed -n -e "s/ci.slidev.org/$1.slidev.org/p"
-grep -lR "https://ci.slidev.org" databrowser/config/deployment/team.rb | xargs -L 1 sed -n -e "s/ci.slidev.org/$1.slidev.org/p"
+grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/deploy/team.rb | xargs -L 1 sed -n -e "s/ci.slidev.org/$1.slidev.org/p"
+grep -lR "https://ci.slidev.org" databrowser/config/deploy/team.rb | xargs -L 1 sed -n -e "s/ci.slidev.org/$1.slidev.org/p"
 
 echo "Done.. ready to build and deploy!"
