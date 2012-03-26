@@ -72,8 +72,7 @@ public class IdNormalizer {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
                 Query choice = new Query();
 
-                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()))
-                    .equals(idNamespace);
+                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()).is(idNamespace));
 
                 for (Field field : fields) {
                     List<Object> filterValues = new ArrayList<Object>();

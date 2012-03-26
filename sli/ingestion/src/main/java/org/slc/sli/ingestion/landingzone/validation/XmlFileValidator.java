@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidator;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author dduran
  *
  */
-public class XmlFileValidator extends SimpleValidator<IngestionFileEntry> {
+public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
