@@ -17,3 +17,8 @@ integration:
     client_id: pAKLACLtzV
     client_secret: WqfVf4mU3oepkED6NXDn1oyWUDOG6fpBL8Or55gSfhNrhq2K
     redirect_uri: https://testdatab1.slidev.org/callback
+team:
+    api_base: https://ci.slidev.org/api/rest/v1
+    client_id: G9tjgDx1aL
+    client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+    redirect_uri: https://ci.slidev.org/callback
