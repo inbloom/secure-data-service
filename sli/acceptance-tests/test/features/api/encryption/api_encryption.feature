@@ -78,6 +78,8 @@ Scenario: Can query PII fields by exact (equals) matching
  	Given format "application/json"
  		And student Rhonda Delagio exists
  		And Ronda Delagio is associated with "<'Krypton Middle School' ID>".
+        And parameter "name.firstName" is "Rhonda"
+		And parameter "full-entities" is "true"
  	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
  	Then I should receive a return code of 200
  		And all students should have "name.firstName" equal to "Rhonda"

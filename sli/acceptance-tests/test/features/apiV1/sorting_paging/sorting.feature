@@ -71,13 +71,13 @@ Scenario: Paging request the first two results from an API request via a hop
     Given format "application/json"
 		And parameter "sortBy" is "name.firstName"
 		And parameter "sortOrder" is "ascending"
-	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
+	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
 	Then I should receive a collection with 2 elements
  	Given parameter "offset" is "0"
 		And parameter "limit" is "1"
-	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
+	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
 	Then I should receive a collection with 1 elements
-		And the link at index 0 should point to an entity with id "1aaad90e-02d0-4346-a3c4-a42747b9b050"
+		And the link at index 0 should point to an entity with id "f0e41d87-92d4-4850-9262-ed2f2723159b"
 		And the header "TotalCount" equals 2
 		And the a next link exists with offset equal to 1 and limit equal to 1
 		And the a previous link should not exist
