@@ -4,16 +4,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ext.Provider;
 
-<<<<<<< HEAD
-import com.mongodb.CommandResult;
-import com.mongodb.DBObject;
-import org.bson.BSONObject;
-=======
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -22,7 +16,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
->>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
