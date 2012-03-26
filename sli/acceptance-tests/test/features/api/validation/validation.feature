@@ -3,8 +3,7 @@ Feature: Test schema based validation on entities/associations
 
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	And I have access to all entities
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Post a valid base Student/School with bare minimum required data
 	Given format "application/json"

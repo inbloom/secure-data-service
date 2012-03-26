@@ -2,8 +2,7 @@
 Feature: As an SLI application, I want to be able to perform CRUD on attendance.
 
 Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all entities
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
   Given format "application/json"
   Given I am testing the 'v1attendance' entity
 

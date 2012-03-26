@@ -5,8 +5,7 @@ Feature: In order to provide base aggregation information
 	This means all associations should be returned as links when accessing the AGGREGATION URI.
 
 Background: Logged in as a leader and using the small data set
-	Given I am logged in using "leader" "leader1234"
-	Given I have access to all entities
+	Given I am logged in using "leader" "leader1234" to realm "SLI"
 	
 Scenario: MOCK Home URI returns a aggregation start link
 	Given format "application/json"

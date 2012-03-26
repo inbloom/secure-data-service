@@ -4,8 +4,7 @@ As an OAuth application developer for SLI, I want to create a registration entit
 
 Scenario: CRUD operations on Applications
 
-	Given I am a valid "SLI" end user "demo" with password "demo1234"
-	And I am authenticated to SEA/LEA IDP
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 	When I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
@@ -18,22 +17,19 @@ Scenario: CRUD operations on Applications
 
 Scenario: Deny creation when specifying invalid fields
 
-	Given I am a valid "SLI" end user "demo" with password "demo1234"
-	And I am authenticated to SEA/LEA IDP
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 	When I POST an application specifying an invalid field
 	Then I should receive a return code of 400
 
 Scenario: Deny access when logging in as invalid user
 
-	Given I am a valid "SLI" end user "baduser" with password "baduser1234"
-	And I am authenticated to SEA/LEA IDP
+	Given I am logged in using "baduser" "baduser1234" to realm "SLI"
 	When I navigate to GET "/apps/<Testing App>"
 	Then I should receive a return code of 403
 
 Scenario Outline: Deny creation when user specifying auto-generated field
 
-	Given I am a valid "SLI" end user "demo" with password "demo1234"
-	And I am authenticated to SEA/LEA IDP
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 	When I POST an application specifying the auto-generated field <Field> 
 	Then I should receive a return code of 400
 	Examples:
@@ -44,8 +40,7 @@ Scenario Outline: Deny creation when user specifying auto-generated field
 @wip
 Scenario Outline: Deny update when user specifying read-only auto-generated field
 
-	Given I am a valid "SLI" end user "demo" with password "demo1234"
-	And I am authenticated to SEA/LEA IDP
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 	When I PUT an application specifying the auto-generated field <Field> 
 	Then I should receive a return code of 400
 	Examples:
