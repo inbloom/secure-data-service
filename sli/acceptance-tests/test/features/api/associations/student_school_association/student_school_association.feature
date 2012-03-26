@@ -7,9 +7,7 @@ Feature: As an SLI application, I want to be able to manage students school asso
 
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and schools
-
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a new student-school-association
 	Given format "application/json"

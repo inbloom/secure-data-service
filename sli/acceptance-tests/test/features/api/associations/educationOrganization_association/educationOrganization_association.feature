@@ -3,8 +3,7 @@ Feature: As an SLI application, I want to be able to manage associations between
   from the association to the appropriate entities.
 
 Background: Logged in as a super-user and using the small data set
-  Given I am logged in using "demo" "demo1234"
-  Given I have access to all educationOrganizations and educationOrganization-associations
+  Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Read an Education Organization Association by ID
   Given format "application/json"
