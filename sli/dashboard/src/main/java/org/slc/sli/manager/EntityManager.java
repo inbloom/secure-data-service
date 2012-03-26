@@ -133,7 +133,13 @@ public class EntityManager extends ApiClientManager {
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
         GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
-        student.put(Constants.ATTR_TEACHER_NAME, teacher.get(Constants.ATTR_NAME));
+
+        if (teacher != null) {
+            List<GenericEntity> teacherList = teacher.getList(Constants.ATTR_NAME);
+            if (teacherList != null)
+                 student.put(Constants.ATTR_TEACHER_NAME, teacherList.get(0));
+        }
+ 
         /*GenericEntity program = getProgram(token, studentId);
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));

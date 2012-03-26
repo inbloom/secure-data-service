@@ -97,7 +97,7 @@ task :realmInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("application", "application_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json", "test/data", false)
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
 end
 
 # Task that initializes the application registration fixture
@@ -123,6 +123,17 @@ end
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
 task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+
+desc "Run Liferay Tests"
+task :liferay => [:liferayTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -175,6 +186,9 @@ task :ingestionAssessmentTests do
   runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
 end
 
+task :liferayTest do
+  runTests("test/features/liferay/SLI_admin.feature")
+end
 desc "Run Student Parents Tests"
 task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
@@ -776,7 +790,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardHidePagesTests] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -841,6 +855,11 @@ task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+end
+
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
   runTests("test/features/dashboard/dash/attendance.feature")
@@ -864,6 +883,11 @@ end
 desc "Run dashboard student contact info tests"
 task :dashboardStudentContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info.feature")
+end
+
+desc "Run dashboard student contact info live tests"
+task :dashboardStudentContactInfoLiveTests do
+  runTests("test/features/dashboard/dash/contact_info_live.feature")
 end
 
 desc "Run dashboard student display/hide pages based on grade tests"
@@ -996,7 +1020,7 @@ DB_HOST                This property selects which mongo instance to set the fix
 DB_NAME                This property selects which mongo db to set the fixture to (default: sli)
 api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
 admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
-sli_idp_server_url     This property selects which running IDP should be used as the SLI IDP (default http://devdanil.slidev.org:8080/idp)
+sli_idp_server_url     This property selects which running IDP should be used as the SLI IDP (default https://devapp1.slidev.org/sp)
 sea_idp_server_url     This property selects which running IDP should be used as a mock State IDP (default http://devopenam1.slidev.com:8080/idp1)
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console

@@ -21,8 +21,8 @@ And I view its student profile
 And there are "5" Tabs
 And in Tab ID "6", there is "1" Panels
 And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "1" Panels
-And in Tab ID "4", there is "1" Panels 
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
 And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Overview"
 And Tab has a title named "Attendance and Discipline"
@@ -49,17 +49,18 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I click on student "Kimberley Pennington"
 And I view its student profile
-And there are "5" Tabs
+And there are "6" Tabs
 And in Tab ID "6", there is "1" Panels
 And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "1" Panels
-And in Tab ID "4", there is "1" Panels 
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
 And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And Tab has a title named "Advanced Academics"
+And Tab has a title named "ELL"
 # Temp disable specific tab index tests
 #And Tab "1" is titled "Overview"
 #And Tab "2" is titled "Attendance and Discipline"

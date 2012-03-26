@@ -9,7 +9,7 @@ protected so only I can get information about the default roles in SLI and their
  
 Scenario: Go to SLI Default Roles Admin Page, with a SLI IT Administrator role when authenticated to SLI IDP
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "demo" with pass "demo1234"
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 And I have a Role attribute equal to "SLI IT Administrator"
 When I navigate to the SLI Default Roles Admin Page
 Then I should be redirected to the SLI Default Roles Admin Page
@@ -49,7 +49,7 @@ And I am user "demo"
 And "demo" is valid "SLI IDP" user
 And I have a Role attribute equal to "SLI IT Administrator"
 When I enter "demo" in the username text field
-And I enter "demo1234" in the password text field
+And I enter "changeit" in the password text field
 And I click the Go button
 Then I am now authenticated to SLI IDP
 And I should be redirected to the SLI Default Roles Admin Page

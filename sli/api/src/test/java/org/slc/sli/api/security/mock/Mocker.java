@@ -16,8 +16,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityTokenResolver;
-import org.slc.sli.api.security.openam.OpenamRestTokenResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
@@ -35,9 +33,6 @@ public class Mocker {
 
     @Autowired
     private static RolesToRightsResolver rolesToRightsResolver;
-
-    @Autowired
-    private static SecurityTokenResolver openamRestTokenResolver;
 
     public static final String MOCK_URL = "mock";
     public static final String VALID_TOKEN = "valid_token";
@@ -102,16 +97,6 @@ public class Mocker {
         return rest;
     }
 
-    public static SecurityTokenResolver getMockedOpenamResolver() {
-        OpenamRestTokenResolver resolver = (OpenamRestTokenResolver) openamRestTokenResolver;
-        resolver.setTokenServiceUrl(Mocker.MOCK_URL);
-        resolver.setRest(Mocker.mockRest());
-        resolver.setResolver(getRolesToRightsResolver());
-        resolver.setLocator(getLocator());
-
-        return resolver;
-    }
-
     public static UserLocator getLocator() {
         MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
         Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
@@ -130,10 +115,6 @@ public class Mocker {
 
         Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
 
-    }
-
-    public static void setOpenamRestTokenResolver(SecurityTokenResolver openamRestTokenResolver) {
-        Mocker.openamRestTokenResolver = openamRestTokenResolver;
     }
 
     private static RolesToRightsResolver getRolesToRightsResolver() {

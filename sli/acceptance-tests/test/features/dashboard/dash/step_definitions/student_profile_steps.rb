@@ -10,12 +10,12 @@ end
 
 When /^I view its student profile$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
-  csiContent = wait.until{@driver.find_element(:id, "CSIcontent")}
-  table_cells = csiContent.find_elements(:css, "td")
-  
+  csiContent = wait.until{@driver.find_element(:class, "csi")}
+  studentInfo = csiContent.find_element(:class, "studentInfo")
+  table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
   @info = Hash.new
-  sName = csiContent.find_element(:tag_name, "b") 
-  
+  sName = csiContent.find_element(:class, "studentName") 
+
   @info["Name"] = sName.text
   
 for i in 0..table_cells.length-1
@@ -31,7 +31,8 @@ for i in 0..table_cells.length-1
 end
 
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
-   assert(@info["Name"] == expectedStudentName, "Actual name is :" + @info["Name"]) 
+   containsName = @info["Name"].include? expectedStudentName
+   assert(containsName, "Actual name is :" + @info["Name"]) 
 end
 
 Then /^their id shown in proflie is "([^"]*)"$/ do |studentId|
@@ -43,7 +44,7 @@ Then /^their grade is "([^"]*)"$/ do |studentGrade|
 end
 
 Then /^the lozenges include "([^"]*)"$/ do |lozenge|
-  csiContent = @driver.find_element(:id, "CSIcontent")
+  csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
   all_lozengeSpans = csiContent.find_elements(:tag_name, "span")
@@ -65,12 +66,12 @@ When /^the class is "([^"]*)"$/ do |className|
 end
 
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
-  csiContent = @driver.find_element(:id, "CSIcontent")
+  csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
   all_lozenges = csiContent.find_elements(:tag_name, "svg")
 
-  assert(lozengesCount.to_i == all_lozenges.length, "Actual lozengws count is:" + lozengesCount)
+  assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
 
 def clickOnStudent(name)

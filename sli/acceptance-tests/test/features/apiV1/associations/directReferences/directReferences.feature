@@ -3,8 +3,7 @@ This means that when links are requested in a GET request, a link should be pres
 and that the links are valid
   
 Background: Nothing yet
-    Given I am logged in using "demo" "demo1234"
-      And I have access to all data
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario Outline: Control the presence of links by specifying an accept type format
    Given format <format>

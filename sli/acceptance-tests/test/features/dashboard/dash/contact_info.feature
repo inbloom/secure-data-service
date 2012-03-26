@@ -14,99 +14,96 @@ When I select course "8th Grade English"
 When I select section "M. Jones - 8th Grade English - Sec 6"
 And I wait for "2" seconds
 
-@wip
-Scenario: View a student with 1 contact
-Given I click on student "Imelda Sydnee"
+Scenario: View a student with 1 email, 1 address, 1 phone
+Given I click on student "Imelda Lindsey"
 And I view its student profile
-And the panel name is "Contact Information"
-And there is "1" phone number
+And I look at the panel "Contact Information"
+And there are "1" phone numbers
 And the list of phone number includes "708-432-9033"
-And the phone number type is "Unlisted"  
-And the phone number "708-432-9033" is in bold
-And there is "1" email address
-And the list of email is "Imelda_Lindsey@yahoo.com"
-And the email type is "other"
-And there is "1" address
-And the address is "1558 4th Street"
-And the address 2 is "APT 7776"
-And the city is "Chicago"
-And the county is "Cook"
-And the state is "IL"
-And the country is "US"
-And the postal code is "60139-2152"
-And the address type is "Home
-And there is "1" email address
+And the phone number "708-432-9033" is of type "Unlisted"  
+And there are "1" email addresses
 And the list of email address includes "Imelda_Lindsey@yahoo.com"
+And there are "1" addresses
+And the list of address includes
+"""
+1558 4th Street, APT 7776
+Chicago, IL 60139-2152
+"""
 
-@wip
-Scenario: View a student with more than 1 contacts 
+Scenario: View a student with 2 phone numbers, 3 emails, 2 addresses
 Given I click on student "Brielle Klein"
 And I view its student profile
-And the panel name is "Contact Information"
-And there is "2" phone number
-#rank order of phone number to be displayed
+And I look at the panel "Contact Information"
+And there are "2" phone numbers
 And the list of phone number includes "630-667-8063"
 And the list of phone number includes "773-445-2464"
-And the phone number "773-445-2464" is in bold
-And there is "3" email address
+And the order of the phone numbers is "773-445-2464;630-667-8063"
+And there are "3" email addresses
 And the list of email address includes "Brielle.Klein@yahoo.com"
 And the list of email address includes "B.Klein@gmail.com"
 And the list of email address includes "Brielle_Klein@gmail.com"
-And there is "2" address
-And the list of address includes "1537 Steuben Street"
-And the address 2 is "APT 330"
-And the city is "New York"
-And the county is "New York"
-And the state is "NY"
-And the country is "US"
-And the address type is "Physical"
-And the postal code is "10753-2389"
-And the list of address includes "8124 Brighton 3 Place"
-And the address 2 is empty
-And the city is "Chicago"
-And the county is "US"
-And the state is "IL"
-And the country is "Cook"
-And the postal code is "60848-7633"
-And the address type is "Home"
+And there are "2" addresses
+And the list of address includes
+"""
+1537 Steuben Street, APT 330
+New York, NY 10753-2389
+""" 
+And the list of address includes
+"""
+8124 Brighton 3 Place
+Chicago, IL 60848-7633
+"""
 
-@wip
 Scenario:  Student has no phone numbers and no email addresses
 Given I click on student "Patricia Harper"
-And I view its profile
-And there is "0" phone number
-And there is "0" email address
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "0" phone numbers
+And there are "0" email addresses
 
-@wip
 Scenario: Student has no addresses
 Given I click on student "Astra Vincent"
-And I view its profile
-And there is "0" address
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "0" addresses
 
-@wip
 Scenario: Include a building site number on its own line
-Given I click on student "Jeanette Graves"
-And I view its profile
-And there is "1" address
-And the list of address includes "3297 35th Street"
-And the building site number is displayed in its own line with value "186D"
+Given I click on student "Rhonda Delgado"
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "2" addresses
+And the list of address includes 
+"""
+3655 Brighton 2nd Lane, APT 4221
+351
+Chicago, IL 60908-1028
+"""
 	
-@wip
 Scenario:  An address with countryCode other than US
-Given I click on student "Odysseus Merrill"
-And I view its profile
-And there is "2" address
-And the list of address includes "7472 Ross Street"
-And the country is "CA"
-And there is a additional line that shows the country "Canada"
+Given I click on student "Rhonda Delgado"
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "2" addresses
+And the list of address includes 
+"""
+9857 Kingsborough 2nd Walk
+Toronto, ON A1B 2C3
+CA
+"""
 
-@wip
 Scenario:  primaryTelephoneNumber is not present
-Given I click on student "Deirdre Gentry"
-And I view its profile
-And there is "1" phone number
-And the list of phone numbers include "224-167-3247"
-And the phone number "224-167-3247" is in bold
+Given I click on student "Nicholas Burks"
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "1" phone numbers
+And the list of phone number includes "708-929-8507"
+
+Scenario:  Student's home phone number is not his primary number
+Given I click on student "Alec Swanson"
+And I view its student profile
+And I look at the panel "Contact Information"
+And there are "7" phone numbers
+And the order of the phone numbers is "312-230-0970;331-152-6310;219-861-1785;262-860-2296;815-462-0519;630-115-0626;219-328-5624"
 
 @wip
 Scenario: Max (10) phone numbers 
@@ -125,6 +122,6 @@ Scenario: End Date in address is earlier than today's date
 Given the server is in "test" mode
 
 @wip
-Scenario:  Begin Date in address is later than today's date
+Scenario: Begin Date in address is later than today's date
 Given the server is in "test" mode
 	

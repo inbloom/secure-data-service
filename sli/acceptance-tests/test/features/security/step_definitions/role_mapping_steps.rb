@@ -9,33 +9,6 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id
 end
 
-Given /^I have not yet authenticated$/ do
-  @sessionId = ""
-end
-
-When /^I make a call to get the list of realms$/ do
-  restHttpGet("/pub/realms","application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-end
-
-Then /^I should see a response that contains the list of realms$/ do
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  @result = JSON.parse(@res.body)
-  assert(@result != nil, "Result of JSON parsing is nil")
-end
-
-Then /^I should see a URL for each realm that links to their IDP$/ do
-  @result.each do |item|
-    assert(item["idp"] != nil, "Realm "+item["regionId"]+" URL was not found.")
-  end
-end
-
-Then /^I should not see any data about any realm's role\-mapping$/ do
-  @result.each do |item|
-    assert(item["mappings"] == nil, "Realm "+item["regionId"]+" Role mapping info was found - " + item["mappings"].inspect)
-  end
-end
-
 When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, arg2|
   @format = "application/json"
 

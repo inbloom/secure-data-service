@@ -12,9 +12,9 @@ realm_page_url: "https://devapp1.slidev.org/api/oauth/authorize"
 admintools_server_url: "http://local.slidev.org:3000"
 api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
-sli_idp_server_url: "http://devdanil.slidev.org:8080/idp"
-sea_idp_server_url: "http://devdanil.slidev.org:8080/idp"
-lea_idp_server_url: "http://devdanil.slidev.org:8080/idp"
+sli_idp_server_url: "https://devapp1.slidev.org/sp/"
+sea_idp_server_url: "https://devopenam1.slidev.org:443/idp1/"
+lea_idp_server_url: "https://devopenam1.slidev.org:80/idp2/"
 
 ingestion_landing_zone: "../ingestion/target/lz/inbound/"
 ingestion_db: "localhost"
@@ -24,3 +24,5 @@ ingestion_mode: "local"
 
 DB_HOST: "localhost"
 api_database_name : "sli"
+
+sampleApp_server_address: "https://nxbuild2.slidev.org/"

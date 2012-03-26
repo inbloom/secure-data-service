@@ -12,9 +12,7 @@ AssessmentCategory: Achievement  Test,  Advanced Placement Test
 Student: Jane Doe
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and assessments
-
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a student-assessment-association
 Given format "application/json"

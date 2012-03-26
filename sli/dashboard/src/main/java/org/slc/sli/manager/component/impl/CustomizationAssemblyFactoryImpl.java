@@ -1,9 +1,11 @@
 package org.slc.sli.manager.component.impl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -63,7 +65,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 throw new DashboardException("Entity is null for a conditional item.");
             }
             Config.Condition condition = config.getCondition();
-            String[] tokens = condition.getField().split(".");
+            String[] tokens = condition.getField().split("\\.");
             tokens = (tokens.length == 0) ? new String[]{condition.getField()} : tokens;
             Object childEntity = entity;
             for (String token : tokens) {
@@ -104,7 +106,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param parentEntity - parent entity
      * @param depth - depth of the recursion
      */
-    private void populateModelRecursively(
+    private Config populateModelRecursively(
         ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, 
         GenericEntity parentEntity, int depth
     ) {
@@ -125,20 +127,25 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 model.addData(dataConfig.getAlias(), entity);
             }
             if (!checkCondition(config, entity))
-                return;
+                return null;
         }
-        model.addComponentViewConfigMap(componentId, config);
         if (config.getItems() != null) {
+            List<Config.Item> items = new ArrayList<Config.Item>();
             depth++;
+            Config newConfig;
             for (Config.Item item : config.getItems()) {
                 if (checkCondition(item, entity)) {
-                    populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
+                    items.add(item);
+                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
                     if (config.getType().isLayoutItem()) {
-                        model.addLayoutItem(item);
+                        model.addLayoutItem(newConfig);
                     }
                 }
             }
+            config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
+        model.addComponentViewConfigMap(componentId, config);
+        return config;
     }
 
     @Override

@@ -30,5 +30,13 @@ class SessionResource < ActiveResource::Base
        Rails.logger.debug { "collection_path: #{something}" }
        something
      end
+     
+     ## Remove format from the url.
+     def custom_method_collection_url(method_name, options = {})
+       prefix_options, query_options = split_options(options)
+       something = "#{prefix(prefix_options)}#{collection_name}/#{method_name}#{query_string(query_options)}"
+       Rails.logger.debug {"custom_method_collection_url: #{something}"}
+       something
+     end
   end
 end

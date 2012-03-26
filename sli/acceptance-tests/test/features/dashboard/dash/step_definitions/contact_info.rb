@@ -1,79 +1,137 @@
-When /^the panel name is "([^"]*)"$/ do |panelName|
-  pending # express the regexp above with the code you wish you had
+# Given a tabname, find the tab ID index to know which tab to read from
+def getTabIndex(tabName)
+  allTabs = @driver.find_element(:id, "tabs")
+  links = allTabs.find_elements(:tag_name, "a")
+  found = nil
+  tabIndex = nil
+  links.each do |tab|
+    if (tab.text == tabName)
+      found = tab
+      url = tab["href"]
+      i = url.index('#page') +1
+      tabIndex = url[i, url.length-i]
+    end
+  end
+  
+  puts tabName + " tab id: " + tabIndex
+  assert(found != nil, "Tab was not found")
+  return tabIndex
 end
 
-When /^there is "([^"]*)" phone number$/ do |phoneNumberCount|
-  pending # express the regexp above with the code you wish you had
+# checks whether panel name is the expected name
+def checkPanelNameExists(tabName, panelName)
+  found = false;
+  if tabName.attribute("innerHTML").to_s.lstrip.rstrip.include?(panelName)
+    found = true;
+  end
+  assert(found == true, "Panel Name is not found: " + panelName)
 end
 
-When /^the phone number type is "([^"]*)"$/ do |phoneType|
-  pending # express the regexp above with the code you wish you had
+Given /^I look at the panel "([^"]*)"$/ do |panelName|
+  tabIndex = getTabIndex("Overview")
+  
+  overviewTab = @driver.find_element(:id, tabIndex)
+  checkPanelNameExists(overviewTab, panelName)
+  
+  studentContactInfo = overviewTab.find_element(:class, "studentContactInfo")
+  contactSections = studentContactInfo.find_elements(:class, "section")
+
+  #right now we only have 3 section  
+  # 0 is phone, 1 is email, 2 is address, 
+  assert(contactSections.length == 3, "# of Contact Sections" + contactSections.length.to_s)
+  
+  @section = []
+  @sectionType = []
+  for i in ( 0..2)
+    @section[i] = contactSections[i].find_elements(:class, "contactInfoCol2")
+    @sectionType[i] = contactSections[i].find_elements(:class, "contactInfoCol1")
+  end   
 end
 
-When /^the email type is "([^"]*)"$/ do |emailType|
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^the address type is "([^"]*)"$/ do |addressType|
-  pending # express the regexp above with the code you wish you had
+When /^there are "([^"]*)" phone numbers$/ do |phoneNumberCount|  
+  assert(@section[0].length == phoneNumberCount.to_i, "Actual phone number count: " + @section[0].length.to_s)
 end
 
 Given /^the list of phone number includes "([^"]*)"$/ do |phoneNumber|
-  pending # express the regexp above with the code you wish you had
+  foundPhone = isItemInList(phoneNumber, @section[0])
+  assert(foundPhone == true, "Phone number was not found")
+end
+
+Given /^the phone number "([^"]*)" is of type "([^"]*)"$/ do  |phoneNumber, phoneType|
+  foundPhone = false
+  i = 0
+  @section[0].each do |phone|
+    if (phone.text == phoneNumber)
+      foundPhone = true
+      pType = @sectionType[0][i].text
+      assert(pType.index(':') > 0 && pType.length > 0)
+      assert(pType[0, pType.length-1] == phoneType, "Actual phone type: " + @sectionType[0][i].text) 
+    end
+    i=i+1
+  end
+  assert(foundPhone == true, "Phone number was not found")
+end
+
+Given /^there are "([^"]*)" email addresses$/ do |emailCount|
+  assert(@section[1].length == emailCount.to_i, "Actual email count: " + @section[1].length.to_s)
+end
+
+Given /^the list of email address includes "([^"]*)"$/ do |emailAdress|
+  found = isItemInList(emailAdress, @section[1])
+  assert(found == true, "Email was not found")
+end
+
+Given /^there are "([^"]*)" addresses$/ do |addressCount|
+  assert(@section[2].length == addressCount.to_i, "Actual address count: " + @section[2].length.to_s)
 end
 
 Given /^the phone number "([^"]*)" is in bold$/ do |phoneNumber|
   pending # express the regexp above with the code you wish you had
 end
 
-Given /^there is "([^"]*)" email address$/ do |emailCount|
-  pending # express the regexp above with the code you wish you had
+Given /^the list of address includes$/ do |address|
+  found = isItemInList(address, @section[2])
+  assert(found == true, "Address is not found")
 end
 
-Given /^the list of email address includes "([^"]*)"$/ do |emailAdress|
-  pending # express the regexp above with the code you wish you had
+Given /^the order of the phone numbers is "([^"]*)"$/ do |listOfNumbers|
+   areItemsInOrder(listOfNumbers, @section[0])
 end
 
-Given /^there is "([^"]*)" address$/ do |addressCount|
-  pending # express the regexp above with the code you wish you had
+Given /^the order of the email addresses is "([^"]*)"$/ do |listOfEmails|
+  areItemsInOrder(listOfEmails, @section[1])
 end
 
-Given /^the list of address includes "([^"]*)"$/ do |address|
-  pending # express the regexp above with the code you wish you had
+# we don't perform an exact match
+Given /^the order of the addressess is  "([^"]*)"$/ do |listOfAddresses|
+  array = listOfAddresses.split(";")
+   
+  assert(array.length == @section[2].length, "Address Counts do not match")
+   
+  for i in (0..array.length-1)
+    current = @section[2][i].text
+    searchKey = array[i]
+    found = current.include? searchKey
+    assert(found == true, "Address ordering is incorrect")
+  end
 end
 
-Given /^the address (\d+) is "([^"]*)"$/ do |addressLineNumber, address|
-  pending # express the regexp above with the code you wish you had
+def isItemInList(searchValue, content)
+  found = false
+  content.each do |currentContent|
+    if (currentContent.text == searchValue)
+      found = true
+    end
+  end 
+ return found
 end
 
-Given /^the city is "([^"]*)"$/ do |city|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the county is "([^"]*)"$/ do |county|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the state is "([^"]*)"$/ do |state|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the country is "([^"]*)"$/ do |country|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the postal code is "([^"]*)"$/ do |postalCode|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the address (\d+) is empty$/ do |addresLineNumber|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the building site number is displayed in its own line with value "([^"]*)"$/ do |buildingSiteNumber|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^there is a additional line that shows the country "([^"]*)"$/ do |countryName|
-  pending # express the regexp above with the code you wish you had
+def areItemsInOrder(listOfItems, content)
+  array = listOfItems.split(";")
+   
+  assert(array.length == content.length, "Counts do not match")
+   
+  for i in (0..array.length-1)
+    assert(array[i] == content[i].text, "Ordering is incorrect")
+  end
 end

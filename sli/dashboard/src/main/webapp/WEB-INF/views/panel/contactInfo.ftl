@@ -7,6 +7,9 @@
 	Contact Information 
 </div>
 <div class="studentContactInfo">
+	<div class="top_section">
+	Student
+	</div>
 	<!-- display telephone numbers for student -->
 	<div class="section">
 		<#list panelData.telephone as telephone>
@@ -30,7 +33,7 @@
 	
 	<div class="section">
 		<#list panelData.electronicMail as electronicMail>
-			<div class = "contactInfoTypeRow">
+			<div class = "contactInfoRow">
 				<div class="contactInfoCol1">
 					<!-- show only once -->
 					<#if electronicMail_index == 0>
@@ -46,7 +49,7 @@
 	
 	<div class="section">
 		<#list panelData.address as address>
-			<div class = "contactInfoTypeRow">
+			<div class = "contactInfoRow">
 				<div class="contactInfoCol1">
 				<!-- show only once -->
 				<#if address_index == 0>
@@ -54,24 +57,22 @@
 				</#if>
 				</div>
 				<div class="contactInfoCol2">
-					${address.streetNumberName}
+					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
 					<!-- 
 					ignore apartmentRoomSuiteNumber is null.
 					otherwise display on the first line separated by comma after streetNumberName
 					-->
-					<#if address.apartmentRoomSuiteNumber ??>
-					, ${address.apartmentRoomSuiteNumber}
-					</#if>
+					
 					
 					<!--
-					ignore apartmentRoomSuiteNumber if null otherwise display it on its own line
+					ignore BuildingSiteNumber if null otherwise display it on its own line
 					-->
-					<#if address.apartmentRoomSuiteNumber ??>
+					<#if address.buildingSiteNumber ??>
 					<br>
-					${address.apartmentRoomSuiteNumber}
+					${address.buildingSiteNumber}
 					</#if>
 					<br>
-					${address.city} ${address.stateAbbreviation} ${address.postalCode}
+					${address.city}, ${address.stateAbbreviation} ${address.postalCode}
 					<#if address.countryCode ?? && address.countryCode != "US">
 						<br>
 						${address.countryCode}

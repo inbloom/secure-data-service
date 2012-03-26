@@ -27,6 +27,7 @@
     <property name="locations">
       <list>
         <value>classpath:ingestion.properties</value>
+        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
         <!-- create this file with custom settings for your dev environment -->
         <value>classpath:ingestion-dev.properties</value>
       </list>
@@ -54,8 +55,11 @@
             </constructor-arg>
             <constructor-arg index="1">
               <map>
-                <entry key="host" value="${queues.workItem.host}" />
-                <entry key="port" value="${queues.workItem.port}" />
+                <entry key="host" value="${sli.ingestion.queue.workItem.host}" />
+                <entry key="port" value="${sli.ingestion.queue.workItem.port}" />
+                <entry key="ssl-enabled" value="true" />
+                <entry key="key-store-path" value="${sli.ingestion.queue.workItem.keystore}" />
+                <entry key="key-store-password" value="${sli.ingestion.queue.workItem.keystorePassword}" />
               </map>
             </constructor-arg>
           </bean>

@@ -12,6 +12,6 @@
     {id: "tab3", name: "Assessments",  type : "TAB", items: []},
     {id: "tab4", name: "Grades and Credits",  type : "TAB", items: []},
     {id: "tab5", name: "Advanced Academics",  type : "TAB", items: []},
-    {id: "tab1", name: "ELL", condition: {field: "limitedEnglishProficiency", value: ["Limited"]}, type : "TAB", items: []}
+    {id: "tab1", name: "ELL", type : "TAB", condition: {field: "limitedEnglishProficiency", value: ["Limited"]}, items: []}
   ]
 }

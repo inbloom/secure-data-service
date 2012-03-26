@@ -2,6 +2,7 @@ package org.slc.sli.api.security.oauth;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -23,12 +24,13 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
@@ -59,7 +61,10 @@ public class OAuthTokenUtilTest {
     @Autowired
     @InjectMocks
     OAuthTokenUtil util;
-    
+
+    @Autowired
+    private Repository<Entity> repo;
+
     @Mock
     UserLocator locator;
     
@@ -83,7 +88,7 @@ public class OAuthTokenUtilTest {
     @Test
     public void testTokenNotExpired() {
         long expiration = System.currentTimeMillis() + 9999;
-        assertFalse((new Date(expiration)).toString() + " shouldn't be expired.", 
+        assertFalse((new Date(expiration)).toString() + " shouldn't be expired.",
                 OAuthTokenUtil.isTokenExpired(expiration));
     }
     
@@ -102,13 +107,11 @@ public class OAuthTokenUtilTest {
         scopes.add("TEST_SCOPE1");
         scopes.add("TEST_SCOPE2");
         Date expiration = new Date();
-        OAuth2RefreshToken refresh = new OAuth2RefreshToken("foo");
         
         OAuth2AccessToken original = new OAuth2AccessToken(value);
         original.setExpiration(expiration);
         original.setTokenType(type);
         original.setScope(scopes);
-        original.setRefreshToken(refresh);
         
         EntityBody body = util.serializeAccessToken(original);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
@@ -119,40 +122,54 @@ public class OAuthTokenUtilTest {
         assertEquals("checking type", type, reconst.getTokenType());
         assertEquals("checking expiration", expiration, reconst.getExpiration());
         assertTrue("checking scopes", reconst.getScope().containsAll(scopes));
-        assertEquals("checking refresh", refresh.getValue(), reconst.getRefreshToken().getValue());
     }
     
+
     @Test
-    public void testPlainRefreshTokenSerialization() {
-        String value = "ABCDEFG";
-        OAuth2RefreshToken refresh = new OAuth2RefreshToken(value);
+    public void testRemoveExpiredTokens() throws Exception {
+        int expiringTokens = 20;
+        int validTokens = 10;
+        String collectionName = "oauth_access_token";
+        for (int i = 0; i < expiringTokens; ++i) {
+            assertNotNull("Expiring tokens are null", repo.create(collectionName, createAccessToken(true)));
+        }
+        for (int i = 0; i < validTokens; ++i) {
+            assertNotNull("Valid tokens are null", repo.create(collectionName, createAccessToken(false)));
+        }
+        //We have 30 tokens
+        long count = repo.count(collectionName, new NeutralQuery());
+        assertEquals("Expiring plus valid not equal to count", count, expiringTokens + validTokens);
+        //Lets destroy them.
+        util.removeExpiredTokens();
+        count = repo.count(collectionName, new NeutralQuery());
+        assertEquals("Valid tokens not equal to count after expired token removal", count, validTokens);
         
-        EntityBody body = OAuthTokenUtil.serializeRefreshToken(refresh);
-        DBObject obj = BasicDBObjectBuilder.start(body).get();
-        Map data = (Map) JSON.parse(JSON.serialize(obj));
-        OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
+        //Make sure this won't hurt on only valid tokens.
+        util.removeExpiredTokens();
+        assertEquals("Valid tokens not equal to value in repo after removal of expired tokens", validTokens, repo.count(collectionName, new NeutralQuery()));
         
-        assertEquals("checking value", value, refresh.getValue());
-        assertFalse("Making sure we didn't get an expiring token back", 
-                reconst instanceof ExpiringOAuth2RefreshToken);
+        //Make sure this won't hurt on an empty repo.
+        repo.deleteAll(collectionName);
+        util.removeExpiredTokens();
+        assertEquals("There should be no tokens after deleteAll", 0, repo.count(collectionName, new NeutralQuery()));
+
+
+
     }
-    
-    @Test
-    public void testExpiringRefreshTokenSerialization() {
-        String value = "ABCDEFG";
-        Date expiration = new Date();
-        ExpiringOAuth2RefreshToken refresh = new ExpiringOAuth2RefreshToken(value, expiration);
-        
-        EntityBody body = OAuthTokenUtil.serializeRefreshToken(refresh);
-        DBObject obj = BasicDBObjectBuilder.start(body).get();
-        Map data = (Map) JSON.parse(JSON.serialize(obj));
-        OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
-        
-        assertEquals("checking value", value, refresh.getValue());
-        assertTrue("Ensuring type", reconst instanceof ExpiringOAuth2RefreshToken);
-        assertEquals("checking expiration", expiration, ((ExpiringOAuth2RefreshToken) reconst).getExpiration());
+
+    private EntityBody createAccessToken(boolean expired) {
+        EntityBody body = new EntityBody();
+        long time = new Date().getTime();
+        if (expired) {
+            time -= 1000;
+        } else {
+            time += 100000;
+        }
+        //This is really lame, but we don't support complex objects in the mock repo.
+        body.put("accessToken.expiration", new Date(time));
+        return body;
     }
-    
+
     @Test
     public void testOauth2Serialization() {
         ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
@@ -179,7 +196,7 @@ public class OAuthTokenUtilTest {
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, creds);
         OAuth2Authentication auth = new OAuth2Authentication(client, user);
         
-        EntityBody body = OAuthTokenUtil.serializeOauth2Auth(auth);
+        EntityBody body = util.serializeOauth2Auth(auth);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
         Map data = (Map) JSON.parse(JSON.serialize(obj));
         OAuth2Authentication reconst = util.createOAuth2Authentication(data);

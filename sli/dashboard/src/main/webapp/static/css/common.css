@@ -211,17 +211,53 @@ h1
     margin: 5px;
 }
 
-.csi, 
-.test
+.csi
 {
     height: 100px;
-    border: 1px solid #000000;
 }
     
-.csi .col1
+.csi .colImage
 {
-    width: 
+    height:100px;
+    width:100px;
+    float:left;
 }
+
+.csi .colMain
+{
+    margin-left: 100px;
+    width: 900;
+}
+
+.csi .studentName
+{
+    font-size: 24px;
+    height: 40px;
+}
+
+.csi .studentInfo span
+{
+    padding-right: 10px;
+}
+
+.csi .studentInfo .col1
+{
+    float: left;
+    width: 500;
+}
+
+.csi .studentInfo .col2
+{
+    margin-left: 500px;
+    width: 500px;
+}
+
+.csi .field
+{
+    font-size: 12px;
+    height: 20px;
+}
+
 th.ui-th-column div {
     white-space: normal !important;
     height: auto !important;
@@ -233,13 +269,13 @@ th.ui-th-column div {
 	font-size: 12px;
 }
 
-.contactInfoTypeRow {
+.contactInfoRow {
 	display:table-row;
 }
 
 .contactInfoCol1 {
 	display:table-cell;
-	width: 80px;
+	width: 90px;
 }
 
 .contactInfoCol2 {

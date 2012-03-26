@@ -8,8 +8,7 @@ Also so verify the correct links from that resource to the appropriate teacher a
     School: Chemistry Elementary, Physics Middle, Biology High, Algebra Alternative
 
 Background: Nothing yet
-    Given I am logged in using "demo" "demo1234"
-    And I have access to all teachers and schools
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a teacher-school-association
    Given format "application/json"

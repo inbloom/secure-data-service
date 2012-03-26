@@ -49,7 +49,7 @@ Then /^The students who have an ELL lozenge exist in the API$/ do
   
   students_w_lozenges = getStudentsWithELLLozenge()
   students_w_lozenges.each do |student_id|
-    urlHeader = makeUrlAndHeaders('get',false ,"/students/"+student_id, @sessionId, @format)
+    urlHeader = makeUrlAndHeaders('get' ,"/students/"+student_id, @sessionId, @format)
     @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
     @result = JSON.parse(@res.body)
     assert(@result["limitedEnglishProficiency"].to_s == "Yes")

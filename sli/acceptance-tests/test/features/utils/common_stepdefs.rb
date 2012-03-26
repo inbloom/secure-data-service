@@ -1,11 +1,9 @@
 
-Given /^I am logged in using "([^\"]*)" "([^\"]*)"$/ do |user, pass|
+Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
   @passwd = pass
-end
-
-Given /^I have access to all [^"]*$/ do
-  idpLogin(@user, @passwd)
+  @realm = realm
+  idpRealmLogin(@user, @passwd, @realm)
   assert(@sessionId != nil, "Session returned was nil")
 end
 
