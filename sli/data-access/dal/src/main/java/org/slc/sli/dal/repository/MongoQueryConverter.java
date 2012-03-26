@@ -83,7 +83,7 @@ public class MongoQueryConverter {
         }
         
         if (idList == null) {
-            throw new RuntimeException("Invalid paramater for IDs");
+            throw new QueryParseException("Invalid paramater for IDs", rawValues.toString());
         }
         
         //conversion
@@ -115,7 +115,7 @@ public class MongoQueryConverter {
                     return Criteria.where(prefixKey(neutralCriteria)).is(neutralCriteria.getValue());
                 } else {
                     try {
-                        return Criteria.where(prefixKey(neutralCriteria)).is((List<Object>) neutralCriteria.getValue());
+                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
                     } catch (ClassCastException cce) {
                         throw new QueryParseException("Invalid list of equals values " + neutralCriteria.getValue(), neutralCriteria.toString());
                     }
@@ -189,7 +189,7 @@ public class MongoQueryConverter {
      * @param neutralCriteria
      * @return
      */
-    private String prefixKey(NeutralCriteria neutralCriteria) {
+    protected static String prefixKey(NeutralCriteria neutralCriteria) {
         String key = neutralCriteria.getKey();
         
         if (key.equals(MONGO_ID)) {

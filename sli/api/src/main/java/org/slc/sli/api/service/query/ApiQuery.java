@@ -30,27 +30,36 @@ public class ApiQuery extends NeutralQuery {
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
 
-        stringBuffer.append("offset=" + super.offset);
-        stringBuffer.append("&limit=" + super.limit);
+        stringBuffer.append("offset=");
+        stringBuffer.append(super.offset);
+        stringBuffer.append("&limit=");
+        stringBuffer.append(super.limit);
         
         if (super.includeFields != null) {
-            stringBuffer.append("&includeFields=" + super.includeFields);
+            stringBuffer.append("&includeFields=");
+            stringBuffer.append(super.includeFields);
         }
         
         if (super.excludeFields != null) {
-            stringBuffer.append("&excludeFields=" + super.excludeFields);
+            stringBuffer.append("&excludeFields=");
+            stringBuffer.append(super.excludeFields);
         }
         
         if (super.sortBy != null) {
-            stringBuffer.append("&sortBy=" + super.sortBy);
+            stringBuffer.append("&sortBy=");
+            stringBuffer.append(super.sortBy);
         }
         
         if (super.sortOrder != null) {
-            stringBuffer.append("&sortOrder=" + super.sortOrder);
+            stringBuffer.append("&sortOrder=");
+            stringBuffer.append(super.sortOrder);
         }
         
         for (NeutralCriteria neutralCriteria : super.queryCriteria) {
-            stringBuffer.append("&" + neutralCriteria.getKey() + neutralCriteria.getOperator() + neutralCriteria.getValue());
+            stringBuffer.append("&");
+            stringBuffer.append(neutralCriteria.getKey());
+            stringBuffer.append(neutralCriteria.getOperator());
+            stringBuffer.append(neutralCriteria.getValue());
         }
         
         return stringBuffer.toString();
