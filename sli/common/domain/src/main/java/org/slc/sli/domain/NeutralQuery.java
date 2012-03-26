@@ -11,22 +11,22 @@ import java.util.List;
  */
 public class NeutralQuery {
 
-    private String includeFields;
-    private String excludeFields;
-    private int offset;
-    private int limit;
-    private String sortBy;
-    private SortOrder sortOrder;
+    protected String includeFields;
+    protected String excludeFields;
+    protected int offset;
+    protected int limit;
+    protected String sortBy;
+    protected SortOrder sortOrder;
 
     /**
      *  A list of all criteria that make up this query 
      */
-    private List<NeutralCriteria> queryCriteria;
+    protected List<NeutralCriteria> queryCriteria;
 
     /**
      *  A list of all criteria that make up this query 
      */
-    private List<NeutralQuery> orQueries;
+    protected List<NeutralQuery> orQueries;
     
     /**
      * Sort order enumeration

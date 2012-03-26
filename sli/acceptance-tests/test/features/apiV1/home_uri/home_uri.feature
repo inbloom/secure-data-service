@@ -24,29 +24,3 @@ Scenario: Home URI returns valid links for user 'demo'
     And I should receive a link named "self" with URI "/v1/staff/<'demo' ID>"
     And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/v1/staff/<'demo' ID>/staffEducationOrganizationAssociations"
     And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'demo' ID>/staffEducationOrganizationAssociations/educationOrganizations"
-
-@wip
-Scenario: Home URI returns valid links for user 'aggregator'
-  Given I am logged in using "aggregator" "aggregator1234"
-    And I have access to all links
-    And format "application/json"
-  When I navigate to GET "/v1/home"
-  Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1/staff/<'aggregator' ID>"
-    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/v1/staff/<'aggregator' ID>/staffEducationOrganizationAssociations"
-    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'aggregator' ID>/staffEducationOrganizationAssociations/educationOrganizations"
-
-@wip
-Scenario: Home URI returns appropriate links for 'baduser'
-  Given I am logged in using "baduser" "baduser1234"
-    And I have access to all links
-    And format "application/json"
-  When I navigate to GET "/v1/home"
-  Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1/staff/<'baduser' ID>"
-    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations"
-    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations/educationOrganizations"
-  #When I navigate to GET "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations"
-  #Then I should receive a return code of 403
-  #When I navigate to GET "/v1/staff/<'baduser' ID>/staffEducationOrganizationAssociations/educationOrganizations"
-  #Then I should receive a return code of 403

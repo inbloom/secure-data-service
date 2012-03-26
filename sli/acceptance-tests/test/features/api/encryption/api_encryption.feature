@@ -74,19 +74,24 @@ Scenario: Sorting on PII across a hop should fail
 	Then I should receive a return code of 200
 
 
-Scenario: Can query PII fields by exact matching
+
+Scenario: Can query PII fields by exact (equals) matching
+ 	Given format "application/json"
+ 		And student Rhonda Delagio exists
+ 		And Ronda Delagio is associated with "<'Krypton Middle School' ID>".
+ 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
+ 	Then I should receive a return code of 200
+ 		And all students should have "name.firstName" equal to "Rhonda"
+
+Scenario: Can query PII fields by exact (not equals) matching
 	Given format "application/json"
 		And student Rhonda Delagio exists
 		And Ronda Delagio is associated with "<'Krypton Middle School' ID>".
-		And parameter "name.firstName" is "Rhonda"
+ 	Given parameter "name.firstName" is not "Rhonda"
 		And parameter "full-entities" is "true"
-	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
-	Then I should receive a return code of 200
-		And all students should have "name.firstName" equal to "Rhonda"
-	Given parameter "name.firstName" is not "Rhonda"
-	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
-	Then I should receive a return code of 200
-		And no student should have "name.firstName" equal to "Rhonda"
+ 	When I navigate to GET "/student-school-associations/<'Krypton Middle School' ID>/targets"
+ 	Then I should receive a return code of 200
+ 		And no student should have "name.firstName" equal to "Rhonda"
 
 Scenario: Can not query PII fields by non-exact matching
 	Given format "application/json"

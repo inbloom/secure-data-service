@@ -2,6 +2,7 @@ package org.slc.sli.api.service.query;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
@@ -24,5 +25,34 @@ public class ApiQuery extends NeutralQuery {
         if (uriInfo != null) {
             ApiQuery.QUERY_CONVERTER.convert(this, uriInfo);
         }
+    }
+    
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("offset=" + super.offset);
+        stringBuffer.append("&limit=" + super.limit);
+        
+        if (super.includeFields != null) {
+            stringBuffer.append("&includeFields=" + super.includeFields);
+        }
+        
+        if (super.excludeFields != null) {
+            stringBuffer.append("&excludeFields=" + super.excludeFields);
+        }
+        
+        if (super.sortBy != null) {
+            stringBuffer.append("&sortBy=" + super.sortBy);
+        }
+        
+        if (super.sortOrder != null) {
+            stringBuffer.append("&sortOrder=" + super.sortOrder);
+        }
+        
+        for (NeutralCriteria neutralCriteria : super.queryCriteria) {
+            stringBuffer.append("&" + neutralCriteria.getKey() + neutralCriteria.getOperator() + neutralCriteria.getValue());
+        }
+        
+        return stringBuffer.toString();
     }
 }

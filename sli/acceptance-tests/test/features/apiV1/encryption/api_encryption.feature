@@ -1,4 +1,3 @@
-@wip
 Feature: Test database encryption.
     As a client application using SLI
     I want to have create, read, update, and delete functionality for a student.
@@ -66,10 +65,9 @@ Scenario: Sorting on PII across a hop should fail
         And parameter "sortOrder" is "descending"
     When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
-    Given parameter "full-entities" is "true"
     When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
-    Given parameter "sort-by" is "studentUniqueStateId"
+    Given parameter "sortBy" is "studentUniqueStateId"
     When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
 

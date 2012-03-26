@@ -1,6 +1,7 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,103 +59,146 @@ public class MongoQueryConverter {
      *
      */
     protected interface MongoCriteriaGenerator {
-        public Criteria generateCriteria(String key, Object value);
+        public Criteria generateCriteria(NeutralCriteria neutralCriteria);
     }
     
-    private Map<String, MongoCriteriaGenerator> operatorImplementations = new HashMap<String, MongoCriteriaGenerator>();
+    private Map<String, MongoCriteriaGenerator> operatorImplementations;
+    
+    
+    @SuppressWarnings("unchecked")
+    private List<Object> convertIds(Object rawValues) {
+        List<String> idList = null;
+        
+        //type checking
+        if (rawValues instanceof List<?>) {
+            try {
+                idList = (List<String>) rawValues;
+            } catch (ClassCastException cce) {
+                throw new RuntimeException("IDs must be List<String>");
+            }
+            
+        } else if (rawValues instanceof String) {
+            String ids = (String) rawValues;
+            idList = Arrays.asList(ids.split(","));
+        }
+        
+        if (idList == null) {
+            throw new RuntimeException("Invalid paramater for IDs");
+        }
+        
+        //conversion
+        List<Object> databaseIds = new ArrayList<Object>();
+        
+        for (String id : idList) {
+            Object databaseId = idConverter.toDatabaseId(id);
+            if (databaseId == null) {
+                LOG.debug("Unable to process id {}", new Object[] { id });
+            }
+            databaseIds.add(databaseId);
+        }
+        
+        return databaseIds;
+    }
     
     public MongoQueryConverter() {
-
+        
+        this.operatorImplementations = new HashMap<String, MongoCriteriaGenerator>();
+        
         // =
         this.operatorImplementations.put("=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                if (key.equals(MONGO_ID)) {
-                    List<Object> databaseIds = new ArrayList<Object>();
-                    String ids = (String) value;
-                    for (String id : ids.split(",")) {
-                        Object databaseId = idConverter.toDatabaseId(id);
-                        if (databaseId == null) {
-                            LOG.debug("Unable to process id {}", new Object[] { id });
-                        }
-                        databaseIds.add(databaseId);
-                    }
-                    return Criteria.where(MONGO_ID).in(databaseIds);
+            @SuppressWarnings("unchecked")
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                Object value = neutralCriteria.getValue();
+                if (neutralCriteria.getKey().equals(MONGO_ID)) {
+                    return Criteria.where(MONGO_ID).in(convertIds(value));
+                } else if (value instanceof String) {
+                    return Criteria.where(prefixKey(neutralCriteria)).is(neutralCriteria.getValue());
                 } else {
-                    return Criteria.where(MONGO_BODY + key).is(value);
+                    try {
+                        return Criteria.where(prefixKey(neutralCriteria)).is((List<Object>) neutralCriteria.getValue());
+                    } catch (ClassCastException cce) {
+                        throw new QueryParseException("Invalid list of equals values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                    }
                 }
             }
         });
         
         // =
         this.operatorImplementations.put("in", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                if (key.equals(MONGO_ID)) {
-                    try {
-                        
-                        List<String> rawIds = (List<String>) value;
-                        List<Object> databaseIds = new ArrayList<Object>();
-                        for (String id : rawIds) {
-                            Object databaseId = idConverter.toDatabaseId(id);
-                            if (databaseId == null) {
-                                LOG.debug("Unable to process id {}", new Object[] { id });
-                            }
-                            databaseIds.add(databaseId);
-                        }
-                        return Criteria.where(MONGO_ID).in(databaseIds);
-                    } catch (ClassCastException cce) {
-                        LOG.debug("input not a list: {}", value);
-                        return Criteria.where(MONGO_ID).in(value);
-                    } catch (Exception e) {
-                        LOG.debug("input not a list2: {}{}", value, e);
-                        return Criteria.where(MONGO_ID).in(value);
-                    }
+            @SuppressWarnings("unchecked")
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                if (neutralCriteria.getKey().equals(MONGO_ID)) {
+                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
                 } else {
-                    return Criteria.where(MONGO_BODY + key).in((List<Object>) value);
-                }
-            }
+                     try {
+                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
+                     } catch (ClassCastException cce) {
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                     }
+                 }
+             }
         });
 
         // >=
         this.operatorImplementations.put(">=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).gte(value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).gte(neutralCriteria.getValue());
             }
         });
 
         // <=
         this.operatorImplementations.put("<=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).lte(value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).lte(neutralCriteria.getValue());
             }
         });
         
         // !=
         this.operatorImplementations.put("!=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).ne(value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).ne(neutralCriteria.getValue());
             }
         });
         
         // =~
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).regex((String) value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
             }
         });
         
         // <
         this.operatorImplementations.put("<", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).lt(value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).lt(neutralCriteria.getValue());
             }
         });
         
         // >
         this.operatorImplementations.put(">", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(String key, Object value) {
-                return Criteria.where(MONGO_BODY + key).gt(value);
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+                    return Criteria.where(prefixKey(neutralCriteria)).gt(neutralCriteria.getValue());
             }
         });
+    }
+    
+    /**
+     * Returns the provided string with body. appended if the key is not "_id" and the criteria allows a prefix.
+     * 
+     * 
+     * @param neutralCriteria
+     * @return
+     */
+    private String prefixKey(NeutralCriteria neutralCriteria) {
+        String key = neutralCriteria.getKey();
+        
+        if (key.equals(MONGO_ID)) {
+            return key;
+        } else if (neutralCriteria.canBePrefixed()) {
+            return MONGO_BODY + key;
+        } else {
+            return key;
+        }
     }
     
     /**
@@ -215,6 +259,7 @@ public class MongoQueryConverter {
                 String key = neutralCriteria.getKey();
                 String operator = neutralCriteria.getOperator();
                 Object value = neutralCriteria.getValue();
+                Object originalValue = value;
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
                 
                 if (fieldSchema != null) {
@@ -230,7 +275,9 @@ public class MongoQueryConverter {
                     }
                 }
                 
-                mongoQuery.addCriteria(this.operatorImplementations.get(operator).generateCriteria(key, value));
+                neutralCriteria.setValue(value);
+                mongoQuery.addCriteria(this.operatorImplementations.get(operator).generateCriteria(neutralCriteria));
+                neutralCriteria.setValue(originalValue);
             }
             
             Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());

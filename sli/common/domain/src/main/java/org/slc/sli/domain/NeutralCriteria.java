@@ -65,6 +65,18 @@ public class NeutralCriteria {
         return this.value;
     }
     
+    public void setKey(String key) {
+        this.key = key;
+    }
+    
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+    
+    public void setValue(Object value) {
+        this.value = value;
+    }
+    
     public boolean canBePrefixed() {
         return this.canBePrefixed;
     }

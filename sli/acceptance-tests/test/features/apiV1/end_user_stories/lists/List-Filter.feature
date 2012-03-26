@@ -1,4 +1,3 @@
-@wip
 Feature: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 
 This is the data I am assuming for these tests

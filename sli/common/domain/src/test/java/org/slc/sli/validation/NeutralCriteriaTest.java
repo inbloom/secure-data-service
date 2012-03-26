@@ -51,6 +51,21 @@ public class NeutralCriteriaTest {
         assertFalse(neutralCriteria1.equals(neutralCriteria7));
 
     }
+    
+    @Test
+    public void testGettersAndSetters() {
+        NeutralCriteria neutralCriteria = new NeutralCriteria("key", "=", "value");
+        String newKey = "newKey";
+        String newOperator = "!=";
+        Object newValue = "newValue";
+        
+        neutralCriteria.setKey(newKey);
+        assertTrue(neutralCriteria.getKey().equals(newKey));
+        neutralCriteria.setOperator(newOperator);
+        assertTrue(neutralCriteria.getOperator().equals(newOperator));
+        neutralCriteria.setValue(newValue);
+        assertTrue(neutralCriteria.getValue().equals(newValue));
+    }
 
     @Test(expected = RuntimeException.class)
     public void testEmptyString() {

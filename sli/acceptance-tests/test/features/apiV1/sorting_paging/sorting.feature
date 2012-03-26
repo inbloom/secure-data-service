@@ -16,14 +16,15 @@ Scenario: Sorting a collection of student school association links by entryGrade
 		And the link at index 2 should point to an entity with id "4e044247-4cc0-49fa-900d-80064614060c"
 
 
-Scenario: Sorting a collection of student entities links obtained via a hop by firstName, descending
-	Given format "application/json"
-		And parameter "sortBy" is "name.firstName"
-		And parameter "sortOrder" is "descending"
-	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
-	Then I should receive a collection
-		And the link at index 0 should point to an entity with id "e0e99028-6360-4247-ae48-d3bb3ecb606a"
-		And the link at index 1 should point to an entity with id "1aaad90e-02d0-4346-a3c4-a42747b9b050"
+Scenario: Sorting a collection of entities obtained via a hop using a (nested) field, descending
+    Given format "application/json"
+    And parameter "sortBy" is "name.firstName"
+    And parameter "sortOrder" is "descending"
+    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+    Then I should receive a return code of 200
+    And I should receive a collection
+    And the link at index 0 should have "name.firstName" equal to "John"
+    And the link at index 1 should have "name.firstName" equal to "Jane"
 
 Scenario: Sorting a collection of full student school association entities
 	Given format "application/json"
@@ -35,14 +36,22 @@ Scenario: Sorting a collection of full student school association entities
 		And the link at index 1 should have "entryGradeLevel" equal to "Sixth grade"
 		And the link at index 2 should have "entryGradeLevel" equal to "Second grade"
 
-Scenario: Sorting a collection of full student entities obtained via a hop
-	Given format "application/json"
-		And parameter "sortBy" is "name.firstName"
-		And parameter "sortOrder" is "ascending"
-	When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
-	Then I should receive a collection
-		And the link at index 0 should have "name.firstName" equal to "Darkseid"
-		And the link at index 1 should have "name.firstName" equal to "Sybill"
+Scenario: Validate PII cannot be sorted against
+    Given format "application/json"
+    And parameter "sortBy" is "name.firstName"
+    And parameter "sortOrder" is "ascending"
+    When I navigate to GET "/v1/schools/<'Krypton Middle School' ID>/studentSchoolAssociations/students"
+    Then I should receive a return code of 400
+
+Scenario: Sorting a collection of staff through a hop (from an ed-org)
+    Given format "application/json"
+    And parameter "sortBy" is "name.firstName"
+    And parameter "sortOrder" is "ascending"
+    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+    Then I should receive a return code of 200
+    And I should receive a collection
+    And the link at index 0 should have "name.firstName" equal to "Jane"
+    And the link at index 1 should have "name.firstName" equal to "John"
 
 Scenario: Paging request the first two results from an API request
     Given format "application/json"
