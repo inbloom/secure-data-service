@@ -9,7 +9,7 @@ import org.springframework.context.MessageSourceAware;
  * @author okrook
  *
  */
-public abstract class SimpleValidator<T> extends org.slc.sli.ingestion.validation.SimpleValidator<T> implements MessageSourceAware {
+public abstract class CollectionValidatorSpring<T> extends org.slc.sli.ingestion.validation.CollectionValidator<T> implements MessageSourceAware {
 
     private MessageSource messageSource;
 
