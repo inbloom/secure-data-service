@@ -29,9 +29,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
@@ -108,13 +106,11 @@ public class OAuthTokenUtilTest {
         scopes.add("TEST_SCOPE1");
         scopes.add("TEST_SCOPE2");
         Date expiration = new Date();
-        OAuth2RefreshToken refresh = new OAuth2RefreshToken("foo");
         
         OAuth2AccessToken original = new OAuth2AccessToken(value);
         original.setExpiration(expiration);
         original.setTokenType(type);
         original.setScope(scopes);
-        original.setRefreshToken(refresh);
         
         EntityBody body = util.serializeAccessToken(original);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
@@ -125,39 +121,8 @@ public class OAuthTokenUtilTest {
         assertEquals("checking type", type, reconst.getTokenType());
         assertEquals("checking expiration", expiration, reconst.getExpiration());
         assertTrue("checking scopes", reconst.getScope().containsAll(scopes));
-        assertEquals("checking refresh", refresh.getValue(), reconst.getRefreshToken().getValue());
     }
     
-    @Test
-    public void testPlainRefreshTokenSerialization() {
-        String value = "ABCDEFG";
-        OAuth2RefreshToken refresh = new OAuth2RefreshToken(value);
-        
-        EntityBody body = OAuthTokenUtil.serializeRefreshToken(refresh);
-        DBObject obj = BasicDBObjectBuilder.start(body).get();
-        Map data = (Map) JSON.parse(JSON.serialize(obj));
-        OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
-        
-        assertEquals("checking value", value, refresh.getValue());
-        assertFalse("Making sure we didn't get an expiring token back", 
-                reconst instanceof ExpiringOAuth2RefreshToken);
-    }
-    
-    @Test
-    public void testExpiringRefreshTokenSerialization() {
-        String value = "ABCDEFG";
-        Date expiration = new Date();
-        ExpiringOAuth2RefreshToken refresh = new ExpiringOAuth2RefreshToken(value, expiration);
-        
-        EntityBody body = OAuthTokenUtil.serializeRefreshToken(refresh);
-        DBObject obj = BasicDBObjectBuilder.start(body).get();
-        Map data = (Map) JSON.parse(JSON.serialize(obj));
-        OAuth2RefreshToken reconst = OAuthTokenUtil.deserializeRefreshToken(data);
-        
-        assertEquals("checking value", value, refresh.getValue());
-        assertTrue("Ensuring type", reconst instanceof ExpiringOAuth2RefreshToken);
-        assertEquals("checking expiration", expiration, ((ExpiringOAuth2RefreshToken) reconst).getExpiration());
-    }
 
     @Test
     public void testRemoveExpiredTokens() throws Exception {
@@ -173,7 +138,7 @@ public class OAuthTokenUtilTest {
 
 
     }
-    
+
     private EntityBody createAccessToken(boolean expired) {
         EntityBody body = new EntityBody();
         long time = new Date().getTime();
@@ -214,7 +179,7 @@ public class OAuthTokenUtilTest {
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, creds);
         OAuth2Authentication auth = new OAuth2Authentication(client, user);
         
-        EntityBody body = OAuthTokenUtil.serializeOauth2Auth(auth);
+        EntityBody body = util.serializeOauth2Auth(auth);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
         Map data = (Map) JSON.parse(JSON.serialize(obj));
         OAuth2Authentication reconst = util.createOAuth2Authentication(data);

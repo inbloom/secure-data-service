@@ -29,7 +29,7 @@ And I was redirected to the SLI IDP Login page
 And I am user "demo"
 And "demo" is valid "SLI IDP" user
 When I enter "demo" in the username text field
-And I enter "demo1234" in the password text field
+And I enter "changeit" in the password text field
 And I click the Go button
 Then I am now authenticated to SLI IDP
 And I should be redirected to the SLI Default Roles Admin Page

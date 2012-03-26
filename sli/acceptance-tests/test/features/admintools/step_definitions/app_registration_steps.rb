@@ -21,6 +21,10 @@ When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1,
   @driver.find_element(:id, "IDToken1").send_keys arg1
   @driver.find_element(:id, "IDToken2").send_keys arg2
   @driver.find_element(:name, "Login.Submit").click
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end  
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do

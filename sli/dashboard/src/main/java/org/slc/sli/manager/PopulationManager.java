@@ -213,7 +213,6 @@ public class PopulationManager implements Manager {
         String studentId = (String) studentIdObj;
         // TODO: start using periods
         String period = config.getParams() == null ? null : (String) config.getParams().get("daysBack");
-        DateTime now = new DateTime();
         int daysBack = (period == null) ? 360 : Integer.parseInt(period);
         MutableDateTime daysBackTime = new DateTime().toMutableDateTime();
         daysBackTime.addDays(-1 * daysBack);

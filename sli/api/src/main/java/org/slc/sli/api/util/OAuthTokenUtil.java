@@ -8,17 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
@@ -29,6 +18,14 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
@@ -54,16 +51,11 @@ public class OAuthTokenUtil {
      * information.
      */
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = "oauth_access_token";
-    private static final String OAUTH_REFRESH_TOKEN_COLLECTION = "oauth_refresh_token";
+    
     /**
      * Lifetime (duration of validity) of an Access Token in seconds.
      */
     private static final int ACCESS_TOKEN_VALIDITY = 1800;
-
-    /**
-     * Lifetime (duration of validity) of a Refresh Token in seconds.
-     */
-    private static final int REFRESH_TOKEN_VALIDITY = 3600;
 
 
     /**
@@ -76,10 +68,6 @@ public class OAuthTokenUtil {
         return OAUTH_ACCESS_TOKEN_COLLECTION;
     }
 
-    public static String getOAuthRefreshTokenCollectionName() {
-        return OAUTH_REFRESH_TOKEN_COLLECTION;
-    }
-
     /**
      * Returns true if the current time (in ms) is greater than the specified
      * expiration date (indicating that expiration is true).
@@ -90,16 +78,6 @@ public class OAuthTokenUtil {
      */
     public static boolean isTokenExpired(long expiration) {
         return System.currentTimeMillis() > expiration;
-    }
-
-
-    /**
-     * Returns the validity of a refresh token in seconds.
-     *
-     * @return Integer representing the number of seconds that the refresh token is valid for.
-     */
-    public static int getRefreshTokenValidity() {
-        return REFRESH_TOKEN_VALIDITY;
     }
 
     /**
@@ -172,7 +150,7 @@ public class OAuthTokenUtil {
      * @param auth
      * @return
      */
-    public static EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
+    public EntityBody serializeOauth2Auth(OAuth2Authentication auth) {
         EntityBody body = new EntityBody();
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         body.put("realm", principal.getRealm());
@@ -192,45 +170,23 @@ public class OAuthTokenUtil {
         return body;
     }
 
-    public static EntityBody serializeAccessToken(OAuth2AccessToken token) {
+    public EntityBody serializeAccessToken(OAuth2AccessToken token) {
         EntityBody body = new EntityBody();
         body.put("type", token.getTokenType());
         body.put("expiration", token.getExpiration());
         body.put("value", token.getValue());
         body.put("scope", token.getScope());
-        body.put("refreshToken", serializeRefreshToken(token.getRefreshToken()));
         return body;
     }
 
-    public static OAuth2AccessToken deserializeAccessToken(Map data) {
+    public OAuth2AccessToken deserializeAccessToken(Map data) {
         OAuth2AccessToken token = new OAuth2AccessToken((String) data.get("value"));
         token.setExpiration((Date) data.get("expiration"));
         token.setTokenType((String) data.get("type"));
         token.setScope(listToSet((List) data.get("scope")));
-        token.setRefreshToken(deserializeRefreshToken((Map) data.get("refreshToken")));
         return token;
     }
 
-    public static EntityBody serializeRefreshToken(OAuth2RefreshToken token) {
-        EntityBody body = new EntityBody();
-        body.put("value", token.getValue());
-        if (token instanceof ExpiringOAuth2RefreshToken) {
-            ExpiringOAuth2RefreshToken exp = (ExpiringOAuth2RefreshToken) token;
-            body.put("expiration", exp.getExpiration());
-        }
-        return body;
-    }
-
-    public static OAuth2RefreshToken deserializeRefreshToken(Map data) {
-        OAuth2RefreshToken toReturn;
-        if (data.containsKey("expiration")) {
-            toReturn = new ExpiringOAuth2RefreshToken((String) data.get("value"),
-                    (Date) data.get("expiration"));
-        } else {
-            toReturn = new OAuth2RefreshToken((String) data.get("value"));
-        }
-        return toReturn;
-    }
 
     private static Set<String> listToSet(List list) {
         HashSet<String> set = new HashSet<String>();
