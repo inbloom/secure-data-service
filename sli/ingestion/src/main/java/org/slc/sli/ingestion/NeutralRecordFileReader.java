@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,10 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.avro.file.DataFileReader;
+import org.apache.avro.file.SeekableByteArrayInput;
+import org.apache.avro.file.SeekableFileInput;
+import org.apache.avro.file.SeekableInput;
 import org.apache.avro.generic.GenericData;
-import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -34,9 +36,17 @@ public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
 
     protected ObjectMapper jsonObjectMapper;
 
+    public NeutralRecordFileReader(byte[] data) throws IOException {
+        this(new SeekableByteArrayInput(data));
+    }
+    
     public NeutralRecordFileReader(File file) throws IOException {
+        this(new SeekableFileInput(file));
+    }
+    
+    public NeutralRecordFileReader(SeekableInput input) throws IOException {
         this.datum = new GenericDatumReader<GenericRecord>();
-        this.reader = new DataFileReader<GenericRecord>(file, datum);
+        this.reader = new DataFileReader<GenericRecord>(input, datum);
         this.avroRecord = new GenericData.Record(reader.getSchema());
 
         this.jsonObjectMapper = new ObjectMapper();
