@@ -168,6 +168,21 @@ public class ApplicationResource {
     @PUT
     @Path("{" + UUID + "}") 
     public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app) {
+        EntityBody oldApp = service.get(uuid);
+        String clientSecret = (String) app.get(CLIENT_SECRET);
+        String clientId = (String) app.get(CLIENT_ID);
+        String id = (String) app.get("id");
+        
+        if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
+                && (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
+                && (id != null && id.equals(oldApp.get("id")))) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Cannot modify attribute (id|client_secret|client_id) specified in PUT.  " 
+            + "Remove attribute and try again.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+
+        }
+        
         boolean status = service.update(uuid, app);
         if (status) {
             return Response.status(Status.NO_CONTENT).build();
