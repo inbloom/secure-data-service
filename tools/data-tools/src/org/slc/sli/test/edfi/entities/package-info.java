@@ -5,5 +5,5 @@
 // Generated on: 2012.02.12 at 04:54:37 PM EST
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://ed-fi.org/0100", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.UNQUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://ed-fi.org/0100", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.slc.sli.test.edfi.entities;
