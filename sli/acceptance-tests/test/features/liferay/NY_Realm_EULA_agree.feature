@@ -23,10 +23,9 @@ Navigate to dashboard link successfully using New York Realm under 'Select an Ap
     Then I should be on the home page
     Then I should see " Dashboards"
     Then I follow "Dashboards"
+    Then I select "New York Realm"
+    #Then I click "Go"
+    Then I should see "             Select an application         "
     Then I should see "Learning Map"
     Then I should see "Dashboard"
-    #Then I select "New York Realm"
-    #Then I click "Go"
-    #Then I should see "             Select an application         "
-     
     
