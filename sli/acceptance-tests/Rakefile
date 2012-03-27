@@ -931,6 +931,7 @@ end
 desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
+    "session" => "session_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",

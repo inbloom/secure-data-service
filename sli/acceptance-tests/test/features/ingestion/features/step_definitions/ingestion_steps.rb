@@ -23,7 +23,11 @@ Given /^I am using local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  @landing_zone_path = INGESTION_LANDING_ZONE
+  if INGESTION_LANDING_ZONE.rindex('/') == -1
+    @landing_zone_path = INGESTION_LANDING_ZONE
+  else
+    @landing_zone_path = INGESTION_LANDING_ZONE+'/'
+  end
   puts "Landing Zone = " + @landing_zone_path
 
   # clear out LZ before proceeding

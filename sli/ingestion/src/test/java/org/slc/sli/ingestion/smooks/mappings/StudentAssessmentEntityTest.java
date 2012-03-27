@@ -78,7 +78,7 @@ public class StudentAssessmentEntityTest {
             NeutralRecord studentAssessmentNeutralRecord) {
         
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-        assertEquals("ID005", studentAssessmentNeutralRecord.getLocalId());
+        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
         
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
