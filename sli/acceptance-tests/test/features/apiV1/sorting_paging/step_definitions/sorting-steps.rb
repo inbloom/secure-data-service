@@ -9,6 +9,7 @@ Transform /^<(.+)>$/ do |template|
   id = "714c1304-8a04-4e23-b043-4ad80eb60992" if template == "'Alfonso' ID"
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
   id = "d431ba09-c8ac-4139-beac-be28220633e6" if template == "'Krypton Middle School' ID"
+  id = "4f0c9368-8488-7b01-0000-000059f9ba56" if template == "'Gotham City School District ed-org' ID"
   id
 end
 
