@@ -102,7 +102,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
+                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+                        PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -116,7 +117,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param key
      *            field to be queried against
      * @param value
-     *            expected value to be found in the key
+     *            comma separated list of values to be found in the key
      * @param headers
      *            HTTP header information (which includes request headers)
      * @param uriInfo
@@ -130,8 +131,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from {} where {} = {}", new Object[] {
-                        entityDef.getStoredCollectionName(), key, value});
+                logger.debug("Attempting to read from {} where {} = {}",
+                        new Object[] { entityDef.getStoredCollectionName(), key, value });
                 
                 long totalCount = 0;
                 if (entityDef instanceof AssociationDefinition) {
@@ -140,7 +141,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-                //neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
+                // neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
                 List<String> valueList = new ArrayList<String>(Arrays.asList(value.split(",")));
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 
@@ -155,7 +156,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
                 
-                
                 Response.ResponseBuilder responseBuilder;
                 responseBuilder = Response.ok(results);
                 return addPagingHeaders(responseBuilder, totalCount, uriInfo).build();
@@ -166,7 +166,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
-    
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
      * uses "idkey" field's value to query "resolutionResourceName" against the ID field.
@@ -176,7 +175,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param key
      *            field to be queried against (when searching resources)
      * @param value
-     *            expected value to be found in the key
+     *            comma separated list of expected values to be found for the key
      * @param idKey
      *            field in resource that contains the ID to be resolved
      * @param resolutionResourceName
@@ -200,14 +199,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                logger.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
+                logger.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
                 logger.debug("Then for each result, ");
-                logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
-                        resource2, resource1, idKey});
+                logger.debug(" going to read from {} where \"_id\" = {}.{}",
+                        new Object[] { resource2, resource1, idKey });
                 
-
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
-                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value, idKey);
+                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value,
+                        idKey);
                 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -413,16 +412,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     /**
-     * Creates a query that looks up an association where key = value and only returns the specified field.
+     * Creates a query that looks up an association where key = value and only returns the specified
+     * field.
      * A convenience method for querying for associations when resolving their endpoints.
      * 
      * @param endpointNeutralQuery
      * @param key
      * @param value
+     *            a comma seperated list of values
      * @param includeField
      * @return
      */
-    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value, String includeField) {
+    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value,
+            String includeField) {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
