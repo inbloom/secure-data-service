@@ -77,7 +77,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
         factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
+        EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT, ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.DISCIPLINE_ACTION, ResourceNames.DISCIPLINE_ACTIONS).buildAndRegister(this);
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION, ResourceNames.EDUCATION_ORGANIZATIONS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
@@ -185,6 +186,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getStudentParentAssociations").calledFromTarget("getStudentParentAssociations")
                 .build();
         addDefinition(studentParentAssociation);
+        
+        AssociationDefinition studentDisciplineIncidentAssociation = factory.makeAssoc(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION)
+                .exposeAs(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION)
+                .from(student, "getStudent", "getStudents").to(disciplineIncident, "getDisciplineIncident", "getDisciplineIncidents")
+                .calledFromSource("getStudentDisciplineIncidentAssociations").calledFromTarget("getStudentDisciplineIncidentAssociations")
+                .build();
+        addDefinition(studentDisciplineIncidentAssociation);
         
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
