@@ -1,4 +1,4 @@
-edfi-xml,student,InterchangeStudent.xml,4b61ed18213fd55d46fbd3845a47fe89
+edfi-xml,student,InterchangeStudent.xml,14dcd2e1527406b59329f55a1c98da2f
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,60d77c960760a65f29948b37eac914e8
 edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,6432bb1b22b049f99133ed49c7c50061
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,b9766ca1fad2dd8f69a29e878823fcc7
@@ -9,4 +9,5 @@ edfi-xml,StudentAssessment,InterchangeStudentAssessment-Lkim8thgrade.xml,c916a98
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-Rbraverman1stgrade.xml,a3bfcc70e0ed922053817d9e7a230e5b
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-DIBELS.xml,fb0f12aeac92535fd4cc832fc6b77e5f
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-ISAT.xml,4fa388e2a9840759d30fc8a8b2c28e1c
-
+edfi-xml,Attendance,InterchangeAttendance.xml,24315084d05880e00f628afd2ac4027a
+edfi-xml,Parent,InterchangeStudentParent.xml,23cde0e6053ef691ab4a8fd5b6150e2b
