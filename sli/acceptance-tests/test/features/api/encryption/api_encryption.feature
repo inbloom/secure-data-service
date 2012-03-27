@@ -19,45 +19,45 @@ Scenario: Student data created via the API should be encrypted
    		And the "sex" should be "Female"
    		And the "studentUniqueStateId" should be "530425896"
 	When I find a mongo record in "student" with "body.studentUniqueStateId" equal to "530425896"
-		# UNENCRYPTED FIELDS
-		And the field "body.studentUniqueStateId" has value "530425896"
-		And the field "body.cohortYears[0].schoolYear" has value "2010-2011"
-		And the field "body.cohortYears[0].cohortYearType" has value "First grade"
-		And the field "body.studentIndicators[0].indicatorName" has value "At risk"
-		And the field "body.studentIndicators[0].indicator" has value "At risk"
-		# ENCRYPTED FIELDS
-		And the field "body.name.firstName" with value "Rhonda" is encrypted
-		And the field "body.name.middleName" with value "Shannon" is encrypted
-		And the field "body.name.lastSurname" with value "Delgado" is encrypted
-		And the field "body.otherName[0].firstName" with value "Julie" is encrypted
-		And the field "body.otherName[0].middleName" with value "Wren" is encrypted
-		And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
-		And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
-		And the field "body.sex" with value "Female" is encrypted
-		And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
-		And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
-		And the field "body.address[0].city" with value "Durham" is encrypted
-		And the field "body.address[0].postalCode" with value "27701" is encrypted
-		And the field "body.address[0].stateAbbreviation" with value "NC" is encrypted
-		And the field "body.telephone[0].telephoneNumber" with value "919-555-8765" is encrypted
-		And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
-		And the field "body.hispanicLatinoEthnicity" with value "false" is encrypted
-		And the field "body.oldEthnicity" with value "Black, Not Of Hispanic Origin" is encrypted
-		And the field "body.race[0]" with value "Black - African American" is encrypted
-		And the field "body.economicDisadvantaged" with value "false" is encrypted
-		And the field "body.schoolFoodServicesEligibility" with value "Reduced price" is encrypted
-		And the field "body.studentCharacteristics[0].characteristic" with value "Parent in Military" is encrypted
-		And the field "body.studentCharacteristics[0].beginDate" with value "2000-01-28" is encrypted
-		And the field "body.limitedEnglishProficiency" with value "NotLimited" is encrypted
-		And the field "body.languages[0]" with value "English" is encrypted
-		And the field "body.homeLanguages[0]" with value "English" is encrypted
-		And the field "body.disabilities[0]" with value "Other Health Impairment" is encrypted
-		And the field "body.section504Disabilities[0]" with value "Medical Condition" is encrypted
-		And the field "body.displacementStatus" with value "Slightly to the right" is encrypted
-		And the field "body.learningStyles.visualLearning" with value "33" is encrypted
-		And the field "body.learningStyles.auditoryLearning" with value "33" is encrypted
-		And the field "body.learningStyles.tactileLearning" with value "33" is encrypted
-		And the field "body.loginId" with value "rsd" is encrypted
+        # UNENCRYPTED FIELDS
+        And the field "body.studentUniqueStateId" has value "530425896"
+        And the field "body.hispanicLatinoEthnicity" has value "false"
+        And the field "body.oldEthnicity" has value "Black, Not Of Hispanic Origin"
+        And the field "body.race[0]" has value "Black - African American"
+        And the field "body.economicDisadvantaged" has value "false"
+        And the field "body.schoolFoodServicesEligibility" has value "Reduced price"
+        And the field "body.studentCharacteristics[0].characteristic" has value "Parent in Military"
+        And the field "body.studentCharacteristics[0].beginDate" has value "2000-10-01"
+        And the field "body.limitedEnglishProficiency" has value "NotLimited"
+        And the field "body.languages[0]" has value "English"
+        And the field "body.homeLanguages[0]" has value "English"
+        And the field "body.disabilities[0].disability" has value "Other Health Impairment"
+        And the field "body.section504Disabilities[0]" has value "Medical Condition"
+        And the field "body.displacementStatus" has value "Slightly to the right"
+        And the field "body.learningStyles.visualLearning" has value "33"
+        And the field "body.learningStyles.auditoryLearning" has value "33"
+        And the field "body.learningStyles.tactileLearning" has value "33"
+        And the field "body.cohortYears[0].schoolYear" has value "2010-2011"
+        And the field "body.cohortYears[0].cohortYearType" has value "First grade"
+        And the field "body.studentIndicators[0].indicatorName" has value "At risk"
+        And the field "body.studentIndicators[0].indicator" has value "At risk"
+        # ENCRYPTED FIELDS
+        And the field "body.name.firstName" with value "Rhonda" is encrypted
+        And the field "body.name.middleName" with value "Shannon" is encrypted
+        And the field "body.name.lastSurname" with value "Delgado" is encrypted
+        And the field "body.otherName[0].firstName" with value "Julie" is encrypted
+        And the field "body.otherName[0].middleName" with value "Wren" is encrypted
+        And the field "body.otherName[0].lastSurname" with value "Einstein" is encrypted
+        And the field "body.otherName[0].otherNameType" with value "Nickname" is encrypted
+        And the field "body.sex" with value "Female" is encrypted
+        And the field "body.birthData.birthDate" with value "2006-07-02" is encrypted
+        And the field "body.address[0].streetNumberName" with value "1234 Shaggy" is encrypted
+        And the field "body.address[0].city" with value "Durham" is encrypted
+        And the field "body.address[0].postalCode" with value "27701" is encrypted
+        And the field "body.address[0].stateAbbreviation" with value "NC" is encrypted
+        And the field "body.telephone[0].telephoneNumber" with value "919-555-8765" is encrypted
+        And the field "body.electronicMail[0].emailAddress" with value "rsd@summer.nc.edu" is encrypted
+        And the field "body.loginId" with value "rsd" is encrypted
 
 Scenario: Sorting on PII across a hop should fail
 	Given format "application/json"
