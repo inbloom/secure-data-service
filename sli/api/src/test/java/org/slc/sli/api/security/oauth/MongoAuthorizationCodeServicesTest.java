@@ -3,6 +3,8 @@ package org.slc.sli.api.security.oauth;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -29,6 +31,7 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -181,6 +184,23 @@ public class MongoAuthorizationCodeServicesTest {
     
     @Test
     public void testRemove() {
+        String code = "abc";
+        
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("value", "=", code));
+        
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("expiration", "565884992");
+        MongoEntity mockEntity = new MongoEntity(MongoAuthorizationCodeServices.OAUTH_AUTHORIZATION_CODE, map);
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+        entities.add(mockEntity);
+        Mockito.when(repo.findAll(MongoAuthorizationCodeServices.OAUTH_AUTHORIZATION_CODE, neutralQuery)).thenReturn(entities);
+        
+        Mockito.when(OAuthTokenUtil.isTokenExpired(565884992L));
+        services.remove(code);
+
         
     }
 }
