@@ -174,8 +174,8 @@ public class ApplicationResource {
         String id = (String) app.get("id");
         
         if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
-                && (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
-                && (id != null && id.equals(oldApp.get("id")))) {
+                || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
+                || (id != null && !id.equals(oldApp.get("id")))) {
             EntityBody body = new EntityBody();
             body.put("message", "Cannot modify attribute (id|client_secret|client_id) specified in PUT.  " 
             + "Remove attribute and try again.");
