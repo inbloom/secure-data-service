@@ -188,6 +188,8 @@ end
 
 task :liferayTest do
   runTests("test/features/liferay/SLI_admin.feature")
+  runTests("test/features/liferay/SLI_normal_user.feature")
+  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
 end
 desc "Run Student Parents Tests"
 task :ingestionStudentParentsTests do
