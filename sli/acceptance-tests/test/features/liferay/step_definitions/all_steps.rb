@@ -37,7 +37,9 @@ ele.click
 end
 
 Then /^I click "([^\"]*)"$/ do |btn_text|
-  click_button(btn_text)
+  ele=@driver.find_element(:id, "go")
+  ele.click
+  #@driver.find_element(:xpath, "//form/input[@value=#{btn_text}]").click
 end 
 
 Given /^EULA has been accepted$/ do
