@@ -10,8 +10,7 @@ import ch.qos.logback.classic.PatternLayout;
  * 
  */
 public class CommonPatternLayout extends PatternLayout {
-	
-	//TODO - shouldn't this be in our config files in 1 place?
+	// TODO - shouldn't this be in our config files in 1 place?
 	private static final String PATTERN = "%date{dd MMM yyyy HH:mm:ss.SSSZ} %-5level [%thread] %logger{10} [%user] - %msg%n";
 
 	// Registers custom converters
@@ -19,7 +18,7 @@ public class CommonPatternLayout extends PatternLayout {
 		PatternLayout.defaultConverterMap.put("user",
 				UserConverter.class.getName());
 	}
-	
+
 	public CommonPatternLayout() {
 		setPattern(PATTERN);
 	}
