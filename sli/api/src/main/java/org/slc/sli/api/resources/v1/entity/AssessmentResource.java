@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -31,7 +29,7 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Resource for obtaining assessment information
  * 
  * @author jstokes
  * 
@@ -42,23 +40,18 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class AssessmentResource {
     
-    /**
-     * Logging utility.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AssessmentResource.class);
-    
     /*
      * Interface capable of performing CRUD operations.
      */
     private final CrudEndpoint crudDelegate;
-
+    
     @Autowired
     public AssessmentResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
     }
-
+    
     /**
-     * Returns all $$assessments$$ entities for which the logged in User has permission and context.
+     * Returns all $$assessments$$ for which the logged in user has permission to see.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -72,23 +65,24 @@ public class AssessmentResource {
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+    public Response readAll(
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
         return this.crudDelegate.readAll(ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
-
+    
     /**
-     * Create a new $$assessments$$ entity.
+     * Create a new $$assessment$$.
      * 
      * @param newEntityBody
-     *            entity data
+     *            assessment data
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
-     *              URI information including path and query parameters
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
@@ -96,16 +90,15 @@ public class AssessmentResource {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(ResourceNames.ASSESSMENTS, newEntityBody, headers, uriInfo);
     }
-
+    
     /**
-     * Get a single $$assessments$$ entity
+     * Get a single $$assessment$$
      * 
      * @param assessmentId
-     *            The Id of the $$assessments$$.
+     *            The comma separated list of ids of $$assessments$$
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -119,12 +112,12 @@ public class AssessmentResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
     }
-
+    
     /**
-     * Delete a $$assessments$$ entity
+     * Delete an $$assessment$$
      * 
      * @param assessmentId
-     *            The Id of the $$assessments$$.
+     *            The id of the $$assessment$$
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -134,18 +127,18 @@ public class AssessmentResource {
      */
     @DELETE
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, 
+    public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.delete(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
     }
-
+    
     /**
-     * Update an existing $$assessments$$ entity.
+     * Update an existing $$assessment$$
      * 
      * @param assessmentId
-     *            The id of the $$assessments$$.
+     *            The id of the $$assessment$$
      * @param newEntityBody
-     *            entity data
+     *            assessment data
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -156,39 +149,41 @@ public class AssessmentResource {
     @PUT
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-            final EntityBody newEntityBody, 
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.update(ResourceNames.ASSESSMENTS, assessmentId, newEntityBody, headers, uriInfo);
     }
-
+    
     /**
-     * Returns each $$studentAssessmentAssociations$$ that
-     * references the given $$assessments$$
-     *
-     * @param assessmentId   The id of the $$assessments$$.
-     * @param offset      Index of the first result to return
-     * @param limit       Maximum number of results to return.
-     * @param expandDepth Number of hops (associations) for which to expand entities.
-     * @param headers     HTTP Request Headers
-     * @param uriInfo     URI information including path and query parameters
+     * Returns all the $$studentAssessmentAssociations$$ for the given $$assessments$$
+     * 
+     * @param assessmentId
+     *            Comma separated list of ids of the $$assessments$$
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
-    public Response getStudentAssessmentAssociations(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-                                                     @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers,
-                uriInfo);
+    public Response getStudentAssessmentAssociations(
+            @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+                headers, uriInfo);
     }
-
+    
     /**
-     * Returns each $$students$$ associated to the given assessment through
+     * Returns each $$student$$ associated to the given assessment through
      * a $$studentAssessmentAssociations$$
-     *
-     * @param assessmentId The id of the $$assessments$$.
-     * @param headers   HTTP Request Headers
-     * @param uriInfo   URI information including path and query parameters
+     * 
+     * @param assessmentId
+     *            Comma separated list of ids of the $$assessments$$
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
@@ -198,38 +193,48 @@ public class AssessmentResource {
     public Response getStudentAssessmentAssociationsStudents(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "studentId",
-                ResourceNames.STUDENTS, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+                "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
-
+    
     /**
      * Returns each $$sectionAssessmentAssociations$$ that
      * references the given $$assessments$$
-     *
-     * @param assessmentId   The id of the $$assessments$$.
-     * @param offset      Index of the first result to return
-     * @param limit       Maximum number of results to return.
-     * @param expandDepth Number of hops (associations) for which to expand entities.
-     * @param headers     HTTP Request Headers
-     * @param uriInfo     URI information including path and query parameters
+     * 
+     * @param assessmentId
+     *            Comma separated list of ids of the $$assessments$$
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
-    public Response getSectionAssessmentAssociations(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-                                                     @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers,
-                uriInfo);
+    public Response getSectionAssessmentAssociations(
+            @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+                headers, uriInfo);
     }
-
+    
     /**
-     * Returns each $$sections$$ associated to the given assessment through
+     * Returns each $$section$$ associated to the given $$assessment$$ through
      * a $$sectionAssessmentAssociations$$
-     *
-     * @param assessmentId The id of the $$assessments$$.
-     * @param headers   HTTP Request Headers
-     * @param uriInfo   URI information including path and query parameters
+     * 
+     * @param assessmentId
+     *            Comma separated list of ids of the $$assessments$$
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      */
     @GET
@@ -239,8 +244,8 @@ public class AssessmentResource {
     public Response getSectionAssessmentAssociationsSections(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "sectionId",
-                ResourceNames.SECTIONS, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+                "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
     }
-
+    
 }
