@@ -17,7 +17,7 @@ public class NeutralCriteria {
     
     public static final String CRITERIA_IN = "in";
     
-    public static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
+    static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
     
     public NeutralCriteria(String criteria) {
         this.canBePrefixed = true;
@@ -91,14 +91,11 @@ public class NeutralCriteria {
         //both null? they match
         if (value1 == null && value2 == null) {
             return true;
-        }
-        
-        //one null the other not? they dont match
-        if ((value1 == null && value2 != null) || (value1 != null && value2 == null)) {
+        } else if (value1 == null || value2 == null) {
             return false;
+        } else {
+            return value1.equals(value2);
         }
-        
-        return value1.equals(value2);
     }
     
     public boolean equals(Object o) {

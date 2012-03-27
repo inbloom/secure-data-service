@@ -395,7 +395,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
         
         if (neutralQuery == null) {
-            return basicService.count(neutralQuery);
+            return basicService.count(new NeutralQuery());
         }
         
         int originalLimit = neutralQuery.getLimit();
@@ -462,9 +462,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String prevLink = info.getRequestUriBuilder().replaceQuery(neutralQuery.toString()).build().toString();
                 resp.header(ParameterConstants.HEADER_LINK, "<" + prevLink + ">; rel=prev");
             }
+            
+            resp.header(ParameterConstants.HEADER_TOTAL_COUNT, total);
         }
         
-        resp.header(ParameterConstants.HEADER_TOTAL_COUNT, total);
         return resp;
     }
 }
