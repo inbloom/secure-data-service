@@ -2595,7 +2595,7 @@
 		<StudentSectionAssociationReference>
 			<StudentSectionAssociationIdentity>
 				<StudentIdentity>
-					<StudentUniqueStateId>9000000013</StudentUniqueStateId>
+					<StudentUniqueStateId>900000013</StudentUniqueStateId>
 				</StudentIdentity>
 				<SectionIdentity>
 					<StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -2685,7 +2685,7 @@
 		<StudentSectionAssociationReference>
 			<StudentSectionAssociationIdentity>
 				<StudentIdentity>
-					<StudentUniqueStateId>9000000015</StudentUniqueStateId>
+					<StudentUniqueStateId>900000015</StudentUniqueStateId>
 				</StudentIdentity>
 				<SectionIdentity>
 					<StateOrganizationId>Daybreak Central High</StateOrganizationId>
