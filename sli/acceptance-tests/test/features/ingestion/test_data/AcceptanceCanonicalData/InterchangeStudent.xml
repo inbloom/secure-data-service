@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
-  
+
   	<!--  Rebecca Braverman's 1st graders -->
     <Student>
         <StudentUniqueStateId>100000000</StudentUniqueStateId>
@@ -924,6 +924,163 @@
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
         <Section504Disabilities/>
     </Student>
+    <Student>
+        <StudentUniqueStateId>100000022</StudentUniqueStateId>
+        <Name>
+            <FirstName>Brandon</FirstName>
+            <LastSurname>Suzuki</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-03-27</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1725 Meadow Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60683-4656</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Billing">
+            <StreetNumberName>318 Ocean Avenue</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 1721</ApartmentRoomSuiteNumber>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10078-7909</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>312-265-8668</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-741-0568</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-212-6213</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-360-8911</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>224-666-4990</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>bsuzuki@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>true</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000023</StudentUniqueStateId>
+        <Name>
+            <FirstName>Daniel</FirstName>
+            <LastSurname>Shaw</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-03-27</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1725 Meadow Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60683-4656</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Billing">
+            <StreetNumberName>318 Ocean Avenue</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 1721</ApartmentRoomSuiteNumber>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10078-7909</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>312-265-8668</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-741-0568</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-212-6213</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-360-8911</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>224-666-4990</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>dshaw@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>true</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000024</StudentUniqueStateId>
+        <Name>
+            <FirstName>Danilo</FirstName>
+            <LastSurname>Duran</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-03-27</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1725 Meadow Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60683-4656</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Billing">
+            <StreetNumberName>318 Ocean Avenue</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 1721</ApartmentRoomSuiteNumber>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10078-7909</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>312-265-8668</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-741-0568</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-212-6213</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-360-8911</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>224-666-4990</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>dduran@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>true</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+
 
 	<!--  Linda Kim's 8th graders -->
 	<Student>
@@ -1926,7 +2083,7 @@
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
 		<Section504Disabilities/>
 	</Student>
-	
+
 	<!--  Charles Gray's U.S. Lit students (think 9th graders) -->
 	<Student>
 		<StudentUniqueStateId>900000000</StudentUniqueStateId>
