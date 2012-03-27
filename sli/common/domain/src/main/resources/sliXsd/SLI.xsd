@@ -363,21 +363,27 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="educationOrgReference" type="xs:string">
+				<xs:element name="educationOrgId" type="reference">
 					<xs:annotation>
 						<xs:documentation>
 							The education organization associated with and
 							owner of the cohort.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="programReference" type="xs:string">
+					name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>
 							The (optional) program associated with this
 							cohort (e.g., special education)
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>program</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -598,7 +604,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" name="behaviors" type="xs:string">
+				<xs:element maxOccurs="unbounded" name="behaviors" type="behaviorDescriptor">
 					<xs:annotation>
 						<xs:documentation>Categories of behavior coded for use in
 							describing an
@@ -642,19 +648,25 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="schoolId" type="xs:string">
+				<xs:element name="schoolId" type="reference">
 					<xs:annotation>
 						<xs:documentation>School where incident occurred
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>school</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="staffId" type="xs:string">
+				<xs:element minOccurs="0" name="staffId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Identifies the staff reporter of the incident by
 							use
 							of a pre-existing school or district unique
 							identifier.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>staff</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -913,7 +925,7 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-					type="xs:string">
+					type="serviceDescriptor">
 					<xs:annotation>
 						<xs:documentation>Defines the services provided by this program to
 							students.
@@ -1379,18 +1391,24 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element maxOccurs="unbounded" name="staffId" type="xs:string">
+				<xs:element maxOccurs="unbounded" name="staffId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the cohort of
 							students.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>staff</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" name="cohortId" type="xs:string">
+				<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the
 							staff.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>cohort</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="beginDate" type="xs:date">
@@ -1504,16 +1522,22 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="staffId" type="xs:string">
+				<xs:element name="staffId" type="reference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the program.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>staff</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="programId" type="xs:string">
+				<xs:element name="programId" type="reference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The program associated to the staff.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>program</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="beginDate" type="xs:date">
@@ -2098,17 +2122,23 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentReference" type="xs:string">
+				<xs:element name="studentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The student associated with the cohort.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>student</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="cohortReference" type="xs:string">
+				<xs:element name="cohortId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the
 							student.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>cohort</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="beginDate" type="xs:date">
@@ -2141,19 +2171,25 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentId" type="xs:string">
+				<xs:element name="studentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The student associated with the discipline
 							incident.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>student</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="disciplineIncidentId" type="xs:string">
+				<xs:element name="disciplineIncidentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the discipline incident associated
 							with the
 							student.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="studentParticipationCode" type="studentParticipationCodeType">
@@ -2166,7 +2202,7 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="behaviors"
-					type="xs:string">
+					type="behaviorDescriptor">
 					<xs:annotation>
 						<xs:documentation>Categories of student-specific behavior coded
 							for use in
@@ -2363,20 +2399,26 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentId" type="xs:string">
+				<xs:element name="studentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The student associated with the program.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>student</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="programId" type="xs:string">
+				<xs:element name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The program associated with the student.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>program</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-					type="xs:string">
+					type="serviceDescriptor">
 					<xs:annotation>
 						<xs:documentation>
 							Indicates the services being provided to the
@@ -2408,13 +2450,16 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="educationOrganizationReference" type="xs:string">
+				<xs:element name="educationOrganizationId" type="reference">
 					<xs:annotation>
 						<xs:documentation>
 							The education organization where the student is
 							participating in or receiving the program
 							services.
 						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>

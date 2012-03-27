@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified" attributeFormDefault="qualified"
@@ -1732,7 +1732,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="disciplines" type="xs:string"
+					<xs:element name="disciplines" type="disciplineDescriptor"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Type of action or removal from the classroom
@@ -1779,49 +1779,64 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="studentReference" type="xs:string"
+					<xs:element name="studentId" type="reference"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The student(s) disciplined by the discipline
 								action.
 							</xs:documentation>
+					                <xs:appinfo>
+						                <sli:ReferenceType>student</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="disciplineIncidentReference" type="xs:string"
+					<xs:element name="disciplineIncidentId" type="reference"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to the DisciplineIncident(s)
 								associated with
 								the DisciplineAction.
 							</xs:documentation>
+					                <xs:appinfo>
+						                <sli:ReferenceType>disciplineIncident</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="staffReference" type="xs:string"
+					<xs:element name="staffId" type="reference"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The staff responsible for enforcing the
 								discipline
 								action.
 							</xs:documentation>
+					                <xs:appinfo>
+						                <sli:ReferenceType>staff</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="responsibilitySchoolReference" type="xs:string">
+					<xs:element name="responsibilitySchoolId" type="reference">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
 								discipline.
 							</xs:documentation>
+ 					                <xs:appinfo>
+						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="assignmentSchoolReference" type="xs:string"
+					<xs:element name="assignmentSchoolId" type="reference"
 						minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>School responsible for student's
 								discipline.
 							</xs:documentation>
+ 					                <xs:appinfo>
+						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -3253,12 +3268,58 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="educationOrganizationReference" type="xs:string"
+					<xs:element name="educationOrganizationId" type="reference"
 						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The Education Organization associated with the
 								behavior codes.
 							</xs:documentation>
+ 					                <xs:appinfo>
+						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					                </xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="disciplineDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines the type of action or removal 
+			        from the classroom used to discipline the student involved as a 
+			        perpetrator in a discipline incident.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="complexObjectType">
+				<xs:sequence>
+					<xs:element name="codeValue" type="codeValue">
+						<xs:annotation>
+							<xs:documentation>A code or abbreviation that is used to refer to
+								the discipline.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortDescription" type="shortDescription">
+						<xs:annotation>
+							<xs:documentation>A shortened description for the discipline</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="description" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The description of the discipline.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="educationOrganizationId" type="reference"
+						maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Education Organization associated with the
+								discipline codes.
+							</xs:documentation>
+ 					                <xs:appinfo>
+						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					                </xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
