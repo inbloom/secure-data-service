@@ -1,12 +1,12 @@
 package org.slc.sli.api.resources.v1;
 
-import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -102,8 +101,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                        PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
+                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -131,18 +129,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from {} where {} = {}",
-                        new Object[] { entityDef.getStoredCollectionName(), key, value });
-                
-                long totalCount = 0;
-                if (entityDef instanceof AssociationDefinition) {
-                    AssociationDefinition associationDefinition = (AssociationDefinition) entityDef;
-                    totalCount = associationDefinition.getService().countAssociationsTo(value, new ApiQuery(uriInfo));
-                }
+                logger.debug("Attempting to read from {} where {} = {}", new Object[] {
+                        entityDef.getStoredCollectionName(), key, value});
                 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-                // neutralQuery.addCriteria(new NeutralCriteria(key, "=", value));
-                List<String> valueList = new ArrayList<String>(Arrays.asList(value.split(",")));
+                List<String> valueList = Arrays.asList(value.split(","));
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 
                 // a new list to store results
@@ -156,15 +147,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
                 
-                Response.ResponseBuilder responseBuilder;
-                responseBuilder = Response.ok(results);
-                return addPagingHeaders(responseBuilder, totalCount, uriInfo).build();
                 
-                // turn results into response
-                // return Response.ok(results).build();
+                long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
+                return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
             }
         });
     }
+    
     
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
@@ -199,14 +188,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                logger.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
+                logger.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
                 logger.debug("Then for each result, ");
-                logger.debug(" going to read from {} where \"_id\" = {}.{}",
-                        new Object[] { resource2, resource1, idKey });
+                logger.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
+                        resource2, resource1, idKey});
                 
+
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
-                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value,
-                        idKey);
+                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value, idKey);
                 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -230,7 +219,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults.add(result);
                 }
                 
-                return Response.ok(finalResults).build();
+                long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
+                return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
             }
         });
     }
@@ -299,9 +289,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (finalResults.isEmpty()) {
                     return Response.status(Status.NOT_FOUND).build();
                 } else if (finalResults.size() == 1) {
-                    return Response.ok(finalResults.get(0)).build();
+                    return addPagingHeaders(Response.ok(finalResults.get(0)), 1, uriInfo).build();
                 } else {
-                    return Response.ok(finalResults).build();
+                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
+                    return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -389,12 +380,33 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
                 
-                return Response.ok(results).build();
+                long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), new ApiQuery(uriInfo));
+                return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
             }
         });
     }
     
     /* Utility methods */
+
+    protected static long getTotalCount(EntityService basicService, NeutralQuery neutralQuery) {
+        
+        if (basicService == null) {
+            return 0;
+        }
+        
+        if (neutralQuery == null) {
+            return basicService.count(new NeutralQuery());
+        }
+        
+        int originalLimit = neutralQuery.getLimit();
+        int originalOffset = neutralQuery.getOffset();
+        neutralQuery.setLimit(0);
+        neutralQuery.setOffset(0);
+        long count = basicService.count(neutralQuery);
+        neutralQuery.setLimit(originalLimit);
+        neutralQuery.setOffset(originalOffset);
+        return count;
+    }
     
     /**
      * Handle preconditions and exceptions.
@@ -412,8 +424,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     /**
-     * Creates a query that looks up an association where key = value and only returns the specified
-     * field.
+     * Creates a query that looks up an association where key = value and only returns the specified field.
      * A convenience method for querying for associations when resolving their endpoints.
      * 
      * @param endpointNeutralQuery
@@ -423,8 +434,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param includeField
      * @return
      */
-    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value,
-            String includeField) {
+    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value, String includeField) {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
@@ -433,27 +443,30 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
-        MultivaluedMap<String, String> queryParams = info.getQueryParameters(true);
-        
-        int offset = Integer.parseInt(queryParams.containsKey(ParameterConstants.OFFSET) ? queryParams
-                .getFirst(ParameterConstants.OFFSET) : ParameterConstants.DEFAULT_OFFSET);
-        int limit = Integer.parseInt(queryParams.containsKey(ParameterConstants.LIMIT) ? queryParams
-                .getFirst(ParameterConstants.LIMIT) : ParameterConstants.DEFAULT_LIMIT);
-        
-        int nextStart = offset + limit;
-        if (nextStart < total) {
-            String nextLink = info.getRequestUriBuilder().replaceQueryParam(ParameterConstants.OFFSET, nextStart)
-                    .replaceQueryParam(ParameterConstants.LIMIT, limit).build().toString();
-            resp.header(ParameterConstants.HEADER_LINK, "<" + nextLink + ">; rel=next");
+        if (info != null && resp != null) {
+            NeutralQuery neutralQuery = new ApiQuery(info);
+            int offset = neutralQuery.getOffset();
+            int limit = neutralQuery.getLimit();
+            
+            int nextStart = offset + limit;
+            if (nextStart < total) {
+                neutralQuery.setOffset(nextStart);
+                
+                String nextLink = info.getRequestUriBuilder().replaceQuery(neutralQuery.toString()).build().toString();
+                resp.header(ParameterConstants.HEADER_LINK, "<" + nextLink + ">; rel=next");
+            }
+            
+            if (offset > 0) {
+                int prevStart = Math.max(offset - limit, 0);
+                neutralQuery.setOffset(prevStart);
+                
+                String prevLink = info.getRequestUriBuilder().replaceQuery(neutralQuery.toString()).build().toString();
+                resp.header(ParameterConstants.HEADER_LINK, "<" + prevLink + ">; rel=prev");
+            }
+            
+            resp.header(ParameterConstants.HEADER_TOTAL_COUNT, total);
         }
-        if (offset > 0) {
-            int prevStart = offset - limit;
-            String prevLink = info.getRequestUriBuilder()
-                    .replaceQueryParam(ParameterConstants.OFFSET, prevStart > 0 ? prevStart : 0)
-                    .replaceQueryParam(ParameterConstants.LIMIT, limit).build().toString();
-            resp.header(ParameterConstants.HEADER_LINK, "<" + prevLink + ">; rel=prev");
-        }
-        resp.header(ParameterConstants.HEADER_TOTAL_COUNT, total);
+        
         return resp;
     }
 }
