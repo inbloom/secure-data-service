@@ -430,7 +430,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param endpointNeutralQuery
      * @param key
      * @param value
-     *            a comma seperated list of values
+     *            a comma separated list of values
      * @param includeField
      * @return
      */
