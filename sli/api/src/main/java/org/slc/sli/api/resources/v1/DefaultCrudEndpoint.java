@@ -115,7 +115,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param key
      *            field to be queried against
      * @param value
-     *            expected value to be found in the key
+     *            comma separated list of values to be found in the key
      * @param headers
      *            HTTP header information (which includes request headers)
      * @param uriInfo
@@ -164,7 +164,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param key
      *            field to be queried against (when searching resources)
      * @param value
-     *            expected value to be found in the key
+     *            comma separated list of expected values to be found for the key
      * @param idKey
      *            field in resource that contains the ID to be resolved
      * @param resolutionResourceName
@@ -430,6 +430,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param endpointNeutralQuery
      * @param key
      * @param value
+     *            a comma seperated list of values
      * @param includeField
      * @return
      */
