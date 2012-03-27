@@ -23,7 +23,7 @@ import org.slc.sli.util.SecurityUtil;
  *
  */
 @Controller
-@RequestMapping("/studentlist")
+@RequestMapping({"/", "studentlist"})
 public class StudentListController extends DashboardController {
 
     // model map keys required by the view for the student list view
