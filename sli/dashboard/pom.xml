@@ -27,11 +27,11 @@
 				<property>
                   <name>env</name>
                   <value>prod</value>
-                </property>
+                </property>				
             </activation>
 			<properties>
 			    <env>prod</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
 				<war.file.name>dashboard</war.file.name>
@@ -49,11 +49,11 @@
 				<property>
                   <name>env</name>
                   <value>qa1</value>
-                </property>
+                </property>			
             </activation>
             <properties>
                 <env>qa1</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
 			</properties>
@@ -64,11 +64,11 @@
 				<property>
                   <name>env</name>
                   <value>qa2</value>
-                </property>
+                </property>			
             </activation>
             <properties>
                 <env>qa2</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>test</server.mode>
 			</properties>
@@ -76,59 +76,27 @@
 		<profile>
 			<id>dev</id>
 			<activation>
-              <activeByDefault>true</activeByDefault>
+              <activeByDefault>false</activeByDefault>
             </activation>
 			<properties>
 			    <env>dev</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
-
-        <profile>
-            <id>acceptance-tests</id>
-            <activation>
-                <property>
-                  <name>env</name>
-                  <value>acceptance-tests</value>
-                </property>
+		<profile>
+			<id>local</id>
+			<activation>
+              <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <env>acceptance-tests</env>
-                <!-- set mode to 'live' to authenticate against idp, 'test' to use local
-                    file based authentication -->
-                <server.mode>live</server.mode>
-                <war.file.name>dashboard</war.file.name>
-            </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
-        </profile>
-
-        <profile>
-            <id>nxbuild2</id>
-            <activation>
-                <property>
-                  <name>env</name>
-                  <value>nxbuild2</value>
-                </property>
-            </activation>
-            <properties>
-                <env>nxbuild2</env>
-                <!-- set mode to 'live' to authenticate against idp, 'test' to use local
-                    file based authentication -->
-                <server.mode>live</server.mode>
-                <war.file.name>dashboard</war.file.name>
-            </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
-        </profile>
+			<properties>
+			    <env>local</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+					file based authentication -->
+				<server.mode>live</server.mode>
+			</properties>
+		</profile>
 	</profiles>
 
 	<dependencies>
@@ -138,13 +106,7 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.4</version>
 		</dependency>
-	    <dependency>
-		    <groupId>joda-time</groupId>
-		    <artifactId>joda-time</artifactId>
-		    <version>2.1</version>
-	    </dependency>
-	    
-			<!-- Power mock dependencies -->
+		<!-- Power mock dependencies -->
 
 		<dependency>
 			<groupId>org.powermock</groupId>
