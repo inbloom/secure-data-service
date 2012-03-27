@@ -129,6 +129,27 @@
                 </filters>
             </build>
         </profile>
+        <profile>
+            <id>team</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>team</value>
+                </property>
+            </activation>
+            <properties>
+                <env>team</env>
+                <!-- set mode to 'live' to authenticate against idp, 'test' to use local
+                    file based authentication -->
+                <server.mode>live</server.mode>
+                <war.file.name>dashboard</war.file.name>
+            </properties>
+            <build>
+                <filters>
+                    <!-- <filter>src/main/filters/server.properties</filter> -->
+                </filters>
+            </build>
+        </profile>
 	</profiles>
 
 	<dependencies>
