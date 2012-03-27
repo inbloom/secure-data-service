@@ -263,7 +263,7 @@ public class DefaultCrudEndPointTest {
         NeutralQuery neutralQuery2 = new NeutralQuery(neutralQuery1);
         
         EntityService mock = mock(EntityService.class);
-        when(mock.count(any(NeutralQuery.class))).thenReturn(0l);
+        when(mock.count(any(NeutralQuery.class))).thenReturn(0L);
         DefaultCrudEndpoint.getTotalCount(mock, neutralQuery1);
         
         assertEquals(neutralQuery1, neutralQuery2);
