@@ -10,6 +10,7 @@ import java.util.Set;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 
 import org.apache.camel.Exchange;
@@ -338,7 +339,7 @@ public class PersistenceProcessor implements Processor {
         patternLayout.setPattern("%msg%n");
         patternLayout.start();
 
-        FileAppender appender = new FileAppender();
+        FileAppender<ILoggingEvent> appender = new FileAppender<ILoggingEvent>();
         appender.setContext(lc);
         appender.setFile(logFile.getAbsolutePath()); // tricky if we're not localFS...
         appender.setLayout(patternLayout);
