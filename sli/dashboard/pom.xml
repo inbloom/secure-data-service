@@ -27,11 +27,11 @@
 				<property>
                   <name>env</name>
                   <value>prod</value>
-                </property>				
+                </property>
             </activation>
 			<properties>
 			    <env>prod</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
 					file based authentication -->
 				<server.mode>live</server.mode>
 				<war.file.name>dashboard</war.file.name>
@@ -49,11 +49,11 @@
 				<property>
                   <name>env</name>
                   <value>qa1</value>
-                </property>			
+                </property>
             </activation>
             <properties>
                 <env>qa1</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
 					file based authentication -->
 				<server.mode>live</server.mode>
 			</properties>
@@ -64,7 +64,7 @@
 				<property>
                   <name>env</name>
                   <value>qa2</value>
-                </property>			
+                </property>
             </activation>
             <properties>
                 <env>qa2</env>
@@ -76,23 +76,11 @@
 		<profile>
 			<id>dev</id>
 			<activation>
-              <activeByDefault>false</activeByDefault>
-            </activation>
-			<properties>
-			    <env>dev</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
-					file based authentication -->
-				<server.mode>live</server.mode>
-			</properties>
-		</profile>
-		<profile>
-			<id>local</id>
-			<activation>
               <activeByDefault>true</activeByDefault>
             </activation>
 			<properties>
-			    <env>local</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+			    <env>dev</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
 					file based authentication -->
 				<server.mode>live</server.mode>
 			</properties>
