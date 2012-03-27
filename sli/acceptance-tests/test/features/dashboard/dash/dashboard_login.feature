@@ -16,7 +16,7 @@ Scenario: Go to Dashboard page when authenticated to SLI
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 And I wait for "1" seconds
 When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
@@ -54,7 +54,7 @@ Scenario: hitting denied URL
 Given I have an open web browser
 Given the server is in "live" mode
 And I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 And I wait for "1" seconds
 When I login as "linda.kim" "linda.kim1234"
 When I access "/simon"
