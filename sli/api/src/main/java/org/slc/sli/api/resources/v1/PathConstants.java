@@ -26,6 +26,7 @@ public class PathConstants {
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STUDENT_WITH_GRADE = "studentWithGrade";
 
     public static final String ASSESSMENTS = "assessments";
@@ -34,6 +35,7 @@ public class PathConstants {
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
+    public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String PARENTS = "parents";

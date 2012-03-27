@@ -13,7 +13,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "2" seconds
+And I wait for "10" seconds
 
 Scenario: View a student with 1 email, 1 address, 1 phone
 Given I click on student "Imelda Lindsey"
