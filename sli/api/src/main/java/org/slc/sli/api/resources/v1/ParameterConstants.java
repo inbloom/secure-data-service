@@ -69,7 +69,17 @@ public class ParameterConstants {
 
     public static final String HEADER_LINK = "Link";
     public static final String HEADER_TOTAL_COUNT = "TotalCount";
-
+    
+    /**
+     * Query parameter for optional fields to include
+     */
+    public static final String OPTIONAL_FIELDS = "optionalFields";
+    
+    /**
+     * Optional Fields
+     */
+    public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
+    public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
 
     /**
      * Entity/Association IDs

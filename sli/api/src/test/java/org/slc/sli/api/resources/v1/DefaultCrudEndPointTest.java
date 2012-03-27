@@ -243,6 +243,25 @@ public class DefaultCrudEndPointTest {
         //MockRepo needs to be changed to get this test right
     }
     
+    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void testAppendOptionalFieldsNoOptionsGiven() {
+        UriInfo info = mock(UriInfo.class);
+        MultivaluedMap map = new MultivaluedMapImpl();
+        when(info.getQueryParameters(true)).thenReturn(map);
+        
+        EntityBody body = new EntityBody();
+        body.put("student", "{\"somekey\":\"somevalue\"}");
+        
+        List<EntityBody> entities = new ArrayList<EntityBody>();
+        entities.add(body);
+        
+        entities = crudEndPoint.appendOptionalFields(info, entities);
+        
+        assertEquals("Should only have one", 1, entities.size());
+        assertEquals("Should match", body, entities.get(0));
+    }
+    
     private String getIDList(String resource) {
         //create one more resource
         Response createResponse1 = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);

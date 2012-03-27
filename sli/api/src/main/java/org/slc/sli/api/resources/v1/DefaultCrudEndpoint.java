@@ -7,6 +7,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.view.OptionalFieldStrategyFactory;
+import org.slc.sli.api.resources.v1.view.OptionalFieldStrategy;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -43,6 +45,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private final Logger logger;
+    
+    @Autowired
+    private OptionalFieldStrategyFactory factory;
     
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -223,7 +228,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-                for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                
+                List<EntityBody> entities = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
+                entities = appendOptionalFields(uriInfo, entities);
+                
+                for (EntityBody result : entities) {
                     result.put(
                             ResourceConstants.LINKS,
                             ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
@@ -410,6 +419,25 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             "Invalid resource path: " + resourceName)).build();
         }
         return logic.run(entityDef);
+    }
+    
+    /**
+     * Append the optional fields to the given list of entities
+     * @param info UriInfo
+     * @param entities The list of entities
+     * @return
+     */
+    protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities) {
+        List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+
+        if (optionalFields != null) {
+            for (String type : optionalFields) {
+                OptionalFieldStrategy strategy = factory.getOptionalFieldStrategy(type);
+                entities = strategy.applyOptionalField(entities);
+            }
+        }
+        
+        return entities;
     }
     
     /**
