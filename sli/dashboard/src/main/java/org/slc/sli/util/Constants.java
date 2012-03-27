@@ -7,7 +7,7 @@ package org.slc.sli.util;
  * @author dwu
  * 
  */
-public class Constants {
+public final class Constants {
     // API related URLs
     public static final String API_PREFIX = "api/rest";
     
@@ -39,7 +39,7 @@ public class Constants {
     public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
     public static final String FIELD_TYPE_UNIT_GRADE = "unitTestGrade";
     public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
-
+    
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
@@ -133,19 +133,19 @@ public class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     
-    //Teacher constants
+    // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
     public static final String MIDDLE_SCHOOL_VIEW = "IL_3-8_ELA";
     
-    public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
+    public static final String ATTR_NAME_WITH_LINK = "name_w_link";
     
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
-
+    
     // AddressType Constants
     public static final String TYPE_ADDRESS_HOME = "Home";
     public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
@@ -154,7 +154,7 @@ public class Constants {
     public static final String TYPE_ADDRESS_OTHER = "Other";
     public static final String TYPE_ADDRESS_TEMPORARY = "Temporary";
     public static final String TYPE_ADDRESS_WORK = "Work";
-
+    
     // TelephoneType Constants
     public static final String TYPE_TELEPHONE_HOME = "Home";
     public static final String TYPE_TELEPHONE_WORK = "Work";
@@ -164,7 +164,7 @@ public class Constants {
     public static final String TYPE_TELEPHONE_FAX = "Fax";
     public static final String TYPE_TELEPHONE_OTHER = "Other";
     public static final String TYPE_TELEPHONE_UNLISTED = "Unlisted";
-
+    
     // EmailType Constants
     public static final String TYPE_EMAIL_HOME_PERSONAL = "Home/Personal";
     public static final String TYPE_EMAIL_WORK = "Work";
