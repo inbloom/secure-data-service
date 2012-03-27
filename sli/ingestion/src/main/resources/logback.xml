@@ -28,11 +28,7 @@
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
         <layout class="org.slc.sli.util.logging.CommonPatternLayout" />
     </encoder>
-    <!--
-    <encoder>
-      <Pattern>%-4relative [%thread] %-5level %logger{40} - %msg%n
-      </Pattern>
-    </encoder> -->
+
   </appender>
 
   <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
