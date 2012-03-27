@@ -51,7 +51,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Returns all $$assessments$$ for which the logged in user has permission to see.
+     * Returns all $$assessments$$ entities for which the logged in user has permission to see.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -75,7 +75,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Create a new $$assessment$$.
+     * Create a new $$assessments$$ entity.
      * 
      * @param newEntityBody
      *            assessment data
@@ -95,7 +95,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Get a single $$assessment$$
+     * Get a single $$assessments$$ entity
      * 
      * @param assessmentId
      *            The comma separated list of ids of $$assessments$$
@@ -114,10 +114,10 @@ public class AssessmentResource {
     }
     
     /**
-     * Delete an $$assessment$$
+     * Delete an $$assessments$$
      * 
      * @param assessmentId
-     *            The id of the $$assessment$$
+     *            The id of the $$assessments$$
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -133,10 +133,10 @@ public class AssessmentResource {
     }
     
     /**
-     * Update an existing $$assessment$$
+     * Update an existing $$assessments$$
      * 
      * @param assessmentId
-     *            The id of the $$assessment$$
+     *            The id of the $$assessments$$
      * @param newEntityBody
      *            assessment data
      * @param headers
@@ -157,7 +157,7 @@ public class AssessmentResource {
      * Returns all the $$studentAssessmentAssociations$$ for the given $$assessments$$
      * 
      * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
+     *            Comma separated list of ids of the $$assessments$$ entities
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -175,7 +175,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Returns each $$student$$ associated to the given assessment through
+     * Returns each $$students$$ entities associated to the given assessment through
      * a $$studentAssessmentAssociations$$
      * 
      * @param assessmentId
@@ -198,7 +198,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Returns each $$sectionAssessmentAssociations$$ that
+     * Returns each $$sectionAssessmentAssociations$$ entities that
      * references the given $$assessments$$
      * 
      * @param assessmentId
@@ -226,7 +226,7 @@ public class AssessmentResource {
     }
     
     /**
-     * Returns each $$section$$ associated to the given $$assessment$$ through
+     * Returns each $$sections$$ entity associated to the given $$assessments$$ through
      * a $$sectionAssessmentAssociations$$
      * 
      * @param assessmentId
