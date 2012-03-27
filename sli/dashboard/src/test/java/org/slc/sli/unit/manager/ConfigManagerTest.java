@@ -102,4 +102,20 @@ public class ConfigManagerTest {
         Assert.assertEquals("Condition [field=x, value=[x, y, z]]", condition.toString());
         Assert.assertEquals("ViewItem [width=90, type=string, color=null, style=null, formatter=null, params=null]", items[0].toString());
     }
+    
+    @Test
+    public void testNonexistentConfig() {
+       try {
+           configManager.getComponentConfig("1", "fakeConfigId");
+       } catch (Throwable t) {
+           Assert.assertEquals("Unable to read config for fakeConfigId, for user 1", t.getMessage());
+       }
+    }
+    
+    @Test
+    public void testConfigLocation() {
+       String location = "xyz";
+       configManager.setConfigLocation(location);
+       Assert.assertTrue(configManager.getComponentConfigLocation("x").startsWith(location));
+    }
 }

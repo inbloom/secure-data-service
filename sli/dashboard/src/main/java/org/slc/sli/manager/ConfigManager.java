@@ -188,7 +188,7 @@ public class ConfigManager extends ApiClientManager {
         this.configLocation = configLocation;
     }
     
-    private String getConfigLocation(String componentId) {
+    public String getComponentConfigLocation(String componentId) {
         return configLocation + "/" + componentId + ".json";
     }
     
@@ -197,7 +197,7 @@ public class ConfigManager extends ApiClientManager {
         try {
             return gson.fromJson(
                     new BufferedReader(new InputStreamReader(
-                            Config.class.getClassLoader().getResourceAsStream(getConfigLocation(componentId)))), Config.class);
+                            Config.class.getClassLoader().getResourceAsStream(getComponentConfigLocation(componentId)))), Config.class);
         } catch (Throwable t) {
             logger.error("Unable to read config for " + componentId + ", for user " + userId);
             throw new DashboardException("Unable to read config for " + componentId + ", for user " + userId);
