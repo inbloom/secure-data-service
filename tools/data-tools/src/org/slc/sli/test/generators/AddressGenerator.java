@@ -1,4 +1,4 @@
-package org.slc.sli.test.edfi.entities.factory;
+package org.slc.sli.test.generators;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -15,11 +15,11 @@ import org.slc.sli.test.edfi.entities.AddressType;
 import org.slc.sli.test.edfi.entities.CountryCodeType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
-public class AddressFactory {
+public class AddressGenerator {
 
-	private static final Logger log = Logger.getLogger(AddressFactory.class);
-	private String file_city_US = "database/city_US.csv";
-	private String file_street_US = "database/street_US.csv";
+	private static final Logger log = Logger.getLogger(AddressGenerator.class);
+	private String file_city_US = "database/address/city_US.csv";
+	private String file_street_US = "database/address/street_US.csv";
 	private int cityCount;
 	private int streetCount;
 	private Random rand = new Random(); 
@@ -29,21 +29,20 @@ public class AddressFactory {
 	private Calendar yearAgo =  null;
 	private Calendar yearHence =  null;
 
-	public AddressFactory(StateAbbreviationType state) throws Exception{
+	public AddressGenerator(StateAbbreviationType state) throws Exception{
 		loadData(state);
 		today   =  GregorianCalendar.getInstance();
-		today   =   GregorianCalendar.getInstance();
+		today   =  GregorianCalendar.getInstance();
 		yearAgo =  GregorianCalendar.getInstance();
 		yearAgo.roll(Calendar.YEAR, -1);	
 		yearHence =  GregorianCalendar.getInstance();
 		yearHence.roll(Calendar.YEAR, 1);		
 	}
 
-	public void loadData(StateAbbreviationType stateParam) throws Exception
+	private void loadData(StateAbbreviationType stateParam) throws Exception
 	{
 
-		BufferedReader cityReader   = new BufferedReader(
-				new InputStreamReader(new FileInputStream(file_city_US)));
+		BufferedReader cityReader   = new BufferedReader(new InputStreamReader(new FileInputStream(file_city_US)));
 		BufferedReader streetReader = new BufferedReader(new InputStreamReader(new FileInputStream(file_street_US)));
 
 		//NH;PORTSMOUTH;Rockingham;210;603
@@ -132,13 +131,13 @@ public class AddressFactory {
 
 	public static void main(String[] args) throws Exception
 	{
-		AddressFactory nyAddressFactory = new AddressFactory(StateAbbreviationType.NY);
-		AddressFactory njAddressFactory = new AddressFactory(StateAbbreviationType.NJ);
-		List<AddressFactory> factoryList = new ArrayList<AddressFactory>();
+		AddressGenerator nyAddressFactory = new AddressGenerator(StateAbbreviationType.NY);
+		AddressGenerator njAddressFactory = new AddressGenerator(StateAbbreviationType.NJ);
+		List<AddressGenerator> factoryList = new ArrayList<AddressGenerator>();
 		factoryList.add(nyAddressFactory);
 		factoryList.add(njAddressFactory);
 
-		for(AddressFactory addressFactory:factoryList)
+		for(AddressGenerator addressFactory:factoryList)
 			for(String addressId: "1 2 3".split(" "))
 			{
 				Address address = addressFactory.getRandomAddress();
