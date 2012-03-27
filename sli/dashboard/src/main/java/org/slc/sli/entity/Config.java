@@ -51,6 +51,7 @@ public class Config {
         protected String color;
         protected String style;
         protected String formatter;
+        protected String sorter;
         protected Map<String, Object> params;
         
         public String getDescription() {
@@ -74,6 +75,9 @@ public class Config {
         public String getFormatter() {
             return formatter;
         }
+        public String getSorter() {
+            return sorter;
+        }
         public Map<String, Object> getParams() {
             return params;
         }
@@ -96,6 +100,16 @@ public class Config {
         protected String entity;
         protected String alias;
         protected Map<String, Object> params;
+        
+        public Data() {
+        }
+        
+        public Data(String entity, String alias, Map<String, Object> params) {
+            this.entity = entity;
+            this.alias = alias;
+            this.params = params;
+        }
+
         public String getEntityRef() {
             return entity;
         }
@@ -133,7 +147,7 @@ public class Config {
 
     protected String id;
     protected String name;
-    protected Type type;
+    protected Type type = Type.FIELD;
     protected Condition condition;
     protected Data data;
     protected Item[] items;
@@ -162,7 +176,7 @@ public class Config {
     }
     
     public String getRoot() {
-        return name;
+        return root;
     }
 
     public Type getType() {

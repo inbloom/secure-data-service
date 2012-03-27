@@ -29,7 +29,7 @@ import org.slc.sli.util.SecurityUtil;
  *
  */
 public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
-    private static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE = 
+    public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE = 
             new Class[]{String.class, Object.class, Config.Data.class};
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
@@ -59,7 +59,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param entity - entity for the component
      * @return true if condition passes and false otherwise
      */
-    private boolean checkCondition(Config config, GenericEntity entity) {
+    public final boolean checkCondition(Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
             if (entity == null) {
                 throw new DashboardException("Entity is null for a conditional item.");
@@ -110,8 +110,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, 
         GenericEntity parentEntity, int depth
     ) {
-        if (depth > 3) {
-            throw new DashboardException("The items hierarchy is too deep - only allow 3 elements");
+        if (depth > 5) {
+            throw new DashboardException("The items hierarchy is too deep - only allow 5 elements");
         }
         Config config = parentToComponentConfigRef;
         GenericEntity entity = parentEntity;
@@ -193,7 +193,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                     if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
                         throw new DashboardException(
                                 "Wrong signature for the method for " + entityMapping.value() + ". Expected is " 
-                                + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE + "!!!");
+                                + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
                     }
                     entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(manager, m));
                 }

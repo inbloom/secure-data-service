@@ -19,7 +19,6 @@ import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.config.StudentFilter;
 import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.DashboardException;
 
 /**
@@ -193,13 +192,7 @@ public class ConfigManager extends ApiClientManager {
         return configLocation + "/" + componentId + ".json";
     }
     
-    private Config applyConfigRecursively(String userId, String componentId) {
-        List<GenericEntity> hierarchy = institutionalHierarchyManager.getInstHierarchy(userId);
-        return null;
-    }
-    
     public Config getComponentConfig(String userId, String componentId) {
-        //applyConfigRecursively(SecurityUtil.getToken(), componentId);
         Gson gson = new GsonBuilder().create();
         try {
             return gson.fromJson(

@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.DashboardUserMessageException;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -128,7 +129,11 @@ public class EntityManager extends ApiClientManager {
      *         - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
-        GenericEntity student = ContactSorter.sort(getStudent(token, studentId));
+        GenericEntity student = getStudent(token, studentId);
+        if (student == null) {
+            throw new DashboardUserMessageException("Unable to retrieve data for the requested ID");
+        }
+        student = ContactSorter.sort(student);
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));

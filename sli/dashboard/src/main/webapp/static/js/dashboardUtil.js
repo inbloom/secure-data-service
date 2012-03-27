@@ -31,35 +31,71 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
-DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
-{
-    // set up config data for grid
-    var colNames = [];
+jQuery.fn.sliGrid = function(panelConfig, options) {
+	var colNames = [];
     var colModel = [];
-
+    var items = [];
+    var groupHeaders = [];
+    var j;
     for (var i = 0; i < panelConfig.items.length; i++) {
         var item = panelConfig.items[i]; 
-        colNames.push(item.name); 
-        var colModelItem = {name:item.field,index:item.field,width:item.width};
-        if (item.formatter) {
-        	colModelItem.formatter = eval(item.formatter);
+        if (item.items && item.items.length > 0) {
+        	items = item.items;
+        	groupHeaders.push({startColumnName: item.items[0].field, numberOfColumns: item.items.length, titleText: item.name});
+        } else {
+        	items = [item];
         }
-        if (item.params) {
-        	colModelItem.formatoptions = item.params;
+        j = 0;
+        for (var j in items) {
+        	var item1 = items[j];
+        	colNames.push(item1.name); 
+            var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
+            if (item1.formatter) {
+          	    colModelItem.formatter = eval(item1.formatter);
+            }
+            if (item1.sorter) {
+            	colModelItem.sorttype = (eval('typeof ' + item1.sorter) == 'function') ? eval(item1.sorter)(item1.params) : item1.sorter;
+            }
+            if (item1.params) {
+        	  colModelItem.formatoptions = item1.params;
+            }
+            colModel.push( colModelItem );
         }
-        colModel.push( colModelItem );
+        
     }
+    options = jQuery.extend(options, {colNames: colNames, 
+         colModel: colModel
+    });
+    jQuery(this).jqGrid(options);
+    if (groupHeaders.length > 0) {
+    	jQuery(this).jqGrid('setGroupHeaders', {
+      	  useColSpanStyle: false, 
+      	  groupHeaders:groupHeaders
+      	});
+    }
+}
 
-    // make the grid
-    jQuery("#" + tableId).jqGrid({ 
+DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
+{
+	jQuery("#" + tableId).sliGrid(panelConfig, { 
     	data: panelData,
         datatype: "local", 
-        colNames: colNames, 
-        colModel: colModel, 
         height: 'auto',
         viewrecords: true,
         caption: panelConfig.name} ); 
 };
+
+var EnumSorter = function(params) {
+	var enumHash = {};
+	for (var i in params.sortEnum) {
+		enumHash[params.sortEnum[i]] = i;
+	}
+	return function(value, rowObject) {
+		var i = enumHash[value];
+		return i ? i : -1;
+	}
+	
+}
 
 function PercentBarFormatter(value, options, rowObject) {
     if (value == null || value === "") {
