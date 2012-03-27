@@ -1779,15 +1779,14 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="studentId" type="reference"
-						maxOccurs="unbounded">
+					<xs:element name="studentId" type="reference" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The student(s) disciplined by the discipline
 								action.
 							</xs:documentation>
-					                <xs:appinfo>
-						                <sli:ReferenceType>student</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>student</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
@@ -1798,22 +1797,22 @@
 								associated with
 								the DisciplineAction.
 							</xs:documentation>
-					                <xs:appinfo>
-						                <sli:ReferenceType>disciplineIncident</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element name="staffId" type="reference"
-						minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="staffId" type="reference" minOccurs="0"
+						maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The staff responsible for enforcing the
 								discipline
 								action.
 							</xs:documentation>
-					                <xs:appinfo>
-						                <sli:ReferenceType>staff</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>staff</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
@@ -1822,9 +1821,9 @@
 							<xs:documentation>School responsible for student's
 								discipline.
 							</xs:documentation>
- 					                <xs:appinfo>
-						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
@@ -1834,9 +1833,9 @@
 							<xs:documentation>School responsible for student's
 								discipline.
 							</xs:documentation>
- 					                <xs:appinfo>
-						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -2937,125 +2936,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="learningObjective">
-		<xs:annotation>
-			<xs:documentation>This entity represents identified learning
-				objectives for courses in specific grades.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="complexObjectType">
-				<xs:sequence>
-					<xs:element name="learningObjectiveId" type="learningStandardId"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The Identifier for the specific learning
-								objective in the context of a standard (e.g., 111.15.3.1.A)
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="objective" type="objective">
-						<xs:annotation>
-							<xs:documentation>The designated title of the learning objective.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="description" type="description"
-						minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The description of the learning objective.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="academicSubject" type="academicSubjectType">
-						<xs:annotation>
-							<xs:documentation>The description of the content or subject area
-								(e.g., arts, mathematics, reading, stenography, or a foreign
-								language) of an assessment.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="objectiveGradeLevel" type="gradeLevelType">
-						<xs:annotation>
-							<xs:documentation>The grade level for which the learning
-								objective is targeted,
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="learningStandardReference" type="reference"
-						minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Learning standard(s) included in this
-								objective.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="learningObjectiveReference" type="reference"
-						minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Lower level learning objectives, or
-								sub-objectives.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<xs:complexType name="learningStandard">
-		<xs:annotation>
-			<xs:documentation>This entity is a subelement of a learning objective
-				consisting of a precise statement of the expectation of a student's
-				proficiency.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="learningStandardId" type="learningStandardId">
-				<xs:annotation>
-					<xs:documentation>The Identifier for the specific learning standard
-						(e.g., 111.15.3.1.A)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="description" type="description">
-				<xs:annotation>
-					<xs:documentation>A detailed statement of the expectation that is
-						is assessed.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="contentStandard" type="contentStandardType">
-				<xs:annotation>
-					<xs:documentation>A reference to the type of content standard e.g.,
-						state, national, etc.)
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="gradeLevel" type="gradeLevelType">
-				<xs:annotation>
-					<xs:documentation>The grade level for the specific learning
-						standard.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="subjectArea" type="academicSubjectType">
-				<xs:annotation>
-					<xs:documentation>Subject area for the learning standard.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="courseTitle" type="courseTitle"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The official Course Title with which this
-						learning standard is associated.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="learningStandardId">
 		<xs:annotation>
 			<xs:documentation>The identifier for the learning standard.
@@ -3274,9 +3154,9 @@
 							<xs:documentation>The Education Organization associated with the
 								behavior codes.
 							</xs:documentation>
- 					                <xs:appinfo>
-						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -3286,9 +3166,10 @@
 
 	<xs:complexType name="disciplineDescriptor">
 		<xs:annotation>
-			<xs:documentation>This descriptor defines the type of action or removal 
-			        from the classroom used to discipline the student involved as a 
-			        perpetrator in a discipline incident.
+			<xs:documentation>This descriptor defines the type of action or
+				removal
+				from the classroom used to discipline the student involved as a
+				perpetrator in a discipline incident.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -3303,12 +3184,15 @@
 					</xs:element>
 					<xs:element name="shortDescription" type="shortDescription">
 						<xs:annotation>
-							<xs:documentation>A shortened description for the discipline</xs:documentation>
+							<xs:documentation>A shortened description for the discipline
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="description" type="description" minOccurs="0">
+					<xs:element name="description" type="description"
+						minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The description of the discipline.</xs:documentation>
+							<xs:documentation>The description of the discipline.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="educationOrganizationId" type="reference"
@@ -3317,9 +3201,9 @@
 							<xs:documentation>The Education Organization associated with the
 								discipline codes.
 							</xs:documentation>
- 					                <xs:appinfo>
-						                <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					                </xs:appinfo>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -3567,5 +3451,4 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
 </xs:schema>
