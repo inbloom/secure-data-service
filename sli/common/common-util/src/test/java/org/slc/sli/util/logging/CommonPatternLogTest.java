@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CommonPatternLogTest {
     
-    private Logger LOG = LoggerFactory.getLogger(CommonPatternLogTest.class);
+    private Logger log = LoggerFactory.getLogger(CommonPatternLogTest.class);
     
     @Test
     public void testSomething() {
-        LOG.warn("Something fishy");
+        log.warn("Something fishy");
         
     }
     
