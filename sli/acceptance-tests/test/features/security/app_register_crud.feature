@@ -39,7 +39,6 @@ Scenario Outline: Deny creation when user specifying auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@wip
 Scenario Outline: Deny update when user updating read-only auto-generated field
 
 	Given I am logged in using "demo" "demo1234" to realm "SLI"

@@ -73,6 +73,23 @@ public class BasicService implements EntityService {
     }
     
 
+    @Override
+    public long count(NeutralQuery neutralQuery) {
+        checkRights(Right.READ_GENERAL);
+        
+        List<String> allowed = findAccessible();
+        
+        if (allowed.isEmpty()) {
+            return 0;
+        }
+        
+        if (allowed.size() > 0) {
+            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+        }
+        
+        return repo.count(this.collectionName, neutralQuery);
+    }
+ 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      * 
