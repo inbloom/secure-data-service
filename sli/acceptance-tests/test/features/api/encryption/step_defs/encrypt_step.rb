@@ -263,7 +263,7 @@ Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
       object = object[f]
     end
   end
-  object.should == value
+  object.to_s.should == value
 end
 
 Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, value| 
