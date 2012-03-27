@@ -145,6 +145,31 @@ public class Constants {
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
+
+    // AddressType Constants
+    public static final String TYPE_ADDRESS_HOME = "Home";
+    public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
+    public static final String TYPE_ADDRESS_BILLING = "Billing";
+    public static final String TYPE_ADDRESS_MAILING = "Mailing";
+    public static final String TYPE_ADDRESS_OTHER = "Other";
+    public static final String TYPE_ADDRESS_TEMPORARY = "Temporary";
+    public static final String TYPE_ADDRESS_WORK = "Work";
+
+    // TelephoneType Constants
+    public static final String TYPE_TELEPHONE_HOME = "Home";
+    public static final String TYPE_TELEPHONE_WORK = "Work";
+    public static final String TYPE_TELEPHONE_MOBILE = "Mobile";
+    public static final String TYPE_TELEPHONE_EMERGENCY_1 = "Emergency 1";
+    public static final String TYPE_TELEPHONE_EMERGENCY_2 = "Emergency 2";
+    public static final String TYPE_TELEPHONE_FAX = "Fax";
+    public static final String TYPE_TELEPHONE_OTHER = "Other";
+    public static final String TYPE_TELEPHONE_UNLISTED = "Unlisted";
+
+    // EmailType Constants
+    public static final String TYPE_EMAIL_HOME_PERSONAL = "Home/Personal";
+    public static final String TYPE_EMAIL_WORK = "Work";
+    public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
+    public static final String TYPE_EMAIL_OTHER = "Other";
     
     /**
      * Contains the possible values for FRE participation

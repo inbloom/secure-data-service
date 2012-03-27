@@ -1,13 +1,13 @@
 package org.slc.sli.manager;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * ContactListSorter sorts contact by specified order.
@@ -27,40 +27,45 @@ public final class ContactSorter {
     
     // initialize sort priorities
     static {
-        
+        //Address sort by AddressType
         //Home(1), Physical(2), Billing(4), Mailing(3), Other(7), Temporary(6), Work(5)
         addressPriority = new HashMap<String , Integer>();
-        addressPriority.put("Home", 1);
-        addressPriority.put("Physical", 2);
-        addressPriority.put("Billing", 4);
-        addressPriority.put("Mailing", 3);
-        addressPriority.put("Other", 7);
-        addressPriority.put("Temporary", 6);
-        addressPriority.put("Work", 5);
+        addressPriority.put(Constants.TYPE_ADDRESS_HOME, 1);
+        addressPriority.put(Constants.TYPE_ADDRESS_PHYSICAL, 2);
+        addressPriority.put(Constants.TYPE_ADDRESS_BILLING, 4);
+        addressPriority.put(Constants.TYPE_ADDRESS_MAILING, 3);
+        addressPriority.put(Constants.TYPE_ADDRESS_OTHER, 7);
+        addressPriority.put(Constants.TYPE_ADDRESS_TEMPORARY, 6);
+        addressPriority.put(Constants.TYPE_ADDRESS_WORK, 5);
 
-        //Home(1), Work(2), Mobile(3), Emergency_1(4), Emergency_2(5), Fax(6), Other(7), Unlisted(8)
-        telephonePriority1 = new HashMap<String , Integer>();
-        telephonePriority1.put("Home", 1);
-        telephonePriority1.put("Work", 2);
-        telephonePriority1.put("Mobile", 3);
-        telephonePriority1.put("Emergency 1", 4);
-        telephonePriority1.put("Emergency 2", 5);
-        telephonePriority1.put("Fax", 6);
-        telephonePriority1.put("Other", 7);
-        telephonePriority1.put("Unlisted", 8);
-
+        
+        //Telephone List sort by primaryTelephoneNumberIndicator
+        //Highest priority
         //true 1
         //false 2
+        telephonePriority1 = new HashMap<String , Integer>();
+        telephonePriority1.put("true", 1);
+        telephonePriority1.put("false", 2);
+        
+        //Telephone sort by TelephoneType
+        //Home(1), Work(2), Mobile(3), Emergency_1(4), Emergency_2(5), Fax(6), Other(7), Unlisted(8)
         telephonePriority2 = new HashMap<String , Integer>();
-        telephonePriority2.put("true", 1);
-        telephonePriority2.put("false", 2);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_HOME, 1);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_WORK, 2);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_MOBILE, 3);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_EMERGENCY_1, 4);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_EMERGENCY_2, 5);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_FAX, 6);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_OTHER, 7);
+        telephonePriority2.put(Constants.TYPE_TELEPHONE_UNLISTED, 8);
 
+        //Email sort by EmailType
         //Home_Personal(1), Work(2), Organization(3), Other(4)
         emailPriority = new HashMap<String , Integer>();
-        emailPriority.put("Home/Personal", 1);
-        emailPriority.put("Work", 2);
-        emailPriority.put("Organization", 3);
-        emailPriority.put("Other", 4);        
+        emailPriority.put(Constants.TYPE_EMAIL_HOME_PERSONAL, 1);
+        emailPriority.put(Constants.TYPE_EMAIL_WORK, 2);
+        emailPriority.put(Constants.TYPE_EMAIL_ORGANIZATION, 3);
+        emailPriority.put(Constants.TYPE_EMAIL_OTHER, 4);        
     }
     
     /**
@@ -77,73 +82,23 @@ public final class ContactSorter {
         // sorting for Address
         // if size is less than 1, we do not need to sort.
         if (addresses.size() > 1) {
-            GenericSorter genericSorter = (new ContactSorter()).new GenericSorter("addressType", addressPriority);
+            GenericSorter genericSorter = new GenericSorter("addressType", addressPriority);
             Collections.sort(addresses , genericSorter);
         }
         // sorting telephone numbers
         if (telephones.size() > 1) {
-            GenericSorter genericSorter = (new ContactSorter()).new GenericSorter("telephoneNumberType", telephonePriority1);
+            GenericSorter genericSorter = new GenericSorter("telephoneNumberType", telephonePriority2);
             Collections.sort(telephones , genericSorter);
 
             //if primaryTelephoneNumberIndicator is true, it has the highest priority.
-            genericSorter = (new ContactSorter()).new GenericSorter("primaryTelephoneNumberIndicator", telephonePriority2);
+            genericSorter = new GenericSorter("primaryTelephoneNumberIndicator", telephonePriority1);
             Collections.sort(telephones , genericSorter);
         }
         // sorting email addresses
         if (electronicMails.size() > 1) {
-            GenericSorter genericSorter = (new ContactSorter()).new GenericSorter("emailAddressType", emailPriority);
+            GenericSorter genericSorter = new GenericSorter("emailAddressType", emailPriority);
             Collections.sort(electronicMails , genericSorter);
         }
         return genericEntity;
-    }
-
-    /**
-     * Generic sorting for GenericEntity
-     *
-     */
-
-    private class GenericSorter implements Comparator<LinkedHashMap<String , Object>> {
-        private String fieldName = "";
-        private Map<String, Integer> priorityList = null;
-
-        /**
-         * sort by given field name of JSON.
-         *
-         * @param fieldName
-         *            field name of JSON for sorting
-         * @param priorityList
-         *            Stirng: name of type, Integer priority (1 is the heigest priority)
-         */
-        public GenericSorter(String fieldName, Map<String, Integer> priorityList) {
-            this.fieldName = fieldName;
-
-            if (priorityList == null)
-                this.priorityList = new HashMap<String, Integer>();
-            else
-                this.priorityList = priorityList;
-        }
-
-        @Override
-        public int compare(LinkedHashMap<String, Object> o1, LinkedHashMap<String, Object> o2) {
-
-            // temporary assigning priority. Make it lowest possible.
-            int o1Priority = Integer.MAX_VALUE;
-            int o2Priority = Integer.MAX_VALUE;
-
-            Object o1Type = o1.get(this.fieldName);
-            Object o2Type = o2.get(this.fieldName);
-
-            // find true priority
-            if (o1Type != null) {
-                if (this.priorityList.containsKey(o1Type.toString()))
-                    o1Priority = this.priorityList.get(o1Type.toString());
-            }
-            if (o2Type != null) {
-                if (this.priorityList.containsKey(o2Type.toString()))
-                    o2Priority = this.priorityList.get(o2Type.toString());
-            }
-
-            return o1Priority == o2Priority ? 0 : (o1Priority < o2Priority ? -1 : 1);
-        }
     }
 }
