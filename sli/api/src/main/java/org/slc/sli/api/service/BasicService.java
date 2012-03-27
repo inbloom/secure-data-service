@@ -433,7 +433,7 @@ public class BasicService implements EntityService {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth instanceof AnonymousAuthenticationToken) {
+        if (auth instanceof AnonymousAuthenticationToken || auth == null) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 

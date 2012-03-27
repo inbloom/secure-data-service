@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="qualified">
+
+	<xs:element name="applicationAuthorization">
+		<xs:complexType>
+			<xs:annotation>
+			    <xs:documentation>
+			         Defines that is allowed to use an application.
+			         Typically the application list will be associated with an educational organization.
+			         
+			    </xs:documentation>
+				<xs:appinfo>
+					<sli:SecuritySphere>Admin</sli:SecuritySphere>
+				</xs:appinfo>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="authType" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="EDUCATION_ORGANIZATION" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="authId" type="xs:string" minOccurs="1"/>
+				<xs:element name="appIds" minOccurs="1">
+					<xs:simpleType>
+						<xs:list itemType="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
+
