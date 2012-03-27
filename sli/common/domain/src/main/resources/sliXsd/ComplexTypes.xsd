@@ -2839,7 +2839,7 @@
 		<xs:complexContent>
 			<xs:extension base="complexObjectType">
 				<xs:sequence>
-					<xs:element name="GraduationPlanType">
+					<xs:element name="graduationPlanType">
 						<xs:annotation>
 							<xs:documentation>The type of academic plan the student is
 								following for
@@ -2872,6 +2872,7 @@
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The total credits required in subject to
+
 								graduate.
 								Only those courses identified as a high school course
 								requirement
