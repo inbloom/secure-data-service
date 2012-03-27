@@ -1,8 +1,8 @@
 require 'rubygems'
-require 'selenium-webdriver'#run the file ruby selenium.rb 'Name of your selection releam' 'username' 'password'
+require 'selenium-webdriver'
 #require_relative '/../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
-#driver = Selenium::WebDriver.for :firefox
+
 
 
 Given /^an admin user Demo exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
@@ -94,6 +94,9 @@ end
 #  end
 #end
 
+Given /^I should remove all cookies$/ do
+ @driver.manage.delete_all_cookies
+end
 
 When /^I login with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
   @driver.manage.delete_all_cookies
