@@ -1,4 +1,4 @@
-package org.slc.sli.manager;
+package org.slc.sli.entity.util;
 
 import java.util.Comparator;
 import java.util.HashMap;

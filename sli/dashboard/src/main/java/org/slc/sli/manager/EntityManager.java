@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardUserMessageException;
 import org.slc.sli.util.SecurityUtil;
