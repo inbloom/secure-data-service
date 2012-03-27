@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -12,7 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/xmlfileexpander-context.xml" })
+/*@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })*/
 public class XMLFileExpanderTest {
+
+    @Autowired
+    XMLFileExpander xmlFileExpander;
 
     /**
      *
@@ -20,7 +25,6 @@ public class XMLFileExpanderTest {
     @SuppressWarnings("unused")
     @Test
     public void testXMLFileExpander() {
-        XMLFileExpander xmlFileExpander = new XMLFileExpander();
 
         // Test the XML file expander on a large test file.
         try {

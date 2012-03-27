@@ -10,15 +10,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.mongodb.MongoException;
+import com.sun.tools.javac.util.List;
+import com.sun.tools.jdi.LinkedHashMap;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -27,16 +35,22 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 
 /**
  *
  */
+@Component
 public class XMLFileExpander {
 
     private Map<String, String> referenceTable = new HashMap<String, String>();
+    private Map<String, Integer> referenceFrequencyTable = new HashMap<String, Integer>();
+    private LinkedList<String> referenceList = new LinkedList<String>();
     private String inputFileName = null;
     private File inputFileReference = null;
     private File inputFileEntity = null;
@@ -55,13 +69,31 @@ public class XMLFileExpander {
     private DataOutputStream outputFileDataStream = null;
     private Runtime runtime = Runtime.getRuntime();
     private int referencesProcessed = 0;
+    private int referenceReferencesProcessed = 0;
     private int entitiesProcessed = 0;
-    private final String REFERENCE_DATABASE_NAME = "REFERENCE_DATABASE";
+    private final String REFERENCE_DATABASE_NAME = "REFERENCE_DATABASE---------------------------------";
+    private final String REFERENCE_COLLECTION_NAME = "REFERENCE_COLLECTION";
+    private final String REFERENCE_BODY_NAME = "REFERENCE_BODY";
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     private final Logger LOG = LoggerFactory.getLogger(XMLFileExpander.class);
+
+    /**
+     * @return the neutralRecordMongoAccess
+     */
+    public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
+        return neutralRecordMongoAccess;
+    }
+
+    /**
+     * @param neutralRecordMongoAccess
+     *            the neutralRecordMongoAccess to set
+     */
+    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
 
     /**
      * @param xmlFileName
@@ -70,6 +102,7 @@ public class XMLFileExpander {
     public void expandXMLFile(String xmlFileName) throws Exception {
 
         try {
+
             // SAX parsers setup.
             createSaxReferenceParser();
             createSaxEntityParser();
@@ -99,6 +132,12 @@ public class XMLFileExpander {
 
             // Parse the XML input file for extraction of all references.
             saxReferenceParser.parse(inputFileReference, referenceHandler);
+
+            // Sort reference frequency table.
+            sortReferenceFrequencyTable();
+
+            // Create the reference table.
+            createReferenceTable();
 
             // Parse the XML input file for extraction of all entities.
             saxEntityParser.parse(inputFileReference, entityHandler);
@@ -164,6 +203,24 @@ public class XMLFileExpander {
     }
 
     /**
+     *
+     */
+    private long getMemory() {
+        // Return the amount of free memory available
+        return runtime.freeMemory();
+    }
+
+    private void createReferenceTable() {
+        // Create the reference table.
+        int i = 0;
+        Iterator<Entry<String, Integer>> ref = referenceFrequencyTable.entrySet().iterator();
+        while (!memoryLow() && ref.hasNext()) {
+            String referenceId = ref.next().getKey();
+            referenceTable.put(referenceId, getReferenceFromDatabase(referenceId));
+        }
+    }
+
+    /**
     *
     */
     private void addReferenceToTable(String referenceId, String referenceBody) {
@@ -174,28 +231,83 @@ public class XMLFileExpander {
     /**
     *
     */
+    private String getReferenceFromTable(String referenceId) {
+        // Add the next reference from the input file to the reference table.
+        String referenceBody = null;
+        if (referenceTable.containsKey(referenceId)) {
+            referenceBody = referenceTable.get(referenceId);
+        }
+        return referenceBody;
+    }
+
+    /**
+    *
+    */
     private void clearReferenceTable() {
         // Clear the reference table.
         referenceTable.clear();
     }
 
+    /**
+    *
+    */
+    private void updateReferenceFrequencyTable(String referenceId) {
+        // Sort the reference frequency table.
+        int freq = (referenceFrequencyTable.containsKey(referenceId) ? referenceFrequencyTable.get(referenceId) + 1 : 1);
+        referenceFrequencyTable.put(referenceId, freq);
+    }
+
+    /**
+    *
+    */
+    private void sortReferenceFrequencyTable() {
+        // Sort reference frequency table.
+        ArrayList<String> mapKeys = new ArrayList<String>(referenceFrequencyTable.keySet());
+        ArrayList<Integer> mapValues = new ArrayList<Integer>(referenceFrequencyTable.values());
+        ArrayList<Integer> sortedSet = new ArrayList<Integer>(mapValues);
+        Collections.sort(sortedSet);
+        Integer[] sortedArr = new Integer[sortedSet.size()];
+        Integer[] sortedArray = sortedSet.toArray(sortedArr);
+        int size = sortedArray.length;
+        referenceFrequencyTable.clear();
+
+        // Size the new reference list.
+        int index;
+        for (int i = 0; i < size; i++) {
+            index = mapValues.indexOf(sortedArray[i]);
+            referenceFrequencyTable.put(mapKeys.get(index), sortedArray[i]);
+            mapValues.remove(index);
+        }
+        for (Map.Entry<String, Integer> ref : referenceFrequencyTable.entrySet()) {
+            System.out.println(ref.getKey() + " => " + ref.getValue());
+        }
+        System.out.println("Reference frequency table size: " + referenceFrequencyTable.size());
+        System.out.println("size = " + size);
+    }
+
+    /**
+    *
+    */
     private String hashCode(String key) {
         final long[] byteTable = createLookupTable();
         final long HSTART = 0xBB40E64DA205B064L;
         final long HMULT = 7664345821815920749L;
 
         // Calculate the key integral hash code.
-          long h = HSTART;
-          final long hmult = HMULT;
-          final long[] ht = byteTable;
-          for (int len = key.length(), i = 0; i < len; i++) {
+        long h = HSTART;
+        final long hmult = HMULT;
+        final long[] ht = byteTable;
+        for (int len = key.length(), i = 0; i < len; i++) {
             h = (h * hmult) ^ ht[key.charAt(i) & 0xff];
-          }
+        }
 
-          // Convert the integral hash code into a String, and return.
-          return convertToRecordId(h);
-      }
+        // Convert the integral hash code into a String, and return.
+        return convertToRecordId(h);
+    }
 
+    /**
+    *
+    */
     private final long[] createLookupTable() {
         long[] byteTable = new long[256];
         long h = 0x544B2FBACAAF1684L;
@@ -216,7 +328,7 @@ public class XMLFileExpander {
     private String convertToRecordId(long hash) {
         byte hexString[] = Long.toHexString(hash).getBytes();
         String recordId = String.valueOf(hexString[0]);
-        for (int i=1; i<5; i++) {
+        for (int i = 1; i < 5; i++) {
             recordId += "-" + String.valueOf(hexString[i]);
         }
         return recordId;
@@ -240,9 +352,10 @@ public class XMLFileExpander {
 
         // First, convert the reference to a neutral record.
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setRecordType("reference");
+        neutralRecord.setRecordType(REFERENCE_COLLECTION_NAME);
         neutralRecord.setRecordId(hashCode(referenceId));
-        neutralRecord.setAttributeField("referenceBody", referenceBody);
+        neutralRecord.setBatchJobId(referenceId);
+        neutralRecord.setAttributeField(REFERENCE_BODY_NAME, referenceBody);
 
         // Now, add it to the database.
         neutralRecordMongoAccess.getRecordRepository().create(neutralRecord);
@@ -254,8 +367,15 @@ public class XMLFileExpander {
     private String getReferenceFromDatabase(String referenceId) {
         // Get the specified reference from the reference database.
         String hashedReferenceId = hashCode(referenceId);
-        NeutralRecord neutralRecord = neutralRecordMongoAccess.getRecordRepository().findById(null, hashedReferenceId);
-        return neutralRecord.getAttributes().get(referenceId).toString();
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("batchJobId=" + referenceId));
+        NeutralRecord neutralRecord = neutralRecordMongoAccess.getRecordRepository().findById(
+                REFERENCE_COLLECTION_NAME, hashedReferenceId);
+        /*
+         * NeutralRecord neutralRecord = neutralRecordMongoAccess.getRecordRepository().findOne(
+         * REFERENCE_COLLECTION_NAME, neutralQuery);
+         */
+        return neutralRecord.getAttributes().get(REFERENCE_BODY_NAME).toString();
     }
 
     /**
@@ -282,27 +402,6 @@ public class XMLFileExpander {
     private void closeOutputFile() throws IOException {
         // Clear the reference table.
         outputFileDataStream.close();
-    }
-
-    /**
-    *
-    */
-    private void createReferenceDB() {
-        // Create the reference staging database.
-    }
-
-    /**
-    *
-    */
-    private void writeReferenceToDB(String referenceId, String referenceBody) {
-        // Write the reference to the staging database.
-    }
-
-    /**
-    *
-    */
-    private void dropReferenceDB() {
-        // Drop the reference staging database.
     }
 
     /**
@@ -361,6 +460,12 @@ public class XMLFileExpander {
                     }
                     referenceBody += ">";
                 }
+                else if (qualifiedName.contains("Reference") && attributes.getQName(0).equals("ref")) {
+                    // This is a reference to a reference, so update reference frequency table.
+                    referenceId = attributes.getValue(0);
+                    updateReferenceFrequencyTable(referenceId);
+                    referenceReferencesProcessed++;
+                }
             }
 
             public void endElement(String uri, String localName, String qualifiedName) throws SAXException {
@@ -409,7 +514,6 @@ public class XMLFileExpander {
             String entityBody = null;
             String referenceId = null;
             boolean isReference = false;
-            boolean isStart = false;
 
             public void startDocument() throws SAXException {
                 // Write the input file header to the output file.
@@ -453,7 +557,12 @@ public class XMLFileExpander {
                         // Look up the reference ID from the table, and add the reference to the
                         // entity.
                         referenceId = attributes.getValue(0);
-                        entityBody += getReferenceFromDatabase(referenceId);
+                        String referenceBody = getReferenceFromTable(referenceId);
+                        if (referenceBody != null) {
+                            entityBody += getReferenceFromTable(referenceId);
+                        } else {
+                            entityBody += getReferenceFromDatabase(referenceId);
+                        }
                     } else {
                         if (!isEntity) {
                             isEntity = true;
@@ -505,14 +614,6 @@ public class XMLFileExpander {
 
         };
 
-    }
-
-    public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
-        return neutralRecordMongoAccess;
-    }
-
-    public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
-        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
 
 }

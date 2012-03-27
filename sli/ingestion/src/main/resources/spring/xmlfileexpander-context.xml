@@ -46,34 +46,49 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
-
+<!--
   <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
-  </bean>
+  </bean> -->
 
-<!--
+
   <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate">
     <constructor-arg value="${sli.ingestion.staging.mongodb.database}"  />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
- -->
-  <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />-->
+
+  <bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
+
+    <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+    </bean>
 
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
-    <property name="idConverter" ref="mongoIdConverter" />
   </bean>
 
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess" >
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
 
-  <bean id="xMLFileExpander" class="org.slc.sli.ingestion.XMLFileExpander" >
+<!--   <bean id="xMLFileExpander" class="org.slc.sli.ingestion.XMLFileExpander" >
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-  </bean>
+  </bean> -->
 
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
+  <context:component-scan base-package="org.slc.sli.dal.repository" />
+  <context:component-scan base-package="org.slc.sli.dal.convert" />
+  <context:component-scan base-package="org.slc.sli.validation.utils" />
+
+  <context:annotation-config />
+  <bean id="queryConverter" class="org.slc.sli.dal.repository.MongoQueryConverter" />
+  <bean id="idConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
+  <bean id="schemaRepo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />
+  <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
+
+  <bean id="xmlFileExpander" class="org.slc.sli.ingestion.XMLFileExpander">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 
 </beans>
