@@ -7,9 +7,7 @@
    
     	<encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 			<layout class="org.slc.sli.util.logging.CustomPatternLayout" />
-	<!--<encoder>			
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
-   </encoder>
+	    </encoder>
   </appender>
   
   <appender name="API_CALL_LOGGER" class="ch.qos.logback.core.FileAppender">
