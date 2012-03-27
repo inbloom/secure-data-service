@@ -2,17 +2,10 @@
 
 <merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
 
-    <merge type="node" action="delete" 
-        xpath="//ns2:application/ns2:doc"/>
+    <!-- User action="add" and action="delete" in combination
+         with the xpath associated with the WADL XML schema. -->
 
     <merge type="node" action="add" xpath="//ns2:application">
-
-        <ns2:doc xml:lang="en" 
-                 title="SLI REST API Documentation">
-            The SLI REST API is described within this 
-            document. (This paragraph was added by 
-            merge-examples.xml).
-        </ns2:doc>
 
         <!-- FIXME: The following is a test entry. -->
         <!-- <ns2:resources base="http://www.sli.slc.org/api/rest">
