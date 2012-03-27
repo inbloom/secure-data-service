@@ -9,4 +9,5 @@ edfi-xml,StudentAssessment,InterchangeStudentAssessment-Lkim8thgrade.xml,c916a98
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-Rbraverman1stgrade.xml,a3bfcc70e0ed922053817d9e7a230e5b
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-DIBELS.xml,fb0f12aeac92535fd4cc832fc6b77e5f
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-ISAT.xml,4fa388e2a9840759d30fc8a8b2c28e1c
-
+edfi-xml,Attendance,InterchangeAttendance.xml,24315084d05880e00f628afd2ac4027a
+edfi-xml,Parent,InterchangeStudentParent.xml,23cde0e6053ef691ab4a8fd5b6150e2b
