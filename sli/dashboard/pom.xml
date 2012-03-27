@@ -122,6 +122,12 @@
 			<groupId>org.slc.sli.common</groupId>
 			<artifactId>domain</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>common-util</artifactId>
+        </dependency>
+
 
 		<!-- Freemarker -->
 		<dependency>

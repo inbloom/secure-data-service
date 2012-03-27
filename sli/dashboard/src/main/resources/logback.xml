@@ -6,16 +6,15 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${log.path}/dashboard.log</File>
     <Append>true</Append>
-    <encoder>
-      <Pattern>%date %-5level %logger{40} - %msg%n
-      </Pattern>
-    </encoder>
+    <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+		<layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+	</encoder>
   </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <Pattern>%date %-5level %logger{40} - %msg%n</Pattern>
-    </encoder>
+   <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+		<layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+	</encoder>
   </appender>
 
   <root level="WARN">
