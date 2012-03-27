@@ -10,7 +10,7 @@ Background:
 @wip
 Scenario: Teacher sees Absence Count in K-3 list of students view
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -25,7 +25,7 @@ Scenario: Teacher sees Absence Count in K-3 list of students view
 @wip
 Scenario: Teacher sees Absence Count in 3-8 list of students view
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -40,7 +40,7 @@ Scenario: Teacher sees Absence Count in 3-8 list of students view
  
 Scenario: Teacher sees Absence Count in 9-12 list of students view
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -55,7 +55,7 @@ Scenario: Teacher sees Absence Count in 9-12 list of students view
 
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -71,7 +71,7 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
 
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow 
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -87,7 +87,7 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow
 
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light green
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -103,7 +103,7 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light gre
 
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -119,7 +119,7 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
 
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -135,7 +135,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
 			
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -151,7 +151,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
 
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green 
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -167,7 +167,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green
 
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green 
 		When I navigate to the Dashboard home page
-		When I select "Illinois Realm" and click go
+		When I select "Sunset School District 4526" and click go
 		When I login as "cgray" "cgray1234"
 		When I go to "/studentList"
 	    When I select <edOrg> "Daybreak School District 4529"
@@ -183,7 +183,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 			
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - third color
     When I navigate to the Dashboard home page
-    When I select "Illinois Realm" and click go
+    When I select "Sunset School District 4526" and click go
     When I login as "cgray" "cgray1234"
     When I go to "/studentList"
       When I select <edOrg> "Daybreak School District 4529"
@@ -200,7 +200,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - second color
     When I navigate to the Dashboard home page
-    When I select "Illinois Realm" and click go
+    When I select "Sunset School District 4526" and click go
     When I login as "cgray" "cgray1234"
     When I go to "/studentList"
       When I select <edOrg> "Daybreak School District 4529"
@@ -216,7 +216,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
       
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - first color
     When I navigate to the Dashboard home page
-    When I select "Illinois Realm" and click go
+    When I select "Sunset School District 4526" and click go
     When I login as "cgray" "cgray1234"
     When I go to "/studentList"
       When I select <edOrg> "Daybreak School District 4529"

@@ -49,7 +49,7 @@ And the lozenges count is "0"
 Scenario: View a student's profile in live mode
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
 When I click on the Dashboard page

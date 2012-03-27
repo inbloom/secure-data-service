@@ -7,7 +7,7 @@ Scenario: Authenticate against IDP and navigate to studentlist page
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I click on the Dashboard page
 When I select ed org "Daybreak School District 4529"
