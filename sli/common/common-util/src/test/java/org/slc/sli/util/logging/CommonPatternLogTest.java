@@ -4,14 +4,20 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CustomPatternLogTest {
-
-	private Logger LOG = LoggerFactory.getLogger( CustomPatternLogTest.class );
-	
-	@Test
-	public void testSomething() {
-		LOG.warn( "Something fishy" );
-		
-	}
-	
+/**
+ * Simple test to help debug the common pattern.
+ * 
+ * @author smelody
+ * 
+ */
+public class CommonPatternLogTest {
+    
+    private Logger log = LoggerFactory.getLogger(CommonPatternLogTest.class);
+    
+    @Test
+    public void testSomething() {
+        log.warn("Something fishy");
+        
+    }
+    
 }
