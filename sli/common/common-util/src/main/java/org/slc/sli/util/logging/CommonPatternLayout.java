@@ -9,7 +9,7 @@ import ch.qos.logback.classic.PatternLayout;
  * @author smelody
  * 
  */
-public class CustomPatternLayout extends PatternLayout {
+public class CommonPatternLayout extends PatternLayout {
 	
 	//TODO - shouldn't this be in our config files in 1 place?
 	private static final String PATTERN = "%date{dd MMM yyyy HH:mm:ss.SSSZ} %-5level [%thread] %logger{10} [%user] - %msg%n";
@@ -20,7 +20,7 @@ public class CustomPatternLayout extends PatternLayout {
 				UserConverter.class.getName());
 	}
 	
-	public CustomPatternLayout() {
+	public CommonPatternLayout() {
 		setPattern(PATTERN);
 	}
 
