@@ -52,8 +52,8 @@ public class CustomizationAssemblyFactoryTest {
     private static final String DEFAULT_PANEL_JSON = 
             "{id : 'panel', type: 'PANEL', condition: {field: 'gender', value: ['male']}, data :{entity: 'test',alias: 'mock' }}";
     
-    private static final String DEFAULT_GRID_JSON = 
-            "{id : 'grid', type: 'GRID', data :{entity: 'test',alias: 'mock' }, items: [{id: 'col5', name: 'Tardy Rate %', datatype: 'string', field: 'tardyRate', width: 70, sorter: 'float', formatter: PercentCompleteFormatter, params:{reverse:true, low:95}}]}";
+    private static final String DEFAULT_PANEL1_JSON = 
+            "{id : 'panel1', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'test',alias: 'mock' }}";
     
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;
@@ -214,15 +214,17 @@ public class CustomizationAssemblyFactoryTest {
         configMap = new HashMap<String, Config>();
         configMap.put("studentProfile", gson.fromJson(DEFAULT_LAYOUT_JSON, Config.class));
         configMap.put("panel", gson.fromJson(DEFAULT_PANEL_JSON, Config.class));
+        configMap.put("panel1", gson.fromJson(DEFAULT_PANEL1_JSON, Config.class));
         configMap.put("deep", gson.fromJson(DEFAULT_LAYOUT_TOO_DEEP_JSON, Config.class));
-        configMap.put("grid", gson.fromJson(DEFAULT_GRID_JSON, Config.class));
-
+        
         simpleMaleStudentEntity = new GenericEntity();
         simpleMaleStudentEntity.put("id", "1");
         simpleMaleStudentEntity.put("gender", "male");
+        simpleMaleStudentEntity.put("gradeNumeric", 5);
         simpleFemaleStudentEntity = new GenericEntity();
         simpleFemaleStudentEntity.put("id", "2");
         simpleFemaleStudentEntity.put("gender", "female");
+        simpleFemaleStudentEntity.put("gradeNumeric", 7);
         
         sampleEntityMap = new HashMap<String, GenericEntity>();
         sampleEntityMap.put(simpleMaleStudentEntity.getString("id"), simpleMaleStudentEntity);
@@ -292,6 +294,13 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertFalse(
                 "Must be true for a student with gender = 'male'", 
                 customizationAssemblyFactory.checkCondition(configMap.get("panel"), simpleFemaleStudentEntity));
+        
+        Assert.assertTrue(
+                "Must be true for a student with gradeNumeric = 5", 
+                customizationAssemblyFactory.checkCondition(configMap.get("panel1"), simpleMaleStudentEntity));
+        Assert.assertFalse(
+                "Must be false for a student with gradeNumeric = 7", 
+                customizationAssemblyFactory.checkCondition(configMap.get("panel1"), simpleFemaleStudentEntity));
     }
     
     /**
