@@ -18,8 +18,8 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 public class AddressFactory {
 
 	private static final Logger log = Logger.getLogger(AddressFactory.class);
-	private String file_city_US = "database/city_US.csv";
-	private String file_street_US = "database/street_US.csv";
+	private String file_city_US = "database/address/city_US.csv";
+	private String file_street_US = "database/address/street_US.csv";
 	private int cityCount;
 	private int streetCount;
 	private Random rand = new Random(); 
@@ -32,18 +32,17 @@ public class AddressFactory {
 	public AddressFactory(StateAbbreviationType state) throws Exception{
 		loadData(state);
 		today   =  GregorianCalendar.getInstance();
-		today   =   GregorianCalendar.getInstance();
+		today   =  GregorianCalendar.getInstance();
 		yearAgo =  GregorianCalendar.getInstance();
 		yearAgo.roll(Calendar.YEAR, -1);	
 		yearHence =  GregorianCalendar.getInstance();
 		yearHence.roll(Calendar.YEAR, 1);		
 	}
 
-	public void loadData(StateAbbreviationType stateParam) throws Exception
+	private void loadData(StateAbbreviationType stateParam) throws Exception
 	{
 
-		BufferedReader cityReader   = new BufferedReader(
-				new InputStreamReader(new FileInputStream(file_city_US)));
+		BufferedReader cityReader   = new BufferedReader(new InputStreamReader(new FileInputStream(file_city_US)));
 		BufferedReader streetReader = new BufferedReader(new InputStreamReader(new FileInputStream(file_street_US)));
 
 		//NH;PORTSMOUTH;Rockingham;210;603

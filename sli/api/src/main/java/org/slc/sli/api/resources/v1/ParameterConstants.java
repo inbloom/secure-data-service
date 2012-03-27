@@ -78,6 +78,7 @@ public class ParameterConstants {
     public static final String BELL_SCHEDULE_ID = "bellScheduleId";
     public static final String COURSE_ID = "courseId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
+    public static final String DISCIPLINE_ACTION_ID = "disciplineActionId";
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
     public static final String SCHOOL_ID = "schoolId";
@@ -102,4 +103,5 @@ public class ParameterConstants {
     public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
 }
