@@ -7,7 +7,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidator;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Zip file validator.
@@ -15,7 +15,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidator;
  * @author okrook
  *
  */
-public class ZipFileValidator extends SimpleValidator<File> {
+public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
     @Override
     public boolean isValid(File zipFile, ErrorReport callback) {

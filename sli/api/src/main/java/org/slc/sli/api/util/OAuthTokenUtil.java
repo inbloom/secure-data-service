@@ -212,6 +212,15 @@ public class OAuthTokenUtil {
         return toReturn;
     }
 
+    public void removeExpiredTokens() {
+        NeutralQuery removeQuery = new NeutralQuery();
+        removeQuery.addCriteria(new NeutralCriteria("accessToken.expiration", "<", new Date()));
+
+        Iterable<Entity> expired = repo.findAll(OAUTH_ACCESS_TOKEN_COLLECTION, removeQuery);
+        for (Entity remover : expired) {
+            repo.delete(OAUTH_ACCESS_TOKEN_COLLECTION, remover.getEntityId());
+        }
+    }
 
 
 }

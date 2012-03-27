@@ -8,7 +8,7 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidator;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  * Control File validator.
@@ -16,7 +16,7 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidator;
  * @author okrook
  *
  */
-public class ControlFileValidator extends SimpleValidator<ControlFileDescriptor> {
+public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescriptor> {
 
     private List<IngestionFileValidator> ingestionFileValidators;
 

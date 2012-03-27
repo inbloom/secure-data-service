@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
 When I click on the Dashboard page
@@ -27,7 +27,7 @@ And the list of email address includes "Imelda_Lindsey@yahoo.com"
 And there are "1" addresses
 And the list of address includes
 """
-1558 4th Street , APT 7776
+1558 4th Street, APT 7776
 Chicago, IL 60139-2152
 """
 
@@ -51,7 +51,7 @@ Chicago, IL 60848-7633
 """
 And the list of address includes 
 """
-1537 Steuben Street , APT 330
+1537 Steuben Street, APT 330
 New York, NY 10753-2389
 """
 
@@ -77,7 +77,7 @@ And I look at the panel "Contact Information"
 And there are "2" addresses
 And the list of address includes 
 """
-3655 Brighton 2nd Lane , APT 4221
+3655 Brighton 2nd Lane, APT 4221
 351
 Chicago, IL 60908-1028
 """
@@ -123,7 +123,7 @@ New York, NY 10473-1436
 """
 And the list of address includes
 """
-4606 Albemarle Road , APT 5760
+4606 Albemarle Road, APT 5760
 Chicago, IL 60457-1957
 """
 And the order of the addressess is  "4256 Wyckoff Street;4606 Albemarle Road"

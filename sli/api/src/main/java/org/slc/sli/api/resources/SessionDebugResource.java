@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.util.SecurityUtil;
@@ -37,6 +38,9 @@ public class SessionDebugResource {
     
     @Autowired
     private RoleRightAccess roleAccessor;
+    
+    @Autowired
+    private ClientRoleResolver roleResolver;
     
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
@@ -63,6 +67,8 @@ public class SessionDebugResource {
             throw new InsufficientAuthenticationException("User must be logged in");
         }
         
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
         return SecurityContextHolder.getContext();
     }
     
@@ -82,6 +88,7 @@ public class SessionDebugResource {
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
             sessionDetails.put("adminRealm", principal.getAdminRealm());
+            sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
             
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override

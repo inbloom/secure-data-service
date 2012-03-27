@@ -7,8 +7,7 @@ Section:  Biology II - C
 Student: Jane Doe
 
 Background: 
-	Given I am logged in using "demo" "demo1234"
-	And I have access to all sections and students
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario Outline: Create a student-section-association
 	Given format <format>
