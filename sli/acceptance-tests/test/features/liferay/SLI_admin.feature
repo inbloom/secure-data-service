@@ -9,19 +9,22 @@ Feature: title
     
 
  Scenario: Admin User Login with wrong username and password
+    Given I have an open web browser
     When I go to the login page
     When I login with "dem" and "change"
     Then I should be on the authentication failed page
     Then I should see "Authentication failed."
-    
- Scenario: Admin User Login with blank username and blank password
+  
+  Scenario: Admin User Login with blank username and password
+    Given I have an open web browser
     When I go to the login page
     When I login with "" and ""
     Then I should be on the authentication failed page
-    Then I should see "Authentication failed."
+    Then I should see "Authentication failed."  
     
 
  Scenario: Admin User Login
+    Given I have an open web browser
     When I go to the login page
     When I login with "demo" and "changeit"
     Then I should be on the home page
