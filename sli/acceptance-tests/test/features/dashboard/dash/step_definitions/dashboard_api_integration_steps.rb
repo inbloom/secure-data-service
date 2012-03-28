@@ -8,9 +8,8 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
-  
- realm_select = @driver.find_element(:name=> "realmId")
-
+ wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+ realm_select = wait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
