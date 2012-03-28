@@ -2,75 +2,73 @@ package org.slc.sli.api.resources.v1;
 
 /**
  * Constants used in URI requests.
- *
- *
+ * 
+ * 
  * @author kmyers
- *
+ * 
  */
 public class ParameterConstants {
-
+    
     /**
      * An indication not to start from the first result.
      */
     public static final String OFFSET = "offset";
-
+    
     /**
      * Maximum number of results to display at one time.
      */
     public static final String LIMIT = "limit";
-
+    
     /**
      * An indication not to start from the first result.
      */
     public static final String DEFAULT_OFFSET = "0";
     public static final int DEFAULT_OFFSET_INT = Integer.parseInt(DEFAULT_OFFSET);
-
-
+    
     /**
      * Maximum number of results to display at one time.
      */
     public static final String DEFAULT_LIMIT = "50";
     public static final int DEFAULT_LIMIT_INT = Integer.parseInt(DEFAULT_LIMIT);
-
+    
     /**
      * Number of links to traverse when presenting a high-level document.
      */
     public static final String EXPAND_DEPTH = "expandDepth";
-
+    
     /**
      * Query parameter for fields to include.
      */
     public static final String INCLUDE_FIELDS = "includeFields";
-
+    
     /**
      * Query parameter for fields to exclude.
      */
     public static final String EXCLUDE_FIELDS = "excludeFields";
-
+    
     /**
      * Query parameter for sorting.
      */
     public static final String SORT_BY = "sortBy";
-
+    
     /**
      * Query parameter for sort order.
      */
     public static final String SORT_ORDER = "sortOrder";
-
+    
     /**
      * Query parameter for order ascending.
      */
     public static final String SORT_ASCENDING = "ascending";
-
+    
     /**
      * Query parameter for order descending.
      */
     public static final String SORT_DESCENDING = "descending";
-
+    
     public static final String HEADER_LINK = "Link";
     public static final String HEADER_TOTAL_COUNT = "TotalCount";
-
-
+    
     /**
      * Entity/Association IDs
      */
@@ -91,6 +89,7 @@ public class ParameterConstants {
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";
+    public static final String LEARNING_STANDARD_ID = "learningStandardId";
     public static final String SCHOOL_SESSION_ASSOCIATION_ID = "schoolSessionAssociationId";
     public static final String TEACHER_SCHOOL_ASSOCIATION_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SCHOOL_ASSOC_ID = "teacherSchoolAssociationId";
