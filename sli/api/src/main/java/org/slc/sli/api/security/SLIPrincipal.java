@@ -23,6 +23,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String realm;
     private String externalId;
     private String adminRealm;
+    private String edOrg;
     private List<String> roles;
     private List<String> sliRoles;
 
@@ -101,6 +102,20 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setAdminRealm(String adminRealm) {
         this.adminRealm = adminRealm;
     }
+    
+    /**
+     * LDAP Attribute "edorg" is set to "X-DistrictY" which is the "stateOrganizationId" 
+     * for the District in the edorg hierarchy for the data that will be ingested
+     * @return
+     */
+    public String getEdOrg() {
+        return edOrg;
+    }
+
+    public void setEdOrg(String edOrg) {
+        this.edOrg = edOrg;
+    }
+    
     
     public void setSliRoles(List<String> sliRoles) {
         this.sliRoles = sliRoles;

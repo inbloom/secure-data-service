@@ -22,9 +22,17 @@ public class TeacherSchoolAssociationGenerator {
 
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
-
         tsa.getSchoolReference().add(eor);
 
+        tsa.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
+
+        GradeLevelsType glt = new GradeLevelsType();
+        glt.getGradeLevel().add(GradeLevelType.EARLY_EDUCATION);
+        tsa.setInstructionalGradeLevels(glt);
+
+        AcademicSubjectsType ast = new AcademicSubjectsType();
+        ast.getAcademicSubject().add(AcademicSubjectType.COMPUTER_AND_INFORMATION_SCIENCES);
+        tsa.setAcademicSubjects(ast);
         return tsa;
     }
 }
