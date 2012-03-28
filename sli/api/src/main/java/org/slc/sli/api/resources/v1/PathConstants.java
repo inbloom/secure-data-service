@@ -30,6 +30,7 @@ public class PathConstants {
     public static final String STUDENT_WITH_GRADE = "studentWithGrade";
     
     public static final String ASSESSMENTS = "assessments";
+    public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
@@ -74,6 +75,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
         
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
+        TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNINGOBJECTIVES);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
