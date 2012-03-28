@@ -15,6 +15,7 @@ set :deploy_via, :remote_cache
 set :deploy_to, "~/prowler"
 
 set :scm, :git
+set :subdomain, nil
 
 
 
