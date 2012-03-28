@@ -13,20 +13,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * 
  */
 public class UserConverter extends ClassicConverter {
-	@Override
-	public String convert(ILoggingEvent event) {
-
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		if (auth != null) {
-			Object oPrincipal = auth.getPrincipal();
-			String principal = "";
-			if (oPrincipal != null) {
-				principal = oPrincipal.toString();
-			}
-			return principal;
-
-		}
-		return "NO_USER";
-	}
+    @Override
+    public String convert(ILoggingEvent event) {
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object oPrincipal = auth.getPrincipal();
+            String principal = "";
+            if (oPrincipal != null) {
+                principal = oPrincipal.toString();
+            }
+            return principal;
+            
+        }
+        return "NO_USER";
+    }
 }

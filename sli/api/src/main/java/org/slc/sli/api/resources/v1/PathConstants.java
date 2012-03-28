@@ -1,9 +1,9 @@
 package org.slc.sli.api.resources.v1;
 
-import org.slc.sli.api.config.ResourceNames;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.slc.sli.api.config.ResourceNames;
 
 /**
  * Constants used in URI path requests.
@@ -26,14 +26,17 @@ public class PathConstants {
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STUDENT_WITH_GRADE = "studentWithGrade";
 
     public static final String ASSESSMENTS = "assessments";
+    public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
+    public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String PARENTS = "parents";
@@ -69,6 +72,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
 
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
+        TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNINGOBJECTIVES);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);

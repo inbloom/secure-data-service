@@ -25,4 +25,10 @@ nxbuild2:
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild2.slidev.org/admin/callback
+team:
+    api_base: https://ci.slidev.org/api/rest
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    redirect_uri: https://ci.slidev.org/admin/callback
+    
 
