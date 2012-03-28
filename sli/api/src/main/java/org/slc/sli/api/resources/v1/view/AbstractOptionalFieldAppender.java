@@ -10,11 +10,11 @@ import org.slc.sli.api.config.EntityDefinitionStore;
  * @author srupasinghe
  *
  */
-public abstract class AbstractOptionalFieldStrategy implements OptionalFieldStrategy {
+public abstract class AbstractOptionalFieldAppender implements OptionalFieldAppender {
     
     @Autowired
     protected EntityDefinitionStore entityDefs;
     
-    public AbstractOptionalFieldStrategy() {
+    public AbstractOptionalFieldAppender() {
     }
 }

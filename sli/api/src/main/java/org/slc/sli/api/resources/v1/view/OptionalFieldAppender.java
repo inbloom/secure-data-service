@@ -10,6 +10,6 @@ import org.slc.sli.api.representation.EntityBody;
  * @author srupasinghe
  *
  */
-public interface OptionalFieldStrategy {
+public interface OptionalFieldAppender {
     public List<EntityBody> applyOptionalField(List<EntityBody> entities);
 }

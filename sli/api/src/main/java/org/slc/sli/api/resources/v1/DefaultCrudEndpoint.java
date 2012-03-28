@@ -7,8 +7,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.view.OptionalFieldStrategyFactory;
-import org.slc.sli.api.resources.v1.view.OptionalFieldStrategy;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -47,7 +47,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     private final Logger logger;
     
     @Autowired
-    private OptionalFieldStrategyFactory factory;
+    private OptionalFieldAppenderFactory factory;
     
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -432,8 +432,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
         if (optionalFields != null) {
             for (String type : optionalFields) {
-                OptionalFieldStrategy strategy = factory.getOptionalFieldStrategy(type);
-                entities = strategy.applyOptionalField(entities);
+                OptionalFieldAppender appender = factory.getOptionalFieldAppender(type);
+                if (appender != null)
+                    entities = appender.applyOptionalField(entities);
             }
         }
         

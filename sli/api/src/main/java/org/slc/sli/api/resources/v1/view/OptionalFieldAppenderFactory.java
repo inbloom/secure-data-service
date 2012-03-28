@@ -17,22 +17,22 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
  *
  */
 @Component
-public class OptionalFieldStrategyFactory {
-    private Map<String, OptionalFieldStrategy> generators = new HashMap<String, OptionalFieldStrategy>();
+public class OptionalFieldAppenderFactory {
+    private Map<String, OptionalFieldAppender> generators = new HashMap<String, OptionalFieldAppender>();
     
     @Autowired
-    private OptionalFieldStrategy studentAssessmentOptionalFieldStrategy;
+    private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
     
     @Autowired
-    private OptionalFieldStrategy studentAttendanceOptionalFieldStrategy;
+    private OptionalFieldAppender studentAttendanceOptionalFieldAppender;
     
-    public OptionalFieldStrategyFactory() {
+    public OptionalFieldAppenderFactory() {
     }
     
     @PostConstruct
     protected void init() {
-        generators.put(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldStrategy);
-        generators.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAttendanceOptionalFieldStrategy);
+        generators.put(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldAppender);
+        generators.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAttendanceOptionalFieldAppender);
     }
     
     /**
@@ -40,7 +40,7 @@ public class OptionalFieldStrategyFactory {
      * @param type The type of strategy needed 
      * @return
      */
-    public OptionalFieldStrategy getOptionalFieldStrategy(String type) {
+    public OptionalFieldAppender getOptionalFieldAppender(String type) {
         return generators.get(type);
     }
 }

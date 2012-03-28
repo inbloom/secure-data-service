@@ -15,7 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.view.OptionalFieldStrategy;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -27,10 +27,10 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentAttendanceOptionalFieldStrategyTest {
+public class StudentAttendanceOptionalFieldAppenderTest {
     
     @Autowired
-    private OptionalFieldStrategy studentAttendanceOptionalFieldStrategy;
+    private OptionalFieldAppender studentAttendanceOptionalFieldStrategy;
     
     @Test
     public void testApplyOptionalField() {

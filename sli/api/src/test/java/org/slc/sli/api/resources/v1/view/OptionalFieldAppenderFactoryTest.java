@@ -13,8 +13,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldStrategy;
-import org.slc.sli.api.resources.v1.view.impl.StudentAttendanceOptionalFieldStrategy;
+import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.impl.StudentAttendanceOptionalFieldAppender;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
@@ -26,10 +26,10 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class OptionalFieldStrategyFactoryTest {
+public class OptionalFieldAppenderFactoryTest {
     
     @Autowired
-    OptionalFieldStrategyFactory factory;
+    OptionalFieldAppenderFactory factory;
     
     @Before
     public void setup() {
@@ -37,9 +37,9 @@ public class OptionalFieldStrategyFactoryTest {
     
     @Test
     public void testGetViewGenerator() {
-        assertTrue("Should be of type studentassessment", factory.getOptionalFieldStrategy(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS)
-                instanceof StudentAssessmentOptionalFieldStrategy);
-        assertTrue("Should be of type studentattendance", factory.getOptionalFieldStrategy(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES)
-                instanceof StudentAttendanceOptionalFieldStrategy);
+        assertTrue("Should be of type studentassessment", factory.getOptionalFieldAppender(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS)
+                instanceof StudentAssessmentOptionalFieldAppender);
+        assertTrue("Should be of type studentattendance", factory.getOptionalFieldAppender(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES)
+                instanceof StudentAttendanceOptionalFieldAppender);
     }
 }
