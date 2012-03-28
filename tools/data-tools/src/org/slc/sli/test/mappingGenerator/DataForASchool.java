@@ -12,6 +12,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
@@ -107,6 +108,7 @@ public class DataForASchool {
         prepareSection(4);
         prepareTeacherSectionAssociation();
         prepareStudent(2);
+        prepareParent(4);
     }
 
     public void prepareSchool(int total) {
@@ -161,6 +163,12 @@ public class DataForASchool {
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
             students.add(this.prefix + "-student-" + i);
+        }
+    }
+
+    public void prepareParent(int total) {
+        for (int i = 0 ; i < total ; i++) {
+            parents.add(this.prefix + "-parent-" + i);
         }
     }
 
@@ -275,12 +283,12 @@ public class DataForASchool {
             list.add(student);
         }
 
-        //
-        // // parent
-        // for (String parentId : parentIds) {
-        // Parent parent = ParentGenerator.generate(parentId);
-        // list.add(parent);
-        // }
+                // // parent
+        ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
+        for (String parentId : parents) {
+        	Parent parent = pg.generate(parentId);
+        	list.add(parent);
+        }
         //
         // // studentParentAssociation
         // for (String studentParentAssociationsId : studentParentAssociations) {
