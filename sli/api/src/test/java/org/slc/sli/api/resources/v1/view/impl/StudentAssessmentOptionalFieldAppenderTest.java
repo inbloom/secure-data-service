@@ -31,13 +31,13 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 public class StudentAssessmentOptionalFieldAppenderTest {
     
     @Autowired
-    private OptionalFieldAppender studentAssessmentOptionalFieldStrategy;
+    private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
     
     @Test
     public void testApplyOptionalField() {
         List<EntityBody> entities = new ArrayList<EntityBody>();
         
-        entities = studentAssessmentOptionalFieldStrategy.applyOptionalField(entities);
+        entities = studentAssessmentOptionalFieldAppender.applyOptionalField(entities);
         
         //test should be updated as code is put in
         assertEquals("Should be 1", 1, entities.size());
