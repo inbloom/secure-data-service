@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.context.annotation.Scope;
@@ -54,7 +55,7 @@ public class LearningStandardResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Response.status(Status.NOT_FOUND).build();
     }
     
     /**
@@ -74,7 +75,7 @@ public class LearningStandardResource {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Response.status(Status.NOT_FOUND).build();
     }
     
     /**
@@ -93,7 +94,7 @@ public class LearningStandardResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Response.status(Status.NOT_FOUND).build();
     }
     
     /**
@@ -112,7 +113,7 @@ public class LearningStandardResource {
     @Path("{" + ParameterConstants.LEARNING_STANDARD_ID + "}")
     public Response delete(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Response.status(Status.NOT_FOUND).build();
     }
     
     /**
@@ -133,6 +134,6 @@ public class LearningStandardResource {
     @Path("{" + ParameterConstants.LEARNING_STANDARD_ID + "}")
     public Response update(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        throw new UnsupportedOperationException("Not implemented");
+        return Response.status(Status.NOT_FOUND).build();
     }
 }
