@@ -36,7 +36,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
  * @author jtully
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.PROGRAMS)
+@Path(PathConstants.V1 + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
