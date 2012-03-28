@@ -28,6 +28,8 @@ import org.slc.sli.api.resources.v1.PathConstants;
 /**
  * Resource handler for LearningStandard entries.
  * 
+ * This class is stub for documentation purposes.
+ * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_STANDARDS)
 @Component
