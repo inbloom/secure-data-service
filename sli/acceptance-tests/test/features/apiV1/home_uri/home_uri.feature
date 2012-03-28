@@ -5,7 +5,6 @@ Feature: In order to provide base information
 
 Scenario: Home URI returns valid links for user 'linda.kim'
   Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    And I have access to all links
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
@@ -17,7 +16,6 @@ Scenario: Home URI returns valid links for user 'linda.kim'
 
 Scenario: Home URI returns valid links for user 'demo'
   Given I am logged in using "demo" "demo1234" to realm "SLI"
-    And I have access to all links
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
