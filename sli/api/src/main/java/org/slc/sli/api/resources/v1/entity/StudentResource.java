@@ -46,7 +46,13 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class StudentResource {
-    
+
+    public static final String UNIQUE_STATE_ID = "studentUniqueStateId";
+    public static final String NAME = "name";
+    public static final String SEX = "sex";
+    public static final String BIRTH_DATA = "birthData";
+    public static final String HISPANIC_LATINO_ETHNICITY = "hispanicLatinoEthnicity";
+
     /**
      * Logging utility.
      */
@@ -492,4 +498,55 @@ public class StudentResource {
                                                        @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, "parentId", ResourceNames.PARENTS, headers, uriInfo);
     }
+
+    /**
+     * Returns each $$studentCohortAssociations$$ that
+     * references the given $$student$$
+     * 
+     * @param studentId
+     *            The Id of the Student.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param expandDepth
+     *            Number of hops (associations) for which to expand entities.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
+    public Response getStaffCohortAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, headers, uriInfo);
+    }
+    
+
+    /**
+     * Returns each $$cohort$$ associated to the given student through
+     * a $$studentCohortAssociations$$ 
+     * 
+     * @param studentId
+     *            The Id of the Student.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
+    public Response getStaffCohortAssociationEducationOrganizations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, 
+                ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
+    }
+
 }

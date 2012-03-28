@@ -431,6 +431,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
+        if (null == info || null == info.getQueryParameters(true))
+            return resp;
+
         MultivaluedMap<String, String> queryParams = info.getQueryParameters(true);
         
         int offset = Integer.parseInt(queryParams.containsKey(ParameterConstants.OFFSET) ? queryParams

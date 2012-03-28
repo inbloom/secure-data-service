@@ -41,6 +41,12 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class StaffEducationOrganizationAssociation {
+ 
+    public static final String STAFF_REFERENCE = "staffReference";
+    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
+    public static final String STAFF_CLASSIFICATION = "staffClassification";
+    public static final String BEGIN_DATE = "beginDate";
+
     /**
      * Logging utility.
      */
