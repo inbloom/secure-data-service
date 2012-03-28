@@ -3,6 +3,8 @@ package org.slc.sli.test.mappingGenerator;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -10,17 +12,28 @@ import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
 import org.slc.sli.test.generators.SchoolGenerator;
+import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.generators.TeacherGenerator;
+import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
+import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
+import org.slc.sli.test.mappingGenerator.internals.*;
 
 public class DataForASchool {
-    private static List<String> schoolIds = new ArrayList<String>();
+    private static List<String> schools = new ArrayList<String>();
+
     private static List<SectionInternal> sections = new ArrayList<SectionInternal>();
-    private static List<Teacher> teachers = new ArrayList<Teacher>();
+    
     private static List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
+
+    private static List<String> teachers = new ArrayList<String>();
+    private static List<TeacherSchoolAssociationInternal> teacherSchoolAssociations = new ArrayList<TeacherSchoolAssociationInternal>();
     private static List<TeacherSectionAssociationInternal> teacherSectionAssociations = new ArrayList<TeacherSectionAssociationInternal>();
 
     private static List<String> studentIds = new ArrayList<String>();
     private static List<String> parentIds = new ArrayList<String>();
     private static List<String> studentParentAssociations = new ArrayList<String>();
+    
+    
 
     /**
      * @param args
@@ -46,15 +59,62 @@ public class DataForASchool {
     }
 
     public static void prepareData() {
-        prepareSchool(10);
+        prepareSchool(1);
+        prepareTeacher(2);
+        prepareTeacherSchoolAssociation();
+        prepareSection(4);
+        prepareTeacherSectionAssociation();
     }
 
     public static void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schoolIds.add("School"+i);
+            schools.add("School"+i);
         }
     }
 
+    public static void prepareTeacher(int total) {
+        for (int i = 0; i < total; i++) {
+            teachers.add("teacher-"+i);
+        }
+    }
+
+    public static void prepareTeacherSchoolAssociation() {
+        Random random = new Random();
+        for (String teacherId : teachers) {
+            TeacherSchoolAssociationInternal tsa = new TeacherSchoolAssociationInternal();
+            tsa.teacherId = teacherId;
+            tsa.schoolIds.add(schools.get(random.nextInt(schools.size())));
+
+            teacherSchoolAssociations.add(tsa);
+        }
+    }
+
+    public static void prepareSection(int sectionPerSchool) {
+        int sectionNumber = sectionPerSchool/4;
+        for (String school : schools) {
+            for (int i = 0; i < sectionNumber; i++) {
+                String sectionCode = UUID.randomUUID().toString();
+                for (int j = 0; j < 4; j++) {
+                    SectionInternal si = new SectionInternal();
+                    si.schoolId = school;
+                    si.sectionCode = sectionCode;
+                    si.sequenceOfCourse = j;
+                    sections.add(si);
+                }
+            }
+        }
+    }
+    
+    public static void prepareTeacherSectionAssociation() {
+        Random r = new Random();
+        for(String teacher : teachers) {
+            TeacherSectionAssociationInternal tsai = new TeacherSectionAssociationInternal();
+            tsai.teacherId = teacher;
+            tsai.section = sections.get(r.nextInt(sections.size()));
+            teacherSectionAssociations.add(tsai);
+        }
+    }
+    
     public static void printInterchangeEducationOrganization(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeEducationOrganization.class);
         Marshaller marshaller = context.createMarshaller();
@@ -65,10 +125,10 @@ public class DataForASchool {
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         // schools
-        for (String schoolId : schoolIds) {
-            School school = SchoolGenerator.generate(schoolId);
-            list.add(school);
-        }
+//        for (String schoolId : schools) {
+//            School school = SchoolGenerator.generate(schoolId);
+//            list.add(school);
+//        }
 
         marshaller.marshal(interchangeEducationOrganization, ps);
     }
@@ -82,11 +142,10 @@ public class DataForASchool {
         List<ComplexObjectType> list = interchangeMasterSchedule.getCourseOfferingOrSectionOrBellSchedule();
 
         // sections
-        // for (SectionInternal sectionId : sections) {
-        // Section section = SectionGenerator.generate();
-        // list.add(section);
-        // }
-
+        for (SectionInternal si : sections) {
+            list.add(SectionGenerator.generate(si.sectionCode, si.sequenceOfCourse, si.schoolId));
+        }
+        
         marshaller.marshal(interchangeMasterSchedule, ps);
 
     }
@@ -127,8 +186,20 @@ public class DataForASchool {
         // StaffEducationOrgEmploymentAssociation
         // StaffEducationOrgAssignmentAssociation
         // Teacher
+        for (String teacherId : teachers) {
+            list.add(TeacherGenerator.generate(teacherId));
+        }
+
         // TeacherSchoolAssociation
+        for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
+            list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
+        }
+        
         // TeacherSectionAssociation
+        for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
+            list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+        }
+        
         // LeaveEvent
         // OpenStaffPosition
         // CredentialFieldDescriptor
@@ -310,26 +381,10 @@ public class DataForASchool {
         marshaller.marshal(InterchangeStudentAttendance, ps);
     }
 
-    class SectionInternal {
-        String uniqueSectionCode;
-        int sequenceOfCourse;
-    }
-
     class StaffEducationOrgEmploymentAssociationInternal {
         StaffReferenceType staffReference;
         EducationalOrgReferenceType educationOrganizationReference;
         StaffClassificationType staffClassification;
-    }
-
-    class TeacherSectionAssociationInternal {
-        StaffReferenceType teacherReference;
-        SectionReferenceType sectionReference;
-        ClassroomPositionType classroomPosition;
-    }
-
-    class TeacherSchoolAssociationInternal {
-        StaffReferenceType teacherReference;
-        List<EducationalOrgReferenceType> schoolReference;
     }
 
 }
