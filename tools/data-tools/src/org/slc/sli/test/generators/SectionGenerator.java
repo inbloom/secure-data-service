@@ -13,7 +13,7 @@ public class SectionGenerator {
 
         s.setUniqueSectionCode(sectionCode);
 
-        s.setSequenceOfCourse(r.nextInt(8));
+        s.setSequenceOfCourse(r.nextInt(7) + 1);
 
         s.setEducationalEnvironment(EducationalEnvironmentType.CLASSROOM);
 
@@ -23,7 +23,7 @@ public class SectionGenerator {
 
         CourseOfferingIdentityType coit = new CourseOfferingIdentityType();
         coit.setLocalCourseCode(sectionCode);
-        coit.setSchoolYear("2011");
+        coit.setSchoolYear("2011-2012");
         coit.setTerm(TermType.FALL_SEMESTER);
         CourseOfferingReferenceType corft = new CourseOfferingReferenceType();
         corft.setCourseOfferingIdentity(coit);

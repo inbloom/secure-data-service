@@ -17,7 +17,6 @@
 
   <modules>
     <module>ingestion-core</module>
-    <module>ingestion-service</module>
   </modules>
 
   <dependencyManagement>

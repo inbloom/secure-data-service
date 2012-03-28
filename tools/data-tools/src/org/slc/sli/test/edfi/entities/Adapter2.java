@@ -24,7 +24,8 @@ public class Adapter2
         if (value == null) {
             return null;
         }
-        return value.get(Calendar.YEAR) + "-" + value.get(Calendar.MONTH) + "-" + value.get(Calendar.DATE);
+        //return value.get(Calendar.YEAR) + "-" + value.get(Calendar.MONTH) + "-" + value.get(Calendar.DATE);
+        return (javax.xml.bind.DatatypeConverter.printDateTime(value).substring(0, 10));
     }
 
 }
