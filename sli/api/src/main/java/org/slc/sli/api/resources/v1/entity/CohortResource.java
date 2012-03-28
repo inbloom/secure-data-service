@@ -41,7 +41,8 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class CohortResource {
-    
+
+    public static final String COHORT_IDENTIFIER = "cohortIdentifier";
     public static final String COHORT_DESCRIPTION = "cohortDescription";
     public static final String COHORT_TYPE = "cohortType";
     public static final String COHORT_SCOPE = "cohortScope";
@@ -119,9 +120,9 @@ public class CohortResource {
      * @return A single cohort entity
      */
     @GET
-    @Path("{" + ParameterConstants.COHORT_ID + "}")
+    @Path("{" + COHORT_IDENTIFIER + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    public Response read(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.COHORTS, cohortId, headers, uriInfo);
     }
@@ -139,8 +140,8 @@ public class CohortResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.COHORT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.COHORT_ID) final String cohortId, 
+    @Path("{" + COHORT_IDENTIFIER + "}")
+    public Response delete(@PathParam(COHORT_IDENTIFIER) final String cohortId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.delete(ResourceNames.COHORTS, cohortId, headers, uriInfo);
     }
@@ -160,8 +161,8 @@ public class CohortResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.COHORT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    @Path("{" + COHORT_IDENTIFIER + "}")
+    public Response update(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.update(ResourceNames.COHORTS, cohortId, newEntityBody, headers, uriInfo);
@@ -187,8 +188,8 @@ public class CohortResource {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.COHORT_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
-    public Response getStaffCohortAssociations(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    @Path("{" + COHORT_IDENTIFIER + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
+    public Response getStaffCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "cohortReference", cohortId, headers, uriInfo);
@@ -209,8 +210,8 @@ public class CohortResource {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.COHORT_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.STAFF)
-    public Response getStaffCohortAssociationStaff(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    @Path("{" + COHORT_IDENTIFIER + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.STAFF)
+    public Response getStaffCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "cohortReference", cohortId, 
@@ -237,8 +238,8 @@ public class CohortResource {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.COHORT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
-    public Response getStudentCohortAssociations(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    @Path("{" + COHORT_IDENTIFIER + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
+    public Response getStudentCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "cohortReference", cohortId, headers, uriInfo);
@@ -259,8 +260,8 @@ public class CohortResource {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.COHORT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
-    public Response getStudentCohortAssociationStaff(@PathParam(ParameterConstants.COHORT_ID) final String cohortId,
+    @Path("{" + COHORT_IDENTIFIER + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    public Response getStudentCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "cohortReference", cohortId, 

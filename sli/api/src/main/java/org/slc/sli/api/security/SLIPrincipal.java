@@ -24,6 +24,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String externalId;
     private String adminRealm;
     private List<String> roles;
+    private List<String> sliRoles;
 
     private Entity entity;
 
@@ -84,6 +85,10 @@ public class SLIPrincipal implements Principal, Serializable {
     public List<String> getRoles() {
         return roles;
     }
+    
+    public List<String> getSliRoles() {
+        return sliRoles;
+    }
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
@@ -95,6 +100,10 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setAdminRealm(String adminRealm) {
         this.adminRealm = adminRealm;
+    }
+    
+    public void setSliRoles(List<String> sliRoles) {
+        this.sliRoles = sliRoles;
     }
 
 }

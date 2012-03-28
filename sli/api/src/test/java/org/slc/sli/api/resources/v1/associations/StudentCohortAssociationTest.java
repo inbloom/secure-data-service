@@ -81,7 +81,7 @@ public class StudentCohortAssociationTest {
     
 /*    private Map<String, Object> createTestCohortEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.COHORT_ID, firstCohortId);
+        entity.put(ChortResource.COHORT_IDENTIFIER, firstCohortId);
         entity.put(CohortResource.COHORT_TYPE, "Unua Type");
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;

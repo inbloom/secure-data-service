@@ -500,6 +500,23 @@ public class StudentResource {
     }
 
     /**
+     * $$studentDisciplineIncidentAssociations$$
+     *
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
+    public Response getStudentDisciplineIncidentAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                             @Context HttpHeaders headers,
+                                                             @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
+    }
+
+    /**
      * Returns each $$studentCohortAssociations$$ that
      * references the given $$student$$
      * 

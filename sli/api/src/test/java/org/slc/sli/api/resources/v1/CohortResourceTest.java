@@ -83,7 +83,7 @@ public class CohortResourceTest {
     
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.COHORT_ID, firstCohortId);
+        entity.put(CohortResource.COHORT_IDENTIFIER, firstCohortId);
         entity.put(CohortResource.COHORT_TYPE, "Unua Type");
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;
@@ -91,7 +91,7 @@ public class CohortResourceTest {
     
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.COHORT_ID, firstCohortId);
+        entity.put(CohortResource.COHORT_IDENTIFIER, firstCohortId);
         entity.put(CohortResource.COHORT_TYPE, secondCohortType);
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;
@@ -99,7 +99,7 @@ public class CohortResourceTest {
     
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.COHORT_ID, secondCohortId);
+        entity.put(CohortResource.COHORT_IDENTIFIER, secondCohortId);
         entity.put(CohortResource.COHORT_TYPE, "Tria Type");
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;
@@ -170,7 +170,7 @@ public class CohortResourceTest {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());            
         EntityBody body = (EntityBody) getResponse.getEntity();
         assertNotNull("Should return an entity", body);            
-        assertEquals(ParameterConstants.COHORT_ID + " should be " + firstCohortId, firstCohortId, body.get(ParameterConstants.COHORT_ID));
+        assertEquals(CohortResource.COHORT_IDENTIFIER + " should be " + firstCohortId, firstCohortId, body.get(CohortResource.COHORT_IDENTIFIER));
         assertEquals(CohortResource.COHORT_TYPE + " should be " + secondCohortType, secondCohortType, body.get(CohortResource.COHORT_TYPE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
@@ -202,12 +202,12 @@ public class CohortResourceTest {
 
         EntityBody body1 = results.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals(ParameterConstants.COHORT_ID + " should be " + firstCohortId, firstCohortId, body1.get(ParameterConstants.COHORT_ID));
+        assertEquals(CohortResource.COHORT_IDENTIFIER + " should be " + firstCohortId, firstCohortId, body1.get(CohortResource.COHORT_IDENTIFIER));
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
         
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
-        assertEquals(ParameterConstants.COHORT_ID + " should be " + secondCohortId, secondCohortId, body2.get(ParameterConstants.COHORT_ID));
+        assertEquals(CohortResource.COHORT_IDENTIFIER + " should be " + secondCohortId, secondCohortId, body2.get(CohortResource.COHORT_IDENTIFIER));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
     
