@@ -289,6 +289,11 @@ public class NeutralSchemaValidationTest {
 
         readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
     }
+    
+    @Test
+    public void testValidLearningObjective() throws Exception {
+        readAndValidateFixtureData("src/test/resources/learningObjective_fixture_neutral.json", "learningObjective");
+    }
 
     @SuppressWarnings("unchecked")
     private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
