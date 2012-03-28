@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,9 +39,8 @@ public class EntityTestUtils {
 
     public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException {
-        File outputFile = File.createTempFile("test", ".dat");
-        outputFile.deleteOnExit();
-        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputFile);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputStream);
 
         Smooks smooks = new Smooks(smooksConfig);
 
@@ -53,7 +52,7 @@ public class EntityTestUtils {
             nrfWriter.close();
         }
 
-        return new NeutralRecordFileReader(new File(outputFile.getAbsolutePath()));
+        return new NeutralRecordFileReader(outputStream.toByteArray());
     }
 
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {

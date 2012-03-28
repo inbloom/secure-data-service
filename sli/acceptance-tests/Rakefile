@@ -122,7 +122,8 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
+#task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -141,6 +142,23 @@ task :liferay => [:liferayTest] do
     raise "Tests have failed"
   end
 end
+
+###########################################################
+#SLI Liferay testing
+###########################################################
+
+desc "Run the testing for life ray SLI for admin"
+task :liferayTest do
+  runTests("test/features/liferay/SLI_admin.feature")
+  runTests("test/features/liferay/SLI_normal_user.feature")
+  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
+  runTests("test/features/liferay/report_problem.feature")
+  
+# runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
+  
+end
+
+
 
 
 ############################################################
@@ -186,9 +204,6 @@ task :ingestionAssessmentTests do
   runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
 end
 
-task :liferayTest do
-  runTests("test/features/liferay/SLI_admin.feature")
-end
 desc "Run Student Parents Tests"
 task :ingestionStudentParentsTests do
   runTests("test/features/ingestion/features/ingestion_student_parents.feature")
@@ -917,6 +932,7 @@ end
 desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
+    "session" => "session_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
@@ -973,21 +989,25 @@ end
 desc "Import Unified Data Set"
 task :importUnifiedData do
   testHash = Hash[
-    "assessment"                   => "unified_data/uds_assessments.json",
-    "attendance"                   => "unified_data/uds_attendance.json",
-    "section"                      => "unified_data/uds_sections.json",
-    "session"                      => "unified_data/uds_sessions.json",
-    "course"                       => "unified_data/uds_courses.json",
-    "school"                       => "unified_data/uds_schools.json",
-    "student"                      => "unified_data/uds_students.json",
-    "teacher"                      => "unified_data/uds_teachers.json",
-    "studentSchoolAssociation"     => "unified_data/uds_student_school_associations.json",
-    "teacherSectionAssociation"    => "unified_data/uds_teacher_section_associations.json",
-    "studentAssessmentAssociation" => "unified_data/uds_student_assessment_associations.json",
-    "studentSectionAssociation"    => "unified_data/uds_student_section_associations.json",
-    "teacherSchoolAssociation"     => "unified_data/uds_teacher_school_associations.json",
-    "educationOrganization"        => "unified_data/uds_education_organizations.json"
-
+    "assessment" => "unified_data/uds_assessment.json",
+    "attendance" => "unified_data/uds_attendance.json",
+    "course" => "unified_data/uds_course.json",
+    "educationOrganization" => "unified_data/uds_educationOrganization.json",
+    "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
+    "parent" => "unified_data/uds_parent.json",
+    "school" => "unified_data/uds_school.json",
+    "section" => "unified_data/uds_section.json",
+    "session" => "unified_data/uds_session.json",
+    "student" => "unified_data/uds_student.json",
+    "studentAssessmentAssociation" => "unified_data/uds_studentAssessmentAssociation.json",
+    "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
+    "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
+    "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
+    "studentSectionGradebookEntry" => "unified_data/uds_studentSectionGradebookEntry.json",
+    "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
+    "teacher" => "unified_data/uds_teacher.json",
+    "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",
+    "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

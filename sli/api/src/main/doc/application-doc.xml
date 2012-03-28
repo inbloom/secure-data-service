@@ -1,7 +1,10 @@
 <applicationDocs targetNamespace="http://wadl.dev.java.net/2009/02">
 
-    <doc xml:lang="en" title="SLI REST API Documentation">
-        This document describes the SLI REST API. 
+    <doc xml:lang="en" title="SLI REST API Reference">
+        This document provides a reference to the entities and
+        associated methods within the SLI REST API. Scroll the
+        list of entities on the left, and click a linked entity
+        from that list to view its associated details on the right.
     </doc>
 
 </applicationDocs> 

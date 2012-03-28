@@ -1305,9 +1305,9 @@
     <jb:wiring property="assessmentPerformanceLevel" beanIdRef="assessmentPerformanceLevelTypeArray" />
     <jb:value property="contentStandard" data="Assessment/ContentStandard" />
     <jb:value property="assessmentForm" data="Assessment/AssessmentForm" />
-    <jb:value property="version" data="Assessment/Version" decoder="Integer" default="null" />
+    <jb:value property="version" data="Assessment/Version" decoder="Integer" />
     <jb:value property="revisionDate" data="Assessment/RevisionDate" />
-    <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" default="null" />
+    <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
@@ -1627,10 +1627,16 @@
     <jb:expression property="recordType">'studentAssessmentAssociation'
 		</jb:expression>
     <!-- <jb:expression property="association">true</jb:expression> -->
-    <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
-
+    <jb:wiring property="localId" beanIdRef="StudentAssessmentLocalId" />
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="studentAssessmentAssociationParentIds" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentAssessmentLocalId" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
+    <jb:value property="studentId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="assessmentId" data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentAssociationParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">

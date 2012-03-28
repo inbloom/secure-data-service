@@ -44,6 +44,11 @@ public class ApiQueryTest {
         // should always return a null, so callers don't have to worry about null checking
         assertTrue(new ApiQuery(null) != null);
     }
+    
+    @Test
+    public void testToString() {
+        assertTrue(new ApiQuery(null).toString() != null);
+    }
 
     @Test
     public void testFullParse() {

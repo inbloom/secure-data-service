@@ -204,7 +204,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                             }
                         }
 
-                        Enumeration names = job.propertyNames();
+                        Enumeration<?> names = job.propertyNames();
                         while (names.hasMoreElements()) {
                             String key = (String) names.nextElement();
                             jobLogger.info("[configProperty] " + key + ": "
