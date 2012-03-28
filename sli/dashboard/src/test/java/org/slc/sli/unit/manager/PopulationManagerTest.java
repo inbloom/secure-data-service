@@ -1,26 +1,28 @@
 package org.slc.sli.unit.manager;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
 
 /**
  * 
@@ -47,48 +49,19 @@ public class PopulationManagerTest {
         manager = null;
         mockEntity = null;
     }
-
-    /*
-    * Test that the assessmentFamilyMap is populated from values in entityManager.
-    */
-    /*
-    @Test
-    public void testAssessmentFamilyMapFromInit() throws Exception {
         
-        EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
-        
-        HashMap<String, String> assessment = new HashMap<String, String>();
-        assessment.put("name", "Dibels");
-        LinkedList<Map> assessments = new LinkedList<Map>();
-        assessments.add(assessment);
-        HashMap<String, Object> genericEntityMap = new HashMap<String, Object>();
-        genericEntityMap.put("children", assessments);
-        GenericEntity genericEntity = new GenericEntity(genericEntityMap);
-        LinkedList<GenericEntity> assessmentMetaDataList = new LinkedList<GenericEntity>();
-        assessmentMetaDataList.add(genericEntity);
-        
-        PowerMockito.doReturn(assessmentMetaDataList).when(mockedEntityManager, "getAssessmentMetaData");
-        PopulationManager popManager = new PopulationManager();
-        assertTrue(popManager.getAssessmentFamilyMap().size() == 0);
-        popManager.setEntityManager(mockedEntityManager);
-        popManager.init();
-        assertTrue(popManager.getAssessmentFamilyMap().containsKey("Dibels"));
-    }
-    */
-    
-    
     /*
      *Test that student summaries are being populated from programs, assessments, and students 
      */
     @Test
     public void testGetStudentSummaries() throws Exception {
-       /* String studentId = "student_id";
+        
+        String studentId = "0";
         String token = "token";
         String assessmentName = "Dibels";
-        String assessmentFamily = "Reading";
-        List<String> studentIds = new LinkedList<String>(); 
+        List<String> studentIds = new ArrayList<String>(); 
         studentIds.add(studentId);
-        List<String> programs = new LinkedList<String>();
+        List<String> programs = new ArrayList<String>();
         programs.add("ELL");
        
         EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
@@ -97,7 +70,7 @@ public class PopulationManagerTest {
         GenericEntity studentProgram = new GenericEntity();
         studentProgram.put("studentId", studentId);
         studentProgram.put("programs", programs);
-        List<GenericEntity> studentPrograms = new LinkedList<GenericEntity>();
+        List<GenericEntity> studentPrograms = new ArrayList<GenericEntity>();
         studentPrograms.add(studentProgram);
        
 
@@ -107,95 +80,44 @@ public class PopulationManagerTest {
         GenericEntity studentAssessment = new GenericEntity();
         studentAssessment.put("assessmentName", assessmentName);
         studentAssessment.put("studentId", studentId);
-        List<GenericEntity> studentAssessments = new LinkedList<GenericEntity>();
+        List<GenericEntity> studentAssessments = new ArrayList<GenericEntity>();
         studentAssessments.add(studentAssessment);
        
-        PowerMockito.doReturn(studentAssessments).when(mockedEntityManager, "getAssessments", token, studentIds);
+        PowerMockito.doReturn(studentAssessments).when(mockedEntityManager, "getStudentAssessments", token, studentId);
         
         
         //Setup studentSummaries
         GenericEntity studentSummary = new GenericEntity();
         studentSummary.put("id", studentId);
-        List<GenericEntity> studentSummaries = new LinkedList<GenericEntity>();
-        studentSummaries.add(studentSummary);
+        List<GenericEntity> students = new ArrayList<GenericEntity>();
+        students.add(studentSummary);
         
-        PowerMockito.doReturn(studentSummaries).when(mockedEntityManager, "getStudents", token, studentIds);
+        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, studentIds);
         
+        // setup attendance
+        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getAttendance", token, studentId, null, null);
         
+        // setup session
+        //GenericEntity baseSession = generateSession("2010-2011", "2010-12-31", "2011-01-31");
+        PowerMockito.doReturn(new GenericEntity()).when(mockedEntityManager, "getSession", token, null);
+        PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getSessionsByYear", token, null);
+        
+        // run it
         PopulationManager popMan = new PopulationManager();
         popMan.setEntityManager(mockedEntityManager);
         
-        List<GenericEntity> studentSumamries = popMan.getStudentSummaries(token, studentIds); 
+        List<GenericEntity> studentSummaries = popMan.getStudentSummaries(token, studentIds, null, null); 
         assertTrue(studentSummaries.size() == 1);
         
         GenericEntity result = studentSummaries.get(0);
         assertTrue(result.get("id").equals(studentId));
         assertTrue(programs.equals(result.get("programs")));
         
-        GenericEntity assessments = (GenericEntity) result.get("assessments");
-        assertTrue(assessments.get("assessmentName").equals(assessmentName));
-        assertTrue(assessments.get("assessmentFamily") == null);/*
-    }
-    
-    
-    //TODO: Unskip test after debugging
-    @Test
-    public void testGetStudentInfo() {
-/*
-        String[] studentIdArray = {"453827070", "943715230"};
-        List<String> studentIds = Arrays.asList(studentIdArray);
-
-        MockAPIClient mockClient = new MockAPIClient();
-        EntityManager entityManager = new EntityManager();
-        entityManager.setApiClient(mockClient);
+        List<GenericEntity> assessments = (List<GenericEntity>) result.get("studentAssessments");
+        assertTrue(assessments.get(0).get("assessmentName").equals(assessmentName));
         
-        ConfigManager configManager = new ConfigManager();
-        configManager.setApiClient(mockClient);
-        configManager.setEntityManager(entityManager);
-        ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA");
-
-        StudentManager studentManager = new StudentManager();
-        studentManager.setApiClient(mockClient);
-        studentManager.setEntityManager(entityManager);
-        List<GenericEntity> studentInfo = studentManager.getStudentInfo("lkim", studentIds, config, "NONE");
-        assertEquals(2, studentInfo.size());
-        */
     }
     
-    @Test
-    public void testGetAssessments() throws Exception {
-        /*
-        String[] studentIdArray = {"453827070", "943715230"};
-        List<String> studentIds = Arrays.asList(studentIdArray);
-        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
-        EntityManager entityManager = new EntityManager();
-        entityManager.setApiClient(mockClient);
-        ConfigManager configManager = new ConfigManager();
-        configManager.setApiClient(mockClient);
-        configManager.setEntityManager(entityManager);
-        ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA"); // this view has ISAT Reading and ISAT Writing
-
-        PopulationManager aManager = new PopulationManager();
-        when(mockClient.getFilename("mock_data/lkim/school.json")).thenReturn("src/test/resources/mock_data/lkim/school.json");
-        when(mockClient.getFilename("mock_data/lkim/custom_view_config.json")).thenReturn("src/test/resources/mock_data/lkim/custom_view_config.json");
-        aManager.setEntityManager(entityManager);
-        List<GenericEntity> assmts = aManager.getAssessments("lkim", studentIds, config);
-        
-        assertEquals(111, assmts.size());
-        */
-    }
-
-/*
-    @Test
-    public void testGetAssessmentMetaData() throws Exception {
-        PopulationManager aManager = new PopulationManager();
-        MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
-        when(mockClient.getFilename("mock_data/assessment_meta_data.json")).thenReturn("src/test/resources/mock_data/assessment_meta_data.json");
-        List<AssessmentMetaData> metaData = aManager.getAssessmentMetaData("lkim");
-        assertEquals(8, metaData.size()); // mock data has now 8 families: ISAT Reading, ISAT Writing, DIBELS Next, TRC, AP English, ACT, SAT, and PSAT
-    }
-  */
-
     @Test
     public void testGetAttendance() throws Exception {
         List<String> studentIds = getStudentIds();
@@ -289,4 +211,35 @@ public class PopulationManagerTest {
         startingSession.put("endDate", endDate);
         return startingSession;
     }
+    
+    @Test
+    public void testGetAttendanceForOneStudent() throws Exception {
+        
+        // start with a token, a student id, and a data config
+        String studentId = "0";
+        Config.Data config = new Config.Data();
+        
+        // set up mock attendance data
+        GenericEntity attend1 = new GenericEntity();
+        attend1.put("eventDate", "2011-09-01");
+        attend1.put("attendanceEventCategory", "Tardy");
+        GenericEntity attend2 = new GenericEntity();
+        attend2.put("eventDate", "2011-10-01");
+        attend2.put("attendanceEventCategory", "Excused Absence");
+        
+        List<GenericEntity> attendList = new ArrayList<GenericEntity>();
+        attendList.add(attend1);
+        attendList.add(attend2);
+
+        when(mockEntity.getAttendance(null, "0", null, null)).thenReturn(attendList);
+        
+        // make the call
+        GenericEntity a = manager.getAttendance(null, studentId, config);
+        
+        Assert.assertNotNull(a);
+        Assert.assertNotNull(a.getList("attendance"));
+        Assert.assertEquals(1, ((Integer) (((Map) (a.getList("attendance").get(0))).get("totalCount"))).intValue());
+        
+    }
+
 }
