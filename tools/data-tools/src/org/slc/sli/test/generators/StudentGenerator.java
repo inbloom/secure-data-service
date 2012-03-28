@@ -1,10 +1,7 @@
 package org.slc.sli.test.generators;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
-
-import javax.xml.bind.annotation.XmlElement;
 
 import org.slc.sli.test.edfi.entities.*;
 
