@@ -17,6 +17,25 @@ When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep(Integer(secs))
 end
 
+When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
+  if idpType=="OpenAM"
+    @driver.find_element(:id, "IDToken1").send_keys user
+    @driver.find_element(:id, "IDToken2").send_keys pass
+    @driver.find_element(:name, "Login.Submit").click
+    begin
+      @driver.switch_to.alert.accept
+    rescue
+    end
+  elsif idpType=="ADFS"
+    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_UsernameTextBox").send_keys user
+    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_PasswordTextBox").send_keys pass
+    @driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton").click
+  else
+    raise "IDP type '#{arg1}' not implemented yet"
+  end
+
+end
+
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"
   @driver.quit if @driver

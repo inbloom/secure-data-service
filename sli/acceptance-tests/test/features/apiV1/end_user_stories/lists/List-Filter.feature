@@ -9,7 +9,7 @@ Assume that Teacher, Student, Section, Assessment entity and associations are av
 Background: Logged in as a teacher and using the small data set
     Given I am logged in using "demo" "demo1234" to realm "SLI"
     Given format "application/json"
-    Given I have access to all students, assessments, and sections
+#    Given I have access to all students, assessments, and sections
 
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
     When I navigate to GET "/v1/teachers/<'Ms. Jones' ID>"
