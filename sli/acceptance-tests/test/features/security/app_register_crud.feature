@@ -11,6 +11,8 @@ Scenario: CRUD operations on Applications
 	When I navigate to GET "/apps/<New App ID>"
 	Then I should receive a return code of 200
      And I should receive the data for the specified application entry
+     When I navigate to PUT "/apps/<New App ID>"
+     Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data'
@@ -37,11 +39,10 @@ Scenario Outline: Deny creation when user specifying auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@wip
-Scenario Outline: Deny update when user specifying read-only auto-generated field
+Scenario Outline: Deny update when user updating read-only auto-generated field
 
 	Given I am logged in using "demo" "demo1234" to realm "SLI"
-	When I PUT an application specifying the auto-generated field <Field> 
+	When I PUT an application updating the auto-generated field <Field> 
 	Then I should receive a return code of 400
 	Examples:
 	| Field           |

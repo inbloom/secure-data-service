@@ -81,8 +81,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
 
                     objectiveAssessments.add(getObjectiveAssessment(objectiveAssessmentRef));
-                    attrs.put("objectiveAssessment", objectiveAssessments);
                 }
+                attrs.put("objectiveAssessment", objectiveAssessments);
             }
 
             String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");

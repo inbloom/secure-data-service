@@ -15,6 +15,13 @@ import org.slc.sli.domain.NeutralQuery;
 public interface EntityService {
     
     /**
+     * Returns number of entities stored.
+     * 
+     * @return number of entities that have been stored/exist
+     */
+    public long count(NeutralQuery neutralQuery);
+    
+    /**
      * Create an entity and store it in the data store
      * 
      * @param content

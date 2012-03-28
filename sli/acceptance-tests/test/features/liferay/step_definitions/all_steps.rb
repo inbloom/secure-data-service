@@ -36,6 +36,20 @@ ele.click
   #select(text, :from => 'realmId') 
 end
 
+
+Then /^I select "([^\"]*)" from "([^\"]*)"$/ do |text,field|
+ a=@driver.find_element(:id, field)
+ options=a.find_elements(:tag_name=>"option")
+ options.each do |g|
+  if g.text == text
+    g.click
+    break
+  end
+ end
+end
+
+
+
 Then /^I click "([^\"]*)"$/ do |btn_text|
   ele=@driver.find_element(:id, "go")
   ele.click
@@ -116,15 +130,22 @@ Then /^I should be on the authentication failed page$/ do
  @driver.navigate.to "https://devopenam1.slidev.org:80/idp2/UI/Login"
 end
 
-#When /^I login as Normal with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
-  
-  
- # fill_in "IDToken1", :with=>username
- # fill_in "IDToken2", :with=>password
- # click_button "Log In"
-#end
+Then /^I click button "([^\"]*)"$/ do |text|
+  @driver.find_element(:xpath, "//span/input[@value='#{text}']").click 
+end
+
+
+Then /^It open a popup$/ do
+ @driver.navigate.to "https://devlr2.slidev.org/web/guest/report-a-problem"
+end
+
+
+Then /^I fill "([^"]*)" from "([^"]*)"$/ do |arg1, arg2|
+  @driver.find_element(:id, arg2).send_keys arg1
+end
+
 Then /^I close the browser$/ do
-@driver.quit
+ @driver.quit
 end
 
 Then /^(?:|I )should see "([^\"]*)"$/ do |text|
