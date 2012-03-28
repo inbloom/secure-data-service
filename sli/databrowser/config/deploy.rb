@@ -15,6 +15,7 @@ set :deploy_via, :remote_cache
 set :deploy_to, "~/prowler"
 
 set :scm, :git
+set :subdomain, nil
 
 
 
@@ -24,7 +25,7 @@ set :scm, :git
 namespace :deploy do
   desc "Start the Thin processes"
   task :start do
-    if subdomain
+    if !subdomain.nil?
       run <<-CMD
         cd #{deploy_to}/current/sli; sh profile_swap.sh #{subdomain}
       CMD
