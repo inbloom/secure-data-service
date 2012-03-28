@@ -76,7 +76,7 @@ end
 
 def clickOnStudent(name)
   # wait for live case
-  wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
   
   studentTable = wait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
