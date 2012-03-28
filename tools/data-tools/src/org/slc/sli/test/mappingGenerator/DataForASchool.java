@@ -42,6 +42,7 @@ public class DataForASchool {
 
 
     private List<StudentSchoolAssociationInternal> studentSchoolAssociations = new ArrayList<StudentSchoolAssociationInternal>();
+    private List<StudentSectionAssociationInternal> studentSectionAssociations = new ArrayList<StudentSectionAssociationInternal>();
 
     /**
      * @param args
@@ -185,6 +186,19 @@ public class DataForASchool {
             ssai.student = student;
             ssai.school = schools.get(random.nextInt(schools.size()));
             studentSchoolAssociations.add(ssai);
+        }
+    }
+
+    public void prepareStudentSectionAssociation() {
+        for (String student : students) {
+            int maxSectionPerStudent = random.nextInt(8);
+            int startSection = random.nextInt(sections.size() - maxSectionPerStudent);
+            for (int i = 0 ; i < maxSectionPerStudent ; i++) {
+                StudentSectionAssociationInternal ssai = new StudentSectionAssociationInternal();
+                ssai.student = student;
+                ssai.section = sections.get(startSection + i);
+                studentSectionAssociations.add(ssai);
+            }
         }
     }
 
