@@ -780,7 +780,18 @@ end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
-  runTests("test/features/databrowser")
+  runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run IDP Authentication Selenium Tests"
+task :idpAuthTests => [:realmInit] do
+  runTests("test/features/databrowser/idp_authentication.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
