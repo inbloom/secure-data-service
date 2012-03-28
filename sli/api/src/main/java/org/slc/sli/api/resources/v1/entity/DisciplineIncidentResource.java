@@ -160,4 +160,25 @@ public class DisciplineIncidentResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.update(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, newEntityBody, headers, uriInfo);
     }
+
+
+    /**
+     * $$studentDisciplineIncidentAssociations$$
+     *
+     * @param disciplineIncidentId
+     *            The id of the $$disciplineIncidents$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
+    public Response getStudentDisciplineIncidentAssociations(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
+                                                             @Context HttpHeaders headers,
+                                                             @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "disciplineIncidentId", disciplineIncidentId, headers, uriInfo);
+    }
 }
