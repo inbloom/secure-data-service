@@ -71,7 +71,7 @@ def displayFailureReport()
   startRed = "\e[31m"
   startGreen = "\e[32m"
   colorReset = "\e[0m"
-  
+
   $failures.each do |key, value|
     if ENV['FORCE_COLOR']
       puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
@@ -79,7 +79,7 @@ def displayFailureReport()
     else
       puts "#{key} tests #{value}"
     end
-    
+
   end
 end
 
@@ -153,9 +153,9 @@ task :liferayTest do
   runTests("test/features/liferay/SLI_normal_user.feature")
   runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
   runTests("test/features/liferay/report_problem.feature")
-  
+
 # runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
-  
+
 end
 
 
@@ -944,6 +944,7 @@ desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
     "session" => "session_fixture.json",
+    "program" => "program_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
@@ -969,7 +970,11 @@ task :importSandboxData do
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json"
+    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
+    "cohort" => "cohort_fixture.json",
+    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
