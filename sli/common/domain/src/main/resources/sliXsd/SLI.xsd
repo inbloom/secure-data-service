@@ -3027,20 +3027,20 @@
 								<xs:documentation>Learning standard(s) included in this
 									objective.
 								</xs:documentation>
+								<xs:appinfo>
+									<sli:ReferenceType>learningStandard</sli:ReferenceType>
+								</xs:appinfo>
 							</xs:annotation>
-							<xs:appinfo>
-								<sli:ReferenceType>learningStandard</sli:ReferenceType>
-							</xs:appinfo>
 						</xs:element>
-						<xs:element name="parentLearningObjectives" type="reference"
+						<xs:element name="parentLearningObjective" type="reference"
 							minOccurs="0" maxOccurs="1">
 							<xs:annotation>
 								<xs:documentation>Parent learning objective this is a sub-objective for.
 								</xs:documentation>
+								<xs:appinfo>
+									<sli:ReferenceType>learningObjective</sli:ReferenceType>
+								</xs:appinfo>
 							</xs:annotation>
-							<xs:appinfo>
-								<sli:ReferenceType>learningObjective</sli:ReferenceType>
-							</xs:appinfo>
 						</xs:element>
 					</xs:sequence>
 				</xs:extension>
