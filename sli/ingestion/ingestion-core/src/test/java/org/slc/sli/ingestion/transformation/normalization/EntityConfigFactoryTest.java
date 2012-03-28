@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.core.io.DefaultResourceLoader;
 
 /**
  * EntityConfigFactory unit tests.
@@ -14,6 +15,7 @@ public class EntityConfigFactoryTest {
     @Test
     public void testGetEntityConfig() {
         EntityConfigFactory factory = new EntityConfigFactory();
+        factory.setResourceLoader(new DefaultResourceLoader());
         factory.setSearchPath("classpath:smooksEdFi2SLI/");
 
         EntityConfig ec = factory.getEntityConfiguration("dummy");
@@ -31,6 +33,7 @@ public class EntityConfigFactoryTest {
     @Test
     public void testNoEntityConfig() {
         EntityConfigFactory factory = new EntityConfigFactory();
+        factory.setResourceLoader(new DefaultResourceLoader());
         factory.setSearchPath("classpath:smooksEdFi2SLI/");
 
         EntityConfig ec = factory.getEntityConfiguration("dummy2");

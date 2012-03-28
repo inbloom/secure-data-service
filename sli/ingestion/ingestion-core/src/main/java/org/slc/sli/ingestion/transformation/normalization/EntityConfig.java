@@ -1,7 +1,7 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -32,8 +32,8 @@ public class EntityConfig {
         this.references = references;
     }
 
-    public static EntityConfig parse(File entityConfig) throws IOException {
+    public static EntityConfig parse(InputStream inputStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(entityConfig, EntityConfig.class);
+        return mapper.readValue(inputStream, EntityConfig.class);
     }
 }
