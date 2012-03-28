@@ -269,7 +269,7 @@ public class DataForASchool {
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
         // student
-        StudentGenerator sg = new StudentGenerator("");
+        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
         for (String studentId : students) {
             Student student = sg.generate(studentId);
             list.add(student);
