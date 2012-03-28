@@ -85,7 +85,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition educationOrganization = factory.makeEntity(EntityNames.EDUCATION_ORGANIZATION,
                 ResourceNames.EDUCATION_ORGANIZATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
+        EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(
                 this);
@@ -207,6 +207,21 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromSource("getStudentDisciplineIncidentAssociations")
                 .calledFromTarget("getStudentDisciplineIncidentAssociations").build();
         addDefinition(studentDisciplineIncidentAssociation);
+        
+        AssociationDefinition studentProgramAssociation = factory.makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
+                .exposeAs(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
+                .from(student, "getStudent", "getStudents").to(program, "getProgram", "getParents")
+                .calledFromSource("getStudentProgramAssociations").calledFromTarget("getStudentProgramAssociations")
+                .build();
+        addDefinition(studentProgramAssociation);
+        
+        AssociationDefinition staffProgramAssociation = factory.makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION)
+                .exposeAs(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STAFF_PROGRAM_ASSOCIATION)
+                .from(student, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")
+                .calledFromSource("getStaffProgramAssociations").calledFromTarget("getStaffProgramAssociations")
+                .build();
+        addDefinition(staffProgramAssociation);
+        
         
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();

@@ -50,8 +50,9 @@ public final class ResourceNames {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "student-disciplineIncident-associations";
-
+    public static final String STAFF_PROGRAM_ASSOCIATIONS = "staff-program-associations";
     
+    public static final String STUDENT_PROGRAM_ASSOCIATIONS = "student-program-associations";
 
     
     public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();

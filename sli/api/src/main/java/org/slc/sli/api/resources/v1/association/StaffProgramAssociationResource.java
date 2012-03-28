@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
+package org.slc.sli.api.resources.v1.association;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,23 +29,21 @@ import org.slc.sli.api.resources.v1.CrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
-
 /**
- * Prototype new api end points and versioning
+ *  Association between a staff member and a program.
  * 
- * @author jstokes
+ * @author jtully
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STAFF)
+@Path(PathConstants.V1 + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StaffResource {
-    
+public class StaffProgramAssociationResource {
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaffResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaffProgramAssociationResource.class);
     
     /*
      * Interface capable of performing CRUD operations.
@@ -53,12 +51,12 @@ public class StaffResource {
     private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public StaffResource(CrudEndpoint crudDelegate) {
+    public StaffProgramAssociationResource(CrudEndpoint crudDelegate) {
         this.crudDelegate = crudDelegate;
     }
 
     /**
-     * Returns all $$staff$$ entities for which the logged in User has permission and context.
+     * Returns all $$staffProgramAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -77,11 +75,11 @@ public class StaffResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STAFF, headers, uriInfo);
+        return this.crudDelegate.readAll(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
-     * Create a new $$staff$$ entity.
+     * Create a new $$staffProgramAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -95,36 +93,36 @@ public class StaffResource {
      *                 item is accessable.}
      */
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STAFF, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.create(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$staff$$ entity
+     * Get a single $$programs$$ entity.
      * 
-     * @param staffId
-     *            The Id of the $$staff$$.
+     * @param staffProgramAssociationId
+     *            The Id of the $$staffProgramAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$staff$$ entity
+     * @return A single staffProgramAssociation entity
      */
     @GET
-    @Path("{" + ParameterConstants.STAFF_ID + "}")
+    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+    public Response read(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$staff$$ entity
+     * Delete a $$staffProgramAssociations$$ entity.
      * 
-     * @param staffId
-     *            The Id of the $$staff$$.
+     * @param staffProgramAssociationId
+     *            The Id of the $$staffProgramAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -133,17 +131,17 @@ public class StaffResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.STAFF_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STAFF_ID) final String staffId, 
+    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String staffProgramAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return this.crudDelegate.delete(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$staff$$ entity.
+     * Update an existing $$staffProgramAssociations$$ entity.
      * 
-     * @param staffId
-     *            The id of the $$staff$$.
+     * @param staffProgramAssociationId
+     *            The id of the $$staffProgramAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -154,19 +152,19 @@ public class StaffResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.STAFF_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+    @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
+    public Response update(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STAFF, staffId, newEntityBody, headers, uriInfo);
+        return this.crudDelegate.update(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, newEntityBody, headers, uriInfo);
     }
     
     /**
-     * Returns each $$staffEducationOrganizationAssociations$$ that
-     * references the given $$staff$$
+     * Returns each $$staff$$ that are referenced from the
+     * given $$staffProgramAssociations$$
      * 
-     * @param schoolId
-     *            The Id of the School.
+     * @param staffProgramAssociationId
+     *            The Id of the $$staffProgramAssociations$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -177,46 +175,24 @@ public class StaffResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return       
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-    public Response getStaffEducationOrganizationAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, headers, uriInfo);
-    }
-    
-
-    /**
-     * Returns each $$staff$$ associated to the given school through
-     * a $$staffEducationOrganizationAssociations$$ 
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
-    public Response getStaffEducationOrganizationAssociationEducationOrganizations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, 
-                "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
+    @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
+    public Response getStaffForAssociation(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "staffId", ResourceNames.STAFF, headers, uriInfo);
     }
     
     /**
-     * Returns each $$staffProgramAssociations$$ that
-     * references the given $$staff$$
+     * Returns each $$programs$$ that are referenced from
+     * the given $$staffProgramAssociations$$
      * 
-     * @param staffId
-     *            The Id of the Staff.
+     * @param staffProgramAssociationId
+     *            The Id of the $$staffProgramAssociations$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -227,38 +203,15 @@ public class StaffResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return       
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
-    public Response getStaffProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String staffId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, headers, uriInfo);
+    @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)
+    public Response getProgramsForAssociation(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "programId", ResourceNames.PROGRAMS, headers, uriInfo);
     }
-    
-
-    /**
-     * Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$ 
-     * that references the given $$staff$$.
-     * 
-     * @param staffId
-     *            The Id of the Staff.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
-    public Response getStaffEducationOrganizationAssociationStaff(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, 
-                "programId", ResourceNames.PROGRAMS, headers, uriInfo);
-    }
-    
 }
