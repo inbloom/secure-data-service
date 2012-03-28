@@ -25,10 +25,10 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
-    <encoder>
-      <Pattern>%-4relative [%thread] %-5level %logger{40} - %msg%n
-      </Pattern>
+    <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+        <layout class="org.slc.sli.util.logging.CommonPatternLayout" />
     </encoder>
+
   </appender>
 
   <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
@@ -50,9 +50,9 @@
   </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-    </encoder>
+    <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+		<layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+	</encoder>
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->
