@@ -48,9 +48,9 @@ import org.slc.sli.ingestion.dal.StagingMongoTemplate;
 @Component
 public class XMLFileExpander {
 
-    private Map<String, String> referenceTable = new HashMap<String, String>();
-    private Map<String, Integer> referenceFrequencyTable = new HashMap<String, Integer>();
-    private LinkedList<String> referenceList = new LinkedList<String>();
+    private Map<String, String> referenceTable = null;
+    private Map<String, Integer> referenceFrequencyTable = null;
+    private int averageReferenceSize = 0;
     private String inputFileName = null;
     private File inputFileReference = null;
     private File inputFileEntity = null;
@@ -69,7 +69,7 @@ public class XMLFileExpander {
     private DataOutputStream outputFileDataStream = null;
     private Runtime runtime = Runtime.getRuntime();
     private int referencesProcessed = 0;
-    private int referenceReferencesProcessed = 0;
+    private int embeddedReferencesProcessed = 0;
     private int entitiesProcessed = 0;
     private final String REFERENCE_DATABASE_NAME = "REFERENCE_DATABASE---------------------------------";
     private final String REFERENCE_COLLECTION_NAME = "REFERENCE_COLLECTION";
@@ -119,13 +119,13 @@ public class XMLFileExpander {
             long startTimeMillis = System.currentTimeMillis();
 
             // Open the XML output file for writing.
-            outputFile = new File("C:\\users\\tshewchuk\\workspace\\data\\test_xml_expander\\", "temp-" + inputFileName);
-            outputFile.createNewFile();
-            FileOutputStream outputFileStream = new FileOutputStream(outputFile);
-            outputFileDataStream = new DataOutputStream(outputFileStream);
+            openOutputFile();
 
             // Get initial free memory.
             resetMemory();
+
+            // Create the reference frequency table.
+            createReferenceFrequencyTable();
 
             // Create the reference database.
             createReferenceDatabase();
@@ -173,7 +173,7 @@ public class XMLFileExpander {
     private void resetMemory() {
         // Reset the amount of free memory available
         runtime.gc();  // Run the garbage collector.
-        origFreeMemory = runtime.freeMemory();
+        origFreeMemory = getMemory();
         minFreeMemory = (long) (0.1 * (double) origFreeMemory);
     }
 
@@ -182,7 +182,7 @@ public class XMLFileExpander {
      */
     private void setMaxMemoryUsed() {
         // Return if the available heap memory is too low.
-        double memoryUsed = (double) (origFreeMemory - runtime.freeMemory());
+        double memoryUsed = (double) (origFreeMemory - getMemory());
         if (maxMemoryUsed < memoryUsed) {
             maxMemoryUsed = memoryUsed;
         }
@@ -194,11 +194,12 @@ public class XMLFileExpander {
     private boolean memoryLow() {
         // Return if the available heap memory is too low.
         boolean tooLow = false;
-        if (runtime.freeMemory() < minFreeMemory) {
+        if (getMemory() < minFreeMemory) {
             tooLow = true;
-            double freeMemoryMb = ((double) runtime.freeMemory()) / 1000.0;
+            double freeMemoryMb = ((double) getMemory()) / 1048576.0;
             System.out.println("WARNING: Free memory is critically low (" + freeMemoryMb + "MB remaining)!!!");
-        }
+            setMaxMemoryUsed();
+            }
         return tooLow;
     }
 
@@ -206,27 +207,30 @@ public class XMLFileExpander {
      *
      */
     private long getMemory() {
-        // Return the amount of free memory available
-        return runtime.freeMemory();
+        // Return the amount of free memory available.
+        long maxMemory = runtime.maxMemory();
+        long allocatedMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        return (freeMemory + (maxMemory - allocatedMemory));
     }
 
     private void createReferenceTable() {
+
+        // Calculate the average reference size.
+        averageReferenceSize *= 1000;
+        averageReferenceSize /= referencesProcessed;
+        int capacity = (int) (((getMemory() * 9) / 10) / averageReferenceSize);  // Allocate 90% of
+                                                                                // free memory.
+        referenceTable = new HashMap<String, String>(capacity);
+
         // Create the reference table.
-        int i = 0;
         Iterator<Entry<String, Integer>> ref = referenceFrequencyTable.entrySet().iterator();
         while (!memoryLow() && ref.hasNext()) {
             String referenceId = ref.next().getKey();
             referenceTable.put(referenceId, getReferenceFromDatabase(referenceId));
         }
-    }
-
-    /**
-    *
-    */
-    private void addReferenceToTable(String referenceId, String referenceBody) {
-        // Add the next reference from the input file to the reference table.
-        referenceTable.put(referenceId, referenceBody);
-    }
+        setMaxMemoryUsed();
+        }
 
     /**
     *
@@ -243,9 +247,10 @@ public class XMLFileExpander {
     /**
     *
     */
-    private void clearReferenceTable() {
-        // Clear the reference table.
-        referenceTable.clear();
+    private void createReferenceFrequencyTable() {
+        // Create the reference frequency table.
+        int capacity = (int) ((getMemory() / 20) / 8);  // Allocate 5% of free memory.
+        referenceFrequencyTable = new HashMap<String, Integer>(capacity);
     }
 
     /**
@@ -278,11 +283,6 @@ public class XMLFileExpander {
             referenceFrequencyTable.put(mapKeys.get(index), sortedArray[i]);
             mapValues.remove(index);
         }
-        for (Map.Entry<String, Integer> ref : referenceFrequencyTable.entrySet()) {
-            System.out.println(ref.getKey() + " => " + ref.getValue());
-        }
-        System.out.println("Reference frequency table size: " + referenceFrequencyTable.size());
-        System.out.println("size = " + size);
     }
 
     /**
@@ -390,9 +390,26 @@ public class XMLFileExpander {
      * @throws IOException
      *
      */
-    private void addEntityToOutputFile(String entityBody) throws IOException {
+    private void openOutputFile() throws IOException {
+        // Open the output file.
+        outputFile = new File("C:\\users\\tshewchuk\\workspace\\data\\test_xml_expander\\", "temp-" + inputFileName);
+        outputFile.createNewFile();
+        FileOutputStream outputFileStream = new FileOutputStream(outputFile);
+        outputFileDataStream = new DataOutputStream(outputFileStream);
+    }
+
+    /**
+     * @throws IOException
+     *
+     */
+    private void addEntityToOutputFile(String entityBody) {
         // Add the next reference from the input file to the reference table.
-        outputFileDataStream.writeBytes(entityBody);
+        try {
+            outputFileDataStream.writeBytes(entityBody);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -400,7 +417,7 @@ public class XMLFileExpander {
      *
      */
     private void closeOutputFile() throws IOException {
-        // Clear the reference table.
+        // Close the output file.
         outputFileDataStream.close();
     }
 
@@ -418,6 +435,8 @@ public class XMLFileExpander {
         System.out.println("Output file size: " + outputFileSize + " MBytes.");
         System.out.println("References processed: " + referencesProcessed);
         System.out.println("Entities processed: " + entitiesProcessed);
+        System.out.println("Embedded references processed: " + embeddedReferencesProcessed);
+        System.out.println("Reference table size: " + referenceTable.size());
         System.out.println("Elapsed time: " + elapsedHours + " hours, " + elapsedMinutes + " minutes, "
                 + elapsedSeconds + " seconds.");
         double maxMemoryUsedMb = maxMemoryUsed / 1000.0;
@@ -459,12 +478,11 @@ public class XMLFileExpander {
                         }
                     }
                     referenceBody += ">";
-                }
-                else if (qualifiedName.contains("Reference") && attributes.getQName(0).equals("ref")) {
+                } else if (qualifiedName.contains("Reference") && attributes.getQName(0).equals("ref")) {
                     // This is a reference to a reference, so update reference frequency table.
                     referenceId = attributes.getValue(0);
                     updateReferenceFrequencyTable(referenceId);
-                    referenceReferencesProcessed++;
+                    embeddedReferencesProcessed++;
                 }
             }
 
@@ -479,6 +497,9 @@ public class XMLFileExpander {
                         addReferenceToDatabase(referenceId, referenceBody);
                         isReference = false;
                         referencesProcessed++;
+                        if ((referencesProcessed % 1000) == 1) {  // Average every 1000 references.
+                            averageReferenceSize += referenceBody.length();
+                        }
 
                     }
                 }
@@ -540,12 +561,7 @@ public class XMLFileExpander {
                         entityBody += " " + attributes.getQName(i) + "=\"" + attributes.getValue(i) + "\"";
                     }
                     entityBody += ">\n";
-                    try {
-                        addEntityToOutputFile(entityBody);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                    addEntityToOutputFile(entityBody);
                 }
 
                 // Set flag according to element type.
@@ -559,7 +575,7 @@ public class XMLFileExpander {
                         referenceId = attributes.getValue(0);
                         String referenceBody = getReferenceFromTable(referenceId);
                         if (referenceBody != null) {
-                            entityBody += getReferenceFromTable(referenceId);
+                            entityBody += referenceBody;
                         } else {
                             entityBody += getReferenceFromDatabase(referenceId);
                         }
@@ -582,22 +598,19 @@ public class XMLFileExpander {
 
             public void endElement(String uri, String localName, String qualifiedName) throws SAXException {
                 // Set flag according to element type.
-                if (isEntity) {
-                    if (!qualifiedName.contains("Reference")) {
+                if (isEntity || (qualifiedName.startsWith("Interchange"))) {
+                    if (!qualifiedName.contains("Reference") || (qualifiedName.startsWith("Interchange"))) {
                         entityBody += "</" + qualifiedName + ">";
                     }
-                    if (qualifiedName.equals(entityName)) {
-                        isEntity = false;
-                        entityBody += "\n";
-                        entitiesProcessed++;
+                    if (qualifiedName.equals(entityName) || (qualifiedName.startsWith("Interchange"))) {
+                        if (!qualifiedName.startsWith("Interchange")) {
+                            isEntity = false;
+                            entityBody += "\n";
+                            entitiesProcessed++;
+                        }
 
                         // This entity is completed; add it to the table.
-                        try {
-                            addEntityToOutputFile(entityBody);
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        addEntityToOutputFile(entityBody);
                     }
                 } else if (isReference && qualifiedName.equals(entityName)) {
                     isReference = false;

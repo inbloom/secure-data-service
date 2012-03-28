@@ -28,7 +28,7 @@ public class XMLFileExpanderTest {
 
         // Test the XML file expander on a large test file.
         try {
-            xmlFileExpander.expandXMLFile("session.xml");
+            xmlFileExpander.expandXMLFile("studentAssessment_1300000A_1hr_41min_45sec.xml");
         } catch (IOException e) {
             // Report error.
             System.out.println(e.getMessage());
