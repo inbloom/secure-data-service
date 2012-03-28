@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.slc.sli.unit.manager;
+package org.slc.sli.unit.entity.util;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.ContactSorter;
+import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.util.Constants;
 
 /**
@@ -130,7 +130,7 @@ public class ContactSorterTest {
     
     /**
      * Test method for
-     * {@link org.slc.sli.manager.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
+     * {@link org.slc.sli.entity.util.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
      */
     @Test
     public void testEmailSort() {
@@ -150,7 +150,7 @@ public class ContactSorterTest {
     
     /**
      * Test method for
-     * {@link org.slc.sli.manager.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
+     * {@link org.slc.sli.entity.util.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
      */
     @Test
     public void testTelephoneSort() {
@@ -176,7 +176,7 @@ public class ContactSorterTest {
     
     /**
      * Test method for
-     * {@link org.slc.sli.manager.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
+     * {@link org.slc.sli.entity.util.ContactSorter#sort(org.slc.sli.entity.GenericEntity)}.
      */
     @Test
     public void testAddressSort() {

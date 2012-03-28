@@ -80,9 +80,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 return values.length == 0;
             }
             if (childEntity instanceof Number) {
-                Number childNumber = (Number) childEntity;
+                double childNumber = ((Number) childEntity).doubleValue();
                 for (Object n : values) {
-                    if (childNumber.equals((Number) n))
+                    if (childNumber == ((Number) n).doubleValue())
                         return true;
                 }
             } else if (childEntity instanceof String) {

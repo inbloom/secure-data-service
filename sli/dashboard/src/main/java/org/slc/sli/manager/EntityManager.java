@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardUserMessageException;
 
