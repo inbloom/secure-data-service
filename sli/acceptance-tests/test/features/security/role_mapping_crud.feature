@@ -22,6 +22,13 @@ Scenario Outline: Deny access to users using non-allowed methods
   | "leader"        | "leader1234"        | "PUT"     |
   | "administrator" | "administrator1234" | "DELETE"  |
 
+@wip
+Scenario: Deny access to users using SLI Administrator credentials from non-SLI realms
+
+	Given I am logged in using "badadmin" "badadmin1234" to realm "IL"
+	When I try to access the URI "/realm" with operation "GET"
+	Then I should be denied access
+
 Scenario: Create a new realm
 
 	Given I am logged in using "demo" "demo1234" to realm "SLI"
