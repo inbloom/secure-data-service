@@ -12,9 +12,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
+import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
@@ -23,6 +25,7 @@ import org.slc.sli.test.validator.ValidateSchema;
 
 public class DataForASchool {
     private String prefix = "a";
+    private Random random = new Random();
 
     private List<String> schools = new ArrayList<String>();
 
@@ -39,65 +42,77 @@ public class DataForASchool {
     private List<String> studentParentAssociations = new ArrayList<String>();
 
 
+    private List<StudentSchoolAssociationInternal> studentSchoolAssociations = new ArrayList<StudentSchoolAssociationInternal>();
 
     /**
      * @param args
      * @throws JAXBException
      */
     public static void main(String[] args) {
-        try {
-            ValidateSchema vs = new ValidateSchema();
-            String xmlDir = "./data/";
-            (new DataForASchool()).execution();
-            vs.check(xmlDir);
-        } catch (JAXBException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        DataForASchool data = new DataForASchool();
+        data.prepareData();
+        data.printOnScreen();
+
+        String path = "data";
+
+        data.saveInterchanges(path);
+        data.validateInterchanges(path);
     }
 
-    public void execution()  throws JAXBException {
-        prepareData();
-
-
-        printInterchangeEducationOrganization(System.out);
-        printInterchangeMasterSchedule(System.out);
-        printInterchangeAssessmentMetadata(System.out);
-        printInterchangeStaffAssociation(System.out);
-        printInterchangeStudentParent(System.out);
-        printInterchangeStudentAssessment(System.out);
-        printInterchangeEducationOrgCalendar(System.out);
-        printInterchangeStudentEnrollment(System.out);
-        printInterchangeStudentGrade(System.out);
-        printInterchangeStudentProgram(System.out);
-        printInterchangeStudentCohort(System.out);
-        printInterchangeStudentDiscipline(System.out);
-        printInterchangeStudentAttendance(System.out);
-
-        ////////////////////////////////
+    public void saveInterchanges(String path) {
         try {
-            printInterchangeEducationOrganization(new PrintStream("data/InterchangeEducationOrganization.xml"));
-            printInterchangeMasterSchedule(new PrintStream("data/InterchangeMasterSchedule.xml"));
-            printInterchangeAssessmentMetadata(new PrintStream("data/InterchangeAssessmentMetadata.xml"));
-            printInterchangeStaffAssociation(new PrintStream("data/InterchangeStaffAssociation.xml"));
-            printInterchangeStudentParent(new PrintStream("data/InterchangeStudentParent.xml"));
-            printInterchangeStudentAssessment(new PrintStream("data/InterchangeStudentAssessment.xml"));
-            printInterchangeEducationOrgCalendar(new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
-            printInterchangeStudentEnrollment(new PrintStream("data/InterchangeStudentEnrollment.xml"));
-            printInterchangeStudentGrade(new PrintStream("data/InterchangeStudentGrade.xml"));
-            printInterchangeStudentProgram(new PrintStream("data/InterchangeStudentProgram.xml"));
-            printInterchangeStudentCohort(new PrintStream("data/InterchangeStudentCohort.xml"));
-            printInterchangeStudentDiscipline(new PrintStream("data/InterchangeStudentDiscipline.xml"));
-            printInterchangeStudentAttendance(new PrintStream("data/InterchangeStudentAttendance.xml"));
-        } catch (FileNotFoundException e) {
+            printInterchangeEducationOrganization(new PrintStream(path + "/InterchangeEducationOrganization.xml"));
+            printInterchangeMasterSchedule(new PrintStream(path + "/InterchangeMasterSchedule.xml"));
+            printInterchangeAssessmentMetadata(new PrintStream(path + "/InterchangeAssessmentMetadata.xml"));
+            printInterchangeStaffAssociation(new PrintStream(path + "/InterchangeStaffAssociation.xml"));
+            printInterchangeStudentParent(new PrintStream(path + "/InterchangeStudentParent.xml"));
+            printInterchangeStudentAssessment(new PrintStream(path + "/InterchangeStudentAssessment.xml"));
+            printInterchangeEducationOrgCalendar(new PrintStream(path + "/InterchangeEducationOrgCalendar.xml"));
+            printInterchangeStudentEnrollment(new PrintStream(path + "/InterchangeStudentEnrollment.xml"));
+            printInterchangeStudentGrade(new PrintStream(path + "/InterchangeStudentGrade.xml"));
+            printInterchangeStudentProgram(new PrintStream(path + "/InterchangeStudentProgram.xml"));
+            printInterchangeStudentCohort(new PrintStream(path + "/InterchangeStudentCohort.xml"));
+            printInterchangeStudentDiscipline(new PrintStream(path + "/InterchangeStudentDiscipline.xml"));
+            printInterchangeStudentAttendance(new PrintStream(path + "/InterchangeStudentAttendance.xml"));
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         System.out.println("DONE");
+    }
+
+    public void printOnScreen() {
+        try {
+            printInterchangeEducationOrganization(System.out);
+            printInterchangeMasterSchedule(System.out);
+            printInterchangeAssessmentMetadata(System.out);
+            printInterchangeStaffAssociation(System.out);
+            printInterchangeStudentParent(System.out);
+            printInterchangeStudentAssessment(System.out);
+            printInterchangeEducationOrgCalendar(System.out);
+            printInterchangeStudentEnrollment(System.out);
+            printInterchangeStudentGrade(System.out);
+            printInterchangeStudentProgram(System.out);
+            printInterchangeStudentCohort(System.out);
+            printInterchangeStudentDiscipline(System.out);
+            printInterchangeStudentAttendance(System.out);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void validateInterchanges(String path) {
+        try {
+            ValidateSchema vs = new ValidateSchema();
+            String xmlDir = "./" + path + "/";
+            vs.check(xmlDir);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     public void prepareData() {
@@ -107,6 +122,8 @@ public class DataForASchool {
         prepareSection(4);
         prepareTeacherSectionAssociation();
         prepareStudent(2);
+        prepareParent(4);
+        prepareStudentSchoolAssociation();
     }
 
     public void prepareSchool(int total) {
@@ -161,6 +178,21 @@ public class DataForASchool {
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
             students.add(this.prefix + "-student-" + i);
+        }
+    }
+
+    public void prepareParent(int total) {
+        for (int i = 0 ; i < total ; i++) {
+            parents.add(this.prefix + "-parent-" + i);
+        }
+    }
+
+    public void prepareStudentSchoolAssociation() {
+        for (String student : students) {
+            StudentSchoolAssociationInternal ssai = new StudentSchoolAssociationInternal();
+            ssai.student = student;
+            ssai.school = schools.get(random.nextInt(schools.size()));
+            studentSchoolAssociations.add(ssai);
         }
     }
 
@@ -269,18 +301,18 @@ public class DataForASchool {
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
         // student
-        StudentGenerator sg = new StudentGenerator("");
+        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
         for (String studentId : students) {
             Student student = sg.generate(studentId);
             list.add(student);
         }
 
-        //
-        // // parent
-        // for (String parentId : parentIds) {
-        // Parent parent = ParentGenerator.generate(parentId);
-        // list.add(parent);
-        // }
+                // // parent
+        ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
+        for (String parentId : parents) {
+        	Parent parent = pg.generate(parentId);
+        	list.add(parent);
+        }
         //
         // // studentParentAssociation
         // for (String studentParentAssociationsId : studentParentAssociations) {
@@ -336,6 +368,11 @@ public class DataForASchool {
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
         // StudentSchoolAssociation
+        StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
+        for (StudentSchoolAssociationInternal ssai : studentSchoolAssociations) {
+            list.add(ssag.generate(ssai.student, ssai.school));
+        }
+
         // StudentSectionAssociation
         // GraduationPlan
 
