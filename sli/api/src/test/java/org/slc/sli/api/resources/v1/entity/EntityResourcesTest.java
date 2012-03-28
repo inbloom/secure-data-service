@@ -195,23 +195,23 @@ public class EntityResourcesTest {
     }
     
     private Response getUpdateResponse(String classToTest) {
-            String resourceName = classToTest.replace(packageName + ".", "");
-            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
+        String resourceName = classToTest.replace(packageName + ".", "");
+        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
 
-            @SuppressWarnings("rawtypes")
-            Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
-            Object[] args = { id, new EntityBody(createTestUpdateEntity(resourceName)), httpHeaders, uriInfo };
-            Response response = getResponse(classToTest, "update", paramTypes, args);
+        @SuppressWarnings("rawtypes")
+        Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
+        Object[] args = { id, new EntityBody(createTestUpdateEntity(resourceName)), httpHeaders, uriInfo };
+        Response response = getResponse(classToTest, "update", paramTypes, args);
 
-            String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-            resId = resId.replace("Resource", "Id");
-            EntityBody body = (EntityBody) getReadResponse(classToTest, id).getEntity();
-            assertNotNull("Should return an entity", body);
-            assertEquals("field1 should be 8", body.get("field1"), 8);
-            assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-            assertEquals(resId + " should be 1234", body.get(resId), 1234);
+        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
+        resId = resId.replace("Resource", "Id");
+        EntityBody body = (EntityBody) getReadResponse(classToTest, id).getEntity();
+        assertNotNull("Should return an entity", body);
+        assertEquals("field1 should be 8", body.get("field1"), 8);
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+        assertEquals(resId + " should be 1234", body.get(resId), 1234);
 
-            return response;
+        return response;
     }
     
     private Response getDeleteResponse(String classToTest) {
