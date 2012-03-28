@@ -481,11 +481,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<!-- This is how we associate assessment items and objective assessments. 
-						<xs:element name="assessmentItem" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded"> 
-						<xs:annotation> <xs:documentation>Identifies the assessment items that this 
-						objective assessment is associated with.</xs:documentation> </xs:annotation> 
-						</xs:element> -->
+					<xs:element name="assessmentItem" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Identifies the assessment items that this objective assessment is associated
+								with.
+							</xs:documentation>
+						</xs:annotation> 
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
