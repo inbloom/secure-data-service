@@ -109,6 +109,7 @@ public class OAuthTokenUtil {
         principal.setRoles((List<String>) data.get("roles"));
         principal.setRealm(realm);
         principal.setAdminRealm((String) data.get("adminRealm"));
+        principal.setEdOrg((String) data.get("edOrg"));
         return reconstituteAuth(principal, data);
     }
     
@@ -158,6 +159,7 @@ public class OAuthTokenUtil {
         body.put("name", principal.getName());
         body.put("roles", principal.getRoles());
         body.put("adminRealm", principal.getAdminRealm());
+        body.put("edOrg", principal.getEdOrg());
         body.put("clientId", auth.getClientAuthentication().getClientId());
         body.put("clientSecret", auth.getClientAuthentication().getClientSecret());
         body.put("scope", auth.getClientAuthentication().getScope());

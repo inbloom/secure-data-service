@@ -1,5 +1,6 @@
 package org.slc.sli.test.generators;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.LevelOfEducationType;
@@ -11,9 +12,25 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Teacher;
 
 public class TeacherGenerator {
-    public static Teacher generate(String teacherId) {
+    AddressGenerator ag;
+
+    public TeacherGenerator(StateAbbreviationType state) {
+        this.setState(state);
+    }
+
+    public void setState(StateAbbreviationType state) {
+        try {
+            ag = new AddressGenerator(state);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public Teacher generate(String teacherId) {
 
         Teacher teacher = new Teacher();
+        Random random = new Random();
 
         try {
             NameGenerator ng = new NameGenerator();
@@ -24,14 +41,19 @@ public class TeacherGenerator {
             teacher.setName(ng.getName());
 
             teacher.getOtherName().add(ng.getOtherName());
-            teacher.getOtherName().add(ng.getOtherName());
+            if (random.nextBoolean())
+                teacher.getOtherName().add(ng.getOtherName());
 
             teacher.setSex(rondom.nextBoolean() ? SexType.FEMALE : SexType.MALE);
 
-            //teacher.setBirthDate(new Calendar());
+            Calendar rightNow = Calendar.getInstance();
+            Calendar bday = Calendar.getInstance();
+            bday.set(rightNow.get(Calendar.YEAR)-(20+random.nextInt(35)), random.nextInt(12), random.nextInt(29));
+            teacher.setBirthDate(bday);
 
-            teacher.getAddress().add((new AddressGenerator(StateAbbreviationType.NY)).getRandomAddress());
-            teacher.getAddress().add((new AddressGenerator(StateAbbreviationType.NY)).getRandomAddress());
+            teacher.getAddress().add(ag.getRandomAddress());
+            if (random.nextBoolean())
+                teacher.getAddress().add(ag.getRandomAddress());
 
             //teacher.getTelephone().add(e);
 
