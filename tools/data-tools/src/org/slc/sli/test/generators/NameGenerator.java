@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.GenerationCodeSuffixType;
 import org.slc.sli.test.edfi.entities.Name;
 import org.slc.sli.test.edfi.entities.OtherName;
+import org.slc.sli.test.edfi.entities.OtherNameType;
 import org.slc.sli.test.edfi.entities.PersonalInformationVerificationType;
 import org.slc.sli.test.edfi.entities.PersonalTitlePrefixType;
 
@@ -132,6 +133,7 @@ public class NameGenerator {
         name.setMiddleName(firstNames.get(getRand()%firstNames.size()));
         name.setLastSurname(familyNames.get(getRand()%familyNames.size()));
         if(getRand()%4==0) name.setGenerationCodeSuffix(GenerationCodeSuffixType.JR);
+        name.setOtherNameType(OtherNameType.ALIAS);
         return name;
     }
 
