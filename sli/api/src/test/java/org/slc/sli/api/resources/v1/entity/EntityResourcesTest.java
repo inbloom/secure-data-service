@@ -65,61 +65,55 @@ public class EntityResourcesTest {
 
     private String packageName;
     private String[] classesToTest;
-    
+
     @Autowired
     CrudEndpoint crudEndPoint;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
-    
+
     @Before
     public void setup() throws Exception {
         packageName = this.getClass().getPackage().getName();
         classesToTest = getClassNames(packageName);
-        
+
         uriInfo = buildMockUriInfo(null);
-        
+
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
-        
+
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
+
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
-    
+
     public Map<String, Object> createTestEntity(String resourceName) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("field1", "1");
         entity.put("field2", 2);
-        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-        resId = resId.replace("Resource", "Id");
-        entity.put(resId, 1234);
+        entity.put(getResourceIdName(resourceName), 1234);
         return entity;
     }
-    
+
     public Map<String, Object> createTestUpdateEntity(String resourceName) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("field1", 8);
         entity.put("field2", 2);
-        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-        resId = resId.replace("Resource", "Id");
-        entity.put(resId, 1234);
+        entity.put(getResourceIdName(resourceName), 1234);
         return entity;
     }
-    
+
     public Map<String, Object> createTestSecondaryEntity(String resourceName) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("field1", 5);
         entity.put("field2", 6);
-        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-        resId = resId.replace("Resource", "Id");
-        entity.put(resId, 5678);
+        entity.put(getResourceIdName(resourceName), 5678);
         return entity;
     }
 
@@ -133,7 +127,7 @@ public class EntityResourcesTest {
             assertNotNull("ID should not be null", parseIdFromLocation(response));
         }
     }
-    
+
     @Test
     public void testRead() {
         for (String classToTest : classesToTest) {
@@ -143,37 +137,40 @@ public class EntityResourcesTest {
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
             assertNotNull("Should return an entity", responseEntityObj);
+            EntityBody body = (EntityBody) responseEntityObj;
+            assertEquals("field1 should be 1", body.get("field1"), "1");
+            assertEquals("field2 should be 2", body.get("field2"), 2);
         }
     }
-    
+
     @Test
     public void testUpdate() {
         for (String classToTest : classesToTest) {
             Response response = getUpdateResponse(classToTest);
             assertNotNull("Response is null", response);
-            assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());            
+            assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
         }
     }
-    
+
     @Test
     public void testDelete() {
-        for (String classToTest : classesToTest) {    
+        for (String classToTest : classesToTest) {
             Response response = getDeleteResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
         }
     }
-    
+
     @Test
     public void testReadAll() {
-        for (String classToTest : classesToTest) {    
+        for (String classToTest : classesToTest) {
             String resourceName = classToTest.replace(packageName + ".", "");
             getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName)));
             getCreateResponse(classToTest, new EntityBody(createTestSecondaryEntity(resourceName)));
             Response response = getReadAllResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-            
+
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) response.getEntity();
             assertNotNull("Should return entities", results);
@@ -181,62 +178,30 @@ public class EntityResourcesTest {
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getCreateResponse(String classToTest, EntityBody newEntity) {
-        Response response = null;
-        try {
-            Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(CrudEndpoint.class);
-            Object instance = ct.newInstance(crudEndPoint);
-            
-            Class[] paramTypes = { EntityBody.class, HttpHeaders.class, UriInfo.class };
-            Method method = cls.getMethod("create", paramTypes);
-            
-            Object[] args = { newEntity, httpHeaders, uriInfo };
-            response = (Response) method.invoke(instance, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private Response getReadResponse(String classToTest, String id) {
-        Response response = null;
-        try {
-            Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(CrudEndpoint.class);
-            Object instance = ct.newInstance(crudEndPoint);
-            
-            Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
-            Method method = cls.getMethod("read", paramTypes);
+        @SuppressWarnings("rawtypes")
+        Class[] paramTypes = { EntityBody.class, HttpHeaders.class, UriInfo.class };
+        Object[] args = { newEntity, httpHeaders, uriInfo };
 
-            Object[] args = { id, httpHeaders, uriInfo };
-            response = (Response) method.invoke(instance, args);
-        } catch (InvocationTargetException ite) {
-            throw new EntityNotFoundException();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
+        return getResponse(classToTest, "create", paramTypes, args);
+    }
+
+    private Response getReadResponse(String classToTest, String id) {
+        @SuppressWarnings("rawtypes")
+        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
+        Object[] args = { id, httpHeaders, uriInfo };
+
+        return getResponse(classToTest, "read", paramTypes, args);
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getUpdateResponse(String classToTest) {
-        Response response = null;
-        try {
             String resourceName = classToTest.replace(packageName + ".", "");
             String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
-            
-            Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(CrudEndpoint.class);
-            Object instance = ct.newInstance(crudEndPoint);
-            
+
+            @SuppressWarnings("rawtypes")
             Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
-            Method method = cls.getMethod("update", paramTypes);
-            
             Object[] args = { id, new EntityBody(createTestUpdateEntity(resourceName)), httpHeaders, uriInfo };
-            response = (Response) method.invoke(instance, args);
+            Response response = getResponse(classToTest, "update", paramTypes, args);
 
             String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
             resId = resId.replace("Resource", "Id");
@@ -245,65 +210,72 @@ public class EntityResourcesTest {
             assertEquals("field1 should be 8", body.get("field1"), 8);
             assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
             assertEquals(resId + " should be 1234", body.get(resId), 1234);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
+
+            return response;
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getDeleteResponse(String classToTest) {
-        Response response = null;
-        try {
-            String resourceName = classToTest.replace(packageName + ".", "");
-            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
-            
-            Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(CrudEndpoint.class);
-            Object instance = ct.newInstance(crudEndPoint);
-            
-            Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
-            Method method = cls.getMethod("delete", paramTypes);
-            
-            Object[] args = { id, httpHeaders, uriInfo };
-            response = (Response) method.invoke(instance, args);
+        String resourceName = classToTest.replace(packageName + ".", "");
+        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
 
-            try {
-                @SuppressWarnings("unused")
-                Response readResponse = getReadResponse(classToTest, id);
-                fail("You should never see this - should have thrown EntityNotFoundException");
-            } catch (EntityNotFoundException enfe) {
-                System.out.println("Entity not found after delete: " + resourceName + ", id=" + id);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+        @SuppressWarnings("rawtypes")
+        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };        
+        Object[] args = { id, httpHeaders, uriInfo };
+        Response response = getResponse(classToTest, "delete", paramTypes, args);
+
+        try {
+            @SuppressWarnings("unused")
+            Response readResponse = getReadResponse(classToTest, id);
+            fail("You should never see this - should have thrown EntityNotFoundException");
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity not found after delete: " + resourceName + ", id=" + id);
         }
+
         return response;
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getReadAllResponse(String classToTest) {
-        Response response = null;
+        @SuppressWarnings("rawtypes")
+        Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };            
+        Object[] args = { 0, 100, httpHeaders, uriInfo };
+
+        return getResponse(classToTest, "readAll", paramTypes, args);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private Response getResponse(String classToTest, String methodName, Class[] paramTypes, Object[] args) {
+        Response response = null;        
         try {
             Class cls = Class.forName(classToTest);
             Constructor ct = cls.getConstructor(CrudEndpoint.class);
             Object instance = ct.newInstance(crudEndPoint);
-            
-            Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };
-            Method method = cls.getMethod("readAll", paramTypes);
-
-            Object[] args = { 0, 100, httpHeaders, uriInfo };
+            Method method = cls.getMethod(methodName, paramTypes);
             response = (Response) method.invoke(instance, args);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            if (methodName.equals("read")) {
+                throw new EntityNotFoundException();
+            } else {
+                e.printStackTrace();
+            }
         }
+
         return response;
     }
 
     private String[] getClassNames(String packName) throws ClassNotFoundException, IOException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        assert classLoader != null;
+        ClassLoader classLoader = this.getClass().getClassLoader();
         String path = packName.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
         List<File> dirs = new ArrayList<File>();
@@ -335,25 +307,31 @@ public class EntityResourcesTest {
         }
         return classes;
     }
-    
+
+    private String getResourceIdName(String resourceName) {
+        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
+        resId = resId.replace("Resource", "Id");
+        return resId;
+    }
+
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
+
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("absolute");
             }
         });
         when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
+
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("base");
             }
         });
         when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
+
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
@@ -365,11 +343,11 @@ public class EntityResourcesTest {
                 return new MultivaluedMapImpl();
             }
         });
-        
+
         when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
         return mock;
     }
-    
+
     private static String parseIdFromLocation(Response response) {
         List<Object> locationHeaders = response.getMetadata().get("Location");
         assertNotNull(locationHeaders);
