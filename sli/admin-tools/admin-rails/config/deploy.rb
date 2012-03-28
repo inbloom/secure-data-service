@@ -28,7 +28,7 @@ namespace :deploy do
   end
   desc "Start the Thin processes"
   task :start do
-    if subdomain
+    if !subdomain.nil?
       run <<-CMD
         cd #{deploy_to}/current/sli; sh profile_swap.sh #{subdomain}
       CMD
