@@ -60,19 +60,19 @@ public class DataForASchool {
 
         ////////////////////////////////
         try {
-            printInterchangeEducationOrganization(new PrintStream("InterchangeEducationOrganization.xml"));
-            printInterchangeMasterSchedule(new PrintStream("InterchangeMasterSchedule.xml"));
-            printInterchangeAssessmentMetadata(new PrintStream("InterchangeAssessmentMetadata.xml"));
-            printInterchangeStaffAssociation(new PrintStream("InterchangeStaffAssociation.xml"));
-            printInterchangeStudentParent(new PrintStream("InterchangeStudentParent.xml"));
-            printInterchangeStudentAssessment(new PrintStream("InterchangeStudentAssessment.xml"));
-            printInterchangeEducationOrgCalendar(new PrintStream("InterchangeEducationOrgCalendar.xml"));
-            printInterchangeStudentEnrollment(new PrintStream("InterchangeStudentEnrollment.xml"));
-            printInterchangeStudentGrade(new PrintStream("InterchangeStudentGrade.xml"));
-            printInterchangeStudentProgram(new PrintStream("InterchangeStudentProgram.xml"));
-            printInterchangeStudentCohort(new PrintStream("InterchangeStudentCohort.xml"));
-            printInterchangeStudentDiscipline(new PrintStream("InterchangeStudentDiscipline.xml"));
-            printInterchangeStudentAttendance(new PrintStream("InterchangeStudentAttendance.xml"));
+            printInterchangeEducationOrganization(new PrintStream("data/InterchangeEducationOrganization.xml"));
+            printInterchangeMasterSchedule(new PrintStream("data/InterchangeMasterSchedule.xml"));
+            printInterchangeAssessmentMetadata(new PrintStream("data/InterchangeAssessmentMetadata.xml"));
+            printInterchangeStaffAssociation(new PrintStream("data/InterchangeStaffAssociation.xml"));
+            printInterchangeStudentParent(new PrintStream("data/InterchangeStudentParent.xml"));
+            printInterchangeStudentAssessment(new PrintStream("data/InterchangeStudentAssessment.xml"));
+            printInterchangeEducationOrgCalendar(new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
+            printInterchangeStudentEnrollment(new PrintStream("data/InterchangeStudentEnrollment.xml"));
+            printInterchangeStudentGrade(new PrintStream("data/InterchangeStudentGrade.xml"));
+            printInterchangeStudentProgram(new PrintStream("data/InterchangeStudentProgram.xml"));
+            printInterchangeStudentCohort(new PrintStream("data/InterchangeStudentCohort.xml"));
+            printInterchangeStudentDiscipline(new PrintStream("data/InterchangeStudentDiscipline.xml"));
+            printInterchangeStudentAttendance(new PrintStream("data/InterchangeStudentAttendance.xml"));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
