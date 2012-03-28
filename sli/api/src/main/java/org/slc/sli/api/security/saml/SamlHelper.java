@@ -50,6 +50,7 @@ public class SamlHelper {
     
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
+    private static final String SAML_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
     
@@ -101,6 +102,20 @@ public class SamlHelper {
     }
     
     /**
+     * Composes LogoutRequest (binding-agnostic).
+     * 
+     * @param destination
+     * @return
+     */
+    public String createSamlLogoutRequest(String destination) {
+        return composeLogoutRequest(destination);
+    }
+    
+    public String createSamlLogoutResponse(String destination) {
+        return composeLogoutResponse(destination);
+    }
+    
+    /**
      * Converts post data containing saml xml data to a jdom document
      * 
      * @param postData
@@ -114,7 +129,7 @@ public class SamlHelper {
             
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
             
-            // TODO verify digest and signature
+            // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
             if (!validator.isDocumentValid(doc)) {
                 throw new IllegalArgumentException("Invalid SAML message");
             }
@@ -174,7 +189,7 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(authnContext);
         
-        // TODO sign and add digest
+        // add signature and digest here
         
         try {
             String xmlString = nodeToXmlString(domer.output(doc));
@@ -185,6 +200,105 @@ public class SamlHelper {
         } catch (Exception e) {
             LOG.error("Error composing AuthnRequest", e);
             throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
+        }
+    }
+    
+    /**
+     * Composes a Logout Request (for SP-initiated Single Logout). Example of Logout Request:
+     * 
+     * <samlp:LogoutRequest 
+     *   xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+     *   ID="21B78E9C6C8ECF16F01E4A0F15AB2D46"
+     *   IssueInstant="2010-04-28T21:36:11.230Z"
+     *   Version="2.0">
+     *   <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com</saml2:Issuer>
+     *   <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+     *     Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+     *     NameQualifier="http://idp.ssocircle.com" 
+     *     SPNameQualifier="https://dloomac.service-now.com/navpage.do">
+     *       david.loo@service-now.com
+     *     </saml:NameID>
+     *   <samlp:SessionIndex>s211b2f811485b2a1d2cc4db2b271933c286771104</samlp:SessionIndex>
+     * </samlp:LogoutRequest>
+     * 
+     * @param destination IDP endpoint
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    @SuppressWarnings("unchecked")
+    private String composeLogoutRequest(String destination) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameID", SAML_NS);
+        nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
+        nameId.getAttributes().add(new Attribute("NameQualifier", destination)); 
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        // need to add content for username
+        
+        doc.getRootElement().addContent(nameId);
+        
+        // SAML 2.0 specification defines SessionIndex tag as:
+        // The identifier that indexes this session at the message recipient
+        // (http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf)
+        // SessionIndex is optional --> can't find any reference where we store session index from IDP
+        // If we ever choose to store sessionIndex with user, it should be added to LogoutRequest here
+        
+        // add signature and digest here
+        
+        try {
+            String xmlString = nodeToXmlString(domer.output(doc));
+            LOG.debug(xmlString);
+            return xmlToEncodedString(xmlString);
+        } catch (Exception e) {
+            LOG.error("Error composing LogoutRequest", e);
+            throw new IllegalArgumentException("Couldn't compose LogoutRequest", e);
+        }
+    }
+    
+    /**
+     * Composes a Logout Response (for IDP-initiated Single Logout).
+     * 
+     * @param destination IDP endpoint
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    @SuppressWarnings("unchecked")
+    private String composeLogoutResponse(String destination) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("LogoutResponse", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        doc.getRootElement().addContent(issuer);
+        
+        Element status = new Element("Status", SAMLP_NS);
+        Element statusCode = new Element("StatusCode", SAMLP_NS);
+        statusCode.getAttributes().add(new Attribute("Value", SAML_SUCCESS));
+        status.addContent(statusCode);
+        doc.getRootElement().addContent(status);
+        
+        try {
+            String xmlString = nodeToXmlString(domer.output(doc));
+            LOG.debug(xmlString);
+            return xmlToEncodedString(xmlString);
+        } catch (Exception e) {
+            LOG.error("Error composing LogoutResponse", e);
+            throw new IllegalArgumentException("Couldn't compose LogoutResponse", e);
         }
     }
     

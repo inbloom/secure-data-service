@@ -41,6 +41,7 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -52,6 +53,9 @@ import org.w3c.dom.Node;
 @Component
 public class DefaultSAML2Validator implements SAML2Validator {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSAML2Validator.class);
+    
+    @Value("${sli.trust.certificates}")
+    private String trustedCertificatesStore;
     
     private DOMValidateContext valContext;
     
@@ -92,8 +96,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
     }
     
     /**
-     * Checks that the specified signature value maps to a trusted Certificate Authority (in
-     * ${JAVA_HOME}/lib/security/cacerts).
+     * Checks that the specified signature value maps to a trusted Certificate Authority.
      * 
      * @param signature
      *            xml signature (contains KeyInfo, SignatureValue, and SignedInfo)
@@ -149,7 +152,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
     }
     
     /**
-     * Loads the 'cacerts' Certificate Authority keystore.
+     * Loads the trusted Certificate Authority store.
      * 
      * @return KeyStore containing trusted certificate authorities.
      */
@@ -157,17 +160,17 @@ public class DefaultSAML2Validator implements SAML2Validator {
         KeyStore cacerts = null;
         try {
             cacerts = KeyStore.getInstance("JKS");
-            cacerts.load(new FileInputStream(new File(System.getProperty("java.home"), "lib/security/cacerts")), null);
+            cacerts.load(new FileInputStream(new File(trustedCertificatesStore)), null);
         } catch (NoSuchAlgorithmException e) {
-            LOG.warn("Requested cryptographic algorithm is invalid or unavailable in the current environment", e);
+            LOG.error("Requested cryptographic algorithm is invalid or unavailable in the current environment", e);
         } catch (CertificateException e) {
-            LOG.warn("There is an issue with the X509 Certificate", e);
+            LOG.error("There is an issue with the X509 Certificate", e);
         } catch (FileNotFoundException e) {
-            LOG.warn("Trusted Certificate Authority store was not found", e);
+            LOG.error("Trusted Certificate Authority store was not found", e);
         } catch (IOException e) {
-            LOG.warn("There was an issue opening the trusted Certificate Authority store", e);
+            LOG.error("There was an issue opening the trusted Certificate Authority store", e);
         } catch (KeyStoreException e) {
-            LOG.warn("There is an issue with the trusted Certificate Authority store", e);
+            LOG.error("There is an issue with the trusted Certificate Authority store", e);
         }
         return cacerts;
     }
