@@ -32,6 +32,7 @@ public final class ResourceNames {
     public static final String SESSIONS = "sessions";
     public static final String STAFF = "staff";
     public static final String STUDENTS = "students";
+    public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String TEACHERS = "teachers";
     

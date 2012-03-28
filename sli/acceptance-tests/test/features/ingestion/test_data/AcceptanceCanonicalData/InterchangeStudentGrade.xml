@@ -132,7 +132,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -149,7 +149,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -166,7 +166,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -183,7 +183,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -218,7 +218,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -235,7 +235,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -252,7 +252,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -269,7 +269,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -304,7 +304,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -321,7 +321,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -338,7 +338,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -355,7 +355,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -390,7 +390,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -407,7 +407,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -424,7 +424,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -441,7 +441,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -458,7 +458,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -476,7 +476,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -493,7 +493,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -510,7 +510,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -527,7 +527,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -544,7 +544,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -562,7 +562,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -579,7 +579,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -596,7 +596,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -613,7 +613,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -630,7 +630,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -648,7 +648,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -665,7 +665,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -682,7 +682,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -699,7 +699,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -716,7 +716,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -734,7 +734,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -751,7 +751,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>D-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -768,7 +768,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>F</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -785,7 +785,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -802,7 +802,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -820,7 +820,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>F</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -837,7 +837,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>F</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -854,7 +854,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -871,7 +871,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -888,7 +888,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -906,7 +906,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -923,7 +923,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -940,7 +940,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -957,7 +957,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -974,7 +974,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -992,7 +992,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1009,7 +1009,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1026,7 +1026,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1043,7 +1043,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1060,7 +1060,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1078,7 +1078,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1095,7 +1095,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1112,7 +1112,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1129,7 +1129,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1146,7 +1146,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1164,7 +1164,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>F</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1181,7 +1181,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1198,7 +1198,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1215,7 +1215,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1232,7 +1232,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1250,7 +1250,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1267,7 +1267,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1284,7 +1284,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1301,7 +1301,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1318,7 +1318,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1336,7 +1336,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1353,7 +1353,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1370,7 +1370,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1387,7 +1387,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1404,7 +1404,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1422,7 +1422,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1439,7 +1439,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1456,7 +1456,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1473,7 +1473,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1490,7 +1490,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1508,7 +1508,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1525,7 +1525,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>B-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1542,7 +1542,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1559,7 +1559,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1576,7 +1576,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1594,7 +1594,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1611,7 +1611,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1628,7 +1628,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1645,7 +1645,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1662,7 +1662,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1680,7 +1680,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1697,7 +1697,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1714,7 +1714,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1731,7 +1731,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1748,7 +1748,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1766,7 +1766,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1783,7 +1783,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1800,7 +1800,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1817,7 +1817,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1834,7 +1834,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1852,7 +1852,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1869,7 +1869,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1886,7 +1886,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1903,7 +1903,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1920,7 +1920,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1938,7 +1938,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1955,7 +1955,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>C-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1972,7 +1972,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -1989,7 +1989,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>D</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2006,7 +2006,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2024,7 +2024,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2041,7 +2041,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>B-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2058,7 +2058,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2075,7 +2075,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>C</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2092,7 +2092,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2110,7 +2110,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>C+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2127,7 +2127,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>B-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2144,7 +2144,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2161,7 +2161,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>B</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2178,7 +2178,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>B+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2196,7 +2196,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-05</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2213,7 +2213,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
       <LetterGradeEarned>A-</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2230,7 +2230,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2247,7 +2247,7 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-12</DateFulfilled>
       <LetterGradeEarned>A</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -2264,11 +2264,269 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-11-18</DateFulfilled>
       <LetterGradeEarned>A+</LetterGradeEarned>
-      <NumericGradeEarned></NumericGradeEarned>
+      
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
         <StudentUniqueStateId>800000024</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-5"/>
+    </StudentGradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-05</DateFulfilled>
+      <LetterGradeEarned>B+</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned>A-</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned>B</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-12</DateFulfilled>
+      <LetterGradeEarned>A</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-4"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-18</DateFulfilled>
+      <LetterGradeEarned>B</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-5"/>
+    </StudentGradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-05</DateFulfilled>
+      <LetterGradeEarned>A+</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned>B-</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned>B</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-12</DateFulfilled>
+      <LetterGradeEarned>A-</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-4"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-18</DateFulfilled>
+      <LetterGradeEarned>B+</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-5"/>
+    </StudentGradebookEntry>
+    
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-05</DateFulfilled>
+      <LetterGradeEarned>C</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-13</DateFulfilled>
+      <LetterGradeEarned>B-</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-10-27</DateFulfilled>
+      <LetterGradeEarned>A-</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-12</DateFulfilled>
+      <LetterGradeEarned>A</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <GradebookEntryReference id="GBE-8th Grade English-4"/>
+    </StudentGradebookEntry>
+    <StudentGradebookEntry>
+      <DateFulfilled>2011-11-18</DateFulfilled>
+      <LetterGradeEarned>B+</LetterGradeEarned>
+      
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
           </StudentIdentity>
           <SectionIdentity>
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -2964,7 +3222,7 @@
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
-        <StudentUniqueStateId>9000000013</StudentUniqueStateId>
+        <StudentUniqueStateId>900000013</StudentUniqueStateId>
           </StudentIdentity>
           <SectionIdentity>
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -3068,7 +3326,7 @@
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
-        <StudentUniqueStateId>9000000015</StudentUniqueStateId>
+        <StudentUniqueStateId>900000015</StudentUniqueStateId>
           </StudentIdentity>
           <SectionIdentity>
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>

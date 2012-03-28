@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +20,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -241,6 +246,27 @@ public class DefaultCrudEndPointTest {
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         //need to add to this test
         //MockRepo needs to be changed to get this test right
+    }
+    
+    @Test
+    public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
+        
+        NeutralQuery neutralQuery1 = new NeutralQuery();
+        neutralQuery1.setIncludeFields("field1,field2");
+        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setLimit(5);
+        neutralQuery1.setOffset(4);
+        neutralQuery1.setSortBy("field5");
+        neutralQuery1.setSortOrder(NeutralQuery.SortOrder.ascending);
+        neutralQuery1.addCriteria(new NeutralCriteria("x=1"));
+        
+        NeutralQuery neutralQuery2 = new NeutralQuery(neutralQuery1);
+        
+        EntityService mock = mock(EntityService.class);
+        when(mock.count(any(NeutralQuery.class))).thenReturn(0L);
+        DefaultCrudEndpoint.getTotalCount(mock, neutralQuery1);
+        
+        assertEquals(neutralQuery1, neutralQuery2);
     }
     
     private String getIDList(String resource) {

@@ -47,7 +47,7 @@ import org.slc.sli.domain.Repository;
 public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCodeServices {
     
     /** Entity identifier **/
-    private static final String OAUTH_AUTHORIZATION_CODE = "oauthAuthorizationCode";
+    public static final String OAUTH_AUTHORIZATION_CODE = "oauthAuthorizationCode";
     
     /**
      * Lifetime (duration of validity) of an Authorization Code in seconds.
