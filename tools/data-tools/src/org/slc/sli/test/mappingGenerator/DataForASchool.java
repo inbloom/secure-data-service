@@ -23,7 +23,7 @@ public class DataForASchool {
     private static List<String> schools = new ArrayList<String>();
 
     private static List<SectionInternal> sections = new ArrayList<SectionInternal>();
-    
+
 //    private static List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
 
     private static List<String> teachers = new ArrayList<String>();
@@ -33,8 +33,8 @@ public class DataForASchool {
     private static List<String> studentIds = new ArrayList<String>();
     private static List<String> parentIds = new ArrayList<String>();
     private static List<String> studentParentAssociations = new ArrayList<String>();
-    
-    
+
+
 
     /**
      * @param args
@@ -114,7 +114,7 @@ public class DataForASchool {
         int sectionNumber = sectionPerSchool/4;
         for (String school : schools) {
             for (int i = 0; i < sectionNumber; i++) {
-                String sectionCode = UUID.randomUUID().toString();
+                String sectionCode = UUID.randomUUID().toString().substring(0, 30);
                 for (int j = 0; j < 4; j++) {
                     SectionInternal si = new SectionInternal();
                     si.schoolId = school;
@@ -125,7 +125,7 @@ public class DataForASchool {
             }
         }
     }
-    
+
     public static void prepareTeacherSectionAssociation() {
         Random r = new Random();
         for(String teacher : teachers) {
@@ -135,7 +135,7 @@ public class DataForASchool {
             teacherSectionAssociations.add(tsai);
         }
     }
-    
+
     public static void printInterchangeEducationOrganization(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeEducationOrganization.class);
         Marshaller marshaller = context.createMarshaller();
@@ -146,8 +146,8 @@ public class DataForASchool {
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         // schools
-        SchoolGenerator sg = new SchoolGenerator();
-        
+        SchoolGenerator sg = new SchoolGenerator(StateAbbreviationType.NY);
+
         for (String schoolId : schools) {
             School school = sg.getSchool(schoolId);
             list.add(school);
@@ -168,7 +168,7 @@ public class DataForASchool {
         for (SectionInternal si : sections) {
             list.add(SectionGenerator.generate(si.sectionCode, si.sequenceOfCourse, si.schoolId));
         }
-        
+
         marshaller.marshal(interchangeMasterSchedule, ps);
 
     }
@@ -209,20 +209,21 @@ public class DataForASchool {
         // StaffEducationOrgEmploymentAssociation
         // StaffEducationOrgAssignmentAssociation
         // Teacher
+        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY);
         for (String teacherId : teachers) {
-            list.add(TeacherGenerator.generate(teacherId));
+            list.add(tg.generate(teacherId));
         }
 
         // TeacherSchoolAssociation
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
             list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
         }
-        
+
         // TeacherSectionAssociation
         for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
             list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
         }
-        
+
         // LeaveEvent
         // OpenStaffPosition
         // CredentialFieldDescriptor
