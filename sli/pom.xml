@@ -158,6 +158,16 @@
             </properties>
         </profile>
 
+        <profile>
+            <id>team</id>
+            <properties>
+                <sli.env>team</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
+
 		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->
 	</profiles>

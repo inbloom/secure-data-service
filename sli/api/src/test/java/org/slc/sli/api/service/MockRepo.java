@@ -27,10 +27,9 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
- *
+ * 
  */
 @Component
 @Primary
@@ -76,6 +75,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.LEARNINGOBJECTIVE, new LinkedHashMap<String, Entity>());
     }
 
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -206,11 +206,10 @@ public class MockRepo implements Repository<Entity> {
             entitiesFound.add(entity);
         }
 
-
         if (neutralQuery.getSortBy() != null) {
             final NeutralQuery.SortOrder sortOrder = neutralQuery.getSortOrder();
-            Entity[]entities = entitiesFound.toArray(new Entity[]{});
-            final String[]keysToSortBy = neutralQuery.getSortBy().split(",");
+            Entity[] entities = entitiesFound.toArray(new Entity[] {});
+            final String[] keysToSortBy = neutralQuery.getSortBy().split(",");
             Arrays.sort(entities, new Comparator<Entity>() {
                 @Override
                 public int compare(Entity entity1, Entity entity2) {
@@ -289,8 +288,6 @@ public class MockRepo implements Repository<Entity> {
         return value;
     }
 
-
-
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery) {
 
@@ -303,14 +300,17 @@ public class MockRepo implements Repository<Entity> {
                 public String getEntityId() {
                     return null;
                 }
+
                 @Override
                 public Map<String, Object> getMetaData() {
                     return new BasicBSONObject();
                 }
+
                 @Override
                 public Map<String, Object> getBody() {
                     return body;
                 }
+
                 @Override
                 public String getType() {
                     return "realm";
@@ -340,14 +340,17 @@ public class MockRepo implements Repository<Entity> {
             public String getEntityId() {
                 return id;
             }
+
             @Override
             public Map<String, Object> getMetaData() {
                 return new BasicBSONObject();
             }
+
             @Override
             public Map<String, Object> getBody() {
                 return body;
             }
+
             @Override
             public String getType() {
                 return type;
