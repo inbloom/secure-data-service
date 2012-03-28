@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.DashboardUserMessageException;
+import org.slc.sli.util.DashboardException;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -114,7 +114,7 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
         if (student == null) {
-            throw new DashboardUserMessageException("Unable to retrieve data for the requested ID");
+            throw new DashboardException("Unable to retrieve data for the requested ID");
         }
         student = ContactSorter.sort(student);
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);

@@ -16,7 +16,6 @@ import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.DashboardUserMessageException;
 import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -87,13 +86,6 @@ public abstract class GenericLayoutController {
     @ExceptionHandler(Throwable.class)
     public ModelAndView handleThrowable(Throwable t) {
         logger.error("An error running layout: ", t);
-        String message =  (t instanceof DashboardUserMessageException) ? t.getMessage() : DEFAULT_MESSAGE;
-        return new ModelAndView("error", "error", message);
-    }
-    
-    @ExceptionHandler(DashboardUserMessageException.class)
-    public ModelAndView handleThrowable(DashboardUserMessageException de) {
-        logger.error("An error running layout: ", de);
-        return new ModelAndView("error", "error", de.getMessage());
+        return new ModelAndView("error", "error", DEFAULT_MESSAGE);
     }
 }
