@@ -3,7 +3,7 @@ Feature: In order to provide base information
 	I want to know what links are available to a user based on their user type.
 	This means all associations should be returned as links when accessing the Home URI.
 
-Scenario: Home URI returns valid links for user 'linda.kim'
+Scenario: Home URI returns valid links for user 'lindakim'
   Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And I have access to all links
     And format "application/json"
