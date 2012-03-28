@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+    <School id="School0">
+        <StateOrganizationId>New York School Board</StateOrganizationId>
+        <NameOfInstitution>Academy for Language and Technology </NameOfInstitution>
+        <ShortNameOfInstitution>A  L  T </ShortNameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <WebSite>www.ALTSchool.edu</WebSite>
+        <OperationalStatus>Active</OperationalStatus>
+        <GradesOffered>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Early Education</GradeLevel>
+            <GradeLevel>Eighth grade</GradeLevel>
+            <GradeLevel>Eleventh grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Grade 13</GradeLevel>
+            <GradeLevel>Infant/toddler</GradeLevel>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>Ninth grade</GradeLevel>
+            <GradeLevel>Other</GradeLevel>
+            <GradeLevel>Postsecondary</GradeLevel>
+            <GradeLevel>Preschool/Prekindergarten</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Seventh grade</GradeLevel>
+            <GradeLevel>Sixth grade</GradeLevel>
+            <GradeLevel>Tenth grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Transitional Kindergarten</GradeLevel>
+            <GradeLevel>Twelfth grade</GradeLevel>
+            <GradeLevel>Ungraded</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary/Secondary School</SchoolCategory>
+            <SchoolCategory>Elementary School</SchoolCategory>
+            <SchoolCategory>High School</SchoolCategory>
+            <SchoolCategory>Middle School</SchoolCategory>
+            <SchoolCategory>Junior High School</SchoolCategory>
+            <SchoolCategory>SecondarySchool</SchoolCategory>
+            <SchoolCategory>Ungraded</SchoolCategory>
+            <SchoolCategory>Adult School</SchoolCategory>
+            <SchoolCategory>Infant/toddler School</SchoolCategory>
+            <SchoolCategory>Preschool/early childhood</SchoolCategory>
+            <SchoolCategory>Primary School</SchoolCategory>
+            <SchoolCategory>Intermediate School</SchoolCategory>
+        </SchoolCategories>
+        <SchoolType>Regular</SchoolType>
+        <CharterStatus>Open Enrollment</CharterStatus>
+        <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+        <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+        <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+    </School>
+    <School id="School1">
+        <StateOrganizationId>New York School Board</StateOrganizationId>
+        <NameOfInstitution>Academy for Scholarship and Entrepreneurship: A College Board School </NameOfInstitution>
+        <ShortNameOfInstitution>A  S  E: A C B S </ShortNameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <WebSite>www.ASEACBSSchool.edu</WebSite>
+        <OperationalStatus>Active</OperationalStatus>
+        <GradesOffered>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Early Education</GradeLevel>
+            <GradeLevel>Eighth grade</GradeLevel>
+            <GradeLevel>Eleventh grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Grade 13</GradeLevel>
+            <GradeLevel>Infant/toddler</GradeLevel>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>Ninth grade</GradeLevel>
+            <GradeLevel>Other</GradeLevel>
+            <GradeLevel>Postsecondary</GradeLevel>
+            <GradeLevel>Preschool/Prekindergarten</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Seventh grade</GradeLevel>
+            <GradeLevel>Sixth grade</GradeLevel>
+            <GradeLevel>Tenth grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Transitional Kindergarten</GradeLevel>
+            <GradeLevel>Twelfth grade</GradeLevel>
+            <GradeLevel>Ungraded</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary/Secondary School</SchoolCategory>
+            <SchoolCategory>Elementary School</SchoolCategory>
+            <SchoolCategory>High School</SchoolCategory>
+            <SchoolCategory>Middle School</SchoolCategory>
+            <SchoolCategory>Junior High School</SchoolCategory>
+            <SchoolCategory>SecondarySchool</SchoolCategory>
+            <SchoolCategory>Ungraded</SchoolCategory>
+            <SchoolCategory>Adult School</SchoolCategory>
+            <SchoolCategory>Infant/toddler School</SchoolCategory>
+            <SchoolCategory>Preschool/early childhood</SchoolCategory>
+            <SchoolCategory>Primary School</SchoolCategory>
+            <SchoolCategory>Intermediate School</SchoolCategory>
+        </SchoolCategories>
+        <SchoolType>Regular</SchoolType>
+        <CharterStatus>Open Enrollment</CharterStatus>
+        <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+        <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+        <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+    </School>
+</InterchangeEducationOrganization>
