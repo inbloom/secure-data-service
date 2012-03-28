@@ -2916,7 +2916,7 @@
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:element name="LearningStandard">
+	<xs:element name="learningStandard">
 		<xs:complexType>
 			<xs:annotation>
 				<xs:documentation>This entity is a subelement of a learning
@@ -3021,21 +3021,26 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="learningStandardReference" type="reference"
+						<xs:element name="learningStandards" type="reference"
 							minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>Learning standard(s) included in this
 									objective.
 								</xs:documentation>
 							</xs:annotation>
+							<xs:appinfo>
+								<sli:ReferenceType>learningStandard</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:element>
-						<xs:element name="learningObjectiveReference" type="reference"
-							minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="parentLearningObjectives" type="reference"
+							minOccurs="0" maxOccurs="1">
 							<xs:annotation>
-								<xs:documentation>Lower level learning objectives, or
-									sub-objectives.
+								<xs:documentation>Parent learning objective this is a sub-objective for.
 								</xs:documentation>
 							</xs:annotation>
+							<xs:appinfo>
+								<sli:ReferenceType>learningObjective</sli:ReferenceType>
+							</xs:appinfo>
 						</xs:element>
 					</xs:sequence>
 				</xs:extension>
