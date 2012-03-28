@@ -1,0 +1,226 @@
+// update _id for school one
+school_one_stateOrganizationId = "990000001";
+school_one_id = {"old": null, "new": new BinData(3,"AAAAAAAAAAABAgAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000201"};
+
+// need to find record by stateOrganizationId and copy,modify,insert,remove (can't update _id in mongo directly)
+print("attempting to update school one: " + school_one_stateOrganizationId + " -> " + school_one_id.new);
+school_one = db.school.findOne( {"body.stateOrganizationId": school_one_stateOrganizationId} );
+if (school_one != null) {
+  school_one_id.old = school_one._id;
+  school_one._id = school_one_id.new;
+  db.school.insert(school_one);
+  db.school.remove({_id: school_one_id.old});
+  print("updated school one successfully");
+} else {
+  print("no school record found with body.stateOrganizationId: " + school_one_stateOrganizationId);
+}
+print("");
+
+// update school one ids in studentSchoolAssociation
+print("updating school one ids in studentSchoolAssociation: " + school_one_stateOrganizationId + " -> " + school_one_id.hex);
+db.studentSchoolAssociation.update( {"body.schoolId": school_one_stateOrganizationId}, {$set: {"body.schoolId": school_one_id.hex}}, false, true );
+print("");
+
+
+
+
+
+// update _id for school two
+school_two_stateOrganizationId = "990000002";
+school_two_id = {"old": null, "new": new BinData(3,"AAAAAAAAAAACAgAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000202"};
+
+// need to find record by stateOrganizationId and copy,modify,insert,remove (can't update _id in mongo directly)
+print("attempting to update school two: " + school_two_stateOrganizationId + " -> " + school_two_id.new);
+school_two = db.school.findOne( {"body.stateOrganizationId": school_two_stateOrganizationId} );
+if (school_two != null) {
+  school_two_id.old = school_two._id;
+  school_two._id = school_two_id.new;
+  db.school.insert(school_two);
+  db.school.remove({_id: school_two_id.old});
+  print("updated school two successfully");
+} else {
+  print("no school record found with body.stateOrganizationId: " + school_two_stateOrganizationId);
+}
+print("");
+
+// update school two ids in studentSchoolAssociation
+print("updating school two ids in studentSchoolAssociation: " + school_two_stateOrganizationId + " -> " + school_two_id.hex);
+db.studentSchoolAssociation.update( {"body.schoolId": school_two_stateOrganizationId}, {$set: {"body.schoolId": school_two_id.hex}}, false, true );
+print("");
+
+
+
+
+
+// update students for school one. below are base64 strings of encoded guids *1 - *60
+student_one_ids = [  
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAABAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000001" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAACAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000002" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAADAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000003" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAEAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000004" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAFAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000005" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAGAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000006" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAHAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000007" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAIAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000008" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAJAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000009" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAQAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000010" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAARAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000011" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAASAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000012" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAATAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000013" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAUAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000014" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAVAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000015" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAWAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000016" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAXAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000017" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAYAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000018" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAZAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000019" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAgAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000020" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAhAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000021" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAiAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000022" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAjAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000023" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAkAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000024" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAlAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000025" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAmAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000026" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAnAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000027" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAoAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000028" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAApAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000029" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAwAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000030" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAxAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000031" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAyAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000032" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAzAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000033" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA0AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000034" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA1AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000035" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA2AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000036" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA3AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000037" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA4AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000038" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAA5AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000039" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABAAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000040" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABBAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000041" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABCAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000042" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABDAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000043" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABEAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000044" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABFAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000045" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABGAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000046" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABHAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000047" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABIAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000048" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABJAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000049" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABQAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000050" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABRAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000051" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABSAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000052" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABTAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000053" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABUAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000054" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABVAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000055" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABWAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000056" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABXAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000057" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABYAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000058" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABZAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000059" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABgAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000060" }];
+
+
+counter=0;
+ssa_array_one = db.studentSchoolAssociation.find({"body.schoolId": school_one_id.hex});
+print("studentSchoolAssociation records with body.schoolId=" + school_one_id.hex + " is: " + ssa_array_one.count());
+
+ssa_array_one.forEach(
+  function(doc) { 
+    student_one_ids[counter].old=doc.body.studentId;
+    print("attempting to update id for student: " + student_one_ids[counter].old + " -> " + student_one_ids[counter].new);
+
+    student_record = db.student.findOne( {"body.studentUniqueStateId": parseInt(student_one_ids[counter].old)} );    
+    if (student_record != null) {
+      student_oldId = student_record._id;
+      student_record._id = student_one_ids[counter].new;
+      db.student.insert(student_record);
+      print("inserted record with updated _id: " + student_record._id);
+      db.student.remove({_id: student_oldId});
+      print("removed old record with _id: " + student_oldId);
+    }
+    else {
+      print("no student record found with body.studentUniqueStateId: " + parseInt(student_one_ids[counter].old));
+    }
+    
+    print("updating student ids in studentSchoolAssociation: " + doc.body.studentId + " -> " + student_one_ids[counter].hex);
+    db.studentSchoolAssociation.update( {"body.studentId": doc.body.studentId}, {$set: {"body.studentId": student_one_ids[counter].hex}}, false, true );
+
+    counter=counter+1;
+    print("");
+  } 
+)
+
+
+
+
+// update students for school two. below are base64 strings of encoded guids *61 - *101
+student_two_ids = [
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABhAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000061" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABiAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000062" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABjAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000063" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABkAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000064" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABlAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000065" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABmAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000066" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABnAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000067" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABoAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000068" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABpAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000069" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABwAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000070" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABxAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000071" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAByAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000072" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAABzAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000073" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB0AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000074" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB1AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000075" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB2AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000076" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB3AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000077" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB4AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000078" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAB5AAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000079" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACAAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000080" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACBAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000081" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACCAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000082" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACDAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000083" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACEAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000084" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACFAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000085" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACGAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000086" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACHAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000087" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACIAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000088" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACJAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000089" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACQAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000090" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACRAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000091" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACSAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000092" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACTAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000093" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACUAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000094" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACVAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000095" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACWAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000096" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACXAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000097" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACYAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000098" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAACZAAAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000099" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAAAAQAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000100" },
+  {"old": null, "new": new BinData(3,"AAAAAAAAAAABAQAAAAAAAA=="), "hex": "00000000-0000-0000-0000-000000000101" }];
+
+counter=0;
+ssa_array_two = db.studentSchoolAssociation.find({"body.schoolId": school_two_id.hex});
+print("studentSchoolAssociation records with body.schoolId=" + school_two_id.hex + " is: " + ssa_array_two.count());
+
+ssa_array_two.forEach(
+  function(doc) { 
+    student_two_ids[counter].old=doc.body.studentId;
+    print("attempting to update id for student: " + student_two_ids[counter].old + " -> " + student_two_ids[counter].new);
+
+    student_record = db.student.findOne( {"body.studentUniqueStateId": parseInt(student_two_ids[counter].old)} );    
+    if (student_record != null) {
+      student_oldId = student_record._id;
+      student_record._id = student_two_ids[counter].new;
+      db.student.insert(student_record);
+      print("inserted record with updated _id: " + student_record._id);
+      db.student.remove({_id: student_oldId});
+      print("removed old record with _id: " + student_oldId);
+    }
+    else {
+      print("no student record found with body.studentUniqueStateId: " + parseInt(student_two_ids[counter].old));
+    }
+    
+    print("updating student ids in studentSchoolAssociation: " + doc.body.studentId + " -> " + student_two_ids[counter].hex);
+    db.studentSchoolAssociation.update( {"body.studentId": doc.body.studentId}, {$set: {"body.studentId": student_two_ids[counter].hex}}, false, true );
+
+    counter=counter+1;
+    print("");
+  } 
+)
+
+

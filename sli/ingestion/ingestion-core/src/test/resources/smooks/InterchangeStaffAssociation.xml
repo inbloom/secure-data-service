@@ -1,0 +1,32 @@
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Ed-Fi\Interchange-StaffAssociation.xsd">
+	<Teacher>
+		<StaffUniqueStateId>111</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="District">
+			<ID>111111111</ID>
+		</StaffIdentificationCode >
+		<Name>
+			<FirstName>Jan</FirstName>
+			<LastSurname>Richards</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>25</YearsOfPriorProfessionalExperience>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>222</StaffUniqueStateId>
+				<StaffIdentificationCode IdentificationSystem="District">
+			<ID>222222222</ID>
+		</StaffIdentificationCode >
+		<Name>
+			<FirstName>Jill</FirstName>
+			<LastSurname>Edwards</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>25</YearsOfPriorProfessionalExperience>
+	</Teacher>
+</InterchangeStaffAssociation>

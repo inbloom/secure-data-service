@@ -1,0 +1,101 @@
+
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd" xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+  xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.3.xsd" xmlns:camel="http://www.milyn.org/xsd/smooks/camel-1.4.xsd"
+  xmlns:csv="http://www.milyn.org/xsd/smooks/csv-1.2.xsd">
+
+  <params>
+    <param name="stream.filter.type">SAX</param>
+    <param name="terminate.on.visitor.exception">false</param>
+  </params>
+
+  <csv:reader
+    fields="StateOrganizationId,
+    EducationOrgIdentificationCode_IdentificationSystem,EducationOrgIdentificationCode_Id,
+    NameOfInstitution,
+    ShortNameOfInstitution,
+    OrganizationCategories_OrganizationCategory,
+    Address_AddressType,Address_StreetNumberName,Address_ApartmentRoomSuiteNumber,Address_BuildingSiteNumber,Address_City,Address_StateAbbreviation,Address_PostalCode,Address_NameOfCounty,Address_CountyFIPSCode,Address_CountryCode,Address_Latitude,Address_Longitude,Address_BeginDate,Address_EndDate,
+    Telephone_InstitutionTelephonenumberType,Telephone_TelephoneNumber,
+    WebSite,
+    OperationalStatus,
+    AccountabilityRatings_RatingTitle,AccountabilityRatings_Rating,AccountabilityRatings_RatingDate,AccountabilityRatings_RatingOrganization,AccountabilityRatings_RatingProgram,
+    ProgramReference">
+  </csv:reader>
+
+  <!-- StateEducationAgency mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="csv-record">
+    <jb:expression property="recordType">'educationOrganization'</jb:expression>
+    <jb:value property="localId" data="StateOrganizationId" />
+    <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="stateOrganizationId" data="StateOrganizationId" />
+    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCodeTypeArray" />
+    <jb:value property="nameOfInstitution" data="NameOfInstitution" />
+    <jb:value property="shortNameOfInstitution" data="ShortNameOfInstitution" />
+    <jb:wiring property="organizationCategories" beanIdRef="educationOrganizationCategoryTypeArray" />
+    <jb:wiring property="address" beanIdRef="addressSchoolTypeArray" />
+    <jb:wiring property="telephone" beanIdRef="institutionTelephoneTypeArray" />
+    <jb:value property="webSite" data="WebSite" />
+    <jb:value property="operationalStatus" data="OperationalStatus" />
+    <jb:wiring property="accountabilityRatings" beanIdRef="accountabilityRatingsTypeArray" />
+    <jb:wiring property="programReference" beanIdRef="programReferenceTypeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="educationOrgIdentificationCodeType" />
+  </jb:bean>
+  <jb:bean beanId="educationOrgIdentificationCodeType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="identificationSystem" data="EducationOrgIdentificationCode_IdentificationSystem" />
+    <jb:value property="ID" data="EducationOrgIdentificationCode_Id" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrganizationCategoryTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="OrganizationCategories_OrganizationCategory" />
+  </jb:bean>
+
+  <jb:bean beanId="addressSchoolTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="addressSchoolType" />
+  </jb:bean>
+  <jb:bean beanId="addressSchoolType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="addressType" data="Address_AddressType" />
+    <jb:value property="streetNumberName" data="Address_StreetNumberName" />
+    <jb:value property="apartmentRoomSuiteNumber" data="Address_ApartmentRoomSuiteNumber" />
+    <jb:value property="buildingSiteNumber" data="Address_BuildingSiteNumber" />
+    <jb:value property="city" data="Address_City" />
+    <jb:value property="stateAbbreviation" data="Address_StateAbbreviation" />
+    <jb:value property="postalCode" data="Address_PostalCode" />
+    <jb:value property="nameOfCounty" data="Address_NameOfCounty" />
+    <jb:value property="countyFIPSCode" data="Address_CountyFIPSCode" />
+    <jb:value property="countryCode" data="Address_CountryCode" />
+    <jb:value property="latitude" data="Address_Latitude" />
+    <jb:value property="longitude" data="Address_Longitude" />
+    <jb:value property="openDate" data="Address_BeginDate" />
+    <jb:value property="closeDate" data="Address_EndDate" />
+  </jb:bean>
+
+  <jb:bean beanId="institutionTelephoneTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="institutionTelephoneType" />
+  </jb:bean>
+  <jb:bean beanId="institutionTelephoneType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="institutionTelephoneNumberType" data="Telephone_InstitutionTelephoneNumberType" />
+    <jb:value property="telephoneNumber" data="Telephone_TelephoneNumber" />
+  </jb:bean>
+
+  <jb:bean beanId="accountabilityRatingsTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:wiring beanIdRef="accountabilityRatingsType" />
+  </jb:bean>
+  <jb:bean beanId="accountabilityRatingsType" class="java.util.HashMap" createOnElement="csv-record">
+    <jb:value property="ratingTitle" data="AccountabilityRatings_RatingTitle" />
+    <jb:value property="rating" data="AccountabilityRatings_Rating" />
+    <jb:value property="ratingDate" data="AccountabilityRatings_RatingDate" />
+    <jb:value property="ratingOrganization" data="AccountabilityRatings_RatingOrganization" />
+    <jb:value property="ratingProgram" data="AccountabilityRatings_RatingProgram" />
+  </jb:bean>
+
+  <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="ProgramReference" />
+  </jb:bean>
+  <!-- End StateEducationAgency Mapping -->
+</smooks-resource-list>
