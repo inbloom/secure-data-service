@@ -15,6 +15,14 @@ INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 
 ############################################################
+# STEPS: BEFORE
+############################################################
+
+Before do
+  @conn = Mongo::Connection.new(INGESTION_DB)
+end
+
+############################################################
 # STEPS: GIVEN
 ############################################################
 
@@ -98,7 +106,6 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
-  @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -205,7 +212,6 @@ end
 ############################################################
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-  @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -224,7 +230,6 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @conn = Mongo::Connection.new(INGESTION_DB)
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -329,13 +334,11 @@ end
 
 
 Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
-  conn = Mongo::Connection.new(INGESTION_DB)
-  db = conn[INGESTION_DB_NAME]
+  db = @conn[INGESTION_DB_NAME]
   collection = db.collection(collection)
 
   @record = collection.find_one({searchTerm => value})
   @record.should_not == nil
-  conn.close
 end
 
 Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
@@ -371,6 +374,14 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
   endt = object[f]
   end
   object.should_not == value
+end
+
+############################################################
+# STEPS: BEFORE
+############################################################
+
+After do
+  @conn.close if @conn != nil
 end
 
 ############################################################
