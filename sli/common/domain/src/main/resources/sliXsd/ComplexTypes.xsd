@@ -90,13 +90,16 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="learningStandardId" type="learningStandardId"
-				minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation>Learning Standard tested by this item.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0"
+                name="learningStandards" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Learning Standards tested by this item.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>learningStandard</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>            
 			<xs:element name="nomenclature" type="nomenclature"
 				minOccurs="0">
 				<xs:annotation>
@@ -499,6 +502,16 @@
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
+                    <xs:element maxOccurs="unbounded" minOccurs="0"
+                        name="learningStandards" type="reference">
+                        <xs:annotation>
+                            <xs:documentation>References to a learning standards
+                            </xs:documentation>
+                            <xs:appinfo>
+                                <sli:ReferenceType>learningStandard</sli:ReferenceType>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

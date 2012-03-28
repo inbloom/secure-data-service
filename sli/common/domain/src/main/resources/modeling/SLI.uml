@@ -26,7 +26,7 @@
       <fontname>Lucida Grande</fontname>
       <fontsize>13</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>Credit Accumulation</activediagram>
+      <activediagram>Assessment</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -187,7 +187,7 @@
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Class Diagram" />
       <member type="pgml"
-              name="SLI_ClassDiagram38.pgml"
+              name="SLI_CreditAccumulation.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Credit Accumulation" />
       <member type="todo"
@@ -206,7 +206,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Mar 22 19:28:42 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Mar 28 16:22:01 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -1268,6 +1268,10 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001106'/>
+            <UML:Generalization xmi.idref = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001107'/>
+          </UML:GeneralizableElement.generalization>
           <UML:Classifier.feature>
             <UML:Attribute xmi.id = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008D3'
               name = 'learningStandardId' visibility = 'public' isSpecification = 'false'
@@ -7532,7 +7536,102 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         </UML:Class>
         <UML:Class xmi.id = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'
           name = 'ObjectiveAssessment' visibility = 'public' isSpecification = 'false'
-          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:ModelElement.clientDependency>
+            <UML:Dependency xmi.idref = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D8'/>
+          </UML:ModelElement.clientDependency>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001105'/>
+          </UML:GeneralizableElement.generalization>
+          <UML:Namespace.ownedElement>
+            <UML:Dependency xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D8'
+              isSpecification = 'false'>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000893'/>
+              </UML:Dependency.supplier>
+            </UML:Dependency>
+          </UML:Namespace.ownedElement>
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D2'
+              name = 'identificationCode' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D3'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D4'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087E'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010E4'
+              name = 'MaxRawScore' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010E8'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010E7'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010E9'
+              name = 'AssessmentPerformanceLevel' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010ED'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010EC'
+                      lower = '0' upper = '-1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010EE'
+              name = 'PercentOfAssessment' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010F2'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010F1'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010F3'
+              name = 'Nomenclature' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010F7'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010F6'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:StructuralFeature.type>
+                <UML:DataType href = 'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087E'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+          </UML:Classifier.feature>
+        </UML:Class>
         <UML:Class xmi.id = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB6'
           name = 'DisciplineIncident' visibility = 'public' isSpecification = 'false'
           isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
@@ -8275,6 +8374,173 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         <UML:Enumeration xmi.id = '10-71-3-33-557ca7f:1363b755f87:-8000:00000000000010EE'
           name = 'MethodCreditEarnedType' isSpecification = 'false' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false'/>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D5'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D6'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'composite' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000893'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D7'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D9'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DA'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'false' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000893'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DB'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FB'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:ModelElement.stereotype>
+            <UML:Stereotype xmi.idref = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FE'/>
+          </UML:ModelElement.stereotype>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FC'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FD'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Stereotype xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FE'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Association</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010FF'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001100'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001101'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001102'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001103'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'false' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001104'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Generalization xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001105'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000894'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Generalization xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001106'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Generalization xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001107'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001109'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110A'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'false' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110B'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089D'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+        <UML:Association xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110C'
+          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110D'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'false' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id = '10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110E'
+              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.participant>
+                <UML:Class xmi.idref = '-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E'/>
+              </UML:AssociationEnd.participant>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
       </UML:Namespace.ownedElement>
     </UML:Model>
     <UML:Parameter xmi.id = '-64--88-1-75--3be47456:135dfc9bbfb:-8000:0000000000000B38'
@@ -11923,69 +12189,6 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
   </group>
   <group name="Fig4"
        description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000961"
-       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000962"
-       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000963"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig3"
-      destPortFig="Fig3"
-      sourceFigNode="Fig3"
-      destFigNode="Fig3"
-      <argouml:pathitem figname="Fig4.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000961"
-                        angle="270.0"
-                        offset="25" />
-      <argouml:pathitem figname="Fig4.2"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000962"
-                        angle="315.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig4.3"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000962"
-                        angle="45.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig4.4"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000963"
-                        angle="225.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig4.5"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000963"
-                        angle="135.0"
-                        offset="5" />
-    </private>
-    <path name="Fig4.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="1118"
-              y="378" />
-      <lineto x="1118"
-              y="399" />
-      <lineto x="1158"
-              y="399" />
-      <lineto x="1158"
-              y="359" />
-      <lineto x="1137"
-              y="359" />
-    </path>
-  </group>
-  <group name="Fig5"
-       description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAC"
        sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAD"
        destConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAE"
@@ -11997,38 +12200,38 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       destPortFig="Fig3"
       sourceFigNode="Fig1"
       destFigNode="Fig3"
-      <argouml:pathitem figname="Fig5.1"
+      <argouml:pathitem figname="Fig4.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAC"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig5.2"
+      <argouml:pathitem figname="Fig4.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAD"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig5.3"
+      <argouml:pathitem figname="Fig4.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAD"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig5.4"
+      <argouml:pathitem figname="Fig4.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAE"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig5.5"
+      <argouml:pathitem figname="Fig4.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAE"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig5.0"
+    <path name="Fig4.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -12041,7 +12244,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
               y="253" />
     </path>
   </group>
-  <group name="Fig6"
+  <group name="Fig5"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAF"
        sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BB0"
@@ -12054,38 +12257,38 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       destPortFig="Fig1"
       sourceFigNode="Fig3"
       destFigNode="Fig1"
-      <argouml:pathitem figname="Fig6.1"
+      <argouml:pathitem figname="Fig5.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BAF"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig6.2"
+      <argouml:pathitem figname="Fig5.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BB0"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig6.3"
+      <argouml:pathitem figname="Fig5.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BB0"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig6.4"
+      <argouml:pathitem figname="Fig5.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BB1"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig6.5"
+      <argouml:pathitem figname="Fig5.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BB1"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig6.0"
+    <path name="Fig5.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -12098,7 +12301,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
               y="236" />
     </path>
   </group>
-  <group name="Fig7"
+  <group name="Fig6"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[32, 624, 354, 190]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D4D"
        fill="1"
@@ -12109,7 +12312,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig7.0"
+    <rectangle name="Fig6.0"
       x="32"
       y="624"
       width="354"
@@ -12119,7 +12322,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig7.1"
+    <text name="Fig6.1"
       x="33"
       y="625"
       width="352"
@@ -12135,7 +12338,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >Section</text>
-    <group name="Fig7.2"
+    <group name="Fig6.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[33, 625, 352, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D4D"
          fill="0"
@@ -12147,7 +12350,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig7.2.0"
+      <rectangle name="Fig6.2.0"
         x="33"
         y="625"
         width="352"
@@ -12158,7 +12361,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig7.3"
+    <rectangle name="Fig6.3"
       x="32"
       y="648"
       width="354"
@@ -12168,7 +12371,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig7.4"
+    <group name="Fig6.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[33, 649, 352, 126]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D4D"
          fill="0"
@@ -12179,7 +12382,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig7.4.0"
+      <rectangle name="Fig6.4.0"
         x="33"
         y="649"
         width="352"
@@ -12189,7 +12392,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig7.4.1"
+      <text name="Fig6.4.1"
         x="33"
         y="649"
         width="352"
@@ -12205,7 +12408,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >code : String</text>
-      <text name="Fig7.4.2"
+      <text name="Fig6.4.2"
         x="33"
         y="666"
         width="352"
@@ -12221,7 +12424,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >sequenceOfCourse : Integer</text>
-      <text name="Fig7.4.3"
+      <text name="Fig6.4.3"
         x="33"
         y="683"
         width="352"
@@ -12237,7 +12440,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >educationalEnvironment : EducationalEnvironmentType</text>
-      <text name="Fig7.4.4"
+      <text name="Fig6.4.4"
         x="33"
         y="700"
         width="352"
@@ -12253,7 +12456,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >mediumOfInstruction : MediumOfInstructionType</text>
-      <text name="Fig7.4.5"
+      <text name="Fig6.4.5"
         x="33"
         y="717"
         width="352"
@@ -12269,7 +12472,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >populationServed : PopulationServedType</text>
-      <text name="Fig7.4.6"
+      <text name="Fig6.4.6"
         x="33"
         y="734"
         width="352"
@@ -12286,7 +12489,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >availableCredit : Credits</text>
     </group>
-    <rectangle name="Fig7.5"
+    <rectangle name="Fig6.5"
       x="32"
       y="775"
       width="354"
@@ -12296,7 +12499,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig7.6"
+    <group name="Fig6.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[33, 776, 352, 37]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D4D"
          fill="0"
@@ -12307,7 +12510,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig7.6.0"
+      <rectangle name="Fig6.6.0"
         x="33"
         y="776"
         width="352"
@@ -12319,8 +12522,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig8"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[724, 624, 259, 140]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+  <group name="Fig7"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1440, 504, 259, 140]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089D"
        fill="1"
        fillcolor="255 255 200"
@@ -12330,9 +12533,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig8.0"
-      x="724"
-      y="624"
+    <rectangle name="Fig7.0"
+      x="1440"
+      y="504"
       width="259"
       height="140"
       fill="1"
@@ -12340,9 +12543,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig8.1"
-      x="725"
-      y="625"
+    <text name="Fig7.1"
+      x="1441"
+      y="505"
       width="257"
       height="23"
       fill="0"
@@ -12356,8 +12559,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >LearningObjective</text>
-    <group name="Fig8.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[725, 625, 257, 0]"
+    <group name="Fig7.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1441, 505, 257, 0]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089D"
          fill="0"
          fillcolor="255 255 200"
@@ -12368,9 +12571,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig8.2.0"
-        x="725"
-        y="625"
+      <rectangle name="Fig7.2.0"
+        x="1441"
+        y="505"
         width="257"
         height="0"
         fill="0"
@@ -12379,9 +12582,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig8.3"
-      x="724"
-      y="648"
+    <rectangle name="Fig7.3"
+      x="1440"
+      y="528"
       width="259"
       height="1"
       fill="1"
@@ -12389,8 +12592,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig8.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[725, 649, 257, 93]"
+    <group name="Fig7.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1441, 529, 257, 93]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089D"
          fill="0"
          fillcolor="255 255 200"
@@ -12400,9 +12603,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig8.4.0"
-        x="725"
-        y="649"
+      <rectangle name="Fig7.4.0"
+        x="1441"
+        y="529"
         width="257"
         height="93"
         fill="0"
@@ -12410,9 +12613,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig8.4.1"
-        x="725"
-        y="649"
+      <text name="Fig7.4.1"
+        x="1441"
+        y="529"
         width="257"
         height="17"
         fill="0"
@@ -12426,9 +12629,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >code : String</text>
-      <text name="Fig8.4.2"
-        x="725"
-        y="666"
+      <text name="Fig7.4.2"
+        x="1441"
+        y="546"
         width="257"
         height="17"
         fill="0"
@@ -12442,9 +12645,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >academicSubject : AcademicSubject</text>
-      <text name="Fig8.4.3"
-        x="725"
-        y="683"
+      <text name="Fig7.4.3"
+        x="1441"
+        y="563"
         width="257"
         height="17"
         fill="0"
@@ -12458,9 +12661,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >gradeLevel : GradeLevel</text>
-      <text name="Fig8.4.4"
-        x="725"
-        y="700"
+      <text name="Fig7.4.4"
+        x="1441"
+        y="580"
         width="257"
         height="17"
         fill="0"
@@ -12474,9 +12677,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >description : String</text>
-      <text name="Fig8.4.5"
-        x="725"
-        y="717"
+      <text name="Fig7.4.5"
+        x="1441"
+        y="597"
         width="257"
         height="23"
         fill="0"
@@ -12491,9 +12694,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >learningObjectiveId : Integer</text>
     </group>
-    <rectangle name="Fig8.5"
-      x="724"
-      y="741"
+    <rectangle name="Fig7.5"
+      x="1440"
+      y="621"
       width="259"
       height="1"
       fill="1"
@@ -12501,8 +12704,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig8.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[725, 742, 257, 21]"
+    <group name="Fig7.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1441, 622, 257, 21]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089D"
          fill="0"
          fillcolor="255 255 200"
@@ -12512,9 +12715,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig8.6.0"
-        x="725"
-        y="742"
+      <rectangle name="Fig7.6.0"
+        x="1441"
+        y="622"
         width="257"
         height="21"
         fill="0"
@@ -12524,7 +12727,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig9"
+  <group name="Fig8"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A5"
        sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A6"
@@ -12533,38 +12736,101 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig8"
-      destPortFig="Fig8"
-      sourceFigNode="Fig8"
-      destFigNode="Fig8"
-      <argouml:pathitem figname="Fig9.1"
+      sourcePortFig="Fig7"
+      destPortFig="Fig7"
+      sourceFigNode="Fig7"
+      destFigNode="Fig7"
+      <argouml:pathitem figname="Fig8.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A5"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig9.2"
+      <argouml:pathitem figname="Fig8.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A6"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig9.3"
+      <argouml:pathitem figname="Fig8.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A6"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig9.4"
+      <argouml:pathitem figname="Fig8.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A7"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig9.5"
+      <argouml:pathitem figname="Fig8.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A7"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig8.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1679"
+              y="643" />
+      <lineto x="1679"
+              y="664" />
+      <lineto x="1719"
+              y="664" />
+      <lineto x="1719"
+              y="624" />
+      <lineto x="1698"
+              y="624" />
+    </path>
+  </group>
+  <group name="Fig9"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000904"
+       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
+       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig7"
+      destPortFig="Fig7"
+      sourceFigNode="Fig7"
+      destFigNode="Fig7"
+      <argouml:pathitem figname="Fig9.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000904"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig9.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig9.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig9.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
+                        angle="-126.0"
+                        offset="8" />
+      <argouml:pathitem figname="Fig9.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
                         angle="135.0"
                         offset="5" />
     </private>
@@ -12575,140 +12841,20 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="963"
-              y="763" />
-      <lineto x="963"
-              y="784" />
-      <lineto x="1003"
-              y="784" />
-      <lineto x="1003"
-              y="744" />
-      <lineto x="982"
-              y="744" />
+      <moveto x="1679"
+              y="643" />
+      <lineto x="1679"
+              y="664" />
+      <lineto x="1719"
+              y="664" />
+      <lineto x="1720"
+              y="624" />
+      <lineto x="1698"
+              y="624" />
     </path>
   </group>
   <group name="Fig10"
-       description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CD"
-       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CE"
-       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CF"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig8"
-      destPortFig="Fig3"
-      sourceFigNode="Fig8"
-      destFigNode="Fig3"
-      <argouml:pathitem figname="Fig10.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CD"
-                        angle="270.0"
-                        offset="25" />
-      <argouml:pathitem figname="Fig10.2"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CE"
-                        angle="315.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig10.3"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CE"
-                        angle="45.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig10.4"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CF"
-                        angle="225.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig10.5"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008CF"
-                        angle="135.0"
-                        offset="5" />
-    </private>
-    <path name="Fig10.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="889"
-              y="624" />
-      <lineto x="889"
-              y="378" />
-    </path>
-  </group>
-  <group name="Fig11"
-       description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000904"
-       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
-       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig8"
-      destPortFig="Fig8"
-      sourceFigNode="Fig8"
-      destFigNode="Fig8"
-      <argouml:pathitem figname="Fig11.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000904"
-                        angle="270.0"
-                        offset="25" />
-      <argouml:pathitem figname="Fig11.2"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
-                        angle="315.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig11.3"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000905"
-                        angle="45.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig11.4"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
-                        angle="225.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig11.5"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000906"
-                        angle="135.0"
-                        offset="5" />
-    </private>
-    <path name="Fig11.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="963"
-              y="763" />
-      <lineto x="963"
-              y="784" />
-      <lineto x="1003"
-              y="784" />
-      <lineto x="1003"
-              y="744" />
-      <lineto x="982"
-              y="744" />
-    </path>
-  </group>
-  <group name="Fig12"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[736, 840, 232, 157]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1456, 744, 232, 157]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E"
        fill="1"
        fillcolor="255 255 200"
@@ -12718,9 +12864,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig12.0"
-      x="736"
-      y="840"
+    <rectangle name="Fig10.0"
+      x="1456"
+      y="744"
       width="232"
       height="157"
       fill="1"
@@ -12728,9 +12874,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig12.1"
-      x="737"
-      y="841"
+    <text name="Fig10.1"
+      x="1457"
+      y="745"
       width="230"
       height="23"
       fill="0"
@@ -12744,8 +12890,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >LearningStandard</text>
-    <group name="Fig12.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[737, 841, 230, 0]"
+    <group name="Fig10.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1457, 745, 230, 0]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E"
          fill="0"
          fillcolor="255 255 200"
@@ -12756,9 +12902,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig12.2.0"
-        x="737"
-        y="841"
+      <rectangle name="Fig10.2.0"
+        x="1457"
+        y="745"
         width="230"
         height="0"
         fill="0"
@@ -12767,9 +12913,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig12.3"
-      x="736"
-      y="864"
+    <rectangle name="Fig10.3"
+      x="1456"
+      y="768"
       width="232"
       height="1"
       fill="1"
@@ -12777,8 +12923,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig12.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[737, 865, 230, 110]"
+    <group name="Fig10.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1457, 769, 230, 110]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E"
          fill="0"
          fillcolor="255 255 200"
@@ -12788,9 +12934,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig12.4.0"
-        x="737"
-        y="865"
+      <rectangle name="Fig10.4.0"
+        x="1457"
+        y="769"
         width="230"
         height="110"
         fill="0"
@@ -12798,9 +12944,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig12.4.1"
-        x="737"
-        y="865"
+      <text name="Fig10.4.1"
+        x="1457"
+        y="769"
         width="230"
         height="17"
         fill="0"
@@ -12814,9 +12960,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >learningStandardId : String</text>
-      <text name="Fig12.4.2"
-        x="737"
-        y="882"
+      <text name="Fig10.4.2"
+        x="1457"
+        y="786"
         width="230"
         height="17"
         fill="0"
@@ -12830,9 +12976,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >description : String</text>
-      <text name="Fig12.4.3"
-        x="737"
-        y="899"
+      <text name="Fig10.4.3"
+        x="1457"
+        y="803"
         width="230"
         height="17"
         fill="0"
@@ -12846,9 +12992,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >contentStandard : ContentStandard</text>
-      <text name="Fig12.4.4"
-        x="737"
-        y="916"
+      <text name="Fig10.4.4"
+        x="1457"
+        y="820"
         width="230"
         height="17"
         fill="0"
@@ -12862,9 +13008,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >gradeLevel : GradeLevel</text>
-      <text name="Fig12.4.5"
-        x="737"
-        y="933"
+      <text name="Fig10.4.5"
+        x="1457"
+        y="837"
         width="230"
         height="17"
         fill="0"
@@ -12878,9 +13024,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >academicSubject : AcademicSubject</text>
-      <text name="Fig12.4.6"
-        x="737"
-        y="950"
+      <text name="Fig10.4.6"
+        x="1457"
+        y="854"
         width="230"
         height="23"
         fill="0"
@@ -12895,9 +13041,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >courseTitle : String</text>
     </group>
-    <rectangle name="Fig12.5"
-      x="736"
-      y="974"
+    <rectangle name="Fig10.5"
+      x="1456"
+      y="878"
       width="232"
       height="1"
       fill="1"
@@ -12905,8 +13051,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig12.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[737, 975, 230, 21]"
+    <group name="Fig10.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1457, 879, 230, 21]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089E"
          fill="0"
          fillcolor="255 255 200"
@@ -12916,9 +13062,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig12.6.0"
-        x="737"
-        y="975"
+      <rectangle name="Fig10.6.0"
+        x="1457"
+        y="879"
         width="230"
         height="21"
         fill="0"
@@ -12928,7 +13074,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig13"
+  <group name="Fig11"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089F"
        sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A0"
@@ -12937,55 +13083,55 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig12"
-      destPortFig="Fig8"
-      sourceFigNode="Fig12"
-      destFigNode="Fig8"
-      <argouml:pathitem figname="Fig13.1"
+      sourcePortFig="Fig10"
+      destPortFig="Fig7"
+      sourceFigNode="Fig10"
+      destFigNode="Fig7"
+      <argouml:pathitem figname="Fig11.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089F"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig13.2"
+      <argouml:pathitem figname="Fig11.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A0"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig13.3"
+      <argouml:pathitem figname="Fig11.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A0"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig13.4"
+      <argouml:pathitem figname="Fig11.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A1"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig13.5"
+      <argouml:pathitem figname="Fig11.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A1"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig13.0"
+    <path name="Fig11.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="887"
-              y="840" />
-      <lineto x="887"
-              y="763" />
+      <moveto x="1592"
+              y="744" />
+      <lineto x="1592"
+              y="643" />
     </path>
   </group>
-  <group name="Fig14"
+  <group name="Fig12"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A2"
        sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A3"
@@ -12994,56 +13140,56 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig8"
-      destPortFig="Fig12"
-      sourceFigNode="Fig8"
-      destFigNode="Fig12"
-      <argouml:pathitem figname="Fig14.1"
+      sourcePortFig="Fig7"
+      destPortFig="Fig10"
+      sourceFigNode="Fig7"
+      destFigNode="Fig10"
+      <argouml:pathitem figname="Fig12.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A2"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig14.2"
+      <argouml:pathitem figname="Fig12.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A3"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig14.3"
+      <argouml:pathitem figname="Fig12.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A3"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig14.4"
+      <argouml:pathitem figname="Fig12.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A4"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig14.5"
+      <argouml:pathitem figname="Fig12.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008A4"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig14.0"
+    <path name="Fig12.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="820"
-              y="763" />
-      <lineto x="820"
-              y="840" />
+      <moveto x="1592"
+              y="643" />
+      <lineto x="1592"
+              y="744" />
     </path>
   </group>
-  <group name="Fig15"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[340, 464, 280, 101]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
+  <group name="Fig13"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[368, 488, 280, 101]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
        href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8A"
        fill="1"
        fillcolor="255 255 200"
@@ -13053,9 +13199,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig15.0"
-      x="340"
-      y="464"
+    <rectangle name="Fig13.0"
+      x="368"
+      y="488"
       width="280"
       height="101"
       fill="1"
@@ -13063,9 +13209,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig15.1"
-      x="341"
-      y="465"
+    <text name="Fig13.1"
+      x="369"
+      y="489"
       width="278"
       height="23"
       fill="0"
@@ -13079,8 +13225,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >StudentAssessmentItem</text>
-    <group name="Fig15.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[341, 465, 278, 0]"
+    <group name="Fig13.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[369, 489, 278, 0]"
          href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8A"
          fill="0"
          fillcolor="255 255 200"
@@ -13091,9 +13237,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig15.2.0"
-        x="341"
-        y="465"
+      <rectangle name="Fig13.2.0"
+        x="369"
+        y="489"
         width="278"
         height="0"
         fill="0"
@@ -13102,9 +13248,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig15.3"
-      x="340"
-      y="488"
+    <rectangle name="Fig13.3"
+      x="368"
+      y="512"
       width="280"
       height="1"
       fill="1"
@@ -13112,8 +13258,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig15.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[341, 489, 278, 76]"
+    <group name="Fig13.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[369, 513, 278, 76]"
          href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8A"
          fill="0"
          fillcolor="255 255 200"
@@ -13123,9 +13269,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig15.4.0"
-        x="341"
-        y="489"
+      <rectangle name="Fig13.4.0"
+        x="369"
+        y="513"
         width="278"
         height="76"
         fill="0"
@@ -13133,9 +13279,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig15.4.1"
-        x="341"
-        y="489"
+      <text name="Fig13.4.1"
+        x="369"
+        y="513"
         width="278"
         height="17"
         fill="0"
@@ -13149,9 +13295,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >response : String</text>
-      <text name="Fig15.4.2"
-        x="341"
-        y="506"
+      <text name="Fig13.4.2"
+        x="369"
+        y="530"
         width="278"
         height="17"
         fill="0"
@@ -13165,9 +13311,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >rawScore : Integer</text>
-      <text name="Fig15.4.3"
-        x="341"
-        y="523"
+      <text name="Fig13.4.3"
+        x="369"
+        y="547"
         width="278"
         height="17"
         fill="0"
@@ -13181,9 +13327,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >resultType : AssessmentItemResultType</text>
-      <text name="Fig15.4.4"
-        x="341"
-        y="540"
+      <text name="Fig13.4.4"
+        x="369"
+        y="564"
         width="278"
         height="23"
         fill="0"
@@ -13198,9 +13344,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >responseIndicator : ResponseIndicatorType</text>
     </group>
-    <rectangle name="Fig15.5"
-      x="340"
-      y="564"
+    <rectangle name="Fig13.5"
+      x="368"
+      y="588"
       width="279"
       height="1"
       fill="1"
@@ -13209,8 +13355,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       strokecolor="black"
       visibility="0"
     />
-    <group name="Fig15.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[341, 565, 277, 21]"
+    <group name="Fig13.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[369, 589, 277, 21]"
          href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8A"
          fill="0"
          fillcolor="255 255 200"
@@ -13221,9 +13367,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig15.6.0"
-        x="341"
-        y="565"
+      <rectangle name="Fig13.6.0"
+        x="369"
+        y="589"
         width="277"
         height="21"
         fill="0"
@@ -13234,7 +13380,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig16"
+  <group name="Fig14"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8B"
        sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8C"
@@ -13244,41 +13390,41 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
   >
     <private>
       sourcePortFig="Fig1"
-      destPortFig="Fig15"
+      destPortFig="Fig13"
       sourceFigNode="Fig1"
-      destFigNode="Fig15"
-      <argouml:pathitem figname="Fig16.1"
+      destFigNode="Fig13"
+      <argouml:pathitem figname="Fig14.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8B"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig16.2"
+      <argouml:pathitem figname="Fig14.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8C"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig16.3"
+      <argouml:pathitem figname="Fig14.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8C"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig16.4"
+      <argouml:pathitem figname="Fig14.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8D"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig16.5"
+      <argouml:pathitem figname="Fig14.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000B8D"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig16.0"
+    <path name="Fig14.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -13288,10 +13434,10 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <moveto x="557"
               y="307" />
       <lineto x="557"
-              y="464" />
+              y="488" />
     </path>
   </group>
-  <group name="Fig17"
+  <group name="Fig15"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5C"
        sourceConnector="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5D"
@@ -13301,41 +13447,41 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
   >
     <private>
       sourcePortFig="Fig1"
-      destPortFig="Fig15"
+      destPortFig="Fig13"
       sourceFigNode="Fig1"
-      destFigNode="Fig15"
-      <argouml:pathitem figname="Fig17.1"
+      destFigNode="Fig13"
+      <argouml:pathitem figname="Fig15.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5C"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig17.2"
+      <argouml:pathitem figname="Fig15.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5D"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig17.3"
+      <argouml:pathitem figname="Fig15.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5D"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig17.4"
+      <argouml:pathitem figname="Fig15.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5E"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig17.5"
+      <argouml:pathitem figname="Fig15.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75--538ceef6:135e098d14b:-8000:0000000000000C5E"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig17.0"
+    <path name="Fig15.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -13345,11 +13491,11 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <moveto x="557"
               y="307" />
       <lineto x="557"
-              y="464" />
+              y="488" />
     </path>
   </group>
-  <group name="Fig18"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1137, 501, 234, 157]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+  <group name="Fig16"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[600, 776, 234, 157]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000894"
        fill="1"
        fillcolor="white"
@@ -13359,9 +13505,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig18.0"
-      x="1137"
-      y="501"
+    <rectangle name="Fig16.0"
+      x="600"
+      y="776"
       width="234"
       height="157"
       fill="1"
@@ -13369,9 +13515,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig18.1"
-      x="1138"
-      y="502"
+    <text name="Fig16.1"
+      x="601"
+      y="777"
       width="232"
       height="23"
       fill="0"
@@ -13385,8 +13531,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >AssessmentItem</text>
-    <group name="Fig18.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1138, 502, 232, 0]"
+    <group name="Fig16.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[601, 777, 232, 0]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000894"
          fill="0"
          fillcolor="white"
@@ -13397,9 +13543,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig18.2.0"
-        x="1138"
-        y="502"
+      <rectangle name="Fig16.2.0"
+        x="601"
+        y="777"
         width="232"
         height="0"
         fill="0"
@@ -13408,9 +13554,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig18.3"
-      x="1137"
-      y="525"
+    <rectangle name="Fig16.3"
+      x="600"
+      y="800"
       width="234"
       height="1"
       fill="1"
@@ -13418,8 +13564,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig18.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1138, 526, 232, 110]"
+    <group name="Fig16.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[601, 801, 232, 110]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000894"
          fill="0"
          fillcolor="white"
@@ -13429,9 +13575,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig18.4.0"
-        x="1138"
-        y="526"
+      <rectangle name="Fig16.4.0"
+        x="601"
+        y="801"
         width="232"
         height="110"
         fill="0"
@@ -13439,9 +13585,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig18.4.1"
-        x="1138"
-        y="526"
+      <text name="Fig16.4.1"
+        x="601"
+        y="801"
         width="232"
         height="17"
         fill="0"
@@ -13455,9 +13601,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >item : Integer</text>
-      <text name="Fig18.4.2"
-        x="1138"
-        y="543"
+      <text name="Fig16.4.2"
+        x="601"
+        y="818"
         width="232"
         height="17"
         fill="0"
@@ -13471,9 +13617,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >identificationCode : String</text>
-      <text name="Fig18.4.3"
-        x="1138"
-        y="560"
+      <text name="Fig16.4.3"
+        x="601"
+        y="835"
         width="232"
         height="17"
         fill="0"
@@ -13487,9 +13633,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >maxRawScore : Integer</text>
-      <text name="Fig18.4.4"
-        x="1138"
-        y="577"
+      <text name="Fig16.4.4"
+        x="601"
+        y="852"
         width="232"
         height="17"
         fill="0"
@@ -13503,9 +13649,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >correctResponse : String</text>
-      <text name="Fig18.4.5"
-        x="1138"
-        y="594"
+      <text name="Fig16.4.5"
+        x="601"
+        y="869"
         width="232"
         height="17"
         fill="0"
@@ -13519,9 +13665,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >nomenclature : String</text>
-      <text name="Fig18.4.6"
-        x="1138"
-        y="611"
+      <text name="Fig16.4.6"
+        x="601"
+        y="886"
         width="232"
         height="23"
         fill="0"
@@ -13536,9 +13682,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >category : AssessmentItemCategory</text>
     </group>
-    <rectangle name="Fig18.5"
-      x="1137"
-      y="635"
+    <rectangle name="Fig16.5"
+      x="600"
+      y="910"
       width="234"
       height="1"
       fill="1"
@@ -13546,8 +13692,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig18.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1138, 636, 232, 21]"
+    <group name="Fig16.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[601, 911, 232, 21]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000894"
          fill="0"
          fillcolor="white"
@@ -13557,9 +13703,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig18.6.0"
-        x="1138"
-        y="636"
+      <rectangle name="Fig16.6.0"
+        x="601"
+        y="911"
         width="232"
         height="21"
         fill="0"
@@ -13569,7 +13715,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig19"
+  <group name="Fig17"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000895"
        sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000896"
@@ -13578,38 +13724,152 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig18"
+      sourcePortFig="Fig16"
       destPortFig="Fig3"
-      sourceFigNode="Fig18"
+      sourceFigNode="Fig16"
       destFigNode="Fig3"
-      <argouml:pathitem figname="Fig19.1"
+      <argouml:pathitem figname="Fig17.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000895"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig19.2"
+      <argouml:pathitem figname="Fig17.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000896"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig19.3"
+      <argouml:pathitem figname="Fig17.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000896"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig19.4"
+      <argouml:pathitem figname="Fig17.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000897"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig19.5"
+      <argouml:pathitem figname="Fig17.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000897"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig17.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="825"
+              y="776" />
+      <lineto x="825"
+              y="378" />
+    </path>
+  </group>
+  <group name="Fig18"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000898"
+       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
+       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig3"
+      destPortFig="Fig16"
+      sourceFigNode="Fig3"
+      destFigNode="Fig16"
+      <argouml:pathitem figname="Fig18.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000898"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig18.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
+                        angle="-40.0"
+                        offset="24" />
+      <argouml:pathitem figname="Fig18.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig18.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+                        angle="225.0"
+                        offset="21" />
+      <argouml:pathitem figname="Fig18.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig18.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="825"
+              y="378" />
+      <lineto x="825"
+              y="776" />
+    </path>
+  </group>
+  <group name="Fig19"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C3"
+       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
+       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig10"
+      destPortFig="Fig16"
+      sourceFigNode="Fig10"
+      destFigNode="Fig16"
+      <argouml:pathitem figname="Fig19.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C3"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig19.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig19.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig19.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig19.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
                         angle="135.0"
                         offset="5" />
     </private>
@@ -13620,53 +13880,53 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="1137"
-              y="501" />
-      <lineto x="1137"
-              y="378" />
+      <moveto x="1456"
+              y="824" />
+      <lineto x="833"
+              y="824" />
     </path>
   </group>
   <group name="Fig20"
        description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000898"
-       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
-       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+       href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA2"
+       sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
+       destConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig3"
-      destPortFig="Fig18"
-      sourceFigNode="Fig3"
-      destFigNode="Fig18"
+      sourcePortFig="Fig13"
+      destPortFig="Fig16"
+      sourceFigNode="Fig13"
+      destFigNode="Fig16"
       <argouml:pathitem figname="Fig20.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000898"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA2"
                         angle="270.0"
                         offset="25" />
       <argouml:pathitem figname="Fig20.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
                         angle="315.0"
                         offset="5" />
       <argouml:pathitem figname="Fig20.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000899"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
                         angle="45.0"
                         offset="5" />
       <argouml:pathitem figname="Fig20.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
                         angle="225.0"
                         offset="5" />
       <argouml:pathitem figname="Fig20.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:000000000000089A"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
                         angle="135.0"
                         offset="5" />
     </private>
@@ -13677,53 +13937,53 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="1137"
-              y="378" />
-      <lineto x="1137"
-              y="501" />
+      <moveto x="647"
+              y="588" />
+      <lineto x="647"
+              y="776" />
     </path>
   </group>
   <group name="Fig21"
        description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C3"
-       sourceConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
-       destConnector="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
+       href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA5"
+       sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
+       destConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig12"
-      destPortFig="Fig18"
-      sourceFigNode="Fig12"
-      destFigNode="Fig18"
+      sourcePortFig="Fig16"
+      destPortFig="Fig13"
+      sourceFigNode="Fig16"
+      destFigNode="Fig13"
       <argouml:pathitem figname="Fig21.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C3"
-                        angle="270.0"
-                        offset="25" />
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA5"
+                        angle="-56.0"
+                        offset="46" />
       <argouml:pathitem figname="Fig21.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
                         angle="315.0"
                         offset="5" />
       <argouml:pathitem figname="Fig21.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C4"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
                         angle="45.0"
                         offset="5" />
       <argouml:pathitem figname="Fig21.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
                         angle="225.0"
                         offset="5" />
       <argouml:pathitem figname="Fig21.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:00000000000008C5"
+                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
                         angle="135.0"
                         offset="5" />
     </private>
@@ -13734,127 +13994,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="967"
-              y="840" />
-      <lineto x="1137"
-              y="657" />
+      <moveto x="647"
+              y="776" />
+      <lineto x="647"
+              y="588" />
     </path>
   </group>
   <group name="Fig22"
-       description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA2"
-       sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
-       destConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig15"
-      destPortFig="Fig18"
-      sourceFigNode="Fig15"
-      destFigNode="Fig18"
-      <argouml:pathitem figname="Fig22.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA2"
-                        angle="270.0"
-                        offset="25" />
-      <argouml:pathitem figname="Fig22.2"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
-                        angle="315.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig22.3"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA3"
-                        angle="45.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig22.4"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
-                        angle="225.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig22.5"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA4"
-                        angle="135.0"
-                        offset="5" />
-    </private>
-    <path name="Fig22.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="619"
-              y="564" />
-      <lineto x="1137"
-              y="564" />
-    </path>
-  </group>
-  <group name="Fig23"
-       description="org.argouml.uml.diagram.ui.FigAssociation"
-       href="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA5"
-       sourceConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
-       destConnector="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig18"
-      destPortFig="Fig15"
-      sourceFigNode="Fig18"
-      destFigNode="Fig15"
-      <argouml:pathitem figname="Fig23.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA5"
-                        angle="-56.0"
-                        offset="46" />
-      <argouml:pathitem figname="Fig23.2"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
-                        angle="315.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig23.3"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA6"
-                        angle="45.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig23.4"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
-                        angle="225.0"
-                        offset="5" />
-      <argouml:pathitem figname="Fig23.5"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
-                        ownerhref="-64--88-1-75-4d0f3691:135e003ef44:-8000:0000000000000BA7"
-                        angle="135.0"
-                        offset="5" />
-    </private>
-    <path name="Fig23.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="1137"
-              y="520" />
-      <lineto x="619"
-              y="520" />
-    </path>
-  </group>
-  <group name="Fig24"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[56, 416, 245, 123]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC7"
        fill="1"
@@ -13865,7 +14011,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <private>
     </private>
     
-    <rectangle name="Fig24.0"
+    <rectangle name="Fig22.0"
       x="56"
       y="416"
       width="245"
@@ -13875,7 +14021,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig24.1"
+    <text name="Fig22.1"
       x="57"
       y="417"
       width="243"
@@ -13891,7 +14037,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       textsize="13"
       justification="Center"
     >StudentSectionAssociation</text>
-    <group name="Fig24.2"
+    <group name="Fig22.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[57, 417, 243, 0]"
          href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC7"
          fill="0"
@@ -13903,7 +14049,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig24.2.0"
+      <rectangle name="Fig22.2.0"
         x="57"
         y="417"
         width="243"
@@ -13914,7 +14060,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig24.3"
+    <rectangle name="Fig22.3"
       x="56"
       y="440"
       width="245"
@@ -13924,7 +14070,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig24.4"
+    <group name="Fig22.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[57, 441, 243, 76]"
          href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC7"
          fill="0"
@@ -13935,7 +14081,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig24.4.0"
+      <rectangle name="Fig22.4.0"
         x="57"
         y="441"
         width="243"
@@ -13945,7 +14091,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig24.4.1"
+      <text name="Fig22.4.1"
         x="57"
         y="441"
         width="243"
@@ -13961,7 +14107,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >beginDate : Date</text>
-      <text name="Fig24.4.2"
+      <text name="Fig22.4.2"
         x="57"
         y="458"
         width="243"
@@ -13977,7 +14123,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >endDate : Date</text>
-      <text name="Fig24.4.3"
+      <text name="Fig22.4.3"
         x="57"
         y="475"
         width="243"
@@ -13993,7 +14139,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         textsize="13"
         justification="Left"
       >homeroomIndicator : Boolean</text>
-      <text name="Fig24.4.4"
+      <text name="Fig22.4.4"
         x="57"
         y="492"
         width="243"
@@ -14010,7 +14156,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
         justification="Left"
       >repeatIdentifier : RepeatIdentifierType</text>
     </group>
-    <rectangle name="Fig24.5"
+    <rectangle name="Fig22.5"
       x="56"
       y="516"
       width="245"
@@ -14020,7 +14166,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig24.6"
+    <group name="Fig22.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[57, 517, 243, 21]"
          href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC7"
          fill="0"
@@ -14031,7 +14177,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <private>
       </private>
       
-      <rectangle name="Fig24.6.0"
+      <rectangle name="Fig22.6.0"
         x="57"
         y="517"
         width="243"
@@ -14043,7 +14189,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       />
     </group>
   </group>
-  <group name="Fig25"
+  <group name="Fig23"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC8"
        sourceConnector="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC9"
@@ -14053,41 +14199,41 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
   >
     <private>
       sourcePortFig="Fig0"
-      destPortFig="Fig24"
+      destPortFig="Fig22"
       sourceFigNode="Fig0"
-      destFigNode="Fig24"
-      <argouml:pathitem figname="Fig25.1"
+      destFigNode="Fig22"
+      <argouml:pathitem figname="Fig23.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC8"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig25.2"
+      <argouml:pathitem figname="Fig23.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC9"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig25.3"
+      <argouml:pathitem figname="Fig23.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000EC9"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig25.4"
+      <argouml:pathitem figname="Fig23.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECA"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig25.5"
+      <argouml:pathitem figname="Fig23.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECA"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig25.0"
+    <path name="Fig23.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -14100,7 +14246,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
               y="416" />
     </path>
   </group>
-  <group name="Fig26"
+  <group name="Fig24"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECB"
        sourceConnector="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECC"
@@ -14109,42 +14255,42 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig7"
-      destPortFig="Fig24"
-      sourceFigNode="Fig7"
-      destFigNode="Fig24"
-      <argouml:pathitem figname="Fig26.1"
+      sourcePortFig="Fig6"
+      destPortFig="Fig22"
+      sourceFigNode="Fig6"
+      destFigNode="Fig22"
+      <argouml:pathitem figname="Fig24.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECB"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig26.2"
+      <argouml:pathitem figname="Fig24.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECC"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig26.3"
+      <argouml:pathitem figname="Fig24.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECC"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig26.4"
+      <argouml:pathitem figname="Fig24.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECD"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig26.5"
+      <argouml:pathitem figname="Fig24.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000ECD"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig26.0"
+    <path name="Fig24.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -14155,6 +14301,562 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
               y="624" />
       <lineto x="213"
               y="538" />
+    </path>
+  </group>
+  <group name="Fig25"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[944, 512, 251, 139]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig25.0"
+      x="944"
+      y="512"
+      width="251"
+      height="139"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig25.1"
+      x="945"
+      y="513"
+      width="249"
+      height="23"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Lucida Grande"
+      italic="false"
+      bold="true"
+      textsize="13"
+      justification="Center"
+    >ObjectiveAssessment</text>
+    <group name="Fig25.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[946, 513, 248, 0]"
+         href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig25.2.0"
+        x="946"
+        y="513"
+        width="248"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig25.3"
+      x="944"
+      y="536"
+      width="251"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig25.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[945, 537, 249, 93]"
+         href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig25.4.0"
+        x="945"
+        y="537"
+        width="249"
+        height="93"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig25.4.1"
+        x="945"
+        y="537"
+        width="249"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >identificationCode : String</text>
+      <text name="Fig25.4.2"
+        x="945"
+        y="554"
+        width="249"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >MaxRawScore : Integer</text>
+      <text name="Fig25.4.3"
+        x="945"
+        y="571"
+        width="249"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >AssessmentPerformanceLevel : Integer</text>
+      <text name="Fig25.4.4"
+        x="945"
+        y="588"
+        width="249"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >PercentOfAssessment : Integer</text>
+      <text name="Fig25.4.5"
+        x="945"
+        y="605"
+        width="249"
+        height="23"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >Nomenclature : String</text>
+    </group>
+    <rectangle name="Fig25.5"
+      x="944"
+      y="629"
+      width="251"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig25.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[945, 630, 249, 21]"
+         href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig25.6.0"
+        x="945"
+        y="630"
+        width="249"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+  </group>
+  <group name="Fig26"
+       description="org.argouml.uml.diagram.ui.FigDependency"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D8"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig25"
+      destPortFig="Fig3"
+      sourceFigNode="Fig25"
+      destFigNode="Fig3"
+      <argouml:pathitem figname="Fig26.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D8"
+                        angle="270.0"
+                        offset="25" />
+    </private>
+    <path name="Fig26.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1058"
+              y="512" />
+      <lineto x="1058"
+              y="378" />
+    </path>
+  </group>
+  <group name="Fig27"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D5"
+       sourceConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D6"
+       destConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D7"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig3"
+      destPortFig="Fig25"
+      sourceFigNode="Fig3"
+      destFigNode="Fig25"
+      <argouml:pathitem figname="Fig27.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D5"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig27.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D6"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig27.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D6"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig27.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D7"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig27.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D7"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig27.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1058"
+              y="378" />
+      <lineto x="1058"
+              y="512" />
+    </path>
+  </group>
+  <group name="Fig28"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D9"
+       sourceConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DA"
+       destConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DB"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig3"
+      destPortFig="Fig25"
+      sourceFigNode="Fig3"
+      destFigNode="Fig25"
+      <argouml:pathitem figname="Fig28.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010D9"
+                        angle="270.0"
+                        offset="27" />
+      <argouml:pathitem figname="Fig28.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DA"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig28.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DA"
+                        angle="35.0"
+                        offset="34" />
+      <argouml:pathitem figname="Fig28.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DB"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig28.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:00000000000010DB"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig28.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1058"
+              y="378" />
+      <lineto x="1058"
+              y="512" />
+    </path>
+  </group>
+  <group name="Fig29"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001102"
+       sourceConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001103"
+       destConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001104"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig25"
+      destPortFig="Fig25"
+      sourceFigNode="Fig25"
+      destFigNode="Fig25"
+      <argouml:pathitem figname="Fig29.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001102"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig29.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001103"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig29.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001103"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig29.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001104"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig29.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001104"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig29.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1194"
+              y="560" />
+      <lineto x="1257"
+              y="560" />
+      <lineto x="1257"
+              y="600" />
+      <lineto x="1194"
+              y="600" />
+    </path>
+  </group>
+  <group name="Fig30"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001105"
+       stroke="1"
+       strokecolor="51 51 153"
+  >
+    <private>
+      sourcePortFig="Fig25.0"
+      destPortFig="Fig16.0"
+      sourceFigNode="Fig25"
+      destFigNode="Fig16"
+      <argouml:pathitem figname="Fig30.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001105"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig30.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="51 51 153"
+    >
+      <moveto x="944"
+              y="650" />
+      <lineto x="833"
+              y="776" />
+    </path>
+  </group>
+  <group name="Fig31"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001109"
+       sourceConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110A"
+       destConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110B"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig25"
+      destPortFig="Fig7"
+      sourceFigNode="Fig25"
+      destFigNode="Fig7"
+      <argouml:pathitem figname="Fig31.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:0000000000001109"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig31.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110A"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig31.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110A"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig31.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110B"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig31.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110B"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig31.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1194"
+              y="544" />
+      <lineto x="1440"
+              y="544" />
+    </path>
+  </group>
+  <group name="Fig32"
+       description="org.argouml.uml.diagram.ui.FigAssociation"
+       href="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110C"
+       sourceConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110D"
+       destConnector="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110E"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig25"
+      destPortFig="Fig10"
+      sourceFigNode="Fig25"
+      destFigNode="Fig10"
+      <argouml:pathitem figname="Fig32.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110C"
+                        angle="270.0"
+                        offset="25" />
+      <argouml:pathitem figname="Fig32.2"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110D"
+                        angle="315.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig32.3"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110D"
+                        angle="45.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig32.4"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110E"
+                        angle="225.0"
+                        offset="5" />
+      <argouml:pathitem figname="Fig32.5"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
+                        ownerhref="10-71-1-63--1b683aa2:1365ae29501:-8000:000000000000110E"
+                        angle="135.0"
+                        offset="5" />
+    </private>
+    <path name="Fig32.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1194"
+              y="650" />
+      <lineto x="1456"
+              y="744" />
     </path>
   </group>
 </pgml>
@@ -18897,7 +19599,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >CourseTranscript</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1021, 249, 116, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1021, 249, 314, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D35"
          fill="0"
          fillcolor="white"
@@ -18911,7 +19613,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig3.2.0"
         x="1021"
         y="249"
-        width="116"
+        width="314"
         height="0"
         fill="0"
         fillcolor="white"
@@ -19134,7 +19836,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Course</text>
     <group name="Fig4.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1009, 41, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1009, 41, 379, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -19148,7 +19850,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig4.2.0"
         x="1009"
         y="41"
-        width="64"
+        width="379"
         height="0"
         fill="0"
         fillcolor="white"
@@ -23415,7 +24117,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Course</text>
     <group name="Fig17.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[899, 962, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[899, 962, 379, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -23429,7 +24131,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig17.2.0"
         x="899"
         y="962"
-        width="64"
+        width="379"
         height="0"
         fill="0"
         fillcolor="white"
@@ -37506,7 +38208,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig4.4.6"
         x="553"
         y="518"
-        width="309"
+        width="307"
         height="17"
         fill="0"
         fillcolor="white"
@@ -38037,7 +38739,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.2"
         x="158"
         y="705"
-        width="195"
+        width="194"
         height="17"
         fill="0"
         fillcolor="white"
@@ -38251,7 +38953,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig9.4.1"
         x="1057"
         y="681"
-        width="90"
+        width="89"
         height="23"
         fill="0"
         fillcolor="white"
@@ -38393,7 +39095,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Course</text>
     <group name="Fig11.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[651, 756, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[651, 756, 379, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -38407,7 +39109,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig11.2.0"
         x="651"
         y="756"
-        width="64"
+        width="379"
         height="0"
         fill="0"
         fillcolor="white"
@@ -40075,7 +40777,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig4.4.3"
         x="81"
         y="555"
-        width="242"
+        width="241"
         height="23"
         fill="0"
         fillcolor="white"
@@ -40126,7 +40828,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     </group>
   </group>
   <group name="Fig5"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[224, 660, 155, 68]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[224, 660, 250, 156]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
        fill="1"
        fillcolor="white"
@@ -40139,8 +40841,8 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig5.0"
       x="224"
       y="660"
-      width="155"
-      height="68"
+      width="250"
+      height="156"
       fill="1"
       fillcolor="white"
       stroke="1"
@@ -40149,7 +40851,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <text name="Fig5.1"
       x="225"
       y="661"
-      width="153"
+      width="248"
       height="23"
       fill="0"
       fillcolor="white"
@@ -40188,7 +40890,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig5.3"
       x="224"
       y="684"
-      width="155"
+      width="250"
       height="1"
       fill="1"
       fillcolor="black"
@@ -40196,7 +40898,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig5.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[225, 685, 153, 21]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[225, 685, 248, 100]"
          href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
          fill="0"
          fillcolor="white"
@@ -40209,18 +40911,98 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig5.4.0"
         x="225"
         y="685"
-        width="153"
-        height="21"
+        width="248"
+        height="100"
         fill="0"
         fillcolor="white"
         stroke="0"
         strokecolor="black"
       />
+      <text name="Fig5.4.1"
+        x="225"
+        y="685"
+        width="248"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >identificationCode : String</text>
+      <text name="Fig5.4.2"
+        x="225"
+        y="702"
+        width="248"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >MaxRawScore : Integer</text>
+      <text name="Fig5.4.3"
+        x="225"
+        y="719"
+        width="248"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >AssessmentPerformanceLevel : Integer</text>
+      <text name="Fig5.4.4"
+        x="225"
+        y="736"
+        width="248"
+        height="17"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >PercentOfAssessment : Integer</text>
+      <text name="Fig5.4.5"
+        x="225"
+        y="753"
+        width="248"
+        height="23"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Lucida Grande"
+        italic="false"
+        bold="false"
+        textsize="13"
+        justification="Left"
+      >Nomenclature : String</text>
     </group>
     <rectangle name="Fig5.5"
       x="224"
-      y="705"
-      width="155"
+      y="785"
+      width="250"
       height="1"
       fill="1"
       fillcolor="black"
@@ -40228,7 +41010,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig5.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[225, 706, 153, 21]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[225, 786, 248, 28]"
          href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB5"
          fill="0"
          fillcolor="white"
@@ -40240,9 +41022,9 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       
       <rectangle name="Fig5.6.0"
         x="225"
-        y="706"
-        width="153"
-        height="21"
+        y="786"
+        width="248"
+        height="28"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -43674,7 +44456,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >CourseTranscript</text>
     <group name="Fig6.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[225, 545, 116, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[225, 545, 314, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D35"
          fill="0"
          fillcolor="white"
@@ -43688,7 +44470,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig6.2.0"
         x="225"
         y="545"
-        width="116"
+        width="314"
         height="0"
         fill="0"
         fillcolor="white"
@@ -45264,7 +46046,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Course</text>
     <group name="Fig20.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1261, 897, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1261, 897, 379, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -45278,7 +46060,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig20.2.0"
         x="1261"
         y="897"
-        width="64"
+        width="379"
         height="0"
         fill="0"
         fillcolor="white"
@@ -45831,7 +46613,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig23.4.2"
         x="73"
         y="682"
-        width="153"
+        width="151"
         height="17"
         fill="0"
         fillcolor="white"
@@ -46173,7 +46955,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig25.4.8"
         x="381"
         y="144"
-        width="248"
+        width="246"
         height="23"
         fill="0"
         fillcolor="white"
@@ -46842,7 +47624,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig3.4.3"
         x="477"
         y="575"
-        width="162"
+        width="160"
         height="23"
         fill="0"
         fillcolor="white"
@@ -47063,7 +47845,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig4.4.6"
         x="745"
         y="582"
-        width="217"
+        width="216"
         height="23"
         fill="0"
         fillcolor="white"
@@ -47266,7 +48048,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >DisciplineIncident</text>
     <group name="Fig0.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[45, 29, 129, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[45, 29, 245, 0]"
          href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FB6"
          fill="0"
          fillcolor="white"
@@ -47280,7 +48062,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig0.2.0"
         x="45"
         y="29"
-        width="129"
+        width="245"
         height="0"
         fill="0"
         fillcolor="white"
@@ -47955,7 +48737,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >DisciplineDescriptorType</text>
     <group name="Fig5.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[133, 189, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[133, 189, 178, 0]"
          href="10-71-3-33-557ca7f:1363b755f87:-8000:0000000000001049"
          fill="0"
          fillcolor="white"
@@ -47969,7 +48751,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig5.2.0"
         x="133"
         y="189"
-        width="64"
+        width="178"
         height="0"
         fill="0"
         fillcolor="white"
@@ -52902,7 +53684,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >CourseTranscript</text>
     <group name="Fig1.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[212, 146, 116, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[212, 146, 314, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D35"
          fill="0"
          fillcolor="white"
@@ -52916,7 +53698,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig1.2.0"
         x="212"
         y="146"
-        width="116"
+        width="314"
         height="0"
         fill="0"
         fillcolor="white"
@@ -55430,7 +56212,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >GraduationPlan</text>
     <group name="Fig2.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[525, 1421, 113, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[525, 1421, 193, 0]"
          href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FD5"
          fill="0"
          fillcolor="white"
@@ -55444,7 +56226,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig2.2.0"
         x="525"
         y="1421"
-        width="113"
+        width="193"
         height="0"
         fill="0"
         fillcolor="white"
@@ -56163,7 +56945,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig5.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -59230,7 +60012,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       name="Credit Accumulation"
 >
   <group name="Fig0"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[460, 56, 219, 135]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[460, 56, 220, 135]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000867"
        fill="1"
        fillcolor="white"
@@ -59243,7 +60025,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig0.0"
       x="460"
       y="56"
-      width="219"
+      width="220"
       height="135"
       fill="1"
       fillcolor="white"
@@ -59253,7 +60035,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <text name="Fig0.1"
       x="461"
       y="57"
-      width="217"
+      width="218"
       height="23"
       fill="0"
       fillcolor="white"
@@ -59267,12 +60049,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Session</text>
     <group name="Fig0.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[461, 57, 217, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[461, 57, 218, 0]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000867"
          fill="0"
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -59280,7 +60063,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig0.2.0"
         x="461"
         y="57"
-        width="217"
+        width="218"
         height="0"
         fill="0"
         fillcolor="white"
@@ -59291,7 +60074,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig0.3"
       x="460"
       y="80"
-      width="219"
+      width="220"
       height="1"
       fill="1"
       fillcolor="black"
@@ -59299,7 +60082,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig0.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[461, 81, 217, 110]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[461, 81, 218, 110]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000867"
          fill="0"
          fillcolor="white"
@@ -59312,7 +60095,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig0.4.0"
         x="461"
         y="81"
-        width="217"
+        width="218"
         height="110"
         fill="0"
         fillcolor="white"
@@ -59322,7 +60105,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.1"
         x="461"
         y="81"
-        width="217"
+        width="218"
         height="17"
         fill="0"
         fillcolor="white"
@@ -59338,7 +60121,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.2"
         x="461"
         y="98"
-        width="217"
+        width="218"
         height="17"
         fill="0"
         fillcolor="white"
@@ -59354,7 +60137,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.3"
         x="461"
         y="115"
-        width="217"
+        width="218"
         height="17"
         fill="0"
         fillcolor="white"
@@ -59370,7 +60153,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.4"
         x="461"
         y="132"
-        width="217"
+        width="218"
         height="17"
         fill="0"
         fillcolor="white"
@@ -59386,7 +60169,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.5"
         x="461"
         y="149"
-        width="217"
+        width="218"
         height="17"
         fill="0"
         fillcolor="white"
@@ -59402,7 +60185,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig0.4.6"
         x="461"
         y="166"
-        width="217"
+        width="218"
         height="23"
         fill="0"
         fillcolor="white"
@@ -59496,6 +60279,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -59720,13 +60504,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig2.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="678"
+      <moveto x="679"
               y="190" />
       <lineto x="795"
               y="190" />
@@ -59770,7 +60554,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Course</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[677, 509, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[677, 509, 379, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -59784,7 +60568,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig3.2.0"
         x="677"
         y="509"
-        width="64"
+        width="379"
         height="0"
         fill="0"
         fillcolor="white"
@@ -60082,7 +60866,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     </group>
     <rectangle name="Fig3.5"
       x="676"
-      y="693"
+      y="812"
       width="381"
       height="1"
       fill="1"
@@ -60092,7 +60876,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       visibility="0"
     />
     <group name="Fig3.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[677, 694, 379, 21]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[677, 813, 379, 21]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D3E"
          fill="0"
          fillcolor="white"
@@ -60105,7 +60889,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       
       <rectangle name="Fig3.6.0"
         x="677"
-        y="694"
+        y="813"
         width="379"
         height="21"
         fill="0"
@@ -60161,7 +60945,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig4.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -60217,6 +61001,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -60409,7 +61194,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig6.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -60422,7 +61207,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     </path>
   </group>
   <group name="Fig7"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[88, 436, 251, 135]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[88, 436, 252, 135]pathVisible=false;stereotypeView=0;operationsVisible=false;attributesVisible=true;"
        href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000892"
        fill="1"
        fillcolor="white"
@@ -60435,7 +61220,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig7.0"
       x="88"
       y="436"
-      width="251"
+      width="252"
       height="135"
       fill="1"
       fillcolor="white"
@@ -60445,7 +61230,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <text name="Fig7.1"
       x="89"
       y="437"
-      width="249"
+      width="250"
       height="23"
       fill="0"
       fillcolor="white"
@@ -60459,12 +61244,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >Student</text>
     <group name="Fig7.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[89, 437, 249, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[89, 437, 250, 0]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000892"
          fill="0"
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -60472,7 +61258,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig7.2.0"
         x="89"
         y="437"
-        width="249"
+        width="250"
         height="0"
         fill="0"
         fillcolor="white"
@@ -60483,7 +61269,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     <rectangle name="Fig7.3"
       x="88"
       y="460"
-      width="251"
+      width="252"
       height="1"
       fill="1"
       fillcolor="black"
@@ -60491,7 +61277,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig7.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[89, 461, 249, 110]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[89, 461, 250, 110]"
          href="-64--88-1-75-76b2ef56:135df3ed4a1:-8000:0000000000000892"
          fill="0"
          fillcolor="white"
@@ -60504,7 +61290,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig7.4.0"
         x="89"
         y="461"
-        width="249"
+        width="250"
         height="110"
         fill="0"
         fillcolor="white"
@@ -60514,7 +61300,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.1"
         x="89"
         y="461"
-        width="249"
+        width="250"
         height="17"
         fill="0"
         fillcolor="white"
@@ -60530,7 +61316,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.2"
         x="89"
         y="478"
-        width="249"
+        width="250"
         height="17"
         fill="0"
         fillcolor="white"
@@ -60546,7 +61332,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.3"
         x="89"
         y="495"
-        width="249"
+        width="250"
         height="17"
         fill="0"
         fillcolor="white"
@@ -60562,7 +61348,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.4"
         x="89"
         y="512"
-        width="249"
+        width="250"
         height="17"
         fill="0"
         fillcolor="white"
@@ -60578,7 +61364,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.5"
         x="89"
         y="529"
-        width="249"
+        width="250"
         height="17"
         fill="0"
         fillcolor="white"
@@ -60594,7 +61380,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <text name="Fig7.4.6"
         x="89"
         y="546"
-        width="249"
+        width="250"
         height="23"
         fill="0"
         fillcolor="white"
@@ -60689,13 +61475,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig8.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="338"
+      <moveto x="339"
               y="570" />
       <lineto x="880"
               y="840" />
@@ -60745,6 +61531,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -61001,7 +61788,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig10.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -61058,7 +61845,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig11.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -61115,7 +61902,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig12.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -61165,7 +61952,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >CourseTranscript</text>
     <group name="Fig13.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[405, 249, 125, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[405, 249, 315, 0]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D35"
          fill="0"
          fillcolor="white"
@@ -61179,7 +61966,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig13.2.0"
         x="405"
         y="249"
-        width="125"
+        width="315"
         height="0"
         fill="0"
         fillcolor="white"
@@ -61333,7 +62120,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
     </group>
     <rectangle name="Fig13.5"
       x="404"
-      y="297"
+      y="399"
       width="316"
       height="1"
       fill="1"
@@ -61343,7 +62130,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       visibility="0"
     />
     <group name="Fig13.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[405, 298, 314, 21]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[405, 400, 314, 21]"
          href="127-0-0-1--3247ddd2:135e2c60502:-8000:0000000000000D35"
          fill="0"
          fillcolor="white"
@@ -61356,7 +62143,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       
       <rectangle name="Fig13.6.0"
         x="405"
-        y="298"
+        y="400"
         width="314"
         height="21"
         fill="0"
@@ -61412,13 +62199,13 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig14.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="338"
+      <moveto x="339"
               y="436" />
       <lineto x="404"
               y="399" />
@@ -61469,7 +62256,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig15.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -61526,7 +62313,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig16.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -61576,7 +62363,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >GraduationPlan</text>
     <group name="Fig17.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[305, 737, 192, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[305, 737, 193, 0]"
          href="-64--88-1-75-66cedc1e:13619123501:-8000:0000000000000FD5"
          fill="0"
          fillcolor="white"
@@ -61590,7 +62377,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig17.2.0"
         x="305"
         y="737"
-        width="192"
+        width="193"
         height="0"
         fill="0"
         fillcolor="white"
@@ -62015,7 +62802,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig19.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62071,6 +62858,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -62279,7 +63067,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig21.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62336,7 +63124,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig22.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62393,7 +63181,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig23.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62456,7 +63244,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig24.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62512,7 +63300,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       justification="Center"
     >StudentSchoolAssociation</text>
     <group name="Fig25.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[29, 757, 204, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[29, 757, 205, 0]"
          href="10-71-3-33--60c908e:1361116a9ed:-8000:0000000000000F04"
          fill="0"
          fillcolor="white"
@@ -62526,7 +63314,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
       <rectangle name="Fig25.2.0"
         x="29"
         y="757"
-        width="204"
+        width="205"
         height="0"
         fill="0"
         fillcolor="white"
@@ -62759,7 +63547,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig26.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -62816,7 +63604,7 @@ This has been inferred from the Ed-Fi SQL Server script.</UML:TaggedValue.dataVa
                         offset="5" />
     </private>
     <path name="Fig27.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
