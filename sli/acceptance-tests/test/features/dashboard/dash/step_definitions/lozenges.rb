@@ -38,7 +38,9 @@ Then /^there is no lozenges for student "([^"]*)"$/ do |student_name|
 end
 
 def getStudentCell (student_name)
-  studentTable = @driver.find_element(:id, "studentList");
+  # wait for live case
+  wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
+  studentTable = wait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
 
   studentCell = nil

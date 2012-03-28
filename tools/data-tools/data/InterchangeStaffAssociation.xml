@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100">
+    <Teacher id="teacher-0">
+        <StaffUniqueStateId>teacher-0</StaffUniqueStateId>
+        <Name Verification="Other official document">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Dale</FirstName>
+            <MiddleName>Jaime</MiddleName>
+            <LastSurname>Johnston</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+        </Name>
+        <OtherName>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Daryl</FirstName>
+            <MiddleName>Joe</MiddleName>
+            <LastSurname>Arnold</LastSurname>
+        </OtherName>
+        <OtherName>
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Cornelia</FirstName>
+            <MiddleName>Jenifer</MiddleName>
+            <LastSurname>Armstrong</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Female</Sex>
+        <Address AddressType="Home">
+            <StreetNumberName>7th Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>233</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>4635</BuildingSiteNumber>
+            <City>ROCHESTER</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>14644</PostalCode>
+            <NameOfCounty>Monroe</NameOfCounty>
+            <CountyFIPSCode></CountyFIPSCode>
+            <CountryCode>US</CountryCode>
+            <Latitude>61</Latitude>
+            <Longitude>84</Longitude>
+            <BeginDate>2011-03-28T11:07:35.404-04:00</BeginDate>
+            <EndDate>2013-03-28T11:07:35.404-04:00</EndDate>
+        </Address>
+        <Address AddressType="Home">
+            <StreetNumberName>Hillcrest Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>441</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>2547</BuildingSiteNumber>
+            <City>BRONX</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10461</PostalCode>
+            <NameOfCounty>Bronx</NameOfCounty>
+            <CountyFIPSCode></CountyFIPSCode>
+            <CountryCode>US</CountryCode>
+            <Latitude>52</Latitude>
+            <Longitude>13</Longitude>
+            <BeginDate>2011-03-28T11:07:35.430-04:00</BeginDate>
+            <EndDate>2013-03-28T11:07:35.430-04:00</EndDate>
+        </Address>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>15</YearsOfPriorTeachingExperience>
+        <TeacherUniqueStateId>teacher-0</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+    </Teacher>
+    <Teacher id="teacher-1">
+        <StaffUniqueStateId>teacher-1</StaffUniqueStateId>
+        <Name Verification="Immigration document/visa">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Peter</FirstName>
+            <MiddleName>Oscar</MiddleName>
+            <LastSurname>Sloan</LastSurname>
+        </Name>
+        <OtherName>
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Dina</FirstName>
+            <MiddleName>Shelia</MiddleName>
+            <LastSurname>Norris</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName>
+            <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+            <FirstName>Annie</FirstName>
+            <MiddleName>Esmeralda</MiddleName>
+            <LastSurname>Perry</LastSurname>
+        </OtherName>
+        <Sex>Male</Sex>
+        <Address AddressType="Home">
+            <StreetNumberName>8th Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>223</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>4172</BuildingSiteNumber>
+            <City>COCHECTON</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>12726</PostalCode>
+            <NameOfCounty>Sullivan</NameOfCounty>
+            <CountyFIPSCode></CountyFIPSCode>
+            <CountryCode>US</CountryCode>
+            <Latitude>31</Latitude>
+            <Longitude>42</Longitude>
+            <BeginDate>2011-03-28T11:07:35.449-04:00</BeginDate>
+            <EndDate>2013-03-28T11:07:35.449-04:00</EndDate>
+        </Address>
+        <Address AddressType="Home">
+            <StreetNumberName>Dogwood Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>167</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>2653</BuildingSiteNumber>
+            <City>MONGAUP VALLEY</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>12762</PostalCode>
+            <NameOfCounty>Sullivan</NameOfCounty>
+            <CountyFIPSCode></CountyFIPSCode>
+            <CountryCode>US</CountryCode>
+            <Latitude>70</Latitude>
+            <Longitude>85</Longitude>
+            <BeginDate>2011-03-28T11:07:35.465-04:00</BeginDate>
+            <EndDate>2013-03-28T11:07:35.465-04:00</EndDate>
+        </Address>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+        <Race>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>15</YearsOfPriorTeachingExperience>
+        <TeacherUniqueStateId>teacher-1</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </Teacher>
+    <TeacherSchoolAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>teacher-0</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </TeacherSchoolAssociation>
+    <TeacherSchoolAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>teacher-1</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </TeacherSchoolAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>teacher-0</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>School1</StateOrganizationId>
+                <UniqueSectionCode>995180f8-0972-48c2-8590-4573ca5a2865</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </TeacherSectionAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>teacher-1</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>School0</StateOrganizationId>
+                <UniqueSectionCode>2ffdd7a7-7fa9-4c74-aab0-9b885981308b</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </TeacherSectionAssociation>
+</InterchangeStaffAssociation>
