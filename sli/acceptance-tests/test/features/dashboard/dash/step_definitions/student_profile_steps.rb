@@ -9,7 +9,7 @@ When /^I click on student at index "([^"]*)"$/ do |studentIndex|
 end
 
 When /^I view its student profile$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
   csiContent = wait.until{@driver.find_element(:class, "csi")}
   studentInfo = csiContent.find_element(:class, "studentInfo")
   table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
@@ -76,7 +76,7 @@ end
 
 def clickOnStudent(name)
   # wait for live case
-  wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
   
   studentTable = wait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
