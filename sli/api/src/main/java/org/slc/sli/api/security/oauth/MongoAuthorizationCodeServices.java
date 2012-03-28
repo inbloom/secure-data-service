@@ -119,7 +119,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userRealm", principal.getRealm());
                 authorizationCode.put("userName", principal.getName());
                 authorizationCode.put("adminRealm", principal.getAdminRealm());
-
+                authorizationCode.put("edOrg", principal.getEdOrg());
                 getService().update(id, authorizationCode);
                 return authorizationCode;
             }

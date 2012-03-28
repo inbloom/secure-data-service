@@ -123,6 +123,7 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
+        principal.setEdOrg(attributes.getFirst("edOrg"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
