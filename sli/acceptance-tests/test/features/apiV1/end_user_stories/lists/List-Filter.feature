@@ -1,4 +1,3 @@
-@wip
 Feature: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
 
 This is the data I am assuming for these tests
@@ -9,7 +8,8 @@ Assume that Teacher, Student, Section, Assessment entity and associations are av
 
 Background: Logged in as a teacher and using the small data set
     Given I am logged in using "demo" "demo1234" to realm "SLI"
-    Given I have access to all students, assessments, and sections
+    Given format "application/json"
+#    Given I have access to all students, assessments, and sections
 
 Scenario: As a teacher I want to see all my students in 3rd period Algebra II class and view ISAT Math 2011 assessment scores
     When I navigate to GET "/v1/teachers/<'Ms. Jones' ID>"
@@ -48,5 +48,3 @@ Scenario: As a teacher I want to see all my students in 3rd period Algebra II cl
         And filter by studentId is <'Suzy Queue' ID>
     Then I should find a ScoreResult is 89
         And I should find a performanceLevelDescriptors is "At or Above Benchmark"
-
-

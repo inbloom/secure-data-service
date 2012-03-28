@@ -11,22 +11,22 @@ import java.util.List;
  */
 public class NeutralQuery {
 
-    private String includeFields;
-    private String excludeFields;
-    private int offset;
-    private int limit;
-    private String sortBy;
-    private SortOrder sortOrder;
+    protected String includeFields;
+    protected String excludeFields;
+    protected int offset;
+    protected int limit;
+    protected String sortBy;
+    protected SortOrder sortOrder;
 
     /**
      *  A list of all criteria that make up this query 
      */
-    private List<NeutralCriteria> queryCriteria;
+    protected List<NeutralCriteria> queryCriteria;
 
     /**
      *  A list of all criteria that make up this query 
      */
-    private List<NeutralQuery> orQueries;
+    protected List<NeutralQuery> orQueries;
     
     /**
      * Sort order enumeration
@@ -136,14 +136,11 @@ public class NeutralQuery {
         //both null? they match
         if (value1 == null && value2 == null) {
             return true;
-        }
-        
-        //one null the other not? they dont match
-        if ((value1 == null && value2 != null) || (value1 != null && value2 == null)) {
+        } else if (value1 == null || value2 == null) {
             return false;
+        } else {
+            return value1.equals(value2);
         }
-        
-        return value1.equals(value2);
     }
     
     
@@ -215,36 +212,40 @@ public class NeutralQuery {
     }
     
     public String toString() {
-        String toString = "";
-        
-        if (this.offset != 0) {
-            toString += (" offset " + this.offset);
-        }
-        
-        if (this.limit != 0) {
-            toString += (" limit " + this.limit);
-        }
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("offset=");
+        stringBuffer.append(this.offset);
+        stringBuffer.append("&limit=");
+        stringBuffer.append(this.limit);
         
         if (this.includeFields != null) {
-            toString += (" includeFields " + this.includeFields);
+            stringBuffer.append("&includeFields=");
+            stringBuffer.append(this.includeFields);
         }
         
         if (this.excludeFields != null) {
-            toString += (" excludeFields " + this.excludeFields);
+            stringBuffer.append("&excludeFields=");
+            stringBuffer.append(this.excludeFields);
         }
         
         if (this.sortBy != null) {
-            toString += (" sortBy " + this.sortBy);
+            stringBuffer.append("&sortBy=");
+            stringBuffer.append(this.sortBy);
         }
         
         if (this.sortOrder != null) {
-            toString += (" sortOrder " + this.sortOrder);
+            stringBuffer.append("&sortOrder=");
+            stringBuffer.append(this.sortOrder);
         }
         
         for (NeutralCriteria neutralCriteria : this.queryCriteria) {
-            toString += (" " + neutralCriteria.getKey() + " " + neutralCriteria.getOperator() + " " + neutralCriteria.getValue());
+            stringBuffer.append("&");
+            stringBuffer.append(neutralCriteria.getKey());
+            stringBuffer.append(neutralCriteria.getOperator());
+            stringBuffer.append(neutralCriteria.getValue());
         }
         
-        return toString;
+        return stringBuffer.toString();
     }
 }

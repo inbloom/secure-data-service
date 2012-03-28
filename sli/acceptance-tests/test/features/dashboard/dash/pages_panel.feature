@@ -36,10 +36,12 @@ And Tab has a title named "Advanced Academics"
 #And Tab "4" is titled "Grades and Credits"
 #And Tab "5" is titled "Advanced Academics"
 
+@wip
 Scenario: View a student's info and check tabs in live mode
+#This is covered in student profile tests
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
 When I click on the Dashboard page

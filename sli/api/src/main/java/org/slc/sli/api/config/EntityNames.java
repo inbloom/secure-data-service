@@ -13,6 +13,7 @@ public final class EntityNames {
     public static final String COHORT = "cohort";
     public static final String COURSE = "course";
     public static final String DISCIPLINE_INCIDENT = "disciplineIncident";
+    public static final String DISCIPLINE_ACTION = "disciplineAction";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String GRADEBOOK_ENTRY = "gradebookEntry";
     public static final String PARENT = "parent";
@@ -22,10 +23,12 @@ public final class EntityNames {
     public static final String SESSION = "session";
     public static final String STAFF = "staff";
     public static final String STUDENT = "student";
+    public static final String LEARNINGOBJECTIVE = "learningObjective";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
     public static final String TEACHER = "teacher";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION = "studentDisciplineIncidentAssociation";
 }

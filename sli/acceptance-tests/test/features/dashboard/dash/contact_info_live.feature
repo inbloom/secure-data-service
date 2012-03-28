@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Realm" and click go
+When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 And I wait for "2" seconds
 When I click on the Dashboard page
@@ -13,7 +13,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "2" seconds
+And I wait for "10" seconds
 
 Scenario: View a student with 1 email, 1 address, 1 phone
 Given I click on student "Imelda Lindsey"
@@ -62,7 +62,6 @@ And I look at the panel "Contact Information"
 And there are "0" phone numbers
 And there are "0" email addresses
 
-
 Scenario: Student has no addresses
 Given I click on student "Matt Sollars"
 And I view its student profile
@@ -81,9 +80,15 @@ And the list of address includes
 351
 Chicago, IL 60908-1028
 """
-	
-
+And the list of address includes 
+"""
+9857 Kingsborough 2nd Walk
+Toronto, WA A1B 2C3
+CA
+"""	
+@wip
 Scenario:  An address with countryCode other than US
+#bundled in the test above
 Given I click on student "Rhonda Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"
