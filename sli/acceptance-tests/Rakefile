@@ -529,23 +529,13 @@ end
 
 desc "Run Sorting and Paging Tests"
 task :v1SortingAndPagingTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/sorting_paging")
 end
 
 desc "Run Encryption Tests"
 task :v1EncryptionTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/encryption")
 end
 
