@@ -1,13 +1,5 @@
 package org.slc.sli.api.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
@@ -27,12 +19,19 @@ import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizatio
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
  * SliTokenStore.
  *
  * @author shalka
- *
  */
 @Component
 public class OAuthTokenUtil {
@@ -45,13 +44,13 @@ public class OAuthTokenUtil {
 
     @Autowired
     private RolesToRightsResolver resolver;
-    
+
     /**
      * Name of the collection in Mongo that stores OAuth 2.0 session
      * information.
      */
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = "oauth_access_token";
-    
+
     /**
      * Lifetime (duration of validity) of an Access Token in seconds.
      */
@@ -72,8 +71,7 @@ public class OAuthTokenUtil {
      * Returns true if the current time (in ms) is greater than the specified
      * expiration date (indicating that expiration is true).
      *
-     * @param expiration
-     *            Date to be checked (represented by number of milliseconds since last epoch).
+     * @param expiration Date to be checked (represented by number of milliseconds since last epoch).
      * @return 'true' if expired, 'false' if not expired.
      */
     public static boolean isTokenExpired(long expiration) {
@@ -92,7 +90,7 @@ public class OAuthTokenUtil {
     /**
      * This method will create an OAuth2Authentication based on the data
      * that comes from the access token table.
-     * 
+     *
      * @param data - the data that comes from the access token table
      * @return
      */
@@ -102,7 +100,7 @@ public class OAuthTokenUtil {
         String externalId = (String) data.get("externalId");
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realm));
-        
+
         Entity realmEntity = repo.findOne("realm", neutralQuery);
         SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("regionId"), externalId);
         principal.setName((String) data.get("name"));
@@ -111,15 +109,16 @@ public class OAuthTokenUtil {
         principal.setAdminRealm((String) data.get("adminRealm"));
         return reconstituteAuth(principal, data);
     }
-    
+
     /**
      * Helper method used by createOAuth2Authentication
+     *
      * @param principal
      * @param data
      * @return
      */
     protected OAuth2Authentication reconstituteAuth(final SLIPrincipal principal,
-            Map data) {
+                                                    Map data) {
         Set<String> scope = listToSet((List) data.get("scope"));
         Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
         Collection<GrantedAuthority> clientAuthorities = deserializeAuthorities(listToSet((List) data.get("clientAuthorities")));
@@ -130,10 +129,10 @@ public class OAuthTokenUtil {
             }
         });
 
-        ClientToken client = new ClientToken((String) data.get("clientId"), 
-                resourceIds, 
-                (String) data.get("clientSecret"), 
-                scope, 
+        ClientToken client = new ClientToken((String) data.get("clientId"),
+                resourceIds,
+                (String) data.get("clientSecret"),
+                scope,
                 clientAuthorities);
         UnconfirmedAuthorizationCodeClientToken token = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(),
                 client.getClientSecret(),
@@ -147,6 +146,7 @@ public class OAuthTokenUtil {
     /**
      * Given an OAuth2Authentication object, this method will create Entity data
      * out of that object so that it can be saved to Mongo and reconstituted at a later time
+     *
      * @param auth
      * @return
      */
@@ -168,6 +168,20 @@ public class OAuthTokenUtil {
         body.put("state", token.getState());
         body.put("requestedRedirect", token.getRequestedRedirect());
         return body;
+    }
+
+    public Collection<String> getTokensForPrincipal(SLIPrincipal principal) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("authentication.name", NeutralCriteria.OPERATOR_EQUAL, principal.getName()));
+        query.addCriteria(new NeutralCriteria("authentication.realm", NeutralCriteria.OPERATOR_EQUAL, principal.getRealm()));
+
+        Iterable<Entity> entities = repo.findAll(OAUTH_ACCESS_TOKEN_COLLECTION, query);
+
+        Collection<String> tokens = new ArrayList<String>();
+        for (Entity entity : entities) {
+            tokens.add((String) entity.getBody().get("token"));
+        }
+        return tokens;
     }
 
     public EntityBody serializeAccessToken(OAuth2AccessToken token) {
