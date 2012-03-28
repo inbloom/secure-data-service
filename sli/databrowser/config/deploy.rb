@@ -26,7 +26,7 @@ namespace :deploy do
   task :start do
     run  <<-CMD
       cd #{deploy_to}/current/sli
-      sh profile_swap.sh #{configuration[:subdomain]} if configuration[:subdomain]
+      sh profile_swap.sh #{subdomain} if subdomain
       cd #{deploy_to}/current/#{working_dir}
       bundle exec thin start -C config/thin.yml -e #{rails_env}
     CMD
