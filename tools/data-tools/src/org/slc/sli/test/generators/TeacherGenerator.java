@@ -1,5 +1,6 @@
 package org.slc.sli.test.generators;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.LevelOfEducationType;
@@ -14,6 +15,7 @@ public class TeacherGenerator {
     public static Teacher generate(String teacherId) {
 
         Teacher teacher = new Teacher();
+        Random random = new Random();
 
         try {
             NameGenerator ng = new NameGenerator();
@@ -28,7 +30,10 @@ public class TeacherGenerator {
 
             teacher.setSex(rondom.nextBoolean() ? SexType.FEMALE : SexType.MALE);
 
-            //teacher.setBirthDate(new Calendar());
+            Calendar rightNow = Calendar.getInstance();
+            Calendar bday = Calendar.getInstance();
+            bday.set(rightNow.get(Calendar.YEAR)-(20+random.nextInt(35)), random.nextInt(12), random.nextInt(29));
+            teacher.setBirthDate(bday);
 
             teacher.getAddress().add((new AddressGenerator(StateAbbreviationType.NY)).getRandomAddress());
             teacher.getAddress().add((new AddressGenerator(StateAbbreviationType.NY)).getRandomAddress());
