@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * StudentSectionGradebookEntry
+ * StudentSectionGradebookEntryResource
  *
  * This entity holds a student's grade or competency level for a GradeBookEntry.
  */
