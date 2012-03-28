@@ -2172,8 +2172,10 @@
 
 	<xs:element name="studentSectionGradebookEntry">
 		<xs:annotation>
-			<xs:documentation>This entity holds a student’s grade or competency
-				level for a GradeBookEntry.
+			<xs:documentation>
+                StudentSectionGradebookEntry
+                This entity holds a student’s grade or competency level for a GradeBookEntry.
+                Associations: Student, Section, GradebookEntry
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
