@@ -273,15 +273,13 @@ public class MockAPIClient implements APIClient {
      * Token is the username of logged in user, we use it to populate the name
      */
     public GenericEntity getTeacherForSection(String sectionId, String token) {
-        List<GenericEntity> nameList = new ArrayList<GenericEntity>();
         GenericEntity name = new GenericEntity();
         name.put(Constants.ATTR_FIRST_NAME, token);
         name.put(Constants.ATTR_LAST_SURNAME, "");
         name.put(Constants.ATTR_MIDDLE_NAME, "");
         name.put(Constants.ATTR_PERSONAL_TITLE_PREFIX, "Dr");
-        nameList.add(name);
         GenericEntity teacher = new GenericEntity();
-        teacher.put(Constants.ATTR_NAME, nameList);
+        teacher.put(Constants.ATTR_NAME, name);
         return teacher;
     }
 

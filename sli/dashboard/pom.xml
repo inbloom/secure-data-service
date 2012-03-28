@@ -68,7 +68,7 @@
             </activation>
             <properties>
                 <env>qa2</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
 					file based authentication -->
 				<server.mode>test</server.mode>
 			</properties>
@@ -85,39 +85,16 @@
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
-
         <profile>
-            <id>acceptance-tests</id>
+            <id>team</id>
             <activation>
                 <property>
-                  <name>env</name>
-                  <value>acceptance-tests</value>
+                    <name>env</name>
+                    <value>team</value>
                 </property>
             </activation>
             <properties>
-                <env>acceptance-tests</env>
-                <!-- set mode to 'live' to authenticate against idp, 'test' to use local
-                    file based authentication -->
-                <server.mode>live</server.mode>
-                <war.file.name>dashboard</war.file.name>
-            </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
-        </profile>
-
-        <profile>
-            <id>nxbuild2</id>
-            <activation>
-                <property>
-                  <name>env</name>
-                  <value>nxbuild2</value>
-                </property>
-            </activation>
-            <properties>
-                <env>nxbuild2</env>
+                <env>team</env>
                 <!-- set mode to 'live' to authenticate against idp, 'test' to use local
                     file based authentication -->
                 <server.mode>live</server.mode>
@@ -143,8 +120,7 @@
 		    <artifactId>joda-time</artifactId>
 		    <version>2.1</version>
 	    </dependency>
-	    
-			<!-- Power mock dependencies -->
+		<!-- Power mock dependencies -->
 
 		<dependency>
 			<groupId>org.powermock</groupId>
@@ -172,6 +148,12 @@
 			<groupId>org.slc.sli.common</groupId>
 			<artifactId>domain</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>common-util</artifactId>
+        </dependency>
+
 
 		<!-- Freemarker -->
 		<dependency>

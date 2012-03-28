@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.util.SecurityUtil;
@@ -36,6 +37,9 @@ public class SessionResource {
     @Autowired
     private RoleRightAccess roleRightAccess;
 
+    @Autowired
+    private ClientRoleResolver roleResolver;
+
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
 
@@ -60,7 +64,9 @@ public class SessionResource {
         } else if (auth instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("User must be logged in");
         }
-
+        
+        SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
         return SecurityContextHolder.getContext();
     }
 
@@ -80,7 +86,8 @@ public class SessionResource {
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
             sessionDetails.put("adminRealm", principal.getAdminRealm());
-
+            sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+            
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override
                 public List<Role> execute() {

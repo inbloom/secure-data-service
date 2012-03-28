@@ -22,6 +22,7 @@ public final class ResourceNames {
     public static final String COHORTS = "cohorts";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
+    public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String PARENTS = "parents";
@@ -31,6 +32,7 @@ public final class ResourceNames {
     public static final String SESSIONS = "sessions";
     public static final String STAFF = "staff";
     public static final String STUDENTS = "students";
+    public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String TEACHERS = "teachers";
     
@@ -47,6 +49,7 @@ public final class ResourceNames {
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "student-disciplineIncident-associations";
 
     
 
@@ -73,6 +76,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, "getCourseSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "getStudentDisciplineIncidentAssociation");
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
@@ -80,6 +84,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, "getCohort");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSES, "getCourse");
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_INCIDENTS, "getDisciplineIncident");
+        SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_ACTIONS, "getDisciplineAction");
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADEBOOK_ENTRIES, "getGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.PARENTS, "getParent");
