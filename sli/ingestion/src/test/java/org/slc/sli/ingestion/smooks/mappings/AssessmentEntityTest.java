@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.smooks.mappings;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -183,18 +184,9 @@ public class AssessmentEntityTest {
         assertEquals(36, assessmentNeutralRecord.getAttributes().get("maxRawScore"));
         assertEquals("the nomenclature", assessmentNeutralRecord.getAttributes().get("nomenclature"));
 
-        Map assessmentPeriodMap = (Map) assessmentNeutralRecord.getAttributes().get("assessmentPeriod");
-        EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "id", "theid");
-        EntityTestUtils.assertObjectInMapEquals(assessmentPeriodMap, "ref", "theref");
-        List codeValueChoiceList = (List) assessmentPeriodMap.get("codeValues");
-        if (!codeValueChoiceList.isEmpty())
-            assertEquals("code value", codeValueChoiceList.get(0));
-        List shortDescriptionChoiceList = (List) assessmentPeriodMap.get("shortDescriptions");
-        if (!shortDescriptionChoiceList.isEmpty())
-            assertEquals("short desc", shortDescriptionChoiceList.get(0));
-        List descriptionChoiceList = (List) assessmentPeriodMap.get("descriptions");
-        if (!descriptionChoiceList.isEmpty())
-            assertEquals("descript", descriptionChoiceList.get(0));
+        assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
+        assertEquals(Arrays.asList("TAKSReading2-1", "TAKSReading2-2"), assessmentNeutralRecord.getAttributes().get("objectiveAssessmentRefs"));
+
 
         /*
         List assessmentItemReferenceList = (List) assessmentNeutralRecord.getAttributes().get(

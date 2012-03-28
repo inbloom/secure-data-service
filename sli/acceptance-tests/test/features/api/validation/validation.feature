@@ -3,8 +3,7 @@ Feature: Test schema based validation on entities/associations
 
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	And I have access to all entities
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Post a valid base Student/School with bare minimum required data
 	Given format "application/json"
@@ -159,10 +158,8 @@ Scenario: Given a school entity with no associations, when a GET is performed wi
 	And I should receive an ID for the newly created school
 	When I navigate to GET "/teacher-school-associations/<'Previous School' ID>"
 	Then I should receive a return code of 200
-	And a collection of size 0
 	When I navigate to GET "/teacher-school-associations/<'Previous School' ID>/targets"
 	Then I should receive a return code of 200
-	And a collection of size 0
 
 
 

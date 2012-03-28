@@ -6,43 +6,49 @@ import java.util.Map.Entry;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
- * 
+ *
  * SLI Long Schema which validates long entities
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Scope("prototype")
 @Component
 public class LongSchema extends NeutralSchema {
-    
+
     // Constructors
     public LongSchema() {
         this(NeutralSchemaType.LONG.getName());
     }
-    
+
     public LongSchema(String xsdType) {
         super(xsdType);
     }
-    
+
     // Methods
-    
+
     @Override
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.LONG;
+    }
+
+    @Override
+    public Object convert(Object value) {
+        return Long.parseLong((String) value);
     }
     
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
-     * 
+     *
      * @param fieldName
      *            name of entity field being validated
      * @param entity
@@ -53,13 +59,12 @@ public class LongSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors,
-            EntityRepository repo) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         Long data = NumberUtils.toLong(entity);
         if (!addError(data != null, fieldName, entity, "Long", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
-        
+
         if (this.getProperties() != null) {
             for (Entry<String, Object> entry : this.getProperties().entrySet()) {
                 if (Restriction.isRestriction(entry.getKey())) {
@@ -95,5 +100,5 @@ public class LongSchema extends NeutralSchema {
         }
         return true;
     }
-    
+
 }

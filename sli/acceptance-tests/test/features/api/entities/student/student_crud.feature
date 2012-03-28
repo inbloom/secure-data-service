@@ -3,8 +3,7 @@ Feature: As an SLI application, I want to be able to manage students
     I want to have create, read, update, and delete functionality for a student.
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 #### Happy Path 
 Scenario: Create a new student JSON
@@ -80,10 +79,4 @@ Scenario: Fail if going to the wrong URI
     Given format "application/json"
     When I navigate to GET "/student/<'WrongURI' ID>"
     Then I should receive a return code of 404
-    
- Scenario: Attempt to read the base student resource with no GUID
-	Given format "application/json"
-	When I navigate to GET "/students/<'NoGUID' ID>"
-	Then I should receive a return code of 405
-	
     

@@ -98,17 +98,6 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array
 end
 
-Given /^I am a valid "([^"]*)" end user "([^"]*)" with password "([^"]*)"$/ do |arg1, arg2, arg3|
-  @realm = arg1
-  @user = arg2
-  @password = arg3
-end
-
-Given /^I am authenticated to SEA\/LEA IDP$/ do
-  idpRealmLogin(@user, @password, @realm)
-  assert(@sessionId != nil, "Session returned was nil")
-end
-
 Given /^I have a Role attribute that equals "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
 end

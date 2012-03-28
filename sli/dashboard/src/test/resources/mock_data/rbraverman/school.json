@@ -2,6 +2,7 @@
     {
         "id": "South Daybreak Elementary",
         "nameOfInstitution": "South Daybreak Elementary",
+        "parentEducationAgencyReference": "IL-DAYBREAK", 
         "courses": [
             {
                 "courseTitle": "Reading Group",

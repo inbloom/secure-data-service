@@ -9,6 +9,18 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeAuthenticationTokenHolder;
+import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -20,19 +32,9 @@ import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeAuthenticationTokenHolder;
-import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Extends the RandomValueAuthorizationCodeServices class. Used for storing and removing
@@ -45,7 +47,7 @@ import org.springframework.util.StringUtils;
 public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCodeServices {
     
     /** Entity identifier **/
-    private static final String OAUTH_AUTHORIZATION_CODE = "oauthAuthorizationCode";
+    public static final String OAUTH_AUTHORIZATION_CODE = "oauthAuthorizationCode";
     
     /**
      * Lifetime (duration of validity) of an Authorization Code in seconds.
@@ -59,41 +61,33 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     RolesToRightsResolver roleResolver;
     
     @Autowired
-    private EntityRepository repo;
+    private Repository<Entity> repo;
     
     @Autowired
     private EntityDefinitionStore store;
     
     @Autowired
-    private SliClientDetailService clientDetailService;   
-    
-    /**
-     * Performs a lookup based on user and client authentication (in unconfirmed authorization code
-     * authentication token holder), and stores the authorization 'code' into Mongo.
-     */
+    private SliClientDetailService clientDetailService;
+
     @Override
     protected void store(String code, UnconfirmedAuthorizationCodeAuthenticationTokenHolder authentication) {
-        final EntityBody verificationCode = new EntityBody();
-        verificationCode.put("code", code);
-        
-        verificationCode.put("authorizationBlob", OAuthTokenUtil.serialize(authentication));
-        verificationCode.put("expiration", System.currentTimeMillis() + (5 * 60 * 1000));
-        SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
-            @Override
-            public Boolean execute() {
-                getService().create(verificationCode);
-                return true;
-            }
-        });
+        assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
     }
     
-    protected void create(String clientId, String samlId, String redirectUri) {
+    protected void create(String clientId, String state, String clientRedirectUri, String samlId) {
         final EntityBody authorizationCode = new EntityBody();
+        String redirectUri = clientDetailService.loadClientByClientId(clientId).getWebServerRedirectUri();
+        if (clientRedirectUri != null && clientRedirectUri.startsWith(redirectUri)) {
+            redirectUri = clientRedirectUri;
+        } else {
+            throw new OAuth2Exception("Redirect URI " + clientRedirectUri + " does not start with " + redirectUri + " or is null");
+        }
         long expiration = AUTHORIZATION_CODE_VALIDITY * 1000L;
         authorizationCode.put("expiration", new Date().getTime() + expiration);
         authorizationCode.put("redirectUri", redirectUri);
         authorizationCode.put("clientId", clientId);
         authorizationCode.put("samlId", samlId);
+        authorizationCode.put("state", state);
         SecurityUtil.sudoRun(new SecurityTask<Boolean>() {
             @Override
             public Boolean execute() {
@@ -104,8 +98,13 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     }
     
     public String createAuthorizationCodeForMessageId(String samlId, final SLIPrincipal principal) {
-        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE, new Query(Criteria.where("body.samlId")
-                .is(samlId)), 0, 1);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("samlId", "=", samlId));
+        
+        
+        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
         Entity e = results.iterator().next();
         
         final String id = e.getEntityId();
@@ -118,7 +117,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userId", principal.getExternalId());
                 authorizationCode.put("userRoles", StringUtils.collectionToCommaDelimitedString(principal.getRoles()));
                 authorizationCode.put("userRealm", principal.getRealm());
-                
+                authorizationCode.put("userName", principal.getName());
+                authorizationCode.put("adminRealm", principal.getAdminRealm());
+
                 getService().update(id, authorizationCode);
                 return authorizationCode;
             }
@@ -126,6 +127,9 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         
         UriBuilder uri = UriBuilder.fromUri(authorizationCode.get("redirectUri").toString());
         uri.queryParam("code", authorizationCode.get("value"));
+        if (authorizationCode.get("state") != null) {
+            uri.queryParam("state", authorizationCode.get("state"));
+        }
         return uri.build().toString();
     }
     
@@ -135,8 +139,12 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
      */
     @Override
     protected UnconfirmedAuthorizationCodeAuthenticationTokenHolder remove(String code) {
-        Iterable<Entity> results = repo.findByQuery(OAUTH_AUTHORIZATION_CODE,
-                new Query(Criteria.where("body.value").is(code)), 0, 1);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        neutralQuery.addCriteria(new NeutralCriteria("value", "=", code));
+        
+        Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
         final Map<String, Object> body = results.iterator().next().getBody();
         UnconfirmedAuthorizationCodeAuthenticationTokenHolder toReturn = null;
     
@@ -148,9 +156,17 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             Set<String> scope = new HashSet<String>();
             scope.addAll(client.getScope());
             UnconfirmedAuthorizationCodeClientToken clientToken = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), client.getClientSecret(), scope, state, body.get("redirectUri").toString());
-            SLIPrincipal user = userLocator.locate(body.get("userRealm").toString(), body.get("userId").toString());
+            NeutralQuery neutralQuery2 = new NeutralQuery();
+            neutralQuery2.addCriteria(new NeutralCriteria("_id", "=", body.get("userRealm").toString()));
+            Entity realm = repo.findOne("realm", neutralQuery2);
+            SLIPrincipal user = userLocator.locate((String) realm.getBody().get("regionId"), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
+            user.setRoles(new ArrayList<String>(roleNamesSet));
+            user.setName((String) body.get("userName"));
+            user.setRealm(realm.getEntityId());
+            user.setAdminRealm((String) body.get("adminRealm"));
+
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);
             Set<GrantedAuthority> authoritiesSet = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {

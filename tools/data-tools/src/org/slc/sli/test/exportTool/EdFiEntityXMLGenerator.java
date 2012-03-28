@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EdFiEntityXMLGenerator {
@@ -19,17 +18,19 @@ public class EdFiEntityXMLGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/teacher.config";
-        String output = "/Users/yzhang/Documents/teacher.xml";
+        String configFile = "/Users/yzhang/Work/git1/sli/tools/data-tools/entity-configurations/student.config";
+        String output = "/Users/yzhang/Documents/test.xml";
 
         if (args.length != 2) {
             System.out
                     .println("Usage:\njava -classpath .:../lib/jtds-1.2.5.jar org.slc.sli.test.exportTool.EdFiEntityXMLGenerator ../entity-configurations/Course.config course.xml");
             return;
         }
-
         configFile = args[0];
         output = args[1];
+
+        System.out.println("configfile :" + configFile);
+        System.out.println("configfile :" + output);
 
         EdFiEntityXMLGenerator generator = new EdFiEntityXMLGenerator(configFile);
         generator.generateXML(output);
@@ -42,7 +43,7 @@ public class EdFiEntityXMLGenerator {
 
     public void generateXML(String filename) {
         if (this.edfiEntity == null) {
-            System.err.println("Config file contains errors, could not generate xml file!");
+            System.err.println("\nConfig file contains errors, could not generate xml file!");
             return;
         }
 
@@ -57,6 +58,7 @@ public class EdFiEntityXMLGenerator {
 
     private void getData() {
         Connection conn = Utility.getConnection();
+
         ResultSet mainResultSet = Utility.getResultSet(conn, this.edfiEntity.query);
         dataResultSets.put("main", mainResultSet);
 

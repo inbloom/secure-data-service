@@ -11,13 +11,6 @@
 	<artifactId>domain</artifactId>
 	<name>Core Entities</name>
 
-	<properties>
-		<!-- Maven Plugin Versions -->
-		<maven.jaxb2.version>0.8.0</maven.jaxb2.version>
-		<commons.schema.version>1.4.7</commons.schema.version>
-		<avro.version>1.6.1</avro.version>
-	</properties>
-
 	<dependencies>
 
     	<!--  Apache Commons IO Dependency -->
@@ -61,7 +54,6 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Apache Avro -->
@@ -74,7 +66,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.0.0.M4</version>
+			<version>${springdata-mongodb-version}</version>
 		</dependency>
 
 	</dependencies>

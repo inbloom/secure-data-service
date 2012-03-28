@@ -2,9 +2,7 @@ package org.slc.sli.api.resources.url;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -16,6 +14,8 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Creates URL sets for associations.
@@ -31,14 +31,8 @@ public class AssociationURLCreator extends URLCreator {
     /**
      * Returns a list association links for the logged in user
      */
-    public List<EmbeddedLink> getUrls(final UriInfo uriInfo, Map<String, String> params) {
+    public List<EmbeddedLink> getUrls(final UriInfo uriInfo, String userId, String userType, NeutralQuery neutralQuery) {
         List<EmbeddedLink> results = new ArrayList<EmbeddedLink>();
-
-        // remove user's type from map
-        String userId = params.remove("id");
-        String userType = params.remove("type");
-        // clear the map
-        params.clear();
 
         // get the userType entity definition
         EntityDefinition eDef = store.lookupByEntityType(userType);
@@ -64,34 +58,37 @@ public class AssociationURLCreator extends URLCreator {
     protected void getAssociationUrls(EntityDefinition entityDef, String entityId, List<EmbeddedLink> urls,
             final UriInfo uriInfo) {
         // get the association definitions
-        Collection<AssociationDefinition> associations = store.getLinked(entityDef);
+        Collection<EntityDefinition> entitiesThatReferenceDefinition = store.getLinked(entityDef);
 
-        for (AssociationDefinition assoc : associations) {
-            if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
-
-                // build the param map
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(assoc.getSourceKey(), entityId);
-
-                LOG.debug("entityDef type : " + entityDef.getType());
-
-                // get the actual associations
-                Iterable<Entity> entityList = repo
-                        .findByFields(assoc.getStoredCollectionName(), params);
-                LOG.debug("assoc type : " + assoc.getType());
-
-                for (Entity e : entityList) {
-                    // add the link to the list
-                    urls.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
-                            .path(ResourceConstants.RESOURCE_PATH_AGG)
-                            .path(ResourceConstants.RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
-                            .path((String) e.getBody().get(assoc.getTargetKey()))
-                            .build().toString()));
-
-                    // try and get the associations under the entity
-                    getAssociationUrls(assoc.getTargetEntity(),
-                            (String) e.getBody().get(assoc.getTargetKey()), urls,
-                            uriInfo);
+         // loop through all associations to supplied entity type
+        for (EntityDefinition definition : entitiesThatReferenceDefinition) {
+            if (definition instanceof AssociationDefinition) {
+                AssociationDefinition assoc = (AssociationDefinition) definition;
+            
+                if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
+                    // build the param map
+                    NeutralQuery neutralQuery = new NeutralQuery();
+                    neutralQuery.addCriteria(new NeutralCriteria(assoc.getSourceKey(), "=", entityId));
+    
+                    LOG.debug("entityDef type : {}", entityDef.getType());
+    
+                    // get the actual associations
+                    Iterable<Entity> entityList = repo.findAll(assoc.getStoredCollectionName(), neutralQuery);
+                    LOG.debug("assoc type : {}", assoc.getType());
+    
+                    for (Entity e : entityList) {
+                        // add the link to the list
+                        urls.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
+                                .path(ResourceConstants.RESOURCE_PATH_AGG)
+                                .path(ResourceConstants.RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
+                                .path((String) e.getBody().get(assoc.getTargetKey()))
+                                .build().toString()));
+    
+                        // try and get the associations under the entity
+                        getAssociationUrls(assoc.getTargetEntity(),
+                                (String) e.getBody().get(assoc.getTargetKey()), urls,
+                                uriInfo);
+                    }
                 }
             }
         }

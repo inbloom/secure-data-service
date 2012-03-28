@@ -7,10 +7,12 @@ import java.util.Map.Entry;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slc.sli.validation.schema.Annotation.AnnotationType;
 
 /**
  *
@@ -42,6 +44,7 @@ public class ListSchema extends NeutralSchema {
         return NeutralSchemaType.LIST;
     }
 
+    @Override
     public boolean isPrimitive() {
         return false;
     }
@@ -51,7 +54,27 @@ public class ListSchema extends NeutralSchema {
     }
 
     public List<NeutralSchema> getList() {
-        return this.list;
+        return list;
+    }
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+    
+    /**
+     * This is a temp hack to fix a bug.
+     * Annotations do not inherit from list to it's members
+     * The solution to this problem is to remove the whole concept of multiple schema types for a
+     * list, which is now handled by ChoiceSchema
+     */
+    public void updateAnnotations() {
+        AppInfo info = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        if (info != null) {
+            for (NeutralSchema itemSchema : getList()) {
+                itemSchema.inheritAnnotations(info);
+            }
+        }
     }
 
     /**
@@ -66,10 +89,11 @@ public class ListSchema extends NeutralSchema {
      * @param errors
      *            list of current errors
      * @param repo
-     *            reference to the entity repository           
+     *            reference to the entity repository
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo) {
+    @Override
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid = true;
 
         if (entity instanceof List) {
@@ -79,7 +103,7 @@ public class ListSchema extends NeutralSchema {
                 // Allow validation according to ANY item Schemas in the ListSchema list (xs:choice
                 // scenario)
                 boolean isFieldValid = false;
-                for (NeutralSchema itemSchema : this.getList()) {
+                for (NeutralSchema itemSchema : getList()) {
 
                     // Choice scenario will not provide validation errors (null)
                     if (itemSchema.validate(fieldName, fieldEntity, errors, repo)) {
@@ -96,29 +120,29 @@ public class ListSchema extends NeutralSchema {
                 }
             }
 
-            if (this.getProperties() != null) {
-                for (Entry<String, Object> entry : this.getProperties().entrySet()) {
+            if (getProperties() != null) {
+                for (Entry<String, Object> entry : getProperties().entrySet()) {
                     if (Restriction.isRestriction(entry.getKey())) {
                         long restrictionValue = Long.parseLong(entry.getValue().toString());
                         switch (Restriction.fromValue(entry.getKey())) {
-                        case LENGTH:
-                            if (!addError(entityList.size() == restrictionValue, fieldName, entity, "length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
-                        case MIN_LENGTH:
-                            if (!addError(entityList.size() >= restrictionValue, fieldName, entity, "min-length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
-                        case MAX_LENGTH:
-                            if (!addError(entityList.size() <= restrictionValue, fieldName, entity, "max-length="
-                                    + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
-                                return false;
-                            }
-                            break;
+                            case LENGTH:
+                                if (!addError(entityList.size() == restrictionValue, fieldName, entity, "length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
+                            case MIN_LENGTH:
+                                if (!addError(entityList.size() >= restrictionValue, fieldName, entity, "min-length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
+                            case MAX_LENGTH:
+                                if (!addError(entityList.size() <= restrictionValue, fieldName, entity, "max-length="
+                                        + restrictionValue, ErrorType.INVALID_VALUE, errors)) {
+                                    return false;
+                                }
+                                break;
                         }
                     }
                 }

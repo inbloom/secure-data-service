@@ -8,14 +8,16 @@ import java.util.Map;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.view.modifier.ViewModifier;
 
 /**
  * Handles the logic behind filtering view configurations
  * @author jstokes
  *
  */
-public class ViewManager extends Manager {
+public class ViewManager extends ApiClientManager {
     List<ViewConfig> viewConfigs;
+    private ViewConfig activeViewConfig;
     
     public List<ViewConfig> getViewConfigs() {
         return viewConfigs;
@@ -38,10 +40,11 @@ public class ViewManager extends Manager {
     public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
         // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
-        ArrayList<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
+        List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
         
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
+            
             if (value != null && value.contains("-")) {
                 int seperatorIndex = value.indexOf('-');
 
@@ -49,6 +52,7 @@ public class ViewManager extends Manager {
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
                 List<GenericEntity> students = entityManager.getStudents(token, uids);
                 
+                if (students == null) { continue; } // protect against crashing when viewing no students.
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));
@@ -66,6 +70,14 @@ public class ViewManager extends Manager {
             }
         }
         return applicableViewConfigs;
+    }
+
+    public void setActiveViewConfig(ViewConfig viewConfig) {
+        this.activeViewConfig = viewConfig;
+    }
+
+    public void apply(ViewModifier viewModifier) {
+        this.activeViewConfig = viewModifier.modify(this.activeViewConfig);
     }
     
     /**

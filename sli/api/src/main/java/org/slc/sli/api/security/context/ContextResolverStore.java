@@ -1,163 +1,57 @@
 package org.slc.sli.api.security.context;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
-import javax.persistence.EntityExistsException;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
  * Stores context based permission resolvers.
  * Can determine if a principal entity has permission to access a request entity.
  */
 @Component
-public class ContextResolverStore {
+public class ContextResolverStore implements ApplicationContextAware {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
     
-    private Map<String, EntityContextResolver> contexts = new HashMap<String, EntityContextResolver>();
+    private Collection<EntityContextResolver> resolvers;
     
-    @Autowired
-    private DefaultEntityContextResolver       defaultEntityContextResolver;
-    
-    @Autowired
-    private EntityDefinitionStore              definitionStore;
-    
-    @Autowired
-    private EntityRepository                   repository;
-    
-    /**
-     * TODO Might need to be out sourced to a declarative data-driven (JSON? YAML?) store
-     *
-     * init() defines resolvers used to enforce context based permissions.
-     * To make a new resolver, specify the source entity type, target entity,
-     * and context path from the target to the source.
-     * addContext(..) to the ContextResolverStore to wire the context.
-     * <p/>
-     * For an API request: the source is SLI Principal's entity type, The target is the type of entity being requested.
-     * <p/>
-     * The association path will be traversed from from source to target to see if the context path exists.
-     */
-    public synchronized void init() {
-        
-        List<EntityContextResolver> teacherResolvers = Arrays.<EntityContextResolver>asList(
-                
-                makeAssoc().setSource("teacher").setTarget("teacher").setAssociationPath("teacher-school-associations", "teacher-school-associations").build(),
-                
-                makeAssoc().setSource("teacher").setTarget("student").setAssociationPath("teacher-section-associations", "student-section-associations").build(),
-                
-                makeAssoc().setSource("teacher").setTarget("school").setAssociationPath("teacher-school-associations").build(),
-                
-                makeAssoc().setSource("teacher").setTarget("section").setAssociationPath("teacher-section-associations").build(),
-                
-                makeAssoc().setSource("student").setTarget("section").setAssociationPath("student-section-associations").build(),
-                
-                makeAssoc().setSource("student").setTarget("assessment").setAssociationPath("student-assessment-associations").build(),
-                
-                makeAssoc().setSource("section").setTarget("assessment").setAssociationPath("section-assessment-associations").build(),
-                
-                makeAssoc().setSource("school").setTarget("session").setAssociationPath("school-session-associations")
-                        .build());
-        
-        for (EntityContextResolver resolver : teacherResolvers) {
-            EntityContextResolver putResult = contexts.put(this.getContextKey(resolver), resolver);
-            if (putResult != null) {
-                throw new EntityExistsException();
-            }
-        }
-    }
-    
-    public synchronized EntityContextResolver getContextResolver(String sourceType, String targetType) {
-        
-        if (contexts.isEmpty()) {
-            init();
-        }
-        
-        EntityContextResolver resolver = contexts.get(getContextKey(sourceType, targetType));
-        return resolver == null ? defaultEntityContextResolver : resolver;
-    }
-    
-    public EntityContextResolver getContextResolver(Entity principalEntity, Entity requestEntity) {
-        return getContextResolver(principalEntity.getType(), requestEntity.getType());
-    }
-    
-    public void clearContexts() {
-        contexts.clear();
-    }
-    
-    private String getContextKey(EntityContextResolver resolver) {
-        return getContextKey(resolver.getSourceType(), resolver.getTargetType());
-    }
-    
-    private String getContextKey(String sourceType, String targetType) {
-        return sourceType + targetType;
-    }
-    
-    public AssociativeContextBuilder makeAssoc() {
-        return new AssociativeContextBuilder();
-    }
-    
-    public Map<String, EntityContextResolver> getContexts() {
-        return contexts;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        resolvers = applicationContext.getBeansOfType(EntityContextResolver.class).values();
     }
     
     /**
-     * Builder pattern
-     *
-     * @author mlane
-     *
+     * Locates a resolver that can naviage the security context path from source entity type to target entity type
+     * 
+     * @param fromEntityType
+     * @param toEntityType
+     * @return
+     * @throws IllegalStateException
      */
-    public class AssociativeContextBuilder {
-        private String                      source;
-        private String                      target;
-        private List<AssociationDefinition> associationPath = new ArrayList<AssociationDefinition>();
-        private EntityDefinitionStore       entityDefs;
-        private EntityRepository            repo;
+    public EntityContextResolver findResolver(String fromEntityType, String toEntityType) throws IllegalStateException {
         
-        public AssociativeContextBuilder() {
-            entityDefs = definitionStore;
-            repo = repository;
-        }
-        
-        public AssociativeContextBuilder setSource(String source) {
-            this.source = source;
-            return this;
-        }
-        
-        public AssociativeContextBuilder setTarget(String target) {
-            this.target = target;
-            return this;
-        }
-        
-        public AssociativeContextBuilder setAssociationPath(String... associationNames) {
-            for (String assocName : associationNames) {
-                EntityDefinition entityDefinition = entityDefs.lookupByResourceName(assocName);
-                if (entityDefinition != null && entityDefinition instanceof AssociationDefinition) {
-                    associationPath.add((AssociationDefinition) entityDefinition);
-                } else {
-                    throw new InvalidParameterException("cannot find associationType in definition store" + assocName);
-                }
+        EntityContextResolver found = null;
+        for (EntityContextResolver resolver : this.resolvers) {
+            if (resolver.canResolve(fromEntityType, toEntityType)) {
+                found = resolver;
+                break;
             }
-            return this;
         }
         
-        public AssociativeContextResolver build() {
-            AssociativeContextResolver assocContext = new AssociativeContextResolver();
-            assocContext.setSourceType(source);
-            assocContext.setTargetType(target);
-            assocContext.setAssociativeContextPath(associationPath);
-            assocContext.setRepository(repo);
-            return assocContext;
+        if (found == null) { // FIXME make secure by default!
+            found = new AllowAllEntityContextResolver();
+            LOG.warn("No path resolver defined for {} -> {} returning a yes-man (for now)", fromEntityType, toEntityType);
+            // throw new IllegalStateException("Requested an usupported resolution path " + fromEntityType + " -> " + toEntityType);
         }
+        
+        return found;
     }
 }

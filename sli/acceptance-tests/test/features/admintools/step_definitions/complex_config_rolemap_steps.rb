@@ -6,8 +6,7 @@ require_relative '../../utils/selenium_common.rb'
 
 Then /^The user "([^"]*)" who is a "([^"]*)" can now log in to SLI as a "([^"]*)" from my realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   # Login and get a session ID
-  realm = "sli" if arg3 == "SLI"
-  idpRealmLogin(arg1, arg1+"1234", realm)
+  idpRealmLogin(arg1, arg1+"1234", arg4)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
@@ -28,8 +27,7 @@ end
 
 Then /^The user "([^"]*)" who is a "([^"]*)" can not access SLI as a "([^"]*)" from my realm "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   # Login and get a session ID
-  realm = "sli" if arg3 == "SLI"
-  idpRealmLogin(arg1, arg1+"1234", realm)
+  idpRealmLogin(arg1, arg1+"1234", arg4)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
@@ -86,6 +84,14 @@ end
 When /^I click on the Reset Mapping button$/ do
   assertWithWait("Failed to find the Reset to Defaults buttonon the Complex Configurable viewing page")  {@driver.find_element(:id, "resetButton")}
   @driver.find_element(:id, "resetButton").click
+end
+
+Then /^I got warning message saying 'Are you sure you want to reset the role mappings\?'$/ do
+  @driver.switch_to.alert
+end
+
+When /^I click 'OK'$/ do
+  @driver.switch_to.alert.accept
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do

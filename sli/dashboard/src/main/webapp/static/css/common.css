@@ -135,6 +135,26 @@ h1
     color: #438746;
 }
 
+.countLevel1 
+{
+    color: #438746;
+}
+
+.countLevel2 
+{
+    color: #7FC124;
+}
+
+.countLevel3
+{
+    color: #DFC836;
+}
+
+.countLevel4
+{
+    color: #b40610
+}
+
 .fuelGauge
 {
     width: 64px;
@@ -172,3 +192,101 @@ h1
     border: 1px solid #EEEEEE;
 }
 
+
+
+.header
+{
+    font-size:24px;
+    
+}
+
+.panel
+{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.panelHeader
+{
+    margin: 5px;
+}
+
+.csi
+{
+    height: 100px;
+}
+    
+.csi .colImage
+{
+    height:100px;
+    width:100px;
+    float:left;
+}
+
+.csi .colMain
+{
+    margin-left: 100px;
+    width: 900;
+}
+
+.csi .studentName
+{
+    font-size: 24px;
+    height: 40px;
+}
+
+.csi .studentInfo span
+{
+    padding-right: 10px;
+}
+
+.csi .studentInfo .col1
+{
+    float: left;
+    width: 500;
+}
+
+.csi .studentInfo .col2
+{
+    margin-left: 500px;
+    width: 500px;
+}
+
+.csi .field
+{
+    font-size: 12px;
+    height: 20px;
+}
+
+th.ui-th-column div {
+    white-space: normal !important;
+    height: auto !important;
+    padding: 2px;
+}
+
+.studentContactInfo {
+	display:table; 
+	font-size: 12px;
+}
+
+.contactInfoRow {
+	display:table-row;
+}
+
+.contactInfoCol1 {
+	display:table-cell;
+	width: 90px;
+}
+
+.contactInfoCol2 {
+	padding-bottom: 5px;
+	display:table-cell;
+}
+
+.section {
+	padding: 10px; 
+}
+
+.bold {
+	font-weight:bold;
+}

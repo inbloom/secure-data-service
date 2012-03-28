@@ -3,8 +3,7 @@ Feature: As an SLI application, I want to be able to manage sections
     I want to have create, read, update, and delete functionality for a section.
 
 Background: Logged in as a super-user and using the small data set
-    Given I am logged in using "demo" "demo1234"
-    Given I have access to all sections
+    Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 #### Happy Path 
 Scenario Outline: Create a new section
@@ -113,7 +112,3 @@ Scenario: Fail if going to the wrong URI
     When I navigate to GET "/section/<'physicsS08' ID>"
     Then I should receive a return code of 404
     
- Scenario: Attempt to read the base section resource with no GUID
-    Given format "application/json"
-    When I navigate to GET "/sections/"
-    Then I should receive a return code of 405

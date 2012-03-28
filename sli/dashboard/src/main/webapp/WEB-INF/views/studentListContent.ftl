@@ -5,6 +5,7 @@
      assessments: contains assessment information for the list of students. Should be AssessmentResolver object
      students: contains the list of students to be displayed. Should be StudentResolver object. 
      constants: the Constants util class
+     historicaldata : contains historical information for the list of students. Should be HistoricalDataResolver object
   -->
 
 <span id="viewSelectorSpan">
@@ -37,13 +38,13 @@
 <#-- TODO: Handle programatically -->
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
-  <th colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
+  <th id="listHeader.${displaySet.getDisplayName()}" colspan=${displaySet.getField()?size}}>${displaySet.getDisplayName()}</th>
 </#list>
 </tr>
 <tr class="listHeader">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <th>${field.getDisplayName()}</th>
+    <th id="listHeader.${displaySet.getDisplayName()}.${field.getDisplayName()}">${field.getDisplayName()}</th>
   </#list>
 </#list>
 </tr>
@@ -54,7 +55,7 @@
 <tr class="listRow">
 <#list viewConfig.getDisplaySet() as displaySet>
   <#list displaySet.getField() as field>
-    <td class="${field.getValue()}">
+    <td id="${students.getStudentName(student)}.${field.getValue()}" class="${field.getValue()}">
 
       <#-- lozenges in front -->
       <#if field.getLozenges()?? &&
@@ -73,7 +74,44 @@
         <#else>
           ${assessments.get(field, student)}
         </#if>
-       
+
+      <#-- attendance results -->
+
+        <#elseif field.getType() = "attendance">
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#elseif attendance??>
+            ${attendance.get(field, student)}
+          </#if>
+
+        <#elseif field.getType() = constants.FIELD_TYPE_HISTORICAL_COURSE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+              <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${historicaldata.getCourse(field, student)}
+          </#if>
+
+        <#elseif field.getType() = constants.FIELD_TYPE_HISTORICAL_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+              <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${historicaldata.getGrade(field, student)}
+          </#if>
+
+        <#elseif field.getType() == constants.FIELD_TYPE_CURRENT_TERM_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${gradebookEntryData.getAverage(student)}
+          </#if>
+
+        <#elseif field.getType() == constants.FIELD_TYPE_UNIT_GRADE>
+          <#if field.getVisual()?? && (field.getVisual()?length > 0)>
+            <#include "widget/" + field.getVisual() + ".ftl">
+          <#else>
+            ${gradebookEntryData.getGrade(field.getTimeSlot(), student)}
+          </#if>
+
       <#else>
         <#-- No resolver found. Report an error. -->
         Cannot resolve this field. Check your view config xml.

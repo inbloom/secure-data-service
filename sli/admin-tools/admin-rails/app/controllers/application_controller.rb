@@ -1,8 +1,10 @@
 require "active_resource/base"
+require "oauth_helper"
 
 class ApplicationController < ActionController::Base
- # protect_from_forgery
+  protect_from_forgery
   before_filter :handle_oauth
+  ActionController::Base.request_forgery_protection_token = 'state'
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
@@ -16,10 +18,8 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server, clearing your session."}
-    SessionResource.auth_id = nil
     SessionResource.access_token = nil
   end
-
 
   def callback
     #TODO: disable redirects to other domains
@@ -30,57 +30,40 @@ class ApplicationController < ActionController::Base
       redirect_to redirectUrl
       return
     end
-    respond_to do |format|
-      format.html {render :text => "", :status => :no_content}
-    end
-  end
-  
-  def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + current_url
+    render :nothing => true
   end
   
   def current_url
-    "http://" + request.host_with_port + request.fullpath
+    request.url
   end
 
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]
     if oauth == nil 
-      oauth = Oauth.new()
+      oauth = OauthHelper::Oauth.new()
       oauth.entry_url = current_url
       session[:oauth] = oauth 
     end
-    if oauth.enabled
+    if oauth.enabled?
       if oauth.token != nil
         logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
-        SessionResource.auth_id = 'notused'
       elsif params[:code] && !oauth.has_code
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
+        session[:full_name] ||= Check.get("")["full_name"]   
+        if Check.get("")["adminRealm"] != nil
+          session[:adminRealm] = Check.get("")["adminRealm"]
+        else
+          session[:adminRealm] = Check.get("")["realm"] #failover until we get adminRealm defined for all sys admins
+        end
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url  
+        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}
-      check_login
-    end
-
-  end
-  
-  def check_login
-    # Check our session for a valid api key, if not, redirect out
-    if cookies['iPlanetDirectoryPro'] != nil
-      logger.debug 'We have a cookie set.'
-      SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-      Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
-      # Get the state unique id and state to identify and key logging
-      session[:full_name] = Check.new(SessionResource.auth_id, nil).full_name
-    else
-      logger.debug { "No cookie set" }
-      SessionResource.auth_id = nil
     end
   end
 

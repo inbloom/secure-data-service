@@ -1,0 +1,18 @@
+{
+  id : "enrollmentHist",
+  type : "GRID",
+  name : "Enrollment History",
+  data :{
+    entity: "student",
+    alias: "student"
+  },
+  items : [
+    {id: "col1", name: "School Year", type:"FIELD", datatype: "string", field: "studentSchool.schoolYear", width: 100},
+    {id: "col2", name: "School", type:"FIELD", datatype: "string", field: "studentSchool.nameOfInstitution", width: 220},
+    {id: "col3", name: "Gr.", type:"FIELD", datatype: "string", field: "studentSchool.entryGradeLevel", width: 80},
+    {id: "col4", name: "Entry Date", type:"FIELD", datatype: "string", field: "studentSchool.entryDate", width: 120},
+    {id: "col5", name: "School Choice Transfer?", type:"FIELD", datatype: "string", field: "studentSchool.transfer", width: 180},
+    {id: "col6", name: "Withdraw Date", type:"FIELD", datatype: "string", field: "studentSchool.exitWithdrawDate", width: 120},
+    {id: "col7", name: "Withdraw Type", type:"FIELD", datatype: "string", field: "studentSchool.exitWithdrawType", width: 120}
+  ] 
+}

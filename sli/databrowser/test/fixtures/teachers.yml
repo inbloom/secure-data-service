@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-    id: 1
+    id: 11111111-1111-1111-1111-111111111111
     entityType: teacher
     name:
         personalTitlePrefix: Miss
@@ -60,7 +60,7 @@ one:
 # column:value
 #
 two:
-    id: 2
+    id: 11111111-1111-1111-1111-111111111112
     entityType: teacher
     name:
         personalTitlePrefix: MRS

@@ -5,8 +5,7 @@ Feature: In order to provide base aggregation information
 	This means all associations should be returned as links when accessing the AGGREGATION URI.
 
 Background: Logged in as a leader and using the small data set
-	Given I am logged in using "leader" "leader1234"
-	Given I have access to all entities
+	Given I am logged in using "leader" "leader1234" to realm "SLI"
 	
 Scenario: MOCK Home URI returns a aggregation start link
 	Given format "application/json"
@@ -14,6 +13,7 @@ Scenario: MOCK Home URI returns a aggregation start link
 	Then I should receive a return code of 200
 		And I should receive a link where rel is "links" and href ends with "/aggregation"
 
+        
 Scenario: MOCK Aggregation URI returns a valid district link
 	Given format "application/json"
 		And mock district ID <mock ID>

@@ -22,8 +22,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -49,7 +51,7 @@ public class StudentSchoolAssociationIngestionTest {
     private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    private EntityRepository repository;
+    private Repository<Entity> repository;
 
     private static final String SCHOOL_ENTITY = "school";
     private static final String STUDENT_ENTITY = "student";
@@ -81,7 +83,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -113,7 +116,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile());
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -128,7 +132,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        persistenceProcessor.processIngestionStream(neutralRecordsFile);
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
 
     }
 
@@ -140,7 +145,8 @@ public class StudentSchoolAssociationIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        persistenceProcessor.processIngestionStream(neutralRecordsFile);
+        String idNamespace = "https://devapp1.slidev.org:443/sp";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
 
     }
 
@@ -245,7 +251,7 @@ public class StudentSchoolAssociationIngestionTest {
         return new MongoEntity(STUDENT_SCHOOL_ASSOC_ENTITY, null, body, null);
     }
 
-    public static void verifyStudentSchoolAssociations(EntityRepository repository, long expectedCount) {
+    public static void verifyStudentSchoolAssociations(Repository<Entity> repository, long expectedCount) {
 
         long repositorySize = IngestionTest.getTotalCountOfEntityInRepository(repository, STUDENT_SCHOOL_ASSOC_ENTITY);
 
@@ -254,9 +260,10 @@ public class StudentSchoolAssociationIngestionTest {
         for (int index = 1; index <= repositorySize; index++) {
             Map<String, String> queryMap = new HashMap<String, String>();
             queryMap.put("associationId", Integer.toString(index));
+            NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria("associationId", "=", Integer.toString(index)));
 
-            Iterator<Entity> studentSchoolAssociations = (repository
-                    .findByFields(STUDENT_SCHOOL_ASSOC_ENTITY, queryMap)).iterator();
+            Iterator<Entity> studentSchoolAssociations = (repository.findAll(STUDENT_SCHOOL_ASSOC_ENTITY, neutralQuery)).iterator();
             if (studentSchoolAssociations.hasNext()) {
                 verifyStudentSchoolAssociation(index, studentSchoolAssociations.next());
             }

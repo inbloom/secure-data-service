@@ -12,7 +12,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
@@ -51,7 +52,7 @@ public abstract class NeutralSchema {
     private String readConverter = null;
     private String writeConverter = null;
 
-    private Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
+    Map<Annotation.AnnotationType, Annotation> annotations = new LinkedHashMap<Annotation.AnnotationType, Annotation>();
 
     public NeutralSchema(String type) {
         this.type = type;
@@ -81,9 +82,21 @@ public abstract class NeutralSchema {
 
     @JsonIgnore
     public boolean isSimple() {
-        return (!(this instanceof ComplexSchema || this instanceof ListSchema));
+        return true;
     }
+    
+    public Object convert(Object value) {
+        throw new RuntimeException("Unsupported Neutral Schema Type: ");
+    }
+    
+    public boolean isPii() {
+        if (this.getAppInfo() == null) {
+            return false;
+        }
 
+        return this.getAppInfo().isPersonallyIdentifiableInfo();
+    }
+    
     public void setVersion(String version) {
         this.version = version;
     }
@@ -136,9 +149,11 @@ public abstract class NeutralSchema {
         }
 
         AppInfo myInfo = (AppInfo) annotations.get(AnnotationType.APPINFO);
-        if (myInfo != null) {
-            myInfo.inherit(parentInfo);
+        if (myInfo == null) {
+            myInfo = new AppInfo(null);
+            addAnnotation(myInfo);
         }
+        myInfo.inherit(parentInfo);
     }
 
     // Future Methods
@@ -202,7 +217,7 @@ public abstract class NeutralSchema {
     public boolean validate(Object entity) throws EntityValidationException {
         List<ValidationError> errors = new LinkedList<ValidationError>();
         boolean isValid = this.validate("", entity, errors, null);
-        return (isValid && (errors.size() <= 0));
+        return isValid && errors.size() <= 0;
     }
 
     /**
@@ -220,7 +235,7 @@ public abstract class NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
-    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors, EntityRepository repo);
+    protected abstract boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo);
 
     /**
      * @param isValid
@@ -238,7 +253,7 @@ public abstract class NeutralSchema {
      */
     protected boolean addError(boolean isValid, String fieldName, Object fieldValue, String expectedType,
             ErrorType errorType, List<ValidationError> errors) {
-        if (!isValid && (errors != null)) {
+        if (!isValid && errors != null) {
             errors.add(new ValidationError(errorType, fieldName, fieldValue, new String[] { expectedType }));
         }
         return isValid;
@@ -260,7 +275,7 @@ public abstract class NeutralSchema {
      */
     protected boolean addError(boolean isValid, String fieldName, Object fieldValue, String[] expectedTypes,
             ErrorType errorType, List<ValidationError> errors) {
-        if (!isValid && (errors != null)) {
+        if (!isValid && errors != null) {
             errors.add(new ValidationError(errorType, fieldName, fieldValue, expectedTypes));
         }
         return isValid;

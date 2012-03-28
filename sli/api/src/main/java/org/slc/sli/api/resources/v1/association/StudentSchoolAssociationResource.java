@@ -56,7 +56,7 @@ public class StudentSchoolAssociationResource {
     }
 
     /**
-     * Returns all &&studentSchoolAssociations&& entities for which the logged in User has permission and context.
+     * Returns all $$studentSchoolAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -79,7 +79,7 @@ public class StudentSchoolAssociationResource {
     }
 
     /**
-     * Create a new &&studentSchoolAssociations&& entity.
+     * Create a new $$studentSchoolAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -100,10 +100,10 @@ public class StudentSchoolAssociationResource {
     }
 
     /**
-     * Get a single &&studentSchoolAssociations&& entity
+     * Get a single $$studentSchoolAssociations$$ entity
      * 
      * @param studentSchoolAssociationId
-     *            The Id of the &&studentSchoolAssociations&&.
+     *            The Id of the $$studentSchoolAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -113,16 +113,16 @@ public class StudentSchoolAssociationResource {
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentSchoolAssociationId, headers, uriInfo);
     }
 
     /**
-     * Delete a &&studentSchoolAssociations&& entity
+     * Delete a $$studentSchoolAssociations$$ entity
      * 
      * @param studentSchoolAssociationId
-     *            The Id of the &&studentSchoolAssociations&&.
+     *            The Id of the $$studentSchoolAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -138,10 +138,10 @@ public class StudentSchoolAssociationResource {
     }
 
     /**
-     * Update an existing &&studentSchoolAssociations&& entity.
+     * Update an existing $$studentSchoolAssociations$$ entity.
      * 
      * @param studentSchoolAssociationId
-     *            The id of the &&studentSchoolAssociations&&.
+     *            The id of the $$studentSchoolAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -162,7 +162,7 @@ public class StudentSchoolAssociationResource {
     
     /**
      * Returns each $$students$$ that
-     * references the given &&studentSchoolAssociations&&
+     * references the given $$studentSchoolAssociations$$
      * 
      * @param studentSchoolAssociationId
      *            The Id of the studentSchoolAssociation.
@@ -181,16 +181,16 @@ public class StudentSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudents(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response getStudents(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "_id", studentSchoolAssociationId, "schoolId", ResourceNames.STUDENTS, headers, uriInfo);
+       return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "_id", studentSchoolAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
      * Returns each $$schools$$ that
-     * references the given &&studentSchoolAssociations&&
+     * references the given $$studentSchoolAssociations$$
      * 
      * @param studentSchoolAssociationId
      *            The Id of the studentSchoolAssociation.
@@ -209,7 +209,7 @@ public class StudentSchoolAssociationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.SCHOOLS)
-    public Response getSchools(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String studentSchoolAssociationId,
+    public Response getSchools(@PathParam(ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID) final String studentSchoolAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {

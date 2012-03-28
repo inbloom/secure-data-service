@@ -7,9 +7,7 @@ Feature: As an SLI application, I want to be able to manage students school asso
 
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234"
-	Given I have access to all students and schools
-
+	Given I am logged in using "demo" "demo1234" to realm "SLI"
 
 Scenario: Create a new student-school-association
 	Given format "application/json"
@@ -107,11 +105,6 @@ Scenario: Delete a school and its associations should be deleted
 
 
 ### Error handling
-Scenario: Attempt to read the base resource with no GUID
-	Given format "application/json"
-	When I navigate to GET "/student-school-associations/<'No GUID'>"
-	Then I should receive a return code of 405
-
 
 Scenario: Attempt to read a non-existent resource
 	Given format "application/json"

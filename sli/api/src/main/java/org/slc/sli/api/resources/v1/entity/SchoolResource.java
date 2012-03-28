@@ -96,7 +96,7 @@ public class SchoolResource  {
      *                 item is accessable.}
      */
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
@@ -191,7 +191,7 @@ public class SchoolResource  {
     
 
     /**
-     * teaher school associations - teacher lookup
+     * $$teacherSchoolAssociations$$ - teacher lookup
      * 
      * @param schoolId
      *            The Id of the School.
@@ -212,47 +212,7 @@ public class SchoolResource  {
 
     
     /**
-     * School edorg associations
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-    public Response getSchoolEdorgAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
-    }
-
-    /**
-     * school edorg associations - edorg lookup
-     * 
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
-    public Response getSchoolEdorgAssociationEdorgs(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, 
-            @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.EDUCATION_ORGANIZATION_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "educationOrganizationId", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
-    }
-    
-    /**
-     * student school associations
+     * $$studentSchoolAssociations$$
      * 
      * @param schoolId
      *            The Id of the School.
@@ -272,7 +232,7 @@ public class SchoolResource  {
     }
 
     /**
-     * student school associations - student lookup
+     * $$studentSchoolAssociations$$ - student lookup
      * 
      * @param schoolId
      *            The Id of the School.
@@ -292,7 +252,7 @@ public class SchoolResource  {
     }
     
     /**
-     * Sections at the school. Section's reference does not use an association, 
+     * Returns each $$sections$$ at the school. Section's reference does not use an association,
      * so this method returns sections and not section/school associations.
      * 
      * @param schoolId
@@ -342,7 +302,7 @@ public class SchoolResource  {
     
 
     /**
-     * Returns each $$session$$ associated to the given school through
+     * Returns each $$sessions$$ associated to the given school through
      * a $$schoolSessionAssociations$$ 
      * 
      * @param schoolId

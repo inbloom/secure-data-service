@@ -8,6 +8,8 @@
 <script type="text/javascript" src="static/js/dashboardUtil.js"></script>
 <script type="text/javascript" src="static/js/fuelGaugeWidget.js"></script>
 <script type="text/javascript" src="static/js/lozengeWidget.js"></script>
+<script type="text/javascript" src="static/js/popup.js" type="text/javascript"></script>
+<link rel="stylesheet" href="static/css/studentProfile.css" type="text/css" media="screen" />
 
 <#-- TODO: find better way to pass freemarker variable to javascript -->
 <script type="text/javascript">
@@ -42,8 +44,17 @@ $.ajaxSetup ({cache: false});
             <span id="studentDiv"></span>
         </div>
     </div>
-    
+
+    <div id="popupContact">
+    <a id="popupContactClose">x</a>
+    <h1>Student Profile</h1>
+        <span id="InnerStudentProfile"></span>
+    </div>
+    <div id="backgroundPopup"></div>    
 </div>
+
+
+
 
 </body>
 </html>

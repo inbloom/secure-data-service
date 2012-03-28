@@ -2,7 +2,7 @@ class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
   
   def self.get_simple_and_complex(parameters)
-    base = get(parameters)
+    base = get("", parameters)
     entity = []
     if base.is_a?(Array) and !base.empty?
       type = nil
@@ -19,7 +19,7 @@ class Entity < SessionResource
     end
     entity
   end
-  
+
   def self.build_simple_hash(type, hash)
     return nil if hash.nil?
     type = get_basic_types(hash) if type.nil?

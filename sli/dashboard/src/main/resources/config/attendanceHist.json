@@ -1,0 +1,22 @@
+{
+  id : "attendanceHist",
+  type : "GRID",
+  name : "Attendance History",
+  data :{
+    entity: "studentAttendance",
+    alias: "studentAttendance",
+    params: {
+    }
+  },
+  root: 'attendance',
+  items : [
+    {id: "col0", name: "Month", type:"FIELD", datatype: "string", field: "eventDate", width: 90},
+    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, formatter: PercentCompleteFormatter, params:{low:92}},
+    {id: "col1", name: "Attendance Rate", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, formatter: PercentBarFormatter, params:{low:85, medium:92}},
+    {id: "col2", name: "Absence Exc", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", width: 70},
+    {id: "col3", name: "Absence Unex", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", width: 70},
+    {id: "col4", name: "Tardies", type:"FIELD", datatype: "string", field: "tardyCount", width: 50},
+    {id: "col5", name: "Tardy Rate %", type:"FIELD", datatype: "string", field: "tardyRate", width: 70, formatter: PercentCompleteFormatter, params:{reverse:true, low:95}},
+    {id: "col6", name: "Out Of", type:"FIELD", datatype: "string", field: "totalCount", width: 50}
+  ] 
+}

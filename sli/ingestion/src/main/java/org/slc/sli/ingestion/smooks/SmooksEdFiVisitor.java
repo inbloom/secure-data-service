@@ -7,13 +7,14 @@ import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.milyn.javabean.context.BeanContext;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -27,24 +28,69 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
+    private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
+
     private final String beanId;
+    private final String batchJobId;
     private final NeutralRecordFileWriter nrfWriter;
     private final ErrorReport errorReport;
 
-    private SmooksEdFiVisitor(String beanId, NeutralRecordFileWriter nrfWriter, ErrorReport errorReport) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
+            ErrorReport errorReport) {
         this.beanId = beanId;
+        this.batchJobId = batchJobId;
         this.nrfWriter = nrfWriter;
         this.errorReport = errorReport;
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter,
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
             ErrorReport errorReport) {
-        return new SmooksEdFiVisitor(beanId, nrfWriter, errorReport);
+        return new SmooksEdFiVisitor(beanId, batchJobId, nrfWriter, errorReport);
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, NeutralRecordFileWriter nrfWriter) {
-        return new SmooksEdFiVisitor(beanId, nrfWriter, null);
+    @Override
+    public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
+
+        Throwable terminationError = executionContext.getTerminationError();
+        if (terminationError == null) {
+
+            NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+
+            // Write NeutralRecord to file
+            nrfWriter.writeRecord(neutralRecord);
+
+            // write NeutralRecord to mongodb staging database
+            nrMongoStagingWriter.writeResource(neutralRecord);
+
+        } else {
+
+            // Indicate Smooks Validation Failure
+            LOG.error(terminationError.getMessage());
+
+            if (errorReport != null) {
+                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
+            }
+        }
     }
+
+    private NeutralRecord getProcessedNeutralRecord(ExecutionContext executionContext) {
+
+        NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
+
+        neutralRecord.setBatchJobId(batchJobId);
+
+        // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
+        // files)
+        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
+
+        return neutralRecord;
+    }
+
+    public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
+        this.nrMongoStagingWriter = nrMongoStagingWriter;
+    }
+
+    /* we are not using the below visitor hooks */
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
@@ -60,29 +106,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void onChildText(SAXElement element, SAXText childText, ExecutionContext executionContext) {
         // nothing
 
-    }
-
-    @Override
-    public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
-
-        BeanContext beanContext = executionContext.getBeanContext();
-        NeutralRecord neutralRecord = (NeutralRecord) beanContext.getBean(beanId);
-        neutralRecord.setAttributes(NeutralRecordUtils.scrubEmptyStrings(neutralRecord.getAttributes()));
-
-        if (executionContext.getTerminationError() != null) {
-
-            // Indicate Smooks Validation Failure
-            LOG.error(executionContext.getTerminationError().getMessage());
-            LOG.error("Invalid Neutral Record: " + neutralRecord.toString());
-
-            if (errorReport != null) {
-                errorReport.error(executionContext.getTerminationError().getMessage(), SmooksEdFiVisitor.class);
-            }
-        } else {
-
-            // Write Neutral Record
-            nrfWriter.writeRecord(neutralRecord);
-        }
     }
 
 }

@@ -7,8 +7,4 @@
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
 
-<beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
-    <beans:property name="restClient" ref="restClient" />
-</beans:bean>
-
 </beans:beans>

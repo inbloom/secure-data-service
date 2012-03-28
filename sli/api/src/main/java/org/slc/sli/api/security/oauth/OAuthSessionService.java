@@ -1,19 +1,32 @@
 package org.slc.sli.api.security.oauth;
 
-import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
+import javax.annotation.PostConstruct;
+import javax.ws.rs.ext.Provider;
+
+import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityRepository;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
+import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.RandomValueTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -27,107 +40,130 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
+@Provider
 public class OAuthSessionService extends RandomValueTokenServices {
 
     private static final String OAUTH_ACCESS_TOKEN_COLLECTION = OAuthTokenUtil.getOAuthAccessTokenCollectionName();
-    private static final int REFRESH_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getRefreshTokenValidity(); 
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = OAuthTokenUtil.getAccessTokenValidity();
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthSessionService.class);
+
     @Autowired
-    private EntityRepository repo;
-    
-    @Autowired
-    private EntityDefinitionStore store;
-    
+    private Repository<Entity> repo;
+
     @Autowired
     private TokenStore mongoTokenStore;
 
     @Autowired
-    private RolesToRightsResolver resolver;
+    private OAuthTokenUtil util;
+    
+    @Autowired
+    private ContextResolverStore contextResolverStore;
     
     @PostConstruct
     public void init() {
-        setRefreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
         setAccessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
-        setSupportRefreshToken(true);
+        setSupportRefreshToken(false);
         setTokenStore(mongoTokenStore);
     }
-    
+
+    /**
+     * This is where we verify the user's district has access to the client
+     */
     @Override
-    public OAuth2Authentication loadAuthentication(String accessTokenValue)
-            throws AuthenticationException {
-        Iterable<Entity> results = repo.findByQuery(OAUTH_ACCESS_TOKEN_COLLECTION, new Query(Criteria.where("body.token").is(accessTokenValue)), 0, 1);
-        for (Entity oauth2Session : results) {
-            
-            //Since our granted authorities come from the securityContext.xml, they're not getting 
-            //transformed into actual SLI Rights.  Here we recreate a UsernamePasswordAuthenticationToken with the SLI Rights
-            OAuth2Authentication auth = (OAuth2Authentication) OAuthTokenUtil.deserialize((byte[]) oauth2Session.getBody().get("authenticationBlob"));
-            return auth;
-        }
-        return null;
+    public OAuth2AccessToken createAccessToken(
+            OAuth2Authentication authentication) throws AuthenticationException {
+        
+        validateAppAuthorization(authentication);
+        return super.createAccessToken(authentication);
     }
     
-    /**
-     * Method called by SAML consumer. Performs a lookup in Mongo to find
-     * OAuth2Authentication object corresponding to the original SAML message
-     * ID, and stores information about the authenticated user into that object.
-     * The returned String is NOT url encoded.
-     * 
-     * @param originalMsgId
-     *            Unique identifier of SAML message sent to disco.
-     * @param credential
-     *            String representing Identity Provider issuer.
-     * @param principal
-     *            SLIPrincipal representing the authenticated user.
-     * @return String representing the composed redirect URI with verification
-     *         code and request token as parameters in link.
-     */
-    public String userAuthenticated(String originalMsgId, String issuer, SLIPrincipal principal) {
-    /*    Iterable<Entity> results = repo.findByQuery(OAUTH_SESSION_COLLECTION,
-                new Query(Criteria.where("body.samlMessageId").is(originalMsgId)), 0, 1);
-        if (results != null) {
-            for (Entity oauthSession : results) {
-                // StringBuilder url = new StringBuilder();
-                
-                Map<String, Object> body = oauthSession.getBody();
-                
-                EntityBody sliPrincipal = OAuthTokenUtil.mapSliPrincipal(principal);
-                body.put("userAuthn", sliPrincipal);
-                
-                getService().update(oauthSession.getEntityId(), (EntityBody) body);
-                
-                // it might be pertinent to do more in terms of checking the
-                // client and user authentication objects for
-                // consistency/validity
-                @SuppressWarnings("unchecked")
-                Map<String, Object> clientAuthentication = (Map<String, Object>) body.get("clientAuthn");
-                
-                String clientRedirectUri = (String) clientAuthentication.get("redirectUri");
-                Map<String, Object> parameterMap = new HashMap<String, Object>();
-                parameterMap.put("state", (String) body.get("requestToken"));
-                parameterMap.put("code", (String) body.get("verificationCode"));
-                // String requestToken = (String) body.get("requestToken");
-                // String verificationCode = (String) body.get("verificationCode");
-                
-                // URI url = UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap);
-                // url.append(clientRedirectUri);
-                // url.append("?requestToken=" + requestToken);
-                // url.append("&verificationCode=" + verificationCode);
-                // return url.toString();
-                return UriBuilder.fromUri(clientRedirectUri).buildFromMap(parameterMap).toString();
+    protected void validateAppAuthorization(OAuth2Authentication authentication) throws UnauthorizedClientException {
+        Entity district = findUsersDistrict((SLIPrincipal) authentication.getUserAuthentication().getPrincipal());
+        if (district != null) {
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
+            query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
+            Entity authorizedApps = repo.findOne("applicationAuthorization", query);
+            
+            query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("client_id", "=", authentication.getClientAuthentication().getClientId()));
+            Entity appEntity = repo.findOne("application", query);
+            assert appEntity != null;
+            
+            if (authorizedApps != null) {
+                List<String> appIds = (List<String>) authorizedApps.getBody().get("appIds");
+                if (!appIds.contains(appEntity.getEntityId())) {
+                    throw new UnauthorizedClientException("District " + district.getEntityId() + " has not enabled application " + appEntity.getEntityId());
+                }
+            } else {
+                LOGGER.warn("No authorized applications found for LEA {}", district.getEntityId());
             }
-        }*/
+        }
+    }
+
+    private Entity findUsersDistrict(SLIPrincipal principal) {
+        
+        if (principal.getEntity() != null) {
+            try {
+                List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
+                for (String id : edOrgs) {
+                    Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+                    List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+                    if (category.contains("Local Education Agency")) {
+                        return entity;
+                    }
+                }
+            } catch (IllegalArgumentException ex) {
+                //this is what the resolver throws if it doesn't find any edorg data
+                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
+            }
+        } else {
+            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
+        }
+        LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
         return null;
     }
 
-    
-    /**
-     * Gets the EntityService associated with the OAuth 2.0 session collection.
-     * 
-     * @return Instance of EntityService for performing collection operations.
-     */
-    private EntityService getService() {
-        EntityDefinition defn = store.lookupByResourceName(OAUTH_ACCESS_TOKEN_COLLECTION);
-        return defn.getService();
+
+    @Override
+    public OAuth2Authentication loadAuthentication(String accessTokenValue)
+            throws AuthenticationException {
+
+        Entity tokenEntity = findEntityForAccessToken(accessTokenValue);
+        OAuth2Authentication toReturn = tokenEntity != null ? getOAuth2AuthenticationFromEntity(tokenEntity) : null;
+        OAuth2AccessToken token = tokenEntity != null ? getOAuth2AccessTokenFromEntity(tokenEntity) : null;
+
+        String time = Long.toString(System.currentTimeMillis());
+
+        if (toReturn == null || token.getExpiration().before(new Date())) {
+            LOGGER.debug("Invalid or expired access token {}", accessTokenValue);
+
+            //Ideally we would throw an exception.  However, since this method is called
+            //in a filter, it's too early in a chain for the Jersey ExceptionMapper to handle
+            //properly.
+            return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), 
+                    new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
+        }
+        return toReturn;
     }
+
+    private OAuth2Authentication getOAuth2AuthenticationFromEntity(Entity entity) {
+        Map authData = (Map) entity.getBody().get("authentication");
+        return util.createOAuth2Authentication(authData);
+    }
+
+    private OAuth2AccessToken getOAuth2AccessTokenFromEntity(Entity entity) {
+        Map accessTokenData = (Map) entity.getBody().get("accessToken");
+        return util.deserializeAccessToken(accessTokenData);
+    }
+
+    private Entity findEntityForAccessToken(String token) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(0);
+        neutralQuery.setLimit(1);
+        util.removeExpiredTokens();
+        neutralQuery.addCriteria(new NeutralCriteria("token", "=", token));
+        return repo.findOne(OAUTH_ACCESS_TOKEN_COLLECTION, neutralQuery);
+    }
+
 }

@@ -73,17 +73,39 @@ function filterStudents(filterIndex) {
 function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, viewIndex, filterIndex){
     var i = 0;
     filterIndex = filterIndex == null ? 0 : filterIndex;
-    var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs; 
+    var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].studentUIDs;
+    var sessionId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].sessionId;
+    var courseId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].id;
+    var sectionId = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[sectionIndex].id;
     // This is going to change when we figure out what the API should be. 
     var studentUIDs = temp.join(',');
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
                             + "&viewIndex=" + viewIndex + "&filterIndex=" + filterIndex 
-                            + "&username=" + "${username}";
+                            + "&username=" + "${username}" + "&sessionId=" + sessionId + "&courseId=" + courseId + "&sectionId=" + sectionId;
     $("#studentDiv").load(studentContentUrl, function() {
         document.getElementById("viewSelector").selectedIndex = viewIndex;
         if (document.getElementById("studentFilterSelector")) {
             document.getElementById("studentFilterSelector").selectedIndex = filterIndex;        
         }
     });
+}
+
+function studentProfilePopup(id){
+	var studentProfileUrl = "studentprofile?id="+id;
+	xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange=function()
+	  {
+	  if (xmlHttp.readyState==4 && xmlHttp.status==200)
+	    {
+		  var respText =xmlHttp.responseText;
+		  document.getElementById("InnerStudentProfile").innerHTML = respText;
+	    
+	    }
+	  };
+	xmlHttp.open("GET", studentProfileUrl, true);
+	xmlHttp.send();
+	
+	centerPopup();
+	loadPopup();
 }
 

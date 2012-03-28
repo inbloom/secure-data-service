@@ -1,33 +1,30 @@
 package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.Status;
-
 import com.sun.jersey.api.uri.UriBuilderImpl;
-
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -35,11 +32,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * Unit tests for the default crud endpoint
@@ -81,7 +86,7 @@ public class DefaultCrudEndPointTest {
     
     public Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 1);
+        entity.put("field1", "1");
         entity.put("field2", 2);
         entity.put("studentUniqueStateId", 1234);
         return entity;
@@ -116,7 +121,8 @@ public class DefaultCrudEndPointTest {
     @SuppressWarnings("unchecked")
     public void testReadMultipleResources() {
         for (String resource : resourceList) {
-            Response response = crudEndPoint.read(resource, getIDList(resource), httpHeaders, uriInfo);
+            String idList = getIDList(resource);
+            Response response = crudEndPoint.read(resource, idList, httpHeaders, uriInfo);
             assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
             
             List<EntityBody> results = (List<EntityBody>) response.getEntity();
@@ -158,12 +164,15 @@ public class DefaultCrudEndPointTest {
             //delete it
             Response response = crudEndPoint.delete(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-              
-            //try to get it
-            Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
-            assertEquals("Status code should be NOT_FOUND", Status.NOT_FOUND.getStatusCode(), getResponse.getStatus());            
-            List<EntityBody> results = (List<EntityBody>) getResponse.getEntity();
-            assertNull("Should not return an entity", results);
+
+            try {
+                Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+                fail("should have thrown EntityNotFoundException");
+            } catch (EntityNotFoundException e) {
+                return;
+            } catch (Exception e) {
+                fail("threw wrong exception: " + e);
+            }
         }
     }
     
@@ -207,39 +216,6 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
-    public void testShouldIncludeLinks() {
-        List<String> acceptRequestHeaders = new ArrayList<String>();
-        acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
-        HttpHeaders httpHeaders = mock(HttpHeaders.class);
-        when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
-        
-        assertTrue("Should include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
-        
-        acceptRequestHeaders.clear();
-        assertFalse("Should not include links", crudEndPoint.shouldIncludeLinks(httpHeaders));
-    }
-    
-    @Test
-    public void testCreateAssociationQueryParameters() {
-        String key = "someKey";
-        String value = "someValue";
-        String includeField = "field1";
-        
-        Map<String, String> resMap = new HashMap<String, String>();
-        resMap.put("limit", "10");
-        resMap.put("offset", "2");
-        
-        Map<String, String> map = crudEndPoint.createAssociationQueryParameters(resMap, key, value, includeField);
-        
-        assertEquals("Size should be 4", map.size(), 4);
-        assertEquals("key==value", map.get("someKey"), "someValue");
-        assertEquals("limit should be 10", map.get("limit"), "10");
-        assertEquals("offset should be 2", map.get("offset"), "2");
-        assertEquals("includeField should be field1", map.get("includeFields"), "field1");
-    }
-    
-    @Test
     @SuppressWarnings("unchecked")
     public void testReadEndPoint() {
         Map<String, Object> schoolEntity = new HashMap<String, Object>();
@@ -266,9 +242,31 @@ public class DefaultCrudEndPointTest {
                 "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
         
+        @SuppressWarnings("unused")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         //need to add to this test
         //MockRepo needs to be changed to get this test right
+    }
+    
+    @Test
+    public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
+        
+        NeutralQuery neutralQuery1 = new NeutralQuery();
+        neutralQuery1.setIncludeFields("field1,field2");
+        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setLimit(5);
+        neutralQuery1.setOffset(4);
+        neutralQuery1.setSortBy("field5");
+        neutralQuery1.setSortOrder(NeutralQuery.SortOrder.ascending);
+        neutralQuery1.addCriteria(new NeutralCriteria("x=1"));
+        
+        NeutralQuery neutralQuery2 = new NeutralQuery(neutralQuery1);
+        
+        EntityService mock = mock(EntityService.class);
+        when(mock.count(any(NeutralQuery.class))).thenReturn(0L);
+        DefaultCrudEndpoint.getTotalCount(mock, neutralQuery1);
+        
+        assertEquals(neutralQuery1, neutralQuery2);
     }
     
     private String getIDList(String resource) {
@@ -300,6 +298,12 @@ public class DefaultCrudEndPointTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
+            @Override
+            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         

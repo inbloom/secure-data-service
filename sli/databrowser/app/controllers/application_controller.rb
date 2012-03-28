@@ -1,7 +1,11 @@
 require "active_resource/base"
+require "oauth_helper"
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :check_login
+  ActionController::Base.request_forgery_protection_token = 'state'
+
+  before_filter :handle_oauth
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
@@ -24,7 +28,20 @@ class ApplicationController < ActionController::Base
     flash[:error] = "There was a problem in the API."
     redirect_to :back
   end
-
+  
+  def callback
+    #TODO: disable redirects to other domains
+    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
+    return
+    if params[:state]
+      redirectUrl = CGI::unescape(params[:state])
+      redirect_to redirectUrl
+      return
+    end
+    respond_to do |format|
+      format.html {render :text => "", :status => :no_content}
+    end
+  end
 
   private 
   def not_found
@@ -33,26 +50,34 @@ class ApplicationController < ActionController::Base
     redirect_to :back
   end
   
-  def begin_authenticate(authentication)
-    redirect_to authentication + "?RelayState=" + current_url
-  end
-  
   def current_url
-    "http://" + request.host_with_port + request.fullpath
+    request.url
   end
-  
-  def check_login
-    # Check our session for a valid api key, if not, redirect out
-    if cookies.has_key? 'iPlanetDirectoryPro'
-      logger.debug 'We have a cookie set.'
-      SessionResource.auth_id = cookies['iPlanetDirectoryPro']
-      Rails.logger.debug { "SessionResource.auth_id set to #{SessionResource.auth_id}" }
-      Check.url_type = "check"
-      # Get the state unique id and state to identify and key logging
-      session[:full_name] ||= Check.get("")["full_name"]
-    else
-      SessionResource.auth_id = nil
-      logger.debug { "No cookie set" }
+
+  def handle_oauth
+    SessionResource.access_token = nil
+    oauth = session[:oauth]
+    if oauth.nil?
+      oauth = OauthHelper::Oauth.new()
+      oauth.entry_url = current_url
+      session[:oauth] = oauth 
     end
+    if oauth.enabled?
+      if oauth.token != nil
+        logger.info { "OAuth access token is #{oauth.token}"}
+        SessionResource.access_token = oauth.token
+        Check.url_type = "check"
+        session[:full_name] ||= Check.get("")["full_name"]    
+      elsif params[:code] && !oauth.has_code
+        logger.info { "Requesting access token for  #{params[:code]}"}
+        SessionResource.access_token = oauth.get_token(params[:code])
+      else
+        logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
+        redirect_to oauth.authorize_url + "&state=" + CGI::escape(form_authenticity_token)
+      end
+    else
+      logger.info { "OAuth disabled."}
+    end
+
   end
 end
