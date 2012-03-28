@@ -30,10 +30,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Prototype new api end points and versioning
- * 
- * @author jstokes
- * 
+ * StudentSectionGradebookEntry
+ *
+ * This entity holds a student's grade or competency level for a GradeBookEntry.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
 @Component
@@ -57,7 +56,7 @@ public class StudentSectionGradebookEntryResource {
     }
 
     /**
-     * Returns all $$studentSectionGradebookEntries$$ entities for which the logged in User has permission and context.
+     * readAll
      * 
      * @param offset
      *            starting position in results to return to user
@@ -67,7 +66,9 @@ public class StudentSectionGradebookEntryResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$studentSectionGradebookEntries$$ the user has context to view
+     *
+     * @response.representation $$studentSectionGradebookEntries$$
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
@@ -80,7 +81,7 @@ public class StudentSectionGradebookEntryResource {
     }
 
     /**
-     * Create a new $$studentSectionGradebookEntries$$ entity.
+     * create
      * 
      * @param newEntityBody
      *            entity data
@@ -88,10 +89,8 @@ public class StudentSectionGradebookEntryResource {
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * @return A 201 response on successfully created entity with the ID of the entity
+     * @response.representation.201.mediaType
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -101,15 +100,17 @@ public class StudentSectionGradebookEntryResource {
     }
 
     /**
-     * Get a single $$studentSectionGradebookEntries$$ entity
+     * read
      * 
      * @param studentSectionGradebookEntryId
-     *            The Id of the $$studentSectionGradebookEntries$$.
+     *            The id (or list of ids) of the $$studentSectionGradebookEntries$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$studentSectionGradebookEntries$$ entity
+     * @return A list of entities matching the list of ids queried for
+     *
+     * @response.representation $$studentSectionGradebookEntries$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
@@ -120,7 +121,7 @@ public class StudentSectionGradebookEntryResource {
     }
 
     /**
-     * Delete a $$studentSectionGradebookEntries$$ entity
+     * delete
      * 
      * @param studentSectionGradebookEntryId
      *            The Id of the $$studentSectionGradebookEntries$$.
@@ -139,7 +140,7 @@ public class StudentSectionGradebookEntryResource {
     }
 
     /**
-     * Update an existing $$studentSectionGradebookEntries$$ entity.
+     * update
      * 
      * @param studentSectionGradebookEntryId
      *            The id of the $$studentSectionGradebookEntries$$.
