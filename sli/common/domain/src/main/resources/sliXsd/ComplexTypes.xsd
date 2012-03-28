@@ -481,13 +481,13 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="assessmentItem" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded">
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="assessmentItem" type="assessmentItem">
 						<xs:annotation>
-							<xs:documentation>
-								Identifies the assessment items that this objective assessment is associated
-								with.
+							<xs:documentation>References individual test items, if
+								appropriate.
 							</xs:documentation>
-						</xs:annotation> 
+						</xs:annotation>
 					</xs:element>
 					<xs:element maxOccurs="unbounded" minOccurs="0"
 						name="learningObjectives" type="reference">
