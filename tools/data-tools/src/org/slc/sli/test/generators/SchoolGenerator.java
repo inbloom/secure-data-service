@@ -19,7 +19,12 @@ import org.slc.sli.test.edfi.entities.SchoolType;
 import org.slc.sli.test.edfi.entities.TitleIPartASchoolDesignationType;
 
 public class SchoolGenerator {
+	
 	private static final Logger log = Logger.getLogger(SchoolGenerator.class);
+    private List<School> schools = null;
+	private int schoolPtr = 0;
+	private int schoolCount = 0;
+	
 	private String [] schoolNames =
 		{"Academy for Language and Technology ", "Academy for Scholarship and Entrepreneurship: A College Board School ", "Academy of Mount Saint Ursula ", "Alfred E. Smith Career and Technical Education High School", "All Hallows High School ",
 			"Aquinas High School ", "Astor Collegiate Academy", "Astor Collegiate Academy", "Banana Kelly High School ", "Belmont Preparatory High School",
@@ -38,9 +43,13 @@ public class SchoolGenerator {
 			"Millennium Art Academy", "Pablo Neruda Academy for Architecture and World Studies", "Pelham Preparatory Academy", "Renaissance High School for Musical Theater & Technology", "School for Community Research and Learning",
 			"The Celia Cruz Madison High School of Music ", "The Cinema School", "The Fieldston School", "The Madisonwood Preparatory Academy ",
 		};
-	private int schoolPtr = 0;
 
-	public List<School> getNYSchools()
+	public SchoolGenerator() {
+		schools = getNYSchools();
+		schoolCount = schools.size();
+	}
+
+	private  List<School> getNYSchools()
 	{
         List<School> schools = new ArrayList<School>();
         for(String name:schoolNames){
@@ -50,7 +59,7 @@ public class SchoolGenerator {
         	school.setStateOrganizationId("New York School Board") ;
         	school.setNameOfInstitution(name) ;
         	school.setShortNameOfInstitution(name.replaceAll("[a-z]", "")) ;
-        	school.setWebSite("www." + name.replaceAll("[ a-z]", "") + "School.edu") ;
+        	school.setWebSite("www." + name.replaceAll("[ a-z:]", "") + "School.edu") ;
 
         	EducationOrganizationCategoriesType category = new EducationOrganizationCategoriesType();
         	category.getOrganizationCategory().add(EducationOrganizationCategoryType.SCHOOL);
@@ -109,6 +118,13 @@ public class SchoolGenerator {
         return schools;
 	}
 	
+	public School getSchool(String schoolId)
+	{
+		School school = schools.get(schoolPtr++ % schoolCount);
+		school.setId(schoolId);
+		return school;
+	}
+	
 	public static void main(String [] args)
 	{
 		SchoolGenerator factory = new SchoolGenerator();
@@ -134,5 +150,26 @@ public class SchoolGenerator {
 			log.info(schoolDesc);
 			System.out.println(schoolDesc);
 		}
+		
+		School school  = factory.getSchool("schoolId-1");
+		school = factory.getSchool("schoolId-2");
+		String schoolDesc = 
+				"\n\nId: " + school.getId() + ",\n" + 
+						"StateOrganizationId: " + school.getStateOrganizationId() + ",\n" + 
+						"NameOfInstitution: " + school.getNameOfInstitution() + ",\n" + 
+						"ShortNameOfInstitution: " + school.getShortNameOfInstitution() + ",\n" + 
+						"WebSite: " + school.getWebSite() + ",\n" + 
+						"OrganizationCategories: " + school.getOrganizationCategories() + ",\n" + 
+						"OperationalStatus: " + school.getOperationalStatus() + ",\n" + 
+						"GradesOffered: " + school.getGradesOffered() + ",\n" + 
+						"SchoolCategories: " + school.getSchoolCategories() + ",\n" + 
+						"SchoolType: " + school.getSchoolType() + ",\n" + 
+						"CharterStatus: " + school.getCharterStatus() + ",\n" + 
+						"TitleIPartASchoolDesignation: " + school.getTitleIPartASchoolDesignation() + ",\n" + 
+						"MagnetSpecialProgramEmphasisSchool: " + school.getMagnetSpecialProgramEmphasisSchool() + ",\n" + 
+						"AdministrativeFundingControl: " + school.getAdministrativeFundingControl() + ",\n" + 
+						"LocalEducationAgencyReference: " + school.getLocalEducationAgencyReference(); 
+		log.info(schoolDesc);
+		System.out.println(schoolDesc);
 	}
 }

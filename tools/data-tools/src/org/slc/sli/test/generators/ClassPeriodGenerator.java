@@ -20,4 +20,12 @@ public class ClassPeriodGenerator {
 		}
 		return periods;
 	}
+	
+	public ClassPeriod getClassPeriod(String id)
+	{
+		ClassPeriod period = new ClassPeriod();
+		period.setClassPeriodName("Period " + id);
+		period.setId(String.valueOf(id));
+		return period;
+	}
 }
