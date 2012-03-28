@@ -2,9 +2,9 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * Json Configuration Unit Tests.
@@ -15,8 +15,8 @@ import org.junit.Test;
 public class ReadJson {
     @Test
     public void testTeacherSectionAssociation() throws Exception {
-        File jsonFile = new File("src/test/resources/TeacherSectionAssociation.json");
-        EntityConfig teacherSectionAssociation = EntityConfig.parse(jsonFile);
+        Resource jsonFile = new ClassPathResource("TeacherSectionAssociation.json");
+        EntityConfig teacherSectionAssociation = EntityConfig.parse(jsonFile.getInputStream());
 
         assertEquals("metadata.externalId", teacherSectionAssociation.getReferences().get(0).getRef().getChoiceOfFields().get(0).get(0).getValues().get(0).getValueSource());
         assertEquals("Section" , teacherSectionAssociation.getReferences().get(1).getRef().getCollectionName());
