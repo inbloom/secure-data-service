@@ -1,5 +1,6 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class DataForASchool {
 
     private static List<SectionInternal> sections = new ArrayList<SectionInternal>();
     
-    private static List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
+//    private static List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
 
     private static List<String> teachers = new ArrayList<String>();
     private static List<TeacherSchoolAssociationInternal> teacherSchoolAssociations = new ArrayList<TeacherSchoolAssociationInternal>();
@@ -56,10 +57,30 @@ public class DataForASchool {
         printInterchangeStudentCohort(System.out);
         printInterchangeStudentDiscipline(System.out);
         printInterchangeStudentAttendance(System.out);
+
+        ////////////////////////////////
+        try {
+            printInterchangeEducationOrganization(new PrintStream("data/InterchangeEducationOrganization.xml"));
+            printInterchangeMasterSchedule(new PrintStream("data/InterchangeMasterSchedule.xml"));
+            printInterchangeAssessmentMetadata(new PrintStream("data/InterchangeAssessmentMetadata.xml"));
+            printInterchangeStaffAssociation(new PrintStream("data/InterchangeStaffAssociation.xml"));
+            printInterchangeStudentParent(new PrintStream("data/InterchangeStudentParent.xml"));
+            printInterchangeStudentAssessment(new PrintStream("data/InterchangeStudentAssessment.xml"));
+            printInterchangeEducationOrgCalendar(new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
+            printInterchangeStudentEnrollment(new PrintStream("data/InterchangeStudentEnrollment.xml"));
+            printInterchangeStudentGrade(new PrintStream("data/InterchangeStudentGrade.xml"));
+            printInterchangeStudentProgram(new PrintStream("data/InterchangeStudentProgram.xml"));
+            printInterchangeStudentCohort(new PrintStream("data/InterchangeStudentCohort.xml"));
+            printInterchangeStudentDiscipline(new PrintStream("data/InterchangeStudentDiscipline.xml"));
+            printInterchangeStudentAttendance(new PrintStream("data/InterchangeStudentAttendance.xml"));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public static void prepareData() {
-        prepareSchool(1);
+        prepareSchool(2);
         prepareTeacher(2);
         prepareTeacherSchoolAssociation();
         prepareSection(4);
@@ -125,10 +146,12 @@ public class DataForASchool {
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         // schools
-//        for (String schoolId : schools) {
-//            School school = SchoolGenerator.generate(schoolId);
-//            list.add(school);
-//        }
+        SchoolGenerator sg = new SchoolGenerator();
+        
+        for (String schoolId : schools) {
+            School school = sg.getSchool(schoolId);
+            list.add(school);
+        }
 
         marshaller.marshal(interchangeEducationOrganization, ps);
     }
@@ -379,12 +402,6 @@ public class DataForASchool {
         // AttendanceEvent
 
         marshaller.marshal(InterchangeStudentAttendance, ps);
-    }
-
-    class StaffEducationOrgEmploymentAssociationInternal {
-        StaffReferenceType staffReference;
-        EducationalOrgReferenceType educationOrganizationReference;
-        StaffClassificationType staffClassification;
     }
 
 }
