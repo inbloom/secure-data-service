@@ -32,3 +32,18 @@ And I wait for "2" seconds
 Then I see a list of 1 students
 And the list includes: "Student Fake"
 
+Scenario: Check K-3 Student Name in Live
+Given I have an open web browser
+Given the server is in "live" mode
+When I navigate to the Dashboard home page
+When I select "Sunset School District 4526" and click go
+When I login as "rbraverman" "rbraverman1234"
+And I wait for "2" seconds
+When I click on the Dashboard page
+When I select ed org "Daybreak School District 4529"
+When I select school "South Daybreak Elementary"
+And I select course "1st Grade Homeroom"
+And I select section "Mrs. Braverman's Homeroom #38"
+And I wait for "25" seconds
+Then I see a list of 20 students
+#And the list includes: "Mi-Ha Tran"

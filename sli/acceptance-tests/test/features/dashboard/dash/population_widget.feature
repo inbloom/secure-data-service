@@ -47,3 +47,49 @@ And I select section "Sec 145"
 And I wait for "2" seconds
 Then I see a list of 28 students
 And the list includes: "Johnny Patel;Carmen Ortiz"
+
+Scenario: Selecting classes on LOS (live)
+Given I have an open web browser
+Given the server is in "live" mode
+When I navigate to the Dashboard home page
+When I select "Sunset School District 4526" and click go
+When I login as "cgray" "cgray1234"
+And I wait for "2" seconds
+When I click on the Dashboard page
+When I look in the ed org drop-down
+Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
+
+When I select ed org "Sunset School District 4526"
+When I look in the school drop-down
+Then I only see "Sunset Central High School"
+
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I only see "Daybreak Central High"
+
+When I select ed org "Daybreak School District 4529"
+When I select school "Daybreak Central High"
+And I look in the course drop-down
+Then I see these values in the drop-down: "Writing about Government;American Literature"
+
+When I select ed org "Daybreak School District 4529"
+When I select school "Daybreak Central High"
+And I select course "American Literature"
+Then I see these values in the drop-down: "Sec 145"
+
+When I select ed org "Daybreak School District 4529"
+When I select school "Daybreak Central High"
+And I select course "American Literature"
+And I select section "Sec 145"
+And I wait for "30" seconds
+Then I see a list of 26 students
+
+When I select ed org "Daybreak School District 4529"
+When I select school "Daybreak Central High"
+And I select course "Writing about Government"
+And I select section "Sec 923"
+And I wait for "20" seconds
+Then I see a list of 2 students
+
+
+
