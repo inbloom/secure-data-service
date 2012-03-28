@@ -1,5 +1,6 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,33 +14,52 @@ import javax.xml.bind.Marshaller;
 import org.slc.sli.test.edfi.entities.*;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.internals.*;
+import org.slc.sli.test.validator.ValidateSchema;
 
 public class DataForASchool {
-    private static List<String> schools = new ArrayList<String>();
+    private String prefix = "a";
 
-    private static List<SectionInternal> sections = new ArrayList<SectionInternal>();
-    
-    private static List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
+    private List<String> schools = new ArrayList<String>();
 
-    private static List<String> teachers = new ArrayList<String>();
-    private static List<TeacherSchoolAssociationInternal> teacherSchoolAssociations = new ArrayList<TeacherSchoolAssociationInternal>();
-    private static List<TeacherSectionAssociationInternal> teacherSectionAssociations = new ArrayList<TeacherSectionAssociationInternal>();
+    private List<SectionInternal> sections = new ArrayList<SectionInternal>();
 
-    private static List<String> studentIds = new ArrayList<String>();
-    private static List<String> parentIds = new ArrayList<String>();
-    private static List<String> studentParentAssociations = new ArrayList<String>();
-    
-    
+//    private List<StaffEducationOrgEmploymentAssociationInternal> staffEducationOrgEmploymentAssociations = new ArrayList<StaffEducationOrgEmploymentAssociationInternal>();
+
+    private List<String> teachers = new ArrayList<String>();
+    private List<TeacherSchoolAssociationInternal> teacherSchoolAssociations = new ArrayList<TeacherSchoolAssociationInternal>();
+    private List<TeacherSectionAssociationInternal> teacherSectionAssociations = new ArrayList<TeacherSectionAssociationInternal>();
+
+    private List<String> students = new ArrayList<String>();
+    private List<String> parents = new ArrayList<String>();
+    private List<String> studentParentAssociations = new ArrayList<String>();
+
+
 
     /**
      * @param args
      * @throws JAXBException
      */
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) {
+        try {
+            ValidateSchema vs = new ValidateSchema();
+            String xmlDir = "./data/";
+            (new DataForASchool()).execution();
+            vs.check(xmlDir);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void execution()  throws JAXBException {
         prepareData();
 
 
@@ -56,29 +76,52 @@ public class DataForASchool {
         printInterchangeStudentCohort(System.out);
         printInterchangeStudentDiscipline(System.out);
         printInterchangeStudentAttendance(System.out);
+
+        ////////////////////////////////
+        try {
+            printInterchangeEducationOrganization(new PrintStream("data/InterchangeEducationOrganization.xml"));
+            printInterchangeMasterSchedule(new PrintStream("data/InterchangeMasterSchedule.xml"));
+            printInterchangeAssessmentMetadata(new PrintStream("data/InterchangeAssessmentMetadata.xml"));
+            printInterchangeStaffAssociation(new PrintStream("data/InterchangeStaffAssociation.xml"));
+            printInterchangeStudentParent(new PrintStream("data/InterchangeStudentParent.xml"));
+            printInterchangeStudentAssessment(new PrintStream("data/InterchangeStudentAssessment.xml"));
+            printInterchangeEducationOrgCalendar(new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
+            printInterchangeStudentEnrollment(new PrintStream("data/InterchangeStudentEnrollment.xml"));
+            printInterchangeStudentGrade(new PrintStream("data/InterchangeStudentGrade.xml"));
+            printInterchangeStudentProgram(new PrintStream("data/InterchangeStudentProgram.xml"));
+            printInterchangeStudentCohort(new PrintStream("data/InterchangeStudentCohort.xml"));
+            printInterchangeStudentDiscipline(new PrintStream("data/InterchangeStudentDiscipline.xml"));
+            printInterchangeStudentAttendance(new PrintStream("data/InterchangeStudentAttendance.xml"));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        System.out.println("DONE");
     }
 
-    public static void prepareData() {
-        prepareSchool(1);
+    public void prepareData() {
+        prepareSchool(2);
         prepareTeacher(2);
         prepareTeacherSchoolAssociation();
         prepareSection(4);
         prepareTeacherSectionAssociation();
+        prepareStudent(2);
     }
 
-    public static void prepareSchool(int total) {
+    public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schools.add("School"+i);
+            schools.add(this.prefix + "-School-"+i);
         }
     }
 
-    public static void prepareTeacher(int total) {
+    public void prepareTeacher(int total) {
         for (int i = 0; i < total; i++) {
-            teachers.add("teacher-"+i);
+            teachers.add(this.prefix + "-teacher-" + i);
         }
     }
 
-    public static void prepareTeacherSchoolAssociation() {
+    public void prepareTeacherSchoolAssociation() {
         Random random = new Random();
         for (String teacherId : teachers) {
             TeacherSchoolAssociationInternal tsa = new TeacherSchoolAssociationInternal();
@@ -89,11 +132,11 @@ public class DataForASchool {
         }
     }
 
-    public static void prepareSection(int sectionPerSchool) {
+    public void prepareSection(int sectionPerSchool) {
         int sectionNumber = sectionPerSchool/4;
         for (String school : schools) {
             for (int i = 0; i < sectionNumber; i++) {
-                String sectionCode = UUID.randomUUID().toString();
+                String sectionCode = (this.prefix + "-" + UUID.randomUUID().toString()).substring(0, 30);
                 for (int j = 0; j < 4; j++) {
                     SectionInternal si = new SectionInternal();
                     si.schoolId = school;
@@ -104,8 +147,8 @@ public class DataForASchool {
             }
         }
     }
-    
-    public static void prepareTeacherSectionAssociation() {
+
+    public void prepareTeacherSectionAssociation() {
         Random r = new Random();
         for(String teacher : teachers) {
             TeacherSectionAssociationInternal tsai = new TeacherSectionAssociationInternal();
@@ -114,8 +157,14 @@ public class DataForASchool {
             teacherSectionAssociations.add(tsai);
         }
     }
-    
-    public static void printInterchangeEducationOrganization(PrintStream ps) throws JAXBException {
+
+    public void prepareStudent(int total) {
+        for (int i = 0 ; i < total ; i++) {
+            students.add(this.prefix + "-student-" + i);
+        }
+    }
+
+    public void printInterchangeEducationOrganization(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeEducationOrganization.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -125,15 +174,17 @@ public class DataForASchool {
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         // schools
-//        for (String schoolId : schools) {
-//            School school = SchoolGenerator.generate(schoolId);
-//            list.add(school);
-//        }
+        SchoolGenerator sg = new SchoolGenerator(StateAbbreviationType.NY);
+
+        for (String schoolId : schools) {
+            School school = sg.getSchool(schoolId);
+            list.add(school);
+        }
 
         marshaller.marshal(interchangeEducationOrganization, ps);
     }
 
-    public static void printInterchangeMasterSchedule(PrintStream ps) throws JAXBException {
+    public void printInterchangeMasterSchedule(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeMasterSchedule.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -145,12 +196,12 @@ public class DataForASchool {
         for (SectionInternal si : sections) {
             list.add(SectionGenerator.generate(si.sectionCode, si.sequenceOfCourse, si.schoolId));
         }
-        
+
         marshaller.marshal(interchangeMasterSchedule, ps);
 
     }
 
-    public static void printInterchangeAssessmentMetadata(PrintStream ps) throws JAXBException {
+    public void printInterchangeAssessmentMetadata(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeAssessmentMetadata.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -172,7 +223,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeAssessmentMetadata, ps);
     }
 
-    public static void printInterchangeStaffAssociation(PrintStream ps) throws JAXBException {
+    public void printInterchangeStaffAssociation(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStaffAssociation.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -186,20 +237,21 @@ public class DataForASchool {
         // StaffEducationOrgEmploymentAssociation
         // StaffEducationOrgAssignmentAssociation
         // Teacher
+        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY);
         for (String teacherId : teachers) {
-            list.add(TeacherGenerator.generate(teacherId));
+            list.add(tg.generate(teacherId));
         }
 
         // TeacherSchoolAssociation
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
             list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
         }
-        
+
         // TeacherSectionAssociation
         for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
             list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
         }
-        
+
         // LeaveEvent
         // OpenStaffPosition
         // CredentialFieldDescriptor
@@ -207,7 +259,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStaffAssociation, ps);
     }
 
-    public static void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentParent.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -216,11 +268,13 @@ public class DataForASchool {
 
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
-        // // student
-        // for (String studentId : studentIds) {
-        // Student student = StudentGenerator.generate(studentId);
-        // list.add(student);
-        // }
+        // student
+        StudentGenerator sg = new StudentGenerator("");
+        for (String studentId : students) {
+            Student student = sg.generate(studentId);
+            list.add(student);
+        }
+
         //
         // // parent
         // for (String parentId : parentIds) {
@@ -238,7 +292,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentParent, ps);
     }
 
-    public static void printInterchangeStudentAssessment(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentAssessment(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentAssessment.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -254,7 +308,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentAssessment, ps);
     }
 
-    public static void printInterchangeEducationOrgCalendar(PrintStream ps) throws JAXBException {
+    public void printInterchangeEducationOrgCalendar(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeEducationOrgCalendar.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -271,7 +325,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeEducationOrgCalendar, ps);
     }
 
-    public static void printInterchangeStudentEnrollment(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentEnrollment(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentEnrollment.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -288,7 +342,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentEnrollment, ps);
     }
 
-    public static void printInterchangeStudentGrade(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentGrade(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentGrade.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -312,7 +366,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentGrade, ps);
     }
 
-    public static void printInterchangeStudentProgram(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentProgram(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentProgram.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -332,7 +386,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentProgram, ps);
     }
 
-    public static void printInterchangeStudentCohort(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentCohort(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentCohort.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -348,7 +402,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentCohort, ps);
     }
 
-    public static void printInterchangeStudentDiscipline(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentDiscipline(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentDiscipline.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -367,7 +421,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeStudentDiscipline, ps);
     }
 
-    public static void printInterchangeStudentAttendance(PrintStream ps) throws JAXBException {
+    public void printInterchangeStudentAttendance(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentAttendance.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -379,12 +433,6 @@ public class DataForASchool {
         // AttendanceEvent
 
         marshaller.marshal(InterchangeStudentAttendance, ps);
-    }
-
-    class StaffEducationOrgEmploymentAssociationInternal {
-        StaffReferenceType staffReference;
-        EducationalOrgReferenceType educationOrganizationReference;
-        StaffClassificationType staffClassification;
     }
 
 }
