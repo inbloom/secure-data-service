@@ -33,6 +33,17 @@ public class LocationGenerator {
 		return locations;
 	}
 
+	public Location getClassroomLocation(String id)
+	{
+		Location location = new Location();
+		location.setId(id);
+		location.setClassroomIdentificationCode("MainHall" + id + "Code");
+		int maxSeats = getRand() % 50;
+		location.setMaximumNumberOfSeats(maxSeats);
+		location.setOptimalNumberOfSeats(maxSeats<10?maxSeats:maxSeats-10);
+		return location;
+	}
+		
 	public static void main(String [] args )
 	{
 		LocationGenerator locationsGen = new LocationGenerator();

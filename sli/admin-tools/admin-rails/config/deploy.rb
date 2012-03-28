@@ -13,6 +13,7 @@ set :use_sudo, false
 set :deploy_via, :remote_cache
 set :deploy_to, "~/admin"
 set :keep_releases, 2
+set :subdomain, nil
 
 
 set :scm, :git
@@ -27,6 +28,11 @@ namespace :deploy do
   end
   desc "Start the Thin processes"
   task :start do
+    if !subdomain.nil?
+      run <<-CMD
+        cd #{deploy_to}/current/sli; sh profile_swap.sh #{subdomain}
+      CMD
+    end
     run  <<-CMD
       cd #{deploy_to}/current/sli/admin-tools/admin-rails; bundle exec thin start -C config/thin.yml -e #{rails_env}
     CMD
