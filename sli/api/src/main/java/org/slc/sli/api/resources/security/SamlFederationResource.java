@@ -127,7 +127,7 @@ public class SamlFederationResource {
         
         //TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
         //Once we have a dedicated edOrg attribute, we can strip out this part
-        if (edOrg.indexOf(' ') > -1) {
+        if (edOrg != null && edOrg.indexOf(' ') > -1) {
             edOrg = edOrg.substring(0, edOrg.indexOf(' '));
         }
         principal.setEdOrg(edOrg);
