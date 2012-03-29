@@ -56,7 +56,7 @@ public class QueryConverterTest {
         assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "classOf").getType());
         assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "educationalPlans").getType());
         assertEquals("TOKEN",
-                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.GraduationPlanType").getType());
+                queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.graduationPlanType").getType());
         assertEquals("DOUBLE",
                 queryConverter.findParamType("studentSchoolAssociation", "graduationPlan.totalCreditsRequired.credit")
                         .getType());
