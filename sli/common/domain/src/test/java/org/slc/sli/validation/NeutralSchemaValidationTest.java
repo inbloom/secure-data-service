@@ -74,6 +74,26 @@ public class NeutralSchemaValidationTest {
     }
     
     @Test
+    public void testValidDisciplineIncident() throws Exception {
+        this.addDummyEntity("educationOrganization", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        
+        readAndValidateFixtureData("src/test/resources/disciplineIncident_fixture_neutral.json", "disciplineIncident");
+    }
+    
+    @Test
+    public void testValidDisciplineAction() throws Exception {
+        this.addDummyEntity("educationOrganization", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("educationOrganization", "2058ddfb-b5c6-70c4-3bee-b43e9e93307d");
+        this.addDummyEntity("staff", "e24b24aa-2556-994b-d1ed-6e6f71d1be97");
+        this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
+        this.addDummyEntity("disciplineIncident", "0e26de79-22aa-5d67-9201-5113ad50a03b");
+        
+        readAndValidateFixtureData("src/test/resources/disciplineAction_fixture_neutral.json", "disciplineAction");
+    }
+    
+    @Test
     public void testValidAssessment() throws Exception {
         readAndValidateFixtureData("src/test/resources/assessment_fixture_neutral.json", "assessment");
     }
@@ -288,6 +308,26 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("school");
 
         readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
+    }
+
+    @Test
+    public void testValidStudentDisciplineIncidentAssociation() throws Exception {
+        this.addDummyEntity("disciplineIncident", "0e26de79-226a-5d67-9201-5113ad50a03b");
+        this.addDummyEntity("disciplineIncident", "0e26de79-22aa-5d67-9201-5113ad50a03b");
+        this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
+        this.addDummyEntity("student", "e0e99028-6360-4247-ae48-d3bb3ecb606a");
+
+        readAndValidateFixtureData("src/test/resources/student_disciplineIncident_association_fixture_neutral.json", "studentDisciplineIncidentAssociation");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentDisciplineIncidentAssociation() throws Exception {
+        this.addDummyCollection("student");
+        this.addDummyCollection("disciplineIncident");
+
+        readAndValidateFixtureData("src/test/resources/student_disciplineIncident_association_fixture_neutral.json", "studentSchoolAssociation");
     }
 
     @SuppressWarnings("unchecked")
