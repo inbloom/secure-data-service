@@ -112,7 +112,7 @@ public class BasicQuery implements Query {
          * Include custom entities in the query response. Defaults to 'false'.
          */
         public Builder customEntities() {
-            params.put(RETURN_CUSTOM_ENTITIES, true);
+            params.put(INCLUDE_CUSTOM_ENTITIES, true);
             return this;
         }
 
