@@ -106,7 +106,8 @@ public class UriInfoToNeutralQueryConverter {
                         NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
                         NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
-                            if (!neutralCriteria.getKey().equals("full-entities")) {
+                            if (!neutralCriteria.getKey().equals("full-entities") &&
+                                !neutralCriteria.getKey().equals(ParameterConstants.OPTIONAL_FIELDS)) {
                                 neutralQuery.addCriteria(neutralCriteria);
                             }
                         } else {

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class StudentAssessmentOptionalFieldAppenderTest {
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
     
+    @Ignore
     @Test
     public void testApplyOptionalField() {
         List<EntityBody> entities = new ArrayList<EntityBody>();
