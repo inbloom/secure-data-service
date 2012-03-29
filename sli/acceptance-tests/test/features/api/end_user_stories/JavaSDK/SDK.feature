@@ -136,3 +136,12 @@ Scenario:  As a AggregateViewer I should not see personally identifiable informa
         
     When I navigate to GET "/assessments/<'Grade 2 BOY DIBELS' ID>"
     Then I should receive a return code of 403
+
+@wip
+Scenario: As a application developer, I want to set, retrieve, and delete custom entities
+    Given I am a valid SEA/LEA end user <user> with password <password>
+    And I am authenicated on "Illinois Realm" Realm
+    I can post custom data
+    I can read custom data
+    I can delete custom data
+

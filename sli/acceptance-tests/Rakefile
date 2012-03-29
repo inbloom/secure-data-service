@@ -149,9 +149,9 @@ end
 
 desc "Run the testing for life ray SLI for admin"
 task :liferayTest do
-  runTests("test/features/liferay/SLI_admin.feature")
-  runTests("test/features/liferay/SLI_normal_user.feature")
-  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
+#  runTests("test/features/liferay/SLI_admin.feature")
+#  runTests("test/features/liferay/SLI_normal_user.feature")
+#  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
   runTests("test/features/liferay/report_problem.feature")
 
 # runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
@@ -254,6 +254,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1LearningObjectiveTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -492,6 +493,11 @@ end
 desc "Run V1 Assessment Tests"
 task :v1AssessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run V1 LearningObjective Tests"
+task :v1LearningObjectiveTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
 desc "Run V1 Parent Tests"
