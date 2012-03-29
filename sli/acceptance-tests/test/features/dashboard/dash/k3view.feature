@@ -32,10 +32,10 @@ Then I see a list of 1 students
 And the list includes: "Student Fake"
 
 @wip
+#TODO when fuel gauge works
 Scenario: Check assessment result (live)
 Given I have an open web browser
-Given the server is in "live" mode
-	
+Given the server is in "live" mod
 
 Scenario: Check K-3 Student Name in Live
 Given I have an open web browser
@@ -48,6 +48,6 @@ When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
-And I wait for "25" seconds
+Then I should only see one view named "IL_K-3"
 Then I see a list of 20 students
 #And the list includes: "Mi-Ha Tran"

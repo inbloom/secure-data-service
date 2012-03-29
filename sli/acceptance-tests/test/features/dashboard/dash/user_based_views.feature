@@ -6,6 +6,8 @@ application, that will change the subset of information that is displayed.
 Background:
   Given I have an open web browser
 
+@wip
+#bundled with test in population_widget
 Scenario: Check user has multiple views available
   Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -17,6 +19,8 @@ Scenario: Check user has multiple views available
     And I should have a selectable view named "IL_3-8_ELA"
     And I should have a selectable view named "IL_9-12"
 
+@wip
+#bundled with test in population_widget
 Scenario: Views are filtered based on student grades
   Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -26,6 +30,8 @@ Scenario: Views are filtered based on student grades
     And I select <section> "Sec 923"
   Then I should only see one view named "IL_9-12"
 
+@wip
+#bundled with test in population_widget
 Scenario: Check changing view changes table headings
   Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
@@ -41,6 +47,8 @@ Scenario: Check changing view changes table headings
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
 
+@wip
+#bundled with K-3 tests
 Scenario: Different users have different views defined
   Given the server is in "test" mode
   Given I am authenticated to SLI as "rbraverman" "rbraverman"
