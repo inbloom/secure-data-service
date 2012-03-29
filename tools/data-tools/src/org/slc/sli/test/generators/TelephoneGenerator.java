@@ -19,15 +19,12 @@ public class TelephoneGenerator {
 	Random generator = new Random();
 
 	public Telephone getTelephone() throws Exception {
+		String oneAreaCode;
+		String telephone;
 		Telephone tel = new Telephone();
 		tel.setPrimaryTelephoneNumberIndicator(generator.nextBoolean());
-
-		String telephone;
-		String tempAreaCode;
-		areaCode = getAreaCode();
-		int roll = generator.nextInt(42182) + 1;
-		tempAreaCode = areaCode.get(roll);
-		telephone = tempAreaCode.concat(getFirstThreeDigits()).concat(getLastFourDigits());
+		oneAreaCode = getAreaCode();
+		telephone = oneAreaCode.concat(getFirstThreeDigits()).concat(getLastFourDigits());
 		tel.setTelephoneNumber(telephone);
 		tel.setTelephoneNumberType(getPhoneType());
 		return tel;
@@ -35,11 +32,11 @@ public class TelephoneGenerator {
 
 
 
-	public List<String> getAreaCode() throws Exception {
+	public String getAreaCode() throws Exception {
 		FileInputStream fstream = new FileInputStream(filename);
         DataInputStream in = new DataInputStream(fstream);
         BufferedReader areaCodeBuffer = new BufferedReader(new InputStreamReader(in));
-
+        String oneAreaCode;
         String line;
         String [] areaCodeSplit;
         line = areaCodeBuffer.readLine();
@@ -53,7 +50,11 @@ public class TelephoneGenerator {
 
         		}
         }
-        return areaCode;
+
+        int roll = generator.nextInt(42182) + 1;
+		oneAreaCode = areaCode.get(roll);
+
+        return oneAreaCode;
 
 	}
 
@@ -110,9 +111,11 @@ public class TelephoneGenerator {
 		lt.add(teleFactory);
 		//for(AddressFactory addressFactory:factoryList)
 		for (TelephoneGenerator tf: lt)
-		for (String telephoneId : "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20".split(" ")) {
+		for (String telephoneId : "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20".split(" "))
+		//while (true)
+			{
 			Telephone tel = tf.getTelephone();
-			log.info(telephoneId + " " + tel.getTelephoneNumber() + " " + tel.getTelephoneNumberType() +
+			log.info( " " + tel.getTelephoneNumber() + " " + tel.getTelephoneNumberType() +
 					" " + tel.isPrimaryTelephoneNumberIndicator());
 
 		}
