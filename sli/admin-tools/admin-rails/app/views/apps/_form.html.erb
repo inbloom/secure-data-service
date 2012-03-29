@@ -44,8 +44,8 @@
 	<%= f.check_box :is_admin %>
 </div>
 <div class = "field">
-	<%= f.label :method, "Display Method" %>
-	<%= select_tag(:app_method, options_for_select([['iframe'], ['WSRP'], ['Full Window App']]))%>
+	<%= f.label :behavior, "Display Method" %>
+	<%= select_tag(:app_behavior, options_for_select(['iframe', 'WSRP', 'Full Window App'], app.behavior))%>
 </div>
 <div class = "field">
 	<%= f.label :redirect_uri, "Redirect Url" %>

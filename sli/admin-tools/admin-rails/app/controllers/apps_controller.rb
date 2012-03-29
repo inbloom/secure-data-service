@@ -48,6 +48,8 @@ class AppsController < ApplicationController
   # POST /apps
   # POST /apps.json
   def create
+    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
+    params[:app][:behavior] = params[:app_behavior]
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
     case @app.is_admin
@@ -70,7 +72,7 @@ class AppsController < ApplicationController
     when "0"
       @app.developer_info.license_acceptance = false
     end
-    
+
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
@@ -110,6 +112,10 @@ class AppsController < ApplicationController
     when "0"
       params[:app][:developer_info][:license_acceptance] = false
     end
+  
+    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
+    params[:app][:behavior] = params[:app_behavior]
+
     respond_to do |format|
       if @app.update_attributes(params[:app])
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }

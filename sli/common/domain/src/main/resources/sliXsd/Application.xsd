@@ -22,6 +22,15 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
+			    <xs:element name="behavior" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="iframe" />
+                            <xs:enumeration value="WSRP" />
+                            <xs:enumeration value="Full Window App" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
 				<xs:element name="scope" minOccurs="0" type="xs:string">
 				</xs:element>
 				<xs:element name="redirect_uri" minOccurs="1">

@@ -11,7 +11,7 @@ admin:
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
     version: "1.0"
-    method: "Full Window App"
+    behavior: "Full Window App"
     is_admin: true
     enabled: true
     created_on: 1331670018
@@ -35,7 +35,7 @@ waffles:
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
     version: ".waffles"
-    method: "Full Window App"
+    behavior: "Full Window App"
     is_admin: true
     enabled: true
     developer_info: 
@@ -57,7 +57,7 @@ update:
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
     version: ".waffles"
-    method: "Full Window App"
+    behavior: "Full Window App"
     is_admin: "0"
     enabled: "0"
     developer_info: 
@@ -73,7 +73,7 @@ new:
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
     version: 1.0
-    method: "Full Window App"
+    behavior: "Full Window App"
     is_admin: "0"
     enabled: "0"
     developer_info: 
