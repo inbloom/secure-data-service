@@ -57,6 +57,9 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I wait for "20" seconds
+# Lozenges check on LOS
+Then there is no lozenges for student "Jeanette Graves
+Then the lozenge for student "Kimberley Pennington"include "FRE"" 
 And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
@@ -66,6 +69,20 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "2"
 And the lozenges include "FRE"
+And the lozenges include "ELL"
+#Display hide tabs based on grades
+And there are "6" Tabs
+And in Tab ID "8", there is "1" Panels
+And in Tab ID "2", there is "1" Panels
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
+And in Tab ID "5", there is "0" Panels
+And Tab has a title named "Middle School Overview"
+And Tab has a title named "Attendance and Discipline"
+And Tab has a title named "Assessments"
+And Tab has a title named "Grades and Credits"
+And Tab has a title named "Advanced Academics"
+And Tab has a title named "ELL"
 
 Scenario: Student with no grade (live)
 Given the server is in "live" mode
@@ -86,6 +103,9 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "FRE"
+#Display hide tabs based on grades
+And there are "5" Tabs
+And Tab has a title named "Overview"
 	
 @wip
 Scenario: View a student with other name

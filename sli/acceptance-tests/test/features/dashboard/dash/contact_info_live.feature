@@ -29,6 +29,9 @@ And the list of address includes
 1558 4th Street, APT 7776
 Chicago, IL 60139-2152
 """
+#Display/Hide tab based on ELL
+And there are "5" Tabs
+And the lozenges count is "0"
 
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
 Given I click on student "Brielle Klein"
@@ -80,13 +83,6 @@ And the list of address includes
 351
 Chicago, IL 60908-1028
 """
-	
-
-Scenario:  Address with countryCode other than US
-Given I click on student "Rhonda Delgado"
-And I view its student profile
-And I look at the panel "Contact Information"
-And there are "2" addresses
 And the list of address includes 
 """
 9857 Kingsborough 2nd Walk

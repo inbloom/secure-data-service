@@ -32,8 +32,8 @@ Then I see a list of 1 students
 And the list includes: "Student Fake"
 
 @wip
-#TODO when fuel gauge works
 Scenario: Check assessment result (live)
+#TODO when fuel gauge works
 Given I have an open web browser
 Given the server is in "live" mod
 
