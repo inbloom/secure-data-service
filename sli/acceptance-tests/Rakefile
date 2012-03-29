@@ -165,7 +165,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -939,6 +939,7 @@ desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
     "session" => "session_fixture.json",
+    "program" => "program_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
@@ -967,7 +968,12 @@ task :importSandboxData do
     "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
-    "disciplineAction" => "disciplineAction_fixture.json"
+    "disciplineAction" => "disciplineAction_fixture.json",
+    "cohort" => "cohort_fixture.json",
+    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
