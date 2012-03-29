@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,21 +41,16 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class BellScheduleResource {
+public class BellScheduleResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(BellScheduleResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public BellScheduleResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public BellScheduleResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -77,7 +73,7 @@ public class BellScheduleResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.BELL_SCHEDULES, headers, uriInfo);
+        return super.readAll(ResourceNames.BELL_SCHEDULES, headers, uriInfo);
     }
 
     /**
@@ -98,7 +94,7 @@ public class BellScheduleResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.BELL_SCHEDULES, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.BELL_SCHEDULES, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -117,7 +113,7 @@ public class BellScheduleResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
+        return super.read(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
     }
 
     /**
@@ -136,7 +132,7 @@ public class BellScheduleResource {
     @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
     public Response delete(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
+        return super.delete(ResourceNames.BELL_SCHEDULES, bellScheduleId, headers, uriInfo);
     }
 
     /**
@@ -158,6 +154,6 @@ public class BellScheduleResource {
     public Response update(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.BELL_SCHEDULES, bellScheduleId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.BELL_SCHEDULES, bellScheduleId, newEntityBody, headers, uriInfo);
     }
 }
