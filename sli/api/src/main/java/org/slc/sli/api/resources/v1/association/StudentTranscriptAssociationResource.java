@@ -26,7 +26,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -42,20 +41,15 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StudentTranscriptAssociationResource {
+public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentTranscriptAssociationResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
     public StudentTranscriptAssociationResource(EntityDefinitionStore entityDefs) {
-        this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
+        super(entityDefs);
     }
 
     /**
@@ -78,7 +72,7 @@ public class StudentTranscriptAssociationResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
@@ -99,7 +93,7 @@ public class StudentTranscriptAssociationResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -118,7 +112,7 @@ public class StudentTranscriptAssociationResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, headers, uriInfo);
     }
 
     /**
@@ -137,7 +131,7 @@ public class StudentTranscriptAssociationResource {
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, headers, uriInfo);
+        return super.delete(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, headers, uriInfo);
     }
 
     /**
@@ -160,7 +154,7 @@ public class StudentTranscriptAssociationResource {
     public Response update(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -188,7 +182,7 @@ public class StudentTranscriptAssociationResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
@@ -216,7 +210,7 @@ public class StudentTranscriptAssociationResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
     
 }
