@@ -352,7 +352,14 @@ public class BasicService implements EntityService {
         query.addCriteria(new NeutralCriteria("entityId", "=", id, true));
         
         Entity entity = getRepo().findOne(customCollectionName, query);
-        return entity != null ? new EntityBody(entity.getBody()) : null;
+        if (entity != null) {
+            EntityBody clonedBody = new EntityBody(entity.getBody());
+            clonedBody.remove("entityId");
+            clonedBody.remove("clientId");
+            return clonedBody;
+        } else {
+            return null;
+        }
     }
     
     /**
@@ -405,18 +412,22 @@ public class BasicService implements EntityService {
             return;
         }
         
+        EntityBody clonedEntity = new EntityBody(customEntity);
+        
         if (entity != null) {
             LOG.debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     this.getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
-            entity.getBody().putAll(customEntity);
+            entity.getBody().putAll(clonedEntity);
+            entity.getBody().put("clientId", clientId);
+            entity.getBody().put("entityId", id);
             getRepo().update(customCollectionName, entity);
         } else {
             LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     this.getEntityDefinition().getType(), id, clientId });
-            customEntity.put("clientId", clientId);
-            customEntity.put("entityId", id);
-            getRepo().create(customCollectionName, customEntity);
+            clonedEntity.put("clientId", clientId);
+            clonedEntity.put("entityId", id);
+            getRepo().create(customCollectionName, clonedEntity);
         }
     }
     

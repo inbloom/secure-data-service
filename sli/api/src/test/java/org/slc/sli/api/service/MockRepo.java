@@ -347,7 +347,8 @@ public class MockRepo implements Repository<Entity> {
     }
     
     @Override
-    public Entity create(final String type, final Map<String, Object> body, String collectionName) {
+    public Entity create(final String type, Map<String, Object> body, String collectionName) {
+        final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
         final String id = generateId();
         Entity newEntity = new Entity() {
             @Override
@@ -362,7 +363,7 @@ public class MockRepo implements Repository<Entity> {
             
             @Override
             public Map<String, Object> getBody() {
-                return body;
+                return clonedBody;
             }
             
             @Override
