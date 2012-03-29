@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,7 +29,8 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.entity.StudentResource;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class StudentResourceTest {
         entity.put(StudentResource.UNIQUE_STATE_ID, uniqueStateId);
         entity.put(StudentResource.NAME, "Unua");
         entity.put(StudentResource.SEX, "Female");
-        entity.put(StudentResource.BIRTH_DATA, "01/01/1999");
+        entity.put(StudentResource.BIRTH_DATA, "1999-01-01");
         entity.put(StudentResource.HISPANIC_LATINO_ETHNICITY, "true");
         return entity;
     }
@@ -98,7 +99,7 @@ public class StudentResourceTest {
         entity.put(StudentResource.UNIQUE_STATE_ID, uniqueStateId);
         entity.put(StudentResource.NAME, secondName);
         entity.put(StudentResource.SEX, "Female");
-        entity.put(StudentResource.BIRTH_DATA, "01/01/1999");
+        entity.put(StudentResource.BIRTH_DATA, "1999-01-01");
         entity.put(StudentResource.HISPANIC_LATINO_ETHNICITY, "true");
         return entity;
     }
@@ -109,7 +110,7 @@ public class StudentResourceTest {
         entity.put(StudentResource.UNIQUE_STATE_ID, uniqueStateId);
         entity.put(StudentResource.NAME, "Tria");
         entity.put(StudentResource.SEX, "Male");
-        entity.put(StudentResource.BIRTH_DATA, "12/31/1999");
+        entity.put(StudentResource.BIRTH_DATA, "1999-12-31");
         entity.put(StudentResource.HISPANIC_LATINO_ETHNICITY, "false");
         return entity;
     }

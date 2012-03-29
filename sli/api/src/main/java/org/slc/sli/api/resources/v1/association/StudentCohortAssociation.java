@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,7 +41,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StudentCohortAssociation {
+public class StudentCohortAssociation extends DefaultCrudEndpoint {
  
     public static final String BEGIN_DATE = "beginDate";
 
@@ -49,14 +50,9 @@ public class StudentCohortAssociation {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentCohortAssociation.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public StudentCohortAssociation(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public StudentCohortAssociation(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
         LOGGER.debug("New resource handler created: {}", this);
     }
 
@@ -80,7 +76,7 @@ public class StudentCohortAssociation {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
@@ -101,7 +97,7 @@ public class StudentCohortAssociation {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -120,7 +116,7 @@ public class StudentCohortAssociation {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
@@ -139,7 +135,7 @@ public class StudentCohortAssociation {
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
+        return super.delete(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
@@ -162,7 +158,7 @@ public class StudentCohortAssociation {
     public Response update(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -190,7 +186,7 @@ public class StudentCohortAssociation {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
+       return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
                ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
     }
     
@@ -219,7 +215,7 @@ public class StudentCohortAssociation {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
 }

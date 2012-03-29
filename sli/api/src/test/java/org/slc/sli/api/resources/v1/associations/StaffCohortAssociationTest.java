@@ -80,9 +80,9 @@ public class StaffCohortAssociationTest {
     }
     
     private final String assnId = "1234";
-    private final String firstBeginDate = "01/01/2012";
-    private final String secondBeginDate = "06/06/2012";
-    private final String updatedBeginDate = "12/31/2012";
+    private final String firstBeginDate = "2012-01-01";
+    private final String secondBeginDate = "2012-06-06";
+    private final String updatedBeginDate = "2012-12-31";
     private final String staffId = "2345";
     private final String cohortId = "3456";
     

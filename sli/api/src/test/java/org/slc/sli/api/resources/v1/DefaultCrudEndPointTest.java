@@ -18,6 +18,7 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ import java.util.regex.Pattern;
 public class DefaultCrudEndPointTest {
     
     @Autowired
-    DefaultCrudEndpoint crudEndPoint; //class under test
+    private StudentResource crudEndPoint; //class under test
     
     @Autowired
     private SecurityContextInjector injector;

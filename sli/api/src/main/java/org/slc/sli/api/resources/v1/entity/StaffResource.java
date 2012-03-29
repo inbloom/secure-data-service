@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,7 +41,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StaffResource {
+public class StaffResource extends DefaultCrudEndpoint {
     
     public static final String UNIQUE_STATE_ID = "staffUniqueStateId";
     public static final String NAME = "name";
@@ -53,14 +54,9 @@ public class StaffResource {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public StaffResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public StaffResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -83,7 +79,7 @@ public class StaffResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STAFF, headers, uriInfo);
+        return super.readAll(ResourceNames.STAFF, headers, uriInfo);
     }
 
     /**
@@ -104,7 +100,7 @@ public class StaffResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STAFF, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STAFF, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -123,7 +119,7 @@ public class StaffResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF, staffId, headers, uriInfo);
     }
 
     /**
@@ -142,7 +138,7 @@ public class StaffResource {
     @Path("{" + ParameterConstants.STAFF_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STAFF_ID) final String staffId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return super.delete(ResourceNames.STAFF, staffId, headers, uriInfo);
     }
 
     /**
@@ -164,7 +160,7 @@ public class StaffResource {
     public Response update(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STAFF, staffId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STAFF, staffId, newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -191,7 +187,7 @@ public class StaffResource {
     public Response getStaffEducationOrganizationAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, headers, uriInfo);
     }
     
 
@@ -213,7 +209,7 @@ public class StaffResource {
     public Response getStaffEducationOrganizationAssociationEducationOrganizations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, 
+        return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, 
                 "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
     }
 
@@ -241,7 +237,7 @@ public class StaffResource {
     public Response getStaffCohortAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, headers, uriInfo);
     }
     
 
@@ -263,7 +259,7 @@ public class StaffResource {
     public Response getStaffCohortAssociationEducationOrganizations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, 
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, 
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
 }

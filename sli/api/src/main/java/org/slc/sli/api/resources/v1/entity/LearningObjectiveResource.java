@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,21 +41,16 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class LearningObjectiveResource {
+public class LearningObjectiveResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LearningObjectiveResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public LearningObjectiveResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public LearningObjectiveResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -79,7 +75,7 @@ public class LearningObjectiveResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.LEARNINGOBJECTIVES, headers, uriInfo);
+        return super.readAll(ResourceNames.LEARNINGOBJECTIVES, headers, uriInfo);
     }
 
     /**
@@ -99,7 +95,7 @@ public class LearningObjectiveResource {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.LEARNINGOBJECTIVES, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.LEARNINGOBJECTIVES, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -118,7 +114,7 @@ public class LearningObjectiveResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, headers, uriInfo);
+        return super.read(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, headers, uriInfo);
     }
 
     /**
@@ -137,7 +133,7 @@ public class LearningObjectiveResource {
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}")
     public Response delete(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, headers, uriInfo);
+        return super.delete(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, headers, uriInfo);
     }
 
     /**
@@ -158,7 +154,7 @@ public class LearningObjectiveResource {
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}")
     public Response update(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, newEntityBody, headers,
+        return super.update(ResourceNames.LEARNINGOBJECTIVES, learningObjectiveId, newEntityBody, headers,
                 uriInfo);
     }
 
