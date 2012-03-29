@@ -1,9 +1,38 @@
 package org.slc.sli.api.resources.security;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URI;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
 import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
@@ -15,28 +44,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.PostConstruct;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.URI;
-import java.util.List;
 
 /**
  * Process SAML assertions
@@ -192,6 +199,29 @@ public class SamlFederationResource {
 
         }
         return Response.noContent().build(); //TODO change error code?
+    }
+    
+    @GET
+    @Path("slo/post")
+    public Response processSingleLogoutPost() throws Exception {
+        LOG.debug("Received a SAML Request get for SLO via slo/post...");        
+        String issuer = "https://nxam3.slidev.org:443/idp";
+        String postUrl = "https://nxam3.slidev.org:443/idp/IDPSloPOST/metaAlias/idp";
+        String nameId = "demo";
+        String logoutRequest = saml.createSamlLogoutRequest(issuer, nameId);
+        
+        Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("SAMLRequest", logoutRequest);
+        
+        RestTemplate rest = new RestTemplate();
+        // ResponseEntity<String> response = rest.exchange(postUrl, HttpMethod.POST, null, String.class, uriVariables);
+        ResponseEntity<String> entity = rest.postForEntity(postUrl, null, String.class, uriVariables);
+        if (entity.getStatusCode() == HttpStatus.OK) {
+            LOG.debug("Received post response: ");
+            LOG.debug(" - headers: {}", entity.getHeaders().toString());
+            LOG.debug(" - body: {}", entity.getBody().toString());
+        }
+        return Response.ok(entity.toString()).build(); //TODO change error code?
     }
 
     public boolean logoutOfIdp(SLIPrincipal principal) {

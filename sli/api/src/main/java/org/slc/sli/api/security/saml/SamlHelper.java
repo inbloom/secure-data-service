@@ -48,6 +48,7 @@ public class SamlHelper {
     
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
+    private static final String NAMEID_FORMAT_TRANSIENT = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
     private static final String SAML_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
@@ -238,7 +239,11 @@ public class SamlHelper {
         doc.getRootElement().addContent(issuer);
         
         Element nameId = new Element("NameID", SAML_NS);
-        nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
+        if(destination.contains("adfs")) {
+            nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
+        } else {
+            nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
+        }
         nameId.getAttributes().add(new Attribute("NameQualifier", destination)); 
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
         nameId.setText(userId);
