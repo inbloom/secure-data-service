@@ -3,8 +3,8 @@ class App < SessionResource
   schema do 
     string "client_secret", "redirect_uri", "description", "image_url"
     string "name", "client_id", "application_url", "administration_url"
-    string "vendor", "version", "method"
-    boolean "is_admin", "license_acceptance"
+    string "vendor", "version", "behavior"
+    boolean "is_admin", "license_acceptance", "enabled"
     time "created", "updated"
     string "organization", "client_type", "scope", "developer_info"
   end

@@ -19,6 +19,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -434,6 +435,11 @@ public class BasicService implements EntityService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth instanceof AnonymousAuthenticationToken || auth == null) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
+        
+        if (auth instanceof OAuth2Authentication && 
+                ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 

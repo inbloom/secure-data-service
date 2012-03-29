@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.debug {"401 detected"}
     logger.info { "Unauthorized Access: Redirecting..." }
-    redirect_to exception.response['WWW-Authenticate'] + "?RelayState=#{current_url}"
+    session[:oauth] = nil
+    handle_oauth
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
