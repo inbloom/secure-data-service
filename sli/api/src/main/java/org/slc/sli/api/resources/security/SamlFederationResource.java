@@ -158,40 +158,30 @@ public class SamlFederationResource {
      */
     @POST
     @Path("slo/post")
-    public Response processSingleLogoutPost(@FormParam(value = "SAMLRequest") String requestData,
-                                            @FormParam(value = "SAMLResponse") String responseData) throws Exception {
+    public Response processSingleLogoutPost(@FormParam(value = "SAMLRequest") String requestData) throws Exception {
 
-        if (responseData != null) { //TODO check that IDP logout was success
-            LOG.debug("Received a SAML Response post for SLO via slo/post...");
-            Document doc = saml.decodeSamlPost(responseData);
-            XMLOutputter outputter = new XMLOutputter();
-            try {
-                outputter.output(doc, System.out);
-            } catch (IOException e) {
-                System.err.println(e);
-            }
-
-            // this will change
-            return Response.ok().build();
-        } else if (requestData != null) {
-            LOG.debug("Received a SAML Request post for SLO via slo/post...");
-            Document doc = saml.decodeSamlPost(requestData);
-            XMLOutputter outputter = new XMLOutputter();
-            try {
-                outputter.output(doc, System.out);
-            } catch (IOException e) {
-                System.err.println(e);
-            }
-
-            String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
-            String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
-            String realmId = ""; //TODO find realmId based on issuer
-            oAuthTokenUtil.deleteTokensForUser(nameId, realmId);
-
-            return Response.ok(saml.createSamlLogoutResponse(issuer)).build();
-
+        if (requestData == null) {
+            return Response.noContent().build(); //TODO change error code?
         }
-        return Response.noContent().build(); //TODO change error code?
+
+        LOG.debug("Received a SAML Request post for SLO via slo/post...");
+        Document doc = saml.decodeSamlPost(requestData);
+        XMLOutputter outputter = new XMLOutputter();
+        try {
+            outputter.output(doc, System.out);
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+
+        String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
+        String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
+        String realmId = ""; //TODO find realmId based on issuer
+
+        oAuthTokenUtil.deleteTokensForUser(nameId, realmId);         //TODO check for success
+
+
+        return Response.ok(saml.createSamlLogoutResponse(issuer)).build();
+
     }
 
     public boolean logoutOfIdp(SLIPrincipal principal) {
