@@ -1,3 +1,4 @@
+@idNamespace=IL
 edfi-xml,student,InterchangeStudent.xml,639d3bd8bedadfd333dcb7bd21dad42d
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,60d77c960760a65f29948b37eac914e8
 edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,6432bb1b22b049f99133ed49c7c50061
