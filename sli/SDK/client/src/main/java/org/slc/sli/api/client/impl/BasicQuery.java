@@ -21,9 +21,14 @@ public class BasicQuery implements Query {
     private static final String START_INDEX_KEY = "start-index";
     private static final String MAX_RESULTS_KEY = "max-results";
     private static final String FULL_ENTITIES_KEY = "full-entities";
+    private static final String INCLUDE_CUSTOM_ENTITIES = "includeCustom";
     
     /** Represents an empty query with no query parameters */
     public static final Query EMPTY_QUERY = Builder.create().build();
+
+    /** Represents a query with no query parameters that includes custom entities */
+    public static final Query CUSTOM_ENTITY_QUERY = Builder.create().fullEntities().customEntities().build();
+
     public static final Query TARGETS_QUERY = Builder.create().targets().build();
     public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
     
@@ -102,6 +107,14 @@ public class BasicQuery implements Query {
             params.put(MAX_RESULTS_KEY, maxResults);
             return this;
         }
+
+        /**
+         * Include custom entities in the query response. Defaults to 'false'.
+         */
+        public Builder customEntities() {
+            params.put(RETURN_CUSTOM_ENTITIES, true);
+            return this;
+        }
         
         /**
          * Construct a new BasicQuery instance.
@@ -157,5 +170,5 @@ public class BasicQuery implements Query {
     public boolean targets() {
         return useTargets;
     }
-    
 }
+
