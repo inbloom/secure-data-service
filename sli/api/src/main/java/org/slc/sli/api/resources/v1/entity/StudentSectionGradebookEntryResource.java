@@ -1,18 +1,5 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -29,35 +16,44 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
+
 /**
- * Prototype new api end points and versioning
- * 
- * @author jstokes
- * 
+ * StudentSectionGradebookEntryResource
+ *
+ * This entity holds a student's grade or competency level for a GradeBookEntry.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StudentSectionGradebookEntryResource {
+public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentSectionGradebookEntryResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public StudentSectionGradebookEntryResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public StudentSectionGradebookEntryResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
-     * Returns all $$studentSectionGradebookEntries$$ entities for which the logged in User has permission and context.
+     * readAll
      * 
      * @param offset
      *            starting position in results to return to user
@@ -67,7 +63,9 @@ public class StudentSectionGradebookEntryResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$studentSectionGradebookEntries$$ the user has context to view
+     *
+     * @response.representation $$studentSectionGradebookEntries$$
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
@@ -76,11 +74,11 @@ public class StudentSectionGradebookEntryResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, headers, uriInfo);
+        return super.readAll(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, headers, uriInfo);
     }
 
     /**
-     * Create a new $$studentSectionGradebookEntries$$ entity.
+     * create
      * 
      * @param newEntityBody
      *            entity data
@@ -88,39 +86,39 @@ public class StudentSectionGradebookEntryResource {
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * @return A 201 response on successfully created entity with the ID of the entity
+     * @response.representation.201.mediaType
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$studentSectionGradebookEntries$$ entity
+     * read
      * 
      * @param studentSectionGradebookEntryId
-     *            The Id of the $$studentSectionGradebookEntries$$.
+     *            The id (or list of ids) of the $$studentSectionGradebookEntries$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$studentSectionGradebookEntries$$ entity
+     * @return A list of entities matching the list of ids queried for
+     *
+     * @response.representation $$studentSectionGradebookEntries$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$studentSectionGradebookEntries$$ entity
+     * delete
      * 
      * @param studentSectionGradebookEntryId
      *            The Id of the $$studentSectionGradebookEntries$$.
@@ -135,11 +133,11 @@ public class StudentSectionGradebookEntryResource {
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, headers, uriInfo);
+        return super.delete(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$studentSectionGradebookEntries$$ entity.
+     * update
      * 
      * @param studentSectionGradebookEntryId
      *            The id of the $$studentSectionGradebookEntries$$.
@@ -157,6 +155,6 @@ public class StudentSectionGradebookEntryResource {
     public Response update(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntryId, newEntityBody, headers, uriInfo);
     }
 }

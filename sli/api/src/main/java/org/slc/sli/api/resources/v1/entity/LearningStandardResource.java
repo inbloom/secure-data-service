@@ -17,10 +17,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -28,13 +31,20 @@ import org.slc.sli.api.resources.v1.PathConstants;
 /**
  * Resource handler for LearningStandard entries.
  * 
+ * This class is stub for documentation purposes.
+ * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_STANDARDS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class LearningStandardResource {
+public class LearningStandardResource extends DefaultCrudEndpoint {
     
+    @Autowired
+    public LearningStandardResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
+    }
+
     /**
      * Returns all $$learningStandards$$ entities for which the logged in User has permission and
      * context.

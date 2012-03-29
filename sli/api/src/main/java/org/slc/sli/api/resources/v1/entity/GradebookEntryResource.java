@@ -1,18 +1,5 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -28,6 +15,21 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
  * GradebookEntryResource
@@ -45,21 +47,16 @@ import javax.ws.rs.core.UriInfo;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class GradebookEntryResource {
+public class GradebookEntryResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GradebookEntryResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public GradebookEntryResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public GradebookEntryResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
         LOGGER.debug("Initialized a new " + GradebookEntryResource.class);
     }
 
@@ -85,7 +82,7 @@ public class GradebookEntryResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.GRADEBOOK_ENTRIES, headers, uriInfo);
+        return super.readAll(ResourceNames.GRADEBOOK_ENTRIES, headers, uriInfo);
     }
 
     /**
@@ -104,7 +101,7 @@ public class GradebookEntryResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -121,11 +118,11 @@ public class GradebookEntryResource {
      * @response.representation $$gradebookEntries$$
      */
     @GET
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
+    @Path("{" + ParameterConstants.GRADEBOOK_ENTRY_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.COURSE_ID) final String gradebookEntryId,
+    public Response read(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
+        return super.read(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
     }
 
     /**
@@ -141,10 +138,10 @@ public class GradebookEntryResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String gradebookEntryId, 
+    @Path("{" + ParameterConstants.GRADEBOOK_ENTRY_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
+        return super.delete(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
     }
 
     /**
@@ -164,10 +161,10 @@ public class GradebookEntryResource {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.COURSE_ID + "}")
-    public Response update(@PathParam(ParameterConstants.COURSE_ID) final String gradebookEntryId,
+    @Path("{" + ParameterConstants.GRADEBOOK_ENTRY_ID + "}")
+    public Response update(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, newEntityBody, headers, uriInfo);
     }
 }
