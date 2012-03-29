@@ -90,23 +90,6 @@ public class GradebookEntryResolverTest {
     }
 
     @Test
-    public void testGetAverage() {
-        Map<String, String> student1 = new HashMap<String, String>();
-        student1.put("id", STUDENT_1_ID);
-
-        Map<String, String> student2 = new HashMap<String, String>();
-        student2.put("id", STUDENT_2_ID);
-
-        Map<String, String> student3 = new HashMap<String, String>();
-        student3.put("id", "DOES NOT EXIST");
-
-        assertEquals("86%", gradebookEntryResolver.getAverage(student1));
-        assertEquals("89%", gradebookEntryResolver.getAverage(student2));
-        assertEquals("Missing information should return a dash", "-",
-                gradebookEntryResolver.getAverage(student3));
-    }
-
-    @Test
     public void testSetAndGetGradebookIds() {
         SortedSet<GenericEntity> testSet = new TreeSet<GenericEntity>();
         gradebookEntryResolver.setGradebookIds(testSet);

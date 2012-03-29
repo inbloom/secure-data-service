@@ -12,9 +12,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
+import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
@@ -25,6 +27,7 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
+    private int parentsPerStudent = 2;
 
     private List<String> schools = new ArrayList<String>();
 
@@ -121,6 +124,7 @@ public class DataForASchool {
         prepareSection(4);
         prepareTeacherSectionAssociation();
         prepareStudent(2);
+        prepareParent(2*parentsPerStudent);
         prepareStudentSchoolAssociation();
     }
 
@@ -176,6 +180,12 @@ public class DataForASchool {
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
             students.add(this.prefix + "-student-" + i);
+        }
+    }
+
+    public void prepareParent(int total) {
+        for (int i = 0 ; i < total ; i++) {
+            parents.add(this.prefix + "-parent-" + i);
         }
     }
 
@@ -299,14 +309,28 @@ public class DataForASchool {
             list.add(student);
         }
 
-        //
-        // // parent
-        // for (String parentId : parentIds) {
-        // Parent parent = ParentGenerator.generate(parentId);
-        // list.add(parent);
-        // }
-        //
-        // // studentParentAssociation
+        // parent
+        ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
+        for (String parentId : parents) {
+        	Parent parent = pg.generate(parentId);
+        	list.add(parent);
+        }
+        
+        // studentParentAssociation
+        int iStudent=0;
+    	int iParent = 0;
+        while (iStudent<students.size()) {
+        	String studentId = students.get(iStudent);
+        	while (iParent<parents.size()) {
+        		String parentId = parents.get(iParent);
+        		StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
+        		StudentParentAssociation spa = spag.generate(studentId, parentId);
+        		list.add(spa);
+        		iParent++;
+        		if (iParent%parentsPerStudent == 0) break;
+        	}
+        	iStudent++;
+        }
         // for (String studentParentAssociationsId : studentParentAssociations) {
         // StudentParentAssociation studentParentAssociation =
         // StudentParentAssociationGenerator.generate(studentParentAssociationsId);

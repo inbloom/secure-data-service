@@ -71,7 +71,7 @@ def displayFailureReport()
   startRed = "\e[31m"
   startGreen = "\e[32m"
   colorReset = "\e[0m"
-  
+
   $failures.each do |key, value|
     if ENV['FORCE_COLOR']
       puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
@@ -79,7 +79,7 @@ def displayFailureReport()
     else
       puts "#{key} tests #{value}"
     end
-    
+
   end
 end
 
@@ -153,9 +153,9 @@ task :liferayTest do
   runTests("test/features/liferay/SLI_normal_user.feature")
   runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
   runTests("test/features/liferay/report_problem.feature")
-  
+
 # runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
-  
+
 end
 
 
@@ -177,6 +177,11 @@ end
 desc "Run Ingestion Demo Tests"
 task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
+end
+
+desc "Run Ingestion Acceptance Canonical Data Tests"
+task :ingestionAcceptanceCanonicalDataTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_canonical.feature")
 end
 
 desc "Run Ingestion Session Test"

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
@@ -68,32 +66,12 @@ public class OAuthSessionServiceTest {
     @Mock
     EntityContextResolver resolver;
     
+    @Mock
+    ApplicationAuthorizationValidator validator;
+    
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        
-        //set up the resolver store to resolve a couple of edorgs
-        List<String> edOrgIds = new ArrayList<String>();
-        edOrgIds.add("district1");
-        edOrgIds.add("school1");
-        Mockito.when(resolver.findAccessible(Mockito.any(Entity.class))).thenReturn(edOrgIds);
-        Mockito.when(store.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION)).thenReturn(resolver);
-        
-        //Set up the LEA
-        HashMap body = new HashMap();
-        List<String> categories = new ArrayList<String>();
-        categories.add("Local Education Agency");
-        Entity district1 = new MongoEntity("educationOrganization", "district1", body, new HashMap<String, Object>());
-        district1.getBody().put("organizationCategories", categories);
-        Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "district1")).thenReturn(district1);
-        
-        //Set up a school
-        body = new HashMap();
-        categories = new ArrayList<String>();
-        categories.add("School");
-        Entity school1 = new MongoEntity("educationOrganization", "school1", body, new HashMap<String, Object>());
-        school1.getBody().put("organizationCategories", categories);
-        Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school1")).thenReturn(school1);
         
         //Configure application repo to resolve the app
         Entity appEntity = new MongoEntity("application", "appId", new HashMap<String, Object>(), new HashMap<String, Object>());
@@ -138,21 +116,10 @@ public class OAuthSessionServiceTest {
     @Test
     public void testAppAuthorizationNoEntity() {
         //If no entity exists on the SLIPrincipal, don't bother checking
-        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("blah", "blah", new HashSet<String>()), 
-                new PreAuthenticatedAuthenticationToken(new SLIPrincipal(), "blah"));
-        service.validateAppAuthorization(auth);
-    }
-    
-    @Test
-    public void testAppAuthorizationNoAppAuth() {
-                
-        //Create an auth token to use
         SLIPrincipal principal = new SLIPrincipal();
-        principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), 
+        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("blah", "blah", new HashSet<String>()), 
                 new PreAuthenticatedAuthenticationToken(principal, "blah"));
-        
-        //The store won't contain a list of registered applications for the LEA, so it will bypass auth checking
+        Mockito.when(validator.getAuthorizedApps(principal)).thenReturn(null);
         service.validateAppAuthorization(auth);
     }
     
@@ -164,15 +131,10 @@ public class OAuthSessionServiceTest {
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
         OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), 
                 new PreAuthenticatedAuthenticationToken(principal, "blah"));
-        
-        //Register an app list with district1 containing the requested app
-        Entity appAuthEnt = new MongoEntity("applicationAuthorization", new HashMap<String, Object>());
-        appAuthEnt.getBody().put("authId", "district1");
-        appAuthEnt.getBody().put("authType", "EDUCATION_ORGANIZATION");
-        List<String> allowedApps = new ArrayList<String>();
-        allowedApps.add("appId");
-        appAuthEnt.getBody().put("appIds", allowedApps);
-        Mockito.when(repo.findOne(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(appAuthEnt);
+       
+        ArrayList<String> appList = new ArrayList<String>();
+        appList.add("appId"); 
+        Mockito.when(validator.getAuthorizedApps(principal)).thenReturn(appList);
         
         service.validateAppAuthorization(auth);
     }
@@ -185,15 +147,11 @@ public class OAuthSessionServiceTest {
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
         OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), 
                 new PreAuthenticatedAuthenticationToken(principal, "blah"));
+                
+        ArrayList<String> appList = new ArrayList<String>();
+        appList.add("someOtherId");
         
-        //Register an app list with district1 that doesn't contain the request app
-        Entity appAuthEnt = new MongoEntity("applicationAuthorization", new HashMap<String, Object>());
-        appAuthEnt.getBody().put("authId", "district1");
-        appAuthEnt.getBody().put("authType", "EDUCATION_ORGANIZATION");
-        List<String> allowedApps = new ArrayList<String>();
-        allowedApps.add("someOtherAppId");
-        appAuthEnt.getBody().put("appIds", allowedApps);
-        Mockito.when(repo.findOne(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(appAuthEnt);
+        Mockito.when(validator.getAuthorizedApps(principal)).thenReturn(appList);
         
         service.validateAppAuthorization(auth);
     }
