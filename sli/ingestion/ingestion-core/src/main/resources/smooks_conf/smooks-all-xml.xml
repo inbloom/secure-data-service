@@ -576,26 +576,21 @@
   <!-- End LocalEducationAgency Mapping -->
 
   <!-- Student School Association mapping -->
+
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+    <!-- jb:value property="sourceId" data="" / -->
+    <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'studentSchoolAssociation'
     </jb:expression>
+    <jb:expression property="association">true</jb:expression>
 
     <jb:wiring property="attributes" beanIdRef="studentSchoolAssociationAttributes" />
-    <jb:wiring property="localId" beanIdRef="studentSchoolAssociationLocalId" />
     <jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
-  </jb:bean>
-
-  <jb:bean beanId="studentSchoolAssociationLocalId" class="java.util.HashMap"
-    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="entryDate" data="EntryDate" />
-    <jb:value property="entryGradeLevel" data="EntryGradeLevel" />
-    <jb:value property="studentId" data="StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="schoolId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:value property="repeatGradeIndicator" data="RepeatGradeIndicator" default="false" decoder="Boolean"/>
   </jb:bean>
 
   <jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
+
     <jb:wiring property="Student" beanIdRef="StudentSchoolAssociation_StudentReference" />
     <jb:wiring property="School" beanIdRef="StudentSchoolAssociation_SchoolReference" />
   </jb:bean>
@@ -617,6 +612,8 @@
     <jb:value property="School#body.educationOrgIdentificationCode.ID" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
     <jb:value property="School#body.educationOrgIdentificationCode.identificationSystem" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
   </jb:bean>
+
+
 
   <jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
