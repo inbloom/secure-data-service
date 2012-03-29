@@ -8,7 +8,7 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
- wait = Selenium::WebDriver::Wait.new(:timeout => 15) 
+ wait = Selenium::WebDriver::Wait.new(:timeout => 25) 
  realm_select = wait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
@@ -24,7 +24,7 @@ end
 
 When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     sleep(1)
-    wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10) # explicit wait for at most 5 sec
     wait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
