@@ -1,5 +1,6 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -59,13 +60,28 @@ public class DataForASchool {
      */
     public static void main(String[] args) {
         DataForASchool data = new DataForASchool();
-        data.prepareData();
-        data.printOnScreen();
+        String root = "data";
 
-        String path = "data";
+        for (int i = 0; i < 20; i++) {
+            String path = root + "/temp" + i;
+            File folder = new File(path);
 
-        data.saveInterchanges(path);
-        data.validateInterchanges(path);
+            if (!folder.exists())
+                folder.mkdirs();
+
+            data.generateData(path, false, false);
+        }
+
+
+    }
+
+    public void generateData(String path, boolean display, boolean validate) {
+        prepareData();
+        saveInterchanges(path);
+        if (display)
+            printOnScreen();
+        if (validate)
+            validateInterchanges(path);
     }
 
     public void saveInterchanges(String path) {
@@ -300,13 +316,15 @@ public class DataForASchool {
         }
 
         // TeacherSchoolAssociation
+        TeacherSchoolAssociationGenerator tsag = new TeacherSchoolAssociationGenerator();
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
-            list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
+            list.add(tsag.generate(tsai.teacherId, tsai.schoolIds));
         }
 
         // TeacherSectionAssociation
+        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
         for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
-            list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
         }
 
         // LeaveEvent

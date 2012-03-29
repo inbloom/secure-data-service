@@ -10,8 +10,9 @@ import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
 
 public class TeacherSectionAssociationGenerator {
-    public static TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
-        Random r = new Random();
+    private Random r = new Random();
+
+    public TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
 
         TeacherSectionAssociation tsa = new TeacherSectionAssociation();
 
