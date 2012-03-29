@@ -438,8 +438,8 @@ public class BasicService implements EntityService {
             throw new InsufficientAuthenticationException("Login Required");
         }
         
-        if (auth instanceof OAuth2Authentication && 
-                ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
+        if (auth instanceof OAuth2Authentication 
+                && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 
