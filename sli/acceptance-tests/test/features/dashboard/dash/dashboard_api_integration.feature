@@ -2,6 +2,7 @@ Feature: Dashboard User Login Using IDP
 
 As a teacher in a school district, I want to use the SLI IDP Login to authenticate on SLI, and I can see specific students retrieved from the API.
 
+@wip
 Scenario: Authenticate against IDP and navigate to studentlist page
 
 Given I have an open web browser

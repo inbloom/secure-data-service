@@ -57,6 +57,9 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I wait for "20" seconds
+#Lozenges check
+And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
+And the following students have "FRE" lozenges: "Odysseus Merrill;Hoyt Hicks;Delilah Sims;Ursa Oconnor"
 # Lozenges check on LOS
 Then there is no lozenges for student "Jeanette Graves
 Then the lozenge for student "Kimberley Pennington"include "FRE"" 
