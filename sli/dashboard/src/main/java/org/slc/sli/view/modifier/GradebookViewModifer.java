@@ -18,7 +18,6 @@ public class GradebookViewModifer implements ViewModifier {
 
     protected static final String CURRENT = "Current";
     protected static final String GRADES = "<center>Unit Tests</center>";
-    protected static final String AVERAGE = "Average";
     protected static final String DATE_FULFILLED = "dateFulfilled";
     protected static final String CURRENT_TERM = "currentTermGrade";
     protected static final String UNIT_TEST_GRADE = "unitTestGrade";
@@ -43,13 +42,11 @@ public class GradebookViewModifer implements ViewModifier {
     }
 
     /**
-     * Adds columns for gradebook entries, including current average
-     * and previous unit test grades
+     * Adds columns for gradebook entries
      * @param view The view to manipulate
      * @return view with added columns
      */
     private ViewConfig addGradebookEntries(ViewConfig view) {
-        view.getDisplaySet().add(createCurrentGrade());
 
         DisplaySet unitTests = createUnitTests();
         if (unitTests != null) {
@@ -57,14 +54,6 @@ public class GradebookViewModifer implements ViewModifier {
         }
 
         return view;
-    }
-    
-    private DisplaySet createCurrentGrade() {
-        DisplaySet currentGrade = new DisplaySet();
-        currentGrade.setDisplayName(CURRENT);
-        currentGrade.getField().add(createCurrentTermGrade());
-
-        return currentGrade;
     }
 
     private DisplaySet createUnitTests() {
@@ -81,17 +70,6 @@ public class GradebookViewModifer implements ViewModifier {
         }
 
         return unitTests;
-    }
-    
-    private Field createCurrentTermGrade() {
-        Field currentTermGrade = new Field();
-
-        currentTermGrade.setDisplayName(AVERAGE);
-        currentTermGrade.setType(CURRENT_TERM);
-        currentTermGrade.setTimeSlot(CURRENT);
-        currentTermGrade.setValue(CURRENT_TERM);
-        
-        return currentTermGrade;
     }
 
     private Field createUnitTest(String testType, String testName) {

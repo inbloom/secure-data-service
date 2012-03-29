@@ -1,20 +1,5 @@
 package org.slc.sli.api.resources.v1.association;
 
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -31,6 +16,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
+
 /**
  * Prototype new api end points and versioning
  * 
@@ -41,20 +41,15 @@ import javax.ws.rs.core.UriInfo;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SectionAssessmentAssociationResource {
+public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SectionAssessmentAssociationResource.class);
 
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
     public SectionAssessmentAssociationResource(EntityDefinitionStore entityDefs) {
-        this.crudDelegate = new DefaultCrudEndpoint(entityDefs, LOGGER);
+        super(entityDefs);
     }
 
     /**
@@ -77,7 +72,7 @@ public class SectionAssessmentAssociationResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
@@ -98,7 +93,7 @@ public class SectionAssessmentAssociationResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -117,7 +112,7 @@ public class SectionAssessmentAssociationResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, headers, uriInfo);
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, headers, uriInfo);
     }
 
     /**
@@ -136,7 +131,7 @@ public class SectionAssessmentAssociationResource {
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, headers, uriInfo);
+        return super.delete(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, headers, uriInfo);
     }
 
     /**
@@ -159,7 +154,7 @@ public class SectionAssessmentAssociationResource {
     public Response update(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, sectionAssessmentAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -187,7 +182,7 @@ public class SectionAssessmentAssociationResource {
                                               @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                                               @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
                                               @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "_id", sectionAssessmentAssociationId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "_id", sectionAssessmentAssociationId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
     }
 
     /**
@@ -215,7 +210,7 @@ public class SectionAssessmentAssociationResource {
                                                  @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                                                  @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
                                                  @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "_id", sectionAssessmentAssociationId, "assessmentId", ResourceNames.ASSESSMENTS, headers, uriInfo);
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "_id", sectionAssessmentAssociationId, "assessmentId", ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
 
 }
