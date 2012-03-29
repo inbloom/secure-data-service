@@ -25,6 +25,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | studentSectionGradebookEntry|
         | parent                      |
         | studentParentAssociation    |
+        | graduationPlan              |
 When zip file is scp to ingestion landing zone
 #    And "30" seconds have elapsed
   And a batch job log has been created
