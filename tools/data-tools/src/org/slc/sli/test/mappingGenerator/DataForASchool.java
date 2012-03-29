@@ -1,5 +1,6 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
+import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
@@ -51,13 +53,29 @@ public class DataForASchool {
      */
     public static void main(String[] args) {
         DataForASchool data = new DataForASchool();
-        data.prepareData();
-        data.printOnScreen();
 
-        String path = "data";
-
-        data.saveInterchanges(path);
-        data.validateInterchanges(path);
+        String root = "data";
+        
+        for (int i = 0; i < 2; i++) {
+            String path = root + "/temp" + i;
+            File folder = new File(path);
+            
+            if (!folder.exists()) 
+                folder.mkdirs();
+            
+            data.generateData(path, false, false);
+        }
+        
+        
+    }
+    
+    public void generateData(String path, boolean display, boolean validate) {
+        prepareData();
+        saveInterchanges(path);
+        if (display)
+            printOnScreen();
+        if (validate)
+            validateInterchanges(path);
     }
 
     public void saveInterchanges(String path) {
@@ -117,26 +135,29 @@ public class DataForASchool {
     }
 
     public void prepareData() {
-        prepareSchool(2);
-        prepareTeacher(2);
+        prepareSchool(10);
+        prepareTeacher(40);
         prepareTeacherSchoolAssociation();
-        prepareSection(4);
+        prepareSection(100);
         prepareTeacherSectionAssociation();
-        prepareStudent(2);
-        prepareParent(4);
+        prepareStudent(2000);
+        prepareParent(4000);
         prepareStudentSchoolAssociation();
+        prepareStudentSectionAssociation();
     }
 
     public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
             schools.add(this.prefix + "-School-"+i);
         }
+        System.out.println("Done School:" + schools.size());
     }
 
     public void prepareTeacher(int total) {
         for (int i = 0; i < total; i++) {
             teachers.add(this.prefix + "-teacher-" + i);
         }
+        System.out.println("Done Teacher:" + teachers.size());
     }
 
     public void prepareTeacherSchoolAssociation() {
@@ -148,6 +169,7 @@ public class DataForASchool {
 
             teacherSchoolAssociations.add(tsa);
         }
+        System.out.println("Done TeacherSchoolAssociation:" + teacherSchoolAssociations.size());
     }
 
     public void prepareSection(int sectionPerSchool) {
@@ -164,28 +186,36 @@ public class DataForASchool {
                 }
             }
         }
+        System.out.println("Done Section:" + sections.size());
     }
 
     public void prepareTeacherSectionAssociation() {
         Random r = new Random();
         for(String teacher : teachers) {
-            TeacherSectionAssociationInternal tsai = new TeacherSectionAssociationInternal();
-            tsai.teacherId = teacher;
-            tsai.section = sections.get(r.nextInt(sections.size()));
-            teacherSectionAssociations.add(tsai);
+            int maxSectionPerTeacher = random.nextInt(5);
+            int stateSection = random.nextInt(sections.size() - maxSectionPerTeacher);
+            for (int i = 0; i < maxSectionPerTeacher; i++) {
+                TeacherSectionAssociationInternal tsai = new TeacherSectionAssociationInternal();
+                tsai.teacherId = teacher;
+                tsai.section = sections.get(stateSection + i);
+                teacherSectionAssociations.add(tsai);
+            }
         }
+        System.out.println("Done TeacherSectionAssociation:" + teacherSectionAssociations.size());
     }
 
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
             students.add(this.prefix + "-student-" + i);
         }
+        System.out.println("Done Student:" + students.size());
     }
 
     public void prepareParent(int total) {
         for (int i = 0 ; i < total ; i++) {
             parents.add(this.prefix + "-parent-" + i);
         }
+        System.out.println("Done Parent:" + parents.size());
     }
 
     public void prepareStudentSchoolAssociation() {
@@ -195,6 +225,7 @@ public class DataForASchool {
             ssai.school = schools.get(random.nextInt(schools.size()));
             studentSchoolAssociations.add(ssai);
         }
+        System.out.println("Done StudentSchoolAssociation: " + studentSchoolAssociations.size());
     }
 
     public void prepareStudentSectionAssociation() {
@@ -208,6 +239,7 @@ public class DataForASchool {
                 studentSectionAssociations.add(ssai);
             }
         }
+        System.out.println("Done StudentSectionAssociation:" + studentSectionAssociations.size());
     }
 
     public void printInterchangeEducationOrganization(PrintStream ps) throws JAXBException {
@@ -226,6 +258,7 @@ public class DataForASchool {
             School school = sg.getSchool(schoolId);
             list.add(school);
         }
+        System.out.println("Add school");
 
         marshaller.marshal(interchangeEducationOrganization, ps);
     }
@@ -242,6 +275,7 @@ public class DataForASchool {
         for (SectionInternal si : sections) {
             list.add(SectionGenerator.generate(si.sectionCode, si.sequenceOfCourse, si.schoolId));
         }
+        System.out.println("add sections");
 
         marshaller.marshal(interchangeMasterSchedule, ps);
 
@@ -287,16 +321,21 @@ public class DataForASchool {
         for (String teacherId : teachers) {
             list.add(tg.generate(teacherId));
         }
+        System.out.println("add teachers");
 
         // TeacherSchoolAssociation
+        TeacherSchoolAssociationGenerator tsag = new TeacherSchoolAssociationGenerator();
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
-            list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
+            list.add(tsag.generate(tsai.teacherId, tsai.schoolIds));
         }
+        System.out.println("added TeacherSchoolAssociation");
 
         // TeacherSectionAssociation
+        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
         for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
-            list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
         }
+        System.out.println("add TeacherSectionAssociation");
 
         // LeaveEvent
         // OpenStaffPosition
@@ -320,13 +359,16 @@ public class DataForASchool {
             Student student = sg.generate(studentId);
             list.add(student);
         }
+        System.out.println("add student");
 
-                // // parent
+        // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
         for (String parentId : parents) {
-        	Parent parent = pg.generate(parentId);
-        	list.add(parent);
+            Parent parent = pg.generate(parentId);
+            list.add(parent);
         }
+        System.out.println("add parents");
+
         //
         // // studentParentAssociation
         // for (String studentParentAssociationsId : studentParentAssociations) {
@@ -386,8 +428,16 @@ public class DataForASchool {
         for (StudentSchoolAssociationInternal ssai : studentSchoolAssociations) {
             list.add(ssag.generate(ssai.student, ssai.school));
         }
+        System.out.println("add studentschoolassociation");
+
 
         // StudentSectionAssociation
+        StudentSectionAssociationGenerator ssecag = new StudentSectionAssociationGenerator();
+        for (StudentSectionAssociationInternal ssai : studentSectionAssociations) {
+            list.add(ssecag.generate(ssai.student, ssai.section.schoolId, ssai.section.sectionCode));
+        }
+        System.out.println("add studentSectionAssociation");
+
         // GraduationPlan
 
         marshaller.marshal(interchangeStudentEnrollment, ps);
