@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
 
 /**
  * Subresource for custom entities
@@ -29,19 +30,22 @@ public class CustomEntityResource {
     @GET
     @Path("/")
     public Response read() {
-        return Response.status(Status.NOT_FOUND).build();
+        EntityBody entityBody = entityDef.getService().getCustom(entityId);
+        return Response.status(Status.OK).entity(entityBody).build();
     }
     
     @PUT
     @POST
     @Path("/")
-    public Response createOrUpdate() {
-        return Response.status(Status.NOT_FOUND).build();
+    public Response createOrUpdate(EntityBody customEntity) {
+        entityDef.getService().createOrUpdateCustom(entityId, customEntity);
+        return Response.status(Status.NO_CONTENT).build();
     }
     
     @DELETE
     @Path("/")
     public Response delete() {
-        return Response.status(Status.NOT_FOUND).build();
+        entityDef.getService().deleteCustom(entityId);
+        return Response.status(Status.NO_CONTENT).build();
     }
 }
