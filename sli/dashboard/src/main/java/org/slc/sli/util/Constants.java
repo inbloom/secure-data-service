@@ -137,7 +137,7 @@ public final class Constants {
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
-    public static final String MIDDLE_SCHOOL_VIEW = "IL_3-8_ELA";
+    public static final String MIDDLE_SCHOOL_VIEW = "Middle School ELA View";
     
     public static final String ATTR_NAME_WITH_LINK = "name_w_link";
     
@@ -145,7 +145,7 @@ public final class Constants {
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
-    
+
     // AddressType Constants
     public static final String TYPE_ADDRESS_HOME = "Home";
     public static final String TYPE_ADDRESS_PHYSICAL = "Physical";

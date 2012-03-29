@@ -1,18 +1,5 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -29,6 +16,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
+
 /**
  * Prototype new api end points and versioning
  * 
@@ -39,21 +41,16 @@ import javax.ws.rs.core.UriInfo;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class CourseResource {
+public class CourseResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public CourseResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public CourseResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -76,7 +73,7 @@ public class CourseResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.COURSES, headers, uriInfo);
+        return super.readAll(ResourceNames.COURSES, headers, uriInfo);
     }
 
     /**
@@ -97,7 +94,7 @@ public class CourseResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.COURSES, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.COURSES, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -116,7 +113,7 @@ public class CourseResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.COURSES, courseId, headers, uriInfo);
+        return super.read(ResourceNames.COURSES, courseId, headers, uriInfo);
     }
 
     /**
@@ -135,7 +132,7 @@ public class CourseResource {
     @Path("{" + ParameterConstants.COURSE_ID + "}")
     public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.COURSES, courseId, headers, uriInfo);
+        return super.delete(ResourceNames.COURSES, courseId, headers, uriInfo);
     }
 
     /**
@@ -157,7 +154,7 @@ public class CourseResource {
     public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.COURSES, courseId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.COURSES, courseId, newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -184,7 +181,7 @@ public class CourseResource {
     public Response getSessionCourseAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
     
 
@@ -206,7 +203,7 @@ public class CourseResource {
     public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
 
@@ -227,7 +224,7 @@ public class CourseResource {
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
                                                      @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
 
     /**
@@ -247,7 +244,7 @@ public class CourseResource {
     public Response getStudentTranscriptAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,
                                                             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
 
@@ -268,7 +265,7 @@ public class CourseResource {
     public Response getStudentParentAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
                                                      @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
 
     /**
@@ -288,7 +285,7 @@ public class CourseResource {
     public Response getStudentParentAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,
                                                             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
 

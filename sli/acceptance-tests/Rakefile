@@ -71,7 +71,7 @@ def displayFailureReport()
   startRed = "\e[31m"
   startGreen = "\e[32m"
   colorReset = "\e[0m"
-  
+
   $failures.each do |key, value|
     if ENV['FORCE_COLOR']
       puts "#{startRed}#{key} tests #{value}#{colorReset}" if value == "Failed"
@@ -79,7 +79,7 @@ def displayFailureReport()
     else
       puts "#{key} tests #{value}"
     end
-    
+
   end
 end
 
@@ -122,7 +122,8 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
+#task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -148,13 +149,13 @@ end
 
 desc "Run the testing for life ray SLI for admin"
 task :liferayTest do
-  runTests("test/features/liferay/SLI_admin.feature")
-  runTests("test/features/liferay/SLI_normal_user.feature")
-  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
+#  runTests("test/features/liferay/SLI_admin.feature")
+#  runTests("test/features/liferay/SLI_normal_user.feature")
+#  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
   runTests("test/features/liferay/report_problem.feature")
-  
+
 # runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
-  
+
 end
 
 
@@ -164,7 +165,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -176,6 +177,11 @@ end
 desc "Run Ingestion Demo Tests"
 task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
+end
+
+desc "Run Ingestion Acceptance Canonical Data Tests"
+task :ingestionAcceptanceCanonicalDataTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_canonical.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -248,6 +254,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1LearningObjectiveTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -488,6 +495,11 @@ task :v1AssessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
 end
 
+desc "Run V1 LearningObjective Tests"
+task :v1LearningObjectiveTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
+end
+
 desc "Run V1 Parent Tests"
 task :v1ParentTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
@@ -528,23 +540,13 @@ end
 
 desc "Run Sorting and Paging Tests"
 task :v1SortingAndPagingTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/sorting_paging")
 end
 
 desc "Run Encryption Tests"
 task :v1EncryptionTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/encryption")
 end
 
@@ -774,7 +776,18 @@ end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
-  runTests("test/features/databrowser")
+  runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run IDP Authentication Selenium Tests"
+task :idpAuthTests => [:realmInit] do
+  runTests("test/features/databrowser/idp_authentication.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -932,6 +945,7 @@ desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
     "session" => "session_fixture.json",
+    "program" => "program_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
@@ -957,7 +971,15 @@ task :importSandboxData do
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json"
+    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
+    "disciplineIncident" => "disciplineIncident_fixture.json",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
+    "disciplineAction" => "disciplineAction_fixture.json",
+    "cohort" => "cohort_fixture.json",
+    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

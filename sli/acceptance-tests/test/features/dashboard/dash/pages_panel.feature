@@ -38,7 +38,7 @@ And Tab has a title named "Advanced Academics"
 
 @wip
 Scenario: View a student's info and check tabs in live mode
-#covered in student profile test
+#This is covered in student profile tests
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
