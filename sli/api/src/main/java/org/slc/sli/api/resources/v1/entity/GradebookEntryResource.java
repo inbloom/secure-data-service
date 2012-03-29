@@ -52,12 +52,13 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GradebookEntryResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GradebookEntryResource.class);
     
     @Autowired
     public GradebookEntryResource(EntityDefinitionStore entityDefs) {
         super(entityDefs);
-        LOGGER.debug("Initialized a new " + GradebookEntryResource.class);
+        String debugMessage = "Initialized a new " + GradebookEntryResource.class;
+        LOG.debug(debugMessage);
     }
 
     /**
