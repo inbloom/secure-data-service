@@ -146,6 +146,24 @@ function PercentCompleteFormatter(value, options, rowObject) {
     }
   }
 
+/*
+ * Check for ajax error response
+ */
+DashboardUtil.checkAjaxError = function(XMLHttpRequest)
+{
+    if(XMLHttpRequest.status != 200) {
+        DashboardUtil.displayErrorPage();
+    }
+}
+
+/*
+ * Display generic dashboard error page
+ */
+DashboardUtil.displayErrorPage = function()
+{
+    window.location = "/dashboard/static/html/error.html";
+}
+
 // --- static helper function --- 
 // Gets the style object for the element where we're drawing the fuel gauge.
 // Returns a CSSStyleDeclaration object 
