@@ -1,30 +1,9 @@
 package org.slc.sli.api.resources.security;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.URI;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -34,6 +13,29 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URI;
+import java.util.List;
 
 /**
  * Process SAML assertions
@@ -68,7 +70,7 @@ public class SamlFederationResource {
     private Resource metadataTemplateResource;
     
     private String metadata;
-    
+
     @SuppressWarnings("unused")
     @PostConstruct
     private void processMetadata() throws IOException {
@@ -152,7 +154,8 @@ public class SamlFederationResource {
     @Path("slo/post")
     public Response processSingleLogoutPost(@FormParam(value = "SAMLRequest") String requestData,
             @FormParam(value = "SAMLResponse") String responseData) throws Exception {
-        if (responseData != null) {
+
+        if (responseData != null) { //TODO check that IDP logout was success
             LOG.debug("Received a SAML Response post for SLO via slo/post...");
             Document doc = saml.decodeSamlPost(responseData);
             XMLOutputter outputter = new XMLOutputter();
@@ -164,7 +167,7 @@ public class SamlFederationResource {
             
             // this will change
             return Response.ok().build();
-        } else if (requestData != null) {
+        } else if (requestData != null) { //TODO clear out all oAuth locally and generate response to IDP
             LOG.debug("Received a SAML Request post for SLO via slo/post...");
             Document doc = saml.decodeSamlPost(requestData);
             XMLOutputter outputter = new XMLOutputter();
@@ -174,44 +177,55 @@ public class SamlFederationResource {
                 System.err.println(e);
             }
             
-            // String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
-            // String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
-            
-            // perform look up by issuer and nameId
-            // NeutralQuery neutralQuery = new NeutralQuery();
-            // neutralQuery.setOffset(0);
-            // neutralQuery.setLimit(1);
-            // neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
-            // Entity realm = fetchOne("realm", neutralQuery);
-            
-            // if (realm == null) {
-            // throw new IllegalStateException("Failed to locate realm: " + issuer);
-            // }
-            
-            // add logic based on
-            // SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"),
-            // nameId);
-            
-            // if (principal.getEntity() == null) {
-            // throw new IllegalStateException("Failed to locate user: " + nameId);
-            // }
-            
-            // remove all OAuth Access Tokens associated with user (for each application)
-            
-            // send success LogoutResponse via post back to idp
-            
-            // this will change
+            String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
+            String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
+
+            //TODO remove tokens for issuer, nameId
+
+            saml.createSamlLogoutResponse(issuer);
+
             return Response.ok().build();
         } else {
             // send a Logout Request to IDP of current user
             // get user
             // get user idp
-            SLIPrincipal principal = new SLIPrincipal();
+            SLIPrincipal principal = new SLIPrincipal(); //TODO replace with real principal
             String idpEndpoint = "";
-            String samlLogoutMessage = saml.createSamlLogoutRequest(idpEndpoint);
+            String samlLogoutMessage = saml.createSamlLogoutRequest(idpEndpoint, principal.getName());
             String sloRedirect = idpEndpoint + "?SAMLRequest=" + samlLogoutMessage;
             return Response.temporaryRedirect(URI.create(sloRedirect)).build();
         }
+    }
+
+    public boolean logoutOfIdp(SLIPrincipal principal) {
+        String encodedLogoutRequest = saml.createSamlLogoutRequest(principal.getRealm(), principal.getName());
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        //TODO lookup IDP endpoint for SLO
+        String sloEnpoint = ""; //getSloEnpoint(principal.getRealm());
+
+//        NeutralQuery neutralQuery = new NeutralQuery();
+//        neutralQuery.setOffset(0);
+//        neutralQuery.setLimit(1);
+//        neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
+//        Entity realm = fetchOne("realm", neutralQuery);
+//
+//        if (realm == null) {
+//            throw new IllegalStateException("Failed to locate realm: " + issuer);
+//        }
+
+
+        String url = sloEnpoint + "?SAMLRequest=" + encodedLogoutRequest; //todo find url
+        HttpEntity<String> response = restTemplate.exchange(url.toString(), HttpMethod.POST,
+                new HttpEntity(new HttpHeaders()), String.class);
+
+
+
+
+        //TODO respose = post(encodedLogoutRequest); //TODO HTTP post
+        //TODO return response.isSuccess(); //TODO response parse
+        return false;
     }
     
     @POST

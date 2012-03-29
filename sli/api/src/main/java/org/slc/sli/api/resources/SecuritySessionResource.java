@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources;
 
+import org.slc.sli.api.resources.security.SamlFederationResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoTokenStore;
@@ -50,6 +51,9 @@ public class SecuritySessionResource {
 
     @Autowired
     private MongoTokenStore tokenStore;
+    
+    @Autowired
+    private SamlFederationResource federationResource;
 
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
@@ -76,10 +80,10 @@ public class SecuritySessionResource {
         removeTokensTask.setOAuth(oAuth);
         Object result = SecurityUtil.sudoRun(removeTokensTask);
 
-        //TODO send logout request to IDP, return failure or success
-
-        return "{logout: true}";
-
+        if ( federationResource.logoutOfIdp((SLIPrincipal) oAuth.getPrincipal()) ) {
+            return "{logout: true}";
+        }
+        return "{logout: false}";
     }
     
     private class RemoveTokensTask implements SecurityTask<Object> {

@@ -1,24 +1,5 @@
 package org.slc.sli.api.security.saml;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.net.URLEncoder;
-import java.util.UUID;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-
-import javax.annotation.PostConstruct;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Attribute;
@@ -29,6 +10,7 @@ import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.api.security.saml2.SAML2Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +19,23 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import org.slc.sli.api.security.saml2.SAML2Validator;
+import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.URLEncoder;
+import java.util.UUID;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -107,8 +105,8 @@ public class SamlHelper {
      * @param destination
      * @return
      */
-    public String createSamlLogoutRequest(String destination) {
-        return composeLogoutRequest(destination);
+    public String createSamlLogoutRequest(String destination, String userId) {
+        return composeLogoutRequest(destination, userId);
     }
     
     public String createSamlLogoutResponse(String destination) {
@@ -225,7 +223,7 @@ public class SamlHelper {
      * @return deflated, base64-encoded and url encoded saml message
      */
     @SuppressWarnings("unchecked")
-    private String composeLogoutRequest(String destination) {
+    private String composeLogoutRequest(String destination, String userId) {
         Document doc = new Document();
         
         String id = "sli-" + UUID.randomUUID().toString();
@@ -243,8 +241,8 @@ public class SamlHelper {
         nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
         nameId.getAttributes().add(new Attribute("NameQualifier", destination)); 
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
-        // need to add content for username
-        
+        nameId.setText(userId);
+
         doc.getRootElement().addContent(nameId);
         
         // SAML 2.0 specification defines SessionIndex tag as:
