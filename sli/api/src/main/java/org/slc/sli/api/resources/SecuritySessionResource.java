@@ -51,7 +51,7 @@ public class SecuritySessionResource {
 
     @Autowired
     private MongoTokenStore tokenStore;
-    
+
     @Autowired
     private SamlFederationResource federationResource;
 
@@ -80,12 +80,12 @@ public class SecuritySessionResource {
         removeTokensTask.setOAuth(oAuth);
         Object result = SecurityUtil.sudoRun(removeTokensTask);
 
-        if ( federationResource.logoutOfIdp((SLIPrincipal) oAuth.getPrincipal()) ) {
+        if (federationResource.logoutOfIdp((SLIPrincipal) oAuth.getPrincipal())) {
             return "{logout: true}";
         }
         return "{logout: false}";
     }
-    
+
     private class RemoveTokensTask implements SecurityTask<Object> {
 
         private Authentication oAuth;
@@ -93,7 +93,7 @@ public class SecuritySessionResource {
         @Override
         public java.lang.Object execute() {
             Collection<String> appTokens = oAuthTokenUtil.getTokensForPrincipal((SLIPrincipal) oAuth.getPrincipal());
-            for( String token : appTokens) {
+            for (String token : appTokens) {
                 tokenStore.removeAccessToken(token);
             }
             return true;
