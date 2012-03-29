@@ -13,6 +13,7 @@ admin:
     version: "1.0"
     method: "Full Window App"
     is_admin: true
+    enabled: true
     created_on: 1331670018
     updated_on: 1331670018
     developer_info: 
@@ -36,6 +37,7 @@ waffles:
     version: ".waffles"
     method: "Full Window App"
     is_admin: true
+    enabled: true
     developer_info: 
         license_acceptance: true
         organization: SLI
@@ -57,6 +59,7 @@ update:
     version: ".waffles"
     method: "Full Window App"
     is_admin: "0"
+    enabled: "0"
     developer_info: 
         license_acceptance: "0"
         organization: SLI
@@ -72,6 +75,7 @@ new:
     version: 1.0
     method: "Full Window App"
     is_admin: "0"
+    enabled: "0"
     developer_info: 
         license_acceptance: "0"
         organization: SLI

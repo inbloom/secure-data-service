@@ -56,6 +56,13 @@ class AppsController < ApplicationController
     when "0"
       @app.is_admin = false
     end
+
+    case @app.enabled
+    when "1"
+      @app.enabled = true
+    when "0"
+      @app.enabled = false
+    end
     
     case @app.developer_info.license_acceptance
     when "1"
@@ -88,6 +95,13 @@ class AppsController < ApplicationController
       params[:app][:is_admin] = true
     when "0"
       params[:app][:is_admin] = false
+    end
+
+    case params[:app][:enabled]
+    when "1"
+      params[:app][:enabled] = true
+    when "0"
+      params[:app][:enabled] = false
     end
     
     case params[:app][:developer_info][:license_acceptance]

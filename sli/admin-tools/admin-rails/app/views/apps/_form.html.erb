@@ -58,10 +58,8 @@
 	<%= f.radio_button :client_type, :CONFIDENTIAL %>
 </div>
 <div class = "field">
-	<%= f.label :scope, "Enabled" %>
-	<%= f.radio_button :scope, :ENABLED %>
-	<%= f.label :scope, "Disabled" %>
-	<%= f.radio_button :scope, :DISABLED %>
+	<%= f.label :enabled, "Enabled" %>
+	<%= f.check_box :enabled %>
 </div>
 
 
