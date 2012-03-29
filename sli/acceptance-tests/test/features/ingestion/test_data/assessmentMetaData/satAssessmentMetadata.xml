@@ -6,7 +6,7 @@
 		<AssessmentTitle>SAT</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>SAT Mathematics</ID>
+			<ID>SAT</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>College entrance exam</AssessmentCategory>
 		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
@@ -18,10 +18,9 @@
 			<MinimumScore>600</MinimumScore>
 			<MaximumScore>2400</MaximumScore>
 		</AssessmentPerformanceLevel>
-		<ContentStandard>SAT</ContentStandard>
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
-		<MaxRawScore>750</MaxRawScore>
+		<MaxRawScore>2400</MaxRawScore>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentiy>
 				<AssessmentFamilyIdentificationCode
