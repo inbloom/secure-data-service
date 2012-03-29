@@ -5,11 +5,10 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
-  Given the server is in "test" mode
 
 Scenario: Check user has multiple views available
+  Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -19,8 +18,8 @@ Scenario: Check user has multiple views available
     And I should have a selectable view named "IL_9-12"
 
 Scenario: Views are filtered based on student grades
+  Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
@@ -28,8 +27,8 @@ Scenario: Views are filtered based on student grades
   Then I should only see one view named "IL_9-12"
 
 Scenario: Check changing view changes table headings
+  Given the server is in "test" mode
   Given I am authenticated to SLI as "cgray" "cgray"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -43,8 +42,8 @@ Scenario: Check changing view changes table headings
     And I should see a table heading "AP Eng. Exam Scores"
 
 Scenario: Different users have different views defined
+  Given the server is in "test" mode
   Given I am authenticated to SLI as "rbraverman" "rbraverman"
-  When I go to "/studentlist"
   When I select <edOrg> "Illinois State Board of Education"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"

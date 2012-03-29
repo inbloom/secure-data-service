@@ -1,11 +1,11 @@
 Feature: Population Widget <US435>
 
+@wip
 Scenario: Selecting classes on LOS
 
 Given the server is in "test" mode
 Given I have an open web browser
 And I am authenticated to SLI as "cgray" password "cgray"
-When I access "/studentlist"
 And I wait for "2" seconds
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526;Illinois State Board of Education"
@@ -55,7 +55,6 @@ When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "cgray" "cgray1234"
 And I wait for "2" seconds
-When I click on the Dashboard page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 

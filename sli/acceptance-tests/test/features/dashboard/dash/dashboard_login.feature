@@ -39,7 +39,7 @@ Scenario: Invalid user login
 
 Given I have an open web browser
 Given the server is in "live" mode
-And I navigate to the Dashboard home page
+When I navigate to the Dashboard home page
 And was redirected to the Realm page
 When I select "New York Realm" and click go
 And was redirected to the SLI-IDP login page
@@ -53,7 +53,7 @@ Scenario: hitting denied URL
 
 Given I have an open web browser
 Given the server is in "live" mode
-And I navigate to the Dashboard home page
+When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 And I wait for "1" seconds
 When I login as "linda.kim" "linda.kim1234"
