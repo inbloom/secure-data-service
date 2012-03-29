@@ -90,7 +90,7 @@ end
 
 
 Then /^I should logged out$/ do
-  @driver.find_element(:link, 'logout').click
+  @driver.find_element(:link, 'Sign Out').click
   #click_link('logout')
 end
 

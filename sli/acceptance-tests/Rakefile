@@ -165,7 +165,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -972,7 +972,8 @@ task :importSandboxData do
     "cohort" => "cohort_fixture.json",
     "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
     "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "staffProgramAssociation_fixture.json"
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
