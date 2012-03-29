@@ -3,7 +3,6 @@ package org.slc.sli.api.resources;
 import org.slc.sli.api.resources.security.SamlFederationResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.MongoTokenStore;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
@@ -25,7 +24,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,9 +46,6 @@ public class SecuritySessionResource {
 
     @Autowired
     private OAuthTokenUtil oAuthTokenUtil;
-
-    @Autowired
-    private MongoTokenStore tokenStore;
 
     @Autowired
     private SamlFederationResource federationResource;
@@ -76,9 +71,7 @@ public class SecuritySessionResource {
             throw new InsufficientAuthenticationException(noLoginMsg);
         }
 
-        RemoveTokensTask removeTokensTask = new RemoveTokensTask();
-        removeTokensTask.setOAuth(oAuth);
-        Object result = SecurityUtil.sudoRun(removeTokensTask);
+        oAuthTokenUtil.deleteTokensForPrincipal(oAuth);
 
         if (federationResource.logoutOfIdp((SLIPrincipal) oAuth.getPrincipal())) {
             return "{logout: true}";
@@ -86,23 +79,7 @@ public class SecuritySessionResource {
         return "{logout: false}";
     }
 
-    private class RemoveTokensTask implements SecurityTask<Object> {
 
-        private Authentication oAuth;
-
-        @Override
-        public java.lang.Object execute() {
-            Collection<String> appTokens = oAuthTokenUtil.getTokensForPrincipal((SLIPrincipal) oAuth.getPrincipal());
-            for (String token : appTokens) {
-                tokenStore.removeAccessToken(token);
-            }
-            return true;
-        }
-
-        public void setOAuth(Authentication oAuth) {
-            this.oAuth = oAuth;
-        }
-    }
 
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media

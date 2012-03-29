@@ -2,6 +2,7 @@ package org.slc.sli.api.util;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.oauth.MongoTokenStore;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
@@ -11,6 +12,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientToken;
@@ -44,6 +46,9 @@ public class OAuthTokenUtil {
 
     @Autowired
     private RolesToRightsResolver resolver;
+
+    @Autowired
+    private MongoTokenStore tokenStore;
 
     /**
      * Name of the collection in Mongo that stores OAuth 2.0 session
@@ -172,10 +177,10 @@ public class OAuthTokenUtil {
         return body;
     }
 
-    public Collection<String> getTokensForPrincipal(SLIPrincipal principal) {
+    public Collection<String> getTokensForUser(String userName, String realmId) {
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("authentication.name", NeutralCriteria.OPERATOR_EQUAL, principal.getName()));
-        query.addCriteria(new NeutralCriteria("authentication.realm", NeutralCriteria.OPERATOR_EQUAL, principal.getRealm()));
+        query.addCriteria(new NeutralCriteria("authentication.name", NeutralCriteria.OPERATOR_EQUAL, userName));
+        query.addCriteria(new NeutralCriteria("authentication.realm", NeutralCriteria.OPERATOR_EQUAL, realmId));
 
         Iterable<Entity> entities = repo.findAll(OAUTH_ACCESS_TOKEN_COLLECTION, query);
 
@@ -238,5 +243,38 @@ public class OAuthTokenUtil {
         }
     }
 
+    public void deleteTokensForUser(String userName, String realmId) {
+        RemoveTokensTask removeTokensTask = new RemoveTokensTask();
+        removeTokensTask.setUserName(userName);
+        removeTokensTask.setRealmId(realmId);
+        Object result = SecurityUtil.sudoRun(removeTokensTask);
+    }
 
+    public void deleteTokensForPrincipal(Authentication oAuth) {
+        SLIPrincipal principal = (SLIPrincipal) oAuth.getPrincipal();
+        deleteTokensForUser(principal.getName(), principal.getRealm());
+    }
+
+    private class RemoveTokensTask implements SecurityTask<Object> {
+
+        private String userName;
+        private String realmId;
+
+        @Override
+        public java.lang.Object execute() {
+            Collection<String> appTokens = getTokensForUser(userName, realmId);
+            for (String token : appTokens) {
+                tokenStore.removeAccessToken(token);
+            }
+            return true;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public void setRealmId(String realmId) {
+            this.realmId = realmId;
+        }
+    }
 }

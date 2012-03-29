@@ -10,6 +10,7 @@ import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -64,6 +65,9 @@ public class SamlFederationResource {
 
     @Autowired
     private MongoAuthorizationCodeServices authCodeServices;
+
+    @Autowired
+    private OAuthTokenUtil oAuthTokenUtil;
 
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
@@ -169,7 +173,7 @@ public class SamlFederationResource {
 
             // this will change
             return Response.ok().build();
-        } else if (requestData != null) { //TODO clear out all oAuth locally and generate response to IDP
+        } else if (requestData != null) {
             LOG.debug("Received a SAML Request post for SLO via slo/post...");
             Document doc = saml.decodeSamlPost(requestData);
             XMLOutputter outputter = new XMLOutputter();
@@ -181,22 +185,13 @@ public class SamlFederationResource {
 
             String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
             String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
+            String realmId = ""; //TODO find realmId based on issuer
+            oAuthTokenUtil.deleteTokensForUser(nameId, realmId);
 
-            //TODO remove tokens for issuer, nameId
+            return Response.ok(saml.createSamlLogoutResponse(issuer)).build();
 
-            saml.createSamlLogoutResponse(issuer);
-
-            return Response.ok().build();
-        } else {
-            // send a Logout Request to IDP of current user
-            // get user
-            // get user idp
-            SLIPrincipal principal = new SLIPrincipal(); //TODO replace with real principal
-            String idpEndpoint = "";
-            String samlLogoutMessage = saml.createSamlLogoutRequest(idpEndpoint, principal.getName());
-            String sloRedirect = idpEndpoint + "?SAMLRequest=" + samlLogoutMessage;
-            return Response.temporaryRedirect(URI.create(sloRedirect)).build();
         }
+        return Response.noContent().build(); //TODO change error code?
     }
 
     public boolean logoutOfIdp(SLIPrincipal principal) {
