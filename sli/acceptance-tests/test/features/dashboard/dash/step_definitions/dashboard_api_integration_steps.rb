@@ -8,7 +8,7 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
- wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+ wait = Selenium::WebDriver::Wait.new(:timeout => 15) 
  realm_select = wait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
@@ -83,7 +83,7 @@ def getStudentsWithELLLozenge()
 end
 
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 30) # explicit wait for at most 5 sec
+  wait = Selenium::WebDriver::Wait.new(:timeout => 40) # explicit wait for at most 5 sec
   studentTable = wait.until{@driver.find_element(:id, "studentList")}
   student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   i = 0
