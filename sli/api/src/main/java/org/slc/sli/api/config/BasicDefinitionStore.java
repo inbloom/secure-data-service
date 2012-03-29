@@ -210,14 +210,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition studentProgramAssociation = factory.makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
                 .exposeAs(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
-                .from(student, "getStudent", "getStudents").to(program, "getProgram", "getParents")
+                .from(student, "getStudent", "getStudents").to(program, "getProgram", "getPrograms")
                 .calledFromSource("getStudentProgramAssociations").calledFromTarget("getStudentProgramAssociations")
                 .build();
         addDefinition(studentProgramAssociation);
         
         AssociationDefinition staffProgramAssociation = factory.makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION)
                 .exposeAs(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STAFF_PROGRAM_ASSOCIATION)
-                .from(student, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")
+                .from(staff, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")
                 .calledFromSource("getStaffProgramAssociations").calledFromTarget("getStaffProgramAssociations")
                 .build();
         addDefinition(staffProgramAssociation);

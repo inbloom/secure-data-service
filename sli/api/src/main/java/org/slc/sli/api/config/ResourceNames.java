@@ -78,6 +78,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "getStudentDisciplineIncidentAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "getStudentProgramAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "getStaffProgramAssociation");
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");

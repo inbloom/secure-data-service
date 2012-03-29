@@ -554,7 +554,7 @@ public class StudentResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
-    public Response getStudentProgramAssociationStudent(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+    public Response getStudentProgramAssociationPrograms(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, 

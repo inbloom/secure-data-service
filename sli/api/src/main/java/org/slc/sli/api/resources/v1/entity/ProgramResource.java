@@ -162,8 +162,8 @@ public class ProgramResource {
     }
     
     /**
-     * Returns each $$studentProgramAssociations$$ that
-     * references the given $$programs$$
+     * Returns the $$studentProgramAssociations$$ that
+     * reference the given $$programs$$
      * 
      * @param programId
      *            The Id of the Program.
@@ -212,8 +212,8 @@ public class ProgramResource {
     }
     
     /**
-     * Returns each $$staffProgramAssociations$$ that
-     * references the given $$programs$$
+     * Returns the $$staffProgramAssociations$$ that
+     * reference the given $$programs$$
      * 
      * @param programId
      *            The Id of the program.

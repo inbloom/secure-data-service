@@ -232,7 +232,7 @@ public class StaffResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
-    public Response getStaffProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String staffId,
+    public Response getStaffProgramAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, headers, uriInfo);
@@ -254,7 +254,7 @@ public class StaffResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
-    public Response getStaffEducationOrganizationAssociationStaff(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+    public Response getStaffProgramAssociationPrograms(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, 
