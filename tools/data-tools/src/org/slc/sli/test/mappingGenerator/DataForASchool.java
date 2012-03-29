@@ -53,10 +53,10 @@ public class DataForASchool {
      * @throws JAXBException
      */
     public static void main(String[] args) {
-        DataForASchool data = new DataForASchool();
         String root = "data";
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
+            DataForASchool data = new DataForASchool(Integer.toString(i));
             String path = root + "/temp" + i;
             File folder = new File(path);
 
@@ -67,6 +67,10 @@ public class DataForASchool {
         }
 
 
+    }
+
+    public DataForASchool(String prefix) {
+        this.prefix = prefix;
     }
 
     public void generateData(String path, boolean display, boolean validate) {
@@ -135,12 +139,12 @@ public class DataForASchool {
     }
 
     public void prepareData() {
-        prepareSchool(2);
-        prepareTeacher(2);
+        prepareSchool(1);
+        prepareTeacher(40);
         prepareTeacherSchoolAssociation();
-        prepareSection(4);
+        prepareSection(40);
         prepareTeacherSectionAssociation();
-        prepareStudent(2);
+        prepareStudent(2000);
         prepareParent(2*parentsPerStudent);
         prepareStudentParentAssociation(2*parentsPerStudent);
         prepareStudentSchoolAssociation();
@@ -206,19 +210,19 @@ public class DataForASchool {
             parents.add(this.prefix + "-parent-" + i);
         }
     }
-    
+
     public void prepareStudentParentAssociation(int total) {
         int iStudent = 0;
-    	int iParent = 0;
+        int iParent = 0;
         while (iStudent<students.size()) {
-        	String studentId = students.get(iStudent);
-        	while (iParent<parents.size()) {
-        		String parentId = parents.get(iParent);
-        		studentParentAssociations.add(studentId+delimiter+parentId);
-        		iParent++;
-        		if (iParent%parentsPerStudent == 0) break;
-        	}
-        	iStudent++;
+            String studentId = students.get(iStudent);
+            while (iParent<parents.size()) {
+                String parentId = parents.get(iParent);
+                studentParentAssociations.add(studentId+delimiter+parentId);
+                iParent++;
+                if (iParent%parentsPerStudent == 0) break;
+            }
+            iStudent++;
         }
     }
 
@@ -347,17 +351,17 @@ public class DataForASchool {
         // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
         for (String parentId : parents) {
-        	Parent parent = pg.generate(parentId);
-        	list.add(parent);
+            Parent parent = pg.generate(parentId);
+            list.add(parent);
         }
-        
-        // studentParentAssociation        
-		StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
-		for (String studentParentId : studentParentAssociations) {
-			StudentParentAssociation spa = spag.generate(studentParentId, delimiter);
-			list.add(spa);			
-		}
-        
+
+        // studentParentAssociation
+        StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
+        for (String studentParentId : studentParentAssociations) {
+            StudentParentAssociation spa = spag.generate(studentParentId, delimiter);
+            list.add(spa);
+        }
+
         marshaller.marshal(interchangeStudentParent, ps);
     }
 
