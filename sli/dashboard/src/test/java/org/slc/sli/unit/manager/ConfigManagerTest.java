@@ -114,8 +114,8 @@ public class ConfigManagerTest {
     
     @Test
     public void testConfigLocation() {
-       String location = "xyz";
-       configManager.setConfigLocation(location);
-       Assert.assertTrue(configManager.getComponentConfigLocation("x").startsWith(location));
+       String location = "config";
+       configManager.setDriverConfigLocation(location);
+       Assert.assertTrue(configManager.getDriverConfigLocation("x").contains(location));
     }
 }

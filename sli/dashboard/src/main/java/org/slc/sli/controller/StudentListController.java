@@ -48,7 +48,7 @@ public class StudentListController extends DashboardController {
 
         UserDetails user = getPrincipal();
         
-        List<GenericEntity> instHierarchy = institutionalHierarchyManager.getInstHierarchy(SecurityUtil.getToken());
+        List<GenericEntity> instHierarchy = institutionalHierarchyManager.getUserInstHierarchy(SecurityUtil.getToken());
         model.addAttribute(INST_HIERARCHY, convertToJson(instHierarchy));
         model.addAttribute(USER_NAME, user.getUsername());
 
