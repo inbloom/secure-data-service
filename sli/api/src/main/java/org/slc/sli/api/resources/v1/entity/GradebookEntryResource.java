@@ -57,8 +57,7 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     @Autowired
     public GradebookEntryResource(EntityDefinitionStore entityDefs) {
         super(entityDefs);
-        String debugMessage = "Initialized a new " + GradebookEntryResource.class;
-        LOG.debug(debugMessage);
+        LOG.debug("Initialized a new {}", GradebookEntryResource.class);
     }
 
     /**
