@@ -268,6 +268,7 @@ task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1StudentTests,
                            :v1StudentSectionGradebookEntryTests,
                            :v1DisciplineIncidentTests,
+                           :v1DisciplineActionTests,
                            :v1TeacherTests] do
 end
 
@@ -308,6 +309,23 @@ task :v1DisciplineIncidentTests => [:realmInit] do
   setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("disciplineIncident", "disciplineIncident_fixture.json")
   runTests("test/features/apiV1/entities/disciplineIncident")
+end
+
+desc "Run V1 Discipline Action Tests"
+task :v1DisciplineActionTests => [:realmInit] do
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_student_fixture.json", "test/data/smallville", false)
+  setFixture("staff", "staff_fixture.json")
+  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
+  setFixture("teacher", "teacher_fixture.json")
+  setFixture("teacher", "smallville_teachers_fixture.json", "test/data/smallville", false)
+  setFixture("school", "school_fixture.json")
+  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
+  setFixture("disciplineAction", "disciplineAction_fixture.json")
+  runTests("test/features/apiV1/entities/disciplineAction")
 end
 
 desc "Run V1 Cascade Deletion Tests"
