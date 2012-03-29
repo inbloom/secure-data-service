@@ -9,9 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -55,9 +53,9 @@ public class OAuthSessionService extends RandomValueTokenServices {
 
     @Autowired
     private OAuthTokenUtil util;
-    
+        
     @Autowired
-    private ContextResolverStore contextResolverStore;
+    private ApplicationAuthorizationValidator appValidator;
     
     @PostConstruct
     public void init() {
@@ -72,58 +70,24 @@ public class OAuthSessionService extends RandomValueTokenServices {
     @Override
     public OAuth2AccessToken createAccessToken(
             OAuth2Authentication authentication) throws AuthenticationException {
-        
         validateAppAuthorization(authentication);
         return super.createAccessToken(authentication);
     }
     
     protected void validateAppAuthorization(OAuth2Authentication authentication) throws UnauthorizedClientException {
-        Entity district = findUsersDistrict((SLIPrincipal) authentication.getUserAuthentication().getPrincipal());
-        if (district != null) {
+        SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
+        List<String> authorizedApps = appValidator.getAuthorizedApps(principal);
+        if (authorizedApps != null) {
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
-            query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
-            Entity authorizedApps = repo.findOne("applicationAuthorization", query);
-            
-            query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("client_id", "=", authentication.getClientAuthentication().getClientId()));
             Entity appEntity = repo.findOne("application", query);
             assert appEntity != null;
             
-            if (authorizedApps != null) {
-                List<String> appIds = (List<String>) authorizedApps.getBody().get("appIds");
-                if (!appIds.contains(appEntity.getEntityId())) {
-                    throw new UnauthorizedClientException("District " + district.getEntityId() + " has not enabled application " + appEntity.getEntityId());
-                }
-            } else {
-                LOGGER.warn("No authorized applications found for LEA {}", district.getEntityId());
+            if (!authorizedApps.contains(appEntity.getEntityId())) {
+                throw new UnauthorizedClientException("User's LEA has not enabled application " + appEntity.getEntityId());
             }
         }
     }
-
-    private Entity findUsersDistrict(SLIPrincipal principal) {
-        
-        if (principal.getEntity() != null) {
-            try {
-                List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
-                for (String id : edOrgs) {
-                    Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-                    List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category.contains("Local Education Agency")) {
-                        return entity;
-                    }
-                }
-            } catch (IllegalArgumentException ex) {
-                //this is what the resolver throws if it doesn't find any edorg data
-                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
-            }
-        } else {
-            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
-        }
-        LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
-        return null;
-    }
-
 
     @Override
     public OAuth2Authentication loadAuthentication(String accessTokenValue)
