@@ -14,7 +14,7 @@ import org.slc.sli.test.edfi.entities.TelephoneNumberType;
 
 public class TelephoneGenerator {
 	private static final Logger log = Logger.getLogger(TelephoneGenerator.class);
-	public String filename = "src/org/slc/sli/test/data/address/city_US.csv";
+	public String filename = "database/address/city_US.csv";
 	private List<String> areaCode = new ArrayList<String>();
 	Random generator = new Random();
 

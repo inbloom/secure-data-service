@@ -22,16 +22,17 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "cgray_IL" => "1cf7a5d4-75a2-ba63-8b53-b5f95131cc48",
                 "rbraverman_IL" => "2cf7a5d4-78a1-ca42-8b74-b5f95131ac21",
                 "mario.sanchez_NY" => "8cfba5a4-39a1-ca39-8413-b5697131ac85",
-                "educator_SLI"=> "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
-                "leader_SLI"=> "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
-                "administrator_SLI"=> "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
-                "aggregator_SLI"=> "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
-                "baduser_SLI"=> "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
-                "nouser_SLI"=> "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
-                "teacher_SLI"=> "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
-                "prince_SLI"=> "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
-                "root_SLI"=> "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
-                "bigbro_SLI"=> "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85"}
+                "educator_SLI" => "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
+                "leader_SLI" => "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
+                "administrator_SLI" => "4cf7a5d4-37a1-ca33-8b13-b5f95131ac85",
+                "aggregator_SLI" => "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
+                "baduser_SLI" => "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
+                "nouser_SLI" => "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
+                "teacher_SLI" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
+                "prince_SLI" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
+                "root_SLI" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "bigbro_SLI" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
+                "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85"}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -273,11 +274,12 @@ module DataProvider
   def self.getValidAppData()
     return {
       "client_type" => "PUBLIC",
-      "scope" => "ENABLED",
+      "enabled" => true,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
       "is_admin" => true,
+      "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",

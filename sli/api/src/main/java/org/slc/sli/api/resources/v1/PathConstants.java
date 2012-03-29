@@ -52,6 +52,8 @@ public class PathConstants {
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     
+    public static final String CUSTOM_ENTITIES = "custom";
+    
     /*
      * This map should go away when we switch basic definition store association names to camel
      * case.

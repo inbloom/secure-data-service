@@ -5,6 +5,7 @@ As a teacher in a school district, I want to click on a student and be directed 
 Background:
 Given I have an open web browser
 
+@wip
 Scenario: View a student's profile
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
@@ -26,6 +27,7 @@ And the class is "M. Jones - 8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
 
+@wip
 Scenario: View a student's profile without lozenges
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
@@ -57,6 +59,8 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
+And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
+And the following students have "FRE" lozenges: "Odysseus Merrill;Hoyt Hicks;Delilah Sims;Ursa Oconnor"
 And I wait for "20" seconds
 And I click on student "Kimberley Pennington"
 And I view its student profile
@@ -67,6 +71,25 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "2"
 And the lozenges include "FRE"
+And there are "6" Tabs
+And in Tab ID "6", there is "1" Panels
+And in Tab ID "2", there is "1" Panels
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
+And in Tab ID "5", there is "0" Panels
+And Tab has a title named "Overview"
+And Tab has a title named "Attendance and Discipline"
+And Tab has a title named "Assessments"
+And Tab has a title named "Grades and Credits"
+And Tab has a title named "Advanced Academics"
+And Tab has a title named "ELL"
+# Temp disable specific tab index tests
+#And Tab "1" is titled "Overview"
+#And Tab "2" is titled "Attendance and Discipline"
+#And Tab "3" is titled "Assessments"
+#And Tab "4" is titled "Grades and Credits"
+#And Tab "5" is titled "Advanced Academics"
+
 @wip
 Scenario: View a student with other name
 Given I am authenticated to SLI as "lkim" password "lkim"

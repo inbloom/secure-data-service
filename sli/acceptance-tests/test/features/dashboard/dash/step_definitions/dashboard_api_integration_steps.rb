@@ -8,7 +8,7 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
   sleep(1)
- wait = Selenium::WebDriver::Wait.new(:timeout => 3) 
+ wait = Selenium::WebDriver::Wait.new(:timeout => 25) 
  realm_select = wait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
@@ -24,7 +24,7 @@ end
 
 When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     sleep(1)
-    wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+    wait = Selenium::WebDriver::Wait.new(:timeout => 10) # explicit wait for at most 5 sec
     wait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
@@ -38,7 +38,8 @@ end
 
 
 When /^I click on the Dashboard page$/ do
-  @driver.find_element(:link_text=> "Dashboard").click
+   wait = Selenium::WebDriver::Wait.new(:timeout => 30) # explicit wait for at most 5 sec
+   wait.until{@driver.find_element(:link_text=> "Dashboard")}.click
   sleep(2)
 end
 
@@ -82,7 +83,7 @@ def getStudentsWithELLLozenge()
 end
 
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 30) # explicit wait for at most 5 sec
+  wait = Selenium::WebDriver::Wait.new(:timeout => 40) # explicit wait for at most 5 sec
   studentTable = wait.until{@driver.find_element(:id, "studentList")}
   student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   i = 0

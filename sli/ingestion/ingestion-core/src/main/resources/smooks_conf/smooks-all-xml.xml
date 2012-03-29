@@ -1627,10 +1627,16 @@
     <jb:expression property="recordType">'studentAssessmentAssociation'
 		</jb:expression>
     <!-- <jb:expression property="association">true</jb:expression> -->
-    <jb:value property="localId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
-
+    <jb:wiring property="localId" beanIdRef="StudentAssessmentLocalId" />
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="studentAssessmentAssociationParentIds" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentAssessmentLocalId" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
+    <jb:value property="studentId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="assessmentId" data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="studentAssessmentAssociationParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
@@ -1839,6 +1845,83 @@
     <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
     <jb:value property="studentId"
       data="InterchangeStudentAttendance/AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  </jb:bean>
+
+  <!-- Start GraduationPlan mapping  -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:expression property="recordType">'graduationPlan'</jb:expression>
+      <jb:value property="localId" data="InterchangeStudentEnrollment/GraduationPlan/@id" />
+      <jb:wiring property="attributes" beanIdRef="graduationPlanAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="graduationPlanAttributes" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:value property="individualPlan" data="IndividualPlan" decoder="Boolean" />
+      <jb:value property="graduationPlanType" data="GraduationPlanType" />
+      <jb:wiring property="totalCreditsRequired" beanIdRef="TotalCreditsRequiredValue" />
+      <jb:wiring property="creditsBySubject" beanIdRef="CreditsBySubjectArray" />
+      <jb:wiring property="creditsByCourse" beanIdRef="CreditsByCourseArray" />
+  </jb:bean>
+
+  <jb:bean beanId="TotalCreditsRequiredValue" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:value property="credit" data="GraduationPlan/TotalCreditsRequired/Credit" decoder="Double" />
+      <jb:value property="creditType" data="GraduationPlan/TotalCreditsRequired/@CreditType" />
+      <jb:value property="creditConversion" data="GraduationPlan/TotalCreditsRequired/@CreditConversion"
+                decoder="Double" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsBySubjectArray" class="java.util.ArrayList"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:wiring beanIdRef="CreditsBySubjectValue" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsBySubjectValue" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan/CreditsBySubject">
+      <jb:wiring property="credits" beanIdRef="CreditsSubject" />
+      <jb:value property="subjectArea" data="GraduationPlan/CreditsBySubject/SubjectArea" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsByCourseArray" class="java.util.ArrayList"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:wiring beanIdRef="CreditsByCourseValue" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsByCourseValue" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan/CreditsByCourse">
+      <jb:wiring property="credits" beanIdRef="CreditsCourse" />
+      <jb:value property="gradeLevel" data="GraduationPlan/CreditsByCourse/GradeLevel" />
+      <jb:wiring property="courseCode" beanIdRef="CourseCodeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="CourseCodeArray" class="java.util.ArrayList"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan/CreditsByCourse">
+      <jb:wiring beanIdRef="CourseCode" />
+  </jb:bean>
+
+  <jb:bean beanId="CourseCode" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan/CreditsByCourse/CourseCode">
+      <jb:value property="ID" data="GraduationPlan/CreditsByCourse/CourseCode/ID" />
+      <jb:value property="identificationSystem" data="GraduationPlan/CreditsByCourse/CourseCode/@IdentificationSystem" />
+      <jb:value property="assigningOrganizationCode"
+                data="GraduationPlan/CreditsByCourse/CourseCode/@AssigningOrganizationCode" />
+  </jb:bean>
+
+  <jb:bean beanId="CreditsSubject" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan/CreditsBySubject">
+      <jb:value property="credit" data="GraduationPlan/CreditsBySubject/Credits/Credit" decoder="Double" />
+      <jb:value property="creditType" data="GraduationPlan/CreditsBySubject/Credits/@CreditType" />
+      <jb:value property="creditConversion" data="GraduationPlan/CreditsBySubject/Credits/@CreditConversion"
+                decoder="Double"/>
+  </jb:bean>
+
+  <jb:bean beanId="CreditsCourse" class="java.util.HashMap"
+           createOnElement="InterchangeStudentEnrollment/GraduationPlan">
+      <jb:value property="credit" data="GraduationPlan/CreditsByCourse/Credits/Credit" decoder="Double" />
+      <jb:value property="creditType" data="GraduationPlan/CreditsByCourse/Credits/@CreditType" />
+      <jb:value property="creditConversion" data="GraduationPlan/CreditsByCourse/Credits/@CreditConversion"
+                decoder="Double"/>
   </jb:bean>
 
   <!-- Start StudentTranscriptAssociation mapping -->
