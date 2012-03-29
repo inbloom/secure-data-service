@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import org.slc.sli.api.config.BasicDefinitionStore;
+
 /**
  * Unit tests for LearningStandardResource
  * 
@@ -17,28 +19,29 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public class LearningStandardResourceTest {
+    LearningStandardResource learningStandardResource = new LearningStandardResource(new BasicDefinitionStore());
     
     @Test
     public void testReadAll() {
-        Response res = new LearningStandardResource().readAll(0, 0, null, null);
+        Response res = learningStandardResource.readAll(0, 0, null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
     
     @Test
     public void testRead() {
-        Response res = new LearningStandardResource().read(null, null, null);
+        Response res = learningStandardResource.read(null, null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
     
     @Test
     public void testCreate() {
-        Response res = new LearningStandardResource().create(null, null, null);
+        Response res = learningStandardResource.create(null, null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
     
     @Test
     public void testDelete() {
-        Response res = new LearningStandardResource().delete(null, null, null);
+        Response res = learningStandardResource.delete(null, null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
 }

@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,21 +41,16 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class SchoolResource {
+public class SchoolResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SchoolResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public SchoolResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public SchoolResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -77,7 +73,7 @@ public class SchoolResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.SCHOOLS, headers, uriInfo);
+        return super.readAll(ResourceNames.SCHOOLS, headers, uriInfo);
     }
 
     /**
@@ -98,7 +94,7 @@ public class SchoolResource {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.SCHOOLS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -117,7 +113,7 @@ public class SchoolResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
+        return super.read(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
@@ -136,7 +132,7 @@ public class SchoolResource {
     @Path("{" + ParameterConstants.SCHOOL_ID + "}")
     public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
+        return super.delete(ResourceNames.SCHOOLS, schoolId, headers, uriInfo);
     }
 
     /**
@@ -158,7 +154,7 @@ public class SchoolResource {
     public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.SCHOOLS, schoolId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -185,7 +181,7 @@ public class SchoolResource {
     public Response getTeacherSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
+        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
     
 
@@ -206,7 +202,7 @@ public class SchoolResource {
     public Response getTeacherSchoolAssociationTeachers(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
+        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
     }
 
     
@@ -227,7 +223,7 @@ public class SchoolResource {
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
     /**
@@ -247,7 +243,7 @@ public class SchoolResource {
     public Response getStudentSchoolAssociationStudents(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
@@ -268,7 +264,7 @@ public class SchoolResource {
     public Response getSectionsForSchool(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTIONS, "schoolId", schoolId, headers, uriInfo);
+        return super.read(ResourceNames.SECTIONS, "schoolId", schoolId, headers, uriInfo);
     }
     
 
@@ -296,7 +292,7 @@ public class SchoolResource {
     public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
+        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
     
 
@@ -318,7 +314,7 @@ public class SchoolResource {
     public Response getSchoolSessionAssociationSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
 }
