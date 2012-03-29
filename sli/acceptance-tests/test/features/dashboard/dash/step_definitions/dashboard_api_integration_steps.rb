@@ -38,7 +38,7 @@ end
 
 
 When /^I click on the Dashboard page$/ do
-   wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+   wait = Selenium::WebDriver::Wait.new(:timeout => 30) # explicit wait for at most 5 sec
    wait.until{@driver.find_element(:link_text=> "Dashboard")}.click
   sleep(2)
 end
