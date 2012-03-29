@@ -303,6 +303,8 @@ end
 
 desc "Run V1 Discipline Incident Tests"
 task :v1DisciplineIncidentTests => [:realmInit] do
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("disciplineIncident", "disciplineIncident_fixture.json")
   runTests("test/features/apiV1/entities/disciplineIncident")
 end
