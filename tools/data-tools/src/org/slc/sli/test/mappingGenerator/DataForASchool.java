@@ -25,6 +25,12 @@ import org.slc.sli.test.mappingGenerator.internals.*;
 import org.slc.sli.test.validator.ValidateSchema;
 
 public class DataForASchool {
+	// Global Configuration Parameters
+	private boolean useAllElements = true;
+	private boolean useMinimumRequiredElements = false;
+	private int cardinality = 0;
+	
+	
     private String prefix = "a";
     private Random random = new Random();
     private int parentsPerStudent = 2;
