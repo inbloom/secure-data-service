@@ -74,16 +74,9 @@ public class GradebookViewModifierTest {
         testView = gradebookViewModifer.modify(testView);
 
         List<DisplaySet> testDisplaySet = testView.getDisplaySet();
-        assertEquals(2, testDisplaySet.size());
+        assertEquals(1, testDisplaySet.size());
 
-        DisplaySet current = testDisplaySet.get(0);
-        DisplaySet grades = testDisplaySet.get(1);
-        assertEquals(GradebookViewModifer.CURRENT, current.getDisplayName());
-        assertEquals("Current", grades.getDisplayName());
-
-        assertEquals(1, current.getField().size());
-        Field average = current.getField().get(0);
-        assertEquals(GradebookViewModifer.AVERAGE, average.getDisplayName());
+        DisplaySet grades = testDisplaySet.get(0);
 
         assertEquals(2, grades.getField().size());
         Field firstUnitTest = grades.getField().get(0);

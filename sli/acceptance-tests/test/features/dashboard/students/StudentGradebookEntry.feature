@@ -31,8 +31,3 @@ Scenario: Displaying gradebook entry data for all students
 	And I should see his/her "<SECOND UNIT TEST>" grade is 44
 	And I should see his/her "<THIRD UNIT TEST>" grade is 45
 	
-	# Current average grade
-	And I should see a table heading "Current"
-	And I should see a field "Average" in this table
-	And I should see his/her current average grade is "44%"
-	And the current average grade is calculated correctly

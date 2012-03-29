@@ -2,7 +2,6 @@ package org.slc.sli.api.security.context;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-//import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -15,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -63,6 +63,7 @@ public class TeacherAttendanceContextResolverTest {
     }
 
     @Test
+    @DirtiesContext
     public void testSetDefinitionStore() throws Exception {
         EntityDefinitionStore definitionStore = Mockito.mock(EntityDefinitionStore.class);
         Entity principal = Mockito.mock(Entity.class);
