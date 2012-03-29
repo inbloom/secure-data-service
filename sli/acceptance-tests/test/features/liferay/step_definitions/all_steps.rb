@@ -103,9 +103,12 @@ Then /^I should be on the home page$/ do
   begin
     @driver.find_element(:link, 'Logout').displayed?
   rescue
-    @driver.find_element(:link, 'Sign out').displayed?
+    begin
+       @driver.find_element(:link, 'logout').dislayed?
+    rescue
+       @driver.find_element(:link, 'Sign Out').displayed?
+    end
   end
-    
 end
 
 
