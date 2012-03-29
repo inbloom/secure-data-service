@@ -309,6 +309,11 @@ public class NeutralSchemaValidationTest {
 
         readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
     }
+    
+    @Test
+    public void testValidLearningObjective() throws Exception {
+        readAndValidateFixtureData("src/test/resources/learningObjective_fixture_neutral.json", "learningObjective");
+    }
 
     @Test
     public void testValidStudentDisciplineIncidentAssociation() throws Exception {
