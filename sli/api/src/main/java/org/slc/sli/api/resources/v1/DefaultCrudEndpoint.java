@@ -40,10 +40,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
     /* Access to entity definitions */
-    private EntityDefinitionStore entityDefs;
+    private final EntityDefinitionStore entityDefs;
+    
+    private final String typeName;
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
-    private final Logger logger;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
     
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -59,9 +61,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param entityDefs
      *            access to entity definitions
      */
-    @Autowired
+    @Deprecated
     public DefaultCrudEndpoint(EntityDefinitionStore entityDefs) {
-        this(entityDefs, LoggerFactory.getLogger(DefaultCrudEndpoint.class));
+        this(entityDefs, "");
     }
     
     /**
@@ -72,15 +74,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param logger
      *            Logger utility to use to output debug, warning, or other messages to the "console"
      */
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, final Logger logger) {
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String typeName) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
         }
-        if (logger == null) {
-            throw new NullPointerException("logger");
+        if (typeName == null) {
+            throw new NullPointerException("typeName");
         }
         this.entityDefs = entityDefs;
-        this.logger = logger;
+        this.typeName = typeName;
     }
     
     /**
@@ -132,7 +134,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                logger.debug("Attempting to read from {} where {} = {}",
+                LOGGER.debug("Attempting to read from {} where {} = {}",
                         new Object[] { entityDef.getStoredCollectionName(), key, value });
                 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
@@ -189,10 +191,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                logger.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
-                logger.debug("Then for each result, ");
-                logger.debug(" going to read from {} where \"_id\" = {}.{}",
-                        new Object[] { resource2, resource1, idKey });
+                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
+                LOGGER.debug("Then for each result, ");
+                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
+                        resource2, resource1, idKey});
                 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
                 NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value,
@@ -346,9 +348,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
-                logger.debug("updating entity {}", copy);
+                LOGGER.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
-                logger.debug("updating entity {}", copy);
+                LOGGER.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -478,5 +480,90 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         
         return resp;
     }
-    
+
+    /**
+     * Returns all entities for which the logged in User has permission and context.
+     * 
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    public Response readAll(final int offset, final int limit, HttpHeaders headers, final UriInfo uriInfo) {
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return this.readAll(typeName, headers, uriInfo);
+    }
+
+    /**
+     * Create a new entity.
+     * 
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
+     */
+    public Response create(final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
+        return this.create(typeName, newEntityBody, headers, uriInfo);
+    }
+
+    /**
+     * Get a single entity
+     * 
+     * @param id
+     *            The Id of the entity
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single entity
+     */
+    public Response read(final String id, HttpHeaders headers, final UriInfo uriInfo) {
+        return this.read(typeName, id, headers, uriInfo);
+    }
+
+    /**
+     * Delete a entity
+     * 
+     * @param id
+     *            The Id of the entity
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    public Response delete(final String id, HttpHeaders headers, final UriInfo uriInfo) {
+        return this.delete(typeName, id, headers, uriInfo);
+    }
+
+    /**
+     * Update an existing entity.
+     * 
+     * @param id
+     *            The id of the entity
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    public Response update(final String id, final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
+        return this.update(typeName, id, newEntityBody, headers, uriInfo);
+    }
 }
