@@ -740,11 +740,13 @@
 
 	<xs:element name="gradebookEntry">
 		<xs:annotation>
-			<xs:documentation>This
-				entity represents a teacher’s assignment,
-				homework, or classroom
-				assessment
-				to be recorded in a gradebook.
+			<xs:documentation>GradebookEntry
+			This entity represents a teacher’s assignment, homework, or classroom
+				assessment to be recorded in a gradebook.
+				Associations: studentSectionGradebookEntry, section.
+				This is similar to a studentSectionGradebookEntry, but this entity represents the
+				assessment/evaluation, not the grade a student received.
+				Limitations: None
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
