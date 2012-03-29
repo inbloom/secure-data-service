@@ -17,6 +17,7 @@ import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
+import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
@@ -28,6 +29,7 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
+    private int parentsPerStudent = 2;
 
     private List<String> schools = new ArrayList<String>();
 
@@ -55,20 +57,20 @@ public class DataForASchool {
         DataForASchool data = new DataForASchool();
 
         String root = "data";
-        
+
         for (int i = 0; i < 2; i++) {
             String path = root + "/temp" + i;
             File folder = new File(path);
-            
-            if (!folder.exists()) 
+
+            if (!folder.exists())
                 folder.mkdirs();
-            
+
             data.generateData(path, false, false);
         }
-        
-        
+
+
     }
-    
+
     public void generateData(String path, boolean display, boolean validate) {
         prepareData();
         saveInterchanges(path);
@@ -140,8 +142,8 @@ public class DataForASchool {
         prepareTeacherSchoolAssociation();
         prepareSection(100);
         prepareTeacherSectionAssociation();
-        prepareStudent(2000);
-        prepareParent(4000);
+        prepareStudent(2);
+        prepareParent(2*parentsPerStudent);
         prepareStudentSchoolAssociation();
         prepareStudentSectionAssociation();
     }
@@ -369,8 +371,23 @@ public class DataForASchool {
         }
         System.out.println("add parents");
 
-        //
-        // // studentParentAssociation
+
+        // studentParentAssociation
+        int iStudent=0;
+        int iParent = 0;
+        while (iStudent<students.size()) {
+            String studentId = students.get(iStudent);
+            while (iParent<parents.size()) {
+                String parentId = parents.get(iParent);
+                StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
+                StudentParentAssociation spa = spag.generate(studentId, parentId);
+                list.add(spa);
+                iParent++;
+                if (iParent%parentsPerStudent == 0) break;
+            }
+            iStudent++;
+        }
+
         // for (String studentParentAssociationsId : studentParentAssociations) {
         // StudentParentAssociation studentParentAssociation =
         // StudentParentAssociationGenerator.generate(studentParentAssociationsId);
