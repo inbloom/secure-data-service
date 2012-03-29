@@ -48,7 +48,7 @@ public class CustomEntityResourceTest {
     @Test
     public void testCreateOrUpdate() {
         EntityBody test = new EntityBody();
-        Response res = resource.createOrUpdate(test);
+        Response res = resource.createOrUpdatePut(test);
         assertNotNull(res);
         assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
         Mockito.verify(service).createOrUpdateCustom("TEST-ID", test);
@@ -60,5 +60,21 @@ public class CustomEntityResourceTest {
         assertNotNull(res);
         assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
         Mockito.verify(service).deleteCustom("TEST-ID");
+    }
+    
+    @Test
+    public void test404() {
+        resource = new CustomEntityResource("TEST-ID", null);
+        Response res = resource.read();
+        assertNotNull(res);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        
+        res = resource.createOrUpdatePut(null);
+        assertNotNull(res);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        
+        res = resource.delete();
+        assertNotNull(res);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
 }
