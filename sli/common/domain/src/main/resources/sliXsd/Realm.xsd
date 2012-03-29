@@ -23,6 +23,7 @@
       <xs:sequence>
 	      <xs:element name="id" type="xs:string" minOccurs="1" />
 	      <xs:element name="redirectEndpoint" type="xs:string" minOccurs="1" />
+          <xs:element name="sloPostEndpoint" type="xs:string" minOccurs="1" />
       </xs:sequence>
    </xs:complexType>
 
