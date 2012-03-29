@@ -84,10 +84,19 @@ And I should have a selectable view named "IL_9-12"
 #User based views - views have different headers
 When I select view "IL_3-8_ELA"
 Then I should see a table heading "ISAT Writing (highest)"
+#Client filter tests
+And I should have a dropdown selector named "studentFilterSelector"
+And I should have multiple filters available
+When I select filter "English Language Learner"
+Then I should see a student named "Arsenio Durham"
+And I should see a student named "Kimberley Pennington"
+#When I select filter "Section 504"
+#Then I should see a student named "Madeline Hinton"
 When I select view "IL_9-12"
 #Then I should see a table heading "Reading Test Scores (Highest)"
 #And I should see a table heading "Writing Test Scores (Highest)"
 #And I should see a table heading "AP Eng. Exam Scores (Highest)"
+
 
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
