@@ -90,13 +90,25 @@ end
 
 
 Then /^I should logged out$/ do
-  @driver.find_element(:link, 'Logout').click
-  #click_link('Logout')
+  @driver.find_element(:link, 'logout').click
+  #click_link('logout')
 end
 
 Then /^I should be on the home page$/ do
-  @driver.find_element(:link, 'Logout').displayed? ||   @driver.find_element(:link, 'Sign out').displayed?
-
+  # Temporarily refactored this test....
+  # find_element raises an exception if it couldn't find the element,
+  # so the find_element(:link, 'logout') || find_element(:link, 'Sign Out') code
+  # would raise an error if it couldn't find the logout link and never get to the Sign Out check
+  
+  begin
+    @driver.find_element(:link, 'Logout').displayed?
+  rescue
+    begin
+       @driver.find_element(:link, 'logout').dislayed?
+    rescue
+       @driver.find_element(:link, 'Sign Out').displayed?
+    end
+  end
 end
 
 
@@ -124,7 +136,7 @@ When /^I login with "([^\"]*)" and "([^\"]*)"$/ do |username, password|
   element=@driver.find_element(:class, "Btn1Def")
   element.click
   #wait = Selenium::WebDriver::Wait.new(:timeout => 100) # seconds
- # wait.until { driver.find_element(:link => "Logout") }
+ # wait.until { driver.find_element(:link => "logout") }
 end
 Then /^I should be on the authentication failed page$/ do
  @driver.navigate.to "https://devopenam1.slidev.org:80/idp2/UI/Login"

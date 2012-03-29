@@ -5,7 +5,7 @@ import java.util.List;
 import org.slc.sli.test.edfi.entities.*;
 
 public class TeacherSchoolAssociationGenerator {
-    public static TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
+    public TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
         TeacherSchoolAssociation tsa = new TeacherSchoolAssociation();
 
         StaffIdentityType sit = new StaffIdentityType();

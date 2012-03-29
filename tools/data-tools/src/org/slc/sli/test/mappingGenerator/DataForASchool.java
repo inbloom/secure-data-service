@@ -1,5 +1,6 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
+import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
@@ -26,6 +28,8 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
+    private int parentsPerStudent = 2;
+    private String delimiter = "_";
 
     private List<String> schools = new ArrayList<String>();
 
@@ -50,13 +54,28 @@ public class DataForASchool {
      */
     public static void main(String[] args) {
         DataForASchool data = new DataForASchool();
-        data.prepareData();
-        data.printOnScreen();
+        String root = "data";
 
-        String path = "data";
+        for (int i = 0; i < 20; i++) {
+            String path = root + "/temp" + i;
+            File folder = new File(path);
 
-        data.saveInterchanges(path);
-        data.validateInterchanges(path);
+            if (!folder.exists())
+                folder.mkdirs();
+
+            data.generateData(path, false, false);
+        }
+
+
+    }
+
+    public void generateData(String path, boolean display, boolean validate) {
+        prepareData();
+        saveInterchanges(path);
+        if (display)
+            printOnScreen();
+        if (validate)
+            validateInterchanges(path);
     }
 
     public void saveInterchanges(String path) {
@@ -122,7 +141,8 @@ public class DataForASchool {
         prepareSection(4);
         prepareTeacherSectionAssociation();
         prepareStudent(2);
-        prepareParent(4);
+        prepareParent(2*parentsPerStudent);
+        prepareStudentParentAssociation(2*parentsPerStudent);
         prepareStudentSchoolAssociation();
     }
 
@@ -184,6 +204,21 @@ public class DataForASchool {
     public void prepareParent(int total) {
         for (int i = 0 ; i < total ; i++) {
             parents.add(this.prefix + "-parent-" + i);
+        }
+    }
+    
+    public void prepareStudentParentAssociation(int total) {
+        int iStudent = 0;
+    	int iParent = 0;
+        while (iStudent<students.size()) {
+        	String studentId = students.get(iStudent);
+        	while (iParent<parents.size()) {
+        		String parentId = parents.get(iParent);
+        		studentParentAssociations.add(studentId+delimiter+parentId);
+        		iParent++;
+        		if (iParent%parentsPerStudent == 0) break;
+        	}
+        	iStudent++;
         }
     }
 
@@ -275,13 +310,15 @@ public class DataForASchool {
         }
 
         // TeacherSchoolAssociation
+        TeacherSchoolAssociationGenerator tsag = new TeacherSchoolAssociationGenerator();
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
-            list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
+            list.add(tsag.generate(tsai.teacherId, tsai.schoolIds));
         }
 
         // TeacherSectionAssociation
+        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
         for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
-            list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
         }
 
         // LeaveEvent
@@ -307,20 +344,20 @@ public class DataForASchool {
             list.add(student);
         }
 
-                // // parent
+        // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
         for (String parentId : parents) {
         	Parent parent = pg.generate(parentId);
         	list.add(parent);
         }
-        //
-        // // studentParentAssociation
-        // for (String studentParentAssociationsId : studentParentAssociations) {
-        // StudentParentAssociation studentParentAssociation =
-        // StudentParentAssociationGenerator.generate(studentParentAssociationsId);
-        // list.add(studentParentAssociation);
-        // }
-
+        
+        // studentParentAssociation        
+		StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
+		for (String studentParentId : studentParentAssociations) {
+			StudentParentAssociation spa = spag.generate(studentParentId, delimiter);
+			list.add(spa);			
+		}
+        
         marshaller.marshal(interchangeStudentParent, ps);
     }
 
