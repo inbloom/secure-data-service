@@ -155,9 +155,11 @@ public class DefaultSAML2Validator implements SAML2Validator {
      */
     private KeyStore loadCaCerts() {
         KeyStore cacerts = null;
+        FileInputStream fis = null;
         try {
             cacerts = KeyStore.getInstance("JKS");
-            cacerts.load(new FileInputStream(new File(System.getProperty("java.home"), "lib/security/cacerts")), null);
+            fis = new FileInputStream(new File(System.getProperty("java.home"), "lib/security/cacerts"));
+            cacerts.load(fis, null);
         } catch (NoSuchAlgorithmException e) {
             LOG.warn("Requested cryptographic algorithm is invalid or unavailable in the current environment", e);
         } catch (CertificateException e) {
@@ -168,6 +170,14 @@ public class DefaultSAML2Validator implements SAML2Validator {
             LOG.warn("There was an issue opening the trusted Certificate Authority store", e);
         } catch (KeyStoreException e) {
             LOG.warn("There is an issue with the trusted Certificate Authority store", e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOG.error("couldn't close stream", e);
+                }
+            }
         }
         return cacerts;
     }

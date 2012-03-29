@@ -149,9 +149,9 @@ end
 
 desc "Run the testing for life ray SLI for admin"
 task :liferayTest do
-  runTests("test/features/liferay/SLI_admin.feature")
-  runTests("test/features/liferay/SLI_normal_user.feature")
-  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
+#  runTests("test/features/liferay/SLI_admin.feature")
+#  runTests("test/features/liferay/SLI_normal_user.feature")
+#  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
   runTests("test/features/liferay/report_problem.feature")
 
 # runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
@@ -165,7 +165,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionidNamespaceTest, :ingestionGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -254,6 +254,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1LearningObjectiveTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -501,6 +502,11 @@ end
 desc "Run V1 Assessment Tests"
 task :v1AssessmentTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
+end
+
+desc "Run V1 LearningObjective Tests"
+task :v1LearningObjectiveTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
 desc "Run V1 Parent Tests"
@@ -948,6 +954,7 @@ desc "Import Sandbox Test Data"
 task :importSandboxData do
   testHash = Hash[
     "session" => "session_fixture.json",
+    "program" => "program_fixture.json",
     "section" => "section_fixture.json",
     "course" => "course_fixture.json",
     "school" => "school_fixture.json",
@@ -976,7 +983,12 @@ task :importSandboxData do
     "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
-    "disciplineAction" => "disciplineAction_fixture.json"
+    "disciplineAction" => "disciplineAction_fixture.json",
+    "cohort" => "cohort_fixture.json",
+    "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
+    "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
