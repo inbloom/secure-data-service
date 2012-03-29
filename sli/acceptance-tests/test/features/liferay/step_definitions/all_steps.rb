@@ -6,12 +6,12 @@ require_relative '../../utils/selenium_common.rb'
 
 
 Given /^an admin user Demo exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
-  
+
 
 end
 
 Given /^a normal user Educator exists with "([^\"]*)" and "([^\"]*)"$/ do |username,password|
-  
+
   #User.new(:username => username, :password => password, :password_confirmation => password).save! unless User.exists?(:username => username)
  # User.exists?(:username => username)
 end
@@ -33,7 +33,7 @@ end
 ele=@driver.find_element(:id, "go")
 ele.click
 
-  #select(text, :from => 'realmId') 
+  #select(text, :from => 'realmId')
 end
 
 
@@ -54,7 +54,7 @@ Then /^I click "([^\"]*)"$/ do |btn_text|
   ele=@driver.find_element(:id, "go")
   ele.click
   #@driver.find_element(:xpath, "//form/input[@value=#{btn_text}]").click
-end 
+end
 
 Given /^EULA has been accepted$/ do
 
@@ -90,8 +90,11 @@ end
 
 
 Then /^I should logged out$/ do
-  @driver.find_element(:link, 'logout').click
-  #click_link('logout')
+  begin
+      @driver.find_element(:link, 'logout').click
+  rescue
+      @driver.find_element(:link, 'Sign Out').click
+  end
 end
 
 Then /^I should be on the home page$/ do
@@ -99,7 +102,7 @@ Then /^I should be on the home page$/ do
   # find_element raises an exception if it couldn't find the element,
   # so the find_element(:link, 'logout') || find_element(:link, 'Sign Out') code
   # would raise an error if it couldn't find the logout link and never get to the Sign Out check
-  
+
   begin
     @driver.find_element(:link, 'Logout').displayed?
   rescue
@@ -143,7 +146,7 @@ Then /^I should be on the authentication failed page$/ do
 end
 
 Then /^I click button "([^\"]*)"$/ do |text|
-  @driver.find_element(:xpath, "//span/input[@value='#{text}']").click 
+  @driver.find_element(:xpath, "//span/input[@value='#{text}']").click
 end
 
 
@@ -162,22 +165,22 @@ end
 
 Then /^(?:|I )should see "([^\"]*)"$/ do |text|
   begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
+   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed?
    link=true
   rescue
    link=false
   end
-  link 
+  link
   #page.should have_content(text)
 end
 
 Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
   begin
-   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed? 
+   link=@driver.find_element(:link, text).displayed? || @driver.find_element(:name, text).displayed?
    link=true
   rescue
    link=false
-  end 
+  end
   link
 
 #  page.should_not have_content(text)

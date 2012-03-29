@@ -1,9 +1,9 @@
 Feature: title
 Navigate to dashboard link successfully using New York Realm under 'Select an Application' page
-  
+
   #Background:
-     #Given EULA has been accepted  
- 
+     #Given EULA has been accepted
+
   Scenario:-User Login through New York Realm with wrong username and password
     Given I have an open web browser
     Then I am on the Realm selection page
@@ -12,8 +12,8 @@ Navigate to dashboard link successfully using New York Realm under 'Select an Ap
     When I login with "mario.sanc" and "mario.sanchez"
     Then I should be on the authentication failed page
     Then I should see "Authentication failed."
-    
-  
+
+  @wip
   Scenario:-User Login through New York Realm
     Given I have an open web browser
     Then I am on the Realm selection page
@@ -28,4 +28,4 @@ Navigate to dashboard link successfully using New York Realm under 'Select an Ap
     Then I should see "             Select an application         "
     Then I should see "Learning Map"
     Then I should see "Dashboard"
-    
+
