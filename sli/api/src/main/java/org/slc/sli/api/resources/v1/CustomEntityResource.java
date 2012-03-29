@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.v1;
 
-import javax.annotation.Resource;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,7 +15,6 @@ import org.slc.sli.api.representation.EntityBody;
  * Subresource for custom entities
  * 
  */
-@Resource
 public class CustomEntityResource {
     
     String entityId;
@@ -30,14 +28,29 @@ public class CustomEntityResource {
     @GET
     @Path("/")
     public Response read() {
+        if (entityDef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
         EntityBody entityBody = entityDef.getService().getCustom(entityId);
         return Response.status(Status.OK).entity(entityBody).build();
     }
     
     @PUT
+    @Path("/")
+    public Response createOrUpdatePut(EntityBody customEntity) {
+        if (entityDef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        entityDef.getService().createOrUpdateCustom(entityId, customEntity);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
     @POST
     @Path("/")
-    public Response createOrUpdate(EntityBody customEntity) {
+    public Response createOrUpdatePost(EntityBody customEntity) {
+        if (entityDef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
         entityDef.getService().createOrUpdateCustom(entityId, customEntity);
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -45,6 +58,9 @@ public class CustomEntityResource {
     @DELETE
     @Path("/")
     public Response delete() {
+        if (entityDef == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
         entityDef.getService().deleteCustom(entityId);
         return Response.status(Status.NO_CONTENT).build();
     }
