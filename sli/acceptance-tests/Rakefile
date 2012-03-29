@@ -972,7 +972,8 @@ task :importSandboxData do
     "cohort" => "cohort_fixture.json",
     "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
     "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
-    "staffProgramAssociation" => "staffProgramAssociation_fixture.json"
+    "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
