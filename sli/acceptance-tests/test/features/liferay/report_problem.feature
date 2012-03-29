@@ -1,4 +1,5 @@
-Feature: title
+@wip
+Feature: Report Problems
   In order to keep control of website information the expectation of the results 
   for report a problem it should have to work 
 
