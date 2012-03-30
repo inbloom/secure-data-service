@@ -1,14 +1,13 @@
 package org.slc.sli.api.resources.v1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.avro.generic.GenericData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,8 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 
 /**
  * Prototype new api end points and versioning base class
@@ -44,7 +45,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private final Logger logger;
-    
+
+    @Autowired
+    private OptionalFieldAppenderFactory factory;
+
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception handling code.
@@ -202,9 +206,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 
                 List<String> ids = new ArrayList<String>();
+                Map<String, List<EntityBody>> associations = new HashMap<String, List<EntityBody>>();
                 // for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
                     ids.add((String) entityBody.get(idKey));
+
+                    if (associations.containsKey((String) entityBody.get(idKey))) {
+                        associations.get((String) entityBody.get(idKey)).add(entityBody);
+                    } else {
+                        List<EntityBody> list = new ArrayList<EntityBody>();
+                        list.add(entityBody);
+
+                        associations.put((String) entityBody.get(idKey), list);
+                    }
                 }
                 
                 if (ids.size() == 0) {
@@ -213,6 +227,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                    if (associations.get(result.get("id")) != null)
+                        result.put(resource1, associations.get(result.get("id")));
+
                     result.put(
                             ResourceConstants.LINKS,
                             ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
@@ -220,6 +237,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults.add(result);
                 }
                 
+                finalResults = appendOptionalFields(uriInfo, finalResults);
+
                 long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                 return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -447,10 +466,31 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
-        neutralQuery.setIncludeFields(includeField);
+        //neutralQuery.setIncludeFields(includeField);
         return neutralQuery;
     }
     
+    /**
+     * Append the optional fields to the given list of entities
+     * @param info UriInfo
+     * @param entities The list of entities
+     * @return
+     */
+    protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities) {
+        List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+        
+        if (optionalFields != null) {
+            for (String type : optionalFields) {
+                OptionalFieldAppender appender = factory.getOptionalFieldAppender(type);
+                if (appender != null)
+                    entities = appender.applyOptionalField(entities);
+            }
+        }
+        
+        return entities;
+    }
+
+
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
         if (info != null && resp != null) {
             NeutralQuery neutralQuery = new ApiQuery(info);

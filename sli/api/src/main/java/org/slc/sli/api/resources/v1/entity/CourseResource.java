@@ -32,10 +32,12 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- * 
- * @author jstokes
- * 
+ * CourseResource
+ *
+ * This educational entity represents the organization of subject matter and related learning experiences provided
+ * for the instruction of students on a regular or systematic basis.
+ *
+ * This is similar to section except that a section is a specific instance of a course.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COURSES)
 @Component
@@ -54,7 +56,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$courses$$ entities for which the logged in User has permission and context.
+     * readAll
      * 
      * @param offset
      *            starting position in results to return to user
@@ -64,7 +66,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$courses$$ entities for which the logged in User has permission and context.
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
@@ -77,7 +79,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$courses$$ entity.
+     * create
      * 
      * @param newEntityBody
      *            entity data
@@ -85,10 +87,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * @return A 201 response on successfully created entity with the ID of the entity
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -98,15 +97,16 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$courses$$ entity
+     * read
      * 
      * @param courseId
-     *            The Id of the $$courses$$.
+     *            The id (or list of ids) of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single course entity
+     * @return A list of entities matching the list of ids queried for
+     *
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}")
@@ -117,7 +117,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$courses$$ entity
+     * delete
      * 
      * @param courseId
      *            The Id of the $$courses$$.
@@ -126,7 +126,6 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.COURSE_ID + "}")
@@ -136,7 +135,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$courses$$ entity.
+     * update
      * 
      * @param courseId
      *            The id of the $$courses$$.
@@ -147,7 +146,6 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{" + ParameterConstants.COURSE_ID + "}")
@@ -158,8 +156,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Returns each $$sessionCourseAssociations$$ that
-     * references the given $$courses$$
+     * getSessionCourseAssociations
      * 
      * @param courseId
      *            The id of the $$courses$$.
@@ -173,7 +170,8 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$sessionCourseAssociations$$ that references the given $$courses$$
+     *
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -186,8 +184,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$sessions$$ associated to the given session through
-     * a $$sessionCourseAssociations$$ 
+     * getSessionCourseAssociationCourses
      * 
      * @param courseId
      *            The id of the $$courses$$.
@@ -195,7 +192,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$sessions$$ associated to the given course through a $$sessionCourseAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -208,7 +205,7 @@ public class CourseResource extends DefaultCrudEndpoint {
 
 
     /**
-     * student transcript associations
+     * getStudentTranscriptAssociations
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -216,7 +213,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$studentTranscriptAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -228,7 +225,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * student transcript associations - students lookup
+     * getStudentTranscriptAssociationStudents
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -236,7 +233,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$students$$ associated to the given course through a $$studentTranscriptAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -249,7 +246,7 @@ public class CourseResource extends DefaultCrudEndpoint {
 
 
     /**
-     * student parent associations
+     * getStudentParentAssociations
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -257,7 +254,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$studentParentAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -269,7 +266,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * student parent associations - students lookup
+     * getStudentParentAssociationStudents
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -277,7 +274,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$students$$ associated to the given course through a $$studentParentAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })

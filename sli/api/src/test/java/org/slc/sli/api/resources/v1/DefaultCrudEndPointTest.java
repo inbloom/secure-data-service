@@ -244,6 +244,46 @@ public class DefaultCrudEndPointTest {
         //MockRepo needs to be changed to get this test right
     }
     
+    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void testAppendOptionalFieldsNoOptionsGiven() {
+        UriInfo info = mock(UriInfo.class);
+        MultivaluedMap map = new MultivaluedMapImpl();
+        when(info.getQueryParameters(true)).thenReturn(map);
+        
+        EntityBody body = new EntityBody();
+        body.put("student", "{\"somekey\":\"somevalue\"}");
+        
+        List<EntityBody> entities = new ArrayList<EntityBody>();
+        entities.add(body);
+        
+        entities = crudEndPoint.appendOptionalFields(info, entities);
+        
+        assertEquals("Should only have one", 1, entities.size());
+        assertEquals("Should match", body, entities.get(0));
+    }
+
+    @Test
+    public void testGettingTotalCountDoesNotCorruptNeutralQuery() {
+        
+        NeutralQuery neutralQuery1 = new NeutralQuery();
+        neutralQuery1.setIncludeFields("field1,field2");
+        neutralQuery1.setExcludeFields("field3,field4");
+        neutralQuery1.setLimit(5);
+        neutralQuery1.setOffset(4);
+        neutralQuery1.setSortBy("field5");
+        neutralQuery1.setSortOrder(NeutralQuery.SortOrder.ascending);
+        neutralQuery1.addCriteria(new NeutralCriteria("x=1"));
+        
+        NeutralQuery neutralQuery2 = new NeutralQuery(neutralQuery1);
+        
+        EntityService mock = mock(EntityService.class);
+        when(mock.count(any(NeutralQuery.class))).thenReturn(0L);
+        DefaultCrudEndpoint.getTotalCount(mock, neutralQuery1);
+        
+        assertEquals(neutralQuery1, neutralQuery2);
+    }
+
     private String getIDList(String resource) {
         //create one more resource
         Response createResponse1 = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);

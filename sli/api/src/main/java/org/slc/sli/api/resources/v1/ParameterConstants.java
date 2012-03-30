@@ -71,6 +71,18 @@ public class ParameterConstants {
 
 
     /**
+     * Query parameter for optional fields to include
+     */
+    public static final String OPTIONAL_FIELDS = "optionalFields";
+    
+    /**
+     * Optional Fields
+     */
+    public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
+    public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
+    public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
+
+    /**
      * Entity/Association IDs
      */
     public static final String ASSESSMENT_ID = "assessmentId";
