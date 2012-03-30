@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -12,6 +13,8 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.EntityService;
 
 /**
  * Tests for CustomEntityResouce
@@ -23,29 +26,55 @@ import org.slc.sli.api.config.EntityDefinition;
 public class CustomEntityResourceTest {
     
     CustomEntityResource resource;
+    EntityService service;
     
     @Before
     public void init() {
         String entityId = "TEST-ID";
         EntityDefinition entityDef = Mockito.mock(EntityDefinition.class);
+        service = Mockito.mock(EntityService.class);
+        Mockito.when(entityDef.getService()).thenReturn(service);
         resource = new CustomEntityResource(entityId, entityDef);
     }
     
     @Test
     public void testRead() {
         Response res = resource.read();
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        assertNotNull(res);
+        assertEquals(Status.OK.getStatusCode(), res.getStatus());
+        Mockito.verify(service).getCustom("TEST-ID");
     }
     
     @Test
     public void testCreateOrUpdate() {
-        Response res = resource.createOrUpdate();
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        EntityBody test = new EntityBody();
+        Response res = resource.createOrUpdatePut(test);
+        assertNotNull(res);
+        assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
+        Mockito.verify(service).createOrUpdateCustom("TEST-ID", test);
     }
     
     @Test
     public void testDelete() {
         Response res = resource.delete();
+        assertNotNull(res);
+        assertEquals(Status.NO_CONTENT.getStatusCode(), res.getStatus());
+        Mockito.verify(service).deleteCustom("TEST-ID");
+    }
+    
+    @Test
+    public void test404() {
+        resource = new CustomEntityResource("TEST-ID", null);
+        Response res = resource.read();
+        assertNotNull(res);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        
+        res = resource.createOrUpdatePut(null);
+        assertNotNull(res);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        
+        res = resource.delete();
+        assertNotNull(res);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
 }

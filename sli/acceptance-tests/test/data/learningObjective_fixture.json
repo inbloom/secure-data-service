@@ -1,0 +1,3 @@
+{"_id":{"$binary":"J98+ZfJlkd99V7f0xb9sqA==","$type":"03"},"type":"learningObjective","body":{"objective":"Reading Test","academicSubject":"Reading","objectiveGradeLevel":"Fifth grade"},"tenantId":"Zork"}
+{"_id":{"$binary":"J97+ZfJlkd98V7f0xb8sqA==","$type":"03"},"type":"learningObjective","body":{"objective":"Writing Test","academicSubject":"Writing","objectiveGradeLevel":"Fifth grade"},"tenantId":"Zork"}
+{"_id":{"$binary":"J96+ZfJlkd97V7f0xb7sqA==","$type":"03"},"type":"learningObjective","body":{"objective":"Math Test","academicSubject":"Mathematics","objectiveGradeLevel":"Fifth grade"},"tenantId":"Zork"}
