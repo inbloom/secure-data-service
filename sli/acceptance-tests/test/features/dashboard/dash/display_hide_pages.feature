@@ -1,8 +1,9 @@
+@wip
 Feature: Student Profile View - Display and Hide Pages Based on Grades
 
 As a teacher in a school district, when I view a student's profile, a page appears based on that grade-range specified in configuration.
 
-@wip
+
 Background:
 Given I have an open web browser
 
