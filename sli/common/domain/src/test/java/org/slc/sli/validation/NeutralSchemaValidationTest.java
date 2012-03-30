@@ -89,6 +89,8 @@ public class NeutralSchemaValidationTest {
         this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
         this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
         this.addDummyEntity("disciplineIncident", "0e26de79-22aa-5d67-9201-5113ad50a03b");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "2058ddfb-b5c6-70c4-3bee-b43e9e93307d");
         
         readAndValidateFixtureData("src/test/resources/disciplineAction_fixture_neutral.json", "disciplineAction");
     }
