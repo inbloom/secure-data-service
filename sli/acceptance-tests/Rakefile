@@ -92,17 +92,17 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit do
+task :realmInit => [:appInit] do
   setFixture("realm", "realm_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
-  setFixture("application", "application_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
 end
 
 # Task that initializes the application registration fixture
 task :appInit do
   setFixture("application", "application_fixture.json")
+  setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
+  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
