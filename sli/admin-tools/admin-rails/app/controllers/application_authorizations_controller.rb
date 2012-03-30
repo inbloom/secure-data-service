@@ -1,4 +1,8 @@
 class ApplicationAuthorizationsController < ApplicationController
+  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
+  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
+
+
   # GET /application_authorizations
   # GET /application_authorizations.json
   def index
@@ -56,17 +60,14 @@ class ApplicationAuthorizationsController < ApplicationController
   # PUT /application_authorizations/1
   # PUT /application_authorizations/1.json
   def update
-    puts("the params are " + params[:application_authorization].inspect);
     @application_authorization = ApplicationAuthorization.find(params[:id])
     appId = params[:application_authorization][:appId]
-    puts("The app ID is " + appId)
     idArray = @application_authorization.appIds
-    puts("The previous IDS were " + appId.inspect)
 
     if(params[:commit] == "Deny")
       idArray.delete(appId)
     else
-      idArray.push(appId)
+      idArray.unshift(appId)
     end
     updates = {"appIds" =>  idArray}
     respond_to do |format|
