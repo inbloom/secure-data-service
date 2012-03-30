@@ -36,62 +36,75 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" in the result
 
-@wip	
 Scenario: As an IT Admin, I want to update custom entity associated with any core entity belonging to my application
 
     Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "demoClient"
     And I am authenticated on "SLI"
     
+    Given format "application/json" 
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" to the object
-	When I navigate to POST "/educationOrganizations/{educationOrganizationId}/custom"
-	Then I should receive a return code of 201
+	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
 
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "SampleApplication"
+    And I am authenticated on "SLI"
+    
+     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "ColumnConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
-	When I navigate to POST "/educationOrganizations/{educationOrganizationId}/custom"
-	Then I should receive a return code of 201
+	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
 
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "demoClient"
+    And I am authenticated on "SLI"
+    
+    Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Writing Results</DisplayName>" to the object
-	When I navigate to PUT "/educationOrganizations/{educationOrganizationId}/custom"
+	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 204
 	
-	When I navigate to GET "/educationOrganizations/{educationOrganizationId}/custom"
-	And I should receive key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Writing Results</DisplayName>" in the result
+	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Writing Results</DisplayName>" in the result
 	
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "SampleApplication"
-	When I navigate to GET "/educationOrganizations/{educationOrganizationId}/custom"
-	And I should receive a key value pair "ColumnConfig": "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" in the result
+    And I am authenticated on "SLI"
+    
+	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
+	Then I should receive a key value pair "ColumnConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" in the result
 
 @wip
 Scenario Outline: As an educator or leader, I want to read a custom entity associated with any core entity belonging to my application 
-	    Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
-	    And the clientID is "demoClient"
-	    And a valid entity json object for a "students" with "studentId"
+	   Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
+       And the clientID is "demoClient"
+       And I am authenticated on "SLI"
+	    
+	    Given format "application/json"
+	    And a valid entity json object for a "students"
 	    And I add a key value pair "Drives" : "True" to the object
-		When I navigate to POST "/students/{studentId}/custom"
-		Then I should receive a return code of "201"
+		When I navigate to POST "/<STUDENT URI>/<STUDENT ID>/<CUSTOM URI>"
+		Then I should receive a return code of 204
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>
-		When I navigate to GET "/students/{studentId}?includeCustom=true"
+	     And I am authenticated on "SLI"
+	     
+		When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"?includeCustom="true"
 		Then I should receive a return code of <Code>
 		And I should recieve the "students" object with "studentsId"
 		And additionally I should receive a key value pair <Key>: <Value> in the result
 		
-		When I navigate to GET "/students/{studentId}?includeCustom=false"
+		When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"?includeCustom="false"
 		Then I should receive a return code of <Code>
 		And I should recieve the "students" object with "studentsId"
 		And there is no other custom data returned
 		
-		When I navigate to GET "/students/{studentId}
+		When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"
 		Then I should receive a return code of <Code>
 		And I should recieve the "students" object with "studentsId"
 		And there is no other custom data returned

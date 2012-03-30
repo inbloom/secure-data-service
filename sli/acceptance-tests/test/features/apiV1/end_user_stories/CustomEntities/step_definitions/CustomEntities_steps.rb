@@ -9,19 +9,15 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "educationOrganizations"                     if human_readable_id == "EDUCATION ORGANIZATION URI"
   id = "custom"                                     if human_readable_id == "CUSTOM URI"
+  id = "students"                                   if human_readable_id == "STUDENT URI"
   id =  "<"+human_readable_id+">"                   if human_readable_id.include? "?"
  
   #education organizations
   id = "4f0c9368-8488-7b01-0000-000059f9ba56"       if human_readable_id == "EDUCATION ORGANIZATION ID"
-  
-  #students
-  id = "2899a720-4196-6112-9874-edde0e2541db"       if human_readable_id == "'John Doe' ID"
-  id = "9e6d1d73-a488-4311-877a-718b897a17c5"       if human_readable_id == "'Sean Deer' ID"
-  id = "54c6548e-1196-86ca-ad5c-b8d72496bf78"       if human_readable_id == "'Suzy Queue' ID"
-  id = "a63ee073-cd6c-9a12-a124-fa6a1b4dfc7c"       if human_readable_id == "'Mary Line' ID"
-  id = "51dbb0cd-4f25-2d58-b587-5fac7605e4b3"       if human_readable_id == "'Dong Steve' ID"
-  id = "4efb3a11-bc49-f388-0000-0000c93556fb"       if human_readable_id == "'Jane Doe' ID"
     
+  #students
+  id = "2899a720-4196-6112-9874-edde0e2541db"       if human_readable_id == "STUDENT ID"
+      
   #teachers
   id = "a936f73f-7745-b450-922f-87ad78fd6bd1"       if human_readable_id == "'Ms. Jones' ID"
   id = "e24b24aa-2556-994b-d1ed-6e6f71d1be97"       if human_readable_id == "'Ms. Smith' ID"
