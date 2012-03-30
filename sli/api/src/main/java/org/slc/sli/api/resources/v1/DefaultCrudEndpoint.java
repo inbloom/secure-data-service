@@ -1,14 +1,13 @@
 package org.slc.sli.api.resources.v1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.avro.generic.GenericData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,9 +206,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 
                 List<String> ids = new ArrayList<String>();
+                Map<String, List<EntityBody>> associations = new HashMap<String, List<EntityBody>>();
                 // for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
                     ids.add((String) entityBody.get(idKey));
+
+                    if (associations.containsKey((String) entityBody.get(idKey))) {
+                        associations.get((String) entityBody.get(idKey)).add(entityBody);
+                    } else {
+                        List<EntityBody> list = new ArrayList<EntityBody>();
+                        list.add(entityBody);
+
+                        associations.put((String) entityBody.get(idKey), list);
+                    }
                 }
                 
                 if (ids.size() == 0) {
@@ -218,6 +227,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                    if (associations.get(result.get("id")) != null)
+                        result.put(resource1, associations.get(result.get("id")));
+
                     result.put(
                             ResourceConstants.LINKS,
                             ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
@@ -454,7 +466,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
-        neutralQuery.setIncludeFields(includeField);
+        //neutralQuery.setIncludeFields(includeField);
         return neutralQuery;
     }
     
