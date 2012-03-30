@@ -1,5 +1,7 @@
 package org.slc.sli.unit.client;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.slc.sli.client.RESTClient;
 import org.springframework.http.HttpEntity;
@@ -27,7 +29,7 @@ public class RESTClientTest {
         JsonParser parser = new JsonParser();
         JsonObject obj2 = client.sessionCheck(null);
         JsonObject obj1 = parser.parse(jsonText).getAsJsonObject();
-        assert(obj2.equals(obj1));
+        assertEquals(obj2, obj1);
     }
     
     @Test

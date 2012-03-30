@@ -5,7 +5,6 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.controller.GenericLayoutController;
@@ -26,9 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 
-
+/**
+ * Tesing layout controller
+ * @author svankina
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/application-context.xml"})
+@ContextConfiguration(locations = {"/application-context.xml" })
 public class LayoutControllerTest {
 
     @Autowired
@@ -56,13 +59,17 @@ public class LayoutControllerTest {
         }
     };
     
-    class LayoutControllerMock extends GenericLayoutController{
+    /**
+     * Mock class extension for testing
+     *
+     */
+    class LayoutControllerMock extends GenericLayoutController {
         public ModelAndView handleStudentProfile(String id) {
-            String TABBED_ONE_COL = "tabbed_one_col";
+            String tabbedOneCol = "tabbed_one_col";
             ModelMap model = getPopulatedModel("simpleLayout", id);
             // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
             model.addAttribute("programUtil", new StudentProgramUtil());
-            return getModelView(TABBED_ONE_COL, model);
+            return getModelView(tabbedOneCol, model);
         }
 
         public String getUsername() {

@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.util.URLBuilder;
 
 /**
  *
