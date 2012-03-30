@@ -34,7 +34,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
 /**
  * SectionResource
  *
- * A Resource class for accessing a Section entity.
+ * A Resource class for accessing a Section entity and other entities associated with Section.
  *
  * @author jstokes
  *
