@@ -24,7 +24,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 /**
  * Unit tests
@@ -76,28 +75,18 @@ public class StudentGradebookOptionalFieldAppenderTest {
         entities.add(new EntityBody(createTestStudentEntityWithSectionAssociation(STUDENT_ID, SECTION_ID)));
 
         entities = studentGradebookOptionalFieldAppender.applyOptionalField(entities);
-
-        //test should be updated as code is put in
         assertEquals("Should be 1", 1, entities.size());
 
-        EntityBody body = (EntityBody) entities.get(0).get("gradebook");
-        assertNotNull("Should not be null", body.get("studentSectionGradebookEntries"));
-        assertNotNull("Should not be null", body.get("gradebookEntries"));
-
-        List<EntityBody> studentSectionGradebookAssociations = (List<EntityBody>) body.get("studentSectionGradebookEntries");
+        List<EntityBody> studentSectionGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentSectionGradebookEntries");
         assertEquals("Should match", 2, studentSectionGradebookAssociations.size());
         assertEquals("Should match", STUDENT_ID, studentSectionGradebookAssociations.get(0).get("studentId"));
         assertEquals("Should match", SECTION_ID, studentSectionGradebookAssociations.get(0).get("sectionId"));
 
-        List<EntityBody> gradebookEntries = (List<EntityBody>) body.get("gradebookEntries");
-        assertEquals("Should match", 2, gradebookEntries.size());
-        assertEquals("Should match", "Unit Tests", gradebookEntries.get(0).get("gradebookEntryType"));
-        for (EntityBody e : gradebookEntries) {
-            if (!((String) e.get("id")).equals(gradebookEntryId1)
-                    && !((String) e.get("id")).equals(gradebookEntryId2)) {
-                fail("AssessmentIds should match");
-            }
-        }
+        EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentSectionGradebookEntries")).get(0);
+        EntityBody gradebookEntry = (EntityBody) body.get("gradebookEntries");
+        assertNotNull("Should not be null", gradebookEntry);
+        assertEquals("Should match", "Unit Tests", gradebookEntry.get("gradebookEntryType"));
+        assertEquals("", gradebookEntry.get("id"), body.get("gradebookEntryId"));
     }
 
     private Map<String, Object> createTestStudentEntityWithSectionAssociation(String id, String sectionId) {

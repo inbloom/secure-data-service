@@ -3,7 +3,6 @@ package org.slc.sli.api.resources.v1.view.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,27 +76,17 @@ public class StudentAssessmentOptionalFieldAppenderTest {
         entities.add(new EntityBody(createTestStudentEntity(STUDENT_ID)));
         
         entities = studentAssessmentOptionalFieldAppender.applyOptionalField(entities);
-        
-        //test should be updated as code is put in
         assertEquals("Should be 1", 1, entities.size());
 
-        EntityBody body = (EntityBody) entities.get(0).get("assessments");
-        assertNotNull("Should not be null", body.get("assessments"));
-        assertNotNull("Should not be null", body.get("studentAssessmentAssociations"));
-
-        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) body.get("studentAssessmentAssociations");
+        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) entities.get(0).get("studentAssessmentAssociations");
         assertEquals("Should match", 2, studentAssessmentAssociations.size());
         assertEquals("Should match", STUDENT_ID, studentAssessmentAssociations.get(0).get("studentId"));
 
-        List<EntityBody> assessments = (List<EntityBody>) body.get("assessments");
-        assertEquals("Should match", 2, assessments.size());
-        assertEquals("Should match", "Reading", assessments.get(0).get("academicSubject"));
-        for (EntityBody e : assessments) {
-            if (!((String) e.get("id")).equals(assessmentId1)
-                    && !((String) e.get("id")).equals(assessmentId2)) {
-                fail("AssessmentIds should match");
-            }
-        }
+        EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentAssessmentAssociations")).get(0);
+        EntityBody assessment = (EntityBody) body.get("assessments");
+        assertNotNull("Should not be null", assessment);
+        assertEquals("Should match", "Reading", assessment.get("academicSubject"));
+        assertEquals("", assessment.get("id"), body.get("assessmentId"));
     }
 
     private Map<String, Object> createTestStudentEntity(String id) {
