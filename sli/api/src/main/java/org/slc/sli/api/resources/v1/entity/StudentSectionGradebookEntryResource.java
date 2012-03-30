@@ -57,7 +57,6 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return all $$studentSectionGradebookEntries$$ the user has context to view
      *
-     * @response.representation $$studentSectionGradebookEntries$$
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
@@ -77,7 +76,6 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *              URI information including path and query parameters
      * @return A 201 response on successfully created entity with the ID of the entity
-     * @response.representation.201.mediaType
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -97,7 +95,6 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A list of entities matching the list of ids queried for
      *
-     * @response.representation $$studentSectionGradebookEntries$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
@@ -117,7 +114,6 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
@@ -138,7 +134,6 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
