@@ -57,7 +57,7 @@
   <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>530425896</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000000</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -71,7 +71,7 @@
     <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>814202099</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000001</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -85,7 +85,7 @@
     <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>178875887</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000017</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -100,7 +100,7 @@
   <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>288598192</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000025</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -114,7 +114,7 @@
     <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>336344132</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000024</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -128,7 +128,7 @@
     <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>555685177</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000023</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -143,7 +143,7 @@
   <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>453827023</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000015</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -157,7 +157,7 @@
     <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>670703438</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000016</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
@@ -171,7 +171,7 @@
   <StudentCohortAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>683314355</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000017</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<CohortReference>
