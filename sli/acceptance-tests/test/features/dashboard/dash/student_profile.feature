@@ -5,6 +5,7 @@ As a teacher in a school district, I want to click on a student and be directed 
 Background:
 Given I have an open web browser
 
+@wip
 Scenario: View a student's profile
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
@@ -26,6 +27,7 @@ And the class is "M. Jones - 8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
 
+@wip
 Scenario: View a student's profile without lozenges
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
