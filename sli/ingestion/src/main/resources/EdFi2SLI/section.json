@@ -1,8 +1,0 @@
-{
-    "collectionName":"section",
-    "choiceOfFields":[
-    	{"path":"body.uniqueSectionCode",{"sourceValue":"uniqueSectionCode"},
-    	{"path":"body.schoolId", {"collectionName":"school","choiceOfFields":[
-    																{"path":"metaData.externalID", {"sourceValue":"stateOrganizationId"}]
-    				]
-}

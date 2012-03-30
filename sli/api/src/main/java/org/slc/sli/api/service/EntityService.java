@@ -4,8 +4,6 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.NeutralQuery;
 
-
-
 /**
  * Service for retrieving entities in DB
  * 
@@ -57,7 +55,7 @@ public interface EntityService {
      * @return the body of the entity
      */
     public EntityBody get(String id);
-
+    
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      * 
@@ -68,7 +66,7 @@ public interface EntityService {
      * @return the body of the entity
      */
     public EntityBody get(String id, NeutralQuery neutralQuery);
-
+    
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      * 
@@ -77,7 +75,7 @@ public interface EntityService {
      * @return the body of the entity
      */
     public Iterable<EntityBody> list(NeutralQuery neutralQuery);
-
+    
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      * 
@@ -124,5 +122,36 @@ public interface EntityService {
      * @return the definition of the entity
      */
     public EntityDefinition getEntityDefinition();
+    
+    /**
+     * Retrieve the custom entity associated with the specified entity.
+     * 
+     * @param id
+     *            entity id
+     * @return custom entity for this combination of entityId and requesting application
+     */
+    public EntityBody getCustom(String id);
+    
+    /**
+     * Deletes the custom entity associated with the specified entity and requesting application.
+     * 
+     * @param id
+     *            entity id
+     */
+    public void deleteCustom(String id);
+    
+    /**
+     * Creates/Updates the custom entity associated with the specified entity and requesting
+     * application.
+     * 
+     * There is only one custom entity per entity, application. If one already exists, it will be
+     * overwritten.
+     * 
+     * @param id
+     *            entity id
+     * @param customEntity
+     *            custom entity to be saved
+     */
+    public void createOrUpdateCustom(String id, EntityBody customEntity);
     
 }

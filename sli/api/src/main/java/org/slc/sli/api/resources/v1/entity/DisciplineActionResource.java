@@ -22,10 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,21 +41,16 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class DisciplineActionResource {
+public class DisciplineActionResource extends DefaultCrudEndpoint {
     
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineActionResource.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public DisciplineActionResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public DisciplineActionResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
 
     /**
@@ -77,7 +73,7 @@ public class DisciplineActionResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.DISCIPLINE_ACTIONS, headers, uriInfo);
+        return super.readAll(ResourceNames.DISCIPLINE_ACTIONS, headers, uriInfo);
     }
 
     /**
@@ -98,7 +94,7 @@ public class DisciplineActionResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.DISCIPLINE_ACTIONS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.DISCIPLINE_ACTIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -117,7 +113,7 @@ public class DisciplineActionResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, headers, uriInfo);
+        return super.read(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, headers, uriInfo);
     }
 
     /**
@@ -136,7 +132,7 @@ public class DisciplineActionResource {
     @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, headers, uriInfo);
+        return super.delete(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, headers, uriInfo);
     }
 
     /**
@@ -158,6 +154,6 @@ public class DisciplineActionResource {
     public Response update(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.DISCIPLINE_ACTIONS, disciplineActionId, newEntityBody, headers, uriInfo);
     }
 }
