@@ -25,6 +25,7 @@
 
 
   <build>
+    <finalName>ingestion-service</finalName>
 
     <plugins>
 
