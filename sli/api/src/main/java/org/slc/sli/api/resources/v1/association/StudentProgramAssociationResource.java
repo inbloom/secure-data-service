@@ -159,7 +159,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Returns each $$student$$ that
+     * Returns each $$students$$ that
      * references the given $$studentProgramAssociations$$
      * 
      * @param studentProgramAssociationId
