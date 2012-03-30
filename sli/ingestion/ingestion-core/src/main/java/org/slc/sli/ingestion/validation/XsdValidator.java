@@ -10,29 +10,32 @@ import javax.xml.validation.Validator;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.xml.sax.ErrorHandler;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  *
  * @author ablum
  *
  */
-public class XsdValidator extends SimpleValidator<IngestionFileEntry> {
+public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
-	private Map<String, Resource> xsd;
+    @Autowired
+    private Map<String, Resource> xsd;
 
 	@Override
 	public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport){
 		boolean isValid = false;
-       try{
+       try {
 		  SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-          File schemaFile = new File("Interchange-Student.xsd");
+          File schemaFile = xsd.get(ingestionFileEntry.getFileType()).getFile();
           Schema schema = schemaFactory.newSchema(schemaFile);
           Validator validator = schema.newValidator();
-          String sourceXml = "InterchangeStudent.xml";
+          String sourceXml = ingestionFileEntry.getFileName();
           Source sc = new StreamSource(sourceXml);
           ErrorHandler myHandler = new XsdErrorHandler();
           validator.setErrorHandler(myHandler);
