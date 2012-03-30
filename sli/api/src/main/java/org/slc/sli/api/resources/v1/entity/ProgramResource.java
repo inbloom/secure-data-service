@@ -186,7 +186,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns the $students$ that are referenced from the $$studentProgramAssociations$$ 
+     * Returns the $$students$$ that are referenced from the $$studentProgramAssociations$$ 
      * that references the given $$programs$$.
      * 
      * @param programId
@@ -236,7 +236,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns the $staff$ that are referenced from the $$staffProgramAssociations$$ 
+     * Returns the $$staff$$ that are referenced from the $$staffProgramAssociations$$ 
      * that references the given $$programs$$.
      * 
      * @param programId
