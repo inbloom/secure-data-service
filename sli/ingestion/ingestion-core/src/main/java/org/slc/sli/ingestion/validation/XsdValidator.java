@@ -12,15 +12,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.springframework.core.io.Resource;
-
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.ErrorHandler;
-
+import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
+
 /**
  *
  * @author ablum
@@ -33,34 +31,35 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
-        boolean isValid = false;
-       try {
-          SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-          Resource r = xsd.get(ingestionFileEntry.getFileType().getName());
-          File schemaFile = r.getFile();
-          Schema schema = schemaFactory.newSchema(schemaFile);
-          Validator validator = schema.newValidator();
-          String sourceXml = ingestionFileEntry.getFileName();
-          Source sc = new StreamSource(sourceXml);
-          ErrorHandler myHandler = new XsdErrorHandler(errorReport);
-          validator.setErrorHandler(myHandler);
-          validator.validate(sc);
-          isValid = true;
 
-          } catch (FileNotFoundException e) {
-              LOG.error("File not found: " + ingestionFileEntry.getFileName());
-              errorReport.error(getFailureMessage("SL_ERR_MSG11", ingestionFileEntry.getFileName()), XsdValidator.class);
-              isValid = false;
-          } catch (IOException e) {
-              LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
-              errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
-              isValid = false;
-          } catch (SAXException e) {
-              isValid = false;
-          }
+        XsdErrorHandlerInterface errorHandler = new XsdErrorHandler(errorReport);
 
+        try {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
+            File schemaFile = xsdResource.getFile();
+            Schema schema = schemaFactory.newSchema(schemaFile);
 
-       return isValid;
+            Validator validator = schema.newValidator();
+            String sourceXml = ingestionFileEntry.getFileName();
+            Source sc = new StreamSource(sourceXml);
+
+            validator.setErrorHandler(errorHandler);
+            validator.validate(sc);
+
+        } catch (FileNotFoundException e) {
+            LOG.error("File not found: " + ingestionFileEntry.getFileName());
+            errorReport.error(getFailureMessage("SL_ERR_MSG11", ingestionFileEntry.getFileName()), XsdValidator.class);
+            errorHandler.setIsValid(false);
+        } catch (IOException e) {
+            LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
+            errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
+            errorHandler.setIsValid(false);
+        } catch (SAXException e) {
+            errorHandler.setIsValid(false);
+        }
+
+        return errorHandler.isValid();
     }
 
     public Map<String, Resource> getXsd() {
@@ -70,6 +69,5 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     public void setXsd(Map<String, Resource> xsd) {
         this.xsd = xsd;
     }
-
 
 }
