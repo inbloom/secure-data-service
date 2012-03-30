@@ -41,8 +41,12 @@ public class ApplicationAuthorizationValidator {
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
         Entity district = findUsersDistrict(principal);
         if (district != null) {
+            
+            String stateOrgId = (String) district.getBody().get("stateOrganizationId");
+            assert stateOrgId != null;
+            
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
+            query.addCriteria(new NeutralCriteria("authId", "=", stateOrgId));
             query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
             if (authorizedApps != null) {
