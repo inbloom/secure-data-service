@@ -211,14 +211,16 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         AssociationDefinition studentCohortAssociation = factory.makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION)
                 .exposeAs(ResourceNames.STUDENT_COHORT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_COHORT_ASSOCIATION)
                 .from(student, "getStudent", "getStudents").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
-                .calledFromSource(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER).calledFromTarget(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromSource(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromTarget(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
                 .build();
         addDefinition(studentCohortAssociation);
         
         AssociationDefinition staffCohortAssociation = factory.makeAssoc(EntityNames.STAFF_COHORT_ASSOCIATION)
                 .exposeAs(ResourceNames.STAFF_COHORT_ASSOCIATIONS).storeAs(EntityNames.STAFF_COHORT_ASSOCIATION)
                 .from(student, "getStaff", "getStaffs").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
-                .calledFromSource(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER).calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromSource(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
                 .build();
         addDefinition(staffCohortAssociation);
 

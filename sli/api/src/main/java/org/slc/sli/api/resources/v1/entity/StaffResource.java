@@ -256,7 +256,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
-    public Response getStaffCohortAssociationEducationOrganizations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+    public Response getStaffCohortAssociationCohorts(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, 
