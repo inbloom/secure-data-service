@@ -200,7 +200,7 @@
     <BeginDate>2011-01-01</BeginDate>
 	<EndDate>2012-02-15</EndDate>
 	<StudentRecordAccess>true</StudentRecordAccess>
-  </StudentCohortAssociation>
+  </StaffCohortAssociation>
   <StaffCohortAssociation>
     <StaffReference>
 	  <StaffIdentity>
