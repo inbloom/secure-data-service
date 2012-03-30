@@ -23,8 +23,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Prototype new api end points and versioning base class
@@ -206,9 +208,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
                 
                 List<String> ids = new ArrayList<String>();
+                Map<String, List<EntityBody>> associations = new HashMap<String, List<EntityBody>>();
+
                 // for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
                     ids.add((String) entityBody.get(idKey));
+
+                    if (associations.containsKey((String) entityBody.get(idKey))) {
+                        associations.get((String) entityBody.get(idKey)).add(entityBody);
+                    } else {
+                        List<EntityBody> list = new ArrayList<EntityBody>();
+                        list.add(entityBody);
+                        associations.put((String) entityBody.get(idKey), list);
+                    }
                 }
                 
                 if (ids.size() == 0) {
@@ -217,16 +229,16 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 
-                List<EntityBody> entities = (List<EntityBody>) endpointEntity.getService().list(endpointNeutralQuery);
-                entities = appendOptionalFields(uriInfo, entities);
-                
-                for (EntityBody result : entities) {
+                for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                    result.put(resource1, associations.get((String) result.get("id")));
                     result.put(
                             ResourceConstants.LINKS,
                             ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
                                     entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     finalResults.add(result);
                 }
+
+                finalResults = appendOptionalFields(uriInfo, finalResults);
                 
                 long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                 return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
@@ -447,7 +459,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
-        neutralQuery.setIncludeFields(includeField);
+        //neutralQuery.setIncludeFields(includeField);
         return neutralQuery;
     }
     

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.v1.view.impl.StudentGradebookOptionalFieldAppender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -41,5 +42,7 @@ public class OptionalFieldAppenderFactoryTest {
                 instanceof StudentAssessmentOptionalFieldAppender);
         assertTrue("Should be of type studentattendance", factory.getOptionalFieldAppender(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES)
                 instanceof StudentAttendanceOptionalFieldAppender);
+        assertTrue("Should be of type studentgradebook", factory.getOptionalFieldAppender(ParameterConstants.OPTIONAL_FIELD_GRADEBOOK)
+                instanceof StudentGradebookOptionalFieldAppender);
     }
 }

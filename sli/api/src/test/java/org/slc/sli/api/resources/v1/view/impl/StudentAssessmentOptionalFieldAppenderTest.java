@@ -2,14 +2,22 @@ package org.slc.sli.api.resources.v1.view.impl;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.junit.Ignore;
+import org.junit.After;
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.MockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,16 +41,86 @@ public class StudentAssessmentOptionalFieldAppenderTest {
     
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
-    
-    @Ignore
+
+    @Autowired
+    private SecurityContextInjector injector;
+
+    @Autowired
+    MockRepo repo;
+
+    private String assessmentId1;
+    private String assessmentId2;
+    private static final String STUDENT_ID = "1234";
+
+    @Before
+    public void setup() {
+        // inject administrator security context for unit testing
+        injector.setAdminContextWithElevatedRights();
+
+        repo.create("student", createTestStudentEntity(STUDENT_ID));
+
+        assessmentId1 = repo.create("assessment", createAssessment()).getEntityId();
+        assessmentId2 = repo.create("assessment", createAssessment()).getEntityId();
+
+        repo.create("studentAssessmentAssociation", createTestStudentAssessmentAssociation(STUDENT_ID, assessmentId1));
+        repo.create("studentAssessmentAssociation", createTestStudentAssessmentAssociation(STUDENT_ID, assessmentId2));
+    }
+
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
+    }
+
     @Test
     public void testApplyOptionalField() {
         List<EntityBody> entities = new ArrayList<EntityBody>();
+        entities.add(new EntityBody(createTestStudentEntity(STUDENT_ID)));
         
         entities = studentAssessmentOptionalFieldAppender.applyOptionalField(entities);
         
         //test should be updated as code is put in
         assertEquals("Should be 1", 1, entities.size());
-        assertEquals("Should match", "studentassessment", entities.get(0).get("assessment"));
+
+        EntityBody body = (EntityBody) entities.get(0).get("assessments");
+        assertNotNull("Should not be null", body.get("assessments"));
+        assertNotNull("Should not be null", body.get("studentAssessmentAssociations"));
+
+        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) body.get("studentAssessmentAssociations");
+        assertEquals("Should match", 2, studentAssessmentAssociations.size());
+        assertEquals("Should match", STUDENT_ID, studentAssessmentAssociations.get(0).get("studentId"));
+
+        List<EntityBody> assessments = (List<EntityBody>) body.get("assessments");
+        assertEquals("Should match", 2, assessments.size());
+        assertEquals("Should match", "Reading", assessments.get(0).get("academicSubject"));
+        for (EntityBody e : assessments) {
+            if (!((String) e.get("id")).equals(assessmentId1)
+                    && !((String) e.get("id")).equals(assessmentId2)) {
+                fail("AssessmentIds should match");
+            }
+        }
+    }
+
+    private Map<String, Object> createTestStudentEntity(String id) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("id", id);
+        entity.put("field2", 2);
+        entity.put("studentUniqueStateId", 1234);
+        return entity;
+    }
+
+    private Map<String, Object> createTestStudentAssessmentAssociation(String studentId, String assessmentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentId", studentId);
+        entity.put("assessmentId", assessmentId);
+        entity.put("administrationLanguage", "ENGLISH");
+        entity.put("administrationDate", "2011-01-01");
+        return entity;
+    }
+
+    private Map<String, Object> createAssessment() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("academicSubject", "Reading");
+        entity.put("gradeLevelAssessed", "Tenth Grade");
+        return entity;
     }
 }

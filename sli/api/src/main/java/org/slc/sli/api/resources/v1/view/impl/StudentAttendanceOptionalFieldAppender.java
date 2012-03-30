@@ -2,10 +2,12 @@ package org.slc.sli.api.resources.v1.view.impl;
 
 import java.util.List;
 
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.view.AbstractOptionalFieldAppender;
 
 /**
  * Provides data about students and attendance to construct the custom
@@ -14,20 +16,24 @@ import org.slc.sli.api.resources.v1.view.AbstractOptionalFieldAppender;
  *
  */
 @Component
-public class StudentAttendanceOptionalFieldAppender extends AbstractOptionalFieldAppender {
+public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppender {
+
+    @Autowired
+    private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
+
 
     public StudentAttendanceOptionalFieldAppender() {
     }
-    
+
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
-        
+
         EntityBody b = new EntityBody();
         b.put("attendances", "studentattendances");
-        
+
         entities.add(b);
-        
+
         return entities;
     }
-    
+
 }

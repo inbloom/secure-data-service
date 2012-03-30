@@ -79,6 +79,7 @@ public class ParameterConstants {
      */
     public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
     public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
+    public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
 
     /**
      * Entity/Association IDs
@@ -115,4 +116,5 @@ public class ParameterConstants {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
+    public static final String GRADEBOOK_ENTRY_ID = "gradebookEntryId";
 }
