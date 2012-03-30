@@ -49,7 +49,7 @@ public final class ResourceNames {
     public static final String COURSE_SECTION_ASSOCIATIONS = "course-section-associations";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
-    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "student-disciplineIncident-associations";
+    public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staff-program-associations";
     public static final String STAFF_COHORT_ASSOCIATIONS = "staff-cohort-associations";
     public static final String STUDENT_COHORT_ASSOCIATIONS = "student-cohort-associations";
