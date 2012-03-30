@@ -1,6 +1,5 @@
 package org.slc.sli.test.generators;
 
-import java.util.Calendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.RepeatIdentifierType;
@@ -29,12 +28,8 @@ public class StudentSectionAssociationGenerator {
         secrt.setSectionIdentity(secit);
         ssa.setSectionReference(secrt);
 
-        Calendar rightNow = Calendar.getInstance();
-        Calendar nextWeek = Calendar.getInstance();
-        nextWeek.roll(Calendar.WEEK_OF_YEAR, 1);
-
-        ssa.setBeginDate(rightNow);
-        ssa.setEndDate(nextWeek);
+        ssa.setBeginDate("2011-03-04");
+        ssa.setEndDate("2011-03-04");
 
         ssa.setHomeroomIndicator(random.nextBoolean());
 

@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100">
+    <Section>
+        <UniqueSectionCode>a0-1d5e4f39-b984-4363-9d57-527</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1d5e4f39-b984-4363-9d57-527</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1d5e4f39-b984-4363-9d57-527</UniqueSectionCode>
+        <SequenceOfCourse>4</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1d5e4f39-b984-4363-9d57-527</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1d5e4f39-b984-4363-9d57-527</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1d5e4f39-b984-4363-9d57-527</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1d5e4f39-b984-4363-9d57-527</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1d5e4f39-b984-4363-9d57-527</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-36d64d6e-ca1f-4897-9da7-f79</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-36d64d6e-ca1f-4897-9da7-f79</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-36d64d6e-ca1f-4897-9da7-f79</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-36d64d6e-ca1f-4897-9da7-f79</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-36d64d6e-ca1f-4897-9da7-f79</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-36d64d6e-ca1f-4897-9da7-f79</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-36d64d6e-ca1f-4897-9da7-f79</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-36d64d6e-ca1f-4897-9da7-f79</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-3ce9c2e8-625c-4c82-8403-ee7</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-3ce9c2e8-625c-4c82-8403-ee7</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-3ce9c2e8-625c-4c82-8403-ee7</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-3ce9c2e8-625c-4c82-8403-ee7</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-3ce9c2e8-625c-4c82-8403-ee7</UniqueSectionCode>
+        <SequenceOfCourse>4</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-3ce9c2e8-625c-4c82-8403-ee7</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-3ce9c2e8-625c-4c82-8403-ee7</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-3ce9c2e8-625c-4c82-8403-ee7</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-71440a53-f23a-4119-b48e-7cb</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-71440a53-f23a-4119-b48e-7cb</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-71440a53-f23a-4119-b48e-7cb</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-71440a53-f23a-4119-b48e-7cb</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-71440a53-f23a-4119-b48e-7cb</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-71440a53-f23a-4119-b48e-7cb</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-71440a53-f23a-4119-b48e-7cb</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-71440a53-f23a-4119-b48e-7cb</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-257b304d-1744-458e-8c5a-399</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-257b304d-1744-458e-8c5a-399</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-257b304d-1744-458e-8c5a-399</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-257b304d-1744-458e-8c5a-399</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-257b304d-1744-458e-8c5a-399</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-257b304d-1744-458e-8c5a-399</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-257b304d-1744-458e-8c5a-399</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-257b304d-1744-458e-8c5a-399</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-d1875e7f-3a3b-4514-b5d7-88d</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-d1875e7f-3a3b-4514-b5d7-88d</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-d1875e7f-3a3b-4514-b5d7-88d</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-d1875e7f-3a3b-4514-b5d7-88d</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-d1875e7f-3a3b-4514-b5d7-88d</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-d1875e7f-3a3b-4514-b5d7-88d</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-d1875e7f-3a3b-4514-b5d7-88d</UniqueSectionCode>
+        <SequenceOfCourse>3</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-d1875e7f-3a3b-4514-b5d7-88d</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-77687865-cf1a-4f77-b062-405</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-77687865-cf1a-4f77-b062-405</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-77687865-cf1a-4f77-b062-405</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-77687865-cf1a-4f77-b062-405</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-77687865-cf1a-4f77-b062-405</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-77687865-cf1a-4f77-b062-405</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-77687865-cf1a-4f77-b062-405</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-77687865-cf1a-4f77-b062-405</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-817f23c5-8436-4db5-9273-ef0</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-817f23c5-8436-4db5-9273-ef0</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-817f23c5-8436-4db5-9273-ef0</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-817f23c5-8436-4db5-9273-ef0</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-817f23c5-8436-4db5-9273-ef0</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-817f23c5-8436-4db5-9273-ef0</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-817f23c5-8436-4db5-9273-ef0</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-817f23c5-8436-4db5-9273-ef0</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-7cac0fb1-3c0b-4d45-9de3-928</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-7cac0fb1-3c0b-4d45-9de3-928</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-7cac0fb1-3c0b-4d45-9de3-928</UniqueSectionCode>
+        <SequenceOfCourse>4</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-7cac0fb1-3c0b-4d45-9de3-928</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-7cac0fb1-3c0b-4d45-9de3-928</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-7cac0fb1-3c0b-4d45-9de3-928</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-7cac0fb1-3c0b-4d45-9de3-928</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-7cac0fb1-3c0b-4d45-9de3-928</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1b461097-be21-4058-9735-909</UniqueSectionCode>
+        <SequenceOfCourse>2</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1b461097-be21-4058-9735-909</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1b461097-be21-4058-9735-909</UniqueSectionCode>
+        <SequenceOfCourse>5</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1b461097-be21-4058-9735-909</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1b461097-be21-4058-9735-909</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1b461097-be21-4058-9735-909</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>a0-1b461097-be21-4058-9735-909</UniqueSectionCode>
+        <SequenceOfCourse>6</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Correspondence instruction</MediumOfInstruction>
+        <PopulationServed>Bilingual Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>a0-1b461097-be21-4058-9735-909</LocalCourseCode>
+                <Term>Fall Semester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School_a0-0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Section>
+</InterchangeMasterSchedule>

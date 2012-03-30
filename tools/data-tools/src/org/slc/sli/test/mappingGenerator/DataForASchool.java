@@ -71,7 +71,7 @@ public class DataForASchool {
     }
 
     public DataForASchool(String prefix) {
-        this.prefix = prefix;
+        this.prefix = "a" + prefix;
     }
 
     public void generateData(String path, boolean display, boolean validate) {
