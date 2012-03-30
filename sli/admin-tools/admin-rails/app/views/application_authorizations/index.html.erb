@@ -1,0 +1,21 @@
+<h1>Listing application_authorizations</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @application_authorizations.each do |application_authorization| %>
+  <tr>
+    <td><%= link_to 'Show', application_authorization %></td>
+    <td><%= link_to 'Edit', edit_application_authorization_path(application_authorization) %></td>
+    <td><%= link_to 'Destroy', application_authorization, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Application authorization', new_application_authorization_path %>
