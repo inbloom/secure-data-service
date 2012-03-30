@@ -14,32 +14,78 @@ import org.slc.sli.test.edfi.entities.TelephoneNumberType;
 
 public class TelephoneGenerator {
 	private static final Logger log = Logger.getLogger(TelephoneGenerator.class);
-	public String filename = "database/address/city_US.csv";
-	private List<String> areaCode = new ArrayList<String>();
+	//public String filename = "database/address/city_US.csv";
+	//private List<String> areaCode = new ArrayList<String>();
 	Random generator = new Random();
 
 	public Telephone getTelephone() throws Exception {
+		String oneAreaCode;
+		String telephone;
 		Telephone tel = new Telephone();
 		tel.setPrimaryTelephoneNumberIndicator(generator.nextBoolean());
-
-		String telephone;
-		String tempAreaCode;
-		areaCode = getAreaCode();
-		int roll = generator.nextInt(42182) + 1;
-		tempAreaCode = areaCode.get(roll);
-		telephone = tempAreaCode.concat(getFirstThreeDigits()).concat(getLastFourDigits());
+		oneAreaCode = getAreaCode();
+		telephone = oneAreaCode.concat(getFirstThreeDigits()).concat(getLastFourDigits());
 		tel.setTelephoneNumber(telephone);
 		tel.setTelephoneNumberType(getPhoneType());
 		return tel;
 	}
 
 
+	public String getAreaCode () {
+		int roll = generator.nextInt(40) + 1;
+		switch (roll) {
+			case 1:  return "603";
+			case 2:  return "516";
+			case 3:  return "787";
+			case 4:  return "340";
+			case 5:  return "978";
+			case 6:  return "508";
+			case 7:  return "617";
+			case 8:  return "401";
+			case 9:  return "603";
+			case 10: return "207";
+			case 11: return "802";
+			case 12: return "860";
+			case 13: return "203";
+			case 14: return "201";
+			case 15: return "908";
+			case 16: return "973";
+			case 17: return "732";
+			case 18: return "609";
+			case 19: return "212";
+			case 20: return "718";
+			case 21: return "914";
+			case 22: return "724";
+			case 23: return "814";
+			case 24: return "215";
+			case 25: return "610";
+			case 26: return "304";
+			case 27: return "704";
+			case 28: return "828";
+			case 29: return "910";
+			case 30: return "336";
+			case 31: return "828";
+			case 32: return "864";
+			case 33: return "770";
+			case 34: return "404";
+			case 35: return "912";
+			case 36: return "706";
+			case 37: return "352";
+			case 38: return "561";
+			case 39: return "205";
+			case 40: return "256";
+			case 41: return "423";
+			case 42: return "901";
+			default: return "413";
+		}
 
-	public List<String> getAreaCode() throws Exception {
+	}
+	/*
+	public String getAreaCode() throws Exception {
 		FileInputStream fstream = new FileInputStream(filename);
         DataInputStream in = new DataInputStream(fstream);
         BufferedReader areaCodeBuffer = new BufferedReader(new InputStreamReader(in));
-
+        String oneAreaCode;
         String line;
         String [] areaCodeSplit;
         line = areaCodeBuffer.readLine();
@@ -53,9 +99,14 @@ public class TelephoneGenerator {
 
         		}
         }
-        return areaCode;
+
+       int roll = generator.nextInt(42180) + 1;
+		oneAreaCode = areaCode.get(roll);
+
+        return oneAreaCode;
 
 	}
+	*/
 
 	public String getFirstThreeDigits() throws Exception {
 		int roll = generator.nextInt(999) + 1;
@@ -110,9 +161,10 @@ public class TelephoneGenerator {
 		lt.add(teleFactory);
 		//for(AddressFactory addressFactory:factoryList)
 		for (TelephoneGenerator tf: lt)
-		for (String telephoneId : "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20".split(" ")) {
+		for (String telephoneId : "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20".split(" "))
+			{
 			Telephone tel = tf.getTelephone();
-			log.info(telephoneId + " " + tel.getTelephoneNumber() + " " + tel.getTelephoneNumberType() +
+			log.info( " " + tel.getTelephoneNumber() + " " + tel.getTelephoneNumberType() +
 					" " + tel.isPrimaryTelephoneNumberIndicator());
 
 		}
