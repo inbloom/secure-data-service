@@ -808,6 +808,7 @@
                 </configuration>
                 <executions>
                     <execution>
+		        <phase>compile</phase>
                         <goals>
                             <goal>compile</goal>
                             <goal>test-compile</goal>
