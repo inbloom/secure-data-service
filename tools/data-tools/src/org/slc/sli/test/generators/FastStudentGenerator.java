@@ -113,8 +113,8 @@ public class FastStudentGenerator {
 
     private void setStudentIndicators(Student student) {
         StudentIndicator si = new StudentIndicator();
-        si.setBeginDate(RIGHT_NOW);
-        si.setEndDate(RIGHT_NOW);
+        si.setBeginDate("2011-03-04");
+        si.setEndDate("2012-03-04");
         si.setIndicator("This is a student indicator");
         si.setIndicatorName("IndicatorName");
 
@@ -142,8 +142,8 @@ public class FastStudentGenerator {
 
     private void setProgramParticipation(Student student) {
         ProgramParticipation pp = new ProgramParticipation();
-        pp.setBeginDate(RIGHT_NOW);
-        pp.setEndDate(RIGHT_NOW);
+        pp.setBeginDate("2011-03-04");
+        pp.setEndDate("2012-03-04");
         pp.setProgram(ProgramType.ATHLETICS);
 
         student.getProgramParticipations().add(pp);
@@ -177,8 +177,8 @@ public class FastStudentGenerator {
 
     private void setStudentCharacteristics(Student student) {
         StudentCharacteristic sc = new StudentCharacteristic();
-        sc.setBeginDate(RIGHT_NOW);
-        sc.setEndDate(RIGHT_NOW);
+        sc.setBeginDate("2011-03-04");
+        sc.setEndDate("2011-03-04");
         sc.setCharacteristic(StudentCharacteristicType.FOSTER_CARE);
 
         student.getStudentCharacteristics().add(sc);

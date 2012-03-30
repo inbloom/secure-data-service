@@ -71,7 +71,7 @@ public class DataForASchool {
     }
 
     public DataForASchool(String prefix) {
-        this.prefix = prefix;
+        this.prefix = "a" + prefix;
     }
 
     public void generateData(String path, boolean display, boolean validate) {
@@ -360,7 +360,9 @@ public class DataForASchool {
         List<Student> list = interchangeStudent.getStudent();
 
         // student
-        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
+        boolean includeOptionalData = false;
+        boolean randomizeData = true;
+        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY, includeOptionalData, randomizeData);
         for (String studentId : students) {
             Student student = sg.generate(studentId);
             list.add(student);
