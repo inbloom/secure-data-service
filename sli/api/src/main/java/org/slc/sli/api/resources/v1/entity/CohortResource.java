@@ -156,10 +156,10 @@ public class CohortResource extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$staffCohortAssociations$$ that
-     * references the given $$cohort$$
+     * references the given $$cohorts$$
      * 
      * @param cohortId
-     *            The Id of the Cohort.
+     *            The Id of the $$cohorts$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -183,11 +183,11 @@ public class CohortResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$staff$$ associated to the given cohort through
+     * Returns each $$staff$$ associated to the given $$cohorts$$ through
      * a $$staffCohortAssociations$$ 
      * 
      * @param cohortId
-     *            The Id of the Cohort.
+     *            The Id of the $$cohorts$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -206,10 +206,10 @@ public class CohortResource extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$studentCohortAssociations$$ that
-     * references the given $$cohort$$
+     * references the given $$cohorts$$
      * 
      * @param cohortId
-     *            The Id of the Cohort.
+     *            The Id of the $$cohorts$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -233,11 +233,11 @@ public class CohortResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$student$$ associated to the given cohort through
+     * Returns each $$students$$ associated to the given $$cohorts$$ through
      * a $$studentCohortAssociations$$ 
      * 
      * @param cohortId
-     *            The Id of the Cohort.
+     *            The Id of the $$cohorts$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo

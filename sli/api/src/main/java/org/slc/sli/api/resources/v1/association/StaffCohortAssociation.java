@@ -166,7 +166,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      * references the given $$staffCohortAssociations$$
      * 
      * @param staffCohortAssociationId
-     *            The Id of the staffCohortAssociation.
+     *            The Id of the $$staffCohortAssociation$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -191,11 +191,11 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
     
     /**
-     * Returns each $$cohort$$ that
+     * Returns each $$cohorts$$ that
      * references the given $$staffCohortAssociations$$
      * 
      * @param staffCohortAssociationId
-     *            The Id of the staffCohortAssociationId.
+     *            The Id of the $$staffCohortAssociations$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
