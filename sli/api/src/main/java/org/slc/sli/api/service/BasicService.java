@@ -167,7 +167,7 @@ public class BasicService implements EntityService {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        
+        deleteAttachedCustomEntities(id);
     }
     
     @Override
@@ -490,12 +490,23 @@ public class BasicService implements EntityService {
                         String idToBeDeleted = (String) entityBody.get("id");
                         // delete that entity as well
                         referencingEntityService.delete(idToBeDeleted);
+                        // delete custom entities attached to this entity
+                        deleteAttachedCustomEntities(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
                     LOG.debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
                 }
             }
+        }
+    }
+    
+    private void deleteAttachedCustomEntities(String sourceId) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", false));
+        Iterable<String> ids = getRepo().findAllIds(CUSTOM_ENTITY_COLLECTION, query);
+        for (String id : ids) {
+            getRepo().delete(CUSTOM_ENTITY_COLLECTION, id);
         }
     }
     
