@@ -17,12 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -30,14 +24,17 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
-
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 
- * Implements the ClientDetailsService interface provided by the Spring OAuth
- * 2.0 implementation.
+ * Provides CRUD operations on registered application through the /apps path.
  * 
  * @author shalka
  */
@@ -58,7 +55,7 @@ public class ApplicationResource {
     public static final String CLIENT_SECRET = "client_secret";
     public static final String RESOURCE_NAME = "application"; 
     public static final String UUID = "uuid";
-    private static final Logger   LOG        = LoggerFactory.getLogger(ApplicationResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationResource.class);
 
     @PostConstruct
     public void init() {
