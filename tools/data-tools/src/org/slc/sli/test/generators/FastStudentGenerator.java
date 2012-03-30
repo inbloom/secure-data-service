@@ -1,0 +1,213 @@
+package org.slc.sli.test.generators;
+
+import java.util.Calendar;
+import java.util.Random;
+
+import org.slc.sli.test.edfi.entities.Address;
+import org.slc.sli.test.edfi.entities.CohortYear;
+import org.slc.sli.test.edfi.entities.CohortYearType;
+import org.slc.sli.test.edfi.entities.Disability;
+import org.slc.sli.test.edfi.entities.DisabilityType;
+import org.slc.sli.test.edfi.entities.ElectronicMail;
+import org.slc.sli.test.edfi.entities.ElectronicMailAddressType;
+import org.slc.sli.test.edfi.entities.LanguageItemType;
+import org.slc.sli.test.edfi.entities.LanguagesType;
+import org.slc.sli.test.edfi.entities.LearningStyles;
+import org.slc.sli.test.edfi.entities.LimitedEnglishProficiencyType;
+import org.slc.sli.test.edfi.entities.OldEthnicityType;
+import org.slc.sli.test.edfi.entities.OtherName;
+import org.slc.sli.test.edfi.entities.ProgramParticipation;
+import org.slc.sli.test.edfi.entities.ProgramType;
+import org.slc.sli.test.edfi.entities.RaceItemType;
+import org.slc.sli.test.edfi.entities.RaceType;
+import org.slc.sli.test.edfi.entities.SchoolFoodServicesEligibilityType;
+import org.slc.sli.test.edfi.entities.Section504DisabilitiesType;
+import org.slc.sli.test.edfi.entities.Section504DisabilityItemType;
+import org.slc.sli.test.edfi.entities.SexType;
+import org.slc.sli.test.edfi.entities.Student;
+import org.slc.sli.test.edfi.entities.StudentCharacteristic;
+import org.slc.sli.test.edfi.entities.StudentCharacteristicType;
+import org.slc.sli.test.edfi.entities.StudentIndicator;
+import org.slc.sli.test.edfi.entities.Telephone;
+
+/**
+ * Dumb, fast student generator for high volume data.
+ *
+ * @author dduran
+ *
+ */
+public class FastStudentGenerator {
+
+    public static final Calendar RIGHT_NOW = Calendar.getInstance();
+
+    public Student generate(String studentId) {
+
+        Random random = new Random();
+
+        Student student = new Student();
+
+        student.setStudentUniqueStateId(studentId);
+
+        student.setSex(random.nextBoolean() ? SexType.MALE : SexType.FEMALE);
+
+        setNameAndOtherNames(student);
+
+        student.setHispanicLatinoEthnicity(random.nextBoolean());
+
+        setRace(student);
+
+        student.setBirthData(BirthDataGenerator.generateFastBirthData());
+
+        setAddresses(student);
+
+        setTelephones(student);
+
+        setEmailAdresses(student);
+
+        student.setProfileThumbnail("StudentPicture.jpg");
+
+        student.setOldEthnicity(OldEthnicityType.WHITE_NOT_OF_HISPANIC_ORIGIN);
+
+        student.setEconomicDisadvantaged(random.nextBoolean());
+
+        student.setSchoolFoodServicesEligibility(SchoolFoodServicesEligibilityType.FULL_PRICE);
+
+        setStudentCharacteristics(student);
+
+        student.setLimitedEnglishProficiency(LimitedEnglishProficiencyType.NOT_LIMITED);
+
+        setLanguagesAndHomeLanguage(student);
+
+        setDisabilities(student);
+
+        setSection504(student);
+
+        student.setDisplacementStatus("Military Deployment");
+
+        setProgramParticipation(student);
+
+        setLearningStyles(student);
+
+        setCohortYears(student);
+
+        setStudentIndicators(student);
+
+        student.setLoginId("StudentLoginID");
+
+        return student;
+    }
+
+    private void setAddresses(Student student) {
+        Address address = AddressGenerator.getFastAddress();
+
+        student.getAddress().add(address);
+        student.getAddress().add(address);
+    }
+
+    private void setTelephones(Student student) {
+        Telephone telephone = TelephoneGenerator.getFastTelephone();
+
+        student.getTelephone().add(telephone);
+        student.getTelephone().add(telephone);
+    }
+
+    private void setStudentIndicators(Student student) {
+        StudentIndicator si = new StudentIndicator();
+        si.setBeginDate(RIGHT_NOW);
+        si.setEndDate(RIGHT_NOW);
+        si.setIndicator("This is a student indicator");
+        si.setIndicatorName("IndicatorName");
+
+        student.getStudentIndicators().add(si);
+        student.getStudentIndicators().add(si);
+    }
+
+    private void setCohortYears(Student student) {
+        CohortYear ch = new CohortYear();
+        ch.setSchoolYear("2011-2012");
+        ch.setCohortYearType(CohortYearType.ELEVENTH_GRADE);
+
+        student.getCohortYears().add(ch);
+        student.getCohortYears().add(ch);
+    }
+
+    private void setLearningStyles(Student student) {
+        LearningStyles ls = new LearningStyles();
+        ls.setVisualLearning(50);
+        ls.setTactileLearning(25);
+        ls.setAuditoryLearning(25);
+
+        student.setLearningStyles(ls);
+    }
+
+    private void setProgramParticipation(Student student) {
+        ProgramParticipation pp = new ProgramParticipation();
+        pp.setBeginDate(RIGHT_NOW);
+        pp.setEndDate(RIGHT_NOW);
+        pp.setProgram(ProgramType.ATHLETICS);
+
+        student.getProgramParticipations().add(pp);
+        student.getProgramParticipations().add(pp);
+    }
+
+    private void setSection504(Student student) {
+        Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
+        sec504.getSection504Disability().add(Section504DisabilityItemType.MEDICAL_CONDITION);
+
+        student.setSection504Disabilities(sec504);
+    }
+
+    private void setDisabilities(Student student) {
+        Disability disability = new Disability();
+        disability.setDisability(DisabilityType.DEVELOPMENTAL_DELAY);
+
+        student.getDisabilities().add(disability);
+        student.getDisabilities().add(disability);
+    }
+
+    private void setLanguagesAndHomeLanguage(Student student) {
+        LanguagesType lt = new LanguagesType();
+        student.setLanguages(lt);
+
+        student.getLanguages().getLanguage().add(LanguageItemType.ENGLISH);
+        student.getLanguages().getLanguage().add(LanguageItemType.ARABIC);
+
+        student.setHomeLanguages(lt);
+    }
+
+    private void setStudentCharacteristics(Student student) {
+        StudentCharacteristic sc = new StudentCharacteristic();
+        sc.setBeginDate(RIGHT_NOW);
+        sc.setEndDate(RIGHT_NOW);
+        sc.setCharacteristic(StudentCharacteristicType.FOSTER_CARE);
+
+        student.getStudentCharacteristics().add(sc);
+        student.getStudentCharacteristics().add(sc);
+    }
+
+    private void setEmailAdresses(Student student) {
+        ElectronicMail em = new ElectronicMail();
+        em.setEmailAddress("test@gmail.com");
+        em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
+
+        student.getElectronicMail().add(em);
+        student.getElectronicMail().add(em);
+    }
+
+    private void setRace(Student student) {
+        RaceType rt = new RaceType();
+        rt.getRacialCategory().add(RaceItemType.WHITE);
+        rt.getRacialCategory().add(RaceItemType.BLACK_AFRICAN_AMERICAN);
+
+        student.setRace(rt);
+    }
+
+    private void setNameAndOtherNames(Student student) {
+
+        student.setName(NameGenerator.getFastName());
+
+        OtherName otherName = NameGenerator.getFastOtherName();
+        student.getOtherName().add(otherName);
+        student.getOtherName().add(otherName);
+    }
+}

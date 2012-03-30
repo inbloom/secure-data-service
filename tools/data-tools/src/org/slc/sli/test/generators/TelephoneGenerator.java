@@ -154,6 +154,14 @@ public class TelephoneGenerator {
 		}
 	}
 
+	public static Telephone getFastTelephone() {
+	    Telephone tel = new Telephone();
+        tel.setPrimaryTelephoneNumberIndicator(true);
+        tel.setTelephoneNumber("123-456-7890");
+        tel.setTelephoneNumberType(TelephoneNumberType.HOME);
+        return tel;
+	}
+
 
 	public static void main(String args[]) throws Exception{
 		TelephoneGenerator teleFactory= new TelephoneGenerator();

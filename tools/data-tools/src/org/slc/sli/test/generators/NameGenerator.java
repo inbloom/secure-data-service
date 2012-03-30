@@ -164,6 +164,33 @@ public class NameGenerator {
             return getMaleOtherName();
     }
 
+    public static Name getFastName() {
+        Name name = new Name();
+
+        name.setFirstName("firstName");
+        name.setMiddleName("middleName");
+        name.setLastSurname("lastName");
+        name.setGenerationCodeSuffix(GenerationCodeSuffixType.II);
+        name.setMaidenName("maidenName");
+        name.setPersonalTitlePrefix(PersonalTitlePrefixType.COLONEL);
+        name.setVerification(PersonalInformationVerificationType.BAPTISMAL_OR_CHURCH_CERTIFICATE);
+
+        return name;
+    }
+
+    public static OtherName getFastOtherName() {
+        OtherName otherName = new OtherName();
+
+        otherName.setFirstName("firstName");
+        otherName.setMiddleName("middleName");
+        otherName.setLastSurname("lastName");
+        otherName.setGenerationCodeSuffix(GenerationCodeSuffixType.II);
+        otherName.setPersonalTitlePrefix(PersonalTitlePrefixType.COLONEL);
+        otherName.setOtherNameType(OtherNameType.ALIAS);
+
+        return otherName;
+    }
+
     public static void main(String [] args) throws Exception
     {
         NameGenerator nameFactory = new NameGenerator(80);

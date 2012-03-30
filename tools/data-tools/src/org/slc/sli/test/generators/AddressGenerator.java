@@ -17,7 +17,10 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
 public class AddressGenerator {
 
+    public static final Calendar RIGHT_NOW = Calendar.getInstance();
+
     private static final Logger log = Logger.getLogger(AddressGenerator.class);
+
     private String file_city_US = "database/address/city_US.csv";
     private String file_street_US = "database/address/street_US.csv";
     private int cityCount;
@@ -125,6 +128,26 @@ public class AddressGenerator {
         add.setLongitude(String.valueOf(getRand() % 180));
         add.setBeginDate(yearAgo);
         add.setEndDate(yearHence);
+        add.setAddressType(AddressType.HOME);
+        return add;
+    }
+
+    public static Address getFastAddress() {
+        Address add = new Address();
+
+        add.setStreetNumberName("streetNumberName");
+        add.setApartmentRoomSuiteNumber("apartmentRoomSuiteNumber");
+        add.setBuildingSiteNumber("BuildingSiteNumber");
+        add.setCity("City");
+        add.setStateAbbreviation(StateAbbreviationType.AK);
+        add.setPostalCode("12345");
+        add.setNameOfCounty("County");
+        add.setCountyFIPSCode("FIPSCode");
+        add.setCountryCode(CountryCodeType.US);
+        add.setLatitude("latitiude");
+        add.setLongitude("longitude");
+        add.setBeginDate(RIGHT_NOW);
+        add.setEndDate(RIGHT_NOW);
         add.setAddressType(AddressType.HOME);
         return add;
     }
