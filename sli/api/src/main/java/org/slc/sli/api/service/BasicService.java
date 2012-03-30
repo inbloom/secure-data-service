@@ -503,7 +503,7 @@ public class BasicService implements EntityService {
     
     private void deleteAttachedCustomEntities(String sourceId) {
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", false));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
         Iterable<String> ids = getRepo().findAllIds(CUSTOM_ENTITY_COLLECTION, query);
         for (String id : ids) {
             getRepo().delete(CUSTOM_ENTITY_COLLECTION, id);
