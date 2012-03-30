@@ -9,10 +9,10 @@ import org.slc.sli.api.config.ResourceNames;
  * Constants used in URI path requests.
  * 
  * @author kmyers
- * 
+ *
  */
 public class PathConstants {
-    
+
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
@@ -27,8 +27,10 @@ public class PathConstants {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
+    public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
+    public static final String STUDENT_COHORT_ASSOCIATIONS = "studentCohortAssociations";
     public static final String STUDENT_WITH_GRADE = "studentWithGrade";
-    
+
     public static final String ASSESSMENTS = "assessments";
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String ATTENDANCES = "attendances";
@@ -76,7 +78,9 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, STUDENT_TRANSCRIPT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
-        
+        TEMP_MAP.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, STAFF_COHORT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, STUDENT_COHORT_ASSOCIATIONS);
+
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
         TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNINGOBJECTIVES);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
