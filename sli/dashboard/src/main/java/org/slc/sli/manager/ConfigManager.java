@@ -2,8 +2,12 @@ package org.slc.sli.manager;
 
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -19,44 +23,45 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.DashboardException;
 
 /**
- *
- * ConfigManager allows other classes, such as controllers, to access and persist view configurations.
+ * 
+ * ConfigManager allows other classes, such as controllers, to access and persist view
+ * configurations.
  * Given a user, it will obtain view configuration at each level of the user's hierarchy, and merge
  * them into one set for the user.
- *
+ * 
  * @author dwu
  */
 public class ConfigManager extends ApiClientManager {
-
+    
     private Logger logger = LoggerFactory.getLogger(getClass());
     ConfigPersistor persistor;
     EntityManager entityManager;
     
-    private String driverConfigLocation = "config";
-    private InstitutionalHierarchyManager institutionalHierarchyManager;
+    private String driverConfigLocation;
     private String userConfigLocation;
     
     public ConfigManager() {
         persistor = new ConfigPersistor();
     }
-
+    
     @Override
     public void setApiClient(APIClient apiClient) {
         super.setApiClient(apiClient);
         persistor.setApiClient(apiClient);
     }
-
+    
     /**
      * Get the view configuration set for a user
-     *
+     * 
      * @param userId
      * @return ViewConfigSet
      */
     public ViewConfigSet getConfigSet(String userId) {
-
+        
         // get view configs for user's hierarchy (state, district, etc)
         // TODO: call ConfigPersistor with entity ids, not user id
         ViewConfigSet userViewConfigSet = null;
@@ -66,28 +71,27 @@ public class ConfigManager extends ApiClientManager {
             e.printStackTrace();
             return null;
         }
-
+        
         // TODO: merge into one view config set for the user
-
-
+        
         return userViewConfigSet;
     }
-
+    
     /**
      * Get the configuration for one particular view, for a user
-     *
+     * 
      * @param userId
      * @param viewName
      * @return ViewConfig
      */
     public ViewConfig getConfig(String userId, String viewName) {
-
+        
         ViewConfigSet config = getConfigSet(userId);
-
+        
         if (config == null) {
             return null;
         }
-
+        
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
             if (view.getName().equals(viewName)) {
@@ -96,16 +100,16 @@ public class ConfigManager extends ApiClientManager {
         }
         return null;
     }
-
+    
     /**
      * Get the configuration for one particular view, for a user
-     *
+     * 
      * @param userId
      * @param viewName
      * @return ViewConfig
      */
     public List<LozengeConfig> getLozengeConfig(String userId) {
-
+        
         // get lozenge configs for user's hierarchy (state, district, etc)
         // TODO: call ConfigPersistor with entity ids, not user id
         LozengeConfig[] userLozengeConfig = null;
@@ -116,16 +120,16 @@ public class ConfigManager extends ApiClientManager {
         }
         return Arrays.asList(userLozengeConfig);
     }
-
+    
     /**
      * Get the configuration for one particular view, for a user
-     *
+     * 
      * @param userId
      * @param viewName
      * @return StudentFilter list
      */
     public List<StudentFilter> getStudentFilterConfig(String userId) {
-
+        
         // get student filter configs for user's hierarchy (state, district, etc)
         StudentFilter[] userStudentFilterConfig = null;
         try {
@@ -135,12 +139,13 @@ public class ConfigManager extends ApiClientManager {
         }
         return Arrays.asList(userStudentFilterConfig);
     }
-
+    
     /**
      * Get the configuration for one particular view, for a user
-     *
+     * 
      * @param userId
-     * @param type - e.g. studentList, studentProfile, etc.
+     * @param type
+     *            - e.g. studentList, studentProfile, etc.
      * @return List<ViewConfig>
      */
     public List<ViewConfig> getConfigsWithType(String userId, String type) {
@@ -156,14 +161,14 @@ public class ConfigManager extends ApiClientManager {
                 if (view.getType().equals(type)) {
                     viewConfigs.add(view);
                 }
-            }            
+            }
         }
         return viewConfigs;
     }
-
+    
     /**
      * Merges a hierarchy of configuration sets into one set
-     *
+     * 
      * @param configSets
      * @return ViewConfigSet
      */
@@ -171,57 +176,142 @@ public class ConfigManager extends ApiClientManager {
         // TODO: implement merge
         return null;
     }
-
+    
     public EntityManager getEntityManager() {
         return entityManager;
     }
-
+    
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
         persistor.setEntityManager(entityManager);
     }
     
-    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
-        this.institutionalHierarchyManager = institutionalHierarchyManager;
-    }
-    
+    /**
+     * this method should be called by Spring Framework
+     * set location of config file to be read. If the directory does not exist, create it.
+     * 
+     * @param configLocation
+     *            reading from properties file panel.config.driver.dir
+     */
     public void setDriverConfigLocation(String configLocation) {
-        this.driverConfigLocation = configLocation;
+        URL url = Config.class.getClassLoader().getResource(configLocation);
+        if (url == null) {
+            File f = new File(Config.class.getClassLoader().getResource("") + "/" + configLocation);
+            f.mkdir();
+            this.driverConfigLocation = f.getAbsolutePath();
+        } else
+            this.driverConfigLocation = url.getPath();
     }
     
+    /**
+     * this method should be called by Spring Framework
+     * set location of config file to be read. If the directory does not exist, create it.
+     * 
+     * @param configLocation
+     *            reading from properties file panel.config.custom.dir
+     */
     public void setUserConfigLocation(String configLocation) {
         if (!configLocation.startsWith("/")) {
-            configLocation = Config.class.getClassLoader().getResource(configLocation).getPath();
+            URL url = Config.class.getClassLoader().getResource(configLocation);
+            if (url == null) {
+                File f = new File(Config.class.getClassLoader().getResource("").getPath() + configLocation);
+                f.mkdir();
+                configLocation = f.getAbsolutePath();
+            } else
+                configLocation = url.getPath();
         }
         this.userConfigLocation = configLocation;
     }
     
+    /**
+     * return the absolute file path of domain specific config file
+     * 
+     * @param path
+     *            can be district ID name or state ID name
+     * @param componentId
+     *            profile name
+     * @return the absolute file path of domain specific config file
+     */
     public String getComponentConfigLocation(String path, String componentId) {
         
-        return userConfigLocation + "/" + componentId + ".json";
+        return userConfigLocation + "/" + path + "/" + componentId + ".json";
     }
     
+    /**
+     * return the absolute file path of default config file
+     * 
+     * @param path
+     *            can be district ID name or state ID name
+     * @param componentId
+     *            profile name
+     * @return the absolute file path of default config file
+     */
     public String getDriverConfigLocation(String componentId) {
-        
-        return Config.class.getClassLoader().getResource(driverConfigLocation).getPath() + "/" + componentId + ".json";
+        return this.driverConfigLocation + "/" + componentId + ".json";
     }
     
+    /**
+     * Find the lowest organization hierarchy config file. If the lowest organization hierarchy
+     * config file does not exist, it returns default (Driver) config file.
+     * If the Driver config file does not exist, it is in a critical situation. It will throw an
+     * exception.
+     * 
+     * @param path
+     *            abslute directory path where a config file exist.
+     * @param componentId
+     *            name of the profile
+     * @return proper Config to be used for the dashboard
+     */
     private Config getConfigByPath(String path, String componentId) {
         Gson gson = new GsonBuilder().create();
+        Config customConfig = null;
+        Config driverConfig = null;
         try {
             File f = new File(getDriverConfigLocation(componentId));
+            driverConfig = gson.fromJson(new FileReader(f), Config.class);
+            
+            f = new File(getComponentConfigLocation(path, componentId));
             if (f.exists()) {
-              return gson.fromJson(new FileReader(f), Config.class);
+                customConfig = gson.fromJson(new FileReader(f), Config.class);
+                return driverConfig.merge(customConfig);
             }
+            return driverConfig;
         } catch (Throwable t) {
             logger.error("Unable to read config for " + componentId + ", for path " + path);
             throw new DashboardException("Unable to read config for " + componentId + ", for path " + path);
         }
-        return null;
     }
     
+    /**
+     * reads the educational organization hierarchy and return proper config file
+     * 
+     * @param userId
+     *            user ID, but currently not utilized in this method
+     * @param componentId
+     *            name of the profile
+     * @return proper Config to be used for the dashbord
+     */
     public Config getComponentConfig(String userId, String componentId) {
-        return getConfigByPath("", componentId);
+        String districtName = null;
+        List<GenericEntity> entities = getUserInstHierarchy(getToken());
+        
+        if (!entities.isEmpty()) {
+            // read the first element, this should be school entity
+            GenericEntity entity = entities.get(0);
+            HashSet<GenericEntity> set = (HashSet<GenericEntity>) entity.get("schools");
+            Iterator<GenericEntity> i = set.iterator();
+            while (i.hasNext()) {
+                GenericEntity e = i.next();
+                List<LinkedHashMap<String, Object>> l = e.getList("educationOrgIdentificationCode");
+                if (!l.isEmpty()) {
+                    LinkedHashMap<String, Object> educationOrgIdentificationCode = l.get(0);
+                    if (educationOrgIdentificationCode.containsKey("ID")) {
+                        districtName = educationOrgIdentificationCode.get("ID").toString();
+                        break;
+                    }
+                }
+            }
+        }
+        return getConfigByPath(districtName, componentId);
     }
-
 }
