@@ -90,7 +90,6 @@ Given I click on student "Rhonda Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "2" addresses
->>>>>>> master
 And the list of address includes 
 """
 9857 Kingsborough 2nd Walk
