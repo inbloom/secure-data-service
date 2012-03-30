@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
-    redirect_to exception.response['WWW-Authenticate'] + "?RelayState=#{current_url}&RealmName=Shared%20Learning%20Infrastructure"
+    session[:oauth] = nil
+    handle_oauth
   end
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|

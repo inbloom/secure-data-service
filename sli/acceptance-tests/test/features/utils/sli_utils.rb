@@ -274,11 +274,12 @@ module DataProvider
   def self.getValidAppData()
     return {
       "client_type" => "PUBLIC",
-      "scope" => "ENABLED",
+      "enabled" => true,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
       "is_admin" => true,
+      "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
