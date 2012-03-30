@@ -481,9 +481,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         
         if (optionalFields != null) {
             for (String type : optionalFields) {
-                OptionalFieldAppender appender = factory.getOptionalFieldAppender(type);
-                if (appender != null)
-                    entities = appender.applyOptionalField(entities);
+                for (String appenderType : type.split(",")) {
+                    OptionalFieldAppender appender = factory.getOptionalFieldAppender(appenderType);
+                    if (appender != null)
+                        entities = appender.applyOptionalField(entities);
+                }
             }
         }
         
