@@ -19,8 +19,7 @@
 <configuration scan="true" debug="false">
   <!-- TODO in production mode disable the scan -->
 
-  <property resource="ingestion.properties" />
-  <property resource="ingestion-dev.properties" />
+  <property resource="/config/${sli.env}/ingestion/ingestion_conf.properties" />
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${logging.path}/ingestion.log</File>
