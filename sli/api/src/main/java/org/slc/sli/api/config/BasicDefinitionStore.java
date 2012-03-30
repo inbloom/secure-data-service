@@ -218,7 +218,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         AssociationDefinition staffCohortAssociation = factory.makeAssoc(EntityNames.STAFF_COHORT_ASSOCIATION)
                 .exposeAs(ResourceNames.STAFF_COHORT_ASSOCIATIONS).storeAs(EntityNames.STAFF_COHORT_ASSOCIATION)
-                .from(student, "getStaff", "getStaffs").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
+                .from(staff, "getStaff", "getStaff").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
                 .calledFromSource(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
                 .calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
                 .build();

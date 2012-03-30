@@ -54,7 +54,9 @@ public final class ResourceNames {
     public static final String STUDENT_COHORT_ASSOCIATIONS = "student-cohort-associations";
 
     public static final String COHORT_GETTER = "getCohort";
+    public static final String STUDENT_COHORT_ASSOCIATION_GETTER = "getStudentCohortAssociation";
     public static final String STUDENT_COHORT_ASSOCIATIONS_GETTER = "getStudentCohortAssociations";
+    public static final String STAFF_COHORT_ASSOCIATION_GETTER = "getStaffCohortAssociation";
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
 
     
@@ -81,8 +83,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "getStudentDisciplineIncidentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER);
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER);
+        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ResourceNames.STAFF_COHORT_ASSOCIATION_GETTER);
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
