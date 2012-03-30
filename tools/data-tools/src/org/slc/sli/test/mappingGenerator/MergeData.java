@@ -29,7 +29,7 @@ public class MergeData {
             e.printStackTrace();
         }
     }
-    
+
     public static void merge(String root) throws IOException {
         File dir = new File(root);
         File[] subFolders = dir.listFiles();
@@ -64,38 +64,32 @@ public class MergeData {
             for (int i = 0; i < xmlFiles.size(); i++) {
                 File xmlFile = xmlFiles.get(i);
 
-                StringBuilder header = new StringBuilder();
-                StringBuilder content = new StringBuilder();
-                StringBuilder end = new StringBuilder();
-
                 BufferedReader input = new BufferedReader(new FileReader(xmlFile));
                 try {
                     String line = null;
-                    header.append(input.readLine()).append("\n");
-                    header.append(input.readLine());
+                    if (i == 0) {
+                        output.println(input.readLine());
+                        output.println(input.readLine());
+                    } else {
+                        input.readLine();
+                        input.readLine();
+                    }
 
                     while ((line = input.readLine()) != null) {
                         Matcher endMatcher = endPattern.matcher(line);
                         if (!endMatcher.find()) {
-                            content.append(line).append("\n");
+                            output.println(line);
                         } else {
-                            end.append(line);
-                            break;
+                            if (i == xmlFiles.size() - 1) {
+                                output.println(line);
+                            }
+                            output.flush();
                         }
                     }
                 } finally {
                     input.close();
                 }
 
-                if (i == 0) {
-                    output.println(header.toString());
-                }
-
-                output.println(content.toString());
-
-                if (i == xmlFiles.size() - 1) {
-                    output.println(end.toString());
-                }
             }
             output.close();
         }

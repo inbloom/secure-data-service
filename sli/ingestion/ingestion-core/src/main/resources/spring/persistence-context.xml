@@ -50,6 +50,7 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>graduationPlan</value>
   </util:set>
 
 </beans>
