@@ -27,6 +27,9 @@ Scenario: Valid user login
 
 Given I have an open web browser
 Given the server is in "live" mode
+#hitting static URL
+When I access "/static/html/test.html" 
+Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 When I select "New York Realm " and click go
@@ -64,6 +67,7 @@ When I access "/simon"
 And I wait for "2" seconds
 Then I am informed that "HTTP Status 403 - Access is denied"
 
+@wip
 Scenario: hitting static URL
 
 Given I have an open web browser
