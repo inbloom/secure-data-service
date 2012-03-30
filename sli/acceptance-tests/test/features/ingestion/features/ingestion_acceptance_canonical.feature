@@ -50,7 +50,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 315   |
-        | attendance                  | 13658 |
+        | attendance                  | 13650 |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -61,7 +61,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14844 records." in the resulting batch job file
+    And I should see "Processed 14600 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -150,7 +150,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 315   |
-        | attendance                  | 13658 |
+        | attendance                  | 13650 |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -161,7 +161,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14844 records." in the resulting batch job file
+    And I should see "Processed 14600 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
