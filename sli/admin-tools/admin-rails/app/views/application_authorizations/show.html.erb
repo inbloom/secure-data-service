@@ -1,5 +1,41 @@
 <p id="notice"><%= notice %></p>
 
+<%  puts("The auth in here is " + @application_authorization.inspect); %>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Version</th>
+    <th>Vendor</th>
+    <th>Status</th>
+    <th> </th>
+  </tr>
+<%
+    apps = App.all
+    apps.each do |app|
+%>
+    <tr>
+      <td><%= app.name %></td>
+      <td><%= app.version  %></td>
+      <td><%= app.developer_info.organization %></td>
+      <td><%=
+          isApproved = false
+          if @application_authorization.appIds.find_index(app.id) != nil
+                isApproved = true
+                "Approved"
+          else
+                "Not Approved"
+          end
+      %></td>
+      <td><%=
+          form_for @application_authorization do |f|
+          %>
+            <%= f.hidden_field :appId, :value => app.id %>
+            <%= f.submit "Approve", :disabled => isApproved %>
+            <%= f.submit "Deny", :disabled => !isApproved %>
 
-<%= link_to 'Edit', edit_application_authorization_path(@application_authorization) %> |
+          <%end
+      %></td>
+    </tr>
+    <%end %>
+  </table>
 <%= link_to 'Back', application_authorizations_path %>

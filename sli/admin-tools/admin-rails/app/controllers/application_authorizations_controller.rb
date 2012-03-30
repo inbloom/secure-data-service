@@ -10,17 +10,17 @@ class ApplicationAuthorizationsController < ApplicationController
     end
   end
 
-  ## GET /application_authorizations/1
-  ## GET /application_authorizations/1.json
-  #def show
-  #  @application_authorization = ApplicationAuthorization.find(params[:id])
-  #
-  #  respond_to do |format|
-  #    format.html # show.html.erb
-  #    format.json { render json: @application_authorization }
-  #  end
-  #end
-  #
+  # GET /application_authorizations/1
+  # GET /application_authorizations/1.json
+  def show
+    @application_authorization = ApplicationAuthorization.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @application_authorization }
+    end
+  end
+
   ## GET /application_authorizations/new
   ## GET /application_authorizations/new.json
   #def new
@@ -52,23 +52,34 @@ class ApplicationAuthorizationsController < ApplicationController
   #    end
   #  end
   #end
-  #
-  ## PUT /application_authorizations/1
-  ## PUT /application_authorizations/1.json
-  #def update
-  #  @application_authorization = ApplicationAuthorization.find(params[:id])
-  #
-  #  respond_to do |format|
-  #    if @application_authorization.update_attributes(params[:application_authorization])
-  #      format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully updated.' }
-  #      format.json { head :ok }
-  #    else
-  #      format.html { render action: "edit" }
-  #      format.json { render json: @application_authorization.errors, status: :unprocessable_entity }
-  #    end
-  #  end
-  #end
-  #
+
+  # PUT /application_authorizations/1
+  # PUT /application_authorizations/1.json
+  def update
+    puts("the params are " + params[:application_authorization].inspect);
+    @application_authorization = ApplicationAuthorization.find(params[:id])
+    appId = params[:application_authorization][:appId]
+    puts("The app ID is " + appId)
+    idArray = @application_authorization.appIds
+    puts("The previous IDS were " + appId.inspect)
+
+    if(params[:commit] == "Deny")
+      idArray.delete(appId)
+    else
+      idArray.push(appId)
+    end
+    updates = {"appIds" =>  idArray}
+    respond_to do |format|
+      if @application_authorization.update_attributes(updates)
+        format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @application_authorization.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   ## DELETE /application_authorizations/1
   ## DELETE /application_authorizations/1.json
   #def destroy
