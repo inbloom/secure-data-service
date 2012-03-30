@@ -153,7 +153,7 @@ public class DataForASchool {
 
     public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schools.add(this.prefix + "-School-"+i);
+            schools.add("School_"+ this.prefix + "-" + i);
         }
     }
 
