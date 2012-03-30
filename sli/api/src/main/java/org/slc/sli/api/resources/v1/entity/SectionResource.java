@@ -32,30 +32,34 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- * 
+ * SectionResource
+ *
+ * A Resource class for accessing a Section entity.
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SECTIONS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class SectionResource extends DefaultCrudEndpoint {
-    
+
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SectionResource.class);
-    
+
     @Autowired
     public SectionResource(EntityDefinitionStore entityDefs) {
         super(entityDefs);
     }
 
     /**
+     * readAll
+     *
      * Returns all $$sections$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -69,7 +73,7 @@ public class SectionResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
@@ -77,8 +81,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * create
+     *
      * Create a new $$sections$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -92,14 +98,16 @@ public class SectionResource extends DefaultCrudEndpoint {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(ResourceNames.SECTIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
+     * read
+     *
      * Get a single $$sections$$ entity
-     * 
+     *
      * @param sectionId
      *            The Id of the $$sections$$.
      * @param headers
@@ -117,8 +125,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * delete
+     *
      * Delete a $$sections$$ entity
-     * 
+     *
      * @param sectionId
      *            The Id of the $$sections$$.
      * @param headers
@@ -130,14 +140,16 @@ public class SectionResource extends DefaultCrudEndpoint {
      */
     @DELETE
     @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SECTION_ID) final String sectionId, 
+    public Response delete(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(ResourceNames.SECTIONS, sectionId, headers, uriInfo);
     }
 
     /**
+     * update
+     *
      * Update an existing $$sections$$ entity.
-     * 
+     *
      * @param sectionId
      *            The id of the $$sections$$.
      * @param newEntityBody
@@ -152,15 +164,17 @@ public class SectionResource extends DefaultCrudEndpoint {
     @PUT
     @Path("{" + ParameterConstants.SECTION_ID + "}")
     public Response update(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(ResourceNames.SECTIONS, sectionId, newEntityBody, headers, uriInfo);
     }
 
     /**
+     * getStudentSectionAssociations
+     *
      * Returns each $$studentSectionAssociations$$ that
      * references the given $$sections$$
-     * 
+     *
      * @param sectionId
      *            The id of the $$students$$.
      * @param offset
@@ -185,9 +199,11 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * getStudentSectionAssociationStudents
+     *
      * Returns each $$students$$ associated to the given section through
      * a $$studentSectionAssociations$$
-     * 
+     *
      * @param sectionId
      *            The id of the $$sections$$.
      * @param headers
@@ -206,11 +222,13 @@ public class SectionResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "sectionId", sectionId, "studentId",
                 ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
+     * getTeacherSectionAssociations
+     *
      * Returns each $$teacherSectionAssociations$$ that
      * references the given $$sections$$
-     * 
+     *
      * @param sectionId
      *            The id of the $$students$$.
      * @param offset
@@ -235,6 +253,8 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * getTeacherSectionAssociationTeachers
+     *
      * Returns each $$teachers$$ associated to the given section through
      * a $$teacherSectionAssociations$$
      *
@@ -258,6 +278,8 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * getSectionAssessmentAssociations
+     *
      * Returns each $$sectionAssessmentAssociations$$ that
      * references the given $$sections$$
      *
@@ -285,6 +307,8 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * getSectionAssessmentAssociationAssessments
+     *
      * Returns each $$assessments$$ associated to the given section through
      * a $$sectionAssessmentAssociations$$
      *
