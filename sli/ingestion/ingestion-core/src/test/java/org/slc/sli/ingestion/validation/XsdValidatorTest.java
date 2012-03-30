@@ -1,9 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -15,17 +12,22 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
+/**
+ *
+ * @author ablum
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdValidatorTest {
 
-	@Autowired
-	private XsdValidator xsdValidator;
+    @Autowired
+    private XsdValidator xsdValidator;
 
-	@Test
-	public void testIsValid() {
-		IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml", "");
-		xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class));
-	}
+    @Test
+    public void testIsValid() {
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml", "");
+        Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
+    }
 
 }
