@@ -5,12 +5,13 @@
         overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
         timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="panel.config.custom" eternal="false"
-        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
-        timeToIdleSeconds="0" timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" />
-
     <cache name="user.hierarchy" eternal="false"
         maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
-        timeToIdleSeconds="0" timeToLiveSeconds="1200"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU" />
+        
+    <cache name="user.district" eternal="false"
+        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
         memoryStoreEvictionPolicy="LRU" />
 </ehcache>

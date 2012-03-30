@@ -31,6 +31,7 @@ public class InstitutionalHierarchyManagerImpl extends ApiClientManager implemen
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
     }
     
+    @Cacheable(cacheName = "user.district")
     public String getUserDistrictId(String token) {
         List<GenericEntity> entities = getUserInstHierarchy(getToken());
         
