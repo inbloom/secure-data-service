@@ -1524,7 +1524,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="staffId" type="reference" maxOccurs="unbounded">
+				<xs:element name="staffId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the program.
 						</xs:documentation>
@@ -1533,7 +1533,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="programId" type="reference" maxOccurs="unbounded">
+				<xs:element name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The program associated to the staff.
 						</xs:documentation>
