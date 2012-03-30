@@ -1,4 +1,6 @@
 SLIAdmin::Application.routes.draw do
+  resources :application_authorizations
+
   get "sessions/new"
 
   # The priority is based upon order of creation:
