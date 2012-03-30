@@ -30,6 +30,7 @@ import org.slc.sli.domain.Repository;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@DirtiesContext
 public class TeacherAttendanceContextResolverTest {
 
     @Autowired

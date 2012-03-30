@@ -76,6 +76,7 @@ public class ApplicationAuthorizationValidatorTest {
         List<String> categories = new ArrayList<String>();
         categories.add("Local Education Agency");
         Entity district1 = new MongoEntity("educationOrganization", "district1", body, new HashMap<String, Object>());
+        district1.getBody().put("stateOrganizationId", "NC-D1");
         district1.getBody().put("organizationCategories", categories);
         Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "district1")).thenReturn(district1);
         
@@ -85,6 +86,7 @@ public class ApplicationAuthorizationValidatorTest {
         categories.add("School");
         Entity school1 = new MongoEntity("educationOrganization", "school1", body, new HashMap<String, Object>());
         school1.getBody().put("organizationCategories", categories);
+        school1.getBody().put("stateOrganizationId", "NC-D1-SC1");
         Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school1")).thenReturn(school1);
         
     }
@@ -105,7 +107,7 @@ public class ApplicationAuthorizationValidatorTest {
         
         //Register an app list with district1 containing the requested app
         Entity appAuthEnt = new MongoEntity("applicationAuthorization", new HashMap<String, Object>());
-        appAuthEnt.getBody().put("authId", "district1");
+        appAuthEnt.getBody().put("authId", "NC-D1");
         appAuthEnt.getBody().put("authType", "EDUCATION_ORGANIZATION");
         List<String> allowedApps = new ArrayList<String>();
         allowedApps.add("appId");
