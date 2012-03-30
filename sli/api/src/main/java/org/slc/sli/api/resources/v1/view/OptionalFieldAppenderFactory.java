@@ -18,7 +18,7 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
  */
 @Component
 public class OptionalFieldAppenderFactory {
-    private Map<String, OptionalFieldAppender> generators = new HashMap<String, OptionalFieldAppender>();
+    private Map<String, OptionalFieldAppender> generators = null;
     
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
@@ -34,6 +34,8 @@ public class OptionalFieldAppenderFactory {
     
     @PostConstruct
     protected void init() {
+        generators = new HashMap<String, OptionalFieldAppender>();
+
         generators.put(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldAppender);
         generators.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAttendanceOptionalFieldAppender);
         generators.put(ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
