@@ -43,7 +43,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
- * Unit tests for the resource representing a program
+ * Unit tests for the resource representing a staffProgramAssociation
  * @author jtully
  *
  */

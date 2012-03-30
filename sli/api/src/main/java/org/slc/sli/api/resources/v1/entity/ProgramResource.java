@@ -181,7 +181,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     public Response getStudentProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
     }
     
 
@@ -203,7 +203,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     public Response getStudentProgramAssociationStudent(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, 
+        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, 
                 "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
@@ -231,7 +231,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     public Response getStaffProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
     }
     
 
@@ -253,7 +253,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     public Response getStaffProgramAssociationStaff(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, 
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, 
                 "staffId", ResourceNames.STAFF, headers, uriInfo);
     }
     

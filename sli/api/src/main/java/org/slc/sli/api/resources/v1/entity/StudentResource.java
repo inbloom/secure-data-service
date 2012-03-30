@@ -531,7 +531,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response getStudentProgramAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
     
 
@@ -553,7 +553,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response getStudentProgramAssociationPrograms(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, 
+        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, 
                 "programId", ResourceNames.PROGRAMS, headers, uriInfo);
     }
     

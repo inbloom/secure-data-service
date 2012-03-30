@@ -22,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -39,22 +41,18 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StaffProgramAssociationResource {
+public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
+
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffProgramAssociationResource.class);
-    
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
 
     @Autowired
-    public StaffProgramAssociationResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public StaffProgramAssociationResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
     }
-
+    
     /**
      * Returns all $$staffProgramAssociations$$ entities for which the logged in User has permission and context.
      * 
@@ -75,7 +73,7 @@ public class StaffProgramAssociationResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
@@ -96,7 +94,7 @@ public class StaffProgramAssociationResource {
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -115,7 +113,7 @@ public class StaffProgramAssociationResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
     }
 
     /**
@@ -134,7 +132,7 @@ public class StaffProgramAssociationResource {
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
     public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String staffProgramAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
+        return super.delete(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, headers, uriInfo);
     }
 
     /**
@@ -156,7 +154,7 @@ public class StaffProgramAssociationResource {
     public Response update(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, staffProgramAssociationId, newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -184,7 +182,7 @@ public class StaffProgramAssociationResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "staffId", ResourceNames.STAFF, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "staffId", ResourceNames.STAFF, headers, uriInfo);
     }
     
     /**
@@ -212,6 +210,6 @@ public class StaffProgramAssociationResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "programId", ResourceNames.PROGRAMS, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "programId", ResourceNames.PROGRAMS, headers, uriInfo);
     }
 }
