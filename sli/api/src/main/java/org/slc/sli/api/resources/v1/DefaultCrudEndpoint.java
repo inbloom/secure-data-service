@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -389,9 +392,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
     
+    /**
+     * Returns the sub-resource responsible for responding to requests for custom entity data
+     */
+    @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Override
-    public CustomEntityResource getCustomEntityResource(String resourceName, String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+    public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(this.typeName);
         return new CustomEntityResource(id, entityDef);
     }
     
