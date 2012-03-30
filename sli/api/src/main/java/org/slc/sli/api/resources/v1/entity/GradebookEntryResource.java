@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -55,8 +54,8 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(GradebookEntryResource.class);
     
     @Autowired
-    public GradebookEntryResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        public GradebookEntryResource(EntityDefinitionStore entityDefs) {
+            super(entityDefs, ResourceNames.GRADEBOOK_ENTRIES);
         LOG.debug("Initialized a new {}", GradebookEntryResource.class);
     }
 
@@ -80,9 +79,7 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.GRADEBOOK_ENTRIES, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -93,15 +90,23 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
+<<<<<<< HEAD
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessible.}
+=======
      *              URI information including path and 
      * @return response containing ID/location of newly created entity
      * @response.representation.201.mediaType HTTP headers with a CREATED status code.
+>>>>>>> aaf0fa9ab68b4ce1fa7f007adaf5234f3e537d27
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.GRADEBOOK_ENTRIES, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -122,7 +127,7 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
+        return super.read(gradebookEntryId, headers, uriInfo);
     }
 
     /**
@@ -141,7 +146,7 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.GRADEBOOK_ENTRY_ID + "}")
     public Response delete(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, headers, uriInfo);
+        return super.delete(gradebookEntryId, headers, uriInfo);
     }
 
     /**
@@ -165,6 +170,6 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
     public Response update(@PathParam(ParameterConstants.GRADEBOOK_ENTRY_ID) final String gradebookEntryId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.GRADEBOOK_ENTRIES, gradebookEntryId, newEntityBody, headers, uriInfo);
+        return super.update(gradebookEntryId, newEntityBody, headers, uriInfo);
     }
 }
