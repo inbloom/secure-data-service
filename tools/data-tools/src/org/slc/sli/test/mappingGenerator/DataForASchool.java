@@ -28,6 +28,7 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
+    private int numStudents = 200;
     private int parentsPerStudent = 2;
     private String delimiter = "_";
 
@@ -55,7 +56,7 @@ public class DataForASchool {
     public static void main(String[] args) {
         String root = "data";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             DataForASchool data = new DataForASchool(Integer.toString(i));
             String path = root + "/temp" + i;
             File folder = new File(path);
@@ -144,9 +145,9 @@ public class DataForASchool {
         prepareTeacherSchoolAssociation();
         prepareSection(40);
         prepareTeacherSectionAssociation();
-        prepareStudent(2000);
-        prepareParent(2*parentsPerStudent);
-        prepareStudentParentAssociation(2*parentsPerStudent);
+        prepareStudent(numStudents);
+        prepareParent(numStudents*parentsPerStudent);
+        prepareStudentParentAssociation(numStudents*parentsPerStudent);
         prepareStudentSchoolAssociation();
     }
 

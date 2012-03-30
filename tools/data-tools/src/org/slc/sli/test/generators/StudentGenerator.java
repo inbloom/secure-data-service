@@ -12,7 +12,7 @@ public class StudentGenerator {
     BirthDataGenerator bdg;
     TelephoneGenerator telephonegen;
     
-    private boolean includeOptionalData = false;
+    private boolean includeOptionalData = true;
     
     // includeAllData is only and option if includeOptionalData is true,
     // otherwise this will be ignored...
@@ -49,6 +49,8 @@ public class StudentGenerator {
     private int numSection504 = 0;
     private int maxSection504 = 2;
     
+    private int percentDisplaced = 10;
+    
     private int numProgramParticipation = 0;
     private int maxProgramParticipation = 3;
     
@@ -61,13 +63,12 @@ public class StudentGenerator {
     private int maxAuditoryLearning = 100;
     
     private int percentTactileLearning = 25;
-    private int minTactileLearning = 0;
-    private int maxTactileLearning = 100;
-    //private int minTactileLearning = max(0,100-maxVisualLearning-maxAuditoryLearning);
-    //private int maxTactileLearning = min(100,minVisualLearning+minAuditoryLearning);
     
     private int numCohortYears = 0;
-    private int maxCohortYears = 12;
+    private int maxCohortYears = 4;
+
+    private int numStudentIndicators = 0;
+    private int maxStudentIndicators = 2;
 
     public StudentGenerator(StateAbbreviationType state) {
     	this.setState(state);
@@ -372,39 +373,128 @@ public class StudentGenerator {
     		if (includeAllData) { 
     			numSection504 = Math.max(numSection504, 1);
     		}
-    		//for (int i504=0; i504<numSection504; i504++) {
-                Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
-                sec504.getSection504Disability().add(Section504DisabilityItemType.MEDICAL_CONDITION);
-                s.setSection504Disabilities(sec504);    			
-    		//}
+            Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
+            s.setSection504Disabilities(sec504);    			
+    		for (int i504=0; i504<numSection504; i504++) {
+    			randomInt5 = random.nextInt(5);
+    			Section504DisabilityItemType sec504diType = null;
+    				 if ( randomInt5 == 0 ) sec504diType = Section504DisabilityItemType.ATTENTION_DEFICIT_HYPERACTIVITY_DISORDER_ADHD; 
+                else if ( randomInt5 == 1 ) sec504diType = Section504DisabilityItemType.MEDICAL_CONDITION;
+                else if ( randomInt5 == 2 ) sec504diType = Section504DisabilityItemType.MOTOR_IMPAIRMENT;
+                else if ( randomInt5 == 3 ) sec504diType = Section504DisabilityItemType.OTHER;
+                else if ( randomInt5 == 4 ) sec504diType = Section504DisabilityItemType.SENSORY_IMPAIRMENT;
+                sec504.getSection504Disability().add(sec504diType);
+    		}
             
-            s.setDisplacementStatus("Military Deployment");
+    		// Displacement Status
+    		if (random.nextInt(100)<percentDisplaced) {
+    	        s.setDisplacementStatus(random.nextBoolean() ? "Military Deployment" : "Natural Disaster");
+    		}
             
-            ProgramParticipation pp = new ProgramParticipation();
-            pp.setBeginDate(rightNow);
-            pp.setEndDate(nextWeek);
-            pp.setProgram(ProgramType.ATHLETICS);
-            s.getProgramParticipations().add(pp);
+    		// Program Participation
+        	if (randomizeNumbers) {
+        		numProgramParticipation = random.nextInt(maxProgramParticipation+1);
+        	}
+    		if (includeAllData) { 
+    			numProgramParticipation = Math.max(numProgramParticipation, 1);
+    		}
+    		for (int iPP=0; iPP<numProgramParticipation; iPP++) {
+                ProgramParticipation pp = new ProgramParticipation();
+                pp.setBeginDate(rightNow);
+                pp.setEndDate(nextWeek);
+                pp.setDesignatedBy(nameGenerator.getName().getLastSurname());
+    			int randomInt20 = random.nextInt(20);
+    			ProgramType programType = null;
+    				 if ( randomInt20 == 0 ) programType = ProgramType.ADULT_CONTINUING_EDUCATION; 
+  	            else if ( randomInt20 == 1 ) programType = ProgramType.ATHLETICS;
+   	            else if ( randomInt20 == 2 ) programType = ProgramType.BILINGUAL_SUMMER;
+   	            else if ( randomInt20 == 3 ) programType = ProgramType.COCURRICULAR_PROGRAMS;
+   	            else if ( randomInt20 == 4 ) programType = ProgramType.COMMUNITY_JUNIOR_COLLEGE_EDUCATION_PROGRAM;
+   	            else if ( randomInt20 == 5 ) programType = ProgramType.COMPENSATORY_SERVICES_FOR_DISADVANTAGED_STUDENTS;
+   	            else if ( randomInt20 == 6 ) programType = ProgramType.ENGLISH_AS_A_SECOND_LANGUAGE_ESL;
+   	            else if ( randomInt20 == 7 ) programType = ProgramType.EXTENDED_DAY_CHILD_CARE_SERVICES;
+   	            else if ( randomInt20 == 8 ) programType = ProgramType.HEAD_START;
+   	            else if ( randomInt20 == 9 ) programType = ProgramType.HIGH_SCHOOL_EQUIVALENCY_PROGRAM_HSEP;
+   	            else if ( randomInt20 == 10 ) programType = ProgramType.IMMIGRANT_EDUCATION;
+   	            else if ( randomInt20 == 11 ) programType = ProgramType.INTERNATIONAL_BACCALAUREATE;
+   	            else if ( randomInt20 == 12 ) programType = ProgramType.MAGNET_SPECIAL_PROGRAM_EMPHASIS;
+   	            else if ( randomInt20 == 13 ) programType = ProgramType.NEGLECTED_AND_DELINQUENT_PROGRAM;
+  	            else if ( randomInt20 == 14 ) programType = ProgramType.OTHER;
+   	            else if ( randomInt20 == 15 ) programType = ProgramType.REMEDIAL_EDUCATION;
+   	            else if ( randomInt20 == 16 ) programType = ProgramType.SECTION_504_PLACEMENT;
+   	            else if ( randomInt20 == 17 ) programType = ProgramType.SPECIAL_EDUCATION;
+   	            else if ( randomInt20 == 18 ) programType = ProgramType.SUBSTANCE_ABUSE_EDUCATION_PREVENTION;
+   	            else if ( randomInt20 == 19 ) programType = ProgramType.VOCATIONAL_EDUCATION;
+                pp.setProgram(programType);
+                s.getProgramParticipations().add(pp);    			
+    		}
 
-            LearningStyles ls = new LearningStyles();
-            ls.setVisualLearning(50);
-            ls.setTactileLearning(25);
-            ls.setAuditoryLearning(25);        
+    		// Learning Styles    	    
+        	if (randomizeNumbers) {
+        		percentVisualLearning = random.nextInt(maxVisualLearning-minVisualLearning+1);
+        		int originalMax = maxAuditoryLearning;
+        		maxAuditoryLearning = Math.min(maxAuditoryLearning, 100-percentVisualLearning);
+        		while (maxAuditoryLearning < 0) {
+            		percentVisualLearning = random.nextInt(maxVisualLearning-minVisualLearning+1);
+            		maxAuditoryLearning = Math.min(originalMax, 100-percentVisualLearning);        			
+        		}
+        		percentAuditoryLearning = random.nextInt(maxAuditoryLearning-minAuditoryLearning+1);
+        		percentTactileLearning = 100 - percentVisualLearning - percentAuditoryLearning;
+        	}
+    	    LearningStyles ls = new LearningStyles();
+            ls.setVisualLearning(percentVisualLearning);
+            ls.setTactileLearning(percentTactileLearning);
+            ls.setAuditoryLearning(percentAuditoryLearning);        
             s.setLearningStyles(ls);
             
-            CohortYear ch = new CohortYear();
-            ch.setSchoolYear("2011-2012");
-            ch.setCohortYearType(CohortYearType.ELEVENTH_GRADE);
-            s.getCohortYears().add(ch);
+            // Cohort Years
+        	if (randomizeNumbers) {
+        		numCohortYears = random.nextInt(maxCohortYears+1);
+        	}
+    		if (includeAllData) { 
+    			numCohortYears = Math.max(numCohortYears, 1);
+    		}
+    		for (int iCY=0; iCY<numCohortYears; iCY++) {
+                CohortYear cy = new CohortYear();
+        		cy.setSchoolYear("2011-2012");
+    			int randomInt12 = random.nextInt(12);
+    			CohortYearType cyType = null;
+    				 if ( randomInt12 == 0 ) cyType = CohortYearType.FIRST_GRADE; 
+  	            else if ( randomInt12 == 1 ) cyType = CohortYearType.SECOND_GRADE;
+   	            else if ( randomInt12 == 2 ) cyType = CohortYearType.THIRD_GRADE;
+   	            else if ( randomInt12 == 3 ) cyType = CohortYearType.FOURTH_GRADE;
+   	            else if ( randomInt12 == 4 ) cyType = CohortYearType.FIFTH_GRADE;
+   	            else if ( randomInt12 == 5 ) cyType = CohortYearType.SIXTH_GRADE;
+   	            else if ( randomInt12 == 6 ) cyType = CohortYearType.SEVENTH_GRADE;
+   	            else if ( randomInt12 == 7 ) cyType = CohortYearType.EIGHTH_GRADE;
+   	            else if ( randomInt12 == 8 ) cyType = CohortYearType.NINTH_GRADE;
+   	            else if ( randomInt12 == 9 ) cyType = CohortYearType.TENTH_GRADE;
+   	            else if ( randomInt12 == 10 ) cyType = CohortYearType.ELEVENTH_GRADE;
+   	            else if ( randomInt12 == 11 ) cyType = CohortYearType.TWELFTH_GRADE;
+        		cy.setCohortYearType(cyType);
+                s.getCohortYears().add(cy);    			
+    		}
             
-            StudentIndicator si = new StudentIndicator();
-            si.setBeginDate(rightNow);
-            si.setEndDate(nextWeek);
-            si.setIndicator("This is a student indicator");
-            si.setIndicatorName("IndicatorName");
-            s.getStudentIndicators().add(si);
+    		// Student Indicators
+        	if (randomizeNumbers) {
+        		numStudentIndicators = random.nextInt(maxStudentIndicators+1);
+        	}
+    		if (includeAllData) { 
+    			numStudentIndicators = Math.max(numStudentIndicators, 1);
+    		}
+    		for (int iSI=0; iSI<numStudentIndicators; iSI++) {
+                StudentIndicator si = new StudentIndicator();
+                si.setBeginDate(rightNow);
+                si.setEndDate(nextWeek);
+                si.setIndicator("StudentIndicator"+iSI);
+                si.setIndicatorName("IndicatorName"+iSI);
+                si.setIndicatorGroup("IndicatorGroup"+iSI);
+                si.setDesignatedBy(nameGenerator.getName().getLastSurname());
+                s.getStudentIndicators().add(si);    			
+    		}
             
-            s.setLoginId("StudentLoginID");
+    		// Student Login ID
+            s.setLoginId(s.getName().getLastSurname()+"LoginID");        		
 
         }  // End optional student elements.
                 
