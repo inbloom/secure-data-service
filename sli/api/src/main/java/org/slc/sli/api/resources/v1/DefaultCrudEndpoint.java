@@ -45,10 +45,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private final Logger logger;
-    
+
     @Autowired
     private OptionalFieldAppenderFactory factory;
-    
+
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception handling code.
@@ -238,7 +238,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 finalResults = appendOptionalFields(uriInfo, finalResults);
-                
+
                 long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                 return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -492,7 +492,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return entities;
     }
 
-    
+
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
         if (info != null && resp != null) {
             NeutralQuery neutralQuery = new ApiQuery(info);
@@ -522,4 +522,3 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
 }
-

@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
+package org.slc.sli.api.resources.v1.association;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -51,16 +51,16 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
- * Unit tests for v1 entity resources CRUD methods
- * 
+ * Unit tests for v1 association resources CRUD methods
+ *
  * @author chung
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class EntityResourcesTest {
+public class AssociationResourcesTest {
 
     private String packageName;
     private String[] classesToTest;
@@ -95,9 +95,6 @@ public class EntityResourcesTest {
     @Test
     public void testCreate() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
-                continue;
-            }
             String resourceName = classToTest.replace(packageName + ".", "");
             Response response = getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             assertNotNull("Response is null", response);
@@ -109,9 +106,6 @@ public class EntityResourcesTest {
     @Test
     public void testRead() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
-                continue;
-            }
             String resourceName = classToTest.replace(packageName + ".", "");
             String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
             Response response = getReadResponse(classToTest, id);
@@ -127,9 +121,6 @@ public class EntityResourcesTest {
     @Test
     public void testUpdate() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
-                continue;
-            }
             Response response = getUpdateResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
@@ -139,9 +130,6 @@ public class EntityResourcesTest {
     @Test
     public void testDelete() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
-                continue;
-            }
             Response response = getDeleteResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
@@ -151,9 +139,6 @@ public class EntityResourcesTest {
     @Test
     public void testReadAll() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
-                continue;
-            }
             String resourceName = classToTest.replace(packageName + ".", "");
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestSecondaryEntity(resourceName)));
@@ -202,13 +187,13 @@ public class EntityResourcesTest {
 
         return response;
     }
-    
+
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
         String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
-        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };        
+        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
         Object[] args = { id, httpHeaders, uriInfo };
         Response response = getResponse(classToTest, "delete", paramTypes, args);
 
@@ -223,10 +208,10 @@ public class EntityResourcesTest {
 
         return response;
     }
-    
+
     private Response getReadAllResponse(String classToTest) {
         @SuppressWarnings("rawtypes")
-        Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };            
+        Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };
         Object[] args = { 0, 100, httpHeaders, uriInfo };
 
         return getResponse(classToTest, "readAll", paramTypes, args);
@@ -234,7 +219,7 @@ public class EntityResourcesTest {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getResponse(String classToTest, String methodName, Class[] paramTypes, Object[] args) {
-        Response response = null;        
+        Response response = null;
         try {
             Class cls = Class.forName(classToTest);
             Constructor ct = cls.getConstructor(EntityDefinitionStore.class);

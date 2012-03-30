@@ -2,23 +2,23 @@ package org.slc.sli.api.resources.v1;
 
 /**
  * Constants used in URI requests.
- * 
- * 
+ *
+ *
  * @author kmyers
- * 
+ *
  */
 public class ParameterConstants {
-    
+
     /**
      * An indication not to start from the first result.
      */
     public static final String OFFSET = "offset";
-    
+
     /**
      * Maximum number of results to display at one time.
      */
     public static final String LIMIT = "limit";
-    
+
     /**
      * An indication not to start from the first result.
      */
@@ -30,45 +30,46 @@ public class ParameterConstants {
      */
     public static final String DEFAULT_LIMIT = "50";
     public static final int DEFAULT_LIMIT_INT = Integer.parseInt(DEFAULT_LIMIT);
-    
+
     /**
      * Number of links to traverse when presenting a high-level document.
      */
     public static final String EXPAND_DEPTH = "expandDepth";
-    
+
     /**
      * Query parameter for fields to include.
      */
     public static final String INCLUDE_FIELDS = "includeFields";
-    
+
     /**
      * Query parameter for fields to exclude.
      */
     public static final String EXCLUDE_FIELDS = "excludeFields";
-    
+
     /**
      * Query parameter for sorting.
      */
     public static final String SORT_BY = "sortBy";
-    
+
     /**
      * Query parameter for sort order.
      */
     public static final String SORT_ORDER = "sortOrder";
-    
+
     /**
      * Query parameter for order ascending.
      */
     public static final String SORT_ASCENDING = "ascending";
-    
+
     /**
      * Query parameter for order descending.
      */
     public static final String SORT_DESCENDING = "descending";
-    
+
     public static final String HEADER_LINK = "Link";
     public static final String HEADER_TOTAL_COUNT = "TotalCount";
-    
+
+
     /**
      * Query parameter for optional fields to include
      */
@@ -117,4 +118,6 @@ public class ParameterConstants {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
+    public static final String STUDENT_COHORT_ASSOCIATION_ID = "studentCohortAssociationId";
+    public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
 }

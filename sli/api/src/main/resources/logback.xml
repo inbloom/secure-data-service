@@ -28,6 +28,7 @@
   
   <logger name="org.slc.sli.dal.repository" level="INFO" />
   <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="INFO" />
+  <logger name="audit" level="info" />
 
   <root level="debug">
     <appender-ref ref="STDOUT" />

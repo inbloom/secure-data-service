@@ -79,6 +79,10 @@ public class MockRepo implements Repository<Entity> {
         repo.put("gradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("studentSectionGradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("learningObjective", new LinkedHashMap<String, Entity>());
+        repo.put("studentDisciplineIncidentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentParentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentTranscriptAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("teacherSectionAssociation", new LinkedHashMap<String, Entity>());
         repo.put("authSession", new LinkedHashMap<String, Entity>());
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
@@ -86,6 +90,9 @@ public class MockRepo implements Repository<Entity> {
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.LEARNINGOBJECTIVE, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.COHORT, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
