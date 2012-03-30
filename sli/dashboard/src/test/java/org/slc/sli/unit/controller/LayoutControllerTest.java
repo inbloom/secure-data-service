@@ -1,5 +1,9 @@
 package org.slc.sli.unit.controller;
 
+import java.util.List;
+
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,6 +13,7 @@ import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -84,6 +89,18 @@ public class LayoutControllerTest {
     
     @Before
     public void setUp() throws Exception {
+        configManager.setInstitutionalHierarchyManager(new InstitutionalHierarchyManager() {
+            
+            @Override
+            public List<GenericEntity> getUserInstHierarchy(String token) {
+                return null;
+            }
+            
+            @Override
+            public String getUserDistrictId(String token) {
+                return "aa";
+            }
+        });
         layoutController = new LayoutControllerMock();
         dataFactory.setConfigManager(configManager);
         layoutController.setCustomizedDataFactory(dataFactory);
@@ -99,7 +116,7 @@ public class LayoutControllerTest {
     @Test
     public void testLayoutController() throws Exception {
         
-        System.out.println(layoutController.handleStudentProfile("1"));
+        Assert.assertNotNull(layoutController.handleStudentProfile("1"));
    }
     
 }

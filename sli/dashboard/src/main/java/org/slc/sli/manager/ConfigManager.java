@@ -5,9 +5,6 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -23,7 +20,6 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.DashboardException;
 
 /**
@@ -40,6 +36,7 @@ public class ConfigManager extends ApiClientManager {
     private Logger logger = LoggerFactory.getLogger(getClass());
     ConfigPersistor persistor;
     EntityManager entityManager;
+    private InstitutionalHierarchyManager institutionalHierarchyManager;
     
     private String driverConfigLocation;
     private String userConfigLocation;
@@ -282,36 +279,24 @@ public class ConfigManager extends ApiClientManager {
         }
     }
     
+    protected String getCustomConfigPathForUserDomain(String token) {
+        return institutionalHierarchyManager.getUserDistrictId(token);
+    }
+    
     /**
      * reads the educational organization hierarchy and return proper config file
      * 
-     * @param userId
-     *            user ID, but currently not utilized in this method
+     * @param token
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashbord
      */
-    public Config getComponentConfig(String userId, String componentId) {
-        String districtName = null;
-        List<GenericEntity> entities = getUserInstHierarchy(getToken());
+    public Config getComponentConfig(String token, String componentId) {
         
-        if (!entities.isEmpty()) {
-            // read the first element, this should be school entity
-            GenericEntity entity = entities.get(0);
-            HashSet<GenericEntity> set = (HashSet<GenericEntity>) entity.get("schools");
-            Iterator<GenericEntity> i = set.iterator();
-            while (i.hasNext()) {
-                GenericEntity e = i.next();
-                List<LinkedHashMap<String, Object>> l = e.getList("educationOrgIdentificationCode");
-                if (!l.isEmpty()) {
-                    LinkedHashMap<String, Object> educationOrgIdentificationCode = l.get(0);
-                    if (educationOrgIdentificationCode.containsKey("ID")) {
-                        districtName = educationOrgIdentificationCode.get("ID").toString();
-                        break;
-                    }
-                }
-            }
-        }
-        return getConfigByPath(districtName, componentId);
+        return getConfigByPath(getCustomConfigPathForUserDomain(token), componentId);
+    }
+
+    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
+        this.institutionalHierarchyManager = institutionalHierarchyManager;
     }
 }

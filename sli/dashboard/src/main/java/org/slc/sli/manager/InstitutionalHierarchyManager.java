@@ -1,13 +1,15 @@
 package org.slc.sli.manager;
 
+import java.util.List;
+
+import org.slc.sli.entity.GenericEntity;
 
 /**
- * Retrieves and applies necessary business logic to obtain institution data
- *
- * @author syau
+ * Manager for hierarchy related manipulations
+ * @author agrebneva
  *
  */
-public class InstitutionalHierarchyManager extends ApiClientManager {
-
-    
+public interface InstitutionalHierarchyManager {
+    public List<GenericEntity> getUserInstHierarchy(String token);
+    public String getUserDistrictId(String token);
 }

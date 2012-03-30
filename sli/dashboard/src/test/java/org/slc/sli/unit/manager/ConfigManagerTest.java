@@ -31,7 +31,12 @@ public class ConfigManagerTest {
     @Before
     public void setup() {
         mockClient = new MockAPIClient();
-        configManager = new ConfigManager();
+        configManager = new ConfigManager() {
+            protected String getCustomConfigPathForUserDomain(String token) {
+                return "aa";
+            }
+        };
+        configManager.setDriverConfigLocation("config");
         configManager.setApiClient(mockClient);
         EntityManager entityManager = new EntityManager();
         entityManager.setApiClient(mockClient);
@@ -120,7 +125,7 @@ public class ConfigManagerTest {
         try {
             configManager.getComponentConfig("1", "fakeConfigId");
         } catch (Throwable t) {
-            Assert.assertEquals("Unable to read config for fakeConfigId, for user 1", t.getMessage());
+            Assert.assertEquals("Unable to read config for fakeConfigId, for path aa", t.getMessage());
         }
     }
     
