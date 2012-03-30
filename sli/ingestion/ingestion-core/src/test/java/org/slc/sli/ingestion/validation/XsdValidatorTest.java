@@ -38,42 +38,42 @@ public class XsdValidatorTest {
     public void testLoadXsds() {
         Map<String, Resource> resources = xsdValidator.getXsd();
 
-    	Assert.assertNotNull(resources.get("AssessmentMetadata"));
-    	Assert.assertNotNull(resources.get("EducationOrganization"));
-    	Assert.assertNotNull(resources.get("EducationOrgCalendar"));
-    	Assert.assertNotNull(resources.get("HSGeneratedStudentTranscript"));
-    	Assert.assertNotNull(resources.get("MasterSchedule"));
-    	Assert.assertNotNull(resources.get("StaffAssociation"));
-    	Assert.assertNotNull(resources.get("Student"));
-    	Assert.assertNotNull(resources.get("StudentAssessment"));
-    	Assert.assertNotNull(resources.get("Attendance"));
-    	Assert.assertNotNull(resources.get("StudentCohort"));
-    	Assert.assertNotNull(resources.get("StudentDiscipline"));
-    	Assert.assertNotNull(resources.get("StudentEnrollment"));
-    	Assert.assertNotNull(resources.get("StudentGrades"));
-    	Assert.assertNotNull(resources.get("Parent"));
-    	Assert.assertNotNull(resources.get("StudentProgram"));
+        Assert.assertNotNull(resources.get("AssessmentMetadata"));
+        Assert.assertNotNull(resources.get("EducationOrganization"));
+        Assert.assertNotNull(resources.get("EducationOrgCalendar"));
+        Assert.assertNotNull(resources.get("HSGeneratedStudentTranscript"));
+        Assert.assertNotNull(resources.get("MasterSchedule"));
+        Assert.assertNotNull(resources.get("StaffAssociation"));
+        Assert.assertNotNull(resources.get("Student"));
+        Assert.assertNotNull(resources.get("StudentAssessment"));
+        Assert.assertNotNull(resources.get("Attendance"));
+        Assert.assertNotNull(resources.get("StudentCohort"));
+        Assert.assertNotNull(resources.get("StudentDiscipline"));
+        Assert.assertNotNull(resources.get("StudentEnrollment"));
+        Assert.assertNotNull(resources.get("StudentGrades"));
+        Assert.assertNotNull(resources.get("Parent"));
+        Assert.assertNotNull(resources.get("StudentProgram"));
 
-    	try {
-			resources.get("AssessmentMetadata").getFile();
-	    	resources.get("EducationOrganization").getFile();
-	    	resources.get("EducationOrgCalendar").getFile();
-	    	resources.get("HSGeneratedStudentTranscript").getFile();
-	    	resources.get("MasterSchedule").getFile();
-	    	resources.get("StaffAssociation").getFile();
-	    	resources.get("Student").getFile();
-	    	resources.get("StudentAssessment").getFile();
-	    	resources.get("Attendance").getFile();
-	    	resources.get("StudentCohort").getFile();
-	    	resources.get("StudentDiscipline").getFile();
-	    	resources.get("StudentEnrollment").getFile();
-	    	resources.get("StudentGrades").getFile();
-	    	resources.get("Parent").getFile();
-	    	resources.get("StudentProgram").getFile();
-		} catch (IOException e) {
+        try {
+            resources.get("AssessmentMetadata").getFile();
+            resources.get("EducationOrganization").getFile();
+            resources.get("EducationOrgCalendar").getFile();
+            resources.get("HSGeneratedStudentTranscript").getFile();
+            resources.get("MasterSchedule").getFile();
+            resources.get("StaffAssociation").getFile();
+            resources.get("Student").getFile();
+            resources.get("StudentAssessment").getFile();
+            resources.get("Attendance").getFile();
+            resources.get("StudentCohort").getFile();
+            resources.get("StudentDiscipline").getFile();
+            resources.get("StudentEnrollment").getFile();
+            resources.get("StudentGrades").getFile();
+            resources.get("Parent").getFile();
+            resources.get("StudentProgram").getFile();
+        } catch (IOException e) {
 
-			Assert.fail();
-		}
+            Assert.fail();
+        }
 
     }
 }

@@ -12,8 +12,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -31,15 +29,15 @@ import org.xml.sax.SAXException;
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
-	private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
-	@Override
-	public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
-		boolean isValid = false;
+    @Override
+    public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
+        boolean isValid = false;
        try {
-		  SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+          SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
           Resource r = xsd.get(ingestionFileEntry.getFileType().getName());
-		  File schemaFile = r.getFile();
+          File schemaFile = r.getFile();
           Schema schema = schemaFactory.newSchema(schemaFile);
           Validator validator = schema.newValidator();
           String sourceXml = ingestionFileEntry.getFileName();
@@ -63,15 +61,15 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
 
        return isValid;
-	}
+    }
 
-	public Map<String, Resource> getXsd(){
-		return xsd;
-	}
+    public Map<String, Resource> getXsd() {
+        return xsd;
+    }
 
-	public void setXsd(Map<String, Resource> xsd){
-		this.xsd = xsd;
-	}
+    public void setXsd(Map<String, Resource> xsd) {
+        this.xsd = xsd;
+    }
 
 
 }
