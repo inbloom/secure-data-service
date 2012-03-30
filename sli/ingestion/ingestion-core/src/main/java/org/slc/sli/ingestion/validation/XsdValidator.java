@@ -29,12 +29,13 @@ import org.xml.sax.SAXException;
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
-	private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
-	@Override
-	public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
-		boolean isValid = false;
+    @Override
+    public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
+        boolean isValid = false;
        try {
+
 		  SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
           Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
 		  File schemaFile = xsdResource.getFile();
@@ -61,15 +62,15 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
 
        return isValid;
-	}
+    }
 
-	public Map<String, Resource> getXsd(){
-		return xsd;
-	}
+    public Map<String, Resource> getXsd() {
+        return xsd;
+    }
 
-	public void setXsd(Map<String, Resource> xsd){
-		this.xsd = xsd;
-	}
+    public void setXsd(Map<String, Resource> xsd) {
+        this.xsd = xsd;
+    }
 
 
 }
