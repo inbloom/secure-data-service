@@ -243,7 +243,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$student$$ associated to the given $$cohorts$$ through
+     * Returns each $$students$$ associated to the given $$cohorts$$ through
      * a $$studentCohortAssociations$$ 
      * 
      * @param cohortId

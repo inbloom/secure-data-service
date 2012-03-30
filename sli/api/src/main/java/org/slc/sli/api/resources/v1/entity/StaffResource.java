@@ -242,7 +242,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$cohort$$ associated to the given staff through
+     * Returns each $$cohorts$$ associated to the given staff through
      * a $$staffCohortAssociations$$ 
      * 
      * @param staffId
