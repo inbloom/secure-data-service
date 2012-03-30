@@ -120,5 +120,10 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setSliRoles(List<String> sliRoles) {
         this.sliRoles = sliRoles;
     }
+    
+    @Override
+    public String toString() {
+        return this.externalId + "@" + this.realm;
+    }
 
 }
