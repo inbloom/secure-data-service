@@ -55,7 +55,7 @@ public class DataForASchool {
     public static void main(String[] args) {
         String root = "data";
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             DataForASchool data = new DataForASchool(Integer.toString(i));
             String path = root + "/temp" + i;
             File folder = new File(path);

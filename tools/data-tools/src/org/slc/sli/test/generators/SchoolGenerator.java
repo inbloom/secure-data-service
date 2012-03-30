@@ -85,7 +85,6 @@ public class SchoolGenerator {
 
             GradeLevelsType grades = new GradeLevelsType();
             grades.getGradeLevel().add(GradeLevelType.ADULT_EDUCATION);
-            grades.getGradeLevel().add(GradeLevelType.ADULT_EDUCATION);
             grades.getGradeLevel().add(GradeLevelType.EARLY_EDUCATION);
             grades.getGradeLevel().add(GradeLevelType.EIGHTH_GRADE);
             grades.getGradeLevel().add(GradeLevelType.ELEVENTH_GRADE);
