@@ -503,7 +503,7 @@ end
 desc "Run V1 Parent Tests"
 task :v1ParentTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/parent","parent","parent_fixture.json")
+  runFixtureAndTests("test/features/apiV1/entities/parent/parent_crud.feature","parent","parent_fixture.json")
 end
 
 desc "Run V1 Parent Security Tests"
