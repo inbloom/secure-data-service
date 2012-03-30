@@ -77,7 +77,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
         factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
+        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
                 ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
@@ -208,6 +208,22 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getStudentDisciplineIncidentAssociations").build();
         addDefinition(studentDisciplineIncidentAssociation);
         
+        AssociationDefinition studentCohortAssociation = factory.makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION)
+                .exposeAs(ResourceNames.STUDENT_COHORT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_COHORT_ASSOCIATION)
+                .from(student, "getStudent", "getStudents").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
+                .calledFromSource(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromTarget(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
+                .build();
+        addDefinition(studentCohortAssociation);
+        
+        AssociationDefinition staffCohortAssociation = factory.makeAssoc(EntityNames.STAFF_COHORT_ASSOCIATION)
+                .exposeAs(ResourceNames.STAFF_COHORT_ASSOCIATIONS).storeAs(EntityNames.STAFF_COHORT_ASSOCIATION)
+                .from(staff, "getStaff", "getStaff").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
+                .calledFromSource(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
+                .calledFromTarget(ResourceNames.STAFF_COHORT_ASSOCIATIONS_GETTER)
+                .build();
+        addDefinition(staffCohortAssociation);
+
         // Adding the security collection
         EntityDefinition roles = factory.makeEntity("roles").storeAs("roles").build();
         addDefinition(roles);
