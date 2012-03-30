@@ -12,8 +12,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -38,8 +36,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 		boolean isValid = false;
        try {
 		  SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-          Resource r = xsd.get(ingestionFileEntry.getFileType().getName());
-		  File schemaFile = r.getFile();
+          Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
+		  File schemaFile = xsdResource.getFile();
           Schema schema = schemaFactory.newSchema(schemaFile);
           Validator validator = schema.newValidator();
           String sourceXml = ingestionFileEntry.getFileName();
