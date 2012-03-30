@@ -34,7 +34,7 @@ public class InstitutionalHierarchyManagerTest {
         when(mockClient.getFilename("mock_data/cgray/school.json")).thenReturn("src/test/resources/mock_data/cgray/school.json");
         when(mockClient.getFilename("mock_data/cgray/educational_organization.json")).thenReturn("src/test/resources/mock_data/cgray/educational_organization.json");
         iManager.setApiClient(mockClient);
-        List<GenericEntity> instArray = iManager.getInstHierarchy("cgray");
+        List<GenericEntity> instArray = iManager.getUserInstHierarchy("cgray");
 
         assertEquals(3, instArray.size());
 

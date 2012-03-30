@@ -63,8 +63,8 @@ And I wait for "20" seconds
 And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
 And the following students have "FRE" lozenges: "Odysseus Merrill;Hoyt Hicks;Delilah Sims;Ursa Oconnor"
 # Lozenges check on LOS
-Then there is no lozenges for student "Jeanette Graves
-Then the lozenge for student "Kimberley Pennington"include "FRE"" 
+Then there is no lozenges for student "Jeanette Graves"
+Then the lozenge for student "Kimberley Pennington" include "FRE"
 And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
