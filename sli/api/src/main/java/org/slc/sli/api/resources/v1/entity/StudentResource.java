@@ -514,10 +514,10 @@ public class StudentResource extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$studentCohortAssociations$$ that
-     * references the given $$student$$
+     * references the given $$students$$
      * 
      * @param studentId
-     *            The Id of the Student.
+     *            The Id of the $$student$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -541,11 +541,11 @@ public class StudentResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$cohort$$ associated to the given student through
+     * Returns each $$cohorts$$ associated to the given $$students$$ through
      * a $$studentCohortAssociations$$ 
      * 
      * @param studentId
-     *            The Id of the Student.
+     *            The Id of the $$students$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo

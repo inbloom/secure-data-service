@@ -13,7 +13,9 @@
 	  </EducationalOrgIdentity>
 	</EducationOrgReference>
 	<ProgramReference>
-	  <ProgramIdentity>ACC-TEST-PROG-1</ProgramIdentity>
+	  <ProgramIdentity>
+	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
   <Cohort>
@@ -28,7 +30,9 @@
 	  </EducationalOrgIdentity>
 	</EducationOrgReference>
 	<ProgramReference>
-	  <ProgramIdentity>ACC-TEST-PROG-1</ProgramIdentity>
+	  <ProgramIdentity>
+	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
   <Cohort>
@@ -43,7 +47,9 @@
 	  </EducationalOrgIdentity>
 	</EducationOrgReference>
 	<ProgramReference>
-	  <ProgramIdentity>ACC-TEST-PROG-2</ProgramIdentity>
+	  <ProgramIdentity>
+	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
   
@@ -194,7 +200,7 @@
     <BeginDate>2011-01-01</BeginDate>
 	<EndDate>2012-02-15</EndDate>
 	<StudentRecordAccess>true</StudentRecordAccess>
-  </StudentCohortAssociation>
+  </StaffCohortAssociation>
   <StaffCohortAssociation>
     <StaffReference>
 	  <StaffIdentity>

@@ -242,7 +242,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$cohort$$ associated to the given staff through
+     * Returns each $$cohorts$$ associated to the given staff through
      * a $$staffCohortAssociations$$ 
      * 
      * @param staffId
@@ -267,7 +267,7 @@ public class StaffResource extends DefaultCrudEndpoint {
      * references the given $$staff$$
      * 
      * @param staffId
-     *            The Id of the Staff.
+     *            The Id of the $$staff$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -295,7 +295,7 @@ public class StaffResource extends DefaultCrudEndpoint {
      * that references the given $$staff$$.
      * 
      * @param staffId
-     *            The Id of the Staff.
+     *            The Id of the $$staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
