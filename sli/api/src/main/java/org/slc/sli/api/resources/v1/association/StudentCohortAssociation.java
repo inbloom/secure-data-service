@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -36,30 +37,27 @@ import org.slc.sli.api.resources.v1.PathConstants;
  * @author kmyers
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
+public class StudentCohortAssociation extends DefaultCrudEndpoint {
  
-    public static final String STAFF_REFERENCE = "staffReference";
-    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
-    public static final String STAFF_CLASSIFICATION = "staffClassification";
     public static final String BEGIN_DATE = "beginDate";
 
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaffEducationOrganizationAssociation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentCohortAssociation.class);
     
     @Autowired
-    public StaffEducationOrganizationAssociation(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
+    public StudentCohortAssociation(EntityDefinitionStore entityDefs) {
+        super(entityDefs);
         LOGGER.debug("New resource handler created: {}", this);
     }
 
     /**
-     * Returns all $$staffEducationOrganizationAssociations$$ entities for which the logged in User has permission and context.
+     * Returns all $$studentCohortAssociations$$ entities for which the logged in User has permission and context.
      * 
      * @param offset
      *            starting position in results to return to user
@@ -76,11 +74,13 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
+        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
+        return super.readAll(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, headers, uriInfo);
     }
 
     /**
-     * Create a new $$staffEducationOrganizationAssociations$$ entity.
+     * Create a new $$studentCohortAssociations$$ entity.
      * 
      * @param newEntityBody
      *            entity data
@@ -97,14 +97,14 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
+        return super.create(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$staffEducationOrganizationAssociations$$ entity
+     * Get a single $$studentCohortAssociations$$ entity
      * 
-     * @param staffEducationOrganizationId
-     *            The Id of the $$staffEducationOrganizationAssociations$$.
+     * @param studentCohortAssociationId
+     *            The Id of the $$studentCohortAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -112,18 +112,18 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
      * @return A single school entity
      */
     @GET
-    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(staffEducationOrganizationId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$staffEducationOrganizationAssociations$$ entity
+     * Delete a $$studentCohortAssociations$$ entity
      * 
-     * @param staffEducationOrganizationId
-     *            The Id of the $$staffEducationOrganizationAssociations$$.
+     * @param studentCohortAssociationId
+     *            The Id of the $$studentCohortAssociations$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -132,17 +132,17 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
-    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId, 
+    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(staffEducationOrganizationId, headers, uriInfo);
+        return super.delete(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$staffEducationOrganizationAssociations$$ entity.
+     * Update an existing $$studentCohortAssociations$$ entity.
      * 
-     * @param staffEducationOrganizationId
-     *            The id of the $$staffEducationOrganizationAssociations$$.
+     * @param studentCohortAssociationId
+     *            The id of the $$studentCohortAssociations$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -153,20 +153,20 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
-    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response update(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
+    public Response update(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(staffEducationOrganizationId, newEntityBody, headers, uriInfo);
+        return super.update(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Returns each $$staff$$ that
-     * references the given $$staffEducationOrganizationAssociations$$
+     * Returns each $$student$$ that
+     * references the given $$studentCohortAssociations$$
      * 
-     * @param staffEducationOrganizationId
-     *            The Id of the teacherSchoolAssociation.
+     * @param studentCohortAssociationId
+     *            The Id of the studentCohortAssociation.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -181,21 +181,21 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.STAFF)
-    public Response getStaffEducationOrganizationAssocationStaff(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
+    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
+    public Response getStudentCohortAssocationStaff(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
-               "staffReference", ResourceNames.STAFF, headers, uriInfo);
+       return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
+               ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
-     * Returns each $$educationalOrganizations$$ that
-     * references the given $$staffEducationOrganizationAssociations$$
+     * Returns each $$cohort$$ that
+     * references the given $$studentCohortAssociations$$
      * 
-     * @param staffEducationOrganizationId
-     *            The Id of the teacherSchoolAssociation.
+     * @param studentCohortAssociationId
+     *            The Id of the studentCohortAssociationId.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -210,12 +210,12 @@ public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
-    public Response getStaffEducationOrganizationAssocationEducationOrganizations(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
+    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)
+    public Response getStudentCohortAssocationCohorts(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
-                "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId, 
+                ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
 }
