@@ -35,7 +35,6 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
     }
     
     public void cleanupGroupedCollections() {
-        //TODO - clean up collections for this job
         neutralRecordRepository.deleteGroupedCollections();
     }
 

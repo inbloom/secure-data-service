@@ -20,6 +20,7 @@ import java.util.Map;
 import com.mongodb.WriteResult;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -307,6 +308,7 @@ public class NeutralRecordRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testFindIdsByQuery() {
         repository.deleteAll("student");
 
