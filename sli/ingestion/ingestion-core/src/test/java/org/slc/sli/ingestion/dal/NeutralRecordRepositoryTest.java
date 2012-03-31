@@ -61,6 +61,7 @@ public class NeutralRecordRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testCRUDNeutralRecordRepository() {
 
         // create new student neutral record
@@ -166,6 +167,7 @@ public class NeutralRecordRepositoryTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testSort() {
 
         // clean up the existing student data
