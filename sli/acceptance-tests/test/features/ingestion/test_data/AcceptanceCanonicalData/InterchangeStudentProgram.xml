@@ -4,175 +4,166 @@
   <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>530425896</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000000</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-01-01</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
     <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>814202099</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000001</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2012-01-15</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
     <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>178875887</StudentUniqueStateId>
+	    <StudentUniqueStateId>100000017</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-02-01</BeginDate>
 	<EndDate>2011-12-31</EndDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
   <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>288598192</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000025</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-03-01</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
     <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>336344132</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000024</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-03-15</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
     <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>555685177</StudentUniqueStateId>
+	    <StudentUniqueStateId>800000023</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-		<ProgramType>Regular Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-04-01</BeginDate>
 	<EndDate>2012-01-15</EndDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
   <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>453827023</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000015</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-		<ProgramType>Remedial Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-05-01</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
     <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>670703438</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000016</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-		<ProgramType>Remedial Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-05-15</BeginDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
   <StudentProgramAssociation>
     <StudentReference>
 	  <StudentIdentity>
-	    <StudentUniqueStateId>683314355</StudentUniqueStateId>
+	    <StudentUniqueStateId>900000017</StudentUniqueStateId>
 	  </StudentIdentity>
 	</StudentReference>
 	<ProgramReference>
 	  <ProgramIdentity>
 	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-		<ProgramType>Remedial Education</ProgramType>
 	  </ProgramIdentity>
 	</ProgramReference>
 	<BeginDate>2011-06-01</BeginDate>
 	<EndDate>2012-02-15</EndDate>
-	<EducationOrgReference>
+	<EducationOrganizationReference>
 	  <EducationalOrgIdentity>
 	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
 	  </EducationalOrgIdentity>
-	</EducationOrgReference>
+	</EducationOrganizationReference>
   </StudentProgramAssociation>
 </InterchangeStudentProgram>
