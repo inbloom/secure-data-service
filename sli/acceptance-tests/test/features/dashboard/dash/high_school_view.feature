@@ -29,7 +29,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
-And I wait for "25" seconds
+And I wait for "40" seconds
 And I select user view "IL_9-12"
-And I wait for "30" seconds
+And I wait for "50" seconds
 Then the table includes header "SAT;Reading Test Scores (Highest);Writing Test Scores (Highest)"

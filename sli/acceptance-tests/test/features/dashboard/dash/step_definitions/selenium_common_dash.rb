@@ -57,6 +57,7 @@ end
 # Asserts a piece of text exists in the body's page
 def assertText(text)
   body = @driver.find_element(:tag_name, "body")
+  puts "body.text = " + body.text
   assert(body.text.include?(text), "Text is missing from page: " + text )
 end
 
@@ -149,7 +150,7 @@ def tableHeaderContains(desiredContent)
   desiredContentArray.each do |searchValue|
     puts "in 1st loop, searchValue = " + searchValue
     headerNames.each do |header|
-      # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
+      puts "in 2st loop, header.attribute('innerHTML').to_s = " + header.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
       # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
       
       if header.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)
