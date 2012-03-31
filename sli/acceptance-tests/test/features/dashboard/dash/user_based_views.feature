@@ -1,3 +1,8 @@
+##Marking this feature as WIP for now, since this doesn't test what we want it to
+##Dashboard currently looks at cohort year on student for filtering the available views
+##There needs to be a refactor to look at student grade /students/{id}/studentWithGrade
+##and data generation done for Charles Gray and Rebecca Braverman's students
+
 @wip
 Feature: User based view selection
 
@@ -6,11 +11,16 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
+  Given the server is in "live" mode
 
 Scenario: Check user has multiple views available
-#bundled with test in population_widget
-  Given the server is in "test" mode
-  Given I am authenticated to SLI as "cgray" "cgray"
+  When I navigate to the Dashboard home page
+  When I select "Sunset School District 4526" and click go
+  And I wait for "1" seconds
+  When I login as "cgray" "cgray1234"
+  And I wait for "2" seconds
+  When I click on the Dashboard page
+>>>>>>> master
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -21,9 +31,12 @@ Scenario: Check user has multiple views available
 
 
 Scenario: Views are filtered based on student grades
-#bundled with test in population_widget
-  Given the server is in "test" mode
-  Given I am authenticated to SLI as "cgray" "cgray"
+  When I navigate to the Dashboard home page
+  When I select "Sunset School District 4526" and click go
+  And I wait for "1" seconds
+  When I login as "cgray" "cgray1234"
+  And I wait for "2" seconds
+  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
@@ -31,9 +44,12 @@ Scenario: Views are filtered based on student grades
   Then I should only see one view named "IL_9-12"
 
 Scenario: Check changing view changes table headings
-#bundled with test in population_widget
-  Given the server is in "test" mode
-  Given I am authenticated to SLI as "cgray" "cgray"
+  When I navigate to the Dashboard home page
+  When I select "Sunset School District 4526" and click go
+  And I wait for "1" seconds
+  When I login as "cgray" "cgray1234"
+  And I wait for "2" seconds
+  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -47,10 +63,13 @@ Scenario: Check changing view changes table headings
     And I should see a table heading "AP Eng. Exam Scores"
     
 Scenario: Different users have different views defined
-#bundled with K-3 tests
-  Given the server is in "test" mode
-  Given I am authenticated to SLI as "rbraverman" "rbraverman"
-  When I select <edOrg> "Illinois State Board of Education"
+  When I navigate to the Dashboard home page
+  When I select "Sunset School District 4526" and click go
+  And I wait for "1" seconds
+  When I login as "rbraverman" "rbraverman1234"
+  And I wait for "2" seconds
+  When I click on the Dashboard page
+  When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
     And I select <section> "Mrs. Braverman's Homeroom #38"
