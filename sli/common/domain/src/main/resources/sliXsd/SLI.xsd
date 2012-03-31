@@ -392,9 +392,11 @@
 
 	<xs:element name="course">
 		<xs:annotation>
-			<xs:documentation>This educational entity represents the organization
+			<xs:documentation>Course
+        This educational entity represents the organization
 				of subject matter and related learning experiences provided for the
 				instruction of students on a regular or systematic basis.
+        If you are looking for a specific course instance, use section instead.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
