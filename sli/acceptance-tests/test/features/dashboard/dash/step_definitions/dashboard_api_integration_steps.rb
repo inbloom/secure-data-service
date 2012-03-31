@@ -83,7 +83,7 @@ def getStudentsWithELLLozenge()
 end
 
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 40) # explicit wait for at most 5 sec
+  wait = Selenium::WebDriver::Wait.new(:timeout => 60) # explicit wait for at most 5 sec
   studentTable = wait.until{@driver.find_element(:id, "studentList")}
   student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   i = 0
