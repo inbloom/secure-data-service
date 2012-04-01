@@ -306,7 +306,24 @@ public class BasicService implements EntityService {
         } else if (allowed.size() < 0) {
             LOG.debug("super list logic --> only true when using DefaultEntityContextResolver");
         } else {
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            Set<String> ids = new HashSet<String>();
+            List<NeutralCriteria> criterias = neutralQuery.getCriteria();
+            for (NeutralCriteria criteria : criterias) {
+                if (criteria.getKey().equals("_id")) {
+                    List<String> idList = (List<String>) criteria.getValue();
+                    ids.addAll(idList);
+                }
+            }
+
+            if (!ids.isEmpty()) {
+                Set<String> allowedSet = new HashSet<String>(allowed);
+                ids.retainAll(allowedSet);
+
+                List<String> finalIds = new ArrayList<String>(ids);
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+            } else {
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            }
         }
         
         List<EntityBody> results = new ArrayList<EntityBody>();

@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.v1.view;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Helper class for all the strategy implementations for the custom
@@ -36,6 +39,13 @@ public class OptionalFieldAppenderHelper {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, values));
+
+        return (List<EntityBody>) entityDef.getService().list(neutralQuery);
+    }
+
+    public List<EntityBody> queryEntities(String resourceName, NeutralQuery neutralQuery) {
+
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
 
         return (List<EntityBody>) entityDef.getService().list(neutralQuery);
     }
@@ -98,5 +108,25 @@ public class OptionalFieldAppenderHelper {
         }
 
         return ids;
+    }
+
+    /**
+     * Returns a list of section ids by examining a list of students
+     * @param entities
+     * @return
+     */
+    public Set<String> getSectionIds(List<EntityBody> entities) {
+        Set<String> sectionIds = new HashSet<String>();
+        for (EntityBody e : entities) {
+            List<EntityBody> associations = (List<EntityBody>) e.get("studentSectionAssociation");
+
+            if (associations == null) continue;
+
+            for (EntityBody association : associations) {
+                sectionIds.add((String) association.get(ParameterConstants.SECTION_ID));
+            }
+        }
+
+        return sectionIds;
     }
 }
