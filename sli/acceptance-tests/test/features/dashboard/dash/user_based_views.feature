@@ -20,7 +20,6 @@ Scenario: Check user has multiple views available
   When I login as "cgray" "cgray1234"
   And I wait for "2" seconds
   When I click on the Dashboard page
->>>>>>> master
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
