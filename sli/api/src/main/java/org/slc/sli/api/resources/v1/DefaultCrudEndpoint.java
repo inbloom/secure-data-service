@@ -72,17 +72,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param entityDefs
      *            access to entity definitions
      */
-    @Deprecated
-    public DefaultCrudEndpoint(EntityDefinitionStore entityDefs) {
-        this(entityDefs, "");
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param entityDefs
-     *            access to entity definitions
-     */
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String typeName) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
@@ -155,7 +144,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 // list all entities matching query parameters and iterate over results
                 for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
                             entityDefs, entityDef, entityBody, uriInfo));
                     // add entity to resulting response
                     results.add(entityBody);
@@ -239,7 +228,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     result.put(
                             ResourceConstants.LINKS,
-                            ResourceUtil.getAssociationAndReferenceLinksForEntity(entityDefs,
+                            ResourceUtil.getLinks(entityDefs,
                                     entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     finalResults.add(result);
                 }
@@ -305,7 +294,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 for (EntityBody result : entities) {
                     if (result != null) {
-                        result.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                        result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
                                 entityDefs, entityDef, result, uriInfo));
                     }
                     finalResults.add(result);
@@ -402,7 +391,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
                     // if links should be included then put them in the entity body
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
                             entityDefs, entityDef, entityBody, uriInfo));
                     results.add(entityBody);
                 }

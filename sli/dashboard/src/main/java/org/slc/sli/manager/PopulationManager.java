@@ -81,8 +81,12 @@ public class PopulationManager implements Manager {
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
             String sessionId, String sectionId) {
         
+        long startTime = System.nanoTime();
         // Initialize student summaries
+
+        //List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
         
         // Get student programs
         List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
@@ -91,7 +95,7 @@ public class PopulationManager implements Manager {
             List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);
             studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
-        
+
         //Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
         
         // Add programs, attendance, and student assessment results to summaries
