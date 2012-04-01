@@ -166,7 +166,7 @@ public class DefaultCrudEndPointTest {
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
             try {
-                Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+                crudEndPoint.read(resource, id, httpHeaders, uriInfo);
                 fail("should have thrown EntityNotFoundException");
             } catch (EntityNotFoundException e) {
                 return;
@@ -213,39 +213,6 @@ public class DefaultCrudEndPointTest {
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);
         }
-    }
-    
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testReadEndPoint() {
-        Map<String, Object> schoolEntity = new HashMap<String, Object>();
-        schoolEntity.put("field1", "3");
-        schoolEntity.put("field2", "4");
-        
-        Map<String, Object> studentEntity = new HashMap<String, Object>();
-        studentEntity.put("field1", "5");
-        studentEntity.put("field2", "6");
-        
-        Response schoolRes = crudEndPoint.create(ResourceNames.SCHOOLS, new EntityBody(schoolEntity), httpHeaders, uriInfo);
-        String schoolId = parseIdFromLocation(schoolRes);
-        
-        Response studentRes = crudEndPoint.create(ResourceNames.STUDENTS, new EntityBody(studentEntity), httpHeaders, uriInfo);
-        String studentId = parseIdFromLocation(studentRes);
-        
-        Map<String, Object> studentSchoolAssoc = new HashMap<String, Object>();
-        studentSchoolAssoc.put("studentId", studentId);
-        studentSchoolAssoc.put("schoolId", schoolId);
-        
-        crudEndPoint.create(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, new EntityBody(studentSchoolAssoc), httpHeaders, uriInfo);
-        
-        Response response = crudEndPoint.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, 
-                "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-        
-        @SuppressWarnings("unused")
-        List<EntityBody> results = (List<EntityBody>) response.getEntity();
-        //need to add to this test
-        //MockRepo needs to be changed to get this test right
     }
     
     @Test
