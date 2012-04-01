@@ -110,7 +110,7 @@ public class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
