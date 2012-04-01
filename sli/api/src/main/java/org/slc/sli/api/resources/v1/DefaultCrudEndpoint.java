@@ -72,17 +72,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param entityDefs
      *            access to entity definitions
      */
-    @Deprecated
-    public DefaultCrudEndpoint(EntityDefinitionStore entityDefs) {
-        this(entityDefs, "");
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param entityDefs
-     *            access to entity definitions
-     */
     public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String typeName) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
