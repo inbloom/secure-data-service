@@ -55,10 +55,10 @@ public class PopulationManager implements Manager {
      *         - the student summary entity list
      */
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
-            String sessionId) {
+            String sessionId, String sectionId) {
         
         // Initialize student summaries
-        List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
+        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
         
         // Get student programs
         List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);

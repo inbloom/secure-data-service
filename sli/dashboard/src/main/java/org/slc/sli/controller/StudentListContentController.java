@@ -89,7 +89,7 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
-        viewManager.setViewConfigs(viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken()));
+        viewManager.setViewConfigs(viewManager.getApplicableViewConfigs(uids, selectedSectionId, SecurityUtil.getToken()));
         
         if (viewManager.getViewConfigs().size() > 0) {
             
@@ -134,7 +134,7 @@ public class StudentListContentController extends DashboardController {
             
             // get student, program, attendance, and assessment result data
             List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids,
-                    viewConfig, sessionId);
+                    viewConfig, sessionId, selectedSectionId);
             StudentResolver studentResolver = new StudentResolver(studentSummaries);
             studentResolver.filterStudents(studentFilterName);
             

@@ -97,8 +97,8 @@ public class EntityManager extends ApiClientManager {
      * @return studentList
      *         - the student entity list
      */
-    public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
-        return getApiClient().getStudents(token, studentIds);
+    public List<GenericEntity> getStudents(final String token, String sectionId, List<String> studentIds) {
+        return getApiClient().getStudents(token, sectionId, studentIds);
     }
     
     /**

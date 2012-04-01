@@ -195,6 +195,12 @@ public class LiveAPIClient implements APIClient {
         return createEntityFromAPI(getApiUrl() + "/v1" + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, false);
     }
 
+    @Override
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
+                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments", token, false);
+    }
+
     /**
      * Get one section
      */
