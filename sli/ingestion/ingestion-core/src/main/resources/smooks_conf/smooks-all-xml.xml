@@ -1924,6 +1924,19 @@
                 decoder="Double"/>
   </jb:bean>
 
+  <!-- StudentAcademicRecord -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    <jb:expression property="recordType">'studentAcademicRecord'</jb:expression>
+    <jb:value property="localId" data="InterchangeStudentGrade/StudentAcademicRecord/@id" />
+    <jb:wiring property="attributes" beanIdRef="studentAcademicRecordAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentAcademicRecordAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
+    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" />
+    <jb:value property="studentId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="sessionName" data="StudentAcademicRecord/SessionReference/SessionIdentity/SessionName" />
+  </jb:bean>
+
   <!-- Start StudentTranscriptAssociation mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
@@ -1948,7 +1961,7 @@
     <jb:value property="courseAttemptResult" data="CourseAttemptResult" />
     <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />
     <jb:wiring property="creditsEarned" beanIdRef="CreditsEarnedValue" />
-    <jb:wiring property="additionalCreditsEarned" beanIdRef="additionalCreditsArray" />
+    <jb:wiring property="additionalCreditsEarned" beanIdRef="AdditionalCreditsArray" />
     <jb:value property="gradeLevelWhenTaken" data="GradeLevelWhenTaken" />
     <jb:value property="methodCreditEarned" data="MethodCreditEarned" />
     <jb:value property="finalLetterGradeEarned" data="FinalLetterGradeEarned" />
@@ -1961,20 +1974,20 @@
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="credit" data="CourseTranscript/CreditsAttempted/Credit"
-      decoder="Double" />
+      decoder="Float" />
   </jb:bean>
 
   <jb:bean beanId="CreditsEarnedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="credit" data="CourseTranscript/CreditsEarned/Credit"
-      decoder="Double" />
+      decoder="Float" />
   </jb:bean>
 
-  <jb:bean beanId="additionalCreditsArray" class="java.util.ArrayList"
+  <jb:bean beanId="AdditionalCreditsArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:wiring beanIdRef="additionalCredit" />
+    <jb:wiring beanIdRef="AdditionalCredit" />
   </jb:bean>
-  <jb:bean beanId="additionalCredit" class="java.util.HashMap"
+  <jb:bean beanId="AdditionalCredit" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
     <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Float" />
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />

@@ -55,13 +55,22 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
-        for (SimpleEntity entity : transformed) {
-            entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), item.getSourceId());
 
-            matchEntity(entity, errorReport);
+        if (transformed != null && !transformed.isEmpty()) {
 
-            if (errorReport.hasErrors()) {
-                return Collections.emptyList();
+            for (SimpleEntity entity : transformed) {
+
+                if (entity.getMetaData() == null) {
+                    entity.setMetaData(new HashMap<String, Object>()); 
+                }
+
+                entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), item.getSourceId());
+
+                matchEntity(entity, errorReport);
+
+                if (errorReport.hasErrors()) {
+                    return Collections.emptyList();
+                }
             }
         }
 
