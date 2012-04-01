@@ -122,7 +122,7 @@ public class AssessmentResolver {
                 }
             }
         }
-        
+
         // find the right field value by match dataPointName
         List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         
@@ -191,7 +191,7 @@ public class AssessmentResolver {
          * if (studentAssessmentFiltered.isEmpty()) { return null; }
          */
         
-        List<Map> studentAssmts = (List<Map>) (student.get(Constants.ATTR_STUDENT_ASSESSMENTS));
+        List<Map> studentAssmts = (List<Map>) (student.get("studentAssessmentAssociations"));
         
         List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
         for (Map studentAssmt : studentAssmts) {
