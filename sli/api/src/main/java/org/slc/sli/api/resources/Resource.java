@@ -113,7 +113,7 @@ public class Resource {
                 
                 // loop for each entity returned by performing a list operation
                 for (EntityBody entityBody : entityDef.getService().list(new NeutralQuery())) {
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getAssociationAndReferenceLinksForEntity(
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
                             entityDefs, entityDef, entityBody, uriInfo));
                     results.add(entityBody);
                 }
