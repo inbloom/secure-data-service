@@ -5,7 +5,7 @@ reduceSectionAttendance = function(key, values) {
         var count = result.attendance[value.attendanceEventCategory];
 
         if(count==undefined) {
-            result.attendance[value.attendanceEventCategory] = 0;
+            result.attendance[value.attendanceEventCategory] = 1;
         } else {
             ++count;
             result.attendance[value.attendanceEventCategory] = count;
