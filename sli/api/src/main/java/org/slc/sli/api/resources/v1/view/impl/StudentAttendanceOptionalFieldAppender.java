@@ -1,10 +1,11 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Set;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
@@ -12,6 +13,7 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
@@ -30,34 +32,34 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
 
+    @Autowired
+    private MongoTemplate template;
+
     public StudentAttendanceOptionalFieldAppender() {
     }
 
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
-        List<String> studentIds = new ArrayList<String>();
-        Map<String, List<EntityBody>> studentAttendances = new HashMap<String, List<EntityBody>>();
+        String collectionName = "attagg" + System.currentTimeMillis();
+        Map<String, EntityBody> studentAttendances = new HashMap<String, EntityBody>();
 
-        //construct list of student IDs
-        for (EntityBody entity : entities) {
-            String id = (String) entity.get("id");
-            studentIds.add(id);
-            studentAttendances.put(id, new ArrayList<EntityBody>());
-        }
+        //get the section Ids
+        Set<String> sectionIds = optionalFieldAppenderHelper.getSectionIds(entities);
 
-        //get the attendances
-        List<EntityBody> attendanceEntities = optionalFieldAppenderHelper.queryEntities(ResourceNames.ATTENDANCES,
-                ParameterConstants.STUDENT_ID, studentIds);
+        //execute the map/reduce
+        if (!executeMapReduce(collectionName, sectionIds)) return entities;
 
-        //sort out attendances by studentId
-        for (EntityBody attendanceEntity : attendanceEntities) {
-            String id = (String) attendanceEntity.get("studentId");
+        //get the attendance aggregate objects
+        List<Object> attendanceEntities = template.findAll(Object.class, collectionName);
+        //drop the temp collection
+        template.dropCollection(collectionName);
 
-            if (studentAttendances.containsKey(id)) {
-                studentAttendances.get(id).add(attendanceEntity);
-            } else {
-                logger.warn("Attendances were returned for studentIDs that were not in query.");
-            }
+        for (Object entity : attendanceEntities) {
+            Map<String, Object> map = (Map<String, Object>) entity;
+
+            String id = (String) map.get("_id");
+            Map<String, Object> value = (Map<String, Object>) map.get("value");
+            studentAttendances.put(id, new EntityBody((Map<String, Object>) value.get("attendance")));
         }
 
         //add attendances to student's entityBody
@@ -70,6 +72,36 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
         }
 
         return entities;
+    }
+
+    protected boolean executeMapReduce(String collectionName, Set<String> sectionIds) {
+        StringBuffer buffer = new StringBuffer();
+        String separator = "";
+
+        //construct the map/reduce command
+        //need to extract the constants out of this
+        buffer.append("db.runCommand( {");
+        buffer.append("mapreduce:\"studentSectionAssociation\",");
+        buffer.append("map:mapSectionAttendance,");
+        buffer.append("reduce:reduceSectionAttendance,");
+        buffer.append("query: { \"body.sectionId\":{\"$in\": [");
+
+        for (String sectionId : sectionIds) {
+            buffer.append(separator);
+            buffer.append("\"");
+            buffer.append(sectionId);
+            buffer.append("\"");
+            separator = ",";
+        }
+
+        buffer.append("]}},");
+
+        buffer.append("out: { reduce: \"");
+        buffer.append(collectionName);
+        buffer.append("\" }");
+        buffer.append("});");
+
+        return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(buffer.toString()) + "\"}").ok();
     }
 
 }
