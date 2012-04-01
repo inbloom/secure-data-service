@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -52,7 +51,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     
     @Autowired
     public StudentCohortAssociation(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.STUDENT_COHORT_ASSOCIATIONS);
         LOGGER.debug("New resource handler created: {}", this);
     }
 
@@ -74,9 +73,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -97,7 +94,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -116,7 +113,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
+        return super.read(studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
@@ -135,7 +132,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, headers, uriInfo);
+        return super.delete(studentCohortAssociationId, headers, uriInfo);
     }
 
     /**
@@ -158,7 +155,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     public Response update(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(studentCohortAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
