@@ -310,6 +310,7 @@ public class BasicService implements EntityService {
             List<NeutralCriteria> criterias = neutralQuery.getCriteria();
             for (NeutralCriteria criteria : criterias) {
                 if (criteria.getKey().equals("_id")) {
+                    @SuppressWarnings("unchecked")
                     List<String> idList = (List<String>) criteria.getValue();
                     ids.addAll(idList);
                 }
