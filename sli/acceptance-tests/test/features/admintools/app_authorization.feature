@@ -25,7 +25,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And the login process is initiated
 	And I pass my valid username and password
 	Then I get message that I am not authorized
-	And I am not logged on the application
+	And I am not logged into the application
 
 	Scenario: Approve application
 	
@@ -35,7 +35,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And in Status it says Not Approved
 	And I click on the Approve button next to it
 	And I am asked ‘Do you really want this application to access the district’s data’
-	When I click on Yes
+	When I click on Ok
 	Then the application is authorized to use data of <District>
 	And is put on the top of the table
 	And the Status becomes Approved
@@ -51,7 +51,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And in Status it says Approved
 	And I click on the Deny button next to it
 	And I am asked ‘Do you really want deny access to this application of the district’s data’
-	When I click on Yes
+	When I click on Ok
 	Then the application is denied to use data of <District>
 	And it is put on the bottom of the table
 	And the Status becomes Not Approved
