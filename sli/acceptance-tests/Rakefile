@@ -554,6 +554,11 @@ task :v1AttendanceTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/attendance","attendance","attendance_fixture.json")
 end
 
+desc "Run V1 Cohort Tests"
+task :v1CohortTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/cohort","cohort","cohort_fixture.json")
+end
+
 desc "Run V1 Home URI Tests"
 task :v1homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
