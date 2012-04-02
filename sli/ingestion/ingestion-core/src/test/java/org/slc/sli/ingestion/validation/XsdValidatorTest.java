@@ -6,11 +6,13 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -21,13 +23,13 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  * @author ablum
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdValidatorTest {
 
     @Autowired
     private XsdValidator xsdValidator;
 
-    @Ignore
     @Test
     public void testValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
