@@ -5,7 +5,7 @@ Logging::Rails.configure do |config|
   Logging.format_as :inspect
 
   # All loggers in SLI should use this pattern
-   commonPattern = 'AWEOMSE [%d] %-5l %c : %m\n'
+  commonPattern = '[%d] %-5l %c : %m\n'
 
 
   # The default layout used by the appenders.

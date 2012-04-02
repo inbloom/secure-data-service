@@ -281,6 +281,7 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1StudentProgramAssociationTests,
                                 :v1StudentAssessmentAssociationTests,
                                 :v1StudentParentAssociationTests,
+                                :v1StudentDisciplineIncidentAssociationTests,
                                 :v1StudentSchoolAssociationTests,
                                 :v1StudentSectionAssociationTests,
                                 :v1StudentTranscriptAssociationTests,
@@ -335,6 +336,14 @@ task :v1DisciplineActionTests => [:realmInit] do
   setFixture("disciplineIncident", "disciplineIncident_fixture.json")
   setFixture("disciplineAction", "disciplineAction_fixture.json")
   runTests("test/features/apiV1/entities/disciplineAction")
+end
+
+desc "Run V1 Student Discipline Incident Association Tests"
+task :v1StudentDisciplineIncidentAssociationTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
+  setFixture("studentDisciplineIncidentAssociation", "studentDisciplineIncidentAssociation_fixture.json")
+  runTests("test/features/apiV1/associations/studentDisciplineIncidentAssociation")
 end
 
 desc "Run V1 Cascade Deletion Tests"
