@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
 
 public class DataUtils {
-    static final int BUFFER = 1024*1024;
+    static final int BUFFER = 1024*4;
     
     /*
      * Takes *.xml or *.ctl files at path and zips them to an output.zip
