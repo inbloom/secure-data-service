@@ -419,7 +419,7 @@ public class StudentGenerator {
                    else if ( randomInt20 == 11 ) programType = ProgramType.INTERNATIONAL_BACCALAUREATE;
                    else if ( randomInt20 == 12 ) programType = ProgramType.MAGNET_SPECIAL_PROGRAM_EMPHASIS;
                    else if ( randomInt20 == 13 ) programType = ProgramType.NEGLECTED_AND_DELINQUENT_PROGRAM;
-                  else if ( randomInt20 == 14 ) programType = ProgramType.OTHER;
+                   else if ( randomInt20 == 14 ) programType = ProgramType.OTHER;
                    else if ( randomInt20 == 15 ) programType = ProgramType.REMEDIAL_EDUCATION;
                    else if ( randomInt20 == 16 ) programType = ProgramType.SECTION_504_PLACEMENT;
                    else if ( randomInt20 == 17 ) programType = ProgramType.SPECIAL_EDUCATION;

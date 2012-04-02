@@ -12,11 +12,15 @@ import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CareerPathwayType;
 import org.slc.sli.test.edfi.entities.Course;
+import org.slc.sli.test.edfi.entities.CourseCode;
+import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.CourseDefinedByType;
 import org.slc.sli.test.edfi.entities.CourseGPAApplicabilityType;
+import org.slc.sli.test.edfi.entities.CourseIdentityType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicItemType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicsType;
 import org.slc.sli.test.edfi.entities.CourseLevelType;
+import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
@@ -253,6 +257,16 @@ public class CourseGenerator {
 
     public int getCourseCount() {
         return courseCount;
+    }
+    
+    
+    public CourseReferenceType getCourseReferenceType(Course course)
+    {
+    	CourseReferenceType crt = new CourseReferenceType();
+    	CourseIdentityType ci = new CourseIdentityType();
+    	crt.setCourseIdentity(ci) ;
+    	ci.getCourseCode().addAll(course.getCourseCode());
+    	return crt;
     }
 
     public static Course getFastCourse(String id, String schoolId) {
