@@ -73,6 +73,15 @@ public enum EntityType {
     /** Teacher information. */
     TEACHERS("teacher", "teachers"),
     
+    /** DisciplineIncident information. */
+    DISCIPLINE_INCIDENTS("disciplineIncident", "disciplineIncidents"),
+    
+    /** disciplineAction information. */
+    DISCIPLINE_ACTIONS("disciplineAction", "disciplineActions"),
+    
+    /** Association between students and their disciplineIncidents. */
+    STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS("studentDisciplineIncidentAssociation", "student-disciplineIncident-associations"),
+
     /** Generic type used when no matching type is found */
     GENERIC("generic", null);
     
