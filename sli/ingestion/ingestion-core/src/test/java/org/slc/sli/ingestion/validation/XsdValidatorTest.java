@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,7 +23,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/validation-context.xml" })
 public class XsdValidatorTest {
 
     @Autowired
@@ -37,7 +36,6 @@ public class XsdValidatorTest {
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
-    @Ignore
     @Test
     public void testInValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-InValid.xml");
@@ -45,7 +43,6 @@ public class XsdValidatorTest {
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
-    @Ignore
     @Test
     public void testLoadXsds() {
         Map<String, Resource> resources = xsdValidator.getXsd();
@@ -66,26 +63,20 @@ public class XsdValidatorTest {
         Assert.assertNotNull(resources.get("Parent"));
         Assert.assertNotNull(resources.get("StudentProgram"));
 
-        try {
-            resources.get("AssessmentMetadata").getFile();
-            resources.get("EducationOrganization").getFile();
-            resources.get("EducationOrgCalendar").getFile();
-            resources.get("HSGeneratedStudentTranscript").getFile();
-            resources.get("MasterSchedule").getFile();
-            resources.get("StaffAssociation").getFile();
-            resources.get("Student").getFile();
-            resources.get("StudentAssessment").getFile();
-            resources.get("Attendance").getFile();
-            resources.get("StudentCohort").getFile();
-            resources.get("StudentDiscipline").getFile();
-            resources.get("StudentEnrollment").getFile();
-            resources.get("StudentGrades").getFile();
-            resources.get("Parent").getFile();
-            resources.get("StudentProgram").getFile();
-        } catch (IOException e) {
-
-            Assert.fail();
-        }
-
+        Assert.assertTrue(resources.get("AssessmentMetadata").exists());
+        Assert.assertTrue(resources.get("EducationOrganization").exists());
+        Assert.assertTrue(resources.get("EducationOrgCalendar").exists());
+        Assert.assertTrue(resources.get("HSGeneratedStudentTranscript").exists());
+        Assert.assertTrue(resources.get("MasterSchedule").exists());
+        Assert.assertTrue(resources.get("StaffAssociation").exists());
+        Assert.assertTrue(resources.get("Student").exists());
+        Assert.assertTrue(resources.get("StudentAssessment").exists());
+        Assert.assertTrue(resources.get("Attendance").exists());
+        Assert.assertTrue(resources.get("StudentCohort").exists());
+        Assert.assertTrue(resources.get("StudentDiscipline").exists());
+        Assert.assertTrue(resources.get("StudentEnrollment").exists());
+        Assert.assertTrue(resources.get("StudentGrades").exists());
+        Assert.assertTrue(resources.get("Parent").exists());
+        Assert.assertTrue(resources.get("StudentProgram").exists());
     }
 }
