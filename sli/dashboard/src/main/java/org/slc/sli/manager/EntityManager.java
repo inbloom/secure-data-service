@@ -85,25 +85,10 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getSchool(final String token, String schoolId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ENROLLMENT_FILE), schoolId);
     }
-    
-    /**
-     * Get the list of student entities identified by the student id list and authorized for the
-     * security token
-     * 
-     * @param token
-     *            - the principle authentication token
-     * @param studentIds
-     *            - the student id list
-     * @return studentList
-     *         - the student entity list
-     */
-    public List<GenericEntity> getStudents(final String token, String sectionId, List<String> studentIds) {
-        return getApiClient().getStudents(token, sectionId, studentIds);
-    }
-    
+
     /**
      * Get the student entity identified by the student id and authorized for the security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentId
@@ -114,12 +99,12 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getStudent(final String token, String studentId) {
         return getApiClient().getStudent(token, studentId);
     }
-    
-    
-    
+
+
+
     /**
      * Get the student entity along with additional info needed for CSI panel
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentId
@@ -130,7 +115,7 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = ContactSorter.sort(getStudent(token, studentId));
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
-        
+
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
         GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
 
@@ -139,7 +124,7 @@ public class EntityManager extends ApiClientManager {
             if (teacherName != null)
                  student.put(Constants.ATTR_TEACHER_NAME, teacherName);
         }
- 
+
         /*GenericEntity program = getProgram(token, studentId);
         if (program != null) {
             student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
@@ -148,12 +133,12 @@ public class EntityManager extends ApiClientManager {
         }*/
         return student;
     }
-    
-    
+
+
     /**
      * Get the list of student program entities identified by the student id list and authorized for the
      * security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentIds
@@ -164,10 +149,10 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         return getApiClient().getPrograms(token, studentIds);
     }
-    
+
     /**
      * Get the student program entity identified by the student id and authorized for the security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentId
@@ -179,20 +164,20 @@ public class EntityManager extends ApiClientManager {
         String username = SecurityUtil.getUsername().replaceAll(" ", "");
         return this.getEntity(username, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), studentId);
     }
-    
+
     /**
      * Get the list of assessment entities
-     * 
+     *
      * @return assessment list
      */
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
         return getApiClient().getAssessments(token, assessmentIds);
     }
-    
+
     /**
      * Get the list of student assessment entities identified by the student id list and authorized for the
      * security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentIds
@@ -200,13 +185,13 @@ public class EntityManager extends ApiClientManager {
      * @return student assessment list
      */
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-        // TODO: the logic for filtering by student id isn't working right now, so just passing in null 
+        // TODO: the logic for filtering by student id isn't working right now, so just passing in null
         return getApiClient().getStudentAssessments(token, studentId);
     }
-    
+
     /**
      * Get the assessment entity identified by the student id and authorized for the security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentId
@@ -217,7 +202,7 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getAssessment(final String token, String studentId) {
         return this.getEntity(token, getResourceFilePath(MOCK_DATA_DIRECTORY + token + "/" + MOCK_ASSESSMENTS_FILE), studentId);
     }
-    
+
     /**
      * Get custom data
      * @param token
@@ -237,7 +222,7 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getAttendance(final String token, final String studentId, final String start, final String end) {
         return getApiClient().getStudentAttendance(token, studentId, start, end);
     }
-    
+
     /**
      * Returns a list of courses for a given student and params
      * @param token Security token
@@ -248,7 +233,7 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getCourses(token, studentId, params);
     }
-    
+
     /**
      * Returns a list of studentCourseAssociations for a given student and params
      * @param token Security token
@@ -259,7 +244,7 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getStudentTranscriptAssociations(token, studentId, params);
     }
-    
+
     /**
      * Returns a list of sections for the given student and params
      * @param token Security token
@@ -270,7 +255,7 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getSections(token, studentId, params);
     }
-    
+
     /**
      * Returns a list of student grade book entries for a given student and params
      * @param token Security token
@@ -281,11 +266,11 @@ public class EntityManager extends ApiClientManager {
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getStudentSectionGradebookEntries(token, studentId, params);
     }
-    
+
     /**
      * Returns an entity for the given type, id and params
      * @param token Security token
-     * @param type Type of the entity 
+     * @param type Type of the entity
      * @param id The id of the entity
      * @param params param map
      * @return
@@ -293,7 +278,7 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
         return getApiClient().getEntity(token, type, id, params);
     }
-    
+
     /**
      * Return a list of students for a section with the optional fields
      * @param token Security token
