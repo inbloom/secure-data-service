@@ -18,9 +18,8 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And are sorted by 'Status'
 	And I see the Name, Version, Vendor and Status of the apps
 
-@currentTest
+@wip
 	Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
-	
 	Given I am a valid SEA/LEA user
 	When I hit the Application Authorization Tool
 	And the login process is initiated
@@ -30,33 +29,34 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 
 	Scenario: Approve application
 	
-	Given I am an authenticated District Super Administrator for <District>
-	And I am logged to the Application Authorization Tool
+	Given I am an authenticated District Super Administrator for "Sunset School District"
+	And I am logged into the Application Authorization Tool
 	And I see an application in the table
-	And in Status it says Not Approved
-	And I click on the Approve button next to it
+	And in Status it says "Not Approved"
+	And I click on the "Approve" button next to it
 	And I am asked 'Do you really want this application to access the district's data'
 	When I click on Ok
-	Then the application is authorized to use data of <District>
+	Then the application is authorized to use data of "Sunset School District"
 	And is put on the top of the table
-	And the Status becomes Approved
-	And it is colored green
+	And the Status becomes "Approved"
+	And it is colored "green"
 	And the Approve button next to it is disabled
 	And the Deny button next to it is enabled
 	
+@currentTest
 	Scenario: Deny application
 	
-	Given I am an authenticated District Super Administrator for <District>
-	And I am logged to the Application Authorization Tool
+	Given I am an authenticated District Super Administrator for "Sunset School District"
+	And I am logged into the Application Authorization Tool
 	And I see an application in the table
-	And in Status it says Approved
-	And I click on the Deny button next to it
+	And in Status it says "Approved"
+	And I click on the "Deny" button next to it
 	And I am asked 'Do you really want deny access to this application of the district's data'
 	When I click on Ok
-	Then the application is denied to use data of <District>
+	Then the application is denied to use data of "Sunset School District"
 	And it is put on the bottom of the table
-	And the Status becomes Not Approved
-	And it is colored red
+	And the Status becomes "Not Approved"
+	And it is colored "red"
 	And the Approve button next to it is enabled
 	And the Deny button next to it is disabled
 	
