@@ -8,17 +8,21 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-<import resource="classpath:/spring/validation-context.xml" />
-
-
-  <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring" >
-
-    <ref bean="xsdValidator"/>
-
+<import resource="classpath:/spring/applicationContext.xml" />
+  
+  <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
+      <ref bean="controlFileValidator" />
+      <ref bean="xsdValidator" />
   </util:list>
+  
+  <bean id="validation" class="org.slc.sli.ingestion.tool.Validation">
+      <property name="validators" ref="validators"></property>
+  </bean>
+  
+  
 
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
-        <property name="validators" ref="validators"></property>
+        <property name="validation" ref="validation"></property>
     </bean>
-
+    
 </beans>
