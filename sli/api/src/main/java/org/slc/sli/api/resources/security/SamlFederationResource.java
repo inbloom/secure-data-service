@@ -198,8 +198,8 @@ public class SamlFederationResource {
     
     @GET
     @Path("slo/redirect")
-    public void consumeSloRedirect(@QueryParam("SAMLResponse") String saml) {
-        this.saml.decodeSamlRedirect(saml);
+    public void consumeSloRedirect(@QueryParam("SAMLResponse") String samlResponse, @QueryParam("SAMLRequest") String samlRequest) {
+        this.saml.decodeSamlRedirect(samlRequest);
     }
     
     public boolean logoutOfIdp(SLIPrincipal principal) {

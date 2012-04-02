@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.zip.DataFormatException;
@@ -376,7 +375,7 @@ public class SamlHelper {
     }
     
     private static String encodedStringToXml(String msg) throws DataFormatException, UnsupportedEncodingException {
-        msg = URLDecoder.decode(msg, "UTF-8");
+        //msg = URLDecoder.decode(msg, "UTF-8");
         
         byte[] bytes = Base64.decodeBase64(msg);
         
@@ -387,7 +386,7 @@ public class SamlHelper {
         
         int len = 0;
         while (!inf.finished()) {
-            len = inf.inflate(result);
+            len += inf.inflate(result);
         }
         
         inf.end();
