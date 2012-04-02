@@ -33,6 +33,9 @@
         <property name="exceptionMappings">
 		    <props>
 			    <prop key="java.lang.RuntimeException">error</prop>
+			    
+			    <!-- Example usage of Exception Page -->
+			    <prop key="java.lang.IllegalArgumentException">exceptionPage</prop>
 		    </props>
 	    </property>
 	</bean>
