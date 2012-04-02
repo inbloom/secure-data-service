@@ -247,7 +247,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + COHORT_IDENTIFIER + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
-    public Response getStudentCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
+    public Response getStudentCohortAssociationStudents(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, 
