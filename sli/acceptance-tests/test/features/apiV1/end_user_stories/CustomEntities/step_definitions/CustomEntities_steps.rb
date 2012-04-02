@@ -8,6 +8,7 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "educationOrganizations"                     if human_readable_id == "EDUCATION ORGANIZATION URI"
+  id = "studentSchoolAssociations"                  if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
   id = "custom"                                     if human_readable_id == "CUSTOM URI"
   id = "students"                                   if human_readable_id == "STUDENT URI"
   id =  "<"+human_readable_id+">"                   if human_readable_id.include? "?"
@@ -27,8 +28,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"
   id = "1e0ddefb-875a-ef7e-b8c3-33bb5676115a"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
   
-  #teacher section associations
-  id = "12f25c0f-75d7-4e45-8f36-af1bcc342871"       if human_readable_id == "'Teacher Ms. Jones and Section Algebra II' ID"
+  #student school associations
+  id = "4e044247-4cc0-49fa-900d-80064614060c"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"
   id
 end
 
@@ -38,10 +39,7 @@ Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |u
 end
 
 Given /^the clientID is "([^"]*)"$/ do |arg1|
-  if arg1 == "demoClient"
-    @user = "demo"
-    @passwd = "demo1234"
-  elsif arg1 == "SampleApplication"
+  if arg1 == "SampleApplication"
     @user = "sampleUser"
     @passwd = "sampleUser1234"
   end
@@ -61,11 +59,19 @@ Given /^I add a key value pair "([^"]*)" : "([^"]*)" to the object$/ do |key, va
   @fields[key] = value
 end
 
+When /^I navigate to GET "([^"]*)"\?includeCustom="([^"]*)"$/ do |uri, flag|
+  #uri=uri+"?includeCustom="+flag
+  step "I navigate to GET \"#{uri}\""
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
 Then /^I should receive a key value pair "([^"]*)" : "([^"]*)" in the result$/ do |key, value|
+  if key!="" and value!=""
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result.has_key?(key), "Response does not contain key #{key}")
   assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
+  end
 end
 
 Then /^I should receive a Location header for the custom entity$/ do
@@ -74,4 +80,11 @@ Then /^I should receive a Location header for the custom entity$/ do
   headers['location'].should_not == nil
   headers['location'].length.should == 1
   headers['location'][0].should match %r{.+/educationOrganizations/[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+/custom}
+
+Then /^I should recieve the "([^"]*)" object with "([^"]*)"$/ do |type, id|
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result["entityType"] == convert(type), "did not receive #{type}")
+  assert(@result["id"] == convert(id), "did not receive #{type} with ID specified")
+
 end
