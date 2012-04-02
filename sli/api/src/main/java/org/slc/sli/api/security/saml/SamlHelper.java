@@ -42,6 +42,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import org.slc.sli.api.security.saml2.SAML2Validator;
+import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -75,6 +76,9 @@ public class SamlHelper {
     
     @Autowired
     private SAML2Validator validator;
+    
+    @Autowired
+    private XmlSignatureHelper sign;
     
     @PostConstruct
     public void init() throws Exception {
@@ -260,14 +264,10 @@ public class SamlHelper {
         Element sessionIndex = new Element("SessionIndex", SAMLP_NS);
         String index = "s23473eaae180f98f6dd4829a72b90461baa766e01";
         sessionIndex.setText(index);
-        doc.getRootElement().addContent(sessionIndex);
+        // doc.getRootElement().addContent(sessionIndex);
         
         Element nameId = new Element("NameID", SAML_NS);
-        if (destination.contains("adfs")) {
-            nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
-        } else {
-            nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
-        }
+        nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
         nameId.getAttributes().add(new Attribute("NameQualifier", destination));
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
         nameId.setText(userId);
@@ -283,7 +283,9 @@ public class SamlHelper {
         // add signature and digest here
         
         try {
-            String xmlString = nodeToXmlString(domer.output(doc));
+            org.w3c.dom.Document dom = domer.output(doc);
+            dom = this.sign.signSamlAssertion(dom);
+            String xmlString = nodeToXmlString(dom);
             LOG.debug(xmlString);
             return xmlToEncodedString(xmlString);
         } catch (Exception e) {

@@ -188,9 +188,9 @@ public class SamlFederationResource {
     @GET
     @Path("slo/init")
     public Response initSlo() throws Exception {
-        String destination = "https://devopenam1.slidev.org/idp1";
-        String postUrl = "https://devopenam1.slidev.org:443/idp1/IDPSloRedirect/metaAlias/idp";
-        String nameId = "demo";
+        String destination = "https://devadfs.slidev.org/adfs/ls/";
+        String postUrl = "https://devadfs.slidev.org/adfs/ls/";
+        String nameId = "dkornishev";
         String logoutRequest = saml.createSamlLogoutRequest(destination, nameId);
         
         return Response.temporaryRedirect(new URI(postUrl + "?SAMLRequest=" + logoutRequest)).build();
