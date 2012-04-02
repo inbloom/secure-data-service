@@ -27,7 +27,9 @@
          <property name="messageSource" ref="messageSource"/>
     </bean>
 
-     <bean id="ctlValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation" />
+     <bean id="ctlValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation">
+         <property name="assembler" ref= "assembler"/>
+     </bean>
 
     <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
        <property name="zipValidation" ref="zipValidation" />
