@@ -109,7 +109,10 @@ public class BatchJobTest {
 
         List<Fault> faults = job.getFaultsReport().getFaults();
         assertEquals(faults.size(), 0);
-
+        
+        BatchJob job2 = BatchJob.createDefault("TEST");
+        assertEquals(true, job2.getId().startsWith("TEST"));
+        
     }
 
     public LandingZone getLandingZone() {
