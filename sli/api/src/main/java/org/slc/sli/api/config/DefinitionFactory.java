@@ -337,7 +337,7 @@ public class DefinitionFactory {
         }
 
         @Override
-        public AssocBuilder storeIn(Repository repo) {
+        public AssocBuilder storeIn(Repository<Entity> repo) {
             super.storeIn(repo);
             return this;
         }

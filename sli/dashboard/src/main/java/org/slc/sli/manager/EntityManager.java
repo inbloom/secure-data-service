@@ -254,6 +254,18 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getEntity(token, type, id, params);
     }
     
+
+    /**
+     * Return a list of students for a section with the optional fields
+     * @param token Security token
+     * @param sectionId The sectionId
+     * @param studentIds The studentIds (this is only here to get MockClient working)
+     * @return
+     */
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return getApiClient().getStudents(token, sectionId, studentIds);
+    }
+    
             
     /**
      * Saves an entity list to the specified file using its JSON representation

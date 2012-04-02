@@ -4,8 +4,6 @@ import org.slc.sli.entity.GenericEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -20,7 +18,6 @@ public class GradebookEntryResolver {
     private SortedSet<GenericEntity> gradebookIds;
 
     private static final String GRADE_KEY = "numericGradeEarned";
-    private static final String AVERAGE_KEY = "Average";
 
     /**
      * Constructor for GradebookEntryResolver
@@ -28,15 +25,6 @@ public class GradebookEntryResolver {
      */
     public GradebookEntryResolver(Map<String, Map<String, GenericEntity>> gradebookData) {
         this.gradebookData = gradebookData;
-    }
-
-    /**
-     * Gets the average for a given student.
-     * @param student The student to look for
-     * @return string representation of the student's average
-     */
-    public String getAverage(Map student) {
-        return getAverage(student.get("id").toString());
     }
 
     /**
@@ -49,34 +37,6 @@ public class GradebookEntryResolver {
         return getGrade(student.get("id").toString(), gradebookEntryId);
     }
 
-    private String getAverage(String studentId) {
-        List<Double> grades = new ArrayList<Double>();
-        Map<String, GenericEntity> studentData = gradebookData.get(studentId);
-
-        if (studentData == null) return "-";
-
-        for (GenericEntity genericEntity : studentData.values()) {
-            Double grade = Double.parseDouble(genericEntity.get(GRADE_KEY).toString());
-            grades.add(grade);
-        }
-
-        return average(grades);
-    }
-
-    private String average(List<Double> numbers) {
-        Double total = 0.0;
-        for (Double num : numbers) {
-            total += num;
-        }
-
-        try {
-            Double average = total / numbers.size();
-            Long roundedAverage = Math.round(average);
-            return  roundedAverage + "%";
-        } catch (ArithmeticException ae) {
-            return "-";
-        }
-    }
 
     /**
      * Gets a grade for a given student in a given gradebookEntry

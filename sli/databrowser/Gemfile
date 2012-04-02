@@ -18,6 +18,10 @@ gem 'oauth2'
 gem 'rest-client'
 gem 'mocha'
 
+# Better than the Rails Logger
+gem 'logging-rails', :require => 'logging/rails'
+
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

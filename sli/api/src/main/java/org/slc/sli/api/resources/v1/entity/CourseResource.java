@@ -1,18 +1,5 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -29,35 +16,39 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
+
 /**
- * Prototype new api end points and versioning
- * 
- * @author jstokes
- * 
+ * CourseResource
+ *
+ * This educational entity represents the organization of subject matter and related learning experiences provided
+ * for the instruction of students on a regular or systematic basis.
+ *
+ * This is similar to section except that a section is a specific instance of a course.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COURSES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class CourseResource {
+public class CourseResource extends DefaultCrudEndpoint {
     
-    /**
-     * Logging utility.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CourseResource.class);
-    
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public CourseResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public CourseResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.COURSES);
     }
 
     /**
-     * Returns all $$courses$$ entities for which the logged in User has permission and context.
+     * readAll
      * 
      * @param offset
      *            starting position in results to return to user
@@ -67,20 +58,18 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$courses$$ entities for which the logged in User has permission and context.
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.COURSES, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$courses$$ entity.
+     * create
      * 
      * @param newEntityBody
      *            entity data
@@ -88,39 +77,37 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * @return A 201 response on successfully created entity with the ID of the entity
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.COURSES, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$courses$$ entity
+     * read
      * 
      * @param courseId
-     *            The Id of the $$courses$$.
+     *            The id (or list of ids) of the $$courses$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single course entity
+     * @return A list of entities matching the list of ids queried for
+     *
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.COURSES, courseId, headers, uriInfo);
+        return super.read(courseId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$courses$$ entity
+     * delete
      * 
      * @param courseId
      *            The Id of the $$courses$$.
@@ -129,17 +116,16 @@ public class CourseResource {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @DELETE
     @Path("{" + ParameterConstants.COURSE_ID + "}")
     public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.COURSES, courseId, headers, uriInfo);
+        return super.delete(courseId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$courses$$ entity.
+     * update
      * 
      * @param courseId
      *            The id of the $$courses$$.
@@ -150,33 +136,26 @@ public class CourseResource {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @PUT
     @Path("{" + ParameterConstants.COURSE_ID + "}")
     public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.COURSES, courseId, newEntityBody, headers, uriInfo);
+        return super.update(courseId, newEntityBody, headers, uriInfo);
     }
     
     /**
-     * Returns each $$sessionCourseAssociations$$ that
-     * references the given $$courses$$
+     * getSessionCourseAssociations
      * 
      * @param courseId
      *            The id of the $$courses$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$sessionCourseAssociations$$ that references the given $$courses$$
+     *
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -184,13 +163,12 @@ public class CourseResource {
     public Response getSessionCourseAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
     
 
     /**
-     * Returns each $$sessions$$ associated to the given session through
-     * a $$sessionCourseAssociations$$ 
+     * getSessionCourseAssociationCourses
      * 
      * @param courseId
      *            The id of the $$courses$$.
@@ -198,7 +176,7 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$sessions$$ associated to the given course through a $$sessionCourseAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -206,12 +184,12 @@ public class CourseResource {
     public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
 
     /**
-     * student transcript associations
+     * getStudentTranscriptAssociations
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -219,7 +197,7 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$studentTranscriptAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -227,11 +205,11 @@ public class CourseResource {
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
                                                      @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
 
     /**
-     * student transcript associations - students lookup
+     * getStudentTranscriptAssociationStudents
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -239,7 +217,7 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$students$$ associated to the given course through a $$studentTranscriptAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -247,12 +225,12 @@ public class CourseResource {
     public Response getStudentTranscriptAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,
                                                             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
 
     /**
-     * student parent associations
+     * getStudentParentAssociations
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -260,7 +238,7 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$studentParentAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -268,11 +246,11 @@ public class CourseResource {
     public Response getStudentParentAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
                                                      @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
 
     /**
-     * student parent associations - students lookup
+     * getStudentParentAssociationStudents
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -280,7 +258,7 @@ public class CourseResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$students$$ associated to the given course through a $$studentParentAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -288,7 +266,7 @@ public class CourseResource {
     public Response getStudentParentAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,
                                                             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "courseId", courseId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
 

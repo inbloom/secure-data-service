@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -38,16 +38,11 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class AssessmentResource {
-    
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
+public class AssessmentResource extends DefaultCrudEndpoint {
     
     @Autowired
-    public AssessmentResource(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public AssessmentResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.ASSESSMENTS);
     }
     
     /**
@@ -69,9 +64,7 @@ public class AssessmentResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.ASSESSMENTS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
     
     /**
@@ -86,12 +79,12 @@ public class AssessmentResource {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.ASSESSMENTS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -110,7 +103,7 @@ public class AssessmentResource {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return super.read(assessmentId, headers, uriInfo);
     }
     
     /**
@@ -129,7 +122,7 @@ public class AssessmentResource {
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return super.delete(assessmentId, headers, uriInfo);
     }
     
     /**
@@ -150,7 +143,7 @@ public class AssessmentResource {
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.ASSESSMENTS, assessmentId, newEntityBody, headers, uriInfo);
+        return super.update(assessmentId, newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -170,7 +163,7 @@ public class AssessmentResource {
     public Response getStudentAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
                 headers, uriInfo);
     }
     
@@ -193,7 +186,7 @@ public class AssessmentResource {
     public Response getStudentAssessmentAssociationsStudents(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
                 "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
     
@@ -221,7 +214,7 @@ public class AssessmentResource {
     public Response getSectionAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
                 headers, uriInfo);
     }
     
@@ -244,7 +237,7 @@ public class AssessmentResource {
     public Response getSectionAssessmentAssociationsSections(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
                 "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
     }
     

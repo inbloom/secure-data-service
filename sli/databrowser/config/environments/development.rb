@@ -30,4 +30,7 @@ DbRails::Application.configure do
 
   config.log_tags = [:uuid, :remote_ip]
 
+
+  # Set the logging destination(s)
+  config.log_to = %w[stdout file]
 end

@@ -193,11 +193,11 @@ public class XmlSignatureHelper {
                         keyStorePass.toCharArray()));
             }
         } catch (KeyStoreException e) {
-            LOG.warn("key store error: {}", e.getStackTrace().toString());
+            LOG.warn("key store error: {}", e);
         } catch (UnrecoverableEntryException e) {
-            LOG.warn("could not recover entry: {}", e.getStackTrace().toString());
+            LOG.warn("could not recover entry: {}", e);
         } catch (NoSuchAlgorithmException e) {
-            LOG.warn("no such algorithm: {}", e.getStackTrace().toString());
+            LOG.warn("no such algorithm: {}", e);
         }
         return privateKeyEntry;
     }
@@ -213,30 +213,30 @@ public class XmlSignatureHelper {
         KeyStore ks = null;
         try {
             ks = KeyStore.getInstance("JCEKS");
-        } catch (KeyStoreException e) {
-            LOG.error("could not find keystore of matching storetype: {}", e.getStackTrace());
-        }
-        
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(new File(keyStore));
-            ks.load(fis, keyStorePass.toCharArray());
-        } catch (FileNotFoundException e) {
-            LOG.error("keystore file not found: {}", e.getStackTrace());
-        } catch (IOException e) {
-            LOG.error("error loading keystore: {}", e.getStackTrace());
-        } catch (NoSuchAlgorithmException e) {
-            LOG.error("algorithm used to check integrity of keystore not found: {}", e.getStackTrace());
-        } catch (CertificateException e) {
-            LOG.error("certificate could not be loaded from keystore: {}", e.getStackTrace());
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    LOG.error("error closing keystore: {}", e.getStackTrace());
+            
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(new File(keyStore));
+                ks.load(fis, keyStorePass.toCharArray());
+            } catch (FileNotFoundException e) {
+                LOG.error("keystore file not found: {}", e.getStackTrace());
+            } catch (IOException e) {
+                LOG.error("error loading keystore: {}", e.getStackTrace());
+            } catch (NoSuchAlgorithmException e) {
+                LOG.error("algorithm used to check integrity of keystore not found: {}", e.getStackTrace());
+            } catch (CertificateException e) {
+                LOG.error("certificate could not be loaded from keystore: {}", e.getStackTrace());
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        LOG.error("error closing keystore: {}", e.getStackTrace());
+                    }
                 }
             }
+        } catch (KeyStoreException e) {
+            LOG.error("could not find keystore of matching storetype", e);
         }
         return ks;
     }

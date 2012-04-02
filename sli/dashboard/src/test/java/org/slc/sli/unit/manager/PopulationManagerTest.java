@@ -57,6 +57,7 @@ public class PopulationManagerTest {
     public void testGetStudentSummaries() throws Exception {
         
         String studentId = "0";
+        String sectionId = "sectionId";
         String token = "token";
         String assessmentName = "Dibels";
         List<String> studentIds = new ArrayList<String>(); 
@@ -92,7 +93,7 @@ public class PopulationManagerTest {
         List<GenericEntity> students = new ArrayList<GenericEntity>();
         students.add(studentSummary);
         
-        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, studentIds);
+        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, sectionId, studentIds);
         
         // setup attendance
         PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getAttendance", token, studentId, null, null);
@@ -106,7 +107,7 @@ public class PopulationManagerTest {
         PopulationManager popMan = new PopulationManager();
         popMan.setEntityManager(mockedEntityManager);
         
-        List<GenericEntity> studentSummaries = popMan.getStudentSummaries(token, studentIds, null, null); 
+        List<GenericEntity> studentSummaries = popMan.getStudentSummaries(token, studentIds, null, null, sectionId); 
         assertTrue(studentSummaries.size() == 1);
         
         GenericEntity result = studentSummaries.get(0);

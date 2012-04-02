@@ -29,6 +29,7 @@ public class RoleInitializer {
     public static final String  IT_ADMINISTRATOR  = "IT Administrator";
     public static final String  LEADER            = "Leader";
     public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
+    public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
     
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
@@ -56,6 +57,7 @@ public class RoleInitializer {
         boolean hasIT = false;
         boolean hasAggregate = false;
         boolean hasSLIAdmin = false;
+        boolean hasLEAAdmin = false;
         
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -69,6 +71,8 @@ public class RoleInitializer {
                 hasLeader = true;
             } else if (body.get("name").equals(SLI_ADMINISTRATOR)) {
                 hasSLIAdmin = true;
+            } else if (body.get("name").equals(LEA_ADMINISTRATOR)) {
+                hasLEAAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -83,10 +87,13 @@ public class RoleInitializer {
         if (!hasEducator) {
             createdRoles.add(buildEducator());
         }
-        
         if (!hasSLIAdmin) {
             createdRoles.add(buildSLIAdmin());
         }
+        if (!hasLEAAdmin) {
+            createdRoles.add(buildLEAAdmin());
+        }
+        
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
         }
@@ -117,6 +124,11 @@ public class RoleInitializer {
     private Role buildSLIAdmin() {
         LOG.info("Building SLI Administrator default role.");
         return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
+    }
+    
+    private Role buildLEAAdmin() {
+        LOG.info("Building LEA Administrator default role.");
+        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
     }
     
     public void setRepository(Repository repo) {

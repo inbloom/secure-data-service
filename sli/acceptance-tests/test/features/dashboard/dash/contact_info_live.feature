@@ -61,7 +61,6 @@ And I look at the panel "Contact Information"
 And there are "0" phone numbers
 And there are "0" email addresses
 
-
 Scenario: Student has no addresses
 Given I click on student "Matt Sollars"
 And I view its student profile
@@ -80,9 +79,21 @@ And the list of address includes
 351
 Chicago, IL 60908-1028
 """
+<<<<<<< HEAD
 	
 
 Scenario:  Address with countryCode other than US
+=======
+And the list of address includes 
+"""
+9857 Kingsborough 2nd Walk
+Toronto, WA A1B 2C3
+CA
+"""	
+@wip
+Scenario:  An address with countryCode other than US
+#bundled in the test above
+>>>>>>> master
 Given I click on student "Rhonda Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"

@@ -129,4 +129,13 @@ public interface CrudEndpoint {
      * @return resulting status from request
      */
     public Response delete(String resourceName, String id, HttpHeaders headers, UriInfo uriInfo);
+    
+    /**
+     * Returns a sub resource responsible for handling custom entity requests.
+     * 
+     * @param id
+     *            ID of object being deleted
+     * @return a sub resource responsible for handling custom entity requests
+     */
+    public CustomEntityResource getCustomEntityResource(String id);
 }
