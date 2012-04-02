@@ -19,6 +19,8 @@ import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicsType;
 import org.slc.sli.test.edfi.entities.CourseLevelType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 
@@ -253,9 +255,19 @@ public class CourseGenerator {
         return courseCount;
     }
 
-    public static Course getFastCourse(String id) {
+    public static Course getFastCourse(String id, String schoolId) {
         Course course = new Course();
         course.setCourseTitle(id);
+
+        // construct and add the school reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+
+        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        course.setEducationOrganizationReference(schoolRef);
+
         return course;
     }
 
