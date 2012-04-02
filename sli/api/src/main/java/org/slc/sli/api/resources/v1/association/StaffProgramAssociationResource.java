@@ -108,7 +108,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      * @return A single staffProgramAssociation entity
      */
     @GET
-    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
+    @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
