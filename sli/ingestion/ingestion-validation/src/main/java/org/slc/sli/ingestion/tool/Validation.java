@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Validation {
 
-    @Autowired
     private List<SimpleValidatorSpring> validators;
 
     boolean validate(String[] args){
