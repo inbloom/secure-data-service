@@ -141,6 +141,12 @@ public class SchoolGenerator {
         return school;
     }
 
+    public static School getFastSchool(String schoolId) {
+        School school = new School();
+        school.setStateOrganizationId(schoolId);
+        return school;
+    }
+
     public static void main(String [] args)
     {
         SchoolGenerator factory = new SchoolGenerator(StateAbbreviationType.NY);
