@@ -10,28 +10,20 @@
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>College entrance exam</AssessmentCategory>
 		<GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>60</MinimumScore>
-			<MaximumScore>240</MaximumScore>
-		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2005-10-12</RevisionDate>
 		<MaxRawScore>240</MaxRawScore>
-		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>SAT</ID>
-				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
-		</AssessmentFamilyReference>
 		<ObjectiveAssessmentReference ref="PSatWriting"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="PSatMath"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="PSatCritRead"></ObjectiveAssessmentReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>PSAT</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
 	</Assessment>
 	
 	<AssessmentFamily id="PSAT-Family">

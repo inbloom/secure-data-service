@@ -103,7 +103,7 @@ public class CohortResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single cohort entity
+     * @return A single $$cohorts$$ entity
      */
     @GET
     @Path("{" + COHORT_IDENTIFIER + "}")
@@ -178,7 +178,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStaffCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "cohortReference", cohortId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, headers, uriInfo);
     }
     
 
@@ -200,8 +200,8 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStaffCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "cohortReference", cohortId, 
-                "staffReference", ResourceNames.STAFF, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, 
+                ParameterConstants.STAFF_ID, ResourceNames.STAFF, headers, uriInfo);
     }
 
     /**
@@ -228,7 +228,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStudentCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "cohortReference", cohortId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, headers, uriInfo);
     }
     
 
@@ -250,7 +250,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStudentCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "cohortReference", cohortId, 
-                "studentReference", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, 
+                ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
     }
 }

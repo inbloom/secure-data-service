@@ -73,6 +73,7 @@
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
+  <import resource="validation-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />

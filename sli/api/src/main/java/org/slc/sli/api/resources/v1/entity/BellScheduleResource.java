@@ -29,25 +29,29 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- * 
+ * BellScheduleResource
+ *
+ * A Resource class for accessing a BellSchedule entity.
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.BELL_SCHEDULES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class BellScheduleResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public BellScheduleResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.BELL_SCHEDULES);
     }
 
     /**
+     * readAll
+     *
      * Returns all $$bellSchedules$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -61,14 +65,16 @@ public class BellScheduleResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
+     * create
+     *
      * Create a new $$bellSchedules$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -82,14 +88,16 @@ public class BellScheduleResource extends DefaultCrudEndpoint {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
+     * read
+     *
      * Get a single $$bellSchedules$$ entity
-     * 
+     *
      * @param bellScheduleId
      *            The Id of the $$bellSchedules$$.
      * @param headers
@@ -107,8 +115,10 @@ public class BellScheduleResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * delete
+     *
      * Delete a $$bellSchedules$$ entity
-     * 
+     *
      * @param bellScheduleId
      *            The Id of the $$bellSchedules$$.
      * @param headers
@@ -120,14 +130,16 @@ public class BellScheduleResource extends DefaultCrudEndpoint {
      */
     @DELETE
     @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId, 
+    public Response delete(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(bellScheduleId, headers, uriInfo);
     }
 
     /**
+     * update
+     *
      * Update an existing $$bellSchedules$$ entity.
-     * 
+     *
      * @param bellScheduleId
      *            The id of the $$bellSchedules$$.
      * @param newEntityBody
@@ -142,7 +154,7 @@ public class BellScheduleResource extends DefaultCrudEndpoint {
     @PUT
     @Path("{" + ParameterConstants.BELL_SCHEDULE_ID + "}")
     public Response update(@PathParam(ParameterConstants.BELL_SCHEDULE_ID) final String bellScheduleId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(bellScheduleId, newEntityBody, headers, uriInfo);
     }
