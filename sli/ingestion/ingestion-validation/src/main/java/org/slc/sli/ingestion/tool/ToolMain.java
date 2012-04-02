@@ -21,10 +21,12 @@ public class ToolMain{
     private ValidationController controller;
     //Name of the validation tool
     final String appName;
+    //Number of arguments
+    int n_args;
 
     private void start(Map<String,String> map_args){
 
-        if( (args.length != n_args + 1) ){
+        if( (args.length != n_args) ){
             System.out.println(appName + ":Illegal options");
             System.out.println("Usage: " + appName + "[directory]");
             return ;
@@ -41,6 +43,22 @@ public class ToolMain{
 
     public ValidationController getValidation(){
         return controller;
+    }
+
+    public void setappName(String name){
+        this.appName = name;
+    }
+
+    public String getappName(){
+        return appName;
+    }
+
+    public void setn_args(int n){
+        this.n_args = n;
+    }
+
+    public int getn_args(){
+        return n_args;
     }
 }
 
