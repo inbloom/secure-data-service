@@ -69,10 +69,14 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         }
     };
 
-    public XsdErrorHandler(ErrorReport errorReport) {
-        this.errorReport = errorReport;
+    public XsdErrorHandler() {
         setIsValid(true);
     }
+
+/*    public XsdErrorHandler(ErrorReport errorReport) {
+        this.errorReport = errorReport;
+        setIsValid(true);
+    }*/
 
     /**
      * Report a SAX parsing warning.
@@ -134,14 +138,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         String messageCode = getMessageCode(saxErrorcode);
 
         // Extract the arguments from the SAX error message. // Args are delineated by "''".
-        StringTokenizer stringTokenizer = new StringTokenizer(saxErrorMessageDetail, "\'");
-        String[] messageArgs = new String[stringTokenizer.countTokens() / 2 + 1];
-        int i = 0;
-        while (stringTokenizer.hasMoreElements()) {
-            stringTokenizer.nextElement();
-            if (stringTokenizer.hasMoreElements()) {
-                messageArgs[i++] = (String) stringTokenizer.nextElement();
-            }
+        String[] saxErrorMessageTokens = saxErrorMessageDetail.split("'");
+        String[] messageArgs = new String[saxErrorMessageTokens.length / 2];
+        for (int i = 0; i < messageArgs.length; i++) {
+                messageArgs[i] = saxErrorMessageTokens[(i * 2) + 1];
         }
 
         // Return the ingestion error message.
@@ -173,6 +173,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public void setErrorReport(ErrorReport errorReport) {
+        this.errorReport = errorReport;
     }
 
     @Override
