@@ -1393,7 +1393,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element maxOccurs="unbounded" name="staffId" type="reference">
+				<xs:element name="staffId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the cohort of
 							students.
@@ -1403,7 +1403,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
+				<xs:element name="cohortId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the
 							staff.
