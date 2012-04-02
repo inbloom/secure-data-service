@@ -89,6 +89,7 @@ public class DataForASchool {
             printInterchangeMasterSchedule(new PrintStream(path + "/InterchangeMasterSchedule.xml"));
             printInterchangeAssessmentMetadata(new PrintStream(path + "/InterchangeAssessmentMetadata.xml"));
             printInterchangeStaffAssociation(new PrintStream(path + "/InterchangeStaffAssociation.xml"));
+            printInterchangeStudent(new PrintStream(path + "/InterchangeStudent.xml"));
             printInterchangeStudentParent(new PrintStream(path + "/InterchangeStudentParent.xml"));
             printInterchangeStudentAssessment(new PrintStream(path + "/InterchangeStudentAssessment.xml"));
             printInterchangeEducationOrgCalendar(new PrintStream(path + "/InterchangeEducationOrgCalendar.xml"));
@@ -153,13 +154,28 @@ public class DataForASchool {
 
     public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schools.add("School_"+ this.prefix + "-" + i);
+            schools.add("school_"+ this.prefix + "-" + i);
         }
     }
 
     public void prepareTeacher(int total) {
+    	
         for (int i = 0; i < total; i++) {
-            teachers.add(this.prefix + "-teacher-" + i);
+        	
+        	switch (i) {
+        	case 0:	
+        		teachers.add("cgray");
+        		break;
+        	case 1:	
+        		teachers.add("linda.kim");
+        		break;
+        	case 2:	
+        		teachers.add("rbraverman");
+        		break;
+        	default:
+                teachers.add("teacher_" + this.prefix + "-" + i);
+                break;
+        	}
         }
     }
 
@@ -321,16 +337,38 @@ public class DataForASchool {
         }
 
         // TeacherSectionAssociation
-        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
-        for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
-            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
-        }
+        // TODO uncomment when course is done
+//        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
+//        for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
+//            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+//        }
 
         // LeaveEvent
         // OpenStaffPosition
         // CredentialFieldDescriptor
 
         marshaller.marshal(interchangeStaffAssociation, ps);
+    }
+
+    public void printInterchangeStudent(PrintStream ps) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(InterchangeStudent.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+
+        InterchangeStudent interchangeStudent = new InterchangeStudent();
+
+        List<Student> list = interchangeStudent.getStudent();
+
+        // student
+        boolean includeOptionalData = false;
+        boolean randomizeData = true;
+        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY, includeOptionalData, randomizeData);
+        for (String studentId : students) {
+            Student student = sg.generate(studentId);
+            list.add(student);
+        }
+
+        marshaller.marshal(interchangeStudent, ps);
     }
 
     public void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
@@ -342,12 +380,13 @@ public class DataForASchool {
 
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
-        // student
-        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
-        for (String studentId : students) {
-            Student student = sg.generate(studentId);
-            list.add(student);
-        }
+        // TODO uncomment once ingestion is updated to include students here
+//        // student
+//        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
+//        for (String studentId : students) {
+//            Student student = sg.generate(studentId);
+//            list.add(student);
+//        }
 
         // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);

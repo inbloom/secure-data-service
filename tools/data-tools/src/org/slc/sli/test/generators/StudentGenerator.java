@@ -69,8 +69,10 @@ public class StudentGenerator {
     private int numStudentIndicators = 0;
     private int maxStudentIndicators = 2;
 
-    public StudentGenerator(StateAbbreviationType state) {
+    public StudentGenerator(StateAbbreviationType state, boolean includeOptional, boolean randomize) {
         this.setState(state);
+        this.includeOptionalData = includeOptional;
+        this.randomizeNumbers = randomize;
     }
 
     public void setState(StateAbbreviationType state) {

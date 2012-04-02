@@ -8,6 +8,8 @@ import org.slc.sli.test.edfi.entities.AdministrativeFundingControlType;
 import org.slc.sli.test.edfi.entities.CharterStatusType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
@@ -128,7 +130,13 @@ public class SchoolGenerator {
             school.setTitleIPartASchoolDesignation(TitleIPartASchoolDesignationType.NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL) ;
             school.setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType.ALL_STUDENTS_PARTICIPATE) ;
             school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL) ;
-            //school.setLocalEducationAgencyReference(EducationalOrgReferenceType) ;
+            
+            EducationalOrgIdentityType edOrgIdenType = new EducationalOrgIdentityType();
+            // TODO remove hardcoded story data value used for testing
+            edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add("IL-SUNSET");
+            EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
+            edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
+            school.setLocalEducationAgencyReference(edOrgRef) ;
             schools.add(school);
         }
         return schools;
@@ -138,6 +146,7 @@ public class SchoolGenerator {
     {
         School school = schools.get(schoolPtr++ % schoolCount);
         school.setId(schoolId);
+        school.setStateOrganizationId(schoolId);
         return school;
     }
 
