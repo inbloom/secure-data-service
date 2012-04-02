@@ -5,19 +5,20 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	Scenario: District Super Administrator logs in to the authorization tool
 	
 	Given I have an open web browser
-	Given I am a valid District Super Administrator for <District>
+	Given I am a valid District Super Administrator for "Sunset School District"
 	When I hit the Admin Application Authorization Tool
 	And I was redirected to the "OpenAM" IDP Login page
-	When I submit the credentials "cyclon" "cyclon1234" for the "OpenAM" login page
+	When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "OpenAM" login page
 	Then I am redirected to the Admin Application Authorization Tool
 	And in the upper right corner I see my name
-	And I see a label in the middle <my state -> my district>
+	And I see a label in the middle "IL-SUNSET"
 	And I see the list of all available apps on SLI
 	And the authorized apps for my district are colored green
 	And the unauthorized are colored red
-	And are sorted by ‘Authorized’
+	And are sorted by 'Status'
 	And I see the Name, Version, Vendor and Status of the apps
 
+@currentTest
 	Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
 	
 	Given I am a valid SEA/LEA user
@@ -34,7 +35,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And I see an application in the table
 	And in Status it says Not Approved
 	And I click on the Approve button next to it
-	And I am asked ‘Do you really want this application to access the district’s data’
+	And I am asked 'Do you really want this application to access the district's data'
 	When I click on Ok
 	Then the application is authorized to use data of <District>
 	And is put on the top of the table
@@ -50,7 +51,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And I see an application in the table
 	And in Status it says Approved
 	And I click on the Deny button next to it
-	And I am asked ‘Do you really want deny access to this application of the district’s data’
+	And I am asked 'Do you really want deny access to this application of the district's data'
 	When I click on Ok
 	Then the application is denied to use data of <District>
 	And it is put on the bottom of the table
