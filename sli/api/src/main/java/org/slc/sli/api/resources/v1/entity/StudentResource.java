@@ -30,7 +30,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -71,7 +70,7 @@ public class StudentResource extends DefaultCrudEndpoint {
 
     @Autowired
     public StudentResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.STUDENTS);
     }
 
     /**
@@ -92,9 +91,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.STUDENTS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -109,13 +106,13 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.STUDENTS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -132,9 +129,9 @@ public class StudentResource extends DefaultCrudEndpoint {
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String id,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENTS, studentId, headers, uriInfo);
+        return super.read(id, headers, uriInfo);
     }
 
     
@@ -152,6 +149,7 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return A single student entity
      * @throws ParseException 
      */
+    @SuppressWarnings("unchecked")
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_WITH_GRADE)
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -166,7 +164,7 @@ public class StudentResource extends DefaultCrudEndpoint {
         
         if ((studentResponse == null) || !(studentResponse.getEntity() instanceof Map))
             return studentResponse;
-        Map student = (Map) studentResponse.getEntity();
+        Map<String, String> student = (Map<String, String>) studentResponse.getEntity();
         
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
@@ -176,7 +174,7 @@ public class StudentResource extends DefaultCrudEndpoint {
             return studentResponse;
         }
         
-        List<Map> studentSchoolAssociationList = (List<Map>) studentSchoolAssociationsResponse.getEntity();
+        List<Map<?, ?>> studentSchoolAssociationList = (List<Map<?, ?>>) studentSchoolAssociationsResponse.getEntity();
         
         //Variable initialization for date functions
         Date currentDate = new Date();
@@ -187,7 +185,7 @@ public class StudentResource extends DefaultCrudEndpoint {
         //Returns "Not Available" for gradeLevel, when an exception is caught.
         try {
             // Loop through studentSchoolAssociations
-            for (Map studentSchoolAssociation : studentSchoolAssociationList) {
+            for (Map<?, ?> studentSchoolAssociation : studentSchoolAssociationList) {
                 
                 // If student has an exitWithdrawDate earlier than today, continue searching for current grade
                 if (studentSchoolAssociation.containsKey(EXIT_WITHDRAW_DATE)) {
@@ -240,7 +238,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String studentId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.STUDENTS, studentId, headers, uriInfo);
+        return super.delete(studentId, headers, uriInfo);
     }
 
     /**
@@ -262,7 +260,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.STUDENTS, studentId, newEntityBody, headers, uriInfo);
+        return super.update(studentId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -513,6 +511,23 @@ public class StudentResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * $$studentDisciplineIncidentAssociations$$
+     *
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.DISCIPLINE_INCIDENTS)
+    public Response getStudentDisciplineIncidentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                                   @Context HttpHeaders headers,
+                                                                   @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
+    }
+
+    /**
      * Returns each $$studentCohortAssociations$$ that
      * references the given $$students$$
      * 
@@ -561,7 +576,6 @@ public class StudentResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, 
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
-
 
     /**
      * Returns each $$studentProgramAssociations$$ that
