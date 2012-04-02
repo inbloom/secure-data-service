@@ -6,16 +6,15 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
  *
