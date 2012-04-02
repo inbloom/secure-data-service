@@ -4,44 +4,46 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
  *
  * @author ablum
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdValidatorTest {
 
     @Autowired
     private XsdValidator xsdValidator;
 
+    @Ignore
     @Test
-    public void testValidXml() throws IOException{
+    public void testValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
+    @Ignore
     @Test
-    public void testInValidXml() throws IOException{
+    public void testInValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-InValid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
+    @Ignore
     @Test
     public void testLoadXsds() {
         Map<String, Resource> resources = xsdValidator.getXsd();

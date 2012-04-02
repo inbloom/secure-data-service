@@ -1,8 +1,8 @@
 package org.slc.sli.ingestion.validation;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -12,12 +12,14 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
  *
@@ -33,12 +35,13 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
 
         XsdErrorHandlerInterface errorHandler = new XsdErrorHandler(errorReport);
+        InputStream xsdInputStream = null;
 
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
-            File schemaFile = xsdResource.getFile();
-            Schema schema = schemaFactory.newSchema(schemaFile);
+            xsdInputStream = xsdResource.getInputStream();
+            Schema schema = schemaFactory.newSchema(new StreamSource(xsdInputStream));
 
             Validator validator = schema.newValidator();
             String sourceXml = ingestionFileEntry.getFileName();
@@ -57,6 +60,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             errorHandler.setIsValid(false);
         } catch (SAXException e) {
             errorHandler.setIsValid(false);
+        } finally {
+            IOUtils.closeQuietly(xsdInputStream);
         }
 
         return errorHandler.isValid();
