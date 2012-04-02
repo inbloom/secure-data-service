@@ -16,12 +16,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.util.URLBuilder;
 
 /**
  *
  * API Client class used by the Dashboard to make calls to the API service.
- *
+ *TODO: Refactor public methods to private and mock with PowerMockito in unit tests
  * @author svankina
  *
  */
@@ -198,7 +197,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get one section
      */
-    private GenericEntity getSection(String id, String token) {
+    public GenericEntity getSection(String id, String token) {
         if (id == null) {
             return null;
         }
@@ -249,7 +248,7 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    private String getId(String token) {
+    public String getId(String token) {
 
         // Make a call to the /home uri and retrieve id from there
         String returnValue = "";
@@ -280,7 +279,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get a list of sections, given a teacher id
      */
-    private List<GenericEntity> getSectionsForTeacher(String id, String token) {
+    public List<GenericEntity> getSectionsForTeacher(String id, String token) {
 
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id
                 + TEACHER_SECTION_ASSOC_URL, token, true);
@@ -309,7 +308,7 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    private List<GenericEntity> getSchoolsForSection(List<GenericEntity> sections, String token) {
+    public List<GenericEntity> getSchoolsForSection(List<GenericEntity> sections, String token) {
         // collect associated course first.
         HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
@@ -515,7 +514,7 @@ public class LiveAPIClient implements APIClient {
      *            TODO
      * @return the entity
      */
-    private GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+    public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
         LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token, fullEntities);
         if (response == null)
@@ -538,7 +537,7 @@ public class LiveAPIClient implements APIClient {
      * @return entityList
      *         - the generic entity list
      */
-    private List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+    public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         // Parse JSON
@@ -555,14 +554,6 @@ public class LiveAPIClient implements APIClient {
         }
 
         return entityList;
-    }
-
-    private GenericEntity createEntityWithQuery(String baseUrl, Map<String, String> queries, String token) {
-        URLBuilder builder = new URLBuilder(baseUrl);
-        for (Map.Entry<String, String> entry : queries.entrySet()) {
-            builder.addQueryParam(entry.getKey(), entry.getValue());
-        }
-        return gson.fromJson(restClient.makeJsonRequestWHeaders(builder.toString(), token, true), GenericEntity.class);
     }
 
     /**

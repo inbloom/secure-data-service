@@ -42,7 +42,9 @@ And I select section "M. Jones - 7th Grade English - Sec. 3"
 And I wait for "2" seconds
 Then the lozenge for student "Salmon Burger" include "ELL"
 
-Scenario:  Check lozenges against live
+@wip
+Scenario:  Check no lozenges against live
+#covered in student profile test
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
@@ -55,9 +57,11 @@ When I select course "7th Grade English"
 When I select section "7th Grade English - Sec. 3"
 And I wait for "2" seconds
 Then there is no lozenges for student "Student Fake" 
-<<<<<<< HEAD
 
+
+@wip
 Scenario: Check student attribute lozenges against live
+#covered in student profile test
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
@@ -69,7 +73,5 @@ When I select school "East Daybreak Junior High"
 When I select course "7th Grade English"
 When I select section "7th Grade English - Sec. 3"
 And I wait for "2" seconds
-=======
->>>>>>> master
 Then the lozenge for student "Salmon Burger" include "FRE"
 

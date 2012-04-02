@@ -9,12 +9,8 @@ When /^I click on student at index "([^"]*)"$/ do |studentIndex|
 end
 
 When /^I view its student profile$/ do
-<<<<<<< HEAD
-  wait = Selenium::WebDriver::Wait.new(:timeout => 10) 
-=======
-  wait = Selenium::WebDriver::Wait.new(:timeout => 40) 
->>>>>>> master
-  csiContent = wait.until{@driver.find_element(:class, "csi")}
+
+  csiContent = @explicitWait.until{@driver.find_element(:class, "csi")}
   studentInfo = csiContent.find_element(:class, "studentInfo")
   table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
   @info = Hash.new
@@ -79,10 +75,7 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
 end
 
 def clickOnStudent(name)
-  # wait for live case
-  wait = Selenium::WebDriver::Wait.new(:timeout => 50) 
-  
-  studentTable = wait.until{@driver.find_element(:id, "studentList")}
+  studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
   @driver.find_element(:link, name).click

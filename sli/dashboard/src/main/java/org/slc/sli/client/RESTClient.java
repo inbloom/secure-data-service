@@ -25,6 +25,12 @@ public class RESTClient {
     private String securityUrl;
 
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
+    
+    private RestTemplate template;
+
+    public RESTClient() {
+        template = new RestTemplate();
+    }
 
     /**
      * Call the session/check API
@@ -50,33 +56,15 @@ public class RESTClient {
      *            the unique portion of the requested REST service URL
      * @param token
      *            not used yet
+     *
+     * @param fullEntities 
+     *             flag for returning expanded entities from the API
+     *            
      * @return a {@link JsonElement} if the request is successful and returns valid JSON, otherwise
      *         null.
      * @throws NoSessionException
      */
-    public String makeJsonRequest(String path, String token) {
-        RestTemplate template = new RestTemplate();
-        URLBuilder url = new URLBuilder(getSecurityUrl());
-        url.addPath(path);
-        HttpEntity entity = null;
-        if (token != null) {
-            // url.addQueryParam(API_SESSION_KEY, token);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer" + token);
-            entity = new HttpEntity(headers);
-        }
-        logger.info("Accessing API at: {}", url.toString());
-
-        HttpEntity<String> response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
-        logger.info("JSON response for roles: {}", response.getBody());
-        // String jsonText = template.getForObject(url.toString(), String.class);
-        // logger.info("JSON response for roles: " + jsonText);
-        return response.getBody();
-
-    }
-
-    public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
-        RestTemplate template = new RestTemplate();
+     public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
 
         if (token != null) {
             // url.addQueryParam(API_SESSION_KEY, token);
@@ -119,4 +107,12 @@ public class RESTClient {
     public void setSecurityUrl(String securityUrl) {
         this.securityUrl = securityUrl;
     }
+
+    public RestTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(RestTemplate template) {
+        this.template = template;
+    }    
 }

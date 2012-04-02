@@ -32,8 +32,8 @@ Then I see a list of 1 students
 And the list includes: "Student Fake"
 
 @wip
-#TODO when fuel gauge works
 Scenario: Check assessment result (live)
+#TODO when fuel gauge works
 Given I have an open web browser
 Given the server is in "live" mod
 
@@ -51,3 +51,8 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I should only see one view named "IL_K-3"
 Then I see a list of 20 students
 #And the list includes: "Mi-Ha Tran"
+And I click on student "Lauretta Seip"
+And I view its student profile
+#Display Elementary School Tab
+And their grade is "First grade"
+And Tab has a title named "Elementary School Overview"

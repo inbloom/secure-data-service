@@ -6,11 +6,7 @@ Background:
 Given I have an open web browser
 
 @wip
-<<<<<<< HEAD
 Scenario: View student's profile
-=======
-Scenario: View a student's profile
->>>>>>> master
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
 Given I am authenticated to SLI as "lkim" password "lkim"
@@ -31,11 +27,7 @@ And the lozenges count is "1"
 And the lozenges include "ELL"
 
 @wip
-<<<<<<< HEAD
 Scenario: View student's profile without lozenges
-=======
-Scenario: View a student's profile without lozenges
->>>>>>> master
 Given the server is in "test" mode
 When I navigate to the Dashboard home page
 Given I am authenticated to SLI as "lkim" password "lkim"
@@ -59,14 +51,18 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
-And I wait for "2" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
 And the following students have "FRE" lozenges: "Odysseus Merrill;Hoyt Hicks;Delilah Sims;Ursa Oconnor"
-And I wait for "20" seconds
+#Lozenges check
+And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
+And the following students have "FRE" lozenges: "Odysseus Merrill;Hoyt Hicks;Delilah Sims;Ursa Oconnor"
+# Lozenges check on LOS
+Then there is no lozenges for student "Jeanette Graves"
+Then the lozenge for student "Kimberley Pennington" include "FRE"
 And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
@@ -76,14 +72,28 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "2"
 And the lozenges include "FRE"
-<<<<<<< HEAD
+And the lozenges include "ELL"
+#Display hide tabs based on grades
+And there are "6" Tabs
+And in Tab ID "8", there is "1" Panels
+And in Tab ID "2", there is "1" Panels
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
+And in Tab ID "5", there is "0" Panels
+And Tab has a title named "Middle School Overview"
+And Tab has a title named "Attendance and Discipline"
+And Tab has a title named "Assessments"
+And Tab has a title named "Grades and Credits"
+And Tab has a title named "Advanced Academics"
+And Tab has a title named "ELL"
+#Check the District tab
+#And Tab has a title named "Sunset District"
 
 Scenario: Student with no grade (live)
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
-And I wait for "2" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -97,32 +107,16 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "FRE"
+#Display hide tabs based on grades
+And there are "7" Tabs
+And Tab has a title named "Elementary School Overview"
+And Tab has a title named "Middle School Overview"
+And Tab has a title named "High School Overview"
 	
-=======
-And there are "6" Tabs
-And in Tab ID "6", there is "1" Panels
-And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "0" Panels
-And in Tab ID "4", there is "0" Panels 
-And in Tab ID "5", there is "0" Panels
-And Tab has a title named "Overview"
-And Tab has a title named "Attendance and Discipline"
-And Tab has a title named "Assessments"
-And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-# Temp disable specific tab index tests
-#And Tab "1" is titled "Overview"
-#And Tab "2" is titled "Attendance and Discipline"
-#And Tab "3" is titled "Assessments"
-#And Tab "4" is titled "Grades and Credits"
-#And Tab "5" is titled "Advanced Academics"
 
->>>>>>> master
 @wip
 Scenario: View a student with other name
 Given I am authenticated to SLI as "lkim" password "lkim"
 When I click on the Dashboard page
-And I wait for "1" seconds
 
 	
