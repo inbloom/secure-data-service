@@ -521,9 +521,9 @@ public class StudentResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.DISCIPLINE_INCIDENTS)
-    public Response getStudentDisciplineIncidentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
-                                                                   @Context HttpHeaders headers,
-                                                                   @Context final UriInfo uriInfo) {
+    public Response getStudentDisciplineIncidentAssociationDisciplineIncidents(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                                               @Context HttpHeaders headers,
+                                                                               @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
 
