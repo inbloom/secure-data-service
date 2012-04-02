@@ -74,7 +74,7 @@ public class HomeResource {
             body.put("id", userId);
 
             // prepare a list of links with the self link
-            List<EmbeddedLink> links = ResourceUtil.getAssociationAndReferenceLinksForEntity(this.entityDefs, defn, body, uriInfo);
+            List<EmbeddedLink> links = ResourceUtil.getLinks(this.entityDefs, defn, body, uriInfo);
             
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();

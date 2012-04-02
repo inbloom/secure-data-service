@@ -1,6 +1,5 @@
 package org.slc.sli.view;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -34,27 +33,60 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         this.student = student;
     }
 
+//    @Override
+//    public int getCountForPath(Field configField) {
+//        // TODO: This should be a lot more generic.
+//        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+//        int count = 0;
+//        if (attendances != null) {
+//            for (Map attendance : attendances) {
+//                logger.debug("Attendance: {}", attendance);
+//                String value = (String) attendance.get(CATEGORY);
+//                String compareValue = null;
+//                if (configField.getValue().equals(TARDY_VALUE)) {
+//                    compareValue = "Tardy";
+//                } else if (configField.getValue().equals(ABSENT_VALUE)) {
+//                    compareValue = "Absence";
+//                }
+//                if (compareValue != null && value.contains(compareValue)) {
+//                    ++count;
+//                }
+//            }
+//        }
+//        return count;
+//    }
+
+
+    @SuppressWarnings("unchecked")
     @Override
     public int getCountForPath(Field configField) {
-        // TODO: This should be a lot more generic.
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
-        int count = 0;
-        if (attendances != null) {
-            for (Map attendance : attendances) {
-                logger.debug("Attendance: {}", attendance);
-                String value = (String) attendance.get(CATEGORY);
-                String compareValue = null;
+        Map<String, Object> attendance = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+
+        double count = 0;
+
+        if (attendance != null) {
+            logger.debug("Attendance: {}", attendance);
+            Map<String, Object> attendanceEvents = (Map<String, Object>) attendance.get(Constants.ATTR_STUDENT_ATTENDANCES);
+
+            if (attendanceEvents != null) {
+
                 if (configField.getValue().equals(TARDY_VALUE)) {
-                    compareValue = "Tardy";
+                    if (attendanceEvents.get("Tardy") != null) {
+                        count = (Double) attendanceEvents.get("Tardy");
+                    }
                 } else if (configField.getValue().equals(ABSENT_VALUE)) {
-                    compareValue = "Absence";
+                    for (Map.Entry<String, Object> e : attendanceEvents.entrySet()) {
+                        if (e.getKey().contains("Absence")) {
+                            if (e.getValue() != null)
+                                count += (Double) e.getValue();
+                        }
+                    }
                 }
-                if (compareValue != null && value.contains(compareValue)) {
-                    ++count;
-                }
+
             }
         }
-        return count;
+
+        return (int) count;
     }
     
     @Override
