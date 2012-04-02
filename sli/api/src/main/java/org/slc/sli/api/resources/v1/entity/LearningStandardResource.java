@@ -42,7 +42,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
     
     @Autowired
     public LearningStandardResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, "");
     }
 
     /**
@@ -80,7 +80,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })

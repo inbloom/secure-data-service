@@ -166,7 +166,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             user.setName((String) body.get("userName"));
             user.setRealm(realm.getEntityId());
             user.setAdminRealm((String) body.get("adminRealm"));
-
+            user.setEdOrg((String) body.get("edOrg"));
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);
             Set<GrantedAuthority> authoritiesSet = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {

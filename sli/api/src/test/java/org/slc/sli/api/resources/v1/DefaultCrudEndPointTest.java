@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.any;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
@@ -25,7 +26,6 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -46,11 +46,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * Unit tests for the default crud endpoint
+ * 
  * @author srupasinghe
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -59,7 +59,7 @@ import java.util.regex.Pattern;
 public class DefaultCrudEndPointTest {
     
     @Autowired
-    private StudentResource crudEndPoint; //class under test
+    private StudentResource crudEndPoint; // class under test
     
     @Autowired
     private SecurityContextInjector injector;
@@ -81,7 +81,7 @@ public class DefaultCrudEndPointTest {
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         
-        //expand this list
+        // expand this list
         resourceList.add(ResourceNames.SCHOOLS);
     }
     
@@ -112,7 +112,7 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testCreate() {
         for (String resource : resourceList) {
-            Response response = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+            Response response = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders, uriInfo);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
             assertNotNull("ID should not be null", parseIdFromLocation(response));
         }
@@ -128,7 +128,7 @@ public class DefaultCrudEndPointTest {
             
             List<EntityBody> results = (List<EntityBody>) response.getEntity();
             assertEquals("Should get 2 entities", results.size(), 2);
-
+            
             EntityBody body1 = results.get(0);
             assertNotNull("Should not be null", body1);
             assertEquals("studentUniqueStateId should be 1234", body1.get("studentUniqueStateId"), 1234);
@@ -142,11 +142,38 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
+    public void testCustomEntityLink() {
+        for (String resource : resourceList) {
+            String idList = getIDList(resource);
+            Response response = crudEndPoint.read(resource, idList, httpHeaders, uriInfo);
+            List<?> results = (List<?>) response.getEntity();
+            for (Object result : results) {
+                EntityBody entity = (EntityBody) result;
+                List<?> links = (List<?>) entity.get(ResourceConstants.LINKS);
+                String customLink = null;
+                String selfLink = null;
+                for (Object linkObject : links) {
+                    EmbeddedLink link = (EmbeddedLink) linkObject;
+                    if (link.getRel().equals(ResourceConstants.SELF)) {
+                        selfLink = link.getHref();
+                    } else if (link.getRel().equals(ResourceConstants.CUSTOM)) {
+                        customLink = link.getHref();
+                    }
+                }
+                assertNotNull(selfLink);
+                assertNotNull(customLink);
+                assertEquals(selfLink + "/" + PathConstants.CUSTOM_ENTITIES, customLink);
+            }
+            
+        }
+    }
+    
+    @Test
     @SuppressWarnings("unchecked")
     public void testReadResourceFromKey() {
         for (String resource : resourceList) {
-            //create one entity
-            crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+            // create one entity
+            crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders, uriInfo);
             Response response = crudEndPoint.read(resource, "field1", "1", httpHeaders, uriInfo);
             
             List<EntityBody> results = (List<EntityBody>) response.getEntity();
@@ -158,16 +185,17 @@ public class DefaultCrudEndPointTest {
     @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
-            //create one entity
-            Response createResponse = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+            // create one entity
+            Response createResponse = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders,
+                    uriInfo);
             String id = parseIdFromLocation(createResponse);
             
-            //delete it
+            // delete it
             Response response = crudEndPoint.delete(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
+            
             try {
-                Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
+                crudEndPoint.read(resource, id, httpHeaders, uriInfo);
                 fail("should have thrown EntityNotFoundException");
             } catch (EntityNotFoundException e) {
                 return;
@@ -180,19 +208,21 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testUpdate() {
         for (String resource : resourceList) {
-            //create one entity
-            Response createResponse = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+            // create one entity
+            Response createResponse = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders,
+                    uriInfo);
             String id = parseIdFromLocation(createResponse);
             
-            //update it
-            Response response = crudEndPoint.update(resource, id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
+            // update it
+            Response response = crudEndPoint.update(resource, id, new EntityBody(createTestUpdateEntity()),
+                    httpHeaders, uriInfo);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-              
-            //try to get it
+            
+            // try to get it
             Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
-            assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());            
+            assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
             EntityBody body = (EntityBody) getResponse.getEntity();
-            assertNotNull("Should return an entity", body);            
+            assertNotNull("Should return an entity", body);
             assertEquals("studentUniqueStateId should be 1234", body.get("studentUniqueStateId"), 1234);
             assertEquals("studentUniqueStateId should be 8", body.get("field1"), 8);
             assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
@@ -203,10 +233,10 @@ public class DefaultCrudEndPointTest {
     @SuppressWarnings("unchecked")
     public void testReadAll() {
         for (String resource : resourceList) {
-            //create one entity
-            crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+            // create one entity
+            crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders, uriInfo);
             
-            //read everything
+            // read everything
             Response response = crudEndPoint.readAll(resource, httpHeaders, uriInfo);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
             
@@ -217,36 +247,22 @@ public class DefaultCrudEndPointTest {
     }
     
     @Test
-    @SuppressWarnings("unchecked")
-    public void testReadEndPoint() {
-        Map<String, Object> schoolEntity = new HashMap<String, Object>();
-        schoolEntity.put("field1", "3");
-        schoolEntity.put("field2", "4");
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void testAppendOptionalFieldsNoOptionsGiven() {
+        UriInfo info = mock(UriInfo.class);
+        MultivaluedMap map = new MultivaluedMapImpl();
+        when(info.getQueryParameters(true)).thenReturn(map);
         
-        Map<String, Object> studentEntity = new HashMap<String, Object>();
-        studentEntity.put("field1", "5");
-        studentEntity.put("field2", "6");
+        EntityBody body = new EntityBody();
+        body.put("student", "{\"somekey\":\"somevalue\"}");
         
-        Response schoolRes = crudEndPoint.create(ResourceNames.SCHOOLS, new EntityBody(schoolEntity), httpHeaders, uriInfo);
-        String schoolId = parseIdFromLocation(schoolRes);
+        List<EntityBody> entities = new ArrayList<EntityBody>();
+        entities.add(body);
         
-        Response studentRes = crudEndPoint.create(ResourceNames.STUDENTS, new EntityBody(studentEntity), httpHeaders, uriInfo);
-        String studentId = parseIdFromLocation(studentRes);
+        entities = crudEndPoint.appendOptionalFields(info, entities);
         
-        Map<String, Object> studentSchoolAssoc = new HashMap<String, Object>();
-        studentSchoolAssoc.put("studentId", studentId);
-        studentSchoolAssoc.put("schoolId", schoolId);
-        
-        crudEndPoint.create(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, new EntityBody(studentSchoolAssoc), httpHeaders, uriInfo);
-        
-        Response response = crudEndPoint.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, 
-                "studentId", ResourceNames.STUDENTS, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-        
-        @SuppressWarnings("unused")
-        List<EntityBody> results = (List<EntityBody>) response.getEntity();
-        //need to add to this test
-        //MockRepo needs to be changed to get this test right
+        assertEquals("Should only have one", 1, entities.size());
+        assertEquals("Should match", body, entities.get(0));
     }
     
     @Test
@@ -271,9 +287,11 @@ public class DefaultCrudEndPointTest {
     }
     
     private String getIDList(String resource) {
-        //create one more resource
-        Response createResponse1 = crudEndPoint.create(resource,  new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        Response createResponse2 = crudEndPoint.create(resource,  new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
+        // create one more resource
+        Response createResponse1 = crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders,
+                uriInfo);
+        Response createResponse2 = crudEndPoint.create(resource, new EntityBody(createTestSecondaryEntity()),
+                httpHeaders, uriInfo);
         
         return parseIdFromLocation(createResponse1) + "," + parseIdFromLocation(createResponse2);
     }
@@ -301,9 +319,9 @@ public class DefaultCrudEndPointTest {
                 return new UriBuilderImpl().path("request");
             }
         });
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap<String, String>>() {
             @Override
-            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
+            public MultivaluedMap<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
                 return new MultivaluedMapImpl();
             }
         });
