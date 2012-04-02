@@ -85,6 +85,7 @@ public class ApprovedApplicationResourceTest {
     
     @Test (expected = InsufficientAuthenticationException.class)
     public void testNotLoggedIn() {
+        SecurityContextHolder.clearContext();
         resource.getApplications();
     }
     

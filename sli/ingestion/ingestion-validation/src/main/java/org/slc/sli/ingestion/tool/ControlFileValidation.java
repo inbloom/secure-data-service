@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
@@ -15,9 +17,30 @@ import org.slc.sli.ingestion.landingzone.validation.FileFormatValidator;
 import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 import org.slc.sli.ingestion.landingzone.validation.IngestionFileValidator;
 
-public class Validation {
+/**
+ * ControlFileValidation is used to validate the control file
+ * @author tke
+ *
+ */
+public class ControlFileValidation {
 
-    void validateControlFile(String dir, String ctrFile) throws IOException{
+    /**
+     * Validate the control file specified by control file descriptor
+     * @param control file descriptor
+     * @param the batch job
+     */
+    void validate(ControlFileDescriptor fileDesc, BatchJob job){
+        BatchJobAssembler assembler = new BatchJobAssembler();
+        assembler.populateJob(fileDesc, job);
+    }
+
+    /**
+     * Validate the control file specified by the location of the file
+     * @param dir   : specifies the landing zone directory
+     * @param ctrFile   : specifies the name of the control file
+     * @throws IOException
+     */
+    boolean validate(String dir, String ctrFile) throws IOException{
         LocalFileSystemLandingZone lz  = new LocalFileSystemLandingZone();
         lz.setDirectory(new File(dir));
         ControlFile cf = ControlFile.parse(new File(dir + ctrFile));
@@ -29,6 +52,6 @@ public class Validation {
         ingestionFileValidators.add(new ChecksumValidator());
         cfValidator.setIngestionFileValidators(ingestionFileValidators);
         FaultsReport errorReport = new FaultsReport();
-        cfValidator.isValid(fileDesc, errorReport);
+        return cfValidator.isValid(fileDesc, errorReport);
     }
 }

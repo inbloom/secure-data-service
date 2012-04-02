@@ -1,38 +1,65 @@
 package org.slc.sli.ingestion.tool;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
 
-import org.slc.sli.ingestion.validation.XsdValidator;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
 public class ToolMain{
 
-    public static void main(String [] args){
-    	ApplicationContext context =
-                new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+    public static void main(String [] args) throws IOException{
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("spring/validatorContext.xml");
 
     	ToolMain main = context.getBean(ToolMain.class);
-    	main.start(args);
+    main.start(args);
 
     }
 
-    @Autowired
-	private List<SimpleValidatorSpring> validators;
-	private void start(String[] args){
-		XsdValidator xsd = (XsdValidator) validators.get(0);
-	}
+    private ValidationController controller;
+    //Name of the validation tool
+    final String appName;
+    //Number of arguments
+    int n_args;
 
-	public void setValidators(List<SimpleValidatorSpring> validators){
-		this.validators = validators;
-	}
+    private void start(Map<String,String> map_args){
 
-	public List<SimpleValidatorSpring> getValidators(){
-		return validators;
-	}
+        if( (args.length != n_args) ){
+            System.out.println(appName + ":Illegal options");
+            System.out.println("Usage: " + appName + "[directory]");
+            return ;
+        }
 
+        String landing_zone = args[1];
+
+        controller.doValidation(landing_zone);
+    }
+
+    public void setValidationController(ValidationController controller){
+        this.controller = controller;
+    }
+
+    public ValidationController getValidation(){
+        return controller;
+    }
+
+    public void setappName(String name){
+        this.appName = name;
+    }
+
+    public String getappName(){
+        return appName;
+    }
+
+    public void setn_args(int n){
+        this.n_args = n;
+    }
+
+    public int getn_args(){
+        return n_args;
+    }
 }
 
 

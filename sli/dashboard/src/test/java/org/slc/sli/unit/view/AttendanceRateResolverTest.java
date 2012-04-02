@@ -2,9 +2,7 @@ package org.slc.sli.unit.view;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -26,6 +24,7 @@ public class AttendanceRateResolverTest {
     private static final String IN_ATTENDANCE = "In Attendance";
     private static final String TARDY = "Tardy";
     private static final String EXCUSED = "Excused Absence";
+    private static final String TOTAL = "Total";
     private Field tardyField = null;
     private Field attendanceField = null;
     
@@ -45,10 +44,13 @@ public class AttendanceRateResolverTest {
     
     @Test
     public void testNoTardy() {
-        List<Map<String, String>> attendances = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(IN_ATTENDANCE));
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put(IN_ATTENDANCE, 10.0);
+        attendanceEvents.put(TARDY, 0.0);
+        attendanceEvents.put(TOTAL, 10.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         mockStudent.put("attendances", attendances);
         assertEquals(0, resolver.getCountForPath(tardyField));
         assertEquals(10, resolver.getSize(tardyField));
@@ -56,13 +58,13 @@ public class AttendanceRateResolverTest {
     
     @Test
     public void testNoTardyMix() {
-        List<Map<String, String>> attendances = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(IN_ATTENDANCE));
-        }
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(EXCUSED));
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put(IN_ATTENDANCE, 10.0);
+        attendanceEvents.put(EXCUSED, 10.0);
+        attendanceEvents.put(TOTAL, 20.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         mockStudent.put("attendances", attendances);
         assertEquals(0, resolver.getCountForPath(tardyField));
         assertEquals(20, resolver.getSize(tardyField));
@@ -70,16 +72,14 @@ public class AttendanceRateResolverTest {
     
     @Test
     public void testSomeTardy() {
-        List<Map<String, String>> attendances = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(IN_ATTENDANCE));
-        }
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(EXCUSED));
-        }
-        for (int i = 0; i < 5; ++i) {
-            attendances.add(getAttendanceObject(TARDY));
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put(IN_ATTENDANCE, 10.0);
+        attendanceEvents.put(EXCUSED, 10.0);
+        attendanceEvents.put(TARDY, 5.0);
+        attendanceEvents.put(TOTAL, 25.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+                
         mockStudent.put("attendances", attendances);
         assertEquals(5, resolver.getCountForPath(tardyField));
         assertEquals(25, resolver.getSize(tardyField));
@@ -90,10 +90,12 @@ public class AttendanceRateResolverTest {
     
     @Test
     public void testPerfectAttendance() {
-        List<Map<String, String>> attendances = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(IN_ATTENDANCE));
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put(IN_ATTENDANCE, 10.0);
+        attendanceEvents.put(TOTAL, 10.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         mockStudent.put("attendances", attendances);
         assertEquals(10, resolver.getCountForPath(attendanceField));
         assertEquals(10, resolver.getSize(attendanceField));
@@ -101,10 +103,12 @@ public class AttendanceRateResolverTest {
     
     @Test
     public void testBadAttendance() {
-        List<Map<String, String>> attendances = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 10; ++i) {
-            attendances.add(getAttendanceObject(EXCUSED));
-        }
+        GenericEntity attendanceEvents = new GenericEntity();        
+        attendanceEvents.put(EXCUSED, 10.0);        
+        attendanceEvents.put(TOTAL, 10.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         mockStudent.put("attendances", attendances);
         assertEquals(0, resolver.getCountForPath(attendanceField));
         assertEquals(10, resolver.getSize(attendanceField));

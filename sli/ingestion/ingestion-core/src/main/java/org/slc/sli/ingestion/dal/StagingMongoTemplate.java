@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.convert.MongoConverter;
  * @author ifaybyshev
  *
  */
+@Deprecated
 public class StagingMongoTemplate extends MongoTemplate {
 
     private String databasePrefix;
