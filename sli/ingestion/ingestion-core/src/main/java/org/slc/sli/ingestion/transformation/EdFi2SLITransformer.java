@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
@@ -27,6 +30,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
@@ -57,20 +62,21 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
 
         if (transformed != null && !transformed.isEmpty()) {
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
+        }
 
-            for (SimpleEntity entity : transformed) {
+        for (SimpleEntity entity : transformed) {
 
-                if (entity.getMetaData() == null) {
-                    entity.setMetaData(new HashMap<String, Object>()); 
-                }
+            if (entity.getMetaData() == null) {
+                entity.setMetaData(new HashMap<String, Object>());
+            }
 
-                entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), item.getSourceId());
+            entity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), item.getSourceId());
 
-                matchEntity(entity, errorReport);
+            matchEntity(entity, errorReport);
 
-                if (errorReport.hasErrors()) {
-                    return Collections.emptyList();
-                }
+            if (errorReport.hasErrors()) {
+                return Collections.emptyList();
             }
         }
 

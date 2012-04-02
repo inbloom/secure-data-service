@@ -219,22 +219,6 @@
   <StaffCohortAssociation>
     <StaffReference>
 	  <StaffIdentity>
-	    <StaffUniqueStateId>jjones</StaffUniqueStateId>
-	  </StaffIdentity>
-	</StaffReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
-    <BeginDate>2011-06-01</BeginDate>
-	<EndDate>2011-08-15</EndDate>
-	<StudentRecordAccess>false</StudentRecordAccess>
-  </StaffCohortAssociation>
-  <StaffCohortAssociation>
-    <StaffReference>
-	  <StaffIdentity>
 	    <StaffUniqueStateId>cgray</StaffUniqueStateId>
 	  </StaffIdentity>
 	</StaffReference>
