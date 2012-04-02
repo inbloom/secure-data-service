@@ -14,7 +14,7 @@
     {id: "tab3", name: "Assessments",  type : "TAB", items: []},
     {id: "tab4", name: "Grades and Credits",  type : "TAB", items: []},
     {id: "tab5", name: "Advanced Academics",  type : "TAB", items: []},
-    {id: "tab10", name: "Daybreak district tab",  type : "TAB", items: []},
+    {id: "tab10", name: "Daybreak District",  type : "TAB", items: []},
     {id: "tab1", name: "ELL", type : "TAB", condition: {field: "limitedEnglishProficiency", value: ["Limited"]}, items: []}
   ]
 }

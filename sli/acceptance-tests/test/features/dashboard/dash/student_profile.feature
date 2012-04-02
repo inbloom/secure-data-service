@@ -85,7 +85,12 @@ And Tab has a title named "Grades and Credits"
 And Tab has a title named "Advanced Academics"
 And Tab has a title named "ELL"
 #Check the District tab
-#And Tab has a title named "Sunset District"
+And Tab has a title named "Daybreak District"
+#Check Enrollment
+#And Student Enrollment History includes "East Daybreak Junior High;2012-01-01;Eighth grade"
+#And Student Enrollment History includes "South Daybreak Elementary;2012-01-01;Eighth grade;2012-01-02"
+#And Student Enrollment History includes "Daybreak Central High;2012-01-01;Eighth grade;2012-01-02"
+
 
 Scenario: Student with no grade (live)
 Given the server is in "live" mode
@@ -110,8 +115,9 @@ And there are "8" Tabs
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "High School Overview"
+#Check the District tab
+And Tab has a title named "Daybreak District"
 	
-
 @wip
 Scenario: View a student with other name
 Given I am authenticated to SLI as "lkim" password "lkim"
