@@ -378,7 +378,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
+				<xs:element minOccurs="0"
 					name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>

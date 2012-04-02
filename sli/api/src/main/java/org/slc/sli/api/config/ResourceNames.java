@@ -51,8 +51,8 @@ public final class ResourceNames {
     public static final String STUDENT_PARENT_ASSOCIATIONS = "student-parent-associations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "student-disciplineIncident-associations";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
-    public static final String STAFF_COHORT_ASSOCIATIONS = "staff-cohort-associations";
-    public static final String STUDENT_COHORT_ASSOCIATIONS = "student-cohort-associations";
+    public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
+    public static final String STUDENT_COHORT_ASSOCIATIONS = "studentCohortAssociations";
 
     public static final String COHORT_GETTER = "getCohort";
     public static final String STUDENT_COHORT_ASSOCIATION_GETTER = "getStudentCohortAssociation";
