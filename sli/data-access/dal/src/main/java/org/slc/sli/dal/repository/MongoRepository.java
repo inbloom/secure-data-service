@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
@@ -35,7 +36,7 @@ import org.slc.sli.util.threadutil.ThreadLocalStorage;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
     
-    protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + System.currentTimeMillis());
+    protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
     protected MongoTemplate template;
 
@@ -223,7 +224,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     
     
     public boolean isCollectionGrouping() {
-        return threadStore.get("collectionGroupingFlag") != null;
+        if (threadStore.get("collectionGroupingFlag") != null) {
+            return (Boolean) threadStore.get("collectionGroupingFlag");
+        }
+        
+        return false;
     }
 
     public void setCollectionGrouping(boolean collectionGrouping) {
