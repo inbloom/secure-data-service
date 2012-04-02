@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
@@ -35,8 +36,7 @@ public class SessionGenerator {
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
         for (String stateOrgId : stateOrgIds)
-            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(
-                    stateOrgId);
+            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
         EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         eort.setEducationalOrgIdentity(eoit);
         session.setEducationOrganizationReference(eort);
@@ -49,8 +49,7 @@ public class SessionGenerator {
         // System.out.println("this is school year Type :" +
         // gpit.getSchoolYear());
         for (String stateOrgId : stateOrgIds)
-            gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(
-                    stateOrgId);
+            gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
         // System.out.println("this is state org Id :" +
         // gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().get(0)
         // );
@@ -75,69 +74,75 @@ public class SessionGenerator {
     public GradingPeriodType getGradingPeriodType() {
         int roll = generator.nextInt(20) + 1;
         switch (roll) {
-        case 1:
-            return GradingPeriodType.END_OF_YEAR;
-        case 2:
-            return GradingPeriodType.FIFTH_SIX_WEEKS;
-        case 3:
-            return GradingPeriodType.FIRST_NINE_WEEKS;
-        case 4:
-            return GradingPeriodType.FIRST_SEMESTER;
-        case 5:
-            return GradingPeriodType.FIRST_SIX_WEEKS;
-        case 6:
-            return GradingPeriodType.FIRST_SUMMER_SESSION;
-        case 7:
-            return GradingPeriodType.FIRST_TRIMESTER;
-        case 8:
-            return GradingPeriodType.FOURTH_NINE_WEEKS;
-        case 9:
-            return GradingPeriodType.FOURTH_SIX_WEEKS;
-        case 10:
-            return GradingPeriodType.SECOND_NINE_WEEKS;
-        case 11:
-            return GradingPeriodType.SECOND_SEMESTER;
-        case 12:
-            return GradingPeriodType.SECOND_SIX_WEEKS;
-        case 13:
-            return GradingPeriodType.SECOND_SUMMER_SESSION;
-        case 14:
-            return GradingPeriodType.SECOND_TRIMESTER;
-        case 15:
-            return GradingPeriodType.SIXTH_SIX_WEEKS;
-        case 16:
-            return GradingPeriodType.SUMMER_SEMESTER;
-        case 17:
-            return GradingPeriodType.THIRD_NINE_WEEKS;
-        case 18:
-            return GradingPeriodType.THIRD_SIX_WEEKS;
-        case 19:
-            return GradingPeriodType.THIRD_SUMMER_SESSION;
-        default:
-            return GradingPeriodType.THIRD_TRIMESTER;
+            case 1:
+                return GradingPeriodType.END_OF_YEAR;
+            case 2:
+                return GradingPeriodType.FIFTH_SIX_WEEKS;
+            case 3:
+                return GradingPeriodType.FIRST_NINE_WEEKS;
+            case 4:
+                return GradingPeriodType.FIRST_SEMESTER;
+            case 5:
+                return GradingPeriodType.FIRST_SIX_WEEKS;
+            case 6:
+                return GradingPeriodType.FIRST_SUMMER_SESSION;
+            case 7:
+                return GradingPeriodType.FIRST_TRIMESTER;
+            case 8:
+                return GradingPeriodType.FOURTH_NINE_WEEKS;
+            case 9:
+                return GradingPeriodType.FOURTH_SIX_WEEKS;
+            case 10:
+                return GradingPeriodType.SECOND_NINE_WEEKS;
+            case 11:
+                return GradingPeriodType.SECOND_SEMESTER;
+            case 12:
+                return GradingPeriodType.SECOND_SIX_WEEKS;
+            case 13:
+                return GradingPeriodType.SECOND_SUMMER_SESSION;
+            case 14:
+                return GradingPeriodType.SECOND_TRIMESTER;
+            case 15:
+                return GradingPeriodType.SIXTH_SIX_WEEKS;
+            case 16:
+                return GradingPeriodType.SUMMER_SEMESTER;
+            case 17:
+                return GradingPeriodType.THIRD_NINE_WEEKS;
+            case 18:
+                return GradingPeriodType.THIRD_SIX_WEEKS;
+            case 19:
+                return GradingPeriodType.THIRD_SUMMER_SESSION;
+            default:
+                return GradingPeriodType.THIRD_TRIMESTER;
         }
     }
 
     public TermType getTermType() {
         int roll = generator.nextInt(8) + 1;
         switch (roll) {
-        case 1:
-            return TermType.FALL_SEMESTER;
-        case 2:
-            return TermType.FIRST_TRIMESTER;
-        case 3:
-            return TermType.MINI_TERM;
-        case 4:
-            return TermType.SECOND_TRIMESTER;
-        case 5:
-            return TermType.SPRING_SEMESTER;
-        case 6:
-            return TermType.SUMMER_SEMESTER;
-        case 7:
-            return TermType.THIRD_TRIMESTER;
-        default:
-            return TermType.YEAR_ROUND;
+            case 1:
+                return TermType.FALL_SEMESTER;
+            case 2:
+                return TermType.FIRST_TRIMESTER;
+            case 3:
+                return TermType.MINI_TERM;
+            case 4:
+                return TermType.SECOND_TRIMESTER;
+            case 5:
+                return TermType.SPRING_SEMESTER;
+            case 6:
+                return TermType.SUMMER_SEMESTER;
+            case 7:
+                return TermType.THIRD_TRIMESTER;
+            default:
+                return TermType.YEAR_ROUND;
         }
+    }
+
+    public static ComplexObjectType getFastSession(String id) {
+        Session session = new Session();
+        session.setSessionName(id);
+        return session;
     }
 
     public static void main(String args[]) {
@@ -174,10 +179,8 @@ public class SessionGenerator {
                 + s.getGradingPeriodReference().size()
                 + ",\n"
                 + "getEducationalOrgIdentity : "
-                + s.getEducationOrganizationReference()
-                        .getEducationalOrgIdentity()
-                        .getStateOrganizationIdOrEducationOrgIdentificationCode()
-                        .size();
+                + s.getEducationOrganizationReference().getEducationalOrgIdentity()
+                        .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
         System.out.println(sessionString + ",\n");
 
         Session s1 = sg.sessionGenerator(stateOrgIdss2);
@@ -204,10 +207,8 @@ public class SessionGenerator {
                 + s1.getGradingPeriodReference().size()
                 + ",\n"
                 + "getEducationalOrgIdentity : "
-                + s1.getEducationOrganizationReference()
-                        .getEducationalOrgIdentity()
-                        .getStateOrganizationIdOrEducationOrgIdentificationCode()
-                        .size();
+                + s1.getEducationOrganizationReference().getEducationalOrgIdentity()
+                        .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
         System.out.println(sessionString1);
 
     }

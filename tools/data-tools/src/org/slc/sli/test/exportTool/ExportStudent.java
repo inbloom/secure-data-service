@@ -108,9 +108,7 @@ public class ExportStudent {
                     .getString("CodeValue")));
 
             BirthData birthData = factory.createBirthData();
-            birthData.setBirthDate(Utility
-                    .convertStringToCalendar(this.studentResultSet
-                            .getString("BirthDate")));
+            birthData.setBirthDate("2011-01-05");
             student.setBirthData(birthData);
 
             if (studentAddressResultSet != null) {
@@ -132,9 +130,9 @@ public class ExportStudent {
                         studentAddress.setAddressType(AddressType
                                 .fromValue(this.studentAddressResultSet
                                         .getString("AddressType")));
-    
+
                         student.getAddress().add(studentAddress);
-    
+
                         if (this.studentAddressResultSet.next())
                             studentUSI = this.studentAddressResultSet
                                     .getString("StudentUSI");

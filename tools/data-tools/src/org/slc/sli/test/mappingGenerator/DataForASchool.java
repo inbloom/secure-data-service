@@ -13,9 +13,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.DisciplineActionGenerator;
+import org.slc.sli.test.generators.DisciplineGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.generators.StudentDisciplineAssociationGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
@@ -44,6 +47,10 @@ public class DataForASchool {
     private List<String> students = new ArrayList<String>();
     private List<String> parents = new ArrayList<String>();
     private List<String> studentParentAssociations = new ArrayList<String>();
+    
+    private List<String> disciplineIncidents = new ArrayList<String>();
+    private List<String> studentDisciplineIncidentAssociations = new ArrayList<String>();
+    private List<String> disciplineActions = new ArrayList<String>();
 
 
     private List<StudentSchoolAssociationInternal> studentSchoolAssociations = new ArrayList<StudentSchoolAssociationInternal>();
@@ -150,11 +157,13 @@ public class DataForASchool {
         prepareParent(numStudents*parentsPerStudent);
         prepareStudentParentAssociation(numStudents*parentsPerStudent);
         prepareStudentSchoolAssociation();
+        prepareDisciplineIncident(1);
+        prepareStudentDisciplineIncidentAssociation();
     }
 
     public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schools.add("school_"+ this.prefix + "-" + i);
+            schools.add("school-"+ this.prefix + "-" + i);
         }
     }
 
@@ -253,6 +262,21 @@ public class DataForASchool {
             ssai.student = student;
             ssai.school = schools.get(random.nextInt(schools.size()));
             studentSchoolAssociations.add(ssai);
+        }
+    }
+
+    public void prepareDisciplineIncident(int total) {
+    	String schoolId = schools.get(0);
+        for (int i = 0 ; i < total ; i++) {
+            disciplineIncidents.add(schoolId+delimiter+this.prefix + "-discInc-" + i);
+        }
+    }
+
+    public void prepareStudentDisciplineIncidentAssociation() {
+        for (String discId : disciplineIncidents) {
+        	String studentId = students.get(random.nextInt(students.size()));
+            studentDisciplineIncidentAssociations.add(studentId+delimiter+discId);
+            disciplineActions.add(studentId+delimiter+discId);
         }
     }
 
@@ -535,9 +559,29 @@ public class DataForASchool {
                 .getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
         // DisciplineIncident
+        DisciplineGenerator dg = new DisciplineGenerator();
+        for (String disciplineId : disciplineIncidents) {
+            DisciplineIncident disciplineIncident = dg.generate(disciplineId, delimiter);
+            list.add(disciplineIncident);
+        }        
+        
         // StudentDisciplineIncidentAssociation
-        // DisciplineAction
+        StudentDisciplineAssociationGenerator sdag = new StudentDisciplineAssociationGenerator();
+        for (String stringId : studentDisciplineIncidentAssociations) {
+        	StudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
+        	list.add(discAssociate);
+        }
+        
+        // DisciplineAction - Assuming action in all cases (even StudentParticipationCodeType.VICTIM.  Sorry!)
+        DisciplineActionGenerator sdactg = new DisciplineActionGenerator();
+        for (String stringId : disciplineActions) {
+        	DisciplineAction discAction = sdactg.generate(stringId, delimiter);
+        	list.add(discAction);
+        }
+        
         // BehaviorDescriptor
+        
+        
         // DisciplineDescriptor
 
         marshaller.marshal(interchangeStudentDiscipline, ps);

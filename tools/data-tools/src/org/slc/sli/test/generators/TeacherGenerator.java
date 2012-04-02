@@ -51,9 +51,9 @@ public class TeacherGenerator {
             if (random.nextBoolean())
                 teacher.getAddress().add(ag.getRandomAddress());
 
-            //teacher.getTelephone().add(e);
+            // teacher.getTelephone().add(e);
 
-            //teacher.getElectronicMail().add(e);
+            // teacher.getElectronicMail().add(e);
 
             teacher.setOldEthnicity(OldEthnicityType.AMERICAN_INDIAN_OR_ALASKAN_NATIVE);
 
@@ -77,6 +77,12 @@ public class TeacherGenerator {
             e.printStackTrace();
         }
 
+        return teacher;
+    }
+
+    public static Teacher getFastTeacher(String teacherId) {
+        Teacher teacher = new Teacher();
+        teacher.setStaffUniqueStateId(teacherId);
         return teacher;
     }
 }

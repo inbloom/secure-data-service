@@ -1,15 +1,22 @@
 package org.slc.sli.test.generators;
 
 import java.util.Random;
-import java.util.UUID;
 
-import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.CourseOfferingIdentityType;
+import org.slc.sli.test.edfi.entities.CourseOfferingReferenceType;
+import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
+import org.slc.sli.test.edfi.entities.PopulationServedType;
+import org.slc.sli.test.edfi.entities.Section;
+import org.slc.sli.test.edfi.entities.TermType;
 
 public class SectionGenerator {
     public static Section generate(String sectionCode, int sequenceOfCourse, String schoolId) {
         Section s = new Section();
         Random r = new Random();
-        //String sectionCode = UUID.randomUUID().toString();
+        // String sectionCode = UUID.randomUUID().toString();
 
         s.setUniqueSectionCode(sectionCode);
 
@@ -37,5 +44,11 @@ public class SectionGenerator {
         s.setSchoolReference(eor);
 
         return s;
+    }
+
+    public static Section getFastSection(String sectionId) {
+        Section section = new Section();
+        section.setUniqueSectionCode(sectionId);
+        return section;
     }
 }
