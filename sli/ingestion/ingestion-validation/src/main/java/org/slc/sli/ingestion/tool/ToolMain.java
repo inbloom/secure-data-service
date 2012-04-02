@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.tool;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,11 +19,11 @@ public class ToolMain{
 
     private ValidationController controller;
     //Name of the validation tool
-    final String appName;
+    String appName;
     //Number of arguments
     int n_args;
 
-    private void start(Map<String,String> map_args){
+    private void start(String [] args){
 
         if( (args.length != n_args) ){
             System.out.println(appName + ":Illegal options");
