@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
@@ -27,8 +25,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -47,43 +43,43 @@ import org.slc.sli.domain.Repository;
 
 /**
  * Process SAML assertions
- *
+ * 
  * @author dkornishev
  */
 @Component
 @Path("/saml")
 public class SamlFederationResource {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SamlFederationResource.class);
     private static final String ID = "_id";
     private static final String IDP_SLO_POST_ENDPOINT = "idp.sloPostEndpoint";
-
+    
     @Autowired
     private SamlHelper saml;
-
+    
     @Autowired
     private Repository<Entity> repo;
-
+    
     @Autowired
     private UserLocator users;
-
+    
     @Autowired
     private SamlAttributeTransformer transformer;
-
+    
     @Autowired
     private MongoAuthorizationCodeServices authCodeServices;
-
+    
     @Autowired
     private OAuthTokenUtil oAuthTokenUtil;
-
+    
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
-
+    
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
-
+    
     private String metadata;
-
+    
     @SuppressWarnings("unused")
     @PostConstruct
     private void processMetadata() throws IOException {
@@ -91,37 +87,36 @@ public class SamlFederationResource {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
         is.close();
-
+        
         metadata = writer.toString();
         metadata = metadata.replaceAll("\\$\\{sli\\.security\\.sp.issuerName\\}", metadataSpIssuerName);
     }
-
+    
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
     public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
-
+        
         LOG.info("Received a SAML post for SSO...");
-
+        
         Document doc = saml.decodeSamlPost(postData);
-
+        
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
-
+        
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
         Entity realm = fetchOne("realm", neutralQuery);
-
+        
         if (realm == null) {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
-
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
-                .getChild("AttributeStatement", SamlHelper.SAML_NS);
+        
+        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
-
+        
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
         for (Element attributeNode : attributeNodes) {
             String samlAttributeName = attributeNode.getAttributeValue("Name");
@@ -130,20 +125,20 @@ public class SamlFederationResource {
                 attributes.add(samlAttributeName, valueNode.getText());
             }
         }
-
+        
         // Apply transforms
         attributes = transformer.apply(realm, attributes);
-
+        
         SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
-
+        
         return Response.temporaryRedirect(URI.create(redirect)).build();
     }
-
+    
     /**
      * Location for IDP-initiated log out. Example of what is asserted:
      * <saml2p:LogoutRequest
@@ -166,11 +161,11 @@ public class SamlFederationResource {
     @POST
     @Path("slo/post")
     public Response processSingleLogoutPost(@FormParam(value = "SAMLRequest") String requestData) throws Exception {
-
+        
         if (requestData == null) {
-            return Response.noContent().build(); //TODO change error code?
+            return Response.noContent().build(); // TODO change error code?
         }
-
+        
         LOG.debug("Received a SAML Request post for SLO via slo/post...");
         Document doc = saml.decodeSamlPost(requestData);
         XMLOutputter outputter = new XMLOutputter();
@@ -179,75 +174,67 @@ public class SamlFederationResource {
         } catch (IOException e) {
             System.err.println(e);
         }
-
+        
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
         String nameId = doc.getRootElement().getChildText("NameID", SamlHelper.SAML_NS);
-        String realmId = ""; //TODO find realmId based on issuer
-
-        oAuthTokenUtil.deleteTokensForUser(nameId, realmId);         //TODO check for success
-
-
+        String realmId = ""; // TODO find realmId based on issuer
+        
+        oAuthTokenUtil.deleteTokensForUser(nameId, realmId);         // TODO check for success
+        
         return Response.ok(saml.createSamlLogoutResponse(issuer)).build();
-
+        
     }
     
     @GET
-    @Path("slo/post")
-    public Response processSingleLogoutPost() throws Exception {
-        LOG.debug("Received a SAML Request get for SLO via slo/post...");        
-        String issuer = "https://nxam3.slidev.org:443/idp";
-        String postUrl = "https://nxam3.slidev.org:443/idp/IDPSloPOST/metaAlias/idp";
+    @Path("slo/init")
+    public Response initSlo() throws Exception {
+        String destination = "https://devopenam1.slidev.org/idp1";
+        String postUrl = "https://devopenam1.slidev.org:443/idp1/IDPSloRedirect/metaAlias/idp";
         String nameId = "demo";
-        String logoutRequest = saml.createSamlLogoutRequest(issuer, nameId);
+        String logoutRequest = saml.createSamlLogoutRequest(destination, nameId);
         
-        Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("SAMLRequest", logoutRequest);
-        
-        RestTemplate rest = new RestTemplate();
-        // ResponseEntity<String> response = rest.exchange(postUrl, HttpMethod.POST, null, String.class, uriVariables);
-        ResponseEntity<String> entity = rest.postForEntity(postUrl, null, String.class, uriVariables);
-        if (entity.getStatusCode() == HttpStatus.OK) {
-            LOG.debug("Received post response: ");
-            LOG.debug(" - headers: {}", entity.getHeaders().toString());
-            LOG.debug(" - body: {}", entity.getBody().toString());
-        }
-        return Response.ok(entity.toString()).build(); //TODO change error code?
+        return Response.temporaryRedirect(new URI(postUrl + "?SAMLRequest=" + logoutRequest)).build();
     }
-
+    
+    @GET
+    @Path("slo/redirect")
+    public void consumeSloRedirect(@QueryParam("SAMLResponse") String saml) {
+        this.saml.decodeSamlRedirect(saml);
+    }
+    
     public boolean logoutOfIdp(SLIPrincipal principal) {
         String encodedLogoutRequest = saml.createSamlLogoutRequest(principal.getRealm(), principal.getName());
         String sloEndpoint = getSloEndpoint(principal.getRealm());
         String url = sloEndpoint + "?SAMLRequest=" + encodedLogoutRequest;
-
+        
         RestTemplate restTemplate = new RestTemplate();
-
-
+        
         HttpEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
-
-        //TODO response parse
-        //TODO return response.isSuccess();
-
+        
+        // TODO response parse
+        // TODO return response.isSuccess();
+        
         return false;
     }
-
+    
     private String getSloEndpoint(String realmId) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria(ID, NeutralCriteria.OPERATOR_EQUAL, realmId));
         Entity realm = fetchOne(EntityNames.REALM, neutralQuery);
-
+        
         if (realm == null) {
             throw new IllegalStateException("Failed to locate realm: " + realmId);
         }
-
+        
         return (String) realm.getBody().get(IDP_SLO_POST_ENDPOINT);
     }
-
+    
     @POST
     @Path("slo/response")
     public void processSingleLogoutResponsePost(@FormParam(value = "SAMLResponse") String responseData)
-        // @RequestParam(value = "SAMLResponse", required = false) String responseData)
+    // @RequestParam(value = "SAMLResponse", required = false) String responseData)
             throws Exception {
         LOG.debug("Received a SAML Response post for SLO via slo/response...");
         Document doc = saml.decodeSamlPost(responseData);
@@ -258,31 +245,31 @@ public class SamlFederationResource {
             System.err.println(e);
         }
     }
-
+    
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
         Iterable<Entity> results = repo.findAll(collection, neutralQuery);
-
+        
         if (!results.iterator().hasNext()) {
             throw new RuntimeException("Not found");
         }
-
+        
         return results.iterator().next();
     }
-
+    
     /**
      * Get metadata describing saml federation.
      * This is an unsecured (public) resource.
-     *
+     * 
      * @return Response containing saml metadata
      */
     @GET
     @Path("metadata")
     public Response getMetadata() {
-
+        
         if (!metadata.isEmpty()) {
             return Response.ok(metadata).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
-
+        
     }
 }

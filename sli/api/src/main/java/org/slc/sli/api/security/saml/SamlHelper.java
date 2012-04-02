@@ -1,23 +1,17 @@
 package org.slc.sli.api.security.saml;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.tuple.Pair;
-import org.jdom.Attribute;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.input.DOMBuilder;
-import org.jdom.output.DOMOutputter;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.slc.sli.api.security.saml2.SAML2Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.UUID;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
 
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
@@ -28,14 +22,26 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.net.URLEncoder;
-import java.util.UUID;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.Namespace;
+import org.jdom.input.DOMBuilder;
+import org.jdom.output.DOMOutputter;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+
+import org.slc.sli.api.security.saml2.SAML2Validator;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -141,6 +147,19 @@ public class SamlHelper {
         }
     }
     
+    public Document decodeSamlRedirect(String redirectData) {
+        try {
+            String xml = encodedStringToXml(redirectData);
+            
+            LOG.debug(xml);
+            
+            org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(xml)));
+            return this.builder.build(doc);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to decode redirect payload");
+        }
+    }
+    
     /**
      * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
      * 
@@ -205,19 +224,19 @@ public class SamlHelper {
     /**
      * Composes a Logout Request (for SP-initiated Single Logout). Example of Logout Request:
      * 
-     * <samlp:LogoutRequest 
-     *   xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
-     *   ID="21B78E9C6C8ECF16F01E4A0F15AB2D46"
-     *   IssueInstant="2010-04-28T21:36:11.230Z"
-     *   Version="2.0">
-     *   <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com</saml2:Issuer>
-     *   <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
-     *     Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
-     *     NameQualifier="http://idp.ssocircle.com" 
-     *     SPNameQualifier="https://dloomac.service-now.com/navpage.do">
-     *       david.loo@service-now.com
-     *     </saml:NameID>
-     *   <samlp:SessionIndex>s211b2f811485b2a1d2cc4db2b271933c286771104</samlp:SessionIndex>
+     * <samlp:LogoutRequest
+     * xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+     * ID="21B78E9C6C8ECF16F01E4A0F15AB2D46"
+     * IssueInstant="2010-04-28T21:36:11.230Z"
+     * Version="2.0">
+     * <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com</saml2:Issuer>
+     * <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+     * Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+     * NameQualifier="http://idp.ssocircle.com"
+     * SPNameQualifier="https://dloomac.service-now.com/navpage.do">
+     * david.loo@service-now.com
+     * </saml:NameID>
+     * <samlp:SessionIndex>s211b2f811485b2a1d2cc4db2b271933c286771104</samlp:SessionIndex>
      * </samlp:LogoutRequest>
      * 
      * @param destination IDP endpoint
@@ -238,16 +257,21 @@ public class SamlHelper {
         issuer.addContent(this.issuerName);
         doc.getRootElement().addContent(issuer);
         
+        Element sessionIndex = new Element("SessionIndex", SAMLP_NS);
+        String index = "s23473eaae180f98f6dd4829a72b90461baa766e01";
+        sessionIndex.setText(index);
+        doc.getRootElement().addContent(sessionIndex);
+        
         Element nameId = new Element("NameID", SAML_NS);
-        if(destination.contains("adfs")) {
+        if (destination.contains("adfs")) {
             nameId.getAttributes().add(new Attribute("Format", "http://schemas.xmlsoap.org/claims/UPN")); // http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn
         } else {
             nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
         }
-        nameId.getAttributes().add(new Attribute("NameQualifier", destination)); 
+        nameId.getAttributes().add(new Attribute("NameQualifier", destination));
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
         nameId.setText(userId);
-
+        
         doc.getRootElement().addContent(nameId);
         
         // SAML 2.0 specification defines SessionIndex tag as:
@@ -347,5 +371,26 @@ public class SamlHelper {
         deflaterOutputStream.close();
         String base64 = Base64.encodeBase64String(byteArrayOutputStream.toByteArray());
         return URLEncoder.encode(base64, "UTF-8");
+    }
+    
+    private static String encodedStringToXml(String msg) throws DataFormatException, UnsupportedEncodingException {
+        msg = URLDecoder.decode(msg, "UTF-8");
+        
+        byte[] bytes = Base64.decodeBase64(msg);
+        
+        Inflater inf = new Inflater(true);
+        inf.setInput(bytes);
+        
+        byte[] result = new byte[10024];
+        
+        int len = 0;
+        while (!inf.finished()) {
+            len = inf.inflate(result);
+        }
+        
+        inf.end();
+        
+        return new String(result, 0, len, "UTF-8");
+        
     }
 }
