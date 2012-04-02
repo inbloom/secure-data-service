@@ -130,7 +130,7 @@ public class SchoolGenerator {
             school.setTitleIPartASchoolDesignation(TitleIPartASchoolDesignationType.NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL) ;
             school.setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType.ALL_STUDENTS_PARTICIPATE) ;
             school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL) ;
-            
+
             EducationalOrgIdentityType edOrgIdenType = new EducationalOrgIdentityType();
             // TODO remove hardcoded story data value used for testing
             edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add("IL-SUNSET");
@@ -150,9 +150,19 @@ public class SchoolGenerator {
         return school;
     }
 
-    public static School getFastSchool(String schoolId) {
+    public static School getFastSchool(String schoolId, String leaId) {
         School school = new School();
         school.setStateOrganizationId(schoolId);
+
+        // construct and add the SEA reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
+
+        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        school.setLocalEducationAgencyReference(leaRef);
+
         return school;
     }
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
@@ -139,9 +138,18 @@ public class SessionGenerator {
         }
     }
 
-    public static ComplexObjectType getFastSession(String id) {
+    public static Session getFastSession(String id, String schoolId) {
         Session session = new Session();
         session.setSessionName(id);
+
+        // construct and add the school reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+
+        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        session.setEducationOrganizationReference(schoolRef);
         return session;
     }
 

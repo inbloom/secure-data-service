@@ -10,6 +10,8 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
+import org.slc.sli.test.edfi.entities.SessionIdentityType;
+import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
 
 public class SectionGenerator {
@@ -46,9 +48,37 @@ public class SectionGenerator {
         return s;
     }
 
-    public static Section getFastSection(String sectionId) {
+    public static Section getFastSection(String sectionId, String schoolId, String courseId, String sessionId) {
         Section section = new Section();
         section.setUniqueSectionCode(sectionId);
+
+        // construct and add the school reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+
+        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        section.setSchoolReference(schoolRef);
+
+        // construct and add the course reference
+        CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
+        courseOfferingIdentity.setLocalCourseCode(courseId);
+
+        CourseOfferingReferenceType courseRef = new CourseOfferingReferenceType();
+        courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
+
+        section.setCourseOfferingReference(courseRef);
+
+        // construct and add the session reference
+        SessionIdentityType sessionIdentity = new SessionIdentityType();
+        sessionIdentity.setSessionName(sessionId);
+
+        SessionReferenceType sessionRef = new SessionReferenceType();
+        sessionRef.setSessionIdentity(sessionIdentity);
+
+        section.setSessionReference(sessionRef);
+
         return section;
     }
 }
