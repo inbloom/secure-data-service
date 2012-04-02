@@ -10,6 +10,7 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
+import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
@@ -80,5 +81,9 @@ public class SectionGenerator {
         section.setSessionReference(sessionRef);
 
         return section;
+    }
+
+    public static SectionReferenceType getSessionRerence() {
+        return null;
     }
 }

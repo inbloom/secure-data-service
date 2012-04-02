@@ -11,6 +11,7 @@ import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 import org.slc.sli.test.edfi.entities.Session;
+import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
 
 public class SessionGenerator {
@@ -221,4 +222,8 @@ public class SessionGenerator {
 
     }
 
+    public static SessionReferenceType getSessionReferenceType()
+    {
+    	return null;
+    }
 }
