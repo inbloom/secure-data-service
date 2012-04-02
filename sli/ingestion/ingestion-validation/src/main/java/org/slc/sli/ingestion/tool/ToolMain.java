@@ -1,12 +1,15 @@
 package org.slc.sli.ingestion.tool;
 
+import java.io.IOException;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
 public class ToolMain{
 
-    public static void main(String [] args){
-    	ApplicationContext context =
+    public static void main(String [] args) throws IOException{
+        ApplicationContext context =
                 new ClassPathXmlApplicationContext("spring/validatorContext.xml");
 
     	ToolMain main = context.getBean(ToolMain.class);
@@ -14,19 +17,18 @@ public class ToolMain{
 
     }
 
-    private Validation validation;
-	private void start(String[] args){
-		//XsdValidator xsd = (XsdValidator) validators.get(0);
-	    validation.validate(args);
-	}
+    private ValidationController controller;
+    private void start(String[] args){
+        controller.doValidation()
+    }
 
-	public void setValidation(Validation validation){
-	    this.validation = validation;
-	}
+    public void setValidationController(ValidationController controller){
+        this.controller = controller;
+    }
 
-	public Validation getValidation(){
-	    return validation;
-	}
+    public ValidationController getValidation(){
+        return controller;
+    }
 
 }
 
