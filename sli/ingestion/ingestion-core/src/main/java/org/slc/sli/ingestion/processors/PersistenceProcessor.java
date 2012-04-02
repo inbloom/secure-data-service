@@ -101,7 +101,7 @@ public class PersistenceProcessor implements Processor {
             LOG.info("processing persistence: {}", job);
 
             // Create the database for this job.
-            neutralRecordMongoAccess.changeMongoTemplate(job.getId());
+            neutralRecordMongoAccess.registerBatchId(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
@@ -146,8 +146,7 @@ public class PersistenceProcessor implements Processor {
             LOG.error("Exception:", exception);
 
         } finally {
-            // Drop the database for this job.
-            neutralRecordMongoAccess.dropDatabase();
+            neutralRecordMongoAccess.cleanupGroupedCollections();
         }
     }
 
@@ -310,7 +309,7 @@ public class PersistenceProcessor implements Processor {
 
         ArrayList<String> collections = new ArrayList<String>();
 
-        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getTemplate().getCollectionNames();
+        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionNames();
         Iterator<String> iter = data.iterator();
 
         String collectionName;

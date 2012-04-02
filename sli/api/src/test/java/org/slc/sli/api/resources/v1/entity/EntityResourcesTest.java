@@ -15,9 +15,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,10 +43,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -66,8 +65,8 @@ public class EntityResourcesTest {
     private String packageName;
     private String[] classesToTest;
 
-//    @Autowired
-    CrudEndpoint crudEndPoint;
+    @Autowired
+    EntityDefinitionStore entityDefs;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -93,51 +92,28 @@ public class EntityResourcesTest {
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-    public Map<String, Object> createTestEntity(String resourceName) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", "1");
-        entity.put("field2", 2);
-        entity.put(getResourceIdName(resourceName), 1234);
-        return entity;
-    }
-
-    public Map<String, Object> createTestUpdateEntity(String resourceName) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 8);
-        entity.put("field2", 2);
-        entity.put(getResourceIdName(resourceName), 1234);
-        return entity;
-    }
-
-    public Map<String, Object> createTestSecondaryEntity(String resourceName) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("field1", 5);
-        entity.put("field2", 6);
-        entity.put(getResourceIdName(resourceName), 5678);
-        return entity;
-    }
-
     @Test
-    public void dummyTest() {
-        return;
-    }
-    
-//    @Test
     public void testCreate() {
         for (String classToTest : classesToTest) {
+            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+                continue;
+            }
             String resourceName = classToTest.replace(packageName + ".", "");
-            Response response = getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName)));
+            Response response = getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             assertNotNull("Response is null", response);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
             assertNotNull("ID should not be null", parseIdFromLocation(response));
         }
     }
 
-//    @Test
+    @Test
     public void testRead() {
         for (String classToTest : classesToTest) {
+            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+                continue;
+            }
             String resourceName = classToTest.replace(packageName + ".", "");
-            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
+            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
             Response response = getReadResponse(classToTest, id);
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
@@ -148,30 +124,39 @@ public class EntityResourcesTest {
         }
     }
 
-//    @Test
+    @Test
     public void testUpdate() {
         for (String classToTest : classesToTest) {
+            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+                continue;
+            }
             Response response = getUpdateResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
         }
     }
 
-//    @Test
+    @Test
     public void testDelete() {
         for (String classToTest : classesToTest) {
+            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+                continue;
+            }
             Response response = getDeleteResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
         }
     }
 
-//    @Test
+    @Test
     public void testReadAll() {
         for (String classToTest : classesToTest) {
+            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+                continue;
+            }
             String resourceName = classToTest.replace(packageName + ".", "");
-            getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName)));
-            getCreateResponse(classToTest, new EntityBody(createTestSecondaryEntity(resourceName)));
+            getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
+            getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestSecondaryEntity(resourceName)));
             Response response = getReadAllResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
@@ -198,18 +183,17 @@ public class EntityResourcesTest {
 
         return getResponse(classToTest, "read", paramTypes, args);
     }
-    
+
     private Response getUpdateResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
+        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
-        Object[] args = { id, new EntityBody(createTestUpdateEntity(resourceName)), httpHeaders, uriInfo };
+        Object[] args = { id, new EntityBody(ResourceTestUtil.createTestUpdateEntity(resourceName)), httpHeaders, uriInfo };
         Response response = getResponse(classToTest, "update", paramTypes, args);
 
-        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-        resId = resId.replace("Resource", "Id");
+        String resId = ResourceTestUtil.getResourceIdName(resourceName);
         EntityBody body = (EntityBody) getReadResponse(classToTest, id).getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals("field1 should be 8", body.get("field1"), 8);
@@ -221,7 +205,7 @@ public class EntityResourcesTest {
     
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(createTestEntity(resourceName))));
+        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };        
@@ -253,8 +237,8 @@ public class EntityResourcesTest {
         Response response = null;        
         try {
             Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(CrudEndpoint.class);
-            Object instance = ct.newInstance(crudEndPoint);
+            Constructor ct = cls.getConstructor(EntityDefinitionStore.class);
+            Object instance = ct.newInstance(entityDefs);
             Method method = cls.getMethod(methodName, paramTypes);
             response = (Response) method.invoke(instance, args);
         } catch (ClassNotFoundException e) {
@@ -312,12 +296,6 @@ public class EntityResourcesTest {
             }
         }
         return classes;
-    }
-
-    private String getResourceIdName(String resourceName) {
-        String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
-        resId = resId.replace("Resource", "Id");
-        return resId;
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
