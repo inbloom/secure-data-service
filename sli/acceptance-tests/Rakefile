@@ -249,7 +249,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SortingAndPagingTests,
                      :v1ListTests,
                      :v1TargetTests,
-                     :v1EndUserStoryAssessmentTests] do
+                     :v1EndUserStoryAssessmentTests,
+                     :v1StudentOptionalFieldsTests] do
   displayFailureReport()
 end
 
@@ -634,6 +635,12 @@ desc "Run V1 Custom entity User Story Tests"
 task :v1EndUserStoryCustomEntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/CustomEntities/CustomEntities.feature")
+end
+
+desc "Run V1 Student Optional Fields Tests"
+task :v1StudentOptionalFieldsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
 end
 
 ############################################################
