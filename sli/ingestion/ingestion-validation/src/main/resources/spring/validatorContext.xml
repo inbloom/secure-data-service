@@ -11,11 +11,10 @@
 <import resource="classpath:/spring/validation-context.xml" />
 
   <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
-      <bean class="org.slc.sli.ingestion.validation.XsdValidator" />
+      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
   </util:list>
 
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
-        <!-- <property name="validation" ref="validation"></property>-->
         <property name="appName" value="validationTool" />
         <property name="n_args" value="1" />
     </bean>
@@ -27,13 +26,14 @@
          <property name="messageSource" ref="messageSource"/>
     </bean>
 
-     <bean id="ctlValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation">
+     <bean id="ctlFileValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation">
          <property name="assembler" ref= "assembler"/>
      </bean>
 
-    <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
-       <property name="zipValidation" ref="zipValidation" />
-       <property name="ctlValidation" ref="ctlValidation" />
-    </bean>
 
+    <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
+        <property name="zipValidation" ref="zipValidation"/>
+        <property name="ctlValidation" ref="ctlFileValidation"/>
+        <property name="validators" ref="validators"/>
+     </bean>
 </beans>

@@ -31,7 +31,7 @@ public class ToolMain{
             return ;
         }
 
-        String landing_zone = args[0];
+        String landing_zone = args[1];
 
         controller.doValidation(landing_zone);
     }

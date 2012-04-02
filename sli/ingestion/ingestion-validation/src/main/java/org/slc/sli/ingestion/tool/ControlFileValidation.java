@@ -32,4 +32,5 @@ public class ControlFileValidation {
     public BatchJobAssembler getAssembler(){
         return assembler;
     }
+
 }
