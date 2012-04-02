@@ -19,7 +19,6 @@ Scenario: Check user has multiple views available
   And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
   And I wait for "2" seconds
-  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -28,13 +27,13 @@ Scenario: Check user has multiple views available
     And I should have a selectable view named "IL_3-8_ELA"
     And I should have a selectable view named "IL_9-12"
 
+
 Scenario: Views are filtered based on student grades
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
   And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
   And I wait for "2" seconds
-  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
@@ -47,7 +46,6 @@ Scenario: Check changing view changes table headings
   And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
   And I wait for "2" seconds
-  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -59,14 +57,13 @@ Scenario: Check changing view changes table headings
   Then I should see a table heading "Reading Test Scores (Highest)"
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
-
+    
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
   And I wait for "1" seconds
   When I login as "rbraverman" "rbraverman1234"
   And I wait for "2" seconds
-  When I click on the Dashboard page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"

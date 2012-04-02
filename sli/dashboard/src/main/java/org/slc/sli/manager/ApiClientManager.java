@@ -1,6 +1,7 @@
 package org.slc.sli.manager;
 
 import org.slc.sli.client.APIClient;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  *
@@ -20,5 +21,10 @@ public abstract class ApiClientManager implements Manager {
     public void setApiClient(APIClient apiClient) {
         this.apiClient = apiClient;
     }
+    
+    public static final String DUMMY_EDORG_NAME = "No Ed-Org";
 
+    protected String getToken() {
+        return SecurityUtil.getToken();
+    }
 }
