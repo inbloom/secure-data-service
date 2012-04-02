@@ -67,3 +67,11 @@ Then /^I should receive a key value pair "([^"]*)" : "([^"]*)" in the result$/ d
   assert(@result.has_key?(key), "Response does not contain key #{key}")
   assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
 end
+
+Then /^I should receive a Location header for the custom entity$/ do
+  headers = @res.raw_headers
+  headers.should_not == nil
+  headers['location'].should_not == nil
+  headers['location'].length.should == 1
+  headers['location'][0].should match %r{.+/educationOrganizations/[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+/custom}
+end
