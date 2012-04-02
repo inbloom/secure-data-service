@@ -12,23 +12,18 @@ import org.slc.sli.validation.EntityValidationException;
  * @author npandey
  *
  */
-public class XsdErrorHandler implements ErrorHandler {
+public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private ErrorReport errorReport;
 
     private MessageSource messageSource;
 
-    public MessageSource getMessageSource() {
-        return messageSource;
-    }
-
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
+    private boolean isValid;
 
     public XsdErrorHandler(ErrorReport errorReport)
     {
         this.errorReport = errorReport;
+        setIsValid(true);
     }
 
     /**
@@ -38,7 +33,7 @@ public class XsdErrorHandler implements ErrorHandler {
      *            Parser exception thrown by SAX
      */
     public void warning(SAXParseException ex) {
-        errorReport.error(getFailureMessage("MessageName", "param" ,XsdValidator.class));
+        errorReport.error(getFailureMessage("MessageName", "param", XsdValidator.class));
     }
 
     /**
@@ -48,7 +43,9 @@ public class XsdErrorHandler implements ErrorHandler {
      *            Parser exception thrown by SAX
      */
     public void error(SAXParseException ex) {
-        errorReport.error(getFailureMessage("MessageName", "param",XsdValidator.class));
+        errorReport.error(getFailureMessage("MessageName", "param", XsdValidator.class));
+        setIsValid(false);
+
     }
 
     /**
@@ -60,6 +57,7 @@ public class XsdErrorHandler implements ErrorHandler {
      *             Parser exception thrown by SAX
      */
     public void fatalError(SAXParseException ex) throws SAXException {
+        setIsValid(false);
         throw ex;
     }
 
@@ -74,6 +72,25 @@ public class XsdErrorHandler implements ErrorHandler {
    private String getErrorMessage(String saxErrorMessage) {
         // Convert the SAX error message into an ingestion error message.
         return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+    }
+
+   public MessageSource getMessageSource() {
+       return messageSource;
+   }
+
+   public void setMessageSource(MessageSource messageSource) {
+       this.messageSource = messageSource;
+   }
+
+    @Override
+    public void setIsValid(boolean value) {
+        isValid = value;
+
+    }
+
+    @Override
+    public boolean isValid() {
+        return isValid;
     }
 
 }

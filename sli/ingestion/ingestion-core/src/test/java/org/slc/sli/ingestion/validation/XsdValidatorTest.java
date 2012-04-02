@@ -7,14 +7,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -29,8 +29,16 @@ public class XsdValidatorTest {
     private XsdValidator xsdValidator;
 
     @Test
-    public void testIsValid() {
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml", "");
+    public void testValidXml() throws IOException{
+        Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
+        Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
+    }
+
+    @Test
+    public void testInValidXml() throws IOException{
+        Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-InValid.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
