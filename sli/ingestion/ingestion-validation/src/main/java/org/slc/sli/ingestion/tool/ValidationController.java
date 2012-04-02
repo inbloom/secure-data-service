@@ -10,7 +10,15 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+//import ch.qos.logback.classic.Logger;
+
+
+/*
+ * Validation Controller reads zip file or ctl file in a give directory and applies set of pre-defined validators.
+ * @author mpatel
+ */
 
 public class ValidationController {
 
@@ -20,12 +28,14 @@ public class ValidationController {
 
 	private LocalFileSystemLandingZone lz;
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
+
 	ValidationController() {
 		lz = new LocalFileSystemLandingZone();
 	}
 
-
-	void doValidation(String dirName) throws IOException {
+	/* retrieve zip file or control file from the input directory and invoke relevant validator */
+	void doValidation(String dirName) {
 		File directory = new File(dirName);
 		BatchJob job=null;
 
@@ -44,7 +54,13 @@ public class ValidationController {
 	    }
 
 	    if (job != null ) {
-           Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
+	       Logger jobLogger = null;
+	       try {
+               jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
+	       } catch (IOException ex) {
+        	   LOG.error("error creating logger..." + ex);
+           }
+
            FaultsReport fr = job.getFaultsReport();
 
            for (Fault fault : fr.getFaults()) {
@@ -58,18 +74,26 @@ public class ValidationController {
 
 	}
 
-	File zipFileValidation(String fileName) throws IOException {
+	/* validate zip file and return control file for further validation */
+	File zipFileValidation(String fileName) {
 		BatchJob job = BatchJob.createDefault(fileName);
 		File zFile = new File(fileName);
 		return zipValidation.validate(zFile, job);
 	}
 
-	BatchJob ctlFileValidation(String fileName) throws IOException {
+	/* validate control file */
+	BatchJob ctlFileValidation(String fileName) {
 		File ctlFile = new File(fileName);
-	   	ControlFile cfile = ControlFile.parse(ctlFile);
-    	ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
-        BatchJob job = BatchJob.createDefault(fileName);
-		ctlValidation.validate(cfd, job);
+		BatchJob job = null;
+
+		try {
+	         ControlFile cfile = ControlFile.parse(ctlFile);
+    	     ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
+             job = BatchJob.createDefault(fileName);
+		     ctlValidation.validate(cfd, job);
+		} catch(IOException ex) {
+			 LOG.error("exception parsing control file" + fileName + ex);
+		}
 		return job;
 	}
 
