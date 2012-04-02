@@ -5,8 +5,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
-import ch.qos.logback.classic.Logger;
-
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
@@ -16,6 +14,15 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/*
+ * Validation Controller reads zip file or ctl file in a give directory and applies set of pre-defined validators.
+ * @author mpatel
+ */
 
 public class ValidationController {
 
@@ -27,14 +34,16 @@ public class ValidationController {
 
     private List<SimpleValidatorSpring> validators;
 
-    ValidationController() {
-        lz = new LocalFileSystemLandingZone();
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
+	ValidationController() {
+		lz = new LocalFileSystemLandingZone();
+	}
 
-    void doValidation(String dirName) throws IOException {
-        File directory = new File(dirName);
-        BatchJob job=null;
+	/* retrieve zip file or control file from the input directory and invoke relevant validator */
+	void doValidation(String dirName) {
+		File directory = new File(dirName);
+		BatchJob job=null;
 
         ZipFilter zFilter = new ZipFilter();
         String[] zipFiles=directory.list(zFilter);
@@ -55,8 +64,14 @@ public class ValidationController {
                 validator.isValid(ife, job.getFaultsReport());
             }
         }
-        if (job != null ) {
-           Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
+	    if (job != null ) {
+	       Logger jobLogger = null;
+	       try {
+               jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
+	       } catch (IOException ex) {
+        	   LOG.error("error creating logger..." + ex);
+           }
+
            FaultsReport fr = job.getFaultsReport();
 
            for (Fault fault : fr.getFaults()) {
@@ -69,21 +84,6 @@ public class ValidationController {
        }
 
     }
-
-        File zipFileValidation(String fileName) throws IOException {
-            BatchJob job = BatchJob.createDefault(fileName);
-            File zFile = new File(fileName);
-            return zipValidation.validate(zFile, job);
-        }
-
-        BatchJob ctlFileValidation(String fileName) throws IOException {
-            File ctlFile = new File(fileName);
-            ControlFile cfile = ControlFile.parse(ctlFile);
-            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
-            BatchJob job = BatchJob.createDefault(fileName);
-            ctlValidation.validate(cfd, job);
-            return job;
-        }
 
         public void setZipValidation(ZipValidation zv) {
             zipValidation = zv;
@@ -123,5 +123,25 @@ public class ValidationController {
         }
     }
 
+    /* validate zip file and return control file for further validation */
+    File zipFileValidation(String fileName) {
+        BatchJob job = BatchJob.createDefault(fileName);
+        File zFile = new File(fileName);
+        return zipValidation.validate(zFile, job);
+    }
 
+    /* validate control file */
+    BatchJob ctlFileValidation(String fileName) {
+        File ctlFile = new File(fileName);
+        BatchJob job = null;
+        try {
+            ControlFile cfile = ControlFile.parse(ctlFile);
+            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
+             job = BatchJob.createDefault(fileName);
+             ctlValidation.validate(cfd, job);
+        } catch(IOException ex) {
+            LOG.error("exception parsing control file" + fileName + ex);
+        }
+        return job;
+    }
 }

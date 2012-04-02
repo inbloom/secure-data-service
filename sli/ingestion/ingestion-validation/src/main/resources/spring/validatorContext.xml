@@ -15,12 +15,11 @@
   </util:list>
 
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
-        <!-- <property name="validation" ref="validation"></property>-->
         <property name="appName" value="validationTool" />
         <property name="n_args" value="1" />
     </bean>
 
-    <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator" />
+    <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator"/>
 
     <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
          <property name="validator" ref="zipFileValidator"/>
@@ -34,5 +33,4 @@
         <property name="ctlValidation" ref="ctlFileValidation"/>
         <property name="validators" ref="validators"/>
      </bean>
-
 </beans>
