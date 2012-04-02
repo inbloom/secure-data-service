@@ -19,6 +19,7 @@ import org.slc.sli.ingestion.landingzone.validation.IngestionFileValidator;
 
 /**
  * ControlFileValidation is used to validate the control file
+ *
  * @author tke
  *
  */
@@ -26,23 +27,29 @@ public class ControlFileValidation {
 
     /**
      * Validate the control file specified by control file descriptor
-     * @param control file descriptor
-     * @param the batch job
+     *
+     * @param control
+     *            file descriptor
+     * @param the
+     *            batch job
      * @return the batch job from the assembler
      */
-    BatchJob validate(ControlFileDescriptor fileDesc, BatchJob job){
+    BatchJob validate(ControlFileDescriptor fileDesc, BatchJob job) {
         BatchJobAssembler assembler = new BatchJobAssembler();
         return assembler.assembleJob(fileDesc);
     }
 
     /**
      * Validate the control file specified by the location of the file
-     * @param dir   : specifies the landing zone directory
-     * @param ctrFile   : specifies the name of the control file
+     *
+     * @param dir
+     *            : specifies the landing zone directory
+     * @param ctrFile
+     *            : specifies the name of the control file
      * @throws IOException
      */
-    boolean validate(String dir, String ctrFile) throws IOException{
-        LocalFileSystemLandingZone lz  = new LocalFileSystemLandingZone();
+    boolean validate(String dir, String ctrFile) throws IOException {
+        LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
         lz.setDirectory(new File(dir));
         ControlFile cf = ControlFile.parse(new File(dir + ctrFile));
         ControlFileDescriptor fileDesc = new ControlFileDescriptor(cf, lz);
