@@ -47,8 +47,15 @@ public class CustomEntityResourceTest {
     public void testRead() {
         Response res = resource.read();
         assertNotNull(res);
-        assertEquals(Status.OK.getStatusCode(), res.getStatus());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
         Mockito.verify(service).getCustom("TEST-ID");
+        
+        EntityBody mockBody = Mockito.mock(EntityBody.class);
+        Mockito.when(service.getCustom("TEST-ID")).thenReturn(mockBody);
+        res = resource.read();
+        assertNotNull(res);
+        assertEquals(Status.OK.getStatusCode(), res.getStatus());
+        Mockito.verify(service, Mockito.atLeast(2)).getCustom("TEST-ID");
     }
     
     @Test

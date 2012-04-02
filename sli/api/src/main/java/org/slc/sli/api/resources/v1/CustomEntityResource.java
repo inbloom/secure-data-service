@@ -35,6 +35,9 @@ public class CustomEntityResource {
             return Response.status(Status.NOT_FOUND).build();
         }
         EntityBody entityBody = entityDef.getService().getCustom(entityId);
+        if (entityBody == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
         return Response.status(Status.OK).entity(entityBody).build();
     }
     
