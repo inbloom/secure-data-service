@@ -37,28 +37,4 @@ public class ControlFileValidation {
         BatchJobAssembler assembler = new BatchJobAssembler();
         assembler.populateJob(fileDesc, job);
     }
-
-    /**
-     * Validate the control file specified by the location of the file
-     *
-     * @param dir
-     *            : specifies the landing zone directory
-     * @param ctrFile
-     *            : specifies the name of the control file
-     * @throws IOException
-     */
-    boolean validate(String dir, String ctrFile) throws IOException {
-        LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
-        lz.setDirectory(new File(dir));
-        ControlFile cf = ControlFile.parse(new File(dir + ctrFile));
-        ControlFileDescriptor fileDesc = new ControlFileDescriptor(cf, lz);
-        ControlFileValidator cfValidator = new ControlFileValidator();
-        List<IngestionFileValidator> ingestionFileValidators = new ArrayList<IngestionFileValidator>();
-        ingestionFileValidators.add(new FileFormatValidator());
-        ingestionFileValidators.add(new FileTypeValidator());
-        ingestionFileValidators.add(new ChecksumValidator());
-        cfValidator.setIngestionFileValidators(ingestionFileValidators);
-        FaultsReport errorReport = new FaultsReport();
-        return cfValidator.isValid(fileDesc, errorReport);
-    }
 }
