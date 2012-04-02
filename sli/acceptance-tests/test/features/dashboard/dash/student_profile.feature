@@ -109,8 +109,10 @@ And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "FRE"
 #Display hide tabs based on grades
-And there are "5" Tabs
-And Tab has a title named "Overview"
+And there are "7" Tabs
+And Tab has a title named "Elementary School Overview"
+And Tab has a title named "Middle School Overview"
+And Tab has a title named "High School Overview"
 	
 @wip
 Scenario: View a student with other name
