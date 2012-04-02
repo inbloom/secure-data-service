@@ -97,7 +97,7 @@ public class ValidationController {
 		return job;
 	}
 
-	void setZipValidation(ZipValidation zv) {
+	public void setZipValidation(ZipValidation zv) {
 		zipValidation = zv;
 	}
 
@@ -105,7 +105,7 @@ public class ValidationController {
 		return zipValidation;
 	}
 
-	void setCtlValidation(ControlFileValidation cv) {
+	public void setCtlValidation(ControlFileValidation cv) {
 		ctlValidation = cv;
 	}
 
