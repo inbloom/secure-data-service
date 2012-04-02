@@ -33,8 +33,10 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
 
     private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         boolean isEmpty = false;
+        BufferedReader br = null;
+        
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileEntry.getFile()));
+            br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
                 errorReport.fatal(getFailureMessage("SL_ERR_MSG13", fileEntry.getFileName()), XmlFileValidator.class);
                 isEmpty = true;
@@ -47,7 +49,14 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
             LOG.error("Problem reading file: " + fileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        
         return isEmpty;
     }
 
