@@ -74,7 +74,7 @@ And the lozenges count is "2"
 And the lozenges include "FRE"
 And the lozenges include "ELL"
 #Display hide tabs based on grades
-And there are "6" Tabs
+And there are "7" Tabs
 And in Tab ID "8", there is "1" Panels
 And in Tab ID "2", there is "1" Panels
 And in Tab ID "3", there is "0" Panels
@@ -108,7 +108,7 @@ And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "FRE"
 #Display hide tabs based on grades
-And there are "7" Tabs
+And there are "8" Tabs
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "High School Overview"

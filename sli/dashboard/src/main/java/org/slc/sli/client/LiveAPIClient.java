@@ -71,13 +71,7 @@ public class LiveAPIClient implements APIClient {
         String teacherId = getId(token);
         List<GenericEntity> sections = getSectionsForTeacher(teacherId, token);
         List<GenericEntity> schools = getSchoolsForSection(sections, token);
-
-        List<GenericEntity> schoolList = new ArrayList<GenericEntity>();
-
-        for (GenericEntity school : schools) {
-            schoolList.add(school);
-        }
-        return schoolList;
+        return schools;
     }
 
     /**

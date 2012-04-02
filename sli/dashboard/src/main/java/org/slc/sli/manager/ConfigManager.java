@@ -295,7 +295,7 @@ public class ConfigManager extends ApiClientManager {
         
         return getConfigByPath(getCustomConfigPathForUserDomain(token), componentId);
     }
-
+    
     public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
         this.institutionalHierarchyManager = institutionalHierarchyManager;
     }
