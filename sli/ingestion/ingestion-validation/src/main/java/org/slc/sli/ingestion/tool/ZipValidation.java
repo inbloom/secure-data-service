@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
 
 /**
+ * Zip Validation and extraction class.
  *
  * @author npandey
  *
@@ -24,6 +25,15 @@ public class ZipValidation implements MessageSourceAware {
 
     private MessageSource messageSource;
 
+    /**
+     * Validates the zip file and extracts its contents.
+     *
+     * @param zipFile
+     *            File representation the incoming zip file
+     * @param job
+     *            Batch Job
+     * @return control file extracted from the zip file. Null if the zip file was not valid.
+     */
     public File validate(File zipFile, BatchJob job) {
 
         File ctlFile = null;
