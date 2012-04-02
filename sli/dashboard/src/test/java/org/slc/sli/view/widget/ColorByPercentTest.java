@@ -1,9 +1,8 @@
-package org.slc.sli.unit.view.widget;
+package org.slc.sli.view.widget;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slc.sli.view.widget.ColorByPercent;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertEquals;

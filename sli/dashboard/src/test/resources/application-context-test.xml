@@ -10,11 +10,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 >
-
 	<!-- Scans within the base package of the application for @Components to configure as beans -->
-	<context:component-scan base-package="org.slc.sli.client,org.slc.sli.entity,org.slc.sli.manager,org.slc.sli.view">
+	<context:component-scan base-package="org.slc.sli.client,org.slc.sli.entity,org.slc.sli.manager,org.slc.sli.view,org.slc.sli.unit.manager">
 	</context:component-scan>
 
 	<context:annotation-config />	
-
+	
 </beans>
