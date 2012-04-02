@@ -42,7 +42,13 @@ public class PopulationManager implements Manager {
     public PopulationManager() {
         
     }
-    
+
+    /**
+     * Get assessments taken by a group of students
+     * @param token Toekn used to authenticate
+     * @param studentSummaries Student information
+     * @return unique set of assessment entities
+     */
     public List<GenericEntity> getAssessments(String token, List<GenericEntity> studentSummaries) {
         Set<GenericEntity> assessments = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
             @Override
@@ -51,14 +57,14 @@ public class PopulationManager implements Manager {
             }
         });
         for (GenericEntity studentSummary : studentSummaries) {
-            List<Map<String, Object>> studentAssessments = (List<Map<String, Object>>) studentSummary.get("studentAssessmentAssociations");
+            List<Map<String, Object>> studentAssessments = (List<Map<String, Object>>) studentSummary.get(Constants.ATTR_STUDENT_ASSESSMENTS);
             
             for (Map<String, Object> studentAssessment : studentAssessments) {
                 try {
                     GenericEntity assessment = new GenericEntity((Map) studentAssessment.get("assessments"));
                     assessments.add(assessment);
                 } catch (ClassCastException cce) {
-                    log.warn("whoops couldnt cast one");
+                    log.warn(cce.getMessage());
                 }
             }
         }

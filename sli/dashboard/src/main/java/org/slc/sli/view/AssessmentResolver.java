@@ -191,7 +191,7 @@ public class AssessmentResolver {
          * if (studentAssessmentFiltered.isEmpty()) { return null; }
          */
         
-        List<Map> studentAssmts = (List<Map>) (student.get("studentAssessmentAssociations"));
+        List<Map> studentAssmts = (List<Map>) (student.get(Constants.ATTR_STUDENT_ASSESSMENTS));
         
         List<GenericEntity> studentAssessmentFiltered = new ArrayList<GenericEntity>();
         for (Map studentAssmt : studentAssmts) {

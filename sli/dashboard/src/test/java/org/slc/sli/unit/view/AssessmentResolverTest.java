@@ -313,10 +313,10 @@ public class AssessmentResolverTest {
                 + "\"electronicMail\" : [], \"telephone\" : [], \"birthData\" : { \"birthDate\" : \"1994-01-09\" } }";
         Gson gson = new Gson();
         GenericEntity student = gson.fromJson(studentString, GenericEntity.class);
-        student.appendToList("studentAssessmentAssociations", createStudentAssessment());
-        student.appendToList("studentAssessmentAssociations", createStudentAssessmentWithPerfLevel());
-        student.appendToList("studentAssessmentAssociations", createStudentAssessmentWithObjAssmt());
-        student.appendToList("studentAssessmentAssociations", createStudentAssessmentWithObjAssmt1());
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessment());
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithPerfLevel());
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithObjAssmt());
+        student.appendToList(Constants.ATTR_STUDENT_ASSESSMENTS, createStudentAssessmentWithObjAssmt1());
         
         return student;
     }
