@@ -13,6 +13,9 @@
 		<Version>1</Version>
 		<RevisionDate>2005-10-12</RevisionDate>
 		<MaxRawScore>240</MaxRawScore>
+		<ObjectiveAssessmentReference ref="PSatWriting"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="PSatMath"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="PSatCritRead"></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
@@ -21,9 +24,6 @@
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
-		<ObjectiveAssessmentReference ref="PSatWriting"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="PSatMath"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="PSatCritRead"></ObjectiveAssessmentReference>
 	</Assessment>
 	
 	<AssessmentFamily id="PSAT-Family">
