@@ -22,15 +22,8 @@ public class ValidationController {
 
 	ValidationController() {
 		lz = new LocalFileSystemLandingZone();
-
 	}
 
-	public class CtlFilter implements FilenameFilter {
-	    public boolean accept(File d,String n)
-	    {
-	        return n.endsWith(".ctl");
-	    }
-	}
 
 	void doValidation(String dirName) throws IOException {
 		File directory = new File(dirName);
@@ -103,6 +96,14 @@ public class ValidationController {
 	        return n.endsWith(".zip");
 	    }
 	}
+
+	public class CtlFilter implements FilenameFilter {
+	    public boolean accept(File d,String n)
+	    {
+	        return n.endsWith(".ctl");
+	    }
+	}
+
 
 }
 
