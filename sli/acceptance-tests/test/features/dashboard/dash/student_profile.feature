@@ -73,7 +73,7 @@ And the lozenges include "FRE"
 And the lozenges include "ELL"
 #Display hide tabs based on grades
 And there are "7" Tabs
-And in Tab ID "8", there is "1" Panels
+And in Tab ID "8", there is "2" Panels
 And in Tab ID "2", there is "1" Panels
 And in Tab ID "3", there is "0" Panels
 And in Tab ID "4", there is "0" Panels 
