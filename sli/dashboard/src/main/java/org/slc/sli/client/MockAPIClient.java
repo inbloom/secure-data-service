@@ -54,6 +54,11 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return getStudents(token, studentIds);
+    }
+    
+    @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
