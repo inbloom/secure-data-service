@@ -270,7 +270,8 @@ task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1StudentSectionGradebookEntryTests,
                            :v1DisciplineIncidentTests,
                            :v1DisciplineActionTests,
-                           :v1TeacherTests] do
+                           :v1TeacherTests,
+                           :v1CohortTests] do
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -284,7 +285,9 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1StudentSectionAssociationTests,
                                 :v1StudentTranscriptAssociationTests,
                                 :v1TeacherSchoolAssociationTests,
-                                :v1TeacherSectionAssociationTests] do
+                                :v1TeacherSectionAssociationTests,
+                                :v1StaffCohortAssociationTests,
+                                :v1StudentCohortAssociationTests] do
 end
 
 desc "Run V1 Student Section Gradebook Entry Tests"
@@ -482,6 +485,26 @@ task :v1SessionCourseAssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/sessionCourseAssociation")
 end
 
+desc "Run V1 Staff Cohort Association Tests"
+task :v1StaffCohortAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("staff", "staff_fixture.json")
+  setFixture("cohort", "cohort_fixture.json")
+  setFixture("staffCohortAssociation", "staffCohortAssociation_fixture.json")
+  #run test
+  runTests("test/features/apiV1/associations/staffCohortAssociation")
+end
+
+desc "Run V1 Student Cohort Association Tests"
+task :v1StudentCohortAssociationTests => [:realmInit] do
+  #drop data, re add fixture data
+  setFixture("student", "student_fixture.json")
+  setFixture("cohort", "cohort_fixture.json")
+  setFixture("studentCohortAssociation", "studentCohortAssociation_fixture.json")
+  #run test
+  runTests("test/features/apiV1/associations/studentCohortAssociation")
+end
+
 desc "Run V1 Education Organization Tests"
 task :v1EducationOrganizationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
@@ -553,6 +576,11 @@ desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance","attendance","attendance_fixture.json")
+end
+
+desc "Run V1 Cohort Tests"
+task :v1CohortTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/cohort","cohort","cohort_fixture.json")
 end
 
 desc "Run V1 Home URI Tests"

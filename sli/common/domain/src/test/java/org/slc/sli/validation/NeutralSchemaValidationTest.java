@@ -338,13 +338,13 @@ public class NeutralSchemaValidationTest {
         readAndValidateFixtureData("src/test/resources/student_disciplineIncident_association_fixture_neutral.json", "studentSchoolAssociation");
     }
 
-/*    @Test
+    @Test
     public void testValidCohort() throws Exception {
-        this.addDummyEntity("educationalOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
-        this.addDummyEntity("educationalOrganization", "0a922b8a-7a3b-4320-8b34-0f7749b8b062");
-        this.addDummyEntity("educationalOrganization", "9f5cb095-8e99-49a9-b130-bedfa20639d2");
-        this.addDummyEntity("program", "09eced61-edd9-4826-a7bc-137ffecda877");
-        this.addDummyEntity("program", "310755a4-3473-4649-8a89-dbbb1ae86388");
+       this.addDummyEntity("educationOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
+        this.addDummyEntity("educationOrganization", "0a922b8a-7a3b-4320-8b34-0f7749b8b062");
+        this.addDummyEntity("educationOrganization", "9f5cb095-8e99-49a9-b130-bedfa20639d2");
+        this.addDummyEntity("program", "e8d33606-d114-4ee4-878b-90ac7fc3df16");
+        this.addDummyEntity("program", "cb292c7d-3503-414a-92a2-dc76a1585d79");
 
         readAndValidateFixtureData("src/test/resources/cohort_fixture_neutral.json", "cohort");
     }
@@ -369,11 +369,11 @@ public class NeutralSchemaValidationTest {
         this.addDummyEntity("student", "c7146300-5bb9-4cc6-8b95-9e401ce34a03");
         this.addDummyEntity("student", "4efb3a11-bc49-f388-0000-0000c93556fb");
         this.addDummyEntity("student", "4efb3a5e-bc49-f388-0000-0000c93556fc");
-        this.addDummyEntity("cohort", "9471d57e-e1c8-4f10-8d52-8e422ba2f2ab");
-        this.addDummyEntity("cohort", "d8db9f83-6bb1-4919-bb53-11e6e7fa9877");
-        this.addDummyEntity("cohort", "bd9a323a-d6fd-454f-98d9-edf2702d31e1");
+        this.addDummyEntity("cohort", "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826");
+        this.addDummyEntity("cohort", "a50121a2-c566-401b-99a5-71eb5cab5f4f");
+        this.addDummyEntity("cohort", "a6929135-4782-46f1-ab01-b4df2e6ad093");
 
-        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "cohort");
+        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "studentCohortAssociation");
     }
 
     @Test
@@ -382,15 +382,21 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("student");
         this.addDummyCollection("cohort");
 
-        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "cohort");
+        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "studentCohortAssociation");
     }
 
     @Test
     public void testValidStaffCohortAssociation() throws Exception {
-        this.addDummyEntity("staff", "");
-        this.addDummyEntity("cohort", ""); //TODO:SMR
+        this.addDummyEntity("staff", "f0e41d87-92d4-4850-9262-ed2f2723159b");
+        this.addDummyEntity("staff", "858bf25e-51b8-450a-ade6-adda0a570d9e");
+        this.addDummyEntity("staff", "55015e96-56dd-4d13-a091-5cef847ca085");
+        this.addDummyEntity("staff", "ad878c6d-4eaf-4a8a-8284-8fb6570cea64");
+        this.addDummyEntity("staff", "21e57d58-f775-4cc8-b759-d8d9d811b5b4");
+        this.addDummyEntity("cohort", "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826");
+        this.addDummyEntity("cohort", "a50121a2-c566-401b-99a5-71eb5cab5f4f");
+        this.addDummyEntity("cohort", "a6929135-4782-46f1-ab01-b4df2e6ad093");
 
-        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "cohort");
+        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "staffCohortAssociation");
     }
 
     @Test
@@ -399,9 +405,9 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("staff");
         this.addDummyCollection("cohort");
 
-        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "cohort");
+        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "staffCohortAssociation");
     }
-*/
+
     @SuppressWarnings("unchecked")
     private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
         BufferedReader reader = null;
