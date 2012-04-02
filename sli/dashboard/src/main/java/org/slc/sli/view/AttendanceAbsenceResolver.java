@@ -71,7 +71,9 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
             if (attendanceEvents != null) {
 
                 if (configField.getValue().equals(TARDY_VALUE)) {
-                    count = (Double) attendanceEvents.get("Tardy");
+                    if (attendanceEvents.get("Tardy") != null) {
+                        count = (Double) attendanceEvents.get("Tardy");
+                    }
                 } else if (configField.getValue().equals(ABSENT_VALUE)) {
                     for (Map.Entry<String, Object> e : attendanceEvents.entrySet()) {
                         if (e.getKey().contains("Absence")) {
