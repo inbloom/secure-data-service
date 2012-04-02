@@ -132,6 +132,8 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
+    public static final String ATTR_SCHOOL = "school";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
