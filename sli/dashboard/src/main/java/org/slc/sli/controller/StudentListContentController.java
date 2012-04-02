@@ -134,7 +134,7 @@ public class StudentListContentController extends DashboardController {
             
             // get student, program, attendance, and assessment result data
             List<GenericEntity> studentSummaries = populationManager.getStudentSummaries(SecurityUtil.getToken(), uids,
-                    viewConfig, sessionId);
+                    viewConfig, sessionId, selectedSectionId);
             StudentResolver studentResolver = new StudentResolver(studentSummaries);
             studentResolver.filterStudents(studentFilterName);
             

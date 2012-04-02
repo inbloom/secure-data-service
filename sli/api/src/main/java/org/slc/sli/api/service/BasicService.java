@@ -53,6 +53,10 @@ public class BasicService implements EntityService {
     
     private static final int MAX_RESULT_SIZE = 9999;
     
+    private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+    
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
@@ -163,7 +167,7 @@ public class BasicService implements EntityService {
             LOG.info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        
+        deleteAttachedCustomEntities(id);
     }
     
     @Override
@@ -302,7 +306,25 @@ public class BasicService implements EntityService {
         } else if (allowed.size() < 0) {
             LOG.debug("super list logic --> only true when using DefaultEntityContextResolver");
         } else {
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            Set<String> ids = new HashSet<String>();
+            List<NeutralCriteria> criterias = neutralQuery.getCriteria();
+            for (NeutralCriteria criteria : criterias) {
+                if (criteria.getKey().equals("_id")) {
+                    @SuppressWarnings("unchecked")
+                    List<String> idList = (List<String>) criteria.getValue();
+                    ids.addAll(idList);
+                }
+            }
+
+            if (!ids.isEmpty()) {
+                Set<String> allowedSet = new HashSet<String>(allowed);
+                ids.retainAll(allowedSet);
+
+                List<String> finalIds = new ArrayList<String>(ids);
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+            } else {
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            }
         }
         
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -343,19 +365,13 @@ public class BasicService implements EntityService {
         LOG.debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
                 this.getEntityDefinition().getType(), id, clientId });
         
-        // TODO assuming we can be "smart about this? Perhaps put this into the entity definition.
-        // -smelody
-        String customCollectionName = collectionName + "Custom";
-        
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("clientId", "=", clientId, true));
-        query.addCriteria(new NeutralCriteria("entityId", "=", id, true));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         
-        Entity entity = getRepo().findOne(customCollectionName, query);
+        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         if (entity != null) {
             EntityBody clonedBody = new EntityBody(entity.getBody());
-            clonedBody.remove("entityId");
-            clonedBody.remove("clientId");
             return clonedBody;
         } else {
             return null;
@@ -373,17 +389,16 @@ public class BasicService implements EntityService {
         String clientId = getClientId();
         
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("clientId", "=", clientId, true));
-        query.addCriteria(new NeutralCriteria("entityId", "=", id, true));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         
-        String customCollectionName = collectionName + "Custom";
-        Entity entity = getRepo().findOne(customCollectionName, query);
+        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
         
-        boolean deleted = getRepo().delete(customCollectionName, entity.getEntityId());
+        boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
         
         LOG.debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 this.getEntityDefinition().getType(), id, clientId, "" + deleted });
@@ -400,11 +415,10 @@ public class BasicService implements EntityService {
         String clientId = getClientId();
         
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("clientId", "=", clientId, true));
-        query.addCriteria(new NeutralCriteria("entityId", "=", id, true));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         
-        String customCollectionName = collectionName + "Custom";
-        Entity entity = getRepo().findOne(customCollectionName, query);
+        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         
         if (entity != null && entity.getBody().equals(customEntity)) {
             LOG.debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
@@ -419,15 +433,14 @@ public class BasicService implements EntityService {
                     this.getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
-            entity.getBody().put("clientId", clientId);
-            entity.getBody().put("entityId", id);
-            getRepo().update(customCollectionName, entity);
+            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
             LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     this.getEntityDefinition().getType(), id, clientId });
-            clonedEntity.put("clientId", clientId);
-            clonedEntity.put("entityId", id);
-            getRepo().create(customCollectionName, clonedEntity);
+            EntityBody metaData = new EntityBody();
+            metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
+            metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
+            getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
     
@@ -495,12 +508,23 @@ public class BasicService implements EntityService {
                         String idToBeDeleted = (String) entityBody.get("id");
                         // delete that entity as well
                         referencingEntityService.delete(idToBeDeleted);
+                        // delete custom entities attached to this entity
+                        deleteAttachedCustomEntities(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
                     LOG.debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
                 }
             }
+        }
+    }
+    
+    private void deleteAttachedCustomEntities(String sourceId) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
+        Iterable<String> ids = getRepo().findAllIds(CUSTOM_ENTITY_COLLECTION, query);
+        for (String id : ids) {
+            getRepo().delete(CUSTOM_ENTITY_COLLECTION, id);
         }
     }
     

@@ -57,4 +57,7 @@ DbRails::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Set the logging destination(s)
+  config.log_to = %w[file]
 end
