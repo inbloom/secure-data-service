@@ -14,8 +14,21 @@ import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.landingzone.validation.FileFormatValidator;
 import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
 import org.slc.sli.ingestion.landingzone.validation.IngestionFileValidator;
+import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Validation {
+
+    @Autowired
+    private List<SimpleValidatorSpring> validators;
+
+    boolean validate(String[] args){
+
+        for(SimpleValidatorSpring validator : validators){
+            System.out.println("validator" + validator.getClass().toString());
+        }
+        return false;
+    }
 
     void validateControlFile(String dir, String ctrFile) throws IOException{
         LocalFileSystemLandingZone lz  = new LocalFileSystemLandingZone();
@@ -30,5 +43,13 @@ public class Validation {
         cfValidator.setIngestionFileValidators(ingestionFileValidators);
         FaultsReport errorReport = new FaultsReport();
         cfValidator.isValid(fileDesc, errorReport);
+    }
+
+    public void setValidators(List<SimpleValidatorSpring> validators){
+        this.validators = validators;
+    }
+
+    public List<SimpleValidatorSpring> getValidators(){
+        return validators;
     }
 }
