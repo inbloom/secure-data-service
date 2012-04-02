@@ -1,4 +1,4 @@
-package org.slc.sli.unit.view.widget;
+package org.slc.sli.view.widget;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -12,7 +12,6 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import org.slc.sli.config.Field;
 import org.slc.sli.view.AggregateResolver;
-import org.slc.sli.view.widget.FieldCounter;
 
 /**
  * Basic test for Field Counter.
