@@ -224,7 +224,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     
     
     public boolean isCollectionGrouping() {
-        return threadStore.get("collectionGroupingFlag") != null;
+        if (threadStore.get("collectionGroupingFlag") != null) {
+            return (Boolean) threadStore.get("collectionGroupingFlag");
+        }
+        
+        return false;
     }
 
     public void setCollectionGrouping(boolean collectionGrouping) {
