@@ -2,11 +2,9 @@ package org.slc.sli.ingestion.tool;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
@@ -23,16 +21,12 @@ public class ZipValidationTest {
 
     @Autowired
     private ZipValidation zipValidation;
-    @Mock
-    BatchJob job;
-    @Mock
-    FaultsReport fr;
-
     @Test
     public void testValidate() throws IOException {
         Resource zipFileResource = new ClassPathResource("Session1.zip");
         File zipFile = zipFileResource.getFile();
-        Mockito.when(job.getErrorReport()).thenReturn(fr);
+        BatchJob job = BatchJob.createDefault("Test.zip");
+        FaultsReport fr = Mockito.mock(FaultsReport.class);
         File ctlFile = zipValidation.validate(zipFile, job);
         Assert.assertNotNull(ctlFile);
     }

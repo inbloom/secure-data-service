@@ -20,7 +20,6 @@ import org.springframework.context.MessageSourceAware;
 
 public class ZipValidation implements MessageSourceAware {
 
-    @Autowired
     private ZipFileValidator validator;
 
     private MessageSource messageSource;

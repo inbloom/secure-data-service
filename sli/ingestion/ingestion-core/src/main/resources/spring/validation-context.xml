@@ -89,4 +89,10 @@
       </list>
     </property>
   </bean>
+  
+     
+     <bean id="assembler" class="org.slc.sli.ingestion.landingzone.BatchJobAssembler">
+         <property name="validator" ref="controlFileValidator" />
+     </bean>
+  
 </beans>
