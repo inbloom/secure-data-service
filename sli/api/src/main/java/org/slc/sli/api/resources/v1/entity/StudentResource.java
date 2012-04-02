@@ -511,6 +511,23 @@ public class StudentResource extends DefaultCrudEndpoint {
     }
 
     /**
+     * $$studentDisciplineIncidentAssociations$$
+     *
+     * @param studentId The Id of the Student.
+     * @param headers   HTTP Request Headers
+     * @param uriInfo   URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.DISCIPLINE_INCIDENTS)
+    public Response getStudentDisciplineIncidentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                                   @Context HttpHeaders headers,
+                                                                   @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
+    }
+
+    /**
      * Returns each $$studentCohortAssociations$$ that
      * references the given $$students$$
      * 
