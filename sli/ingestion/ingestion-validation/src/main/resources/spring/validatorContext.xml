@@ -20,8 +20,18 @@
         <property name="n_args" value="1" />
     </bean>
 
+    <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator"/>
+
     <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
          <property name="validator" ref="zipFileValidator"/>
          <property name="messageSource" ref="messageSource"/>
     </bean>
+
+     <bean id="ctlValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation" />
+
+    <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
+       <property name="zipValidation" ref="zipValidation" />
+       <property name="ctlValidation" ref="ctlValidation" />
+    </bean>
+
 </beans>
