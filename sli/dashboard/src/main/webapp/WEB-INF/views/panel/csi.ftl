@@ -1,14 +1,13 @@
+<@includePanelModel panelId="csi"/>
 <div class="csi">
 
 <div class="colImage">
     <img src="/dashboard/static/images/sample_student.png" WIDTH="85" HEIGHT="100" />
 </div>
 
-<@includePanelModel panelId="csi"/>
 
 <div class="colMain">
-    <div class="studentName">
-    ${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
+    <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}</h1>
     <#if panelData.name.generationCodeSuffix?? &&   panelData.name.generationCodeSuffix != ""> ${ panelData.name.generationCodeSuffix}</#if>
     <#if panelData.otherName??>
     <#list panelData.otherName as oName>

@@ -73,6 +73,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  groupHeaders:groupHeaders
       	});
     }
+    jQuery(this).removeClass('.ui-widget-header');
+    jQuery(this).addClass('.jqgrid-header');
 }
 
 DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
@@ -81,8 +83,7 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
     	data: panelData,
         datatype: "local", 
         height: 'auto',
-        viewrecords: true,
-        caption: panelConfig.name} ); 
+        viewrecords: true} ); 
 };
 
 var EnumSorter = function(params) {
