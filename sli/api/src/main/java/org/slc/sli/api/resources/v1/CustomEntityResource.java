@@ -25,6 +25,11 @@ public class CustomEntityResource {
         this.entityDef = entityDef;
     }
     
+    /**
+     * Read the contents of the custom resource for the given entity
+     * 
+     * @return the response to the GET request
+     */
     @GET
     @Path("/")
     public Response read() {
@@ -35,6 +40,13 @@ public class CustomEntityResource {
         return Response.status(Status.OK).entity(entityBody).build();
     }
     
+    /**
+     * Set the contents of the custom resource for the given entity
+     * 
+     * @param customEntity
+     *            the new entity to set
+     * @return the response to the PUT request
+     */
     @PUT
     @Path("/")
     public Response createOrUpdatePut(EntityBody customEntity) {
@@ -45,6 +57,14 @@ public class CustomEntityResource {
         return Response.status(Status.NO_CONTENT).build();
     }
     
+    /**
+     * Set the contents of the custom resource for the given entity. This is effectively an alias
+     * for PUT
+     * 
+     * @param customEntity
+     *            the new entity to set
+     * @return the response to the POST request
+     */
     @POST
     @Path("/")
     public Response createOrUpdatePost(EntityBody customEntity) {
@@ -55,6 +75,11 @@ public class CustomEntityResource {
         return Response.status(Status.NO_CONTENT).build();
     }
     
+    /**
+     * Remove the custom resource for the given entity.
+     * 
+     * @return the response tot he DELETE request
+     */
     @DELETE
     @Path("/")
     public Response delete() {

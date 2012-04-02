@@ -77,6 +77,11 @@ public class ListSchema extends NeutralSchema {
         }
     }
 
+    @Override
+    public Object convert(Object value) {
+        return value;
+    }
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was

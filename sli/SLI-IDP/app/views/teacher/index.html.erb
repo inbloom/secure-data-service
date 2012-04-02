@@ -1,0 +1,24 @@
+<h1>Listing teachers</h1>
+
+<table>
+  <tr>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Role</th>
+    <th>Tenant</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @teachers.each do |teacher| %>
+  <tr>
+    <td><%= teacher.body['name']['lastSurname'] %></td>
+    <td><%= teacher.body['name']['firstName'] %></td>
+    <td><%= teacher.type %></td>
+    <td><%= teacher.tenantId %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
