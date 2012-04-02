@@ -1,4 +1,4 @@
-package org.slc.sli.test.util;
+package org.slc.sli.test.utils;
 
 import java.io.OutputStream;
 

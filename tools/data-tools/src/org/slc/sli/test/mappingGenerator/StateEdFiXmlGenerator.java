@@ -8,7 +8,7 @@ import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
-import org.slc.sli.test.util.JaxbUtils;
+import org.slc.sli.test.utils.JaxbUtils;
 
 public class StateEdFiXmlGenerator {
 
