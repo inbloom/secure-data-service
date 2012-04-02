@@ -178,7 +178,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStaffCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.COHORT_ID, cohortId, headers, uriInfo);
     }
     
 
@@ -200,7 +200,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStaffCohortAssociationStaff(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, 
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.COHORT_ID, cohortId, 
                 ParameterConstants.STAFF_ID, ResourceNames.STAFF, headers, uriInfo);
     }
 
@@ -228,7 +228,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStudentCohortAssociations(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.COHORT_ID, cohortId, headers, uriInfo);
     }
     
 
@@ -250,7 +250,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     public Response getStudentCohortAssociationStudents(@PathParam(COHORT_IDENTIFIER) final String cohortId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, COHORT_IDENTIFIER, cohortId, 
+        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.COHORT_ID, cohortId, 
                 ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
     }
 }

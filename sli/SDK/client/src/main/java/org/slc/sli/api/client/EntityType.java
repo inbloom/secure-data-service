@@ -82,14 +82,23 @@ public enum EntityType {
     /** Association between students and their disciplineIncidents. */
     STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS("studentDisciplineIncidentAssociation", "student-disciplineIncident-associations"),
 
-    /** Cohort information. */
+    /** Program information */
+    PROGRAMS("program", "programs"),
+
+    /** Association between students and programs */
+    STUDENT_PROGRAM_ASSOCIATIONS("studentProgramAssociation", "studentProgramAssociations"),
+
+    /** Association between staffs and programs */
+    STAFF_PROGRAM_ASSOCIATIONS("staffProgramAssociation", "studentProgramAssociations"),
+
+    /** Program information */
     COHORTS("cohort", "cohorts"),
 
-    /** Mapping of a Student to her cohorts. */
-    STUDENT_COHORT_ASSOCIATION("studentCohortAssociation", "studentCohortAssociations"),
+    /** Association between students and cohort */
+    STUDENT_COHORT_ASSOCIATIONS("studentCohortAssociation", "studentCohortAssociations"),
 
-    /** Mapping of a Staff member to her cohorts. */
-    STAFF_COHORT_ASSOCIATION("staffCohortAssociation", "staffCohortAssociations"),
+    /** Association between staffs and cohorts */
+    STAFF_COHORT_ASSOCIATIONS("staffCohortAssociation", "studentCohortAssociations"),
 
     /** Generic type used when no matching type is found */
     GENERIC("generic", null);

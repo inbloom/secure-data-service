@@ -56,7 +56,6 @@ Scenario: Read associations for endpoint1
      And each entity's "entityType" should be "<ASSOCIATION TYPE>"
      And each entity's "<ENDPOINT1 FIELD>" should be "<ENDPOINT1 ID>"
 
-@wip
 Scenario: Read associations for endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>"
     Then I should receive a return code of 200
@@ -70,7 +69,6 @@ Scenario: Read entities associated to endpoint1
      And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ENDPOINT2 TYPE>"
 
-@wip
 Scenario: Read entities associated to endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
