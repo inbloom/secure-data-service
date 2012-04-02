@@ -24,4 +24,8 @@
         <property name="validation" ref="validation"></property>
     </bean>
 
+    <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
+         <property name="validator" ref="zipFileValidator"/>
+         <property name="messageSource" ref="messageSource"/>
+    </bean>
 </beans>
