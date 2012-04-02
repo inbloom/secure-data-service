@@ -22,6 +22,12 @@
 
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
         <property name="validation" ref="validation"></property>
+        <property name="appName" value="validationTool" />
+        <property name="n_args" value="1" />
     </bean>
 
+    <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
+         <property name="validator" ref="zipFileValidator"/>
+         <property name="messageSource" ref="messageSource"/>
+    </bean>
 </beans>

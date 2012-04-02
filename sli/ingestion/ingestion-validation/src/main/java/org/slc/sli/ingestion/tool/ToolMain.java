@@ -1,37 +1,65 @@
 package org.slc.sli.ingestion.tool;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * Main class.
- *
- * @author nupur
- *
- */
-public class ToolMain {
 
-    public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/validatorContext.xml");
+public class ToolMain{
 
-        ToolMain main = context.getBean(ToolMain.class);
+    public static void main(String [] args) throws IOException{
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("spring/validatorContext.xml");
 
-        main.start(args);
+    	ToolMain main = context.getBean(ToolMain.class);
+    main.start(args);
+
     }
 
-    private Validation validation;
+    private ValidationController controller;
+    //Name of the validation tool
+    final String appName;
+    //Number of arguments
+    int n_args;
 
-    private void start(String[] args) {
-        // XsdValidator xsd = (XsdValidator) validators.get(0);
-        validation.validate(args);
+    private void start(Map<String,String> map_args){
+
+        if( (args.length != n_args) ){
+            System.out.println(appName + ":Illegal options");
+            System.out.println("Usage: " + appName + "[directory]");
+            return ;
+        }
+
+        String landing_zone = args[1];
+
+        controller.doValidation(landing_zone);
     }
 
-    public void setValidation(Validation validation) {
-        this.validation = validation;
+    public void setValidationController(ValidationController controller){
+        this.controller = controller;
     }
 
-    public Validation getValidation() {
-        return validation;
+    public ValidationController getValidation(){
+        return controller;
     }
 
+    public void setappName(String name){
+        this.appName = name;
+    }
+
+    public String getappName(){
+        return appName;
+    }
+
+    public void setn_args(int n){
+        this.n_args = n;
+    }
+
+    public int getn_args(){
+        return n_args;
+    }
 }
+
+

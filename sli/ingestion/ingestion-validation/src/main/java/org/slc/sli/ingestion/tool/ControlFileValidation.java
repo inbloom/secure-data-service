@@ -32,11 +32,10 @@ public class ControlFileValidation {
      *            file descriptor
      * @param the
      *            batch job
-     * @return the batch job from the assembler
      */
-    BatchJob validate(ControlFileDescriptor fileDesc, BatchJob job) {
+    void validate(ControlFileDescriptor fileDesc, BatchJob job){
         BatchJobAssembler assembler = new BatchJobAssembler();
-        return assembler.assembleJob(fileDesc);
+        assembler.populateJob(fileDesc, job);
     }
 
     /**
