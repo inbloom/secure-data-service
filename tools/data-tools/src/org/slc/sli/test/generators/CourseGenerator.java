@@ -13,11 +13,15 @@ import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CareerPathwayType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.Course;
+import org.slc.sli.test.edfi.entities.CourseCode;
+import org.slc.sli.test.edfi.entities.CourseCodeSystemType;
 import org.slc.sli.test.edfi.entities.CourseDefinedByType;
 import org.slc.sli.test.edfi.entities.CourseGPAApplicabilityType;
+import org.slc.sli.test.edfi.entities.CourseIdentityType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicItemType;
 import org.slc.sli.test.edfi.entities.CourseLevelCharacteristicsType;
 import org.slc.sli.test.edfi.entities.CourseLevelType;
+import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -80,9 +84,11 @@ public class CourseGenerator {
         BufferedReader courseReader   = new BufferedReader(new InputStreamReader(new FileInputStream(file_course)));
         //#Grade 10;Advanced Placement;Individually Paced;AP Calculus AB;M
         String courseLine;
+        int courseNumber = 0;
         while((courseLine = courseReader.readLine()) != null)
         {
             String []courseParts = courseLine.split(";");
+            courseNumber++;
             if(courseParts.length < 6)
             {
                 String grade        = courseParts[0];
@@ -169,6 +175,12 @@ public class CourseGenerator {
                 //course.setEducationOrganizationReference(EducationalOrgReferenceType);
                 //course.getLearningObjectiveReference().add(LearningObjectiveReferenceType);
                 //course.getCompetencyLevels().add(CompetencyLevelDescriptorType)
+                     
+                CourseCode code = new CourseCode();
+                code.setAssigningOrganizationCode("NCCAO");
+                code.setID("C-100-1" + courseNumber);
+                code.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+                course.getCourseCode().add(code); 
             }
             else
             {
@@ -188,6 +200,16 @@ public class CourseGenerator {
 
     public int getCourseCount() {
         return courseCount;
+    }
+    
+    
+    public CourseReferenceType getCourseReferenceType(Course course)
+    {
+    	CourseReferenceType crt = new CourseReferenceType();
+    	CourseIdentityType ci = new CourseIdentityType();
+    	crt.setCourseIdentity(ci) ;
+    	ci.getCourseCode().addAll(course.getCourseCode());
+    	return crt;
     }
 
     public static void main(String [] args) throws Exception
