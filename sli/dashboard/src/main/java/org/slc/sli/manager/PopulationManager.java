@@ -55,10 +55,13 @@ public class PopulationManager implements Manager {
      *         - the student summary entity list
      */
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
-            String sessionId) {
+            String sessionId, String sectionId) {
         
+        long startTime = System.nanoTime();
         // Initialize student summaries
-        List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
+        //List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
+        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
         
         // Get student programs
         List<GenericEntity> studentPrograms = entityManager.getPrograms(token, studentIds);
@@ -69,7 +72,7 @@ public class PopulationManager implements Manager {
         }
         
         // Get student assessments
-        long startTime = System.nanoTime();
+        startTime = System.nanoTime();
         Map<String, Object> studentAssessmentMap = new HashMap<String, Object>();
         for (String studentId : studentIds) {
             List<GenericEntity> studentAssessments = getStudentAssessments(token, studentId, viewConfig);
@@ -79,7 +82,7 @@ public class PopulationManager implements Manager {
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for assessment: {}\t Avg per student: {}", endTime, endTime
                 / studentIds.size());
         
-        Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
+        //Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
         
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
@@ -88,7 +91,7 @@ public class PopulationManager implements Manager {
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
             studentSummary.put(Constants.ATTR_STUDENT_ASSESSMENTS, studentAssessmentMap.get(id));
-            studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
+            //studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
         }
         
         return studentSummaries;
