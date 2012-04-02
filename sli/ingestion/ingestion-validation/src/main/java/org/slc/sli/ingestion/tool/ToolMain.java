@@ -31,16 +31,16 @@ public class ToolMain{
             return ;
         }
 
-        String landing_zone = args[1];
+        String landing_zone = args[0];
 
         controller.doValidation(landing_zone);
     }
 
-    public void setValidationController(ValidationController controller){
+    public void setController(ValidationController controller){
         this.controller = controller;
     }
 
-    public ValidationController getValidation(){
+    public ValidationController getControler(){
         return controller;
     }
 
