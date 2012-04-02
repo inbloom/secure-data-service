@@ -89,6 +89,8 @@ public class NeutralSchemaValidationTest {
         this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
         this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
         this.addDummyEntity("disciplineIncident", "0e26de79-22aa-5d67-9201-5113ad50a03b");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "2058ddfb-b5c6-70c4-3bee-b43e9e93307d");
         
         readAndValidateFixtureData("src/test/resources/disciplineAction_fixture_neutral.json", "disciplineAction");
     }
@@ -336,6 +338,70 @@ public class NeutralSchemaValidationTest {
         readAndValidateFixtureData("src/test/resources/student_disciplineIncident_association_fixture_neutral.json", "studentSchoolAssociation");
     }
 
+/*    @Test
+    public void testValidCohort() throws Exception {
+        this.addDummyEntity("educationalOrganization", "2d7583b1-f8ec-45c9-a6da-acc4e6fde458");
+        this.addDummyEntity("educationalOrganization", "0a922b8a-7a3b-4320-8b34-0f7749b8b062");
+        this.addDummyEntity("educationalOrganization", "9f5cb095-8e99-49a9-b130-bedfa20639d2");
+        this.addDummyEntity("program", "09eced61-edd9-4826-a7bc-137ffecda877");
+        this.addDummyEntity("program", "310755a4-3473-4649-8a89-dbbb1ae86388");
+
+        readAndValidateFixtureData("src/test/resources/cohort_fixture_neutral.json", "cohort");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidCohort() throws Exception {
+        this.addDummyCollection("educationalOrganization");
+        this.addDummyCollection("program");
+
+        readAndValidateFixtureData("src/test/resources/cohort_fixture_neutral.json", "cohort");
+    }
+
+    @Test
+    public void testValidStudentCohortAssociation() throws Exception {
+        this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
+        this.addDummyEntity("student", "e1af7127-743a-4437-ab15-5b0dacd1bde0");
+        this.addDummyEntity("student", "e0e99028-6360-4247-ae48-d3bb3ecb606a");
+        this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
+        this.addDummyEntity("student", "61f13b73-92fa-4a86-aaab-84999c511148");
+        this.addDummyEntity("student", "289c933b-ca69-448c-9afd-2c5879b7d221");
+        this.addDummyEntity("student", "c7146300-5bb9-4cc6-8b95-9e401ce34a03");
+        this.addDummyEntity("student", "4efb3a11-bc49-f388-0000-0000c93556fb");
+        this.addDummyEntity("student", "4efb3a5e-bc49-f388-0000-0000c93556fc");
+        this.addDummyEntity("cohort", "9471d57e-e1c8-4f10-8d52-8e422ba2f2ab");
+        this.addDummyEntity("cohort", "d8db9f83-6bb1-4919-bb53-11e6e7fa9877");
+        this.addDummyEntity("cohort", "bd9a323a-d6fd-454f-98d9-edf2702d31e1");
+
+        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "cohort");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStudentCohortAssociation() throws Exception {
+        this.addDummyCollection("student");
+        this.addDummyCollection("cohort");
+
+        readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json", "cohort");
+    }
+
+    @Test
+    public void testValidStaffCohortAssociation() throws Exception {
+        this.addDummyEntity("staff", "");
+        this.addDummyEntity("cohort", ""); //TODO:SMR
+
+        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "cohort");
+    }
+
+    @Test
+    @ExpectedException(value = EntityValidationException.class)
+    public void testInvalidStaffCohortAssociation() throws Exception {
+        this.addDummyCollection("staff");
+        this.addDummyCollection("cohort");
+
+        readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json", "cohort");
+    }
+*/
     @SuppressWarnings("unchecked")
     private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
         BufferedReader reader = null;

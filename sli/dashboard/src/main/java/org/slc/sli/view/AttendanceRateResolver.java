@@ -1,6 +1,5 @@
 package org.slc.sli.view;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.config.Field;
@@ -35,48 +34,108 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         this.student = student;
     }
 
+//    @Override
+//    public int getSize(Field configField) {
+//        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+//        if (attendances == null)
+//            return 0;
+//        return attendances.size();
+//    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public int getSize(Field configField) {
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        Map<String, Object> attendances = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
         if (attendances == null)
             return 0;
-        return attendances.size();
+
+        Map<String, Object> attendanceEvents = (Map<String, Object>) attendances.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        if (attendanceEvents == null)
+            return 0;
+        
+        if (attendanceEvents.get("Total") == null)
+            return 0;
+
+        return (int) ((Double) attendanceEvents.get("Total")).doubleValue();
     }
 
+//    @Override
+//    public int getCountForPath(Field configField) {
+//        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+//        int count = 0;
+//        if (attendances != null)
+//            if (configField.getValue().equals(ATTENDANCE_RATE)) {
+//                return getAttendanceCount(attendances);
+//            } else if (configField.getValue().equals(TARDY_RATE)) {
+//                return getTardyCount(attendances);
+//            }
+//        assert false;   //should never get here unless it's an known field value
+//        return 0;
+//    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public int getCountForPath(Field configField) {
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
-        int count = 0;
-        if (attendances != null)
-            if (configField.getValue().equals(ATTENDANCE_RATE)) {
-                return getAttendanceCount(attendances);
-            } else if (configField.getValue().equals(TARDY_RATE)) {
-                return getTardyCount(attendances);
+        Map<String, Object> attendances = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        
+        if (attendances != null) {
+            Map<String, Object> attendanceEvents = (Map<String, Object>) attendances.get(Constants.ATTR_STUDENT_ATTENDANCES);
+            if (attendanceEvents != null) {
+                if (configField.getValue().equals(ATTENDANCE_RATE)) {
+                    return getAttendanceCount(attendanceEvents);
+                } else if (configField.getValue().equals(TARDY_RATE)) {
+                    return getTardyCount(attendanceEvents);
+                }
             }
+        }
         assert false;   //should never get here unless it's an known field value
         return 0;
     }
     
-    private int getAttendanceCount(List<Map> attendances) {
-        int count = attendances.size();
-        for (Map attendance : attendances) {
-            String value = (String) attendance.get(CATEGORY);
-            if (value.contains("Absence")) {
-                count--;
+//    private int getAttendanceCount(List<Map> attendances) {
+//        int count = attendances.size();
+//        for (Map attendance : attendances) {
+//            String value = (String) attendance.get(CATEGORY);
+//            if (value.contains("Absence")) {
+//                count--;
+//            }
+//        }
+//        return count;
+//    }
+
+    private int getAttendanceCount(Map<String, Object> attendances) {
+        if (attendances.get("Total") == null) return 0;
+        
+        int count = (int) ((Double) attendances.get("Total")).doubleValue();
+        int absenceCount = 0;
+        
+        for (Map.Entry<String, Object> e : attendances.entrySet()) {
+            if (e.getKey().contains("Absence")) {
+                if (e.getValue() != null)
+                    absenceCount += (Double) e.getValue();
             }
         }
-        return count;
+
+        return count - absenceCount;
     }
 
-    private int getTardyCount(List<Map> attendances) {
-        int count = 0;
-        for (Map attendance : attendances) {
-            String value = (String) attendance.get(CATEGORY);
-            if (value.contains("Tardy")) {
-                count++;
-            }
+//    private int getTardyCount(List<Map> attendances) {
+//        int count = 0;
+//        for (Map attendance : attendances) {
+//            String value = (String) attendance.get(CATEGORY);
+//            if (value.contains("Tardy")) {
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
+
+    private int getTardyCount(Map<String, Object> attendances) {
+        if (attendances.get("Tardy") == null) {
+            return 0;
+        } else {        
+            return (int) ((Double) attendances.get("Tardy")).doubleValue();
         }
-        return count;
     }
 
     @Override
