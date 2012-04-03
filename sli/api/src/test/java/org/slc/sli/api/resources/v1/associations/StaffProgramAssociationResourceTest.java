@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.associations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,20 +28,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the resource representing a staffProgramAssociation
@@ -79,25 +80,25 @@ public class StaffProgramAssociationResourceTest {
 
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("programType", "Reading Recovery");
-        entity.put("nameOfInstitution", "Primero Test Institution");
-        entity.put(ParameterConstants.PROGRAM_ID, "1234");
+        entity.put("staffId", "1001");
+        entity.put("programId", "2001");
+        entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 1234);
         return entity;
     }
 
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("programType", "Updated Reading Recovery");
-        entity.put("nameOfInstitution", "Primero Test Institution");
-        entity.put(ParameterConstants.PROGRAM_ID, "1234");
+        entity.put("staffId", "1001");
+        entity.put("programId", "2003");
+        entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 1234);
         return entity;
     }
 
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("programType", "Accelerated Learning");
-        entity.put("nameOfInstitution", "Primero Test Institution");
-        entity.put(ParameterConstants.PROGRAM_ID, "5678");
+        entity.put("staffId", "1002");
+        entity.put("programId", "2002");
+        entity.put(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID, 5678);
         return entity;
     }
 
@@ -166,8 +167,9 @@ public class StaffProgramAssociationResourceTest {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
         EntityBody body = (EntityBody) getResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        assertEquals(ParameterConstants.PROGRAM_ID + " should be 1234", body.get(ParameterConstants.PROGRAM_ID), "1234");
-        assertEquals("organizationCategories should be Updated Reading Recovery", body.get("programType"), "Updated Reading Recovery");
+        assertEquals(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + " should be 1234", body.get(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID), 1234);
+        assertEquals("staffId should be Updated Reading Recovery", body.get("staffId"), "1001");
+        assertEquals("programId should be Updated Reading Recovery", body.get("programId"), "2003");
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -189,7 +191,7 @@ public class StaffProgramAssociationResourceTest {
 
     @Test
     public void testReadCommaSeparatedResources() {
-        Response response = staffProgramAssociationResource.read(getIDList(ResourceNames.PROGRAMS), httpHeaders, uriInfo);
+        Response response = staffProgramAssociationResource.read(getIDList(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
         @SuppressWarnings("unchecked")
@@ -198,12 +200,12 @@ public class StaffProgramAssociationResourceTest {
 
         EntityBody body1 = results.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals(ParameterConstants.PROGRAM_ID + " should be 1234", body1.get(ParameterConstants.PROGRAM_ID), "1234");
+        assertEquals(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + " should be 1234", body1.get(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID), 1234);
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
 
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
-        assertEquals(ParameterConstants.PROGRAM_ID + " should be 5678", body2.get(ParameterConstants.PROGRAM_ID), "5678");
+        assertEquals(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + " should be 5678", body2.get(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID), 5678);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
 
