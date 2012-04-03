@@ -3,19 +3,19 @@ package org.slc.sli.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
+import com.google.gson.Gson;
 
 /**
  *
@@ -46,6 +46,7 @@ public class LiveAPIClient implements APIClient {
     private static final String ED_ORG_LINK = "getEducationOrganization";
     private static final String COURSE_LINK = "getCourse";
     private static final String SCHOOL_LINK = "getSchool";
+    private static final String STUDENT_SCHOOL_ASSOCIATIONS_LINK = "getStudentSchoolAssociations";
 
     @Autowired
     @Value("${api.server.url}")
@@ -645,6 +646,26 @@ public class LiveAPIClient implements APIClient {
         return entities;
     }
 
+    
+    @Override
+    public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student) {
+        List<String> urls = extractLinksFromEntity(student, STUDENT_SCHOOL_ASSOCIATIONS_LINK);
+        
+        if (urls.isEmpty())
+            return new LinkedList<GenericEntity>();
+        
+        String url = urls.get(0);
+        List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token, false);
+        
+        for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
+            String schoolUrl = extractLinksFromEntity(studentSchoolAssociation, SCHOOL_LINK).get(0);
+            GenericEntity school = createEntityFromAPI(schoolUrl, token, false);
+            studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
+        }
+        
+        return studentSchoolAssociations;
+    }
+    
     /**
      * Returns a list of student grade book entries for a given student and params
      *
