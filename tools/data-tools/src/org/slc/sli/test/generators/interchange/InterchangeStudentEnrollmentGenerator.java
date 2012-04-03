@@ -11,8 +11,18 @@ import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 
+/**
+ * Generates the Student Enrollment Interchange as derived from the associations
+ * determined during the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator.
+ * @author dduran
+ *
+ */
 public class InterchangeStudentEnrollmentGenerator {
 
+	/**
+	 * Sets up a new Student Enrollment Interchange and populates it.
+	 * @return
+	 */
     public static InterchangeStudentEnrollment generate() {
         long startTime = System.currentTimeMillis();
 
@@ -27,12 +37,22 @@ public class InterchangeStudentEnrollmentGenerator {
         return interchange;
     }
 
+    /**
+     * Generate the individual Student Association entities.
+     * @param interchangeObjects
+     */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateStudentAssocs(interchangeObjects, MetaRelations.studentMap.values());
 
     }
 
+    /**
+     * Loops student-school and student-section associations and populates
+     * the interchange.
+     * @param interchangeObjects
+     * @param studentMetas
+     */
     private static void generateStudentAssocs(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
 
         for (StudentMeta studentMeta : studentMetas) {
