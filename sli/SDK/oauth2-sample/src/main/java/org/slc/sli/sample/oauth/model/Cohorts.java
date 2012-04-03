@@ -2,18 +2,16 @@ package org.slc.sli.sample.oauth.model;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Sample domain wrapper.
@@ -22,7 +20,6 @@ public class Cohorts {
     
     private static final Logger LOG = LoggerFactory.getLogger(Cohorts.class);
     
-    @SuppressWarnings("unchecked")
     public static Map<String, String> getIdDesc(BasicClient client) throws IOException {
         EntityCollection collection = new EntityCollection();
         try {

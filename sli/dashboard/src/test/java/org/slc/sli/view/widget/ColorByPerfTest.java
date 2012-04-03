@@ -1,10 +1,8 @@
-package org.slc.sli.unit.view.widget;
+package org.slc.sli.view.widget;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.slc.sli.view.widget.ColorByPerf;
 
 /**
  * Unit tests for the ColorByPerf class.
