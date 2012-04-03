@@ -253,6 +253,41 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
+
+Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
+  @db = @conn[INGESTION_DB_NAME]
+  @entity_collection = @db.collection(collection)
+  @entity =  @entity_collection.find({field => value})
+  assert(@entity.count == 1, "Found more than one document with this query")
+  
+end
+
+Then /^verify the following data in that document:$/ do |table|
+  @entity.each do |ent|
+    table.hashes.map do |row|
+      curSearchString = row['searchParameter']
+      val = ent.clone
+      curSearchString.split('.').each do |part|
+        is_num?(part) ? val = val[part.to_i] : val = val[part]
+      end
+      if row["searchType"] == "integer" 
+        assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
+      else
+        assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
+      end
+    end
+  end
+end
+
+def is_num?(str)
+  Integer(str)
+rescue ArgumentError
+  false
+else
+  true
+end
+
+
 def checkForContentInFileGivenPrefix(message, prefix)
   
   if (INGESTION_MODE == 'remote')
