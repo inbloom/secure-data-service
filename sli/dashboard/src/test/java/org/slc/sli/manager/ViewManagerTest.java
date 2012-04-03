@@ -3,14 +3,14 @@ package org.slc.sli.manager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.modifier.ViewModifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +25,17 @@ import static org.mockito.Mockito.when;
 /**
  * @author jstokes
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
 public class ViewManagerTest {
-    private static Logger log = LoggerFactory.getLogger(ViewManagerTest.class);
-    
-    private ViewManager viewManager; // class under test
+    @Mock
     private EntityManager entityManager;
+
+    @InjectMocks
+    private ViewManager viewManager = new ViewManager(); // class under test
     
     @Before
     public void setup() {
-        entityManager = mock(EntityManager.class);
-        viewManager = new ViewManager();
-        viewManager.setEntityManager(entityManager);
     }
     
     @Test
@@ -68,13 +66,6 @@ public class ViewManagerTest {
         viewManager.apply(modifier);
         verify(modifier).modify(any(ViewConfig.class));
     }
-
-    @Test
-    public void testGetEntityManager() {
-        EntityManager em = mock(EntityManager.class);
-        viewManager.setEntityManager(em);
-        assertEquals(em, viewManager.getEntityManager());
-    }
     
     @Test
     public void testGetApplicableViewConfigs() {
@@ -102,7 +93,7 @@ public class ViewManagerTest {
         students9to12.add("students9to12");
 
         List<String> emptyList = new ArrayList<String>();
-        
+
         when(entityManager.getStudents("", emptyList)).thenReturn(null);
         when(entityManager.getStudents("", studentsKto3)).thenReturn(createStudentsKto3());
         when(entityManager.getStudents("", students3to8)).thenReturn(createStudents3to8());

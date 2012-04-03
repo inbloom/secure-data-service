@@ -10,12 +10,14 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.modifier.ViewModifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Handles the logic behind filtering view configurations
  * @author jstokes
  *
  */
+@Component
 public class ViewManager extends ApiClientManager {
     private List<ViewConfig> viewConfigs;
     private ViewConfig activeViewConfig;
@@ -117,13 +119,5 @@ public class ViewManager extends ApiClientManager {
         gradeValues.put("Twelfth grade", 12);
         gradeValues.put("Not Available", -1);
         return gradeValues;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 }
