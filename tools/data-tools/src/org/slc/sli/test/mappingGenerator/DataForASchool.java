@@ -30,9 +30,9 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
-    private int numStudents = 10;
-    private int parentsPerStudent = 2;
-    private String delimiter = "_";
+    private static final int numStudents = 10;
+    private static final int parentsPerStudent = 2;
+    private static final String delimiter = "_";
 
     private List<String> schools = new ArrayList<String>();
 
@@ -71,7 +71,7 @@ public class DataForASchool {
             if (!folder.exists())
                 folder.mkdirs();
 
-            data.generateData(path, false, false, i);
+            data.generateData(path, false, true, i);
         }
 
         System.out.println(new Date());
@@ -105,7 +105,7 @@ public class DataForASchool {
 //            printInterchangeStudentGrade(new PrintStream(path + "/InterchangeStudentGrade.xml"));
 //            printInterchangeStudentProgram(new PrintStream(path + "/InterchangeStudentProgram.xml"));
 //            printInterchangeStudentCohort(new PrintStream(path + "/InterchangeStudentCohort.xml"));
-//            printInterchangeStudentDiscipline(new PrintStream(path + "/InterchangeStudentDiscipline.xml"));
+            printInterchangeStudentDiscipline(new PrintStream(path + "/InterchangeStudentDiscipline.xml"));
 //            printInterchangeStudentAttendance(new PrintStream(path + "/InterchangeStudentAttendance.xml"));
         } catch (Exception e) {
             // TODO Auto-generated catch block

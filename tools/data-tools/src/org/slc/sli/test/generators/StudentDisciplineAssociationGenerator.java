@@ -15,10 +15,7 @@ public class StudentDisciplineAssociationGenerator {
             String studentId = studentDisciplineId.split(delimiter)[0];
             String discId = studentDisciplineId.split(delimiter)[2];
             
-            StudentIdentityType sit = new StudentIdentityType();
-            sit.setStudentUniqueStateId(studentId);
-            StudentReferenceType srt = new StudentReferenceType();
-            srt.setStudentIdentity(sit);
+            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentDisciplineAssociation.setStudentReference(srt);
 
             DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();

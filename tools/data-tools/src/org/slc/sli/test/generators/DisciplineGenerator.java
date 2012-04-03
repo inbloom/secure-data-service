@@ -60,11 +60,8 @@ public class DisciplineGenerator {
         discIncident.getBehaviors().add(bdtType);
         
         // School Reference
-        String school = incidentId.split(delimiter)[0];
-        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(school);
-        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
-        eor.setEducationalOrgIdentity(eoit);
+        String schoolId = incidentId.split(delimiter)[0];
+        EducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);
         discIncident.setSchoolReference(eor);
         
     	return discIncident;

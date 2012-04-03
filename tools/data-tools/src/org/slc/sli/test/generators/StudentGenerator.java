@@ -87,6 +87,14 @@ public class StudentGenerator {
         }
     }
 
+    public static StudentReferenceType getStudentReferenceType(String studentId)
+    {
+    	StudentReferenceType srt = new StudentReferenceType();
+    	StudentIdentityType sit = new StudentIdentityType();
+    	srt.setStudentIdentity(sit);
+        sit.setStudentUniqueStateId(studentId);
+    	return srt;
+    }
 
     public Student generate(String studentId) {
         Student s = new Student();

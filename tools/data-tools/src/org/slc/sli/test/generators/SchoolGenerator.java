@@ -14,6 +14,8 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ParentIdentityType;
+import org.slc.sli.test.edfi.entities.ParentReferenceType;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.SchoolCategoriesType;
 import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
@@ -57,6 +59,15 @@ public class SchoolGenerator {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public static EducationalOrgReferenceType getEducationalOrgReferenceType(String schoolId)
+    {
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        eor.setEducationalOrgIdentity(eoit);
+    	return eor;
     }
 
     private  List<School> getNYSchools()

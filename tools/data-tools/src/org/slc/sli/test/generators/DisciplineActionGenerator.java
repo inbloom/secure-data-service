@@ -27,10 +27,7 @@ public class DisciplineActionGenerator {
             
             disciplineAction.setDisciplineDate("2012-04-15");
             
-            StudentIdentityType sit = new StudentIdentityType();
-            sit.setStudentUniqueStateId(studentId);
-            StudentReferenceType srt = new StudentReferenceType();
-            srt.setStudentIdentity(sit);
+            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             disciplineAction.getStudentReference().add(srt);
             
             DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
@@ -40,10 +37,7 @@ public class DisciplineActionGenerator {
             dirt.setDisciplineIncidentIdentity(diit);
             disciplineAction.getDisciplineIncidentReference().add(dirt);
             
-            EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-            EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
-            eor.setEducationalOrgIdentity(eoit);
+            EducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);
             disciplineAction.setResponsibilitySchoolReference(eor);
               
         } catch (Exception e) {
