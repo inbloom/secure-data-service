@@ -24,12 +24,15 @@ public class InterchangeMasterScheduleGenerator {
 	 * @return
 	 */
     public static InterchangeMasterSchedule generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeMasterSchedule object in: "
+                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

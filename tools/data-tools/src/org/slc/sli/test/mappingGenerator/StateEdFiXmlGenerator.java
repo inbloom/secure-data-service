@@ -15,6 +15,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenera
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.utils.JaxbUtils;
+import org.slc.sli.test.utils.ValidateSchema;
 
 /**
  * Code to generate referentially correct interchanges that are built
@@ -38,6 +39,14 @@ public class StateEdFiXmlGenerator {
 
         MetaRelations.buildFromSea();
 
+        generateAndMarshalInterchanges();
+
+        ValidateSchema.check("./data/");
+
+    }
+
+    private static void generateAndMarshalInterchanges() throws Exception {
+
         edOrg();
 
         edOrgCalendar();
@@ -49,7 +58,6 @@ public class StateEdFiXmlGenerator {
         student();
 
         studentEnrollment();
-
     }
 
     /**

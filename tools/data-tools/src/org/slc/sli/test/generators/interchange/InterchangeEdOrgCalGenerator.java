@@ -24,12 +24,15 @@ public class InterchangeEdOrgCalGenerator {
 	 * @return
 	 */
     public static InterchangeEducationOrgCalendar generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeEducationOrgCalendar object in: "
+                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

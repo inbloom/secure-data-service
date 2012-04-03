@@ -35,6 +35,7 @@ public class InterchangeEdOrgGenerator {
 	 * @return
 	 */
     public static InterchangeEducationOrganization generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
         List<Object> interchangeObjects = interchange
@@ -42,6 +43,8 @@ public class InterchangeEdOrgGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeEducationOrganization object in: "
+                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

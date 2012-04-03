@@ -131,13 +131,13 @@ public class AddressGenerator {
         Address add = new Address();
 
         add.setStreetNumberName("streetNumberName");
-        add.setApartmentRoomSuiteNumber("apartmentRoomSuiteNumber");
+        add.setApartmentRoomSuiteNumber("7C");
         add.setBuildingSiteNumber("BuildingSiteNumber");
         add.setCity("City");
         add.setStateAbbreviation(StateAbbreviationType.AK);
         add.setPostalCode("12345");
         add.setNameOfCounty("County");
-        add.setCountyFIPSCode("FIPSCode");
+        add.setCountyFIPSCode("FIPS");
         add.setCountryCode(CountryCodeType.US);
         add.setLatitude("latitiude");
         add.setLongitude("longitude");

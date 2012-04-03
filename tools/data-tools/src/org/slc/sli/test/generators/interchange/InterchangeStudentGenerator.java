@@ -12,12 +12,14 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeStudentGenerator {
 
     public static InterchangeStudent generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudent interchange = new InterchangeStudent();
         List<Student> interchangeObjects = interchange.getStudent();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeStudent object in: " + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 
