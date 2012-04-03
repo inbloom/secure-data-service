@@ -629,6 +629,11 @@ public class BasicService implements EntityService {
                 } else {
                     String fieldPath = prefix + fieldName;
                     Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    
+                    if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                        neededRight = Right.ADMIN_ACCESS;
+                    }
+                    
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     
                     if (!auths.contains(neededRight)) {
