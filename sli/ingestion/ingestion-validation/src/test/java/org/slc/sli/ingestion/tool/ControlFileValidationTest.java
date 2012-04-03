@@ -17,6 +17,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * Unit tests for ControlFile Validation
+ *
+ * @author tke
+ *
+ */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/validatorContext.xml" })
 public class ControlFileValidationTest {
