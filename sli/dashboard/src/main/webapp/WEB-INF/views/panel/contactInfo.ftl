@@ -1,75 +1,15 @@
 <@includePanelModel panelId="contactInfo"/>
 <#assign id = getDivId(panelConfig.id)>
-
-<#assign addressSize = panelData.address?size>
-
-<div class="tabular">
-    <table ><thead><tr><th></th><td style="width:200px"><h6>Student</h6></td></tr></thead><tbody>
-    <tr><th></th><td></td></tr>
-	<!-- display telephone numbers for student -->
-		<#list panelData.telephone as telephone>
-		<tr>
-				<th>
-					${telephone.telephoneNumberType}:
-				</th>
-				<td style="width:200px;<#if telephone_index == 0>font-weight:bold;</#if>">
-					${telephone.telephoneNumber}
-				</td>
-			</tr>
-		</#list>
-	<tr><th></th><td></td></tr>
-		<#list panelData.electronicMail as electronicMail>
-			<tr>
-				<th>
-					<!-- show only once -->
-					<#if electronicMail_index == 0>
-					E-mail:
-					</#if>
-				</th>
-				<td style="width:200px">
-					${electronicMail.emailAddress}
-				</td>
-			</tr>
-		</#list>
-	<tr><th></th><td></td></tr>
-		<#list panelData.address as address>
-			<tr>
-				<th>
-				<!-- show only once -->
-				<#if address_index == 0>
-					Address:
-				</#if>
-				</th>
-				<td style="width:200px;line-height:12px">
-				    <div>
-					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
-					<!-- 
-					ignore apartmentRoomSuiteNumber is null.
-					otherwise display on the first line separated by comma after streetNumberName
-					-->
-					
-					
-					<!--
-					ignore BuildingSiteNumber if null otherwise display it on its own line
-					-->
-					</div>
-					<#if address.buildingSiteNumber ??>
-					
-					<div>
-					${address.buildingSiteNumber}
-					</div>
-					</#if>
-					
-					<div>
-					${address.city}, ${address.stateAbbreviation} ${address.postalCode}
-					</div>
-					<#if address.countryCode ?? && address.countryCode != "US">
-						<div>
-						${address.countryCode}
-						</div>
-					</#if>
-				</td>
-			</tr>
-		</#list>
-	</tbody></table>
+<div class="panel-container" style="height:280px">
+<div id="${id}_student" class="panel-item" style="width:300px">
+  <#assign singleContact = panelData>
+  <#assign singleContactName = "Student">
+  <#include "singleContactInfo.ftl">
+</div>
+<!-- An example for parent panels - please change to the right singleContact and Single Contact name -->
+<div id="${id}_parent" class="panel-item" style="width:350px">
+  <#assign singleContact = panelData>
+  <#assign singleContactName = "Parent">
+  <#include "singleContactInfo.ftl">
+</div>
 </div>

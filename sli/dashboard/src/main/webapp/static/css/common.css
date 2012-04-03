@@ -321,3 +321,11 @@ th.ui-th-column div {
     font-size: 12px;
     height: 20px;
 }
+.panel-container {
+	position:relative;
+}
+.panel-container .panel-item {
+	float:left;
+    top:0;
+    right:0;
+}
