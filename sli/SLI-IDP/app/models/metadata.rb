@@ -1,5 +1,5 @@
 class Metadata
-  include MongoMapper::Document
+  include MongoMapper::EmbeddedDocument
 
   key :idNamespace, String, :required => true
 

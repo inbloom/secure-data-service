@@ -1,25 +1,4 @@
-<h1>Listing teachers</h1>
+<h1>Select a user to log in as:</h1>
 
-<table>
-  <tr>
-    <th>Last Name</th>
-    <th>First Name</th>
-    <th>Role</th>
-    <th>Tenant</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @teachers.each do |teacher| %>
-  <tr>
-    <td width="100em"><%= teacher.body['name']['lastSurname'] %></td>
-    <td width="120em"><%= teacher.body['name']['firstName'] %></td>
-    <td width="100em"><%= teacher.type %></td>
-    <td width="100em"><%= teacher.metaData['idNamespace'] %><input type="radio" name="user" value="<%= teacher.metaData['idNamespace'] %>"/></td>
-
-  </tr>
-<% end %>
-</table>
-
-<br />
+<%= select_tag('selected_user',
+        options_from_collection_for_select(@teachers, :staffUniqueStateId, :last_comma_first)) %>
