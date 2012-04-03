@@ -62,7 +62,7 @@ public class ViewManager extends ApiClientManager {
 
                     if (gradeValue == null) { continue; }
 
-                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0) {
+                    if ((gradeValue >= lowerBound) && (gradeValue <= upperBound)) {
                         applicableViewConfigs.add(viewConfig);
                         break;
                     }

@@ -68,6 +68,13 @@ public class ViewManagerTest {
         viewManager.apply(modifier);
         verify(modifier).modify(any(ViewConfig.class));
     }
+
+    @Test
+    public void testGetEntityManager() {
+        EntityManager em = mock(EntityManager.class);
+        viewManager.setEntityManager(em);
+        assertEquals(em, viewManager.getEntityManager());
+    }
     
     @Test
     public void testGetApplicableViewConfigs() {
