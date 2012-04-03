@@ -54,12 +54,6 @@ body {
     padding-top: 6px;
     line-height: 4px;
 }
-h7 {
-    font-family: Arial,Helvetica,sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: lighter;
-}
 h1, h2, h3, h4, h5, h6 {
     color: #333333;
     font-weight: bold;
@@ -107,6 +101,12 @@ h6 {
     color: #000000;
     font-size: 12px;
     text-transform: uppercase;
+}
+h7 {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: lighter;
 }
 .ui-widget-no-border .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;

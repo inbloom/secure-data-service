@@ -7,10 +7,11 @@
 
 
 <div class="colMain">
-    <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}</h1>
-    <#if panelData.name.generationCodeSuffix?? &&   panelData.name.generationCodeSuffix != ""> ${ panelData.name.generationCodeSuffix}</#if>
+    <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
+    <#if panelData.name.generationCodeSuffix?? && panelData.name.generationCodeSuffix != ""> ${panelData.name.generationCodeSuffix}</#if></h1>
     <#if panelData.otherName??>
     <#list panelData.otherName as oName>
+    <small>
     <#if oName.otherNameType == "nickname">
     (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>
     ${oName.firstName} 
@@ -18,6 +19,7 @@
     ${oName.lastSurname}
     <#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
     </#if>
+    </small>
     </#list>
     </#if>
 
