@@ -7,7 +7,6 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
