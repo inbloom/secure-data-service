@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.tool;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -39,8 +40,8 @@ public class OfflineTool {
             LOG.error("Usage: " + appName + "[directory]");
             return;
         }
-
-        controller.doValidation(args[0]);
+        File file = new File(args[0]);
+        controller.doValidation(file);
     }
 
     public void setController(ValidationController controller) {

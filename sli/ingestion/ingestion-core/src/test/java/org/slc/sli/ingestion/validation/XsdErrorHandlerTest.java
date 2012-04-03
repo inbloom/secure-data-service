@@ -1,13 +1,12 @@
 package org.slc.sli.ingestion.validation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,9 +32,9 @@ public class XsdErrorHandlerTest {
     @Autowired
     private XsdErrorHandler xsdErrorHandler;
 
-    private ErrorReport errorReport = new TestErrorReport();
+    private final ErrorReport errorReport = new TestErrorReport();
 
-    private SAXParseException mockedSAXParseException = Mockito.mock(SAXParseException.class);
+    private final SAXParseException mockedSAXParseException = Mockito.mock(SAXParseException.class);
 
     @Before
     public void setup() {
@@ -50,7 +49,6 @@ public class XsdErrorHandlerTest {
                 "cvc-totalDigits-valid: Value '4000' has 4 total digits, but the number of total digits has been limited to 3.");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        assertTrue(xsdErrorHandler.isValid());
     }
 
     @Test
