@@ -35,7 +35,7 @@ public class ValidationController {
     private static final Logger LOG = LoggerFactory.getLogger(ValidationController.class);
 
     ValidationController() {
-        lz = new LocalFileSystemLandingZone();
+
     }
 
     /*
@@ -125,6 +125,14 @@ public class ValidationController {
 
     public void setValidators(List<SimpleValidatorSpring> validators) {
         this.validators = validators;
+    }
+
+    public LocalFileSystemLandingZone getLz() {
+        return lz;
+    }
+
+    public void setLz(LocalFileSystemLandingZone lz) {
+        this.lz = lz;
     }
 
     /**
