@@ -5887,7 +5887,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -5901,9 +5901,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000000-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000000</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000000-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000000-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -5926,7 +5924,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -5940,9 +5938,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000000-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000000</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000000-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000001-1">
@@ -5966,7 +5962,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -5980,9 +5976,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000001-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000001</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000001-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000001-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6005,7 +5999,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6019,9 +6013,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000001-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000001</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000001-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000002-1">
@@ -6045,7 +6037,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6059,9 +6051,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000002-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000002</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000002-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000002-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6084,7 +6074,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6098,9 +6088,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000002-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000002</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000002-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000003-1">
@@ -6124,7 +6112,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6138,9 +6126,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000003-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000003</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000003-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000003-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6163,7 +6149,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6177,9 +6163,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000003-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000003</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000003-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000004-1">
@@ -6203,7 +6187,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6217,9 +6201,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000004-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000004</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000004-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000004-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6242,7 +6224,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6256,9 +6238,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000004-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000004</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000004-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000005-1">
@@ -6282,7 +6262,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6296,9 +6276,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000005-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000005</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000005-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000005-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6321,7 +6299,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>78</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6335,9 +6313,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000005-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000005</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000005-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000006-1">
@@ -6361,7 +6337,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>62</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6375,9 +6351,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000006-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000006</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000006-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000006-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6400,7 +6374,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>59</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6414,9 +6388,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000006-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000006</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000006-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000007-1">
@@ -6440,7 +6412,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>41</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6454,9 +6426,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000007-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000007</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000007-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000007-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6479,7 +6449,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>54</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6493,9 +6463,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000007-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000007</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000007-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000008-1">
@@ -6519,7 +6487,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>47</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6533,9 +6501,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000008-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000008</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000008-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000008-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6558,7 +6524,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>60</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6572,9 +6538,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000008-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000008</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000008-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000009-1">
@@ -6598,7 +6562,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>38</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6612,7 +6576,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000009-1"/>
+      <StudentAcademicRecordReference ref="SAR-900000009-1"/>
       <CourseCode>American Literature</CourseCode>
       <StudentUniqueStateId>900000009</StudentUniqueStateId>
     </CourseTranscript>
@@ -6637,7 +6601,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>60</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6651,9 +6615,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000009-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000009</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000009-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000010-1">
@@ -6677,7 +6639,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6691,9 +6653,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000010-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000010</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000010-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000010-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6716,7 +6676,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6730,9 +6690,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000010-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000010</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000010-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000011-1">
@@ -6756,7 +6714,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6770,9 +6728,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000011-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000011</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000011-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000011-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6795,7 +6751,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6809,9 +6765,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000011-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000011</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000011-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000012-1">
@@ -6835,7 +6789,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>99</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6849,9 +6803,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000012-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000012</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000012-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000012-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6874,7 +6826,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>97</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6888,9 +6840,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000012-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000012</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000012-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000013-1">
@@ -6914,7 +6864,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>67</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6928,9 +6878,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000013-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000013</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000013-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000013-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -6953,7 +6901,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>76</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -6967,9 +6915,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000013-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000013</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000013-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000014-1">
@@ -6993,7 +6939,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>76</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7007,9 +6953,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000014-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000014</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000014-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000014-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7032,7 +6976,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>78</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7046,9 +6990,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000014-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000014</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000014-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000015-1">
@@ -7072,7 +7014,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7086,9 +7028,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000015-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000015</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000015-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000015-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7111,7 +7051,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>83</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7125,9 +7065,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000015-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000015</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000015-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000016-1">
@@ -7151,7 +7089,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>86</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7165,9 +7103,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000016-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000016-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000016-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7190,7 +7126,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7204,9 +7140,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000016-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000016-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000017-1">
@@ -7230,7 +7164,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>91</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7244,9 +7178,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000017-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000017</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000017-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000017-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7269,7 +7201,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>93</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7283,9 +7215,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000017-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000017</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000017-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000018-1">
@@ -7309,7 +7239,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>95</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7323,9 +7253,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000018-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000018</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000018-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000018-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7348,7 +7276,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7362,9 +7290,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000018-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000018</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000018-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000019-1">
@@ -7388,7 +7314,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>91</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7402,9 +7328,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000019-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000019</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000019-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000019-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7427,7 +7351,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>83</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7441,9 +7365,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000019-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000019</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000019-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000020-1">
@@ -7467,7 +7389,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7481,9 +7403,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000020-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000020</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000020-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000020-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7506,7 +7426,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>79</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7520,9 +7440,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000020-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000020</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000020-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000021-1">
@@ -7546,7 +7464,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>63</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7560,9 +7478,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000021-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000021</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000021-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000021-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7585,7 +7501,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>66</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7599,9 +7515,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000021-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000021</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000021-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000022-1">
@@ -7625,7 +7539,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>66</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7639,9 +7553,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000022-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000022</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000022-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000022-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7664,7 +7576,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>69</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7678,9 +7590,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000022-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000022</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000022-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000023-1">
@@ -7704,7 +7614,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>72</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7718,9 +7628,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000023-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000023</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000023-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000023-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7743,7 +7651,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>68</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7757,9 +7665,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000023-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000023</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000023-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000024-1">
@@ -7783,7 +7689,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7797,9 +7703,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000024-1"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000024</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000024-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-900000024-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -7822,7 +7726,7 @@
         <Credit>1</Credit>
       </CreditsEarned>
       <GradeLevelWhenTaken>Eighth grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned></FinalLetterGradeEarned>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
       <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
@@ -7836,11 +7740,8 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-900000024-2"/>
-      <CourseCode>American Literature</CourseCode>
-      <StudentUniqueStateId>900000024</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-900000024-2"/>
     </CourseTranscript>
-
 
     <Grade>
       <NumericGradeEarned>96</NumericGradeEarned>
@@ -7857,8 +7758,5 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
     </Grade>
-
-
-
 
 </InterchangeStudentGrade>
