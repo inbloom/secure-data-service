@@ -2,6 +2,8 @@ package org.slc.sli.unit.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -14,6 +16,8 @@ import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
+import org.slc.sli.util.Constants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -66,10 +70,13 @@ public class LayoutControllerTest {
     class LayoutControllerMock extends GenericLayoutController {
         public ModelAndView handleStudentProfile(String id) {
             String tabbedOneCol = "tabbed_one_col";
-            ModelMap model = getPopulatedModel("simpleLayout", id);
+            ModelMap model = getPopulatedModel("simpleLayout", id, null);
             // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
             model.addAttribute("programUtil", new StudentProgramUtil());
             return getModelView(tabbedOneCol, model);
+        }
+        
+        protected void setContextPath(ModelMap model, HttpServletRequest request) {
         }
 
         public String getUsername() {

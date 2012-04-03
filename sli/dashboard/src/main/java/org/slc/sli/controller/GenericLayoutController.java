@@ -58,11 +58,15 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
-        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
+        setContextPath(model, request);
         
         // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
+    }
+    
+    protected void setContextPath(ModelMap model, HttpServletRequest request) {
+        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath()); 
     }
     
 
