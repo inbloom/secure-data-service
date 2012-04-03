@@ -13,7 +13,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+/**
+ *Unit Test for ZipValidation
+ *
+ * @author npandey
+ *
+ */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
@@ -30,5 +35,13 @@ public class ZipValidationTest {
         File ctlFile = zipValidation.validate(zipFile, job);
         Assert.assertNotNull(ctlFile);
     }
-
+    @Test
+    public void testInValidZip() throws IOException {
+        Resource zipFileResource = new ClassPathResource("SessionInValid.zip");
+        File zipFile = zipFileResource.getFile();
+        BatchJob job = BatchJob.createDefault("Test.zip");
+        FaultsReport fr = Mockito.mock(FaultsReport.class);
+        File ctlFile = zipValidation.validate(zipFile, job);
+        Assert.assertNull(ctlFile);
+    }
 }
