@@ -21,12 +21,18 @@ public class InterchangeStaffAssociationGenerator {
         List<Object> interchangeObjects = interchange
                 .getStaffOrStaffEducationOrgEmploymentAssociationOrStaffEducationOrgAssignmentAssociation();
 
-        generateTeachers(interchangeObjects, MetaRelations.teacherMap.values());
+        addEntitiesToInterchange(interchangeObjects);
 
         return interchange;
     }
 
-    private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+
+        generateTeachersAndAssoc(interchangeObjects, MetaRelations.teacherMap.values());
+
+    }
+
+    private static void generateTeachersAndAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
 
         for (TeacherMeta teacherMeta : teacherMetas) {
 

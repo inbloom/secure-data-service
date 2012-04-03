@@ -26,6 +26,13 @@ public class InterchangeEdOrgGenerator {
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
+        addEntitiesToInterchange(interchangeObjects);
+
+        return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+
         generateStateEducationAgencies(interchangeObjects, MetaRelations.seaMap.values());
 
         generateLocalEducationAgencies(interchangeObjects, MetaRelations.leaMap.values());
@@ -33,8 +40,6 @@ public class InterchangeEdOrgGenerator {
         generateSchools(interchangeObjects, MetaRelations.schoolMap.values());
 
         generateCourses(interchangeObjects, MetaRelations.courseMap.values());
-
-        return interchange;
     }
 
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
@@ -46,7 +51,8 @@ public class InterchangeEdOrgGenerator {
 
     private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
         for (LeaMeta leaMeta : leaMetas) {
-            LocalEducationAgency lea = LocalEducationAgencyGenerator.getFastLocalEducationAgency(leaMeta.id, leaMeta.seaId);
+            LocalEducationAgency lea = LocalEducationAgencyGenerator.getFastLocalEducationAgency(leaMeta.id,
+                    leaMeta.seaId);
             interchangeObjects.add(lea);
         }
     }

@@ -17,9 +17,15 @@ public class InterchangeEdOrgCalGenerator {
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
-        generateSessions(interchangeObjects, MetaRelations.sessionMap.values());
+        addEntitiesToInterchange(interchangeObjects);
 
         return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+
+        generateSessions(interchangeObjects, MetaRelations.sessionMap.values());
+
     }
 
     private static void generateSessions(List<ComplexObjectType> interchangeObjects,

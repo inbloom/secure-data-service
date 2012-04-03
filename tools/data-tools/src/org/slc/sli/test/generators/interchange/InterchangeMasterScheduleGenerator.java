@@ -17,9 +17,15 @@ public class InterchangeMasterScheduleGenerator {
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
-        generateSections(interchangeObjects, MetaRelations.sectionMap.values());
+        addEntitiesToInterchange(interchangeObjects);
 
         return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+
+        generateSections(interchangeObjects, MetaRelations.sectionMap.values());
+
     }
 
     private static void generateSections(List<ComplexObjectType> interchangeObjects,
