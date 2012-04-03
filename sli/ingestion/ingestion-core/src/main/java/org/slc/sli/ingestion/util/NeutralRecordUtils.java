@@ -73,8 +73,7 @@ public class NeutralRecordUtils {
 
        if (!StringUtils.hasText(cmp)) {
              value = null;
-       }
-       else {
+       } else {
            value = value.trim();
        }
 
