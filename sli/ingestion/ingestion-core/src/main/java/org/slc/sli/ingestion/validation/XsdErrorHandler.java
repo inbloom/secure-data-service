@@ -86,7 +86,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
-        errorReport.warning(errorMessage, XsdValidator.class);
+        errorReport.warning(errorMessage, XsdErrorHandler.class);
         LOG.warn("WARNING: " + errorMessage);
     }
 
@@ -98,7 +98,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
-        errorReport.error(errorMessage, XsdValidator.class);
+        errorReport.error(errorMessage, XsdErrorHandler.class);
         LOG.error("ERROR: " + errorMessage);
         setIsValid(false);
     }
@@ -113,7 +113,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex.getMessage());
-        errorReport.fatal(errorMessage, XsdValidator.class);
+        errorReport.fatal(errorMessage, XsdErrorHandler.class);
         LOG.error("FATAL ERROR: " + errorMessage);
         setIsValid(false);
         throw ex;
