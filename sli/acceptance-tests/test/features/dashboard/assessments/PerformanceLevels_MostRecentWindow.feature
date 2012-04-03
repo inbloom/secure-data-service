@@ -10,7 +10,6 @@ Background:
 # USE:  AssessmentFamilyHierarchy like "ISAT Writing for Grades 8" 
 Scenario: Calculating Most Recent Performance Level for an Assessment
 Given I am authenticated to SLI as "lkim" "lkim"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -27,7 +26,6 @@ Given I am authenticated to SLI as "lkim" "lkim"
 # USE: AssessmentFamilyHierarchy like "DIBELS.DIBELS Next*"	
 Scenario: Calculating Most Recent Performance Level for an Assessment Family
  Given I am authenticated to SLI as "rbraverman" "rbraverman"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"

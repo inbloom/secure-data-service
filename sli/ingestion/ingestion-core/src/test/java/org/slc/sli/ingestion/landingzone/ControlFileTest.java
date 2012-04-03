@@ -28,10 +28,10 @@ public class ControlFileTest {
                 + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep;
 
         File tmpFile = File.createTempFile("test", ".ctl");
-        tmpFile.deleteOnExit();
         FileUtils.writeStringToFile(tmpFile, content);
 
         ControlFile controlFile = ControlFile.parse(tmpFile);
+        tmpFile.delete();
 
         ArrayList<IngestionFileEntry> items = (ArrayList<IngestionFileEntry>) controlFile.getFileEntries();
 
