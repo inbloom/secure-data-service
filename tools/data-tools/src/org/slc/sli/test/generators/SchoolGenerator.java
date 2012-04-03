@@ -176,7 +176,7 @@ public class SchoolGenerator {
         School school = new School();
         school.setId(schoolId);
 
-        school.setStateOrganizationId("New York School Board") ;
+        school.setStateOrganizationId(schoolId) ;
         school.setNameOfInstitution(schoolId) ;
         school.setShortNameOfInstitution(schoolId.replaceAll("[a-z]", "")) ;
         school.setWebSite("http://www." + schoolId.replaceAll("[ a-z:]", "") + "School.edu") ;
