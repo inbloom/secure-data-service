@@ -82,11 +82,11 @@ public class ValidationController {
 
 			}
 		}
-		/*
-		 * for(IngestionFileEntry ife : job.getFiles()) {
-		 * for(SimpleValidatorSpring validator : validators) {
-		 * validator.isValid(ife, job.getFaultsReport()); } }
-		 */
+
+		 for(IngestionFileEntry ife : job.getFiles()) {
+		 for(SimpleValidatorSpring validator : validators) {
+		 validator.isValid(ife, job.getFaultsReport()); } }
+
 		if (job != null) {
 			FaultsReport fr = job.getFaultsReport();
 
