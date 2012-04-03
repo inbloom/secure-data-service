@@ -580,6 +580,7 @@ end
 
 desc "Run V1 Cohort Tests"
 task :v1CohortTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runFixtureAndTests("test/features/apiV1/entities/cohort","cohort","cohort_fixture.json")
 end
 

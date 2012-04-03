@@ -14,9 +14,9 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #staff cohort association data
-  when "ASSOCIATION COUNT" then 6
+  when "ASSOCIATION COUNT" then 8
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
-  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
+  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 3
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 2" then 2
   when "ASSOCIATION ID" then "f4e62753-43e7-4cab-843b-c6c4a0d6c1c3"
@@ -25,7 +25,7 @@ Transform /^<([^"]*)>$/ do |val|
   when "ASSOCIATION LINK NAME" then "getStaffCohortAssociations"
   when "ASSOCIATION TYPE" then "staffCohortAssociation"
   when "ASSOCIATION URI" then "staffCohortAssociations"
-    
+
     #staff related data
   when "ENDPOINT1 FIELD" then "staffId"
   when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "f0e41d87-92d4-4850-9262-ed2f2723159b"
