@@ -518,7 +518,7 @@ public class StudentGradeGenerator {
 		
 		for(int i = 0; i < SECTION_COUNT; i++){
 			sections[i]                                  = sectionGenerator.generate("sectionCode " + i, 1, "School-Id");
-			sectionRefs[i]                               = sectionGenerator.getSessionRerence();
+			sectionRefs[i]                               = sectionGenerator.getSectionReference(sections[i]);
 		}
 		
 		LearningObjectiveGenerator learningObGenerator   = new LearningObjectiveGenerator();
