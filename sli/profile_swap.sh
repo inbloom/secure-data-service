@@ -7,7 +7,7 @@ grep -lR "sli.dev.subdomain=" sli-configuration/* | xargs -L 1 sed -i'' -e "s/sl
 #Take care of fixture data for applications
 echo "Altering fixture data for applications to match..."
 sed -i'' -e "s/https:\/\/ci.slidev.org/https:\/\/$1.slidev.org/g" acceptance-tests/test/data/team_application_fixtures.json
-sed -i'' -e "s/https:\/\/ci.slidev.org/https:\/\/$1.slidev.org/g" acceptance-tests/test/data/application_fixtures.json
+sed -i'' -e "s/https:\/\/ci.slidev.org/https:\/\/$1.slidev.org/g" acceptance-tests/test/data/application_fixture.json
 
 #Take care of rails projects
 echo "Altering rails applications to match..."
