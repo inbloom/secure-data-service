@@ -1,1 +1,1 @@
-{ "keyFields" : ["metaData.idNamespace","metaData.externalId"] }
+{ "keyFields" : ["metaData.tenantId","metaData.externalId"] }
