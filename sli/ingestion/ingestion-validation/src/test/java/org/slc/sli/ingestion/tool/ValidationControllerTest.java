@@ -43,6 +43,35 @@ public class ValidationControllerTest {
     }
 
     /**
+     * Test invalid zip file
+     */
+    @Test
+    public void testDovalidationInvalidZip() {
+        Resource invalidFileResource = new ClassPathResource("controller_test/invalidZip/SessionInValid.zip");
+        try {
+           validationController.doValidation(invalidFileResource.getFile().getParent());
+        } catch (IOException e) {
+            fail("IO exception");
+        }
+        //TODO: add assert
+    }
+
+    /**
+     * Test invalid control file
+     */
+    @Test
+    public void testDovalidationInvalidCtl() {
+        Resource invalidFileResource = new ClassPathResource("controller_test/invalidCtl/MainControlFile.ctl");
+        try {
+           validationController.doValidation(invalidFileResource.getFile().getParent());
+        } catch (IOException e) {
+            fail("IO exception");
+        }
+        //TODO: add assert
+    }
+
+
+    /**
      * Test situation when there are multiple zip and control files
      * in the same folder
      */
