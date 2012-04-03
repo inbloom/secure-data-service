@@ -17,23 +17,26 @@ import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
+import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
 
 /**
  * Generates all Education Organizations contained in the variables:
- *  - seaMap
- *  - leaMap
- *  - schoolMap
- *  - courseMap
- *  as created by the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator
+ * - seaMap
+ * - leaMap
+ * - schoolMap
+ * - courseMap
+ * as created by the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator
+ *
  * @author dduran
  *
  */
 public class InterchangeEdOrgGenerator {
 
-	/**
-	 * Sets up a new Education Organization Interchange and populates it
-	 * @return
-	 */
+    /**
+     * Sets up a new Education Organization Interchange and populates it
+     *
+     * @return
+     */
     public static InterchangeEducationOrganization generate() {
         long startTime = System.currentTimeMillis();
 
@@ -50,6 +53,7 @@ public class InterchangeEdOrgGenerator {
 
     /**
      * Generates the individual entities that can be Educational Organizations
+     *
      * @param interchangeObjects
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
@@ -65,48 +69,84 @@ public class InterchangeEdOrgGenerator {
 
     /**
      * Loops all SEAs and, using an SEA Generator, populates interchange data.
+     *
      * @param interchangeObjects
      * @param seaMetas
      */
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
         for (SeaMeta seaMeta : seaMetas) {
-            StateEducationAgency sea = StateEducationAgencyGenerator.getStateEducationAgency(seaMeta.id);
+
+            StateEducationAgency sea;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                sea = null;
+            } else {
+                sea = StateEducationAgencyGenerator.getStateEducationAgency(seaMeta.id);
+            }
+
             interchangeObjects.add(sea);
         }
     }
 
     /**
      * Loops all LEAs and, using an LEA Generator, populates interchange data.
+     *
      * @param interchangeObjects
      * @param leaMetas
      */
     private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
         for (LeaMeta leaMeta : leaMetas) {
-            LocalEducationAgency lea = LocalEducationAgencyGenerator.getLocalEducationAgency(leaMeta.id, leaMeta.seaId);
+
+            LocalEducationAgency lea;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                lea = null;
+            } else {
+                lea = LocalEducationAgencyGenerator.getLocalEducationAgency(leaMeta.id, leaMeta.seaId);
+            }
+
             interchangeObjects.add(lea);
         }
     }
 
     /**
      * Loops all schools and, using a School Generator, populates interchange data.
+     *
      * @param interchangeObjects
      * @param schoolMetas
      */
     private static void generateSchools(List<Object> interchangeObjects, Collection<SchoolMeta> schoolMetas) {
         for (SchoolMeta schoolMeta : schoolMetas) {
-            School school = SchoolGenerator.getSchool(schoolMeta.id, schoolMeta.leaId);
+
+            School school;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                school = null;
+            } else {
+                school = SchoolGenerator.getSchool(schoolMeta.id, schoolMeta.leaId);
+            }
+
             interchangeObjects.add(school);
         }
     }
 
     /**
      * Loops all courses and, using a Course Generator, populates interchange data.
+     *
      * @param interchangeObjects
      * @param courseMetas
      */
     private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) {
         for (CourseMeta courseMeta : courseMetas) {
-            Course course = CourseGenerator.getFastCourse(courseMeta.id, courseMeta.schoolId);
+
+            Course course;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                course = null;
+            } else {
+                course = CourseGenerator.getFastCourse(courseMeta.id, courseMeta.schoolId);
+            }
+
             interchangeObjects.add(course);
         }
     }

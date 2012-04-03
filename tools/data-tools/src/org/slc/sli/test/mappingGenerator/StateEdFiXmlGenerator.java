@@ -21,23 +21,32 @@ import org.slc.sli.test.utils.ValidateSchema;
  * Code to generate referentially correct interchanges that are built
  * as a depth-first walk of the dependency graph beginning with
  * StateEducationAgency.
+ *
  * @author dduran
  *
  */
 public class StateEdFiXmlGenerator {
 
-	/**
-	 * Currently generates:
-	 * 	- edOrg
-	 * 	- edOrgCalendar
-	 * 	- masterSchedule
-	 *  - staffAssociation
-	 *  - student
-	 *  - studentEnrollment
-	 * @param args
-	 * @throws Exception
-	 */
+    /**
+     * used by interchange generators to determine which entity generator to invoke
+     */
+    public static String fidelityOfData = "low";
+
+    /**
+     * Currently generates:
+     * - edOrg
+     * - edOrgCalendar
+     * - masterSchedule
+     * - staffAssociation
+     * - student
+     * - studentEnrollment
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
+
+        processProgramArguments(args);
 
         MetaRelations.buildFromSea();
 
@@ -45,6 +54,14 @@ public class StateEdFiXmlGenerator {
 
         ValidateSchema.check("./data/");
 
+    }
+
+    private static void processProgramArguments(String[] args) {
+
+        if (args[0] != null && ("low".equals(args[0]) || "medium".equals(args[0]))) {
+            fidelityOfData = args[0];
+        }
+        System.out.println("will use " + fidelityOfData + " fidelity data generators.");
     }
 
     private static void generateAndMarshalInterchanges() throws Exception {
@@ -64,6 +81,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeEducationOrganization data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void edOrg() throws Exception {
@@ -76,6 +94,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeEducationOrgCalendar data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void edOrgCalendar() throws Exception {
@@ -88,6 +107,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeMasterSchedule data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void masterSchedule() throws Exception {
@@ -100,6 +120,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeStaffAssociation data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void staffAssociation() throws Exception {
@@ -111,6 +132,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeStudent data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void student() throws Exception {
@@ -123,6 +145,7 @@ public class StateEdFiXmlGenerator {
 
     /**
      * Generate InterchangeStudentEnrollment data and use Jaxb to output the XML file.
+     *
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
