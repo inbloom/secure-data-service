@@ -483,7 +483,7 @@ public class DataForASchool {
         // StudentSchoolAssociation
         StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
         for (StudentSchoolAssociationInternal ssai : studentSchoolAssociations) {
-            list.add(ssag.generate(ssai.student, ssai.school));
+            list.add(ssag.generateLowFi(ssai.student, ssai.school));
         }
 
         // StudentSectionAssociation
