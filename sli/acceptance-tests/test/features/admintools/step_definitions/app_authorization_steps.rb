@@ -248,3 +248,8 @@ Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |a
   step "I am redirected to the Admin Application Authorization Tool"
 end
 
+Given /^I am an authenticated end user "" from "([^"]*)"$/ do |arg1|
+    @driver.get(PropLoader.getProps['databrowser_server_url'])
+end
+
+
