@@ -275,7 +275,7 @@ public class CourseGenerator {
         course.setNumberOfParts(1);
         
 		CourseCode CourseCode = new CourseCode();
-		CourseCode.setID("ID");
+		CourseCode.setID(id);
 		CourseCode.setIdentificationSystem( CourseCodeSystemType.CSSC_COURSE_CODE );
 		CourseCode.setAssigningOrganizationCode( "200" );
 		course.getCourseCode().add(CourseCode);
