@@ -34,6 +34,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
 import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
+import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,12 @@ public class StaffResourceTest {
 
     @Autowired
     StaffCohortAssociation staffCohortAssn;
+    
+    @Autowired
+    ProgramResource programResource;
+    
+    @Autowired
+    StaffProgramAssociationResource staffProgramAssociationResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -435,6 +442,98 @@ public class StaffResourceTest {
         
         when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
         return mock;
+    }
+    
+    private Map<String, Object> createTestProgramEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("programId", "1001");
+       return entity;
+    }  
+
+    private Map<String, Object> createTestStaffProgramAssociationEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("beginDate", "2012-01-01");
+        return entity;
+    }
+    
+    @Test
+    public void testGetStaffProgramAssociations() {
+        //create one entity
+        Response createResponse = programResource.create(new EntityBody(createTestProgramEntity()), httpHeaders, uriInfo);
+        String programId = parseIdFromLocation(createResponse);
+
+        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo); 
+        String staffId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestStaffProgramAssociationEntity();
+        map.put("programId", programId);
+        map.put("staffId", staffId);
+
+        createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = programResource.getStaffProgramAssociations(programId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity", results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);            
+        assertEquals("beginDate should be 2012-01-01", "2012-01-01", body.get("beginDate"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStaffProgramAssociationProgram() {
+        //create one entity
+        Response createResponse = programResource.create(new EntityBody(createTestProgramEntity()), httpHeaders, uriInfo);
+        String programId = parseIdFromLocation(createResponse);
+
+        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo); 
+        String staffId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestStaffProgramAssociationEntity();
+        map.put("programId", programId);
+        map.put("staffId", staffId);
+
+        createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        
+        Response response = staffResource.getStaffProgramAssociationPrograms(staffId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity", results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals("studentUniqueStateId should be 1001", "1001", body.get("programId"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
     
     private String getIDList(String resource) {

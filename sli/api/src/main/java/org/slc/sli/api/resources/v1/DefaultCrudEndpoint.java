@@ -3,6 +3,9 @@ package org.slc.sli.api.resources.v1;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.DefaultValue;
+
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,6 +47,10 @@ import java.util.ArrayList;
 @Component
 @Scope("request")
 public class DefaultCrudEndpoint implements CrudEndpoint {
+    /* Shared query parameters that are used by all endpoints */ 
+    @QueryParam(ParameterConstants.INCLUDE_CUSTOM) 
+    @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM) protected String includeCustomEntityStr;
+    
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
@@ -54,7 +61,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
-    
+
     @Autowired
     private OptionalFieldAppenderFactory factory;
     
@@ -146,10 +153,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                    
+                    // add the custom entity if it was requested
+                    addCustomEntity(entityBody, entityDef, uriInfo);   
+                    
                     // add entity to resulting response
                     results.add(entityBody);
                 }
-                
+                                
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
                 return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -205,6 +216,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 Map<String, List<EntityBody>> associations = new HashMap<String, List<EntityBody>>();
                 // for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
+                    // add the custom entity if it was requested
+                    addCustomEntity(entityBody, entityDef, uriInfo); 
+                    
                     ids.add((String) entityBody.get(idKey));
                     
                     if (associations.containsKey((String) entityBody.get(idKey))) {
@@ -232,7 +246,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
                 
                 finalResults = appendOptionalFields(uriInfo, finalResults);
-                
+                                
                 long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                 return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -294,6 +308,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     if (result != null) {
                         result.put(ResourceConstants.LINKS,
                                 ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
+                        
+                        // add the custom entity if it was requested
+                        addCustomEntity(result, entityDef, uriInfo);
                     }
                     finalResults.add(result);
                 }
@@ -391,7 +408,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
-                    results.add(entityBody);
+                                        
+                    results.add(entityBody);                  
                 }
                 
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), new ApiQuery(uriInfo));
@@ -434,6 +452,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         neutralQuery.setLimit(originalLimit);
         neutralQuery.setOffset(originalOffset);
         return count;
+    }
+    
+    /** 
+     * Retrieve the custom entity for the given request if flag includeCustom is set to true. 
+     * 
+     */
+    private void addCustomEntity(EntityBody entityBody, final EntityDefinition entityDef, UriInfo uriInfo) {
+        boolean includeCustomEntity = "true".equals(includeCustomEntityStr); 
+        if (includeCustomEntity) {
+           String entityId = (String) entityBody.get("id");
+           EntityBody custom = entityDef.getService().getCustom(entityId);
+           if (custom != null)
+               entityBody.put(ResourceConstants.CUSTOM, custom); 
+        }
     }
     
     /**
