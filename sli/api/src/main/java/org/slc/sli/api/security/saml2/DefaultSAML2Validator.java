@@ -158,6 +158,7 @@ public class DefaultSAML2Validator implements SAML2Validator {
      */
     private KeyStore loadCaCerts() {
         KeyStore cacerts = null;
+        FileInputStream fis = null;
         try {
             cacerts = KeyStore.getInstance("JKS");
             cacerts.load(new FileInputStream(new File(trustedCertificatesStore)), null);
@@ -171,6 +172,14 @@ public class DefaultSAML2Validator implements SAML2Validator {
             LOG.error("There was an issue opening the trusted Certificate Authority store", e);
         } catch (KeyStoreException e) {
             LOG.error("There is an issue with the trusted Certificate Authority store", e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOG.error("couldn't close stream", e);
+                }
+            }
         }
         return cacerts;
     }

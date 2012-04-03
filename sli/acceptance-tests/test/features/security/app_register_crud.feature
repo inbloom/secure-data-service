@@ -23,11 +23,15 @@ Scenario: Deny creation when specifying invalid fields
 	When I POST an application specifying an invalid field
 	Then I should receive a return code of 400
 
-Scenario: Deny access when logging in as invalid user
+Scenario Outline: Deny access when logging in as invalid user
 
-	Given I am logged in using "baduser" "baduser1234" to realm "SLI"
+	Given I am logged in using <User> <Password> to realm <Realm>
 	When I navigate to GET "/apps/<Testing App>"
 	Then I should receive a return code of 403
+	Examples:
+	| User       | Password       | Realm |
+	| "baduser"  | "baduser1234"  | "SLI" |
+	#| "badadmin" | "badadmin1234" | "IL"  |
 
 Scenario Outline: Deny creation when user specifying auto-generated field
 

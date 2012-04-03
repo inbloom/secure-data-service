@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="studentTranscriptAssociations" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentTranscriptAssociation" />
+    </jb:bean>
+
+    <jb:bean beanId="studentTranscriptAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'studentTranscriptAssociation'</jb:expression>
+        <jb:wiring property="body" beanIdRef="studentTranscriptAssociationBody" />
+    </jb:bean>
+
+    <jb:bean beanId="studentTranscriptAssociationBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="courseAttemptResult" data="attributes CourseAttemptResult" />
+        <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />
+        <jb:wiring property="creditsEarned" beanIdRef="CreditsEarnedValue" />
+        <jb:wiring property="additionalCreditsEarned" beanIdRef="AdditionalCreditsArray" />
+        <jb:value property="gradeLevelWhenTaken" data="attributes GradeLevelWhenTaken" />
+        <jb:value property="methodCreditEarned" data="attributes MethodCreditEarned" />
+        <jb:value property="finalLetterGradeEarned" data="attributes FinalLetterGradeEarned" />
+        <jb:value property="finalNumericGradeEarned" data="attributes FinalNumericGradeEarned" decoder="Integer" />
+        <jb:value property="courseRepeatCode" data="attributes CourseRepeatCode" />
+        <jb:value property="gradeType" data="attributes gradeType" />
+        <jb:value property="studentId" data="attributes studentId" />
+        <jb:value property="courseId" data="attributes courseId" />
+    </jb:bean>
+
+     <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap" createOnElement="creditsAttempted">
+        <jb:value property="credit" data="attributes creditsAttempted credit" decoder="Float" />
+      </jb:bean>
+
+      <jb:bean beanId="CreditsEarnedValue" class="java.util.HashMap" createOnElement="creditsEarned">
+        <jb:value property="credit" data="attributes creditsEarned credit" decoder="Float" />
+      </jb:bean>
+
+      <jb:bean beanId="AdditionalCreditsArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="AdditionalCredit" />
+      </jb:bean>
+
+      <jb:bean beanId="AdditionalCredit" class="java.util.HashMap" createOnElement="additionalCreditsEarned element">
+        <jb:value property="credit" data="additionalCreditsEarned element credit" decoder="Float" />
+        <jb:value property="additionalCreditType" data="additionalCreditsEarned element additionalCreditType" />
+      </jb:bean>
+
+      <jb:bean beanId="StudentTranscriptAssociation_StudentReference" class="java.util.HashMap" createOnElement="studentAcademicRecord">
+        <jb:value property="studentId" data="studentAcademicRecord studentId" />
+      </jb:bean>
+
+</smooks-resource-list>

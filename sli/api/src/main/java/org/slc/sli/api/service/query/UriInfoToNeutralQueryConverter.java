@@ -94,7 +94,6 @@ public class UriInfoToNeutralQueryConverter {
      * criteria to the provided neutralQuery.
      * 
      * @param neutralQuery object to add criteria to
-     * @param queryString & separated list of criteria query should meet
      * @return a non-null neutral query containing any specified criteria
      */
     public NeutralQuery convert(NeutralQuery neutralQuery, UriInfo uriInfo) {
@@ -106,7 +105,9 @@ public class UriInfoToNeutralQueryConverter {
                         NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
                         NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
-                            if (!neutralCriteria.getKey().equals("full-entities")) {
+                            if (!neutralCriteria.getKey().equals("full-entities")
+                                    && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))) {
                                 neutralQuery.addCriteria(neutralCriteria);
                             }
                         } else {
@@ -126,8 +127,7 @@ public class UriInfoToNeutralQueryConverter {
     /**
      * Converts a & separated list of criteria into a neutral criteria object. Creates a new
      * NeutralQuery with all associated criteria.
-     * 
-     * @param queryString & separated list of criteria query should meet
+     *
      * @return a neutral implementation of the query string
      */
     public NeutralQuery convert(UriInfo uriInfo) {

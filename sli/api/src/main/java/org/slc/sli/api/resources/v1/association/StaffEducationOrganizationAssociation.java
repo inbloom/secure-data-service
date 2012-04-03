@@ -22,10 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.v1.CrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
@@ -40,20 +40,21 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-public class StaffEducationOrganizationAssociation {
+public class StaffEducationOrganizationAssociation extends DefaultCrudEndpoint {
+ 
+    public static final String STAFF_REFERENCE = "staffReference";
+    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
+    public static final String STAFF_CLASSIFICATION = "staffClassification";
+    public static final String BEGIN_DATE = "beginDate";
+
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffEducationOrganizationAssociation.class);
     
-    /*
-     * Interface capable of performing CRUD operations.
-     */
-    private final CrudEndpoint crudDelegate;
-
     @Autowired
-    public StaffEducationOrganizationAssociation(CrudEndpoint crudDelegate) {
-        this.crudDelegate = crudDelegate;
+    public StaffEducationOrganizationAssociation(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         LOGGER.debug("New resource handler created: {}", this);
     }
 
@@ -75,9 +76,7 @@ public class StaffEducationOrganizationAssociation {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return this.crudDelegate.readAll(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -98,7 +97,7 @@ public class StaffEducationOrganizationAssociation {
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.create(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -117,7 +116,7 @@ public class StaffEducationOrganizationAssociation {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEducationOrganizationId, headers, uriInfo);
+        return super.read(staffEducationOrganizationId, headers, uriInfo);
     }
 
     /**
@@ -136,7 +135,7 @@ public class StaffEducationOrganizationAssociation {
     @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.delete(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEducationOrganizationId, headers, uriInfo);
+        return super.delete(staffEducationOrganizationId, headers, uriInfo);
     }
 
     /**
@@ -159,7 +158,7 @@ public class StaffEducationOrganizationAssociation {
     public Response update(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.update(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEducationOrganizationId, newEntityBody, headers, uriInfo);
+        return super.update(staffEducationOrganizationId, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -187,7 +186,7 @@ public class StaffEducationOrganizationAssociation {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
+       return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
                "staffReference", ResourceNames.STAFF, headers, uriInfo);
     }
     
@@ -216,7 +215,7 @@ public class StaffEducationOrganizationAssociation {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return this.crudDelegate.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
+        return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationId, 
                 "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
     }
 }

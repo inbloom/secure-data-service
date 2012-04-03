@@ -134,12 +134,20 @@ public class SamlFederationResource {
         // Apply transforms
         attributes = transformer.apply(realm, attributes);
         
-        SLIPrincipal principal = users.locate((String) realm.getBody().get("regionId"), attributes.getFirst("userId"));
+        SLIPrincipal principal = users.locate((String) realm.getBody().get("tenantId"), attributes.getFirst("userId"));
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
+        String edOrg = attributes.getFirst("edOrg");
+        
+        //TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
+        //Once we have a dedicated edOrg attribute, we can strip out this part
+        if (edOrg != null && edOrg.indexOf(' ') > -1) {
+            edOrg = edOrg.substring(0, edOrg.indexOf(' '));
+        }
+        principal.setEdOrg(edOrg);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
     }

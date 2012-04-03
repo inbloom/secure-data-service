@@ -78,7 +78,7 @@ public class StudentAssessmentEntityTest {
             NeutralRecord studentAssessmentNeutralRecord) {
         
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-        assertEquals("ID005", studentAssessmentNeutralRecord.getLocalId());
+        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
         
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
@@ -93,14 +93,12 @@ public class StudentAssessmentEntityTest {
 
         List specialAccommodationsList = (List) studentAssessmentNeutralRecord
                 .getAttributes().get("specialAccommodations");
-        List specialAccommodationList = (List) specialAccommodationsList.get(0);
-        assertEquals("Colored lenses", specialAccommodationList.get(0));
+        assertEquals("Colored lenses", specialAccommodationsList.get(0));
 
         List linguisticAccommodationsList = (List) studentAssessmentNeutralRecord
                 .getAttributes().get("linguisticAccommodations");
-        List linguisticAccommodationList = (List) linguisticAccommodationsList.get(0);
         assertEquals("Oral Translation - Word or Phrase",
-                linguisticAccommodationList.get(0));
+                linguisticAccommodationsList.get(0));
 
         assertEquals("2nd Retest", studentAssessmentNeutralRecord.getAttributes()
                 .get("retestIndicator"));

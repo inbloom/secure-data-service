@@ -8,7 +8,6 @@ Background:
 
 Scenario: Displaying gradebook entry data for all students
   Given I am authenticated to SLI as "linda.kim" "linda.kim1234"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "East Daybreak Junior High"
     And I select <course> "8th Grade English"
@@ -31,8 +30,3 @@ Scenario: Displaying gradebook entry data for all students
 	And I should see his/her "<SECOND UNIT TEST>" grade is 44
 	And I should see his/her "<THIRD UNIT TEST>" grade is 45
 	
-	# Current average grade
-	And I should see a table heading "Current"
-	And I should see a field "Average" in this table
-	And I should see his/her current average grade is "44%"
-	And the current average grade is calculated correctly

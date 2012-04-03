@@ -9,15 +9,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.ext.Provider;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.util.OAuthTokenUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +22,16 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.RandomValueTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Handles Authorization and Resource Server token services by extending
@@ -55,9 +56,12 @@ public class OAuthSessionService extends RandomValueTokenServices {
 
     @Autowired
     private OAuthTokenUtil util;
-    
+        
     @Autowired
     private ContextResolverStore contextResolverStore;
+    
+    @Autowired
+    private ApplicationAuthorizationValidator appValidator;
     
     @PostConstruct
     public void init() {
@@ -72,7 +76,6 @@ public class OAuthSessionService extends RandomValueTokenServices {
     @Override
     public OAuth2AccessToken createAccessToken(
             OAuth2Authentication authentication) throws AuthenticationException {
-        
         validateAppAuthorization(authentication);
         return super.createAccessToken(authentication);
     }
@@ -103,13 +106,11 @@ public class OAuthSessionService extends RandomValueTokenServices {
     }
 
     private Entity findUsersDistrict(SLIPrincipal principal) {
-        
         if (principal.getEntity() != null) {
             try {
                 List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
                 for (String id : edOrgs) {
                     Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-                    
                     @SuppressWarnings("unchecked")
                     List<String> category = (List<String>) entity.getBody().get("organizationCategories");
                     if (category.contains("Local Education Agency")) {
@@ -126,7 +127,6 @@ public class OAuthSessionService extends RandomValueTokenServices {
         LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
         return null;
     }
-
 
     @Override
     public OAuth2Authentication loadAuthentication(String accessTokenValue)
@@ -170,5 +170,4 @@ public class OAuthSessionService extends RandomValueTokenServices {
         neutralQuery.addCriteria(new NeutralCriteria("token", "=", token));
         return repo.findOne(OAUTH_ACCESS_TOKEN_COLLECTION, neutralQuery);
     }
-
 }

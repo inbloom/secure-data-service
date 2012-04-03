@@ -100,7 +100,7 @@ public interface Repository<T> {
      * @param paths
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.regionId","Region")
+     *            or new HashMap().put("metadata.tenantId","Region")
      * @return the collection of objects
      */
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery);
@@ -176,7 +176,7 @@ public interface Repository<T> {
      * @param paths
      *            a map with key value pairs as string that define the search
      *            criteria for example: new HashMap().put("body.firstName","Jane"),
-     *            or new HashMap().put("metadata.regionId","Region")
+     *            or new HashMap().put("metadata.tenantId","Region")
      * @return the collection of objects
      */
     @Deprecated

@@ -85,6 +85,7 @@
               <list>
                 <value>${smooks.targetselector.xml.student.school}</value>
                 <value>${smooks.targetselector.xml.student.section}</value>
+                <value>${smooks.targetselector.xml.student.graduationPlan}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -121,6 +122,7 @@
                 <value>${smooks.targetselector.xml.student.gradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
+                <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
               </list>
             </constructor-arg>
           </bean>

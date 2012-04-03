@@ -16,6 +16,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -46,9 +47,9 @@ public class SmooksEdFi2SLITransformerTest {
     private EntityValidator validator;
 
     private static final String STUDENT_ID = "303A1";
-    private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
+    private static final String TENANT_ID = "SLI";
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID_FIELD = "idNamespace";
+    private static final String TENANT_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
     private static final String ASSESSMENT_TITLE = "assessmentTitle";
 
@@ -248,6 +249,7 @@ public class SmooksEdFi2SLITransformerTest {
         MongoEntityRepository mockedEntityRepository = mock(MongoEntityRepository.class);
         NeutralRecord assessmentRC = createAssessmentNeutralRecord(true);
 
+        entityConfigurations.setResourceLoader(new DefaultResourceLoader());
         entityConfigurations.setSearchPath("classpath:smooksEdFi2SLI/");
         transformer.setEntityRepository(mockedEntityRepository);
 
@@ -256,7 +258,7 @@ public class SmooksEdFi2SLITransformerTest {
 
         Map<String, String> assessmentFilterFields = new HashMap<String, String>();
         assessmentFilterFields.put("body.assessmentTitle", ASSESSMENT_TITLE);
-        assessmentFilterFields.put(METADATA_BLOCK + "." + REGION_ID_FIELD, REGION_ID);
+        assessmentFilterFields.put(METADATA_BLOCK + "." + TENANT_ID_FIELD, TENANT_ID);
         assessmentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
 
         List<Entity> le = new ArrayList<Entity>();
@@ -270,7 +272,7 @@ public class SmooksEdFi2SLITransformerTest {
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals(REGION_ID, res.get(0).getMetaData().get(REGION_ID_FIELD));
+        Assert.assertEquals(TENANT_ID, res.get(0).getMetaData().get(TENANT_ID_FIELD));
         Assert.assertEquals(STUDENT_ID, res.get(0).getMetaData().get(EXTERNAL_ID_FIELD));
 
     }
@@ -287,8 +289,8 @@ public class SmooksEdFi2SLITransformerTest {
         if (setId)
             assessment.setLocalId(STUDENT_ID);
 
-        //This will become IdNamespace field after transformed into neutral record entity
-        assessment.setSourceId(REGION_ID);
+        //This will become tenantId field after transformed into neutral record entity
+        assessment.setSourceId(TENANT_ID);
 
         assessment.setRecordType("assessment");
         assessment.setAttributeField("assessmentTitle", "assessmentTitle");
@@ -362,7 +364,7 @@ public class SmooksEdFi2SLITransformerTest {
 
         entity.setBody(field);
         entity.setMetaData(new HashMap<String, Object>());
-        entity.getMetaData().put(REGION_ID_FIELD, REGION_ID);
+        entity.getMetaData().put(TENANT_ID_FIELD, TENANT_ID);
         entity.getMetaData().put(EXTERNAL_ID_FIELD, STUDENT_ID);
 
         return entity;
