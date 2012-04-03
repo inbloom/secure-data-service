@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardException;
 
@@ -117,6 +118,7 @@ public class EntityManager extends ApiClientManager {
             throw new DashboardException("Unable to retrieve data for the requested ID");
         }
         student = ContactSorter.sort(student);
+        student = GenericEntityEnhancer.enhanceStudent(student);
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
         student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
