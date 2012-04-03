@@ -13,19 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  */
 public class SLIPrincipal implements Principal, UserDetails {
-
+    private static final long serialVersionUID = 828231479886123195L;
     private String id;
     private String name;
     private String state;
+    private String district;
 
     public SLIPrincipal() {
 
-    }
-
-    public SLIPrincipal(String id, String name, String state) {
-        this.id = id;
-        this.name = name;
-        this.state = state;
     }
 
     @Override
@@ -47,6 +42,14 @@ public class SLIPrincipal implements Principal, UserDetails {
 
     public void setState(String state) {
         this.state = state;
+    }
+    
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public void setName(String name) {
