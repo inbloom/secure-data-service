@@ -145,6 +145,12 @@ public class SessionGenerator {
     public static Session getFastSession(String id, String schoolId) {
         Session session = new Session();
         session.setSessionName(id);
+        session.setSchoolYear("2011-2012");
+        session.setTerm(TermType.SPRING_SEMESTER);
+        session.setBeginDate("2012-01-01");
+        session.setEndDate("2012-06-21");
+        session.setTotalInstructionalDays(120);
+        session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
@@ -222,7 +228,7 @@ public class SessionGenerator {
                 + s1.getEducationOrganizationReference().getEducationalOrgIdentity()
                         .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
         System.out.println(sessionString1);
-        
+
     	SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType("stateOrganizationId",
     			"educationOrgIdentificationCode_ID",
     			"educationOrgIdentificationCode_IdentificationSystem",
@@ -235,16 +241,16 @@ public class SessionGenerator {
     public static SessionReferenceType getSessinReferenceType(Session session) {
         SessionReferenceType ref = new SessionReferenceType();
         SessionIdentityType identity = new SessionIdentityType();
-        ref.setSessionIdentity(identity); 
+        ref.setSessionIdentity(identity);
         identity.setSchoolYear(session.getSchoolYear());
         identity.setSessionName(session.getSessionName());
         identity.setTerm(session.getTerm());
-         
+
         identity.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(
         		session.getEducationOrganizationReference().getEducationalOrgIdentity().getStateOrganizationIdOrEducationOrgIdentificationCode());
         return ref;
     }
-    
+
     public static SessionReferenceType getSessionReferenceType(
     		String stateOrganizationId,
     		String educationOrgIdentificationCode_ID,
@@ -256,10 +262,10 @@ public class SessionGenerator {
     	SessionReferenceType  ref = new SessionReferenceType();
         SessionIdentityType sessionIdentity = new SessionIdentityType();
         ref.setSessionIdentity(sessionIdentity);
-        
+
         if(stateOrganizationId != null)
             sessionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrganizationId);
-        
+
     	if(educationOrgIdentificationCode_ID != null) {
     	    EducationOrgIdentificationCode edOrgCode = new EducationOrgIdentificationCode();
     	    edOrgCode.setID(educationOrgIdentificationCode_ID);
@@ -271,5 +277,5 @@ public class SessionGenerator {
     	if(sessionName != null) sessionIdentity.setSessionName(sessionName);
     	return ref;
     }
-    
+
 }
