@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -310,12 +311,48 @@ public class CohortResourceTest {
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
-/*    @Test
-    public void testGetAssociatedStaff() {
-    }
-*
-
     @Test
+    public void testGetAssociatedStaff() {
+        //create one entity
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String cohortId = parseIdFromLocation(createResponse);
+
+        createResponse = staffResource.create(new EntityBody(createTestStaffEntity()), httpHeaders, uriInfo); 
+        String staffId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestStaffAssociationEntity();
+        map.put(ParameterConstants.COHORT_ID, cohortId);
+        map.put(ParameterConstants.STAFF_ID, staffId);
+
+        createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        
+        Response response = cohortResource.getStaffCohortAssociationStaff(cohortId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals(StaffResource.UNIQUE_STATE_ID + " should be " + uniqueStateId, uniqueStateId, body.get(StaffResource.UNIQUE_STATE_ID));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
+
+/*    @Test
     public void testGetStudentAssociations() {
         //create one entity
         Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -356,8 +393,49 @@ public class CohortResourceTest {
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
-/*    @Test
+    @Test
     public void testGetAssociatedStudents() {
+        //create one entity
+        Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String cohortId = parseIdFromLocation(createResponse);
+    
+        createResponse = studentResource.create(new EntityBody(createTestStudentEntity()), httpHeaders, uriInfo); 
+        String studentId = parseIdFromLocation(createResponse);
+    
+        Map<String, Object> map = createTestStudentProgramAssociationEntity();
+        map.put(ParameterConstants.COHORT_ID, cohortId);
+        map.put(ParameterConstants.STUDENT_ID, studentId);
+    
+        createResponse = studentCohortAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+    
+        
+        System.out.println( uriInfo.getQueryParameters(true) );
+        System.out.println( uriInfo.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS) );
+        System.out.println("\n\n" + uriInfo + "\n\n");
+        
+        Response response = cohortResource.getStudentCohortAssociationStudent(cohortId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+    
+        Object responseEntityObj = response.getEntity();
+    
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+    
+        assertNotNull("Should return an entity", body);            
+        assertEquals("studentUniqueStateId should be 1001", "1001", body.get("studentUniqueStateId"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 */
 
@@ -382,6 +460,13 @@ public class CohortResourceTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap<String, String>>() {
+            @Override
+            public MultivaluedMap<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         
