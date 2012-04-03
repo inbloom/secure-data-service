@@ -25,6 +25,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -47,7 +50,7 @@ import org.slc.sli.domain.Repository;
  * @author dkornishev
  */
 @Component
-@Path("/saml")
+@Path("saml")
 public class SamlFederationResource {
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlFederationResource.class);
@@ -201,10 +204,14 @@ public class SamlFederationResource {
     @GET
     @Path("slo/init")
     public Response initSlo() throws Exception {
-        String destination = "https://devadfs.slidev.org/adfs/ls/";
-        String postUrl = "https://devadfs.slidev.org/adfs/ls/";
-        String nameId = "dkornishev";
-        String logoutRequest = saml.createSamlLogoutRequest(destination, nameId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
+        SLIPrincipal principal = (SLIPrincipal) oAuth.getPrincipal();
+        
+        String postUrl = getSloEndpoint(principal.getRealm());
+        String nameId = principal.getName();
+        String sessionIndex = "";
+        String logoutRequest = saml.createSignedSamlLogoutRequest(postUrl, nameId, sessionIndex);
         
         return Response.temporaryRedirect(new URI(postUrl + "?SAMLRequest=" + logoutRequest)).build();
     }
@@ -212,6 +219,7 @@ public class SamlFederationResource {
     @GET
     @Path("slo/redirect")
     public void consumeSloRedirect(@QueryParam("SAMLResponse") String samlResponse, @QueryParam("SAMLRequest") String samlRequest) {
+        LOG.debug("Received a SAMLRequest post for SLO via slo/redirect...");
         this.saml.decodeSamlRedirect(samlRequest);
     }
     
