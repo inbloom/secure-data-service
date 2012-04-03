@@ -25,7 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validatorContext.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class ControlFileValidationTest {
     @Autowired
     ControlFileValidation cfValidation;
