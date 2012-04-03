@@ -172,6 +172,8 @@ public final class Constants {
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
+
+    public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     
     /**
      * Contains the possible values for FRE participation

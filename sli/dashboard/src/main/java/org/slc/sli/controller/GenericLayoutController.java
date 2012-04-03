@@ -3,6 +3,8 @@ package org.slc.sli.controller;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public abstract class GenericLayoutController {
      *            - entity id to pass to the child panels
      * @return
      */
-    protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request) {
         
         // set up model map
         ModelMap model = new ModelMap();
@@ -56,6 +58,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
+        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         
         // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
