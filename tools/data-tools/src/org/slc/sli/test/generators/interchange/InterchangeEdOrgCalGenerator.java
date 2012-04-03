@@ -13,13 +13,22 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeEdOrgCalGenerator {
 
     public static InterchangeEducationOrgCalendar generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
+        addEntitiesToInterchange(interchangeObjects);
+
+        System.out.println("generated InterchangeEducationOrgCalendar object in: "
+                + (System.currentTimeMillis() - startTime));
+        return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+
         generateSessions(interchangeObjects, MetaRelations.sessionMap.values());
 
-        return interchange;
     }
 
     private static void generateSessions(List<ComplexObjectType> interchangeObjects,

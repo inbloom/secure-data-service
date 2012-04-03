@@ -30,11 +30,7 @@ public class DisciplineActionGenerator {
             StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             disciplineAction.getStudentReference().add(srt);
             
-            DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
-            diit.setIncidentIdentifier(discId);
-            diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add("ThisStateID");
-            DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
-            dirt.setDisciplineIncidentIdentity(diit);
+            DisciplineIncidentReferenceType dirt = DisciplineGenerator.getDisciplineIncidentReferenceType(discId, "ThisStateID");
             disciplineAction.getDisciplineIncidentReference().add(dirt);
             
             EducationalOrgReferenceType eor = SchoolGenerator.getEducationalOrgReferenceType(schoolId);

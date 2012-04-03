@@ -21,10 +21,20 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeEdOrgGenerator {
 
     public static InterchangeEducationOrganization generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
+
+        addEntitiesToInterchange(interchangeObjects);
+
+        System.out.println("generated InterchangeEducationOrganization object in: "
+                + (System.currentTimeMillis() - startTime));
+        return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateStateEducationAgencies(interchangeObjects, MetaRelations.seaMap.values());
 
@@ -33,8 +43,6 @@ public class InterchangeEdOrgGenerator {
         generateSchools(interchangeObjects, MetaRelations.schoolMap.values());
 
         generateCourses(interchangeObjects, MetaRelations.courseMap.values());
-
-        return interchange;
     }
 
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {

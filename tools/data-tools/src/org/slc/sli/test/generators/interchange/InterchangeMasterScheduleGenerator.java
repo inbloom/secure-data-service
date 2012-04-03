@@ -13,13 +13,22 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeMasterScheduleGenerator {
 
     public static InterchangeMasterSchedule generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
+        addEntitiesToInterchange(interchangeObjects);
+
+        System.out.println("generated InterchangeMasterSchedule object in: "
+                + (System.currentTimeMillis() - startTime));
+        return interchange;
+    }
+
+    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+
         generateSections(interchangeObjects, MetaRelations.sectionMap.values());
 
-        return interchange;
     }
 
     private static void generateSections(List<ComplexObjectType> interchangeObjects,

@@ -18,8 +18,9 @@ public class JaxbUtils {
      * Marshal the provided object using System.out
      *
      * @param objectToMarshal
+     * @throws JAXBException
      */
-    public static void marshal(Object objectToMarshal) {
+    public static void marshal(Object objectToMarshal) throws JAXBException {
         marshal(objectToMarshal, System.out);
     }
 
@@ -28,17 +29,21 @@ public class JaxbUtils {
      *
      * @param objectToMarshal
      * @param outputStream
+     * @throws JAXBException
      */
-    public static void marshal(Object objectToMarshal, OutputStream outputStream) {
+    public static void marshal(Object objectToMarshal, OutputStream outputStream) throws JAXBException {
         if (objectToMarshal != null) {
-            try {
-                JAXBContext context = JAXBContext.newInstance(objectToMarshal.getClass());
-                Marshaller marshaller = context.createMarshaller();
-                marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-                marshaller.marshal(objectToMarshal, outputStream);
-            } catch (JAXBException e) {
-                System.out.println(e);
-            }
+            long startTime = System.currentTimeMillis();
+
+            JAXBContext context = JAXBContext.newInstance(objectToMarshal.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+            marshaller.marshal(objectToMarshal, outputStream);
+
+            System.out.println("marshaled " + objectToMarshal.getClass() + " in: "
+                    + (System.currentTimeMillis() - startTime));
+        } else {
+            throw new IllegalArgumentException("Cannot marshal null object");
         }
     }
 

@@ -40,7 +40,7 @@ public class FastStudentGenerator {
 
     public static final Calendar RIGHT_NOW = Calendar.getInstance();
 
-    public Student generate(String studentId) {
+    public static Student generate(String studentId) {
 
         Random random = new Random();
 
@@ -97,21 +97,21 @@ public class FastStudentGenerator {
         return student;
     }
 
-    private void setAddresses(Student student) {
+    private static void setAddresses(Student student) {
         Address address = AddressGenerator.getFastAddress();
 
         student.getAddress().add(address);
         student.getAddress().add(address);
     }
 
-    private void setTelephones(Student student) {
+    private static void setTelephones(Student student) {
         Telephone telephone = TelephoneGenerator.getFastTelephone();
 
         student.getTelephone().add(telephone);
         student.getTelephone().add(telephone);
     }
 
-    private void setStudentIndicators(Student student) {
+    private static void setStudentIndicators(Student student) {
         StudentIndicator si = new StudentIndicator();
         si.setBeginDate("2011-03-04");
         si.setEndDate("2012-03-04");
@@ -122,7 +122,7 @@ public class FastStudentGenerator {
         student.getStudentIndicators().add(si);
     }
 
-    private void setCohortYears(Student student) {
+    private static void setCohortYears(Student student) {
         CohortYear ch = new CohortYear();
         ch.setSchoolYear("2011-2012");
         ch.setCohortYearType(CohortYearType.ELEVENTH_GRADE);
@@ -131,7 +131,7 @@ public class FastStudentGenerator {
         student.getCohortYears().add(ch);
     }
 
-    private void setLearningStyles(Student student) {
+    private static void setLearningStyles(Student student) {
         LearningStyles ls = new LearningStyles();
         ls.setVisualLearning(50);
         ls.setTactileLearning(25);
@@ -140,7 +140,7 @@ public class FastStudentGenerator {
         student.setLearningStyles(ls);
     }
 
-    private void setProgramParticipation(Student student) {
+    private static void setProgramParticipation(Student student) {
         ProgramParticipation pp = new ProgramParticipation();
         pp.setBeginDate("2011-03-04");
         pp.setEndDate("2012-03-04");
@@ -150,14 +150,14 @@ public class FastStudentGenerator {
         student.getProgramParticipations().add(pp);
     }
 
-    private void setSection504(Student student) {
+    private static void setSection504(Student student) {
         Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
         sec504.getSection504Disability().add(Section504DisabilityItemType.MEDICAL_CONDITION);
 
         student.setSection504Disabilities(sec504);
     }
 
-    private void setDisabilities(Student student) {
+    private static void setDisabilities(Student student) {
         Disability disability = new Disability();
         disability.setDisability(DisabilityType.DEVELOPMENTAL_DELAY);
 
@@ -165,7 +165,7 @@ public class FastStudentGenerator {
         student.getDisabilities().add(disability);
     }
 
-    private void setLanguagesAndHomeLanguage(Student student) {
+    private static void setLanguagesAndHomeLanguage(Student student) {
         LanguagesType lt = new LanguagesType();
         student.setLanguages(lt);
 
@@ -175,7 +175,7 @@ public class FastStudentGenerator {
         student.setHomeLanguages(lt);
     }
 
-    private void setStudentCharacteristics(Student student) {
+    private static void setStudentCharacteristics(Student student) {
         StudentCharacteristic sc = new StudentCharacteristic();
         sc.setBeginDate("2011-03-04");
         sc.setEndDate("2011-03-04");
@@ -185,7 +185,7 @@ public class FastStudentGenerator {
         student.getStudentCharacteristics().add(sc);
     }
 
-    private void setEmailAdresses(Student student) {
+    private static void setEmailAdresses(Student student) {
         ElectronicMail em = new ElectronicMail();
         em.setEmailAddress("test@gmail.com");
         em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
@@ -194,7 +194,7 @@ public class FastStudentGenerator {
         student.getElectronicMail().add(em);
     }
 
-    private void setRace(Student student) {
+    private static void setRace(Student student) {
         RaceType rt = new RaceType();
         rt.getRacialCategory().add(RaceItemType.WHITE);
         rt.getRacialCategory().add(RaceItemType.BLACK_AFRICAN_AMERICAN);
@@ -202,7 +202,7 @@ public class FastStudentGenerator {
         student.setRace(rt);
     }
 
-    private void setNameAndOtherNames(Student student) {
+    private static void setNameAndOtherNames(Student student) {
 
         student.setName(NameGenerator.getFastName());
 

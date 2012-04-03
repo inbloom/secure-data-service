@@ -13,7 +13,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.BehaviorDescriptorGenerator;
 import org.slc.sli.test.generators.DisciplineActionGenerator;
+import org.slc.sli.test.generators.DisciplineDescriptorGenerator;
 import org.slc.sli.test.generators.DisciplineGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
@@ -25,12 +27,14 @@ import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.internals.*;
-import org.slc.sli.test.validator.ValidateSchema;
+import org.slc.sli.test.utils.ValidateSchema;
 
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
     private static final int numStudents = 10;
+    private static final int numBehaviors = 3;
+    private static final int numDisciplines = 3;
     private static final int parentsPerStudent = 2;
     private static final String delimiter = "_";
 
@@ -157,7 +161,7 @@ public class DataForASchool {
         prepareParent(numStudents*parentsPerStudent);
         prepareStudentParentAssociation(numStudents*parentsPerStudent);
         prepareStudentSchoolAssociation();
-        prepareDisciplineIncident(1);
+        prepareDisciplineIncident(3);
         prepareStudentDisciplineIncidentAssociation();
     }
 
@@ -580,9 +584,20 @@ public class DataForASchool {
         }
         
         // BehaviorDescriptor
-        
+        BehaviorDescriptorGenerator bdg = new BehaviorDescriptorGenerator();
+        for (int iBehavior=0; iBehavior<numBehaviors; iBehavior++) {
+        	String schoolId = schools.get(random.nextInt(schools.size()));
+        	BehaviorDescriptor bd = bdg.generate(iBehavior, schoolId);
+        	list.add(bd);
+        }
         
         // DisciplineDescriptor
+        DisciplineDescriptorGenerator ddg = new DisciplineDescriptorGenerator();
+        for (int iDiscipline=0; iDiscipline<numDisciplines; iDiscipline++) {
+        	String schoolId = schools.get(random.nextInt(schools.size()));
+        	DisciplineDescriptor dd = ddg.generate(iDiscipline, schoolId);
+        	list.add(dd);
+        }
 
         marshaller.marshal(interchangeStudentDiscipline, ps);
     }
