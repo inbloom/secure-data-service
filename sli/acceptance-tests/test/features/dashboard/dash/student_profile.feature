@@ -63,9 +63,7 @@ Then there is no lozenges for student "Jeanette Graves"
 Then the lozenge for student "Kimberley Pennington" include "FRE"
 And I click on student "Kimberley Pennington"
 And I view its student profile
-#Temporary remove this as the skinning is not done correctly for CSI
-#And their name shown in profile is "Kimberley Yuli Pennington Jr"
-And their name shown in profile is "Kimberley Yuli Pennington"
+And their name shown in profile is "Kimberley Yuli Pennington Jr"
 And their id shown in proflie is "437680177"
 And their grade is "Eighth grade"
 And the teacher is "Mrs Linda Kim"
