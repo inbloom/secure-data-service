@@ -13,6 +13,7 @@ import javax.xml.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
@@ -27,12 +28,16 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
+
+    @Autowired
+    private XsdErrorHandler errorHandler;
+
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
 
-        XsdErrorHandlerInterface errorHandler = new XsdErrorHandler(errorReport);
+        errorHandler.setErrorReport(errorReport);
 
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -59,6 +64,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
         }
 
         return errorHandler.isValid();
+
     }
 
     public Map<String, Resource> getXsd() {

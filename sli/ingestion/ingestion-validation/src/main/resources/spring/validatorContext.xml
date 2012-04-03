@@ -8,26 +8,33 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-<import resource="classpath:/spring/applicationContext.xml" />
+<import resource="classpath:/spring/validation-context.xml" />
 
   <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
-      <bean class="org.slc.sli.ingestion.validation.XsdValidator" />
+      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
   </util:list>
 
-  <bean id="validation" class="org.slc.sli.ingestion.tool.Validation">
-      <property name="validators" ref="validators"></property>
-  </bean>
-
-
-
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
-        <property name="validation" ref="validation"></property>
+        <property name="controller" ref="validationController" />
         <property name="appName" value="validationTool" />
-        <property name="n_args" value="1" />
+        <property name="inputArgumentCount" value="1" />
     </bean>
+
+    <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator"/>
 
     <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
          <property name="validator" ref="zipFileValidator"/>
          <property name="messageSource" ref="messageSource"/>
     </bean>
+
+     <bean id="ctlFileValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation">
+         <property name="assembler" ref= "assembler"/>
+     </bean>
+
+
+    <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
+        <property name="zipValidation" ref="zipValidation"/>
+        <property name="ctlValidation" ref="ctlFileValidation"/>
+        <property name="validators" ref="validators"/>
+     </bean>
 </beans>
