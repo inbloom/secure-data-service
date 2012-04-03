@@ -38,10 +38,8 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919001-1"/>
       <GradeType>Final</GradeType>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919001</StudentUniqueStateId>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-2">
@@ -80,10 +78,8 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-2"/>
+      <StudentAcademicRecordReference ref="SAR-91919001-2"/>
       <GradeType>Final</GradeType>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919001</StudentUniqueStateId>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919002-1">
@@ -122,10 +118,8 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919002-1"/>
       <GradeType>Final</GradeType>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919002</StudentUniqueStateId>
     </CourseTranscript>
     
     <StudentAcademicRecord id="SAR-91919002-2">
@@ -164,10 +158,8 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-2"/>
+      <StudentAcademicRecordReference ref="SAR-91919002-2"/>
       <GradeType>Final</GradeType>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919002</StudentUniqueStateId>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919003-1">
@@ -206,9 +198,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919003-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919003-1"/>
       <GradeType>Final</GradeType>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919003</StudentUniqueStateId>
     </CourseTranscript>
 </InterchangeStudentGrade>

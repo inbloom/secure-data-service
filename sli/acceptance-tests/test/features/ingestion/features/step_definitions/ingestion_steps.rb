@@ -181,7 +181,7 @@ When /^a batch job log has been created$/ do
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{maxTimeout}")
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout}")
   end
 
 end
