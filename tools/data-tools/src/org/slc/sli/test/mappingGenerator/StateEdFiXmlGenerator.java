@@ -15,12 +15,21 @@ import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenera
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.utils.JaxbUtils;
+import org.slc.sli.test.utils.ValidateSchema;
 
 public class StateEdFiXmlGenerator {
 
     public static void main(String[] args) throws Exception {
 
         MetaRelations.buildFromSea();
+
+        generateAndMarshalInterchanges();
+
+        ValidateSchema.check("./data/");
+
+    }
+
+    private static void generateAndMarshalInterchanges() throws Exception {
 
         edOrg();
 
@@ -33,7 +42,6 @@ public class StateEdFiXmlGenerator {
         student();
 
         studentEnrollment();
-
     }
 
     private static void edOrg() throws Exception {
