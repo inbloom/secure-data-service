@@ -8,7 +8,6 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.view.modifier.ViewModifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author jstokes
@@ -30,11 +30,13 @@ public class ViewManagerTest {
     
     private ViewManager viewManager; // class under test
     
-    @Autowired EntityManager entityManager;
+    EntityManager entityManager;
     
     @Before
     public void setup() {
+        entityManager = mock(EntityManager.class);
         viewManager = new ViewManager(new ArrayList<ViewConfig>());
+        viewManager.setEntityManager(entityManager);
     }
     
     @Test
@@ -81,6 +83,12 @@ public class ViewManagerTest {
         List<GenericEntity> students3to8 = new ArrayList<GenericEntity>();
         List<GenericEntity> students9to12 = new ArrayList<GenericEntity>();
         
+        List<String> emptyList = new ArrayList<String>();
+        
+        when(entityManager.getStudents("token", emptyList)).thenReturn(null);
+        
+        assertEquals("Should return empty list when student list is empty", 0,
+                viewManager.getApplicableViewConfigs(emptyList, "token").size());
     }
 
 }

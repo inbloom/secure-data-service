@@ -119,4 +119,8 @@ public class ViewManager extends ApiClientManager {
         gradeValues.put("Not Available", -1);
         return gradeValues;
     }
+
+    protected void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 }
