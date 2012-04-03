@@ -20,7 +20,7 @@ Given /^I am using local input file directory$/ do
 end
 
 Given /^I am using default offline tool package$/ do
-  @tool_path = File.dirname(__FILE__) + '/../../../ingestion/ingestion-validation/target/ingestion-validation-1.0-SNAPSHOT.jar'
+  @tool_path = File.dirname(__FILE__) + '/../../../../../../ingestion/ingestion-validation/target/ingestion-validation-1.0-SNAPSHOT.jar'
 end
 
 Given /^I post "([^"]*)" file as an input to offline validation tool$/ do |file_name|
