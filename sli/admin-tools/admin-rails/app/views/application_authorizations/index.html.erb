@@ -23,6 +23,11 @@
         apps.each do |app|
     %>
         <tr>
+          <% puts("The app is #{app.inspect}") %>
+          <% if app == nil
+                next
+             end
+          %>
           <td><%= app.name %></td>
           <td><%= app.version  %></td>
           <td><%= app.developer_info.organization %></td>

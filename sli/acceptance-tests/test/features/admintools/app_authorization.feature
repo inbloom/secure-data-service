@@ -18,7 +18,6 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And are sorted by 'Status'
 	And I see the Name, Version, Vendor and Status of the apps
 
-@currentTest
 Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
@@ -58,9 +57,11 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	And the Approve button next to it is enabled
 	And the Deny button next to it is disabled
 	
+	@currentTest
 	Scenario: Authenticated user (Educator) tries to access a resource through DB within a district that denied Data Browser
 	
 	# It is very critical that we expand this Gherkin properly when we will implement the non-Educator context mapping!
+    Given I have an open web browser
 	Given I am an authenticated end user (Educator) from <district>
 	And the Data Browser is denied access for <district>
 	When I try to access any resource through the DB (even the home-link) page

@@ -20,6 +20,10 @@
     apps.each do |app|
 %>
     <tr>
+      <% if app == nil
+            next
+         end
+      %>
       <td><%= app.name %></td>
       <td><%= app.version  %></td>
       <td><%= app.developer_info.organization %></td>
