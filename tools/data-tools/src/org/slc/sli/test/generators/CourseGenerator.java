@@ -272,6 +272,13 @@ public class CourseGenerator {
     public static Course getFastCourse(String id, String schoolId) {
         Course course = new Course();
         course.setCourseTitle(id);
+        course.setNumberOfParts(1);
+        
+		CourseCode CourseCode = new CourseCode();
+		CourseCode.setID("ID");
+		CourseCode.setIdentificationSystem( CourseCodeSystemType.CSSC_COURSE_CODE );
+		CourseCode.setAssigningOrganizationCode( "200" );
+		course.getCourseCode().add(CourseCode);
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
