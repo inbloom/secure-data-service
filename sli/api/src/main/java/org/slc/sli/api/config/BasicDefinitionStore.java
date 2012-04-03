@@ -246,7 +246,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
-        factory.makeEntity("applicationAuthorization").buildAndRegister(this);
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
         
         // Adding OAuth 2.0 Services
