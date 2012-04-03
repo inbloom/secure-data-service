@@ -32,8 +32,7 @@ public class ValidationController {
 
 	private List<SimpleValidatorSpring> validators;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ControlFile.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ValidationController.class);
 
 	ValidationController() {
 		lz = new LocalFileSystemLandingZone();
@@ -50,6 +49,13 @@ public class ValidationController {
 		lz.setDirectory(directory);
 		ZipFilter zFilter = new ZipFilter();
 		String[] zipFiles = directory.list(zFilter);
+		CtlFilter ctlFilter = new CtlFilter();
+		String[] ctlFiles = directory.list(ctlFilter);
+
+		if ((zipFiles.length + ctlFiles.length) > 1) {
+			LOG.error("Error: There must only be 1 .zip and/or .ctl file in the landing zone");
+			return;
+		}
 		if (zipFiles.length > 0) {
 			job = BatchJob.createDefault(zipFiles[0]);
 			File ctlFile = zipFileValidation(dirName, zipFiles[0], job);
@@ -68,9 +74,6 @@ public class ValidationController {
 						job);
 			}
 		} else {
-			CtlFilter ctlFilter = new CtlFilter();
-			String[] ctlFiles = directory.list(ctlFilter);
-
 			if (ctlFiles.length > 0) {
 				try {
 					job = BatchJob.createDefault(ctlFiles[0]);
