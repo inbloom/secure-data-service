@@ -6,10 +6,14 @@ import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
 import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
+import org.slc.sli.test.edfi.entities.InterchangeStudent;
+import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.utils.JaxbUtils;
 
 public class StateEdFiXmlGenerator {
@@ -25,6 +29,10 @@ public class StateEdFiXmlGenerator {
         masterSchedule();
 
         staffAssociation();
+
+        student();
+
+        studentEnrollment();
 
     }
 
@@ -57,5 +65,21 @@ public class StateEdFiXmlGenerator {
         InterchangeStaffAssociation staffAssociation = InterchangeStaffAssociationGenerator.generate();
 
         JaxbUtils.marshal(staffAssociation, new PrintStream("data/InterchangeStaffAssociation.xml"));
+    }
+
+    private static void student() throws Exception {
+
+        InterchangeStudent student = InterchangeStudentGenerator.generate();
+
+        JaxbUtils.marshal(student, new PrintStream("data/InterchangeStudent.xml"));
+
+    }
+
+    private static void studentEnrollment() throws Exception {
+
+        InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
+
+        JaxbUtils.marshal(studentEnrollment, new PrintStream("data/InterchangeStudentEnrollment.xml"));
+
     }
 }

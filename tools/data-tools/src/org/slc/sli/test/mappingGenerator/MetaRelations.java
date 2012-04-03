@@ -9,6 +9,7 @@ import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
+import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
 public class MetaRelations {
@@ -20,6 +21,7 @@ public class MetaRelations {
     private static final int SESSIONS_PER_SCHOOL = 1;
     private static final int SECTIONS_PER_COURSE_SESSION = 2;
     private static final int TEACHERS_PER_SCHOOL = 3;
+    private static final int STUDENTS_PER_SCHOOL = 5;
 
     // InterchangeEducationOrganization
     public static Map<String, SeaMeta> seaMap = new HashMap<String, SeaMeta>();
@@ -35,6 +37,9 @@ public class MetaRelations {
 
     // InterchangeStaffAssociation
     public static Map<String, TeacherMeta> teacherMap = new HashMap<String, TeacherMeta>();
+
+    // InterchangeStudent
+    public static Map<String, StudentMeta> studentMap = new HashMap<String, StudentMeta>();
 
     public static void main(String[] args) {
 
@@ -86,6 +91,8 @@ public class MetaRelations {
 
             Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
+            Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
+
             Map<String, CourseMeta> coursesForSchool = buildCoursesForSchool(schoolMeta);
 
             Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
@@ -94,7 +101,41 @@ public class MetaRelations {
                     sessionsForSchool);
 
             addTeachersToSections(sectionsForSchool, teachersForSchool);
+
+            addStudentsToSections(sectionsForSchool, studentsForSchool);
         }
+    }
+
+    private static Map<String, TeacherMeta> buildTeachersForSchool(SchoolMeta schoolMeta) {
+
+        Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
+        for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
+
+            TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
+
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
+            teachersInSchoolMap.put(teacherMeta.id, teacherMeta);
+            teacherMap.put(teacherMeta.id, teacherMeta);
+        }
+
+        return teachersInSchoolMap;
+    }
+
+    private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
+
+        Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
+        for (int idNum = 0; idNum < STUDENTS_PER_SCHOOL; idNum++) {
+
+            StudentMeta studentMeta = new StudentMeta("student" + idNum, schoolMeta);
+
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
+            studentsInSchoolMap.put(studentMeta.id, studentMeta);
+            studentMap.put(studentMeta.id, studentMeta);
+        }
+
+        return studentsInSchoolMap;
     }
 
     private static Map<String, CourseMeta> buildCoursesForSchool(SchoolMeta schoolMeta) {
@@ -155,22 +196,6 @@ public class MetaRelations {
         return sectionMapForSchool;
     }
 
-    private static Map<String, TeacherMeta> buildTeachersForSchool(SchoolMeta schoolMeta) {
-
-        Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
-        for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
-
-            TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
-
-            // it's useful to return the objects created JUST for this school
-            // add to both maps here to avoid loop in map.putAll if we merged maps later
-            teachersInSchoolMap.put(teacherMeta.id, teacherMeta);
-            teacherMap.put(teacherMeta.id, teacherMeta);
-        }
-
-        return teachersInSchoolMap;
-    }
-
     private static void addTeachersToSections(Map<String, SectionMeta> sectionsForSchool,
             Map<String, TeacherMeta> teachersForSchool) {
 
@@ -186,6 +211,24 @@ public class MetaRelations {
             }
             ((TeacherMeta) teacherMetas[teacherCounter]).sectionIds.add(sectionMeta.id);
             teacherCounter++;
+        }
+    }
+
+    private static void addStudentsToSections(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, StudentMeta> studentsForSchool) {
+
+        Object[] sectionMetas = sectionsForSchool.values().toArray();
+        int sectionCounter = 0;
+
+        // each section needs to be referenced by a TeacherMeta
+        for (StudentMeta studentMeta : studentsForSchool.values()) {
+
+            // loop through the sections we have in this school and assign students to them
+            if (sectionCounter >= sectionMetas.length) {
+                sectionCounter = 0;
+            }
+            studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+            sectionCounter++;
         }
     }
 
