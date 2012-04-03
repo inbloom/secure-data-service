@@ -45,6 +45,7 @@ public class MongoTokenStore implements TokenStore {
      * corresponds to the specified Access Token. Assume that, if an Access
      * Token exists, and it is valid, then the user has already authenticated.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -63,6 +64,7 @@ public class MongoTokenStore implements TokenStore {
      * Finds the OAuth2Authentication object in the oauthSession collection that
      * corresponds to the specified Refresh Token.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2Authentication readAuthentication(ExpiringOAuth2RefreshToken token) {
         
@@ -107,6 +109,7 @@ public class MongoTokenStore implements TokenStore {
      * Determines if there is a valid Access Token in the oauthSessions
      * collection that matches the specified Access Token value.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2AccessToken readAccessToken(String tokenValue) {
         

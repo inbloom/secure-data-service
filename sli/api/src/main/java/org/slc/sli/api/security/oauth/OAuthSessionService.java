@@ -91,6 +91,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
             assert appEntity != null;
             
             if (authorizedApps != null) {
+                @SuppressWarnings("unchecked")
                 List<String> appIds = (List<String>) authorizedApps.getBody().get("appIds");
                 if (!appIds.contains(appEntity.getEntityId())) {
                     throw new UnauthorizedClientException("District " + district.getEntityId() + " has not enabled application " + appEntity.getEntityId());
@@ -108,6 +109,8 @@ public class OAuthSessionService extends RandomValueTokenServices {
                 List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
                 for (String id : edOrgs) {
                     Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+                    
+                    @SuppressWarnings("unchecked")
                     List<String> category = (List<String>) entity.getBody().get("organizationCategories");
                     if (category.contains("Local Education Agency")) {
                         return entity;
@@ -148,11 +151,13 @@ public class OAuthSessionService extends RandomValueTokenServices {
     }
 
     private OAuth2Authentication getOAuth2AuthenticationFromEntity(Entity entity) {
+        @SuppressWarnings("rawtypes")
         Map authData = (Map) entity.getBody().get("authentication");
         return util.createOAuth2Authentication(authData);
     }
 
     private OAuth2AccessToken getOAuth2AccessTokenFromEntity(Entity entity) {
+        @SuppressWarnings("rawtypes")
         Map accessTokenData = (Map) entity.getBody().get("accessToken");
         return util.deserializeAccessToken(accessTokenData);
     }

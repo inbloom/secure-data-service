@@ -112,6 +112,7 @@ public class DiscoController {
             return (String) result;
         }
 
+        @SuppressWarnings("unchecked")
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);

@@ -111,14 +111,32 @@ public class SamlHelper {
     
     /**
      * Composes LogoutRequest (binding-agnostic).
+     * @param destination idp endpoint
+     * @param userId unique identifier of user at idp
+     * @param sessionIndex unique identifier of current user session at idp
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    public String createSignedSamlLogoutRequest(String destination, String userId, String sessionIndex) {
+        return composeSignedLogoutRequest(destination, userId, sessionIndex);
+    }
+    
+    /**
+     * Composes LogoutRequest (binding-agnostic).
      * 
-     * @param destination
-     * @return
+     * @param destination destination idp endpoint
+     * @param userId unique identifier of user at idp
+     * @return deflated, base64-encoded and url encoded saml message
      */
     public String createSamlLogoutRequest(String destination, String userId) {
         return composeLogoutRequest(destination, userId);
     }
     
+    /**
+     * Composes LogoutRequest (binding-agnostic).
+     * 
+     * @param destination destination idp endpoint
+     * @return deflated, base64-encoded and url encoded saml message
+     */
     public String createSamlLogoutResponse(String destination) {
         return composeLogoutResponse(destination);
     }
@@ -153,9 +171,7 @@ public class SamlHelper {
     public Document decodeSamlRedirect(String redirectData) {
         try {
             String xml = encodedStringToXml(redirectData);
-            
-            LOG.debug(xml);
-            
+            LOG.debug(xml);            
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(xml)));
             return this.builder.build(doc);
         } catch (Exception e) {
@@ -173,7 +189,6 @@ public class SamlHelper {
      * @param destination idp url to where the message is going
      * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
      * @throws Exception
-     * 
      * 
      */
     @SuppressWarnings("unchecked")
@@ -211,12 +226,9 @@ public class SamlHelper {
         doc.getRootElement().addContent(authnContext);
         
         // add signature and digest here
-        
         try {
             String xmlString = nodeToXmlString(domer.output(doc));
-            
-            LOG.debug(xmlString);
-            
+            LOG.debug(xmlString);            
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
             LOG.error("Error composing AuthnRequest", e);
@@ -260,10 +272,49 @@ public class SamlHelper {
         issuer.addContent(this.issuerName);
         doc.getRootElement().addContent(issuer);
         
-        Element sessionIndex = new Element("SessionIndex", SAMLP_NS);
-        String index = "s23473eaae180f98f6dd4829a72b90461baa766e01";
-        sessionIndex.setText(index);
-        // doc.getRootElement().addContent(sessionIndex);
+        Element nameId = new Element("NameID", SAML_NS);
+        nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
+        nameId.getAttributes().add(new Attribute("NameQualifier", destination));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        nameId.setText(userId);
+        
+        doc.getRootElement().addContent(nameId);
+        
+        // add signature and digest here
+        try {
+            org.w3c.dom.Document dom = domer.output(doc);
+            dom = sign.signSamlAssertion(dom);
+            String xmlString = nodeToXmlString(dom);
+            LOG.debug(xmlString);
+            return xmlToEncodedString(xmlString);
+        } catch (Exception e) {
+            LOG.error("Error composing LogoutRequest", e);
+            throw new IllegalArgumentException("Couldn't compose LogoutRequest", e);
+        }
+    }
+    
+    /**
+     * Composes a Logout Request (for SP-initiated Single Logout). Example of Logout Request:
+     * 
+     * @param destination IDP endpoint
+     * @param userId unique id of user
+     * @param sessionIndex unique identifier of session at idp
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    @SuppressWarnings("unchecked")
+    private String composeSignedLogoutRequest(String destination, String userId, String sessionIndex) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        doc.getRootElement().addContent(issuer);
         
         Element nameId = new Element("NameID", SAML_NS);
         nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
@@ -273,13 +324,9 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(nameId);
         
-        // SAML 2.0 specification defines SessionIndex tag as:
-        // The identifier that indexes this session at the message recipient
-        // (http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf)
-        // SessionIndex is optional --> can't find any reference where we store session index from IDP
-        // If we ever choose to store sessionIndex with user, it should be added to LogoutRequest here
-        
-        // add signature and digest here
+        Element sessionIndexElement = new Element("SessionIndex", SAMLP_NS);
+        sessionIndexElement.setText(sessionIndex);
+        doc.getRootElement().addContent(sessionIndexElement);
         
         try {
             org.w3c.dom.Document dom = domer.output(doc);

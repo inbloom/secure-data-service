@@ -117,6 +117,7 @@ public class OAuthTokenUtilTest {
         EntityBody body = util.serializeAccessToken(original);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
         
+        @SuppressWarnings("rawtypes")
         Map data = (Map) JSON.parse(JSON.serialize(obj));
         OAuth2AccessToken reconst = util.deserializeAccessToken(data);
         assertEquals("checking value", value, reconst.getValue());
@@ -171,6 +172,7 @@ public class OAuthTokenUtilTest {
         return body;
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testOauth2Serialization() {
         ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
@@ -195,12 +197,14 @@ public class OAuthTokenUtilTest {
                 "state", 
                 "https://redirect.com/callback");
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, creds);
+        user.setDetails("sessionIndex");
         OAuth2Authentication auth = new OAuth2Authentication(client, user);
         
         EntityBody body = util.serializeOauth2Auth(auth);
         DBObject obj = BasicDBObjectBuilder.start(body).get();
         Map data = (Map) JSON.parse(JSON.serialize(obj));
         OAuth2Authentication reconst = util.createOAuth2Authentication(data);
+        assertEquals(reconst.getUserAuthentication().getDetails(), "sessionIndex");
         
         SLIPrincipal slip = (SLIPrincipal) reconst.getPrincipal();
         assertEquals(principal.getExternalId(), slip.getExternalId());

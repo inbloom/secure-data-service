@@ -114,6 +114,11 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
         
+        String sessionIndex = doc.getRootElement().
+                getChild("Assertion", SamlHelper.SAML_NS).
+                getChild("AuthnStatement", SamlHelper.SAML_NS).
+                getAttributeValue("SessionIndex");
+        
         Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
@@ -134,7 +139,7 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
-        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
+        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
     }
@@ -209,6 +214,7 @@ public class SamlFederationResource {
         
         RestTemplate restTemplate = new RestTemplate();
         
+        @SuppressWarnings("unused")
         HttpEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, null, String.class);
         
         // TODO response parse

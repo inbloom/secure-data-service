@@ -1,5 +1,23 @@
 package org.slc.sli.api.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.MongoTokenStore;
@@ -11,23 +29,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.code.UnconfirmedAuthorizationCodeClientToken;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Utilities for the OAuth 2.0 implementations of SliTokenService and
@@ -99,7 +100,7 @@ public class OAuthTokenUtil {
      * @param data - the data that comes from the access token table
      * @return
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public OAuth2Authentication createOAuth2Authentication(Map data) {
         String realm = (String) data.get("realm");
         String externalId = (String) data.get("externalId");
@@ -123,8 +124,8 @@ public class OAuthTokenUtil {
      * @param data
      * @return
      */
-    protected OAuth2Authentication reconstituteAuth(final SLIPrincipal principal,
-                                                    Map data) {
+    @SuppressWarnings("rawtypes")
+    protected OAuth2Authentication reconstituteAuth(final SLIPrincipal principal, Map data) {
         Set<String> scope = listToSet((List) data.get("scope"));
         Set<String> resourceIds = listToSet((List) data.get("resourceIds"));
         Collection<GrantedAuthority> clientAuthorities = deserializeAuthorities(listToSet((List) data.get("clientAuthorities")));
@@ -146,6 +147,7 @@ public class OAuthTokenUtil {
                 (String) data.get("state"),
                 (String) data.get("requestedRedirect"));
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, token, userAuthorities);
+        user.setDetails((String) data.get("sessionIndex"));
         return new OAuth2Authentication(client, user);
     }
 
@@ -171,6 +173,7 @@ public class OAuthTokenUtil {
         body.put("userAuthorities", serializeAuthorities(auth.getUserAuthentication().getAuthorities()));
         body.put("clientAuthorities", serializeAuthorities(auth.getClientAuthentication().getAuthorities()));
         body.put("resourceIds", auth.getClientAuthentication().getResourceIds());
+        body.put("sessionIndex", auth.getUserAuthentication().getDetails().toString());
         UnconfirmedAuthorizationCodeClientToken token = (UnconfirmedAuthorizationCodeClientToken) auth.getUserAuthentication().getCredentials();
         body.put("state", token.getState());
         body.put("requestedRedirect", token.getRequestedRedirect());
@@ -200,6 +203,7 @@ public class OAuthTokenUtil {
         return body;
     }
 
+    @SuppressWarnings("rawtypes")
     public OAuth2AccessToken deserializeAccessToken(Map data) {
         OAuth2AccessToken token = new OAuth2AccessToken((String) data.get("value"));
         token.setExpiration((Date) data.get("expiration"));
@@ -209,6 +213,7 @@ public class OAuthTokenUtil {
     }
 
 
+    @SuppressWarnings("rawtypes")
     private static Set<String> listToSet(List list) {
         HashSet<String> set = new HashSet<String>();
         for (Object o : list) {
@@ -247,6 +252,7 @@ public class OAuthTokenUtil {
         RemoveTokensTask removeTokensTask = new RemoveTokensTask();
         removeTokensTask.setUserName(userName);
         removeTokensTask.setRealmId(realmId);
+        @SuppressWarnings("unused")
         Object result = SecurityUtil.sudoRun(removeTokensTask);
     }
 
