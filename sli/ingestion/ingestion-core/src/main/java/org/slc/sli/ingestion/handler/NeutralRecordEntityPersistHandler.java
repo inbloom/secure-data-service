@@ -213,10 +213,10 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      * @return Look-up filter
      */
     public Map<String, String> createEntityLookupFilter(NeutralRecordEntity entity, ErrorReport errorReport) {
-        String regionId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
 
         Map<String, String> filter = new HashMap<String, String>();
-        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), regionId);
+        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.

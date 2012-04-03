@@ -137,8 +137,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
         }
 
-        String regionId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), regionId);
+        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
+        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         try {
             for (String field : entityConfig.getKeyFields()) {
