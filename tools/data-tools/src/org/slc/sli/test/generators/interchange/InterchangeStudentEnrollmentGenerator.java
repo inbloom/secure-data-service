@@ -14,6 +14,7 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeStudentEnrollmentGenerator {
 
     public static InterchangeStudentEnrollment generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
         List<Object> interchangeObjects = interchange
@@ -21,6 +22,8 @@ public class InterchangeStudentEnrollmentGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeStudentEnrollment object in: "
+                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

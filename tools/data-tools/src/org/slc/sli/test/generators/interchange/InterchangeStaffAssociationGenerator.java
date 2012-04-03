@@ -16,6 +16,7 @@ import org.slc.sli.test.mappingGenerator.MetaRelations;
 public class InterchangeStaffAssociationGenerator {
 
     public static InterchangeStaffAssociation generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
         List<Object> interchangeObjects = interchange
@@ -23,6 +24,8 @@ public class InterchangeStaffAssociationGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println("generated InterchangeStaffAssociation object in: "
+                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 
