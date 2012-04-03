@@ -30,7 +30,7 @@ import org.slc.sli.test.validator.ValidateSchema;
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
-    private int numStudents = 100;
+    private int numStudents = 10;
     private int parentsPerStudent = 2;
     private String delimiter = "_";
 
@@ -231,13 +231,13 @@ public class DataForASchool {
 
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
-            students.add("student_" + this.prefix + "-" + i);
+            students.add("student-" + this.prefix + "-" + i);
         }
     }
 
     public void prepareParent(int total) {
         for (int i = 0 ; i < total ; i++) {
-            parents.add("parent_" + this.prefix + "-" + i);
+            parents.add("parent-" + this.prefix + "-" + i);
         }
     }
 
