@@ -29,6 +29,6 @@ team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
-    redirect_uri: https://ci.slidev.org:2001/admin/callback
+    redirect_uri: https://ci.slidev.org:2001/callback
     
 

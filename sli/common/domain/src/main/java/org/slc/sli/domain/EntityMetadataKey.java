@@ -10,7 +10,7 @@ public enum EntityMetadataKey {
     
     /**
      * Tenant ID is an SLI assigned identifier that is used to distinguish data coming from a
-     * district. Data with matching tenant IDs should be consistent.
+     * state. Data with matching tenant IDs should be consistent.
      */
     TENANT_ID("tenantId"),
     
@@ -21,15 +21,7 @@ public enum EntityMetadataKey {
     CREATED("created"),
     
     /** Timestamp that indicates when this document was last updated */
-    UPDATED("updated"),
-    
-    // TODO - pick a better name for this
-    /**
-     * A container or namespace under which all identifiers that are unique statewide can be
-     * considered unique. This is an SLI generated ID that comes into
-     * existence when a new state is brought on board.
-     */
-    ID_NAMESPACE("idNamespace");
+    UPDATED("updated");
     
     private String key;
     

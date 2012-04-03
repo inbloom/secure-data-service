@@ -167,4 +167,25 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
                                                              @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "disciplineIncidentId", disciplineIncidentId, headers, uriInfo);
     }
+
+
+    /**
+     * $$studentDisciplineIncidentAssociations$$ - student lookup
+     *
+     * @param disciplineIncidentId
+     *            The id of the $$disciplineIncidents$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    public Response getStudentDisciplineIncidentAssociationStudents(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
+                                                                    @Context HttpHeaders headers,
+                                                                    @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "disciplineIncidentId", disciplineIncidentId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+    }
 }

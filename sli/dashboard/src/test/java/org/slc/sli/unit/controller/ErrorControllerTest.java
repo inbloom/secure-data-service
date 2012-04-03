@@ -69,6 +69,7 @@ public class ErrorControllerTest {
             ModelAndView modelAndView = errorController.handleTest(model);
             assertTrue("ErrorController handleTest() should generate an exception!", false);
         } catch (Exception exception) {
+            int dummy = 0;
         }
         
     }

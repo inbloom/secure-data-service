@@ -88,7 +88,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -106,7 +106,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single school entity
+     * @return A single $$schools$$ entity
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
@@ -179,7 +179,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudentCohortAssocationStaff(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    public Response getStudentCohortAssocationStudents(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {

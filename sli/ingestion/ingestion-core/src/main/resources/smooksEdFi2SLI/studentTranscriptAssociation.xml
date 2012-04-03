@@ -20,7 +20,7 @@
 
     <jb:bean beanId="studentTranscriptAssociationBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="courseAttemptResult" data="attributes CourseAttemptResult" />
-<!--        <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />-->
+        <jb:wiring property="creditsAttempted" beanIdRef="CreditsAttemptedValue" />
         <jb:wiring property="creditsEarned" beanIdRef="CreditsEarnedValue" />
         <jb:wiring property="additionalCreditsEarned" beanIdRef="AdditionalCreditsArray" />
         <jb:value property="gradeLevelWhenTaken" data="attributes GradeLevelWhenTaken" />

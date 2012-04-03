@@ -33,8 +33,8 @@ public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
         response.setStatus(500);
         if (logger.isDebugEnabled()) {
             mv.addObject("debugEnabled", true);
-        	mv.addObject("errorMessage", ex.getMessage());
-        	mv.addObject("stackTrace", stackTrace);
+            mv.addObject("errorMessage", ex.getMessage());
+            mv.addObject("stackTrace", stackTrace);
         } else {
             mv.addObject("debugEnabled", false);
         }
