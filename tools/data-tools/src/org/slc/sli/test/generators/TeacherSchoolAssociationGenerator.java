@@ -77,7 +77,6 @@ public class TeacherSchoolAssociationGenerator {
         AcademicSubjectsType ast = new AcademicSubjectsType();
         ast.getAcademicSubject().add(AcademicSubjectType.COMPUTER_AND_INFORMATION_SCIENCES);
         teacherSchool.setAcademicSubjects(ast);
-        
         return teacherSchool;
     }
 }

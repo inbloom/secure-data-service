@@ -3,6 +3,8 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.ClassroomPositionType;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
@@ -50,10 +52,17 @@ public class TeacherSectionAssociationGenerator {
 
         teacherSection.setTeacherReference(teacherRef);
 
+        teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
+
         // construct and add the section references
         SectionIdentityType sectionIdentity = new SectionIdentityType();
         sectionIdentity.setUniqueSectionCode(sectionId);
         sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(teacherMeta.schoolIds.get(0));
+
+        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
+        edOrgIdCode.setID(sectionId);
+        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
 
         SectionReferenceType sectionRef = new SectionReferenceType();
         sectionRef.setSectionIdentity(sectionIdentity);
