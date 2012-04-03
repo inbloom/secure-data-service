@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,55 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(learningObjectiveId, headers, uriInfo);
     }
+    
+    /**
+     * Get a collection of $$learningStandards$$ entities for which the logged in user has
+     * permission and context and directly referenced by learningObjective entity that specified by
+     * learningObjective Id
+     * 
+     * @param learningObjectiveId
+     *            The Id of the $$learningObjectives$$.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A collection of learningStardard entities
+     */
+    @GET
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response getLearningStandards(
+            @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    /**
+     * Get a single $$learningObjectives$$ entity that directly referenced as Parent
+     * learningObjective by learningObjective entity that specified by learningObjective Id
+     * 
+     * @param learningObjectiveId
+     *            The Id of the $$learningObjectives$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single learningObjective entity
+     */
+    @GET
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNINGOBJECTIVES)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response getParentLearningObjective(
+            @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
 
     /**
      * Delete a $$learningObjectives$$ entity
@@ -144,8 +194,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}")
     public Response update(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(learningObjectiveId, newEntityBody, headers,
-                uriInfo);
+        return super.update(learningObjectiveId, newEntityBody, headers, uriInfo);
     }
 
 }
