@@ -6,7 +6,7 @@ Background: None
 
 
 Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belonging to my application
-   #create a new custom entity for demoClient
+    #create a new custom entity for demoClient
     Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "demoClient"
     And I am authenticated on "SLI"
@@ -15,9 +15,10 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
+	Then I should receive a return code of 201
+	And I should receive a Location header for the custom entity
 	
-	#crete a new custom entity for sampleApplication
+	#create a new custom entity for sampleApplication
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "SampleApplication"
      And I am authenticated on "SLI"
@@ -26,13 +27,12 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
+	Then I should receive a return code of 201
 	
 	#retrieve correct custom entity for correct application
-   Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
+    Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "demoClient"
     And I am authenticated on "SLI"
-    
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" in the result
 
@@ -47,7 +47,7 @@ Scenario: As an IT Admin, I want to update custom entity associated with any cor
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
+	Then I should receive a return code of 201
 
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "SampleApplication"
@@ -57,7 +57,7 @@ Scenario: As an IT Admin, I want to update custom entity associated with any cor
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "ColumnConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
+	Then I should receive a return code of 201
 
 	Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
     And the clientID is "demoClient"
@@ -88,7 +88,7 @@ Scenario Outline: As an educator or leader, I want to read a custom entity assoc
 	    And a valid entity json object for a "students"
 	    And I add a key value pair "Drives" : "True" to the object
 		When I navigate to POST "/<STUDENT URI>/<STUDENT ID>/<CUSTOM URI>"
-		Then I should receive a return code of 204
+		Then I should receive a return code of 201
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>

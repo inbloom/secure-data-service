@@ -1204,7 +1204,7 @@
 					</xs:annotation>
 				</xs:element>
 
-				<xs:element maxOccurs="unbounded" minOccurs="0"
+				<xs:element minOccurs="0"
 					name="programReference" type="reference">
 					<xs:annotation>
 						<xs:documentation>Optional reference to program (e.g., CTE, etc.)

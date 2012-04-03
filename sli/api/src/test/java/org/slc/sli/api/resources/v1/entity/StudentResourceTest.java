@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -76,6 +77,7 @@ public class StudentResourceTest {
     private final String cohortId = "3456";
     private final String cohortAssociationId = "4567";
     private final String cohortAssnBeginDate = "2012-02-02";
+    private final String cohortType = "Unua Type";
     
     @Before
     public void setup() throws Exception {
@@ -128,7 +130,7 @@ public class StudentResourceTest {
     private Map<String, Object> createTestCohortEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(CohortResource.COHORT_IDENTIFIER, cohortId);
-        entity.put(CohortResource.COHORT_TYPE, "Unua Type");
+        entity.put(CohortResource.COHORT_TYPE, cohortType);
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, "8765");
         return entity;
     }
@@ -287,10 +289,46 @@ public class StudentResourceTest {
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
-/*    @Test
+    @Test
     public void testGetAssociatedCohorts() {
+        //create one entity
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo); 
+        String cohortId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestCohortAssociationEntity();
+        map.put(ParameterConstants.STUDENT_ID, studentId);
+        map.put(ParameterConstants.COHORT_ID, cohortId);
+
+        createResponse = studentCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        
+        Response response = studentResource.getStudentCohortAssociationCohorts(studentId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals(CohortResource.COHORT_TYPE + " should be " + cohortType, cohortType, body.get(CohortResource.COHORT_TYPE));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-*/
+
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
@@ -313,6 +351,13 @@ public class StudentResourceTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap<String, String>>() {
+            @Override
+            public MultivaluedMap<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         
