@@ -17,15 +17,9 @@
 				<div class = "contactInfoCol1">
 					${telephone.telephoneNumberType}:
 				</div>
-				<div class = "contactInfoCol2">
+				<div class = "contactInfoCol2 <#if telephone_index == 0>emphasize</#if>">
 					<!-- The first phone number listed should be bolded. -->
-					<#if telephone_index == 0>
-						<div class = "bold">
-					</#if>
 					${telephone.telephoneNumber}
-					<#if telephone_index == 0>
-						</div>
-					</#if>
 				</div>
 			</div>
 		</#list>
