@@ -37,9 +37,7 @@ public class ToolMain {
             return;
         }
         
-        String landing_zone = args[0];
-        
-        controller.doValidation(landing_zone);
+        controller.doValidation(args[0]);
     }
     
     public void setController(ValidationController controller) {
@@ -50,11 +48,11 @@ public class ToolMain {
         return controller;
     }
     
-    public void setappName(String name) {
+    public void setAppName(String name) {
         this.appName = name;
     }
     
-    public String getappName() {
+    public String getAppName() {
         return appName;
     }
     
