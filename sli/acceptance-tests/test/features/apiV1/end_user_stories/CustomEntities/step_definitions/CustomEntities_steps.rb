@@ -80,11 +80,11 @@ Then /^I should receive a Location header for the custom entity$/ do
   headers['location'].should_not == nil
   headers['location'].length.should == 1
   headers['location'][0].should match %r{.+/educationOrganizations/[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+-[\w\d]+/custom}
+end
 
 Then /^I should recieve the "([^"]*)" object with "([^"]*)"$/ do |type, id|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result["entityType"] == convert(type), "did not receive #{type}")
   assert(@result["id"] == convert(id), "did not receive #{type} with ID specified")
-
 end
