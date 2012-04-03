@@ -6,7 +6,7 @@ require_relative '../../utils/selenium_common.rb'
 
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
-  @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/" + "642fe42f-0abb-4032-a717-5c45849ef63d")
+  @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
 end
 
 When /^I was redirected to the "([^"]*)" IDP Login page$/ do |arg1|
@@ -72,7 +72,6 @@ Then /^I see the Name, Version, Vendor and Status of the apps$/ do
 end
 
 Given /^I am a valid SEA\/LEA user$/ do
-  pending # express the regexp above with the code you wish you had
 end
 
 When /^I hit the Application Authorization Tool$/ do
@@ -248,3 +247,4 @@ Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |a
   step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"OpenAM\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
 end
+

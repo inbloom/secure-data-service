@@ -18,13 +18,12 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And are sorted by 'Status'
 	And I see the Name, Version, Vendor and Status of the apps
 
-@wip
-	Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
-	Given I am a valid SEA/LEA user
-	When I hit the Application Authorization Tool
-	And the login process is initiated
-	And I pass my valid username and password
-	Then I get message that I am not authorized
+@currentTest
+Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
+	Given I have an open web browser
+	When I hit the Admin Application Authorization Tool
+     And I submit the credentials "administrator" "administrator1234" for the "OpenAM" login page
+	Then I should get a message that I am not authorized to access the page
 	And I am not logged into the application
 
 	Scenario: Approve application
@@ -43,7 +42,6 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And the Approve button next to it is disabled
 	And the Deny button next to it is enabled
 	
-@currentTest
 	Scenario: Deny application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
