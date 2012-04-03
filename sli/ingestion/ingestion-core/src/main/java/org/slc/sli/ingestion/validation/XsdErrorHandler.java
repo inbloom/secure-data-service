@@ -1,16 +1,12 @@
 package org.slc.sli.ingestion.validation;
 
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import org.slc.sli.validation.EntityValidationException;
 
 /**
  *
@@ -19,6 +15,8 @@ import org.slc.sli.validation.EntityValidationException;
  */
 public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
+    private static final Logger LOG = LoggerFactory.getLogger(XsdErrorHandler.class);
+            
     private ErrorReport errorReport;
 
     private MessageSource messageSource;
@@ -26,6 +24,8 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     private boolean isValid;
 
     private final HashMap<String, String> saxToIngestionErrorCodes = new HashMap<String, String>() {
+        private static final long serialVersionUID = 1L;
+
         {
             put("cvc-attribute.3", "XSD_INVALID_ATTRIBUTE");
             put("cvc-attribute.4", "XSD_INVALID_ATTRIBUTE");
@@ -87,7 +87,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdValidator.class);
-        System.out.println("WARNING: " + errorMessage);
+        LOG.info("WARNING: " + errorMessage);
     }
 
     /**
@@ -99,7 +99,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdValidator.class);
-        System.out.println("ERROR: " + errorMessage);
+        LOG.info("ERROR: " + errorMessage);
         setIsValid(false);
     }
 
@@ -114,7 +114,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdValidator.class);
-        System.out.println("FATAL ERROR: " + errorMessage);
+        LOG.info("FATAL ERROR: " + errorMessage);
         setIsValid(false);
         throw ex;
     }
