@@ -44,6 +44,8 @@ public class XsdErrorHandlerTest {
 
     @Test
     public void testWarning() {
+        xsdErrorHandler.setIsValid(true);
+        
         // Test receiving a SAX warning.
         when(mockedSAXParseException.getMessage()).thenReturn(
                 "cvc-totalDigits-valid: Value '4000' has 4 total digits, but the number of total digits has been limited to 3.");
@@ -53,6 +55,8 @@ public class XsdErrorHandlerTest {
 
     @Test
     public void testError() {
+        xsdErrorHandler.setIsValid(true);
+        
         // Test receiving a SAX error.
         when(mockedSAXParseException.getMessage()).thenReturn(
                 "cvc-complex-type.2.4.b: The content of element 'LearningStyles' is not complete. One of "

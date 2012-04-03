@@ -30,7 +30,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     private Map<String, Resource> xsd;
 
     @Autowired
-    private XsdErrorHandler errorHandler;
+    private XsdErrorHandlerInterface errorHandler;
 
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 

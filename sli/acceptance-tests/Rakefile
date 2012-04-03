@@ -108,7 +108,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests, :ingestionTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -234,6 +234,24 @@ end
 desc "Run Ingestion Gradebook Entry Test"
 task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
+end
+
+############################################################
+# Ingestion Offline Tool tests start
+############################################################
+desc "Run Ingestion Offline Tool Acceptances Tests"
+task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Ingestion Offline Tool Simple Test"
+task :ingestionOfflineSimpleTest do
+  runTests("test/features/ingestion/features/offline_validation.feature")
 end
 
 ########
