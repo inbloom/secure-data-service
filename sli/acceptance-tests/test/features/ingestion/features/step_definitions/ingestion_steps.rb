@@ -141,10 +141,15 @@ def dirContainsBatchJobLog?(dir)
   return false
 end
 
+When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |limit|
+  @maxTimeout = limit.to_i
+end
+
 When /^a batch job log has been created$/ do
-  intervalTime = 5 #seconds
-  maxTimeout = 240 #seconds
-  iters = maxTimeout/intervalTime
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 240
+  iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
@@ -153,7 +158,7 @@ When /^a batch job log has been created$/ do
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
       if /job-.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -161,10 +166,10 @@ When /^a batch job log has been created$/ do
       end
     end
   else
-    sleep(7) # waiting to poll job file removes race condition (windows-specific)
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? @landing_zone_path
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
