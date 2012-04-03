@@ -14,7 +14,7 @@
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
   </util:list>
 
-    <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
+    <bean id="OfflineTool" class="org.slc.sli.ingestion.tool.OfflineTool">
         <property name="controller" ref="validationController" />
         <property name="appName" value="validationTool" />
         <property name="inputArgumentCount" value="1" />

@@ -12,12 +12,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author tke
  *
  */
-public class ToolMain {
+public class OfflineTool {
     
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/validatorContext.xml");
         
-        ToolMain main = context.getBean(ToolMain.class);
+        OfflineTool main = context.getBean(OfflineTool.class);
         main.start(args);
         
     }

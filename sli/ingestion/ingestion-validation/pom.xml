@@ -43,7 +43,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>org.slc.sli.ingestion.tool.ToolMain</mainClass>
+              <mainClass>org.slc.sli.ingestion.tool.OfflineTool</mainClass>
             </manifest>
           </archive>
         </configuration>
