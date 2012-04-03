@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -31,6 +32,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
 import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -65,6 +67,12 @@ public class StaffResourceTest {
     StaffEducationOrganizationAssociation staffEdOrgAssn;
 
     @Autowired
+    CohortResource cohortResource;
+
+    @Autowired
+    StaffCohortAssociation staffCohortAssn;
+
+    @Autowired
     private SecurityContextInjector injector;
     
     private UriInfo uriInfo;
@@ -74,9 +82,13 @@ public class StaffResourceTest {
     private final String secondStaffId = "5678";
     private final String edOrgId = "2345";
     private final String edOrgAssociationId = "3456";
+    private final String cohortId = "4567";
+    private final String cohortAssociationId = "5678";
+    private final String cohortAssnBeginDate = "2012-02-02";
     private final String secondName = "Dua";
     private final String uniqueStateId = "9876";
     private final String staffClassification = "orange";
+    private final String cohortType = "Unua Type";
     
     @Before
     public void setup() throws Exception {
@@ -138,7 +150,22 @@ public class StaffResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID, edOrgAssociationId);
         entity.put(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION, staffClassification);
-        entity.put(StaffEducationOrganizationAssociation.BEGIN_DATE, "01/01/2012");
+        entity.put(StaffEducationOrganizationAssociation.BEGIN_DATE, "2012-01-01");
+        return entity;
+    }  
+
+    private Map<String, Object> createTestCohortEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put(CohortResource.COHORT_IDENTIFIER, cohortId);
+        entity.put(CohortResource.COHORT_TYPE, cohortType);
+        entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
+        return entity;
+    }
+    
+    private Map<String, Object> createTestCohortAssociationEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, cohortAssociationId);
+        entity.put(StaffCohortAssociation.BEGIN_DATE, cohortAssnBeginDate);
         return entity;
     }  
 
@@ -277,7 +304,7 @@ public class StaffResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have one entity", results.size() == 1);
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
             body = results.get(0);
         } else {
             fail("Response entity not recognized: " + response);
@@ -293,6 +320,88 @@ public class StaffResourceTest {
     public void testGetAssociatedEdOrgs() {
     }
 */
+
+    @Test
+    public void testGetCohortAssociations() {
+        //create one entity
+        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String staffId = parseIdFromLocation(createResponse);
+
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo); 
+        String targetId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestCohortAssociationEntity();
+        map.put(ParameterConstants.COHORT_ID, targetId);
+        map.put(ParameterConstants.STAFF_ID, staffId);
+
+        createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        //String associationId = parseIdFromLocation(createResponse);
+
+        Response response = staffResource.getStaffCohortAssociations(staffId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);            
+        assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + cohortAssnBeginDate, cohortAssnBeginDate, body.get(StaffCohortAssociation.BEGIN_DATE));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetAssociatedCohorts() {
+        //create one entity
+        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String staffId = parseIdFromLocation(createResponse);
+
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo); 
+        String cohortId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestCohortAssociationEntity();
+        map.put(ParameterConstants.STAFF_ID, staffId);
+        map.put(ParameterConstants.COHORT_ID, cohortId);
+
+        createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        
+        Response response = staffResource.getStaffCohortAssociationCohorts(staffId, httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals(CohortResource.COHORT_TYPE + " should be " + cohortType, cohortType, body.get(CohortResource.COHORT_TYPE));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
@@ -315,6 +424,12 @@ public class StaffResourceTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap<String, String>>() {
+            @Override
+            public MultivaluedMap<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         
