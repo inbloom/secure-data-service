@@ -270,7 +270,7 @@ public class ConfigManager extends ApiClientManager {
             f = new File(getComponentConfigLocation(path, componentId));
             if (f.exists()) {
                 customConfig = gson.fromJson(new FileReader(f), Config.class);
-                return driverConfig.merge(customConfig);
+                return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
         } catch (Throwable t) {

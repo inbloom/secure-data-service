@@ -73,6 +73,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  groupHeaders:groupHeaders
       	});
     }
+    jQuery(this).removeClass('.ui-widget-header');
+    jQuery(this).addClass('.jqgrid-header');
 }
 
 DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
@@ -81,8 +83,7 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
     	data: panelData,
         datatype: "local", 
         height: 'auto',
-        viewrecords: true,
-        caption: panelConfig.name} ); 
+        viewrecords: true} ); 
 };
 
 var EnumSorter = function(params) {
@@ -149,10 +150,10 @@ function PercentCompleteFormatter(value, options, rowObject) {
 /*
  * Check for ajax error response
  */
-DashboardUtil.checkAjaxError = function(XMLHttpRequest)
+DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
 {
     if(XMLHttpRequest.status != 200) {
-        DashboardUtil.displayErrorPage();
+        window.location = requestUrl;
     }
 }
 

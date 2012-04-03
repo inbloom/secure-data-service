@@ -39,8 +39,8 @@ Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"
 And I wait for "2" seconds
-Then I am informed that "403"
-And I am informed that "Access is denied"
+Then I am informed that "Page Not Accessible"
+And I am informed that "The page you are requesting is not available"
 
 Scenario: Invalid user login
 
