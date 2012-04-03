@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
+package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -39,8 +39,7 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.entity.LearningObjectiveResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
@@ -214,18 +213,6 @@ public class LearningObjectiveResourceTest {
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
     
-    @Test
-    public void testGetLearningStardards() {
-        Response res = learningObjResource.getLearningStandards("0", 0, 0, null, null);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
-    }
-    
-    @Test
-    public void testGetParentLearningObjectives() {
-        Response res = learningObjResource.getParentLearningObjective("0", null, null);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
-    }
-
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
