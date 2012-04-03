@@ -1,5 +1,8 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
@@ -34,7 +37,15 @@ public class StateEdFiXmlGenerator {
         long genObjectTime = System.currentTimeMillis();
         System.out.println("Constructed edOrg interchange in: " + (System.currentTimeMillis() - startTime));
 
+        try {
+			JaxbUtils.marshal(edOrg, new PrintStream("data/InterchangeEducationOrganization.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
         JaxbUtils.marshal(edOrg);
+        
 
         System.out.println("Marshalled edOrg interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
@@ -48,6 +59,13 @@ public class StateEdFiXmlGenerator {
         System.out.println("Constructed edOrgCalendar interchange in: " + (System.currentTimeMillis() - startTime));
 
         JaxbUtils.marshal(edOrgCal);
+        
+        try {
+			JaxbUtils.marshal(edOrgCal, new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         System.out.println("Marshalled edOrgCalendar interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
@@ -61,6 +79,13 @@ public class StateEdFiXmlGenerator {
         System.out.println("Constructed masterSchedule interchange in: " + (System.currentTimeMillis() - startTime));
 
         JaxbUtils.marshal(masterSchedule);
+        
+        try {
+			JaxbUtils.marshal(masterSchedule, new PrintStream("data/InterchangeMasterSchedule.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         System.out.println("Marshalled masterSchedule interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
@@ -74,6 +99,13 @@ public class StateEdFiXmlGenerator {
         System.out.println("Constructed staffAssociation interchange in: " + (System.currentTimeMillis() - startTime));
 
         JaxbUtils.marshal(staffAssociation);
+        
+        try {
+			JaxbUtils.marshal(staffAssociation, new PrintStream("data/InterchangeStaffAssociation.xml"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         System.out.println("Marshalled staffAssociation interchange in: "
                 + (System.currentTimeMillis() - genObjectTime));

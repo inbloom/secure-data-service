@@ -39,21 +39,21 @@ public class InterchangeEdOrgGenerator {
 
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
         for (SeaMeta seaMeta : seaMetas) {
-            StateEducationAgency sea = StateEducationAgencyGenerator.getFastStateEducationAgency(seaMeta.id);
+            StateEducationAgency sea = StateEducationAgencyGenerator.getStateEducationAgency(seaMeta.id);
             interchangeObjects.add(sea);
         }
     }
 
     private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
         for (LeaMeta leaMeta : leaMetas) {
-            LocalEducationAgency lea = LocalEducationAgencyGenerator.getFastLocalEducationAgency(leaMeta.id, leaMeta.seaId);
+            LocalEducationAgency lea = LocalEducationAgencyGenerator.getLocalEducationAgency(leaMeta.id, leaMeta.seaId);
             interchangeObjects.add(lea);
         }
     }
 
     private static void generateSchools(List<Object> interchangeObjects, Collection<SchoolMeta> schoolMetas) {
         for (SchoolMeta schoolMeta : schoolMetas) {
-            School school = SchoolGenerator.getFastSchool(schoolMeta.id, schoolMeta.leaId);
+            School school = SchoolGenerator.getSchool(schoolMeta.id, schoolMeta.leaId);
             interchangeObjects.add(school);
         }
     }

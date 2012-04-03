@@ -35,7 +35,7 @@ public class JaxbUtils {
                 JAXBContext context = JAXBContext.newInstance(objectToMarshal.getClass());
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-                marshaller.marshal(objectToMarshal, System.out);
+                marshaller.marshal(objectToMarshal, outputStream);
             } catch (JAXBException e) {
                 System.out.println(e);
             }

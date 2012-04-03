@@ -93,7 +93,7 @@ public class MetaRelations {
             Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                     sessionsForSchool);
 
-            addTeachersToSections(sectionsForSchool, teachersForSchool);
+            addSectionsToTeachers(sectionsForSchool, teachersForSchool);
         }
     }
 
@@ -163,7 +163,7 @@ public class MetaRelations {
         return teachersInSchoolMap;
     }
 
-    private static void addTeachersToSections(Map<String, SectionMeta> sectionsForSchool,
+    private static void addSectionsToTeachers(Map<String, SectionMeta> sectionsForSchool,
             Map<String, TeacherMeta> teachersForSchool) {
 
         Object[] teacherMetas = teachersForSchool.values().toArray();
