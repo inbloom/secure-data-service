@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ValidationControllerTest {
 
     final String controlFileName = "test/MainControlFile.ctl";
-    final String zipFileName = "controller_test/zipFile/Session1.zip";
+    final String zipFileName = "zipFile/Session1.zip";
 
     @Autowired
     private ValidationController validationController;
@@ -47,7 +47,7 @@ public class ValidationControllerTest {
      */
     @Test
     public void testDovalidationInvalidZip() {
-        Resource invalidFileResource = new ClassPathResource("controller_test/invalidZip/SessionInValid.zip");
+        Resource invalidFileResource = new ClassPathResource("invalidZip/SessionInValid.zip");
         try {
            validationController.doValidation(invalidFileResource.getFile().getParent());
         } catch (IOException e) {
@@ -63,7 +63,7 @@ public class ValidationControllerTest {
 
     @Test
     public void testDovalidationInvalid() {
-        Resource invalidFileResource = new ClassPathResource("controller_test/invalid/Session1.zip");
+        Resource invalidFileResource = new ClassPathResource("invalid/Session1.zip");
         try {
            validationController.doValidation(invalidFileResource.getFile().getParent());
         } catch (IOException e) {

@@ -28,7 +28,7 @@ public class ZipValidationTest {
     private ZipValidation zipValidation;
     @Test
     public void testValidate() throws IOException {
-        Resource zipFileResource = new ClassPathResource("Session1.zip");
+        Resource zipFileResource = new ClassPathResource("zipFile/Session1.zip");
         File zipFile = zipFileResource.getFile();
         BatchJob job = BatchJob.createDefault("Test.zip");
         FaultsReport fr = Mockito.mock(FaultsReport.class);
@@ -37,7 +37,7 @@ public class ZipValidationTest {
     }
     @Test
     public void testInValidZip() throws IOException {
-        Resource zipFileResource = new ClassPathResource("SessionInValid.zip");
+        Resource zipFileResource = new ClassPathResource("invalidZip/SessionInValid.zip");
         File zipFile = zipFileResource.getFile();
         BatchJob job = BatchJob.createDefault("Test.zip");
         FaultsReport fr = Mockito.mock(FaultsReport.class);
