@@ -32,6 +32,8 @@ public class StateEdFiXmlGenerator {
 	 * 	- edOrgCalendar
 	 * 	- masterSchedule
 	 *  - staffAssociation
+	 *  - student
+	 *  - studentEnrollment
 	 * @param args
 	 * @throws Exception
 	 */
@@ -107,6 +109,10 @@ public class StateEdFiXmlGenerator {
         JaxbUtils.marshal(staffAssociation, new PrintStream("data/InterchangeStaffAssociation.xml"));
     }
 
+    /**
+     * Generate InterchangeStudent data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void student() throws Exception {
 
         InterchangeStudent student = InterchangeStudentGenerator.generate();
@@ -115,6 +121,10 @@ public class StateEdFiXmlGenerator {
 
     }
 
+    /**
+     * Generate InterchangeStudentEnrollment data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void studentEnrollment() throws Exception {
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();

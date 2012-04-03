@@ -149,6 +149,13 @@ public class MetaRelations {
         return teachersInSchoolMap;
     }
 
+    /**
+     * Generate the students for this school.
+     * studentsInSchoolMap is used later in this class.
+     * studentMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @return
+     */
     private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
 
         Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
@@ -269,6 +276,11 @@ public class MetaRelations {
         }
     }
 
+    /**
+     * Correlates students and sections on a 'per school' basis.
+     * @param sectionsForSchool
+     * @param studentsForSchool
+     */
     private static void addStudentsToSections(Map<String, SectionMeta> sectionsForSchool,
             Map<String, StudentMeta> studentsForSchool) {
 

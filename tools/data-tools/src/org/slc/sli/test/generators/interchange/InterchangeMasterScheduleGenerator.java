@@ -49,7 +49,7 @@ public class InterchangeMasterScheduleGenerator {
     /**
      * Loops all sections and, using an Section Generator, populates interchange data.
      * @param interchangeObjects
-     * @param seaMetas
+     * @param sectionMetas
      */
     private static void generateSections(List<ComplexObjectType> interchangeObjects,
             Collection<SectionMeta> sectionMetas) {
