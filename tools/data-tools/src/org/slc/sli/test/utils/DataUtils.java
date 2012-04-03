@@ -28,46 +28,43 @@ public class DataUtils {
      * 
      * @path path where *.xml input files are and where output.zip will be written
      */
-    public static final void zipData (String path) {
-    	
-    	final class OnlyIngestionFiles implements FilenameFilter {
-    		public boolean accept(File dir, String name) {
-    			return (name.endsWith(".xml") || name.endsWith(".ctl"));
-    		}
-    	}
-    	
-       try {
-          BufferedInputStream origin = null;
-          FileOutputStream dest = new 
-            FileOutputStream(path + "\\output.zip");
-          ZipOutputStream out = new ZipOutputStream(new 
-            BufferedOutputStream(dest));
-          //out.setMethod(ZipOutputStream.DEFLATED);
-          byte data[] = new byte[BUFFER];
-          // get a list of files from the path
-          File f = new File(path);
-          String files[] = f.list(new OnlyIngestionFiles());
+	public static final void zipIngestionData(String path) {
 
-          for (int i=0; i<files.length; i++) {
-             System.out.println("Adding: "+files[i]);
-             FileInputStream fi = new 
-               FileInputStream(files[i]);
-             origin = new 
-               BufferedInputStream(fi, BUFFER);
-             ZipEntry entry = new ZipEntry(files[i]);
-             out.putNextEntry(entry);
-             int count;
-             while((count = origin.read(data, 0, 
-               BUFFER)) != -1) {
-                out.write(data, 0, count);
-             }
-             origin.close();
-          }
-          out.close();
-       } catch(Exception e) {
-          e.printStackTrace();
-       }
-    }
+		final class OnlyIngestionFiles implements FilenameFilter {
+			public boolean accept(File dir, String name) {
+				return (name.endsWith(".xml") || name.endsWith(".ctl"));
+			}
+		}
+
+		try {
+			BufferedInputStream origin = null;
+			FileOutputStream dest = new FileOutputStream(path + "\\output.zip");
+			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
+					dest));
+			// out.setMethod(ZipOutputStream.DEFLATED);
+			byte data[] = new byte[BUFFER];
+			// get a list of files from the path
+			File f = new File(path);
+			String files[] = f.list(new OnlyIngestionFiles());
+
+			for (String basename : files) {
+				String filename = path + "\\" + basename;
+				System.out.println("Adding: " + filename);
+				FileInputStream fi = new FileInputStream(filename);
+				origin = new BufferedInputStream(fi, BUFFER);
+				ZipEntry entry = new ZipEntry(basename);
+				out.putNextEntry(entry);
+				int count;
+				while ((count = origin.read(data, 0, BUFFER)) != -1) {
+					out.write(data, 0, count);
+				}
+				origin.close();
+			}
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
     public static final String createMd5ForFile(String file) {
         File myFile = new File(file);

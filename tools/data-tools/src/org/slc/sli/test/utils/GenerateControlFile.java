@@ -22,6 +22,11 @@ public class GenerateControlFile {
 		File dir = new File(path);
 		String ctrlFileName = path + "/MainControlFile.ctl";
 
+		File cfile = new File(ctrlFileName);
+		if (cfile.exists()) {
+			cfile.delete();
+		}
+		
 		// TODO parse a properties file for attributes
 		// TODO write attributes to the control file
 
@@ -41,6 +46,9 @@ public class GenerateControlFile {
 				DataUtils.writeControlFile(ctrlFileName, interchange, path + "/" + filename);
 			}
 		}
+		
+		// TODO make this configurable
+		DataUtils.zipIngestionData(path);
 	}
 
 }
