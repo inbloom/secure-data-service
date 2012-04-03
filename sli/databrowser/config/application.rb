@@ -49,5 +49,18 @@ module DbRails
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    config.middleware.use "CallbackFilter"
+      config.middleware.delete  ActionDispatch::Cookies 
+    config.middleware.delete ActionDispatch::Session::CookieStore 
+    
+    
+config.middleware.insert_before   Rails::Rack::Logger, "LoggingMiddleware"
+    
+config.middleware.insert_after    "ActionDispatch::Static", ActionDispatch::Cookies 
+config.middleware.insert_after    ActionDispatch::Cookies,  ActionDispatch::Session::CookieStore 
+
+    
+    
   end
 end
