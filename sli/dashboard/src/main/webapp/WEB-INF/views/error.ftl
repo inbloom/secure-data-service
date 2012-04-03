@@ -10,6 +10,9 @@
       SLI Dashboard Technical Difficulties
     </h1>
   </div>
-  <div class="csi">${error}</div>
+	<div class="csi">
+  		Couldn't find error message
+  		<!-- TODO: return {error} var to this page -->
+	</div>
 </div>
 </body></html>

@@ -936,7 +936,7 @@
     <jb:value property="sessionId" data="Section/SessionReference/SessionIdentity/SessionName" />
 
     <!-- ProgramReference -->
-    <jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
+    <jb:value property="programReference" data="Section/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <!-- AvailableCreditsType -->
@@ -945,12 +945,6 @@
     <jb:value property="creditConversion" data="Section/AvailableCredit/@CreditConversion" decoder="Double" />
     <jb:value property="credit" data="Section/AvailableCredit/Credit" decoder="Double" />
   </jb:bean>
-
-  <!-- ProgramReferenceType -->
-  <jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section">
-    <jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId" />
-  </jb:bean>
-
 
   <!-- TeacherSectionAssociation Mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">

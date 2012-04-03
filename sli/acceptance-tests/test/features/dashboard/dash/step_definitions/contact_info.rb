@@ -5,7 +5,7 @@ def getTabIndex(tabName)
   found = nil
   tabIndex = nil
   links.each do |tab|
-    if (tab.text == tabName)
+    if (tab.text.include? tabName)
       found = tab
       url = tab["href"]
       i = url.index('#page') +1
