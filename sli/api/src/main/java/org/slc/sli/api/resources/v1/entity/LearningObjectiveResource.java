@@ -149,9 +149,30 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      * @return A single learningObjective entity
      */
     @GET
-    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.PARENT_LEARNING_OBJECTIVES)
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response getParentLearningObjective(
+            @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+
+    /**
+     * Get a single $$learningObjectives$$ entity that directly referenced as Parent
+     * learningObjective by learningObjective entity that specified by learningObjective Id
+     * 
+     * @param learningObjectiveId
+     *            The Id of the $$learningObjectives$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single learningObjective entity
+     */
+    @GET
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.CHILD_LEARNING_OBJECTIVES)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response getChildrenLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return Response.status(Status.NOT_FOUND).build();
