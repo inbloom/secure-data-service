@@ -27,43 +27,42 @@ public class ZipValidationTest {
 
     @Autowired
     private ZipValidation zipValidation;
-    
+
     @Test
     public void testValidate() {
-        
+
         ZipFileValidator zv = zipValidation.getValidator();
         Assert.assertNotNull(zv);
-        
-        Resource zipFileResource = new ClassPathResource("Session1.zip");
+
+        Resource zipFileResource = new ClassPathResource("zipFile/Session1.zip");
         File zipFile = null;
-        
+
         try {
             zipFile = zipFileResource.getFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         BatchJob job = BatchJob.createDefault("Test.zip");
         File ctlFile = zipValidation.validate(zipFile, job);
         Assert.assertNotNull(ctlFile);
     }
-    
+
     @Test
     public void testInValidZip() {
-        Resource zipFileResource = new ClassPathResource("SessionInValid.zip");
-        File zipFile = null;
-        
+    Resource zipFileResource = new ClassPathResource("invalidZip/SessionInValid.zip");
+    File zipFile = null;
+
         try {
             zipFile = zipFileResource.getFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
         BatchJob job = BatchJob.createDefault("Test.zip");
         File ctlFile = zipValidation.validate(zipFile, job);
         Assert.assertNull(ctlFile);
     }
-    
+
     @Test
     public void testExceptionHandling() {
         BatchJob job = BatchJob.createDefault("Test.zip");

@@ -33,22 +33,22 @@ public class ZipValidation implements MessageSourceAware {
      * @return control file extracted from the zip file. Null if the zip file was not valid.
      */
     public File validate(File zipFile, BatchJob job) {
-        
+
         File ctlFile = null;
         FaultsReport fr = job.getFaultsReport();
-        
+
         try {
             if (validator.isValid(zipFile, fr)) {
                 File dir = ZipFileUtil.extract(zipFile);
                 ctlFile = ZipFileUtil.findCtlFile(dir);
             }
-            
+
         } catch (IOException ex) {
             fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
         } catch (Exception ex) {
             fr.error(ex.getMessage(), this);
         }
-        
+
         return ctlFile;
     }
 
