@@ -2,7 +2,7 @@ class TeacherController < ApplicationController
   # GET /teachers
   # GET /teachers.json
   def index
-    @teachers = Teacher.all
+    @teachers = Teacher.all() #Teacher.all(:metaData['idNamespace'] => params[:tenantId])
 
     respond_to do |format|
       format.html # index.html.erb

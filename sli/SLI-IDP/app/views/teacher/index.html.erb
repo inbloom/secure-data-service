@@ -13,10 +13,11 @@
 
 <% @teachers.each do |teacher| %>
   <tr>
-    <td><%= teacher.body['name']['lastSurname'] %></td>
-    <td><%= teacher.body['name']['firstName'] %></td>
-    <td><%= teacher.type %></td>
-    <td><%= teacher.tenantId %></td>
+    <td width="100em"><%= teacher.body['name']['lastSurname'] %></td>
+    <td width="120em"><%= teacher.body['name']['firstName'] %></td>
+    <td width="100em"><%= teacher.type %></td>
+    <td width="100em"><%= teacher.metaData['idNamespace'] %><input type="radio" name="user" value="<%= teacher.metaData['idNamespace'] %>"/></td>
+
   </tr>
 <% end %>
 </table>

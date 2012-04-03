@@ -4,6 +4,7 @@ class Teacher
   key :type, String, :required => true
   key :tenantId, String, :required => true
   key :body, :as => :entity, :required => true
+  one :metadata, :as => :meta, :required => true
 
   connection Mongo::Connection.new('localhost')
   set_database_name 'sli'
