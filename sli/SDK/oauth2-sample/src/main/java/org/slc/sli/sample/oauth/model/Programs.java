@@ -3,7 +3,6 @@ package org.slc.sli.sample.oauth.model;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
