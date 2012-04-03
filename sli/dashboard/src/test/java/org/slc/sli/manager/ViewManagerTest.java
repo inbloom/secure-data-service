@@ -31,13 +31,12 @@ public class ViewManagerTest {
     private static Logger log = LoggerFactory.getLogger(ViewManagerTest.class);
     
     private ViewManager viewManager; // class under test
-    
-    EntityManager entityManager;
+    private EntityManager entityManager;
     
     @Before
     public void setup() {
         entityManager = mock(EntityManager.class);
-        viewManager = new ViewManager(new ArrayList<ViewConfig>());
+        viewManager = new ViewManager();
         viewManager.setEntityManager(entityManager);
     }
     

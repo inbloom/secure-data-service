@@ -21,8 +21,7 @@ public class ViewManager extends ApiClientManager {
     private ViewConfig activeViewConfig;
     @Autowired private EntityManager entityManager;
 
-    public ViewManager(List<ViewConfig> viewConfigs) {
-        this.viewConfigs = viewConfigs;
+    public ViewManager() {
     }
 
     /**
@@ -120,7 +119,11 @@ public class ViewManager extends ApiClientManager {
         return gradeValues;
     }
 
-    protected void setEntityManager(EntityManager entityManager) {
+    public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }
