@@ -68,10 +68,9 @@ public class ApprovedApplicationResource {
         EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
         this.service = def.getService();
     }
-    
+
     @GET
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
-        
         List<String> allowedApps = getAllowedAppIds();
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -89,22 +88,22 @@ public class ApprovedApplicationResource {
             });
 
             if (result != null) {
-                boolean isAdminApp = (Boolean) result.get("is_admin");
+                boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
 
                 //don't allow non-admins to see admin apps
                 if (isAdminApp && !isUserAdmin) {
                     continue;
                 }
-                
+
                 //is_admin query param specified
                 if (!adminFilter.equals("")) {
                     boolean adminFilterVal = Boolean.valueOf(adminFilter);
-                    
+
                     //non-admin app, but is_admin == true
                     if (!isAdminApp && adminFilterVal) {
                         continue;
                     }
-                    
+
                     //admin app, but is_admin == false
                     if (isAdminApp && !adminFilterVal) {
                         continue;
@@ -112,7 +111,7 @@ public class ApprovedApplicationResource {
                 }
 
                 //don't allow disabled apps
-                if (!(Boolean) result.get("enabled")) {
+                if (result.get("enabled") == null || !(Boolean) result.get("enabled")) {
                     continue;
                 }
 
@@ -133,7 +132,7 @@ public class ApprovedApplicationResource {
             throw new InsufficientAuthenticationException("Application list is a protected resource.");
         }
         List<String> toReturn = appValidator.getAuthorizedApps(principal);
-        
+
         //For now, null (meaning no LEA data for the user) defaults to all apps
         if (toReturn == null) {
             toReturn = new ArrayList<String>();
