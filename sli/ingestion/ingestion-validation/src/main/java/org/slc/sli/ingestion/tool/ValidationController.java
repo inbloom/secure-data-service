@@ -44,6 +44,8 @@ public class ValidationController {
      */
     void doValidation(String dirPath) {
         File directory = new File(dirPath);
+        if (!directory.exists())
+            return;
         BatchJob job = null;
         Logger jobLogger = null;
         lz.setDirectory(directory);
