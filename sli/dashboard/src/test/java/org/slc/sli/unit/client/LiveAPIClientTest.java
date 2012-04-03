@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -423,6 +424,45 @@ public class LiveAPIClientTest {
         GenericEntity ge = result.get(0);
         assertEquals(ge.get(Constants.ATTR_ID), "school");
     }
+    
+    
+    @Test
+    public void testGetStudentEnrollment() {
+        GenericEntity student = new GenericEntity();
+        ArrayList<Map> links = new ArrayList<Map>();
+        HashMap link = new HashMap();
+        link.put(Constants.ATTR_REL, "getStudentSchoolAssociations");
+        link.put(Constants.ATTR_HREF, "getStudentSchoolAssociationLink");
+        links.add(link);
+        student.put(Constants.ATTR_LINKS, links);
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity studentSchoolAssociation = new GenericEntity();
+                ArrayList<Map> links = new ArrayList<Map>();
+                HashMap link = new HashMap();
+                link.put(Constants.ATTR_REL, "getSchool");
+                link.put(Constants.ATTR_HREF, "getSchoolLink");
+                links.add(link);
+                studentSchoolAssociation.put(Constants.ATTR_LINKS, links);
+                List<GenericEntity> associations = new LinkedList<GenericEntity>();
+                associations.add(studentSchoolAssociation);
+                return associations;
+            }
+            
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity school = new GenericEntity();
+                school.put(Constants.ATTR_NAME, "schoolName");
+                return school;
+            }
+            
+        };
+        
+        List<GenericEntity> enrollment = liveClient.getStudentEnrollment("fakeToken", student);
+        GenericEntity firstEnrollment = enrollment.get(0);
+        Map school = (Map) firstEnrollment.get(Constants.ATTR_SCHOOL);
+        assertEquals(school.get(Constants.ATTR_NAME), "schoolName");
+    }
+    
     
     
 }

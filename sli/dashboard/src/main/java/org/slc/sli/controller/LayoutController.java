@@ -1,5 +1,6 @@
 package org.slc.sli.controller;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,8 +30,8 @@ public class LayoutController extends GenericLayoutController {
      * @return
      */
     @RequestMapping(value = "/student", method = RequestMethod.GET)
-    public ModelAndView handleStudentProfile(@RequestParam String id) {
-        ModelMap model = getPopulatedModel("studentProfile", id);
+    public ModelAndView handleStudentProfile(@RequestParam String id, HttpServletRequest request) {
+        ModelMap model = getPopulatedModel("studentProfile", id, request);
         // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
         model.addAttribute("programUtil", new StudentProgramUtil());
         return getModelView(TABBED_ONE_COL, model);

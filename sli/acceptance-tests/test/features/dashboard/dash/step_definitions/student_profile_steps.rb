@@ -14,9 +14,10 @@ When /^I view its student profile$/ do
   studentInfo = csiContent.find_element(:class, "studentInfo")
   table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
   @info = Hash.new
-  sName = csiContent.find_element(:class, "studentName") 
+  sName = csiContent.find_element(:xpath, "//div[@class='colMain']/h1") 
 
   @info["Name"] = sName.text
+  puts sName.text
   
 for i in 0..table_cells.length-1
   if table_cells[i].text.length > 0 
@@ -72,6 +73,31 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   all_lozenges = csiContent.find_elements(:tag_name, "svg")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
+end
+
+Then /^Student Enrollment History includes "([^"]*)"$/ do |expectedEnrollment|
+  expectedArray = expectedEnrollment.split(';')
+  enrollmentTable = @driver.find_element(:xpath, "//div[@class='ui-jqgrid-bdiv']")
+  rows = enrollmentTable.find_elements(:tag_name, "tr")
+  
+  assert(rows.length > 1)
+  j = rows.length.to_i
+  
+  enrollmentFound = false
+    for i in (1..j-1)
+      found = true
+      expectedArray.each do |expected|
+        if (rows[i].attribute("innerHTML").to_s.lstrip.rstrip.include? expected)
+        else
+          found = false
+        end
+      end
+      if (found == true)
+        puts "Enrollment Entry Found"
+        enrollmentFound = true
+      end
+  end
+  assert(enrollmentFound==true, "Enrollment is not found")
 end
 
 def clickOnStudent(name)

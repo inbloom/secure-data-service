@@ -2,10 +2,11 @@ package org.slc.sli.unit.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
  * @author svankina
  *
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/application-context.xml" })
 public class LayoutControllerTest {
@@ -69,10 +69,13 @@ public class LayoutControllerTest {
     class LayoutControllerMock extends GenericLayoutController {
         public ModelAndView handleStudentProfile(String id) {
             String tabbedOneCol = "tabbed_one_col";
-            ModelMap model = getPopulatedModel("simpleLayout", id);
+            ModelMap model = getPopulatedModel("simpleLayout", id, null);
             // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
             model.addAttribute("programUtil", new StudentProgramUtil());
             return getModelView(tabbedOneCol, model);
+        }
+        
+        protected void setContextPath(ModelMap model, HttpServletRequest request) {
         }
 
         public String getUsername() {
