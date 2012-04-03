@@ -229,7 +229,7 @@ public class Config {
      * @return cloned Config obejct merged with customConfig
      */
     public Config overWrite(Config customConfig) {
-        Config config = new Config(this.id, this.name, this.type, this.condition, new Data(this.data.entity,
+        Config config = new Config(this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
                 this.data.alias, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
                 customConfig.items, this.root);
