@@ -122,7 +122,7 @@
                 <value>${smooks.targetselector.xml.student.gradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
-<!--                <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value> -->
+                <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
               </list>
             </constructor-arg>
           </bean>

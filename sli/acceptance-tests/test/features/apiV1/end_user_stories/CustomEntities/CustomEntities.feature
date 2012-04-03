@@ -97,17 +97,17 @@ Scenario Outline: As an educator or leader, I want to read a custom entity assoc
 	When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"?includeCustom="true"
 		Then I should receive a return code of <Code>
 		And I should recieve the "student" object with "<STUDENT ID>"
-		#And additionally I should receive a key value pair <Key> : <Value> in the result
+		And additionally I should receive a key value pair <Key> : <Value> in the result
 		
 	When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"?includeCustom="false"
 		Then I should receive a return code of <Code>
 		And I should recieve the "student" object with "<STUDENT ID>"
-		#And there is no other custom data returned
+		And there is no other custom data returned
 		
 		When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"
 		Then I should receive a return code of <Code>
 		And I should recieve the "student" object with "<STUDENT ID>"
-	#	And there is no other custom data returned
+		And there is no other custom data returned
 		
 	Examples:
 	| Username        | Password            | AnyDefaultSLIRole  | ClientID     | Key            | Value    | Code  |

@@ -225,6 +225,12 @@ public class LearningObjectiveResourceTest {
         Response res = learningObjResource.getParentLearningObjective("0", null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
+    
+    @Test
+    public void testGetChildLearningObjectives() {
+        Response res = learningObjResource.getChildrenLearningObjective("0", null, null);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    }
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);

@@ -9,14 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
+import org.slc.sli.client.RESTClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +26,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.client.RESTClient;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -118,7 +118,17 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 new Object[] { session.getAttribute(OAUTH_TOKEN), request.getParameter("code"), request.getRequestURL() });
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
             Verifier verifier = new Verifier(request.getParameter("code"));
-            Token accessToken = service.getAccessToken(null, verifier);
+            Token accessToken = null;
+            try {
+                accessToken = service.getAccessToken(null, verifier);
+            } catch (OAuthException ex) {
+                //This will happen if the request to getAccessToken results in an OAuth error, such as
+                //if the user isn't authorized to use the client.
+                
+                //TODO: provide an improved error page
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
+                return;
+            }
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
             Object entryUrl = session.getAttribute(ENTRY_URL);
             if (entryUrl != null) {

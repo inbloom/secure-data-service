@@ -43,13 +43,6 @@ public class OptionalFieldAppenderHelper {
         return (List<EntityBody>) entityDef.getService().list(neutralQuery);
     }
 
-    public List<EntityBody> queryEntities(String resourceName, NeutralQuery neutralQuery) {
-
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
-
-        return (List<EntityBody>) entityDef.getService().list(neutralQuery);
-    }
-
     /**
      * Returns a single entity from a list for a given key value pair
      * @param list List of entities
