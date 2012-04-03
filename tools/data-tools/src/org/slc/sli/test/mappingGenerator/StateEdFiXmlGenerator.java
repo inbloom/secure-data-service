@@ -12,8 +12,24 @@ import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerato
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
 import org.slc.sli.test.utils.JaxbUtils;
 
+/**
+ * Code to generate referentially correct interchanges that are built
+ * as a depth-first walk of the dependency graph beginning with
+ * StateEducationAgency.
+ * @author dduran
+ *
+ */
 public class StateEdFiXmlGenerator {
 
+	/**
+	 * Currently generates:
+	 * 	- edOrg
+	 * 	- edOrgCalendar
+	 * 	- masterSchedule
+	 *  - staffAssociation
+	 * @param args
+	 * @throws Exception
+	 */
     public static void main(String[] args) throws Exception {
 
         MetaRelations.buildFromSea();
@@ -28,6 +44,10 @@ public class StateEdFiXmlGenerator {
 
     }
 
+    /**
+     * Generate InterchangeEducationOrganization data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void edOrg() throws Exception {
 
         InterchangeEducationOrganization edOrg = InterchangeEdOrgGenerator.generate();
@@ -36,6 +56,10 @@ public class StateEdFiXmlGenerator {
 
     }
 
+    /**
+     * Generate InterchangeEducationOrgCalendar data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void edOrgCalendar() throws Exception {
 
         InterchangeEducationOrgCalendar edOrgCal = InterchangeEdOrgCalGenerator.generate();
@@ -44,6 +68,10 @@ public class StateEdFiXmlGenerator {
 
     }
 
+    /**
+     * Generate InterchangeMasterSchedule data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void masterSchedule() throws Exception {
 
         InterchangeMasterSchedule masterSchedule = InterchangeMasterScheduleGenerator.generate();
@@ -52,6 +80,10 @@ public class StateEdFiXmlGenerator {
 
     }
 
+    /**
+     * Generate InterchangeStaffAssociation data and use Jaxb to output the XML file.
+     * @throws Exception
+     */
     private static void staffAssociation() throws Exception {
 
         InterchangeStaffAssociation staffAssociation = InterchangeStaffAssociationGenerator.generate();
