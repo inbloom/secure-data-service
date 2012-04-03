@@ -58,7 +58,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #333333;
     font-weight: bold;
     margin: 0;
-    text-rendering: optimizelegibility;
 }
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
     color: #999999;
@@ -291,7 +290,7 @@ th.ui-th-column div {
 .csi .colMain
 {
     margin-left: 100px;
-    width: 900;
+    width: 900px;
 }
 
 .csi .studentName
@@ -308,7 +307,7 @@ th.ui-th-column div {
 .csi .studentInfo .col1
 {
     float: left;
-    width: 500;
+    width: 500px;
 }
 
 .csi .studentInfo .col2
@@ -321,32 +320,4 @@ th.ui-th-column div {
 {
     font-size: 12px;
     height: 20px;
-}
-
-
-.studentContactInfo {
-	display:table; 
-	font-size: 12px;
-}
-
-.contactInfoRow {
-	display:table-row;
-}
-
-.contactInfoCol1 {
-	display:table-cell;
-	width: 90px;
-}
-
-.contactInfoCol2 {
-	padding-bottom: 5px;
-	display:table-cell;
-}
-
-.section {
-	padding: 10px; 
-}
-
-.emphasize {
-	font-weight:bold;
 }
