@@ -1462,7 +1462,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentReference" type="reference">
+				<xs:element name="studentId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The student who was enrolled for
 							the session. </xs:documentation>
@@ -1471,33 +1471,18 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="sessionReference" type="reference">
+				<xs:element name="sessionId" type="reference">
 					<xs:annotation>
-						<xs:documentation>The session the student was
-							enrolled in.
+						<xs:documentation>Grades for the classes
+							attended by the student for this grading period.
 						</xs:documentation>
 						<xs:appinfo>
 							<sli:ReferenceType>session</sli:ReferenceType>
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentTranscriptAssociationId"
-					type="xs:string">
-					<xs:annotation>
-						<xs:documentation>Grades for the classes
-							attended by the student for this grading period.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="GPAGivenGradingPeriod" type="xs:double">
-					<xs:annotation>
-						<xs:documentation>A measure of average performance
-							in all
-							courses taken by an individual for the current grading period.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="GPACumulative" type="xs:double">
+				<!-- 
+                <xs:element name="GPAGivenGradingPeriod" type="xs:double">
 					<xs:annotation>
 						<xs:documentation>The
 							number of days an individual is tardy during a given reporting period.
@@ -1509,6 +1494,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
+                -->
 				<xs:element name="cumulativeCreditsEarned" type="credits"
 					minOccurs="0">
 					<xs:annotation>

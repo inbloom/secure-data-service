@@ -46,7 +46,7 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            errorReport.error("Failed to resolve a reference", this);
+            errorReport.error("Failed to resolve a reference1. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
         }
     }
 
@@ -54,7 +54,7 @@ public class IdNormalizer {
         List<String> ids = resolveInternalIds(entity, tenantId, refConfig, errorReport);
 
         if (ids.size() == 0) {
-            errorReport.error("Failed to resolve a reference", this);
+            errorReport.error("Failed to resolve a reference2. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
             return null;
         }
 
@@ -98,7 +98,7 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            proxyErrorReport.error("Failed to resolve a reference", this);
+            proxyErrorReport.error("Failed to resolve a reference3. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
         }
 
         if (proxyErrorReport.hasErrors()) {

@@ -87,10 +87,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     private String getStudentId(String key, HashMap<String, Map<String, Object>> deepFamilyMap) {
 
         Map<String, String> paths = new HashMap<String, String>();
-        paths.put("body.studentAcademicRecordId", key);
+        paths.put("metaData.externalId", key);
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "studentAcademicRecord", paths);
+                "studentAcademicRecordTemp", paths);
 
         ArrayList<Map<String, Object>> tempIdentificationCodes;
         Map<String, Object> tempMap;
