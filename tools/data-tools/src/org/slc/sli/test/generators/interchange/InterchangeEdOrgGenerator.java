@@ -18,8 +18,22 @@ import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 
+/**
+ * Generates all Education Organizations contained in the variables:
+ *  - seaMap
+ *  - leaMap
+ *  - schoolMap
+ *  - courseMap
+ *  as created by the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator
+ * @author dduran
+ *
+ */
 public class InterchangeEdOrgGenerator {
 
+	/**
+	 * Sets up a new Education Organization Interchange and populates it
+	 * @return
+	 */
     public static InterchangeEducationOrganization generate() {
 
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
@@ -31,6 +45,10 @@ public class InterchangeEdOrgGenerator {
         return interchange;
     }
 
+    /**
+     * Generates the individual entities that can be Educational Organizations
+     * @param interchangeObjects
+     */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateStateEducationAgencies(interchangeObjects, MetaRelations.seaMap.values());
@@ -42,6 +60,11 @@ public class InterchangeEdOrgGenerator {
         generateCourses(interchangeObjects, MetaRelations.courseMap.values());
     }
 
+    /**
+     * Loops all SEAs and, using an SEA Generator, populates interchange data.
+     * @param interchangeObjects
+     * @param seaMetas
+     */
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
         for (SeaMeta seaMeta : seaMetas) {
             StateEducationAgency sea = StateEducationAgencyGenerator.getFastStateEducationAgency(seaMeta.id);
@@ -49,6 +72,11 @@ public class InterchangeEdOrgGenerator {
         }
     }
 
+    /**
+     * Loops all LEAs and, using an LEA Generator, populates interchange data.
+     * @param interchangeObjects
+     * @param leaMetas
+     */
     private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
         for (LeaMeta leaMeta : leaMetas) {
             LocalEducationAgency lea = LocalEducationAgencyGenerator.getFastLocalEducationAgency(leaMeta.id,
@@ -57,6 +85,11 @@ public class InterchangeEdOrgGenerator {
         }
     }
 
+    /**
+     * Loops all schools and, using a School Generator, populates interchange data.
+     * @param interchangeObjects
+     * @param schoolMetas
+     */
     private static void generateSchools(List<Object> interchangeObjects, Collection<SchoolMeta> schoolMetas) {
         for (SchoolMeta schoolMeta : schoolMetas) {
             School school = SchoolGenerator.getFastSchool(schoolMeta.id, schoolMeta.leaId);
@@ -64,6 +97,11 @@ public class InterchangeEdOrgGenerator {
         }
     }
 
+    /**
+     * Loops all courses and, using a Course Generator, populates interchange data.
+     * @param interchangeObjects
+     * @param courseMetas
+     */
     private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) {
         for (CourseMeta courseMeta : courseMetas) {
             Course course = CourseGenerator.getFastCourse(courseMeta.id, courseMeta.schoolId);
