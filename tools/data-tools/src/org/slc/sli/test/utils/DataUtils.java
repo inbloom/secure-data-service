@@ -30,9 +30,7 @@ public class DataUtils {
      */
     public static final void zipData (String path) {
     	
-    	final class OnlyXml implements FilenameFilter {
-    		public OnlyXml() {
-    		}
+    	final class OnlyIngestionFiles implements FilenameFilter {
     		public boolean accept(File dir, String name) {
     			return (name.endsWith(".xml") || name.endsWith(".ctl"));
     		}
@@ -48,7 +46,7 @@ public class DataUtils {
           byte data[] = new byte[BUFFER];
           // get a list of files from the path
           File f = new File(path);
-          String files[] = f.list(new OnlyXml());
+          String files[] = f.list(new OnlyIngestionFiles());
 
           for (int i=0; i<files.length; i++) {
              System.out.println("Adding: "+files[i]);
@@ -90,15 +88,15 @@ public class DataUtils {
     
     /*
      * Determine the interchange of a file
-     * TODO this should parse the xml header to determine the interchange
+     * 
      * @fileName input file
      */
     public static final String determineInterchange(String fileName) {
     	String lowerCaseBaseName = FilenameUtils.getBaseName(fileName).toLowerCase();
     	
-    	if (lowerCaseBaseName.startsWith("interchangestudent")) {
-    		return "Student";
-    	} else if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
+    	// TODO this should parse the xml header to determine the interchange
+    	
+    	if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
     		return "EducationOrganization";
     	} else if (lowerCaseBaseName.startsWith("interchangeeducationorgcalendar")) {
     		return "EducationOrgCalendar";
@@ -118,6 +116,8 @@ public class DataUtils {
     		return "Attendance";
     	} else if (lowerCaseBaseName.startsWith("interchangestudentparent")) {
     		return "Parent";
+    	} else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be at the bottom
+    		return "Student";
     	}
     	
     	return null;
