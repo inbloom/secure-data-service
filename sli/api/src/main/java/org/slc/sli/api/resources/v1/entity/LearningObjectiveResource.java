@@ -35,7 +35,7 @@ import org.slc.sli.api.resources.v1.PathConstants;
  * @author dliu
  * 
  */
-@Path(PathConstants.V1 + "/" + PathConstants.LEARNINGOBJECTIVES)
+@Path(PathConstants.V1 + "/" + PathConstants.LEARNING_OBJECTIVES)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -149,7 +149,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      * @return A single learningObjective entity
      */
     @GET
-    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNINGOBJECTIVES)
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response getParentLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
