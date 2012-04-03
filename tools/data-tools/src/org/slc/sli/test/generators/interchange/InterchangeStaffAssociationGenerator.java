@@ -70,7 +70,7 @@ public class InterchangeStaffAssociationGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 teacher = null;
             } else {
-                teacher = TeacherGenerator.getFastTeacher(teacherMeta.id);
+                teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
             }
 
             interchangeObjects.add(teacher);
@@ -89,8 +89,7 @@ public class InterchangeStaffAssociationGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 teacherSchool = null;
             } else {
-                teacherSchool = TeacherSchoolAssociationGenerator
-                        .getFastTeacherSchoolAssociation(teacherMeta, schoolId);
+                teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
             }
 
             interchangeObjects.add(teacherSchool);
@@ -105,8 +104,7 @@ public class InterchangeStaffAssociationGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 teacherSection = null;
             } else {
-                teacherSection = TeacherSectionAssociationGenerator.getFastTeacherSectionAssociation(teacherMeta,
-                        sectionId);
+                teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
             }
 
             interchangeObjects.add(teacherSection);

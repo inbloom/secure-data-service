@@ -66,7 +66,7 @@ public class InterchangeEdOrgCalGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 session = null;
             } else {
-                session = SessionGenerator.getFastSession(sessionMeta.id, sessionMeta.schoolId);
+                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId);
             }
 
             interchangeObjects.add(session);

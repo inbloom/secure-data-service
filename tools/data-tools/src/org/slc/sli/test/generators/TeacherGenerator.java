@@ -81,7 +81,7 @@ public class TeacherGenerator {
         return teacher;
     }
 
-    public static Teacher getFastTeacher(String teacherId) {
+    public static Teacher generateLowFi(String teacherId) {
         Random random = new Random();
         Teacher teacher = new Teacher();
         teacher.setStaffUniqueStateId(teacherId);

@@ -63,7 +63,7 @@ public class InterchangeStudentGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 student = null;
             } else {
-                student = FastStudentGenerator.generate(studentMeta.id);
+                student = FastStudentGenerator.generateLowFi(studentMeta.id);
             }
 
             interchangeObjects.add(student);

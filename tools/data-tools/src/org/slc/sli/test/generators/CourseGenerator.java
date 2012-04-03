@@ -269,7 +269,7 @@ public class CourseGenerator {
     	return crt;
     }
 
-    public static Course getFastCourse(String id, String schoolId) {
+    public static Course generateLowFi(String id, String schoolId) {
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);

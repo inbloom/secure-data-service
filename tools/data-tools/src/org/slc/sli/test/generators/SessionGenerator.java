@@ -142,7 +142,7 @@ public class SessionGenerator {
         }
     }
 
-    public static Session getFastSession(String id, String schoolId) {
+    public static Session generateLowFi(String id, String schoolId) {
         Session session = new Session();
         session.setSessionName(id);
         session.setSchoolYear("2011-2012");

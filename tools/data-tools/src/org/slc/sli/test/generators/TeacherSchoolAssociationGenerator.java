@@ -46,7 +46,7 @@ public class TeacherSchoolAssociationGenerator {
         return tsa;
     }
 
-    public static TeacherSchoolAssociation getFastTeacherSchoolAssociation(TeacherMeta teacherMeta, String schoolId) {
+    public static TeacherSchoolAssociation generateLowFi(TeacherMeta teacherMeta, String schoolId) {
 
         TeacherSchoolAssociation teacherSchool = new TeacherSchoolAssociation();
 

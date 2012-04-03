@@ -81,7 +81,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 sea = null;
             } else {
-                sea = StateEducationAgencyGenerator.getStateEducationAgency(seaMeta.id);
+                sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id);
             }
 
             interchangeObjects.add(sea);
@@ -102,7 +102,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 lea = null;
             } else {
-                lea = LocalEducationAgencyGenerator.getLocalEducationAgency(leaMeta.id, leaMeta.seaId);
+                lea = LocalEducationAgencyGenerator.generateLowFi(leaMeta.id, leaMeta.seaId);
             }
 
             interchangeObjects.add(lea);
@@ -123,7 +123,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 school = null;
             } else {
-                school = SchoolGenerator.getSchool(schoolMeta.id, schoolMeta.leaId);
+                school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId);
             }
 
             interchangeObjects.add(school);
@@ -144,7 +144,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 course = null;
             } else {
-                course = CourseGenerator.getFastCourse(courseMeta.id, courseMeta.schoolId);
+                course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
             }
 
             interchangeObjects.add(course);

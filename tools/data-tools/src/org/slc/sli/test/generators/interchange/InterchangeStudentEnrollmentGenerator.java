@@ -78,7 +78,7 @@ public class InterchangeStudentEnrollmentGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 studentSchool = null;
             } else {
-                studentSchool = StudentSchoolAssociationGenerator.generate(studentMeta.id, schoolId);
+                studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
             }
 
             interchangeObjects.add(studentSchool);
@@ -95,7 +95,7 @@ public class InterchangeStudentEnrollmentGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 studentSection = null;
             } else {
-                studentSection = StudentSectionAssociationGenerator.generate(studentMeta.id,
+                studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
                         studentMeta.schoolIds.get(0), sectionId);
             }
 

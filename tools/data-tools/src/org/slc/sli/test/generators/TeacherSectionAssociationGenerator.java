@@ -39,7 +39,7 @@ public class TeacherSectionAssociationGenerator {
         return tsa;
     }
 
-    public static TeacherSectionAssociation getFastTeacherSectionAssociation(TeacherMeta teacherMeta, String sectionId) {
+    public static TeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
 
         TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
         
