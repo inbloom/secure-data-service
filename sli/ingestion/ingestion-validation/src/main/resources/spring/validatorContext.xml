@@ -17,7 +17,7 @@
     <bean id="ToolMain" class="org.slc.sli.ingestion.tool.ToolMain">
         <property name="controller" ref="validationController" />
         <property name="appName" value="validationTool" />
-        <property name="n_args" value="1" />
+        <property name="inputArgumentCount" value="1" />
     </bean>
 
     <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator"/>
