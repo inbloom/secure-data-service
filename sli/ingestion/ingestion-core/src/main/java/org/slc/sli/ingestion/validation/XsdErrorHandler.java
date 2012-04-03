@@ -1,16 +1,12 @@
 package org.slc.sli.ingestion.validation;
 
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import org.slc.sli.validation.EntityValidationException;
 
 /**
  *
@@ -21,11 +17,18 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private ErrorReport errorReport;
 
+    private static final Logger LOG = LoggerFactory.getLogger(XsdErrorHandler.class);
+
     private MessageSource messageSource;
 
     private boolean isValid;
 
     private final HashMap<String, String> saxToIngestionErrorCodes = new HashMap<String, String>() {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
         {
             put("cvc-attribute.3", "XSD_INVALID_ATTRIBUTE");
             put("cvc-attribute.4", "XSD_INVALID_ATTRIBUTE");
@@ -86,8 +89,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
-        errorReport.error(errorMessage, XsdValidator.class);
+        errorReport.warning(errorMessage, XsdValidator.class);
         System.out.println("WARNING: " + errorMessage);
+        LOG.warn("WARNING: " + errorMessage);
     }
 
     /**
@@ -100,6 +104,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdValidator.class);
         System.out.println("ERROR: " + errorMessage);
+        LOG.error("ERROR: " + errorMessage);
         setIsValid(false);
     }
 
@@ -113,8 +118,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex.getMessage());
-        errorReport.error(errorMessage, XsdValidator.class);
+        errorReport.fatal(errorMessage, XsdValidator.class);
         System.out.println("FATAL ERROR: " + errorMessage);
+        LOG.error("FATAL ERROR: " + errorMessage);
         setIsValid(false);
         throw ex;
     }
@@ -141,7 +147,15 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         String[] saxErrorMessageTokens = saxErrorMessageDetail.split("'");
         String[] messageArgs = new String[saxErrorMessageTokens.length / 2];
         for (int i = 0; i < messageArgs.length; i++) {
-                messageArgs[i] = saxErrorMessageTokens[(i * 2) + 1];
+            // Remove double-quoted substrings.
+            String[] argTokens = saxErrorMessageTokens[(i * 2) + 1].split("\"");
+            String arg = new String();
+                for (int j = 0; j < argTokens.length; j += 2) {
+                    arg += argTokens[j];
+                }
+                // Remove curly braces and colons.
+                arg = arg.replaceAll("[{:}]", "");
+                messageArgs[i] = arg;
         }
 
         // Return the ingestion error message.
