@@ -1,3 +1,13 @@
+PATH
+  remote: ~/.rvm/gems/ruby-1.9.3-p125/gems/linecache19-0.5.13/
+  specs:
+    linecache19 (0.5.13)
+
+PATH
+  remote: ~/.rvm/gems/ruby-1.9.3-p125/gems/ruby-debug-base19-0.11.26/
+  specs:
+    ruby-debug-base19 (0.11.26)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -49,6 +59,7 @@ GEM
       execjs
     coffee-script-source (1.2.0)
     colored (1.2)
+    columnize (0.3.6)
     daemons (1.1.6)
     erubis (2.7.0)
     eventmachine (0.12.10)
@@ -131,6 +142,10 @@ GEM
       mime-types (>= 1.16)
     roodi (2.1.0)
       ruby_parser
+    ruby-debug19 (0.11.6)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby-debug-base19 (>= 0.11.19)
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
     sass (3.1.12)
@@ -179,6 +194,7 @@ DEPENDENCIES
   execjs
   jquery-rails
   json
+  linecache19 (= 0.5.13)!
   logging-rails
   mocha
   oauth2
@@ -186,6 +202,8 @@ DEPENDENCIES
   rails_best_practices
   rest-client
   roodi
+  ruby-debug-base19 (= 0.11.26)!
+  ruby-debug19
   sass-rails (~> 3.1.5)
   simplecov
   simplecov-rcov
