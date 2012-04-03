@@ -68,6 +68,16 @@ public class TeacherSchoolAssociationGenerator {
 
         teacherSchool.setTeacherReference(teacherRef);
 
+        teacherSchool.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
+
+        GradeLevelsType glt = new GradeLevelsType();
+        glt.getGradeLevel().add(GradeLevelType.EARLY_EDUCATION);
+        teacherSchool.setInstructionalGradeLevels(glt);
+
+        AcademicSubjectsType ast = new AcademicSubjectsType();
+        ast.getAcademicSubject().add(AcademicSubjectType.COMPUTER_AND_INFORMATION_SCIENCES);
+        teacherSchool.setAcademicSubjects(ast);
+        
         return teacherSchool;
     }
 }

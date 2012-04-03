@@ -40,16 +40,7 @@ public class TeacherSectionAssociationGenerator {
     public static TeacherSectionAssociation getFastTeacherSectionAssociation(TeacherMeta teacherMeta, String sectionId) {
 
         TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
-
-        // construct and add the section references
-        SectionIdentityType sectionIdentity = new SectionIdentityType();
-        sectionIdentity.setUniqueSectionCode(sectionId);
-
-        SectionReferenceType sectionRef = new SectionReferenceType();
-        sectionRef.setSectionIdentity(sectionIdentity);
-
-        teacherSection.setSectionReference(sectionRef);
-
+        
         // construct and add the teacher reference
         StaffIdentityType staffIdentity = new StaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
@@ -58,6 +49,18 @@ public class TeacherSectionAssociationGenerator {
         teacherRef.setStaffIdentity(staffIdentity);
 
         teacherSection.setTeacherReference(teacherRef);
+
+        // construct and add the section references
+        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        sectionIdentity.setUniqueSectionCode(sectionId);
+        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(teacherMeta.schoolIds.get(0));
+
+        SectionReferenceType sectionRef = new SectionReferenceType();
+        sectionRef.setSectionIdentity(sectionIdentity);
+
+        teacherSection.setSectionReference(sectionRef);
+        teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
+        
         return teacherSection;
     }
 }

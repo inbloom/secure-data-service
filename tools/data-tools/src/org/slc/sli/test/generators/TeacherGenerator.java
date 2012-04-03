@@ -81,8 +81,16 @@ public class TeacherGenerator {
     }
 
     public static Teacher getFastTeacher(String teacherId) {
+        Random random = new Random();
         Teacher teacher = new Teacher();
         teacher.setStaffUniqueStateId(teacherId);
+        teacher.setName(NameGenerator.getFastName());
+        teacher.setHispanicLatinoEthnicity(random.nextBoolean());
+        teacher.setSex(random.nextBoolean() ? SexType.FEMALE : SexType.MALE);
+        RaceType rt = new RaceType();
+        teacher.setRace(rt);
+        teacher.getRace().getRacialCategory().add(RaceItemType.WHITE);
+        teacher.setHighestLevelOfEducationCompleted(LevelOfEducationType.BACHELOR_S);
         return teacher;
     }
 }
