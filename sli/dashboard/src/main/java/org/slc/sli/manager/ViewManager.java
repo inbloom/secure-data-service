@@ -62,8 +62,8 @@ public class ViewManager extends ApiClientManager {
                     Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_GRADE_LEVEL));
 
                     if (gradeValue == null) { continue; }
-                    
-                    if ((gradeValue >= lowerBound) && (gradeValue <= upperBound)) {
+
+                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0) {
                         applicableViewConfigs.add(viewConfig);
                         break;
                     }
