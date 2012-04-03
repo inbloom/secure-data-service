@@ -150,10 +150,10 @@ function PercentCompleteFormatter(value, options, rowObject) {
 /*
  * Check for ajax error response
  */
-DashboardUtil.checkAjaxError = function(XMLHttpRequest)
+DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
 {
     if(XMLHttpRequest.status != 200) {
-        DashboardUtil.displayErrorPage();
+        window.location = requestUrl;
     }
 }
 
