@@ -1,5 +1,7 @@
 package org.slc.sli.test.mappingGenerator;
 
+import java.io.PrintStream;
+
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
@@ -12,7 +14,7 @@ import org.slc.sli.test.utils.JaxbUtils;
 
 public class StateEdFiXmlGenerator {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         MetaRelations.buildFromSea();
 
@@ -26,56 +28,34 @@ public class StateEdFiXmlGenerator {
 
     }
 
-    private static void edOrg() {
-        long startTime = System.currentTimeMillis();
+    private static void edOrg() throws Exception {
 
         InterchangeEducationOrganization edOrg = InterchangeEdOrgGenerator.generate();
 
-        long genObjectTime = System.currentTimeMillis();
-        System.out.println("Constructed edOrg interchange in: " + (System.currentTimeMillis() - startTime));
+        JaxbUtils.marshal(edOrg, new PrintStream("data/InterchangeEducationOrganization.xml"));
 
-        JaxbUtils.marshal(edOrg);
-
-        System.out.println("Marshalled edOrg interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
 
-    private static void edOrgCalendar() {
-        long startTime = System.currentTimeMillis();
+    private static void edOrgCalendar() throws Exception {
 
         InterchangeEducationOrgCalendar edOrgCal = InterchangeEdOrgCalGenerator.generate();
 
-        long genObjectTime = System.currentTimeMillis();
-        System.out.println("Constructed edOrgCalendar interchange in: " + (System.currentTimeMillis() - startTime));
+        JaxbUtils.marshal(edOrgCal, new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
 
-        JaxbUtils.marshal(edOrgCal);
-
-        System.out.println("Marshalled edOrgCalendar interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
 
-    private static void masterSchedule() {
-        long startTime = System.currentTimeMillis();
+    private static void masterSchedule() throws Exception {
 
         InterchangeMasterSchedule masterSchedule = InterchangeMasterScheduleGenerator.generate();
 
-        long genObjectTime = System.currentTimeMillis();
-        System.out.println("Constructed masterSchedule interchange in: " + (System.currentTimeMillis() - startTime));
+        JaxbUtils.marshal(masterSchedule, new PrintStream("data/InterchangeMasterSchedule.xml"));
 
-        JaxbUtils.marshal(masterSchedule);
-
-        System.out.println("Marshalled masterSchedule interchange in: " + (System.currentTimeMillis() - genObjectTime));
     }
 
-    private static void staffAssociation() {
-        long startTime = System.currentTimeMillis();
+    private static void staffAssociation() throws Exception {
 
         InterchangeStaffAssociation staffAssociation = InterchangeStaffAssociationGenerator.generate();
 
-        long genObjectTime = System.currentTimeMillis();
-        System.out.println("Constructed staffAssociation interchange in: " + (System.currentTimeMillis() - startTime));
-
-        JaxbUtils.marshal(staffAssociation);
-
-        System.out.println("Marshalled staffAssociation interchange in: "
-                + (System.currentTimeMillis() - genObjectTime));
+        JaxbUtils.marshal(staffAssociation, new PrintStream("data/InterchangeStaffAssociation.xml"));
     }
 }
