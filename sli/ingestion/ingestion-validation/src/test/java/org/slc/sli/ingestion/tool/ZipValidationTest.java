@@ -66,15 +66,6 @@ public class ZipValidationTest {
     
     @Test
     public void testExceptionHandling() {
-        Resource zipFileResource = new ClassPathResource("SessionInValid.zip");
-        File zipFile = null;
-        
-        try {
-            zipFile = zipFileResource.getFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
         BatchJob job = BatchJob.createDefault("Test.zip");
         File ctlFile = zipValidation.validate(null, job);
         Assert.assertNull(ctlFile);
