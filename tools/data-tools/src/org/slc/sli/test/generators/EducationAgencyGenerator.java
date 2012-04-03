@@ -4,9 +4,12 @@ import org.slc.sli.test.edfi.entities.AccountabilityRating;
 import org.slc.sli.test.edfi.entities.CharterStatusType;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
+import org.slc.sli.test.edfi.entities.EducationOrganization;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.EducationServiceCenter;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.InstitutionTelephone;
 import org.slc.sli.test.edfi.entities.InstitutionTelephoneNumberType;
 import org.slc.sli.test.edfi.entities.LEACategoryType;
@@ -56,6 +59,14 @@ public class EducationAgencyGenerator {
         //agency.getProgramReference().add(ProgramReferenceType)
         //agency.getEducationOrganizationPeerReference()
         return agency;
+    }
+    
+    public EducationalOrgReferenceType getEducationalOrgReferenceType(EducationOrganization edOrg)
+    {
+    	EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+    	EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+    	identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg.getId());
+    	return ref;
     }
 
     public LocalEducationAgency getLEA(String id)

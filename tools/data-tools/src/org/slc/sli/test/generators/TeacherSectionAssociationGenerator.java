@@ -8,6 +8,7 @@ import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
+import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
 public class TeacherSectionAssociationGenerator {
     private Random r = new Random();
@@ -34,5 +35,29 @@ public class TeacherSectionAssociationGenerator {
         tsa.setHighlyQualifiedTeacher(r.nextBoolean());
 
         return tsa;
+    }
+
+    public static TeacherSectionAssociation getFastTeacherSectionAssociation(TeacherMeta teacherMeta, String sectionId) {
+
+        TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
+
+        // construct and add the section references
+        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        sectionIdentity.setUniqueSectionCode(sectionId);
+
+        SectionReferenceType sectionRef = new SectionReferenceType();
+        sectionRef.setSectionIdentity(sectionIdentity);
+
+        teacherSection.setSectionReference(sectionRef);
+
+        // construct and add the teacher reference
+        StaffIdentityType staffIdentity = new StaffIdentityType();
+        staffIdentity.setStaffUniqueStateId(teacherMeta.id);
+
+        StaffReferenceType teacherRef = new StaffReferenceType();
+        teacherRef.setStaffIdentity(staffIdentity);
+
+        teacherSection.setTeacherReference(teacherRef);
+        return teacherSection;
     }
 }
