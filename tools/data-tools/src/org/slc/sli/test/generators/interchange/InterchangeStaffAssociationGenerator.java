@@ -45,7 +45,7 @@ public class InterchangeStaffAssociationGenerator {
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateTeachersAndAssoc(interchangeObjects, MetaRelations.teacherMap.values());
+        generateTeachersAndAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
     }
 

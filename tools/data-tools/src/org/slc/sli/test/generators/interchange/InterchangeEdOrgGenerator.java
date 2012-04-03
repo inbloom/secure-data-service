@@ -54,13 +54,13 @@ public class InterchangeEdOrgGenerator {
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateStateEducationAgencies(interchangeObjects, MetaRelations.seaMap.values());
+        generateStateEducationAgencies(interchangeObjects, MetaRelations.SEA_MAP.values());
 
-        generateLocalEducationAgencies(interchangeObjects, MetaRelations.leaMap.values());
+        generateLocalEducationAgencies(interchangeObjects, MetaRelations.LEA_MAP.values());
 
-        generateSchools(interchangeObjects, MetaRelations.schoolMap.values());
+        generateSchools(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
 
-        generateCourses(interchangeObjects, MetaRelations.courseMap.values());
+        generateCourses(interchangeObjects, MetaRelations.COURSE_MAP.values());
     }
 
     /**
