@@ -29,7 +29,7 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
     public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
 
         //get the section Ids
-        List<String> sectionIds = getSectionIds(entities);
+        List<String> sectionIds = new ArrayList<String>(optionalFieldAppenderHelper.getSectionIds(entities));
 
         //get the list of student section grade book entries for all sections
         List<EntityBody> studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
@@ -47,7 +47,6 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
             List<EntityBody> studentSectionGradebookEntriesForStudent = optionalFieldAppenderHelper.getEntitySubList(studentSectionGradebookEntries,
                     ParameterConstants.STUDENT_ID, (String) student.get("id"));
 
-            //List<EntityBody> gradebookEntriesForStudent = new ArrayList<EntityBody>();
             for (EntityBody studentSectionGradebookEntry : studentSectionGradebookEntriesForStudent) {
                 //get the gradebook entry for the student gradebook entry
                 EntityBody gradebookEntry = optionalFieldAppenderHelper.getEntityFromList(gradebookEntries, "id",
@@ -58,36 +57,11 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
                 }
             }
 
-            //create the map to hold the studentSectionGradebookEntries and gradebookentries
-            //EntityBody body = new EntityBody();
-            //body.put(PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntriesForStudent);
-            //body.put(PathConstants.GRADEBOOK_ENTRIES, gradebookEntriesForStudent);
-
             //add the body to the student
-            //student.put(ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, body);
             student.put(PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntriesForStudent);
         }
 
         return entities;
     }
 
-    /**
-     * Returns a list of section ids by examining a list of students
-     * @param entities
-     * @return
-     */
-    protected List<String> getSectionIds(List<EntityBody> entities) {
-        List<String> sectionIds = new ArrayList<String>();
-        for (EntityBody e : entities) {
-            List<EntityBody> associations = (List<EntityBody>) e.get("studentSectionAssociation");
-
-            if (associations == null) continue;
-
-            for (EntityBody association : associations) {
-                sectionIds.add((String) association.get(ParameterConstants.SECTION_ID));
-            }
-        }
-
-        return sectionIds;
-    }
 }

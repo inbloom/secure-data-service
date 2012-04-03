@@ -60,7 +60,7 @@ Given /^I add a key value pair "([^"]*)" : "([^"]*)" to the object$/ do |key, va
 end
 
 When /^I navigate to GET "([^"]*)"\?includeCustom="([^"]*)"$/ do |uri, flag|
-  #uri=uri+"?includeCustom="+flag
+  uri=uri+"?includeCustom="+flag
   step "I navigate to GET \"#{uri}\""
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -87,4 +87,19 @@ Then /^I should recieve the "([^"]*)" object with "([^"]*)"$/ do |type, id|
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result["entityType"] == convert(type), "did not receive #{type}")
   assert(@result["id"] == convert(id), "did not receive #{type} with ID specified")
+end
+
+Then /^additionally I should receive a key value pair "([^"]*)" : "([^"]*)" in the result$/ do |key, value|
+  if key!="" and value!=""
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result["custom"].has_key?(key), "Response does not contain key #{key}")
+  assert(@result["custom"][key] == convert(value), "Expected #{key} to equal #{value}, received #{@result["custom"][key]}")
+  end
+end
+
+Then /^there is no other custom data returned$/ do
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result["custom"]==nil, "Response include custom data!")
 end
