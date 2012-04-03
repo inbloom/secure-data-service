@@ -42,7 +42,7 @@ public class InterchangeMasterScheduleGenerator {
      */
     private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
 
-        generateSections(interchangeObjects, MetaRelations.sectionMap.values());
+        generateSections(interchangeObjects, MetaRelations.SECTION_MAP.values());
 
     }
 

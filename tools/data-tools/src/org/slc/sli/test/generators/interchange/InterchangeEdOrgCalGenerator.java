@@ -42,7 +42,7 @@ public class InterchangeEdOrgCalGenerator {
      */
     private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
 
-        generateSessions(interchangeObjects, MetaRelations.sessionMap.values());
+        generateSessions(interchangeObjects, MetaRelations.SESSION_MAP.values());
 
     }
 

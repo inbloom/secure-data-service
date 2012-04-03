@@ -40,7 +40,7 @@ public class InterchangeStudentGenerator {
      */
     private static void addEntitiesToInterchange(List<Student> interchangeObjects) {
 
-        generateStudents(interchangeObjects, MetaRelations.studentMap.values());
+        generateStudents(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
 

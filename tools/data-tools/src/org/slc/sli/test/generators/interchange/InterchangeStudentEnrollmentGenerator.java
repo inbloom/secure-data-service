@@ -43,7 +43,7 @@ public class InterchangeStudentEnrollmentGenerator {
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateStudentAssocs(interchangeObjects, MetaRelations.studentMap.values());
+        generateStudentAssocs(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
 
