@@ -24,9 +24,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     private boolean isValid;
 
     private final HashMap<String, String> saxToIngestionErrorCodes = new HashMap<String, String>() {
-        /**
-         *
-         */
         private static final long serialVersionUID = 1L;
 
         {
@@ -90,7 +87,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.warning(errorMessage, XsdValidator.class);
-        System.out.println("WARNING: " + errorMessage);
         LOG.warn("WARNING: " + errorMessage);
     }
 
@@ -103,7 +99,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdValidator.class);
-        System.out.println("ERROR: " + errorMessage);
         LOG.error("ERROR: " + errorMessage);
         setIsValid(false);
     }
@@ -119,7 +114,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.fatal(errorMessage, XsdValidator.class);
-        System.out.println("FATAL ERROR: " + errorMessage);
         LOG.error("FATAL ERROR: " + errorMessage);
         setIsValid(false);
         throw ex;
