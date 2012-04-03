@@ -58,10 +58,18 @@ public class ValidationController {
         }
         if (zipFiles.length > 0) {
             job = BatchJob.createDefault(zipFiles[0]);
+            try {
+                jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
+            } catch (Exception ex) {
+                LOG.error("Error creating logger for zip validator...");
+            }
+
             File ctlFile = zipFileValidation(dirPath, zipFiles[0], job);
             if (ctlFile != null) {
                 File newDir = new File(ctlFile.getParent());
-                lz.setDirectory(newDir);
+                /*
+                 lz.setDirectory(newDir);
+
                 try {
                     LocalFileSystemLandingZone zlz = new LocalFileSystemLandingZone();
                     zlz.setDirectory(directory);
@@ -69,7 +77,8 @@ public class ValidationController {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-
+                */
+                lz.setDirectory(newDir);
                 job = ctlFileValidation(ctlFile.getParent(), ctlFile.getName(),
                         job);
             }
@@ -85,11 +94,11 @@ public class ValidationController {
 
             }
         }
-
+/*
          for (IngestionFileEntry ife : job.getFiles()) {
          for (SimpleValidatorSpring validator : validators) {
          validator.isValid(ife, job.getFaultsReport()); } }
-
+*/
         if (job != null) {
             FaultsReport fr = job.getFaultsReport();
 
