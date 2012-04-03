@@ -7,6 +7,16 @@ import javax.xml.bind.JAXBElement;
 import org.slc.sli.test.edfi.entities.*;
 
 public class DisciplineGenerator {
+	
+    public static DisciplineIncidentReferenceType getDisciplineIncidentReferenceType(String discId, String stateOrEdOrgId)
+    {
+        DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
+        diit.setIncidentIdentifier(discId);
+        diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrEdOrgId);
+        DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
+        dirt.setDisciplineIncidentIdentity(diit);
+        return dirt;
+    }
 
 	public DisciplineIncident generate(String incidentId, String delimiter) {
 		Random random = new Random();	

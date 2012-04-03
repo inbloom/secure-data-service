@@ -18,11 +18,7 @@ public class StudentDisciplineAssociationGenerator {
             StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentDisciplineAssociation.setStudentReference(srt);
 
-            DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
-            diit.setIncidentIdentifier(discId);
-            diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add("ThisStateID");
-            DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
-            dirt.setDisciplineIncidentIdentity(diit);
+            DisciplineIncidentReferenceType dirt = DisciplineGenerator.getDisciplineIncidentReferenceType(discId, "ThisStateID");
             studentDisciplineAssociation.setDisciplineIncidentReference(dirt);
             
             StudentParticipationCodeType spcType = null;
