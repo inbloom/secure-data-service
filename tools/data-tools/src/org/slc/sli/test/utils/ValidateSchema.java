@@ -1,4 +1,4 @@
-package org.slc.sli.test.validator;
+package org.slc.sli.test.utils;
 
 import java.io.File;
 import java.io.IOException;

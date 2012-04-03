@@ -27,7 +27,7 @@ import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.internals.*;
-import org.slc.sli.test.validator.ValidateSchema;
+import org.slc.sli.test.utils.ValidateSchema;
 
 public class DataForASchool {
     private String prefix = "a";
