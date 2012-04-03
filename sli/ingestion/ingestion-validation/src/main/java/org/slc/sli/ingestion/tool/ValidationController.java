@@ -42,8 +42,8 @@ public class ValidationController {
 	 * retrieve zip file or control file from the input directory and invoke
 	 * relevant validator
 	 */
-	void doValidation(String dirName) {
-		File directory = new File(dirName);
+	void doValidation(String dirPath) {
+		File directory = new File(dirPath);
 		BatchJob job = null;
 		Logger jobLogger = null;
 		lz.setDirectory(directory);
@@ -58,7 +58,7 @@ public class ValidationController {
 		}
 		if (zipFiles.length > 0) {
 			job = BatchJob.createDefault(zipFiles[0]);
-			File ctlFile = zipFileValidation(dirName, zipFiles[0], job);
+			File ctlFile = zipFileValidation(dirPath, zipFiles[0], job);
 			if (ctlFile != null) {
 				File newDir = new File(ctlFile.getParent());
 				lz.setDirectory(newDir);
@@ -78,7 +78,7 @@ public class ValidationController {
 				try {
 					job = BatchJob.createDefault(ctlFiles[0]);
 					jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
-					ctlFileValidation(dirName, ctlFiles[0], job);
+					ctlFileValidation(dirPath, ctlFiles[0], job);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -140,13 +140,13 @@ public class ValidationController {
 	}
 
 	/* validate zip file and return control file for further validation */
-	File zipFileValidation(String dirName, String fileName, BatchJob job) {
+	private File zipFileValidation(String dirName, String fileName, BatchJob job) {
 		File zFile = new File(dirName + "/" + fileName);
 		return zipValidation.validate(zFile, job);
 	}
 
 	/* validate control file */
-	BatchJob ctlFileValidation(String dirName, String fileName, BatchJob job) {
+	private BatchJob ctlFileValidation(String dirName, String fileName, BatchJob job) {
 		File ctlFile = new File(dirName + "/" + fileName);
 		try {
 			ControlFile cfile = ControlFile.parse(ctlFile);
