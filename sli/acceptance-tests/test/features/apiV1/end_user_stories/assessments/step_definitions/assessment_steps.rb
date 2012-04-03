@@ -116,3 +116,21 @@ Then /^the field "([^"]*)" should be "([^"]*)"$/ do |field, value|
    
   assert(receivedValue == value, "the #{field} is #{receivedValue}, not expected #{value}")
 end
+
+Then /^there are "([\d]*)" "([^"]*)"$/ do |count, collection|
+  assert(@result[collection].length == convert(count), "Expected #{count} #{collection}, received #{@result[collection].length}")
+  @col = @result[collection]
+end
+
+Then /^for the level at position "([\d]*)"$/ do |offset|
+  @offset = convert(offset)
+end
+
+Then /^the key "([^"]*)" has value "([^"]*)"$/ do |key,value|
+  key_arr = key.split(".")
+  if key_arr.length == 1
+    assert(@col[@offset][key] == convert(value), "Expected #{value}, received #{@col[@offset][key]}")
+  else
+    assert(@col[@offset][key_arr[0]][key_arr[1]] == convert(value), "Expected #{value}, received #{@col[@offset][key_arr[0]][key_arr[1]]}")
+  end
+end
