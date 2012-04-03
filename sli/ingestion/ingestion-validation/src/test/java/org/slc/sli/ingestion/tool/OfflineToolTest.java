@@ -22,7 +22,7 @@ public class OfflineToolTest {
 
     @Test
     public void testMain() {
-        final String dir = "controller_test/invalid/Session1.zip";
+        final String dir = "invalid/Session1.zip";
         Resource fileResource = new ClassPathResource(dir);
         String [] args = new String[1];
         try {
