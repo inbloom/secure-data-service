@@ -1662,18 +1662,10 @@
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="specialAccommodationsType" />
-  </jb:bean>
-  <jb:bean beanId="specialAccommodationsType" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations">
     <jb:value data="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations/SpecialAccommodation" />
   </jb:bean>
 
   <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="linguisticAccommodationsType" />
-  </jb:bean>
-  <jb:bean beanId="linguisticAccommodationsType" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations">
     <jb:value data="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations/LinguisticAccommodation" />
   </jb:bean>
 
