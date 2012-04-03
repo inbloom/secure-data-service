@@ -132,6 +132,8 @@ public class MetaRelations {
 
             CourseMeta courseMeta = new CourseMeta("course" + idNum, schoolMeta);
 
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
             coursesForSchool.put(courseMeta.id, courseMeta);
             courseMap.put(courseMeta.id, courseMeta);
         }
@@ -154,6 +156,8 @@ public class MetaRelations {
 
             SessionMeta sessionMeta = new SessionMeta("session" + idNum, schoolMeta);
 
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
             sessionsForSchool.put(sessionMeta.id, sessionMeta);
             sessionMap.put(sessionMeta.id, sessionMeta);
         }
@@ -183,6 +187,8 @@ public class MetaRelations {
 
                     SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta);
 
+                    // it's useful to return the objects created JUST for this school
+                    // add to both maps here to avoid loop in map.putAll if we merged maps later
                     sectionMapForSchool.put(sectionMeta.id, sectionMeta);
                     sectionMap.put(sectionMeta.id, sectionMeta);
                 }
@@ -206,6 +212,8 @@ public class MetaRelations {
 
             TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
 
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
             teachersInSchoolMap.put(teacherMeta.id, teacherMeta);
             teacherMap.put(teacherMeta.id, teacherMeta);
         }

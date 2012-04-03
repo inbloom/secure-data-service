@@ -94,12 +94,14 @@ public class SectionGenerator {
         SectionIdentityType identity = new SectionIdentityType();
         sectionRef.setSectionIdentity(identity);
         
+        CourseOfferingIdentityType courseIdentity = section.getCourseOfferingReference().getCourseOfferingIdentity();
         identity.getStateOrganizationIdOrEducationOrgIdentificationCode() ;
         identity.setUniqueSectionCode(section.getUniqueSectionCode()) ;
-        identity.setCourseCode(section.getCourseOfferingReference().getCourseOfferingIdentity().getCourseCode().get(0)) ;
-        identity.setLocalCourseCode(section.getCourseOfferingReference().getCourseOfferingIdentity().getLocalCourseCode()) ;
-        identity.setSchoolYear(section.getCourseOfferingReference().getCourseOfferingIdentity().getSchoolYear()) ;
-        identity.setTerm(section.getCourseOfferingReference().getCourseOfferingIdentity().getTerm()) ;
+        
+        identity.setCourseCode(courseIdentity.getCourseCode().get(0)) ;
+        identity.setLocalCourseCode(courseIdentity.getLocalCourseCode()) ;
+        identity.setSchoolYear(courseIdentity.getSchoolYear()) ;
+        identity.setTerm(courseIdentity.getTerm()) ;
         identity.setClassPeriodName(section.getClassPeriodReference().getClassPeriodIdentity().getClassPeriodName()) ;
         identity.setLocation(section.getLocationReference().getLocationIdentity().getClassroomIdentificationCode()) ;
         return sectionRef;

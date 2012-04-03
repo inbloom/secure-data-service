@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 import org.slc.sli.test.edfi.entities.Session;
+import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
 
@@ -219,11 +222,54 @@ public class SessionGenerator {
                 + s1.getEducationOrganizationReference().getEducationalOrgIdentity()
                         .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
         System.out.println(sessionString1);
+        
+    	SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType("stateOrganizationId",
+    			"educationOrgIdentificationCode_ID",
+    			"educationOrgIdentificationCode_IdentificationSystem",
+    			"schoolYear",
+    			"sessionName");
+    	System.out.println(sessionRef);
 
     }
 
-    public static SessionReferenceType getSessionReferenceType()
+    public static SessionReferenceType getSessinReferenceType(Session session) {
+        SessionReferenceType ref = new SessionReferenceType();
+        SessionIdentityType identity = new SessionIdentityType();
+        ref.setSessionIdentity(identity); 
+        identity.setSchoolYear(session.getSchoolYear());
+        identity.setSessionName(session.getSessionName());
+        identity.setTerm(session.getTerm());
+         
+        identity.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(
+        		session.getEducationOrganizationReference().getEducationalOrgIdentity().getStateOrganizationIdOrEducationOrgIdentificationCode());
+        return ref;
+    }
+    
+    public static SessionReferenceType getSessionReferenceType(
+    		String stateOrganizationId,
+    		String educationOrgIdentificationCode_ID,
+    		String educationOrgIdentificationCode_IdentificationSystem,
+    		String schoolYear,
+    		String sessionName
+    )
     {
-    	return null;
+    	SessionReferenceType  ref = new SessionReferenceType();
+        SessionIdentityType sessionIdentity = new SessionIdentityType();
+        ref.setSessionIdentity(sessionIdentity);
+        
+        if(stateOrganizationId != null)
+            sessionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrganizationId);
+        
+    	if(educationOrgIdentificationCode_ID != null) {
+    	    EducationOrgIdentificationCode edOrgCode = new EducationOrgIdentificationCode();
+    	    edOrgCode.setID(educationOrgIdentificationCode_ID);
+    	    edOrgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+    	    sessionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgCode);
+    	}
+    	if(schoolYear != null) sessionIdentity.setSchoolYear(schoolYear);
+    	sessionIdentity.setTerm(TermType.YEAR_ROUND);
+    	if(sessionName != null) sessionIdentity.setSessionName(sessionName);
+    	return ref;
     }
+    
 }
