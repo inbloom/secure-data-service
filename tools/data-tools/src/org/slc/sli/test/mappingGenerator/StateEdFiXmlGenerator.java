@@ -58,7 +58,7 @@ public class StateEdFiXmlGenerator {
 
     private static void processProgramArguments(String[] args) {
 
-        if (args[0] != null && ("low".equals(args[0]) || "medium".equals(args[0]))) {
+        if (args.length > 0 && ("low".equals(args[0]) || "medium".equals(args[0]))) {
             fidelityOfData = args[0];
         }
         System.out.println("will use " + fidelityOfData + " fidelity data generators.");
