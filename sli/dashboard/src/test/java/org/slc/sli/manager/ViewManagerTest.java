@@ -66,7 +66,15 @@ public class ViewManagerTest {
         viewManager.apply(modifier);
         verify(modifier).modify(any(ViewConfig.class));
     }
-    
+
+    @Test
+    public void testSetEntityManager() {
+        EntityManager em = new EntityManager();
+        viewManager.setEntityManager(em);
+
+        assertEquals(em, viewManager.getEntityManager());
+    }
+
     @Test
     public void testGetApplicableViewConfigs() {
         List<ViewConfig> viewConfigs = new ArrayList<ViewConfig>();
