@@ -10,8 +10,19 @@ import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.generators.SectionGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 
+/**
+ * Generates the Master Schedule Interchange as derived from the variable:
+ *  - sectionMap
+ *  as created by the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator
+ * @author dduran
+ *
+ */
 public class InterchangeMasterScheduleGenerator {
 
+	/**
+	 * Sets up a new Master Schedule Interchange and populates it
+	 * @return
+	 */
     public static InterchangeMasterSchedule generate() {
         long startTime = System.currentTimeMillis();
 
@@ -25,12 +36,21 @@ public class InterchangeMasterScheduleGenerator {
         return interchange;
     }
 
+    /**
+     * Generates the individual entities that can generate a Master Schedule
+     * @param interchangeObjects
+     */
     private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
 
         generateSections(interchangeObjects, MetaRelations.sectionMap.values());
 
     }
 
+    /**
+     * Loops all sections and, using an Section Generator, populates interchange data.
+     * @param interchangeObjects
+     * @param sectionMetas
+     */
     private static void generateSections(List<ComplexObjectType> interchangeObjects,
             Collection<SectionMeta> sectionMetas) {
 

@@ -47,6 +47,10 @@ public class MetaRelations {
 
     }
 
+    /**
+     * The top level call to start the XML generation process is
+     * to 'buildSeas'
+     */
     public static void buildFromSea() {
 
         long startTime = System.currentTimeMillis();
@@ -57,6 +61,9 @@ public class MetaRelations {
 
     }
 
+    /**
+     * Looping over all SEAs, build LEAs for each SEA
+     */
     private static void buildSeas() {
 
         for (int idNum = 0; idNum < TOTAL_SEAS; idNum++) {
@@ -69,6 +76,10 @@ public class MetaRelations {
         }
     }
 
+    /**
+     * Looping over all LEAs, build Schools for each LEA
+     * @param seaMeta
+     */
     private static void buildLeasForSea(SeaMeta seaMeta) {
 
         for (int idNum = 0; idNum < LEAS_PER_SEA; idNum++) {
@@ -81,6 +92,15 @@ public class MetaRelations {
         }
     }
 
+    /**
+     * For each School, generate:
+     * 	 - teachers
+     * 	 - courses
+     * 	 - sessions
+     * 	 - sections
+     * And correlate sections with teachers.
+     * @param leaMeta
+     */
     private static void buildSchoolsForLea(LeaMeta leaMeta) {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
@@ -106,6 +126,13 @@ public class MetaRelations {
         }
     }
 
+    /**
+     * Generate the teachers for this school.
+     * teachersInSchoolMap is used later in this class.
+     * teacherMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @return
+     */
     private static Map<String, TeacherMeta> buildTeachersForSchool(SchoolMeta schoolMeta) {
 
         Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
@@ -122,6 +149,13 @@ public class MetaRelations {
         return teachersInSchoolMap;
     }
 
+    /**
+     * Generate the students for this school.
+     * studentsInSchoolMap is used later in this class.
+     * studentMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @return
+     */
     private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
 
         Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
@@ -138,6 +172,13 @@ public class MetaRelations {
         return studentsInSchoolMap;
     }
 
+    /**
+     * Generate the courses for the school.
+     * coursesForSchool is used later in this class.
+     * courseMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @return
+     */
     private static Map<String, CourseMeta> buildCoursesForSchool(SchoolMeta schoolMeta) {
 
         Map<String, CourseMeta> coursesForSchool = new HashMap<String, CourseMeta>(COURSES_PER_SCHOOL);
@@ -155,6 +196,13 @@ public class MetaRelations {
         return coursesForSchool;
     }
 
+    /**
+     * Generate the sessions for the school.
+     * sessionsForSchool is used later in this class.
+     * sessionMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @return
+     */
     private static Map<String, SessionMeta> buildSessionsForSchool(SchoolMeta schoolMeta) {
 
         Map<String, SessionMeta> sessionsForSchool = new HashMap<String, SessionMeta>(SESSIONS_PER_SCHOOL);
@@ -172,6 +220,15 @@ public class MetaRelations {
         return sessionsForSchool;
     }
 
+    /**
+     * Generate the sections for this school.
+     * sectionMapForSchool is used later in this class.
+     * sectionMap is used to actually generate the XML.
+     * @param schoolMeta
+     * @param coursesForSchool
+     * @param sessionsForSchool
+     * @return
+     */
     private static Map<String, SectionMeta> buildSectionsForSchool(SchoolMeta schoolMeta,
             Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool) {
 
@@ -196,6 +253,11 @@ public class MetaRelations {
         return sectionMapForSchool;
     }
 
+    /**
+     * Correlates teachers and sections on a 'per school' basis.
+     * @param sectionsForSchool
+     * @param teachersForSchool
+     */
     private static void addSectionsToTeachers(Map<String, SectionMeta> sectionsForSchool,
             Map<String, TeacherMeta> teachersForSchool) {
 
@@ -214,6 +276,11 @@ public class MetaRelations {
         }
     }
 
+    /**
+     * Correlates students and sections on a 'per school' basis.
+     * @param sectionsForSchool
+     * @param studentsForSchool
+     */
     private static void addStudentsToSections(Map<String, SectionMeta> sectionsForSchool,
             Map<String, StudentMeta> studentsForSchool) {
 

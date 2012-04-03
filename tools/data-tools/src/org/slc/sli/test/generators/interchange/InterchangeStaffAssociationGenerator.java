@@ -13,8 +13,18 @@ import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 
+/**
+ * Generates the Staff Association Interchange as derived from the associations
+ * determined during the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator.
+ * @author dduran
+ *
+ */
 public class InterchangeStaffAssociationGenerator {
 
+	/**
+	 * Sets up a new Staff Association Interchange and populates it.
+	 * @return
+	 */
     public static InterchangeStaffAssociation generate() {
         long startTime = System.currentTimeMillis();
 
@@ -29,12 +39,23 @@ public class InterchangeStaffAssociationGenerator {
         return interchange;
     }
 
+    /**
+     * Generate the individual Teacher Association entities.
+     * @param interchangeObjects
+     */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateTeachersAndAssoc(interchangeObjects, MetaRelations.teacherMap.values());
 
     }
 
+    /**
+     * Loops all teachers and, using a Teacher Generator, populates interchange data.
+     * Also loops teacher-school and teacher-section associations and populates
+     * the same.
+     * @param interchangeObjects
+     * @param teacherMetas
+     */
     private static void generateTeachersAndAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
 
         for (TeacherMeta teacherMeta : teacherMetas) {
