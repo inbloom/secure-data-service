@@ -24,12 +24,12 @@ public class GenericEntityEnhancerTest {
         GenericEntity entity = new GenericEntity();
         entity.put("gradeLevel", "Adult Education");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "AE");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Early Education");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "EE");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Eighth grade");
@@ -59,12 +59,12 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("gradeLevel", "Grade 13");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "13");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Infant/toddler");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "IN");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Kindergarten");
@@ -79,17 +79,17 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("gradeLevel", "Other");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "O");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Postsecondary");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "+S");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Preschool/Prekindergarten");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "PK");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Second grade");
@@ -119,7 +119,7 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("gradeLevel", "Transitional Kindergarten");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "TK");
         
         entity = new GenericEntity();
         entity.put("gradeLevel", "Twelfth grade");
@@ -129,7 +129,7 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("gradeLevel", "Ungraded");
         entity = GenericEntityEnhancer.enhanceStudent(entity);
-        Assert.assertEquals(entity.get("gradeLevelCode"), "");
+        Assert.assertEquals(entity.get("gradeLevelCode"), "UG");
         
         entity = new GenericEntity();
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
@@ -146,12 +146,12 @@ public class GenericEntityEnhancerTest {
         GenericEntity entity = new GenericEntity();
         entity.put("entryGradeLevel", "Adult Education");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "AE");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Early Education");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "EE");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Eighth grade");
@@ -181,12 +181,12 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Grade 13");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "13");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Infant/toddler");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "IN");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Kindergarten");
@@ -201,17 +201,17 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Other");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "O");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Postsecondary");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "+S");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Preschool/Prekindergarten");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "PK");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Second grade");
@@ -241,7 +241,7 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Transitional Kindergarten");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "TK");
         
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Twelfth grade");
@@ -251,7 +251,7 @@ public class GenericEntityEnhancerTest {
         entity = new GenericEntity();
         entity.put("entryGradeLevel", "Ungraded");
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
-        Assert.assertEquals(entity.get("entryGradeLevelCode"), "");
+        Assert.assertEquals(entity.get("entryGradeLevelCode"), "UG");
         
         entity = new GenericEntity();
         entity = GenericEntityEnhancer.enhanceStudentSchoolAssociation(entity);
