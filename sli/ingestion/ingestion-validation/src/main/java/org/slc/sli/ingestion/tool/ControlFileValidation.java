@@ -21,15 +21,15 @@ public class ControlFileValidation {
      * @param the
      *            batch job
      */
-    void validate(ControlFileDescriptor fileDesc, BatchJob job){
+    void validate(ControlFileDescriptor fileDesc, BatchJob job) {
         assembler.populateJob(fileDesc, job);
     }
 
-    public void setAssembler(BatchJobAssembler assembler){
+    public void setAssembler(BatchJobAssembler assembler) {
         this.assembler = assembler;
     }
 
-    public BatchJobAssembler getAssembler(){
+    public BatchJobAssembler getAssembler() {
         return assembler;
     }
 
