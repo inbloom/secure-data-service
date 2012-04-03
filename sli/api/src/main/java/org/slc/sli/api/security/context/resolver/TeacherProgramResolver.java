@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.mongodb.BasicDBList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,13 +54,9 @@ public class TeacherProgramResolver implements EntityContextResolver {
         Set<String> programIds = new HashSet<String>();
 
         for (Entity staffProgramAssociation : staffProgramAssociations) {
-            BasicDBList programIdList = (BasicDBList) staffProgramAssociation.getBody().get("programId");
-            if (programIdList != null) {
-                for (Object obj : programIdList) {
-                    if (obj != null) {
-                        programIds.add((String) obj);
-                    }
-                }
+            String programId = (String) staffProgramAssociation.getBody().get("programId");
+            if (programId != null) {
+                programIds.add(programId);
             }
         }
 

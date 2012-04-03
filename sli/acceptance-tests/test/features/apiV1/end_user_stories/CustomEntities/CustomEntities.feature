@@ -112,7 +112,7 @@ Scenario Outline: As an educator or leader, I want to read a custom entity assoc
 	Examples:
 	| Username        | Password            | AnyDefaultSLIRole  | ClientID     | Key            | Value    | Code  |
     | "leader"        | "leader1234"        | "Leader"           | "demoClient" | "Drives"       | "True"   | 200   |
- #	| "aggregator"    | "aggregator1234"    | "AggregateViewer"  | "demoClient" | ""             | ""       | 403   |
+# 	| "aggregator"    | "aggregator1234"    | "AggregateViewer"  | "demoClient" | ""             | ""       | 403   |
  	
 Scenario Outline: As an user, I want to delete a custom entity associated with any core entity belonging to my application
 	 Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
@@ -123,7 +123,7 @@ Scenario Outline: As an user, I want to delete a custom entity associated with a
 	    And a valid entity json object for a "students"
 	     And I add a key value pair "Drives" : "True" to the object
 		When I navigate to POST "/<STUDENT URI>/<STUDENT ID>/<CUSTOM URI>"
-		Then I should receive a return code of 204
+		Then I should receive a return code of 201
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>
@@ -143,7 +143,7 @@ Scenario Outline: As an user, I want to delete a custom entity associated with a
 	| Username        | Password            | AnyDefaultSLIRole  | ClientID     | Key            | Value    | DelCode   | ReadCode |
 	| "leader"        | "leader1234"        | "Leader"           | "demoClient" | "Drives"       | "True"   |  403      |  200     |
 	| "aggregator"    | "aggregator1234"    | "AggregateViewer"  | "demoClient" | ""             | ""       |  403      |  403     |
-#	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | ""             | ""       |  204      |  404     |
+	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | ""             | ""       |  204      |  404     |
 
 Scenario Outline: As an user, I want to update  a custom entity associated with any core entity belonging to my application 
 	 Given  I am a valid SEA/LEA end user "demo" with password "demo1234"
@@ -154,7 +154,7 @@ Scenario Outline: As an user, I want to update  a custom entity associated with 
 	    And a valid entity json object for a "students"
 	     And I add a key value pair "Drives" : "True" to the object
 		When I navigate to POST "/<STUDENT URI>/<STUDENT ID>/<CUSTOM URI>"
-		Then I should receive a return code of 204
+		Then I should receive a return code of 201
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>
@@ -186,7 +186,7 @@ Scenario Outline: As an user, I want to create  a custom entity associated with 
 	| Username        | Password            | AnyDefaultSLIRole  | ClientID     | Key                       | Value     | Code   | Action |
      | "leader"        | "leader1234"        | "Leader"           | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | POST   |
 	| "aggregator"    | "aggregator1234"    | "AggregateViewer"  | "demoClient" | "currentlyEnrolled"       | "False"   |  403   | POST   |
-	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | "currentlyEnrolled"       | "False"   |  204   | POST   | 
+	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | "currentlyEnrolled"       | "False"   |  201   | POST   | 
 	
 
 Scenario Outline: As an user, I want to update  a custom entity associated with any association belonging to my application 
@@ -198,7 +198,7 @@ Scenario Outline: As an user, I want to update  a custom entity associated with 
 	    And a valid entity json object for a "studentSchoolAssociations"
 	    And I add a key value pair "currentlyEnrolled" : "True" to the object
 		When I navigate to POST "/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT SCHOOL ASSOC ID>/<CUSTOM URI>"
-		Then I should receive a return code of 204
+		Then I should receive a return code of 201
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>
@@ -225,7 +225,7 @@ Scenario Outline: As an user, I want to delete and then read a custom entity ass
 	    And a valid entity json object for a "studentSchoolAssociations"
 	    And I add a key value pair "currentlyEnrolled" : "True" to the object
 		When I navigate to POST "/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT SCHOOL ASSOC ID>/<CUSTOM URI>"
-		Then I should receive a return code of 204
+		Then I should receive a return code of 201
 		
 		Given  I am a valid SEA/LEA end user <Username> with password <Password>
 	    And the clientID is <ClientID>
@@ -244,6 +244,6 @@ Scenario Outline: As an user, I want to delete and then read a custom entity ass
 	| Username        | Password            | AnyDefaultSLIRole  | ClientID     | Key                       | Value     | Code   | Action | ReadCode |
 	| "leader"        | "leader1234"        | "Educator"         | "demoClient" | "currentlyEnrolled"       | "True"    |  403   | DELETE |  200     |
 	| "aggregator"    | "aggregator1234"    | "AggregateViewer"  | "demoClient" | ""                        | ""        |  403   | DELETE |  403     |
-#	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | ""                        | ""        |  204   | DELETE |  404     |    
+	| "demo"          | "demo1234"          | "ITAdmin"          | "demoClient" | ""                        | ""        |  204   | DELETE |  404     |    
 
 
