@@ -145,7 +145,7 @@ Scenario: Post a zip file where the the edfi input has no records
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000 "
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
        | body.studentUniqueStateId                                                | 100000000                             | string               |

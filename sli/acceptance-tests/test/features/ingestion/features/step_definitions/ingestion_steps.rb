@@ -181,7 +181,7 @@ When /^a batch job log has been created$/ do
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout}")
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
 
 end
@@ -263,7 +263,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @db = @conn[INGESTION_DB_NAME]
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
-  assert(@entity.count == 1, "Found more than one document with this query")
+  assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
   
 end
 
