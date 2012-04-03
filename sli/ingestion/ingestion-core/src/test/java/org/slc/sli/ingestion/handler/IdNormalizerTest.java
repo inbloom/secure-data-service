@@ -81,7 +81,7 @@ public class IdNormalizerTest {
 
         Map<String, String> simpleSectionFilter = new HashMap<String, String>();
         simpleSectionFilter.put("metaData.externalId", "aSectionId");
-        simpleSectionFilter.put("metaData." + EntityMetadataKey.ID_NAMESPACE.getKey() , REGION_ID);
+        simpleSectionFilter.put("metaData." + EntityMetadataKey.TENANT_ID.getKey() , REGION_ID);
         when(mockedEntityRepository.findByPaths("section", simpleSectionFilter)).thenReturn(sectionList);
 
         String internalId = IdNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, "aSectionId", mock(ErrorReport.class));
@@ -113,14 +113,14 @@ public class IdNormalizerTest {
         queries.add(new Query(Criteria.where("body.schoolId").is("aSchoolId")));
         expectedQuery.or(queries.toArray(new Query[0]));
 
-        Criteria criteria = Criteria.where("metaData.externalId").is("aSectionId");
+        Criteria criteria = Criteria.where("metaData.tenantId").is(REGION_ID);
         expectedQuery.addCriteria(criteria);
-        criteria = Criteria.where("metaData.idNamespace").is(REGION_ID);
+        criteria = Criteria.where("metaData.externalId").is("aSectionId");
         expectedQuery.addCriteria(criteria);
 
         Query actualQuery = new Query();
         Map<String, String> filterFields = new HashMap<String, String>();
-        filterFields.put("metaData.idNamespace", REGION_ID);
+        filterFields.put("metaData.tenantId", REGION_ID);
 
         PrivateAccessor.invoke(IdNormalizer.class, "resolveSearchCriteria",
                 new Class[]{Repository.class, String.class, Map.class, Map.class, Query.class, String.class, ErrorReport.class},

@@ -72,6 +72,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             attrs.put("studentId", studentUniqueStateId);
             attrs.remove("studentAcademicRecordId");
 
+            if (attrs.get("creditsAttempted") == null) {
+                attrs.remove("creditsAttempted");
+            }
+
             neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getRecordId(), neutralRecord);
         }
