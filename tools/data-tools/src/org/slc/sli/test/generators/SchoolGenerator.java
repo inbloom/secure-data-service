@@ -30,7 +30,8 @@ public class SchoolGenerator {
     private int schoolPtr = 0;
     private int schoolCount = 0;
     private AddressGenerator ag;
-
+    private static AddressGenerator staticAg = null;
+    
     private String [] schoolNames =
         {"Academy for Language and Technology ", "Academy for Scholarship and Entrepreneurship: A College Board School ", "Academy of Mount Saint Ursula ", "Alfred E. Smith Career and Technical Education High School", "All Hallows High School ",
             "Aquinas High School ", "Astor Collegiate Academy", "Astor Collegiate Academy", "Banana Kelly High School ", "Belmont Preparatory High School",
@@ -158,6 +159,89 @@ public class SchoolGenerator {
         School school = schools.get(schoolPtr++ % schoolCount);
         school.setId(schoolId);
         school.setStateOrganizationId(schoolId);
+        return school;
+    }
+
+    public static School getSchool(String schoolId, String leaId)
+    {
+        try {
+            if (staticAg == null)
+            	// TODO set StateAbbreviationType based on SEA
+                staticAg = new AddressGenerator(StateAbbreviationType.NY);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        School school = new School();
+        school.setId(schoolId);
+
+        school.setStateOrganizationId("New York School Board") ;
+        school.setNameOfInstitution(schoolId) ;
+        school.setShortNameOfInstitution(schoolId.replaceAll("[a-z]", "")) ;
+        school.setWebSite("http://www." + schoolId.replaceAll("[ a-z:]", "") + "School.edu") ;
+        school.getAddress().add(staticAg.getRandomAddress());
+
+        EducationOrganizationCategoriesType category = new EducationOrganizationCategoriesType();
+        category.getOrganizationCategory().add(EducationOrganizationCategoryType.SCHOOL);
+        school.setOrganizationCategories(category) ;
+        school.setOperationalStatus(OperationalStatusType.ACTIVE) ;
+
+        GradeLevelsType grades = new GradeLevelsType();
+        grades.getGradeLevel().add(GradeLevelType.ADULT_EDUCATION);
+        grades.getGradeLevel().add(GradeLevelType.EARLY_EDUCATION);
+        grades.getGradeLevel().add(GradeLevelType.EIGHTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.ELEVENTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.FIFTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.FIRST_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.FOURTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.GRADE_13);
+        grades.getGradeLevel().add(GradeLevelType.INFANT_TODDLER);
+        grades.getGradeLevel().add(GradeLevelType.KINDERGARTEN);
+        grades.getGradeLevel().add(GradeLevelType.NINTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.OTHER);
+        grades.getGradeLevel().add(GradeLevelType.POSTSECONDARY);
+        grades.getGradeLevel().add(GradeLevelType.PRESCHOOL_PREKINDERGARTEN);
+        grades.getGradeLevel().add(GradeLevelType.SECOND_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.SEVENTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.SIXTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.TENTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.THIRD_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.TRANSITIONAL_KINDERGARTEN);
+        grades.getGradeLevel().add(GradeLevelType.TWELFTH_GRADE);
+        grades.getGradeLevel().add(GradeLevelType.UNGRADED);
+        school.setGradesOffered(grades) ;
+
+        SchoolCategoriesType schoolCat = new SchoolCategoriesType();
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.ELEMENTARY_SECONDARY_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.ELEMENTARY_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.HIGH_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.MIDDLE_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.JUNIOR_HIGH_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.SECONDARY_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.UNGRADED);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.ADULT_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.INFANT_TODDLER_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.PRESCHOOL_EARLY_CHILDHOOD);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.PRIMARY_SCHOOL);
+        schoolCat.getSchoolCategory().add(SchoolCategoryItemType.INTERMEDIATE_SCHOOL);
+        school.setSchoolCategories(schoolCat);
+
+        school.setSchoolType(SchoolType.REGULAR) ;
+        school.setCharterStatus(CharterStatusType.OPEN_ENROLLMENT) ;
+        school.setTitleIPartASchoolDesignation(TitleIPartASchoolDesignationType.NOT_DESIGNATED_AS_A_TITLE_I_PART_A_SCHOOL) ;
+        school.setMagnetSpecialProgramEmphasisSchool(MagnetSpecialProgramEmphasisSchoolType.ALL_STUDENTS_PARTICIPATE) ;
+        school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL) ;
+
+        // construct and add the SEA reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
+
+        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        school.setLocalEducationAgencyReference(leaRef);
+
         return school;
     }
 
