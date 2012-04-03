@@ -59,7 +59,7 @@ public class EntityPersistHandlerTest {
     private static final String BAD_STUDENT_ID = "234567";
     private static final String REGION_ID = "SLI";
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID_FIELD = "idNamespace";
+    private static final String REGION_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
     private final Map<String, String> schoolFilterFields = new HashMap<String, String>();
@@ -175,7 +175,7 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update("student", studentEntity);
@@ -205,7 +205,7 @@ public class EntityPersistHandlerTest {
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         Assert.assertTrue("Error report should contain errors", fr.hasErrors());
@@ -244,7 +244,7 @@ public class EntityPersistHandlerTest {
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
@@ -293,7 +293,7 @@ public class EntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository).update("studentSchoolAssociation", studentSchoolAssociationEntity);
@@ -433,7 +433,7 @@ public class EntityPersistHandlerTest {
 
         SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
-        teacherSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        teacherSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
         verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),
                 teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),

@@ -137,8 +137,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Get a single $$learningObjectives$$ entity that directly referenced as Parent
-     * learningObjective by learningObjective entity that specified by learningObjective Id
+     * Get a single $$learningObjectives$$ entity is the parent of this resource
      * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -146,12 +145,32 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single learningObjective entity
+     * @return the Response containing the parent entity
      */
     @GET
-    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.PARENT_LEARNING_OBJECTIVES)
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response getParentLearningObjective(
+            @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+
+    /**
+     * Get all the $$learningObjectives$$ entities that are children of this resource
+     * 
+     * @param learningObjectiveId
+     *            The Id of the $$learningObjectives$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return the Response contianing the children entities
+     */
+    @GET
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.CHILD_LEARNING_OBJECTIVES)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response getChildrenLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return Response.status(Status.NOT_FOUND).build();
