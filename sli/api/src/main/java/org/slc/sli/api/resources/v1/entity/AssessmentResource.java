@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,8 +164,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getStudentAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                headers, uriInfo);
+        return super
+                .read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
     
     /**
@@ -186,8 +187,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getStudentAssessmentAssociationsStudents(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "studentId",
+                ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
@@ -214,8 +215,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getSectionAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                headers, uriInfo);
+        return super
+                .read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
     
     /**
@@ -237,8 +238,36 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getSectionAssessmentAssociationsSections(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "sectionId",
+                ResourceNames.SECTIONS, headers, uriInfo);
     }
+    
+    /**
+     * Get a map of the objective assessment ids to $$learningStandards$$ entities for the given $$assessments$$.
+     * 
+     * @param id
+     *            the id of the assessment
+     * @return the learning standards
+     */
+    @GET
+    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
+    public Response getLearningStandards(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    /**
+     * Get a map of the objective assessment ids and assessmentItem ids to $$learningObjectives$$ entities for the given $$assessments$$.
+     * 
+     * @param id
+     *            the id of the assessment
+     * @return the learning objectives
+     */
+    @GET
+    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
+    public Response getLearningObjectives(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    
     
 }

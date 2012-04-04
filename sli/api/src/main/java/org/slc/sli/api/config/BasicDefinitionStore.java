@@ -208,7 +208,21 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getStudentDisciplineIncidentAssociations").build();
         addDefinition(studentDisciplineIncidentAssociation);
         
-        AssociationDefinition studentProgramAssociation = factory.makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION)                .exposeAs(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PROGRAM_ASSOCIATION)                .from(student, "getStudent", "getStudents").to(program, "getProgram", "getPrograms")                .calledFromSource("getStudentProgramAssociations").calledFromTarget("getStudentProgramAssociations")                .build();        addDefinition(studentProgramAssociation);                AssociationDefinition staffProgramAssociation = factory.makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION)                .exposeAs(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STAFF_PROGRAM_ASSOCIATION)                .from(staff, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")                .calledFromSource("getStaffProgramAssociations").calledFromTarget("getStaffProgramAssociations")                .build();        addDefinition(staffProgramAssociation);        AssociationDefinition studentCohortAssociation = factory.makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION)
+        AssociationDefinition studentProgramAssociation = factory.makeAssoc(EntityNames.STUDENT_PROGRAM_ASSOCIATION)                
+                .exposeAs(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STUDENT_PROGRAM_ASSOCIATION)                
+                .from(student, "getStudent", "getStudents").to(program, "getProgram", "getPrograms")                
+                .calledFromSource("getStudentProgramAssociations").calledFromTarget("getStudentProgramAssociations")                
+                .build();        
+        addDefinition(studentProgramAssociation);                
+        
+        AssociationDefinition staffProgramAssociation = factory.makeAssoc(EntityNames.STAFF_PROGRAM_ASSOCIATION)                
+                .exposeAs(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS).storeAs(EntityNames.STAFF_PROGRAM_ASSOCIATION)                
+                .from(staff, "getStaff", "getStaff").to(program, "getProgram", "getPrograms")                
+                .calledFromSource("getStaffProgramAssociations").calledFromTarget("getStaffProgramAssociations")                
+                .build();        
+        addDefinition(staffProgramAssociation);
+
+        AssociationDefinition studentCohortAssociation = factory.makeAssoc(EntityNames.STUDENT_COHORT_ASSOCIATION)
                 .exposeAs(ResourceNames.STUDENT_COHORT_ASSOCIATIONS).storeAs(EntityNames.STUDENT_COHORT_ASSOCIATION)
                 .from(student, "getStudent", "getStudents").to(cohort, ResourceNames.COHORT_GETTER, "getCohorts")
                 .calledFromSource(ResourceNames.STUDENT_COHORT_ASSOCIATIONS_GETTER)
@@ -232,7 +246,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
-        factory.makeEntity("applicationAuthorization").buildAndRegister(this);
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
         
         // Adding OAuth 2.0 Services

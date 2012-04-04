@@ -1662,18 +1662,10 @@
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="specialAccommodationsType" />
-  </jb:bean>
-  <jb:bean beanId="specialAccommodationsType" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations">
     <jb:value data="InterchangeStudentAssessment/StudentAssessment/SpecialAccommodations/SpecialAccommodation" />
   </jb:bean>
 
   <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="linguisticAccommodationsType" />
-  </jb:bean>
-  <jb:bean beanId="linguisticAccommodationsType" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations">
     <jb:value data="InterchangeStudentAssessment/StudentAssessment/LinguisticAccommodations/LinguisticAccommodation" />
   </jb:bean>
 
@@ -1944,7 +1936,6 @@
 
   <jb:bean beanId="studentTranscriptAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:value property="Student" data="CourseTranscript/StudentUniqueStateId" />
     <jb:wiring property="Course" beanIdRef="StudentTranscriptAssociation_CourseReference" />
   </jb:bean>
 
@@ -1965,6 +1956,8 @@
       decoder="Integer" />
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:expression property="gradeType">'Final'</jb:expression>
+    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
+    <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"

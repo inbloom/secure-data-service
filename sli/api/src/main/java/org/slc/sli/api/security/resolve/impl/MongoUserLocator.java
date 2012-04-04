@@ -32,16 +32,16 @@ public class MongoUserLocator implements UserLocator {
     private Repository<Entity> repo;
 
     @Override
-    public SLIPrincipal locate(String regionId, String externalUserId) {
-        LOG.info("Locating user {}@{}", externalUserId, regionId);
-        SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + regionId);
+    public SLIPrincipal locate(String tenantId, String externalUserId) {
+        LOG.info("Locating user {}@{}", externalUserId, tenantId);
+        SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
         user.setExternalId(externalUserId);
         
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         Map<String, String> paths = new HashMap<String, String>();
-        paths.put("metaData.idNamespace", regionId);
+        paths.put("metaData.tenantId", tenantId);
         paths.put("body.staffUniqueStateId", externalUserId);
         
         for (String entityName : ENTITY_NAMES) {
@@ -49,7 +49,7 @@ public class MongoUserLocator implements UserLocator {
 
             if (staff != null && staff.iterator().hasNext()) {
                 Entity entity = staff.iterator().next();
-                LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, regionId, entity.getEntityId() });
+                LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
                 user.setEntity(entity);
                 break;
             }

@@ -465,10 +465,7 @@ public class BasicService implements EntityService {
         }
         
         // Blank out fields inaccessible to the user
-        // @@@ Temporarily comment this out because this apparently would filter out fields even for
-        // Educators who should have access
-        // @@@ , to unblock teams requiring their users to have access to these fields (03/02/2012)
-        // filterFields(toReturn, "");
+        filterFields(toReturn, "");
         
         return toReturn;
     }
@@ -632,6 +629,11 @@ public class BasicService implements EntityService {
                 } else {
                     String fieldPath = prefix + fieldName;
                     Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    
+                    if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                        neededRight = Right.ADMIN_ACCESS;
+                    }
+                    
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     
                     if (!auths.contains(neededRight)) {

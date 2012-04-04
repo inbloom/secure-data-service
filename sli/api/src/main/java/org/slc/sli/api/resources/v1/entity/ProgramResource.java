@@ -29,9 +29,12 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This entity represents any program designed to work
+ * in conjunction with or to supplement the main
+ * academic program.
  * 
  * @author jstokes
+ * @author jtully
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PROGRAMS)

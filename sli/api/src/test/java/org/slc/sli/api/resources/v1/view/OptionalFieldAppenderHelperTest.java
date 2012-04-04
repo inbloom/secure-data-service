@@ -18,6 +18,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -59,7 +60,7 @@ public class OptionalFieldAppenderHelperTest {
 
     @Test
     public void testGetEntityFromList() {
-        EntityBody body = helper.getEntityFromList(createEntityList(), "field1", "2");
+        EntityBody body = helper.getEntityFromList(createEntityList(true), "field1", "2");
         assertEquals("Should match", "2", body.get("field1"));
         assertEquals("Should match", "2", body.get("field2"));
         assertEquals("Should match", "2", body.get("id"));
@@ -67,48 +68,48 @@ public class OptionalFieldAppenderHelperTest {
         body =  helper.getEntityFromList(null, "field1", "2");
         assertNull("Should be null", body);
 
-        body =  helper.getEntityFromList(createEntityList(), null, "2");
+        body =  helper.getEntityFromList(createEntityList(true), null, "2");
         assertNull("Should be null", body);
 
-        body =  helper.getEntityFromList(createEntityList(), "field1", null);
+        body =  helper.getEntityFromList(createEntityList(true), "field1", null);
         assertNull("Should be null", body);
 
         body =  helper.getEntityFromList(null, null, null);
         assertNull("Should be null", body);
 
-        body =  helper.getEntityFromList(createEntityList(), "", "");
+        body =  helper.getEntityFromList(createEntityList(true), "", "");
         assertNull("Should be null", body);
     }
 
     @Test
     public void testGetEntitySubList() {
-        List<EntityBody> list = helper.getEntitySubList(createEntityList(), "field1", "3");
+        List<EntityBody> list = helper.getEntitySubList(createEntityList(true), "field1", "3");
         assertEquals("Should match", 2, list.size());
         assertEquals("Should match", "3", list.get(0).get("field1"));
         assertEquals("Should match", "3", list.get(1).get("field1"));
 
-        list = helper.getEntitySubList(createEntityList(), "field1", "0");
+        list = helper.getEntitySubList(createEntityList(true), "field1", "0");
         assertEquals("Should match", 0, list.size());
 
         list =  helper.getEntitySubList(null, "field1", "2");
         assertEquals("Should match", 0, list.size());
 
-        list =  helper.getEntitySubList(createEntityList(), null, "2");
+        list =  helper.getEntitySubList(createEntityList(true), null, "2");
         assertEquals("Should match", 0, list.size());
 
-        list =  helper.getEntitySubList(createEntityList(), "field1", null);
+        list =  helper.getEntitySubList(createEntityList(true), "field1", null);
         assertEquals("Should match", 0, list.size());
 
         list =  helper.getEntitySubList(null, null, null);
         assertEquals("Should match", 0, list.size());
 
-        list =  helper.getEntitySubList(createEntityList(), "", "");
+        list =  helper.getEntitySubList(createEntityList(true), "", "");
         assertEquals("Should match", 0, list.size());
     }
 
     @Test
     public void testGetIdList() {
-        List<String> list = helper.getIdList(createEntityList(), "id");
+        List<String> list = helper.getIdList(createEntityList(true), "id");
 
         assertEquals("Should match", 4, list.size());
         assertTrue("Should contain", list.contains("1"));
@@ -123,27 +124,57 @@ public class OptionalFieldAppenderHelperTest {
         list =  helper.getIdList(null, null);
         assertEquals("Should match", 0, list.size());
 
-        list =  helper.getIdList(createEntityList(), "");
+        list =  helper.getIdList(createEntityList(true), "");
         assertEquals("Should match", 0, list.size());
     }
 
-    private List<EntityBody> createEntityList() {
+    @Test
+    public void testSectionIds() {
+        Set<String> list = helper.getSectionIds(createEntityList(true));
+
+        assertEquals("Should match", 4, list.size());
+        assertTrue("Should be true", list.contains("1"));
+        assertTrue("Should be true", list.contains("2"));
+        assertTrue("Should be true", list.contains("3"));
+        assertTrue("Should be true", list.contains("4"));
+    }
+
+    @Test
+    public void testSectionIdsNoAssociation() {
+        Set<String> list = helper.getSectionIds(createEntityList(false));
+
+        assertTrue("List should be empty", list.isEmpty());
+    }
+
+    private List<EntityBody> createEntityList(boolean addAssociation) {
         List<EntityBody> list = new ArrayList<EntityBody>();
 
-        list.add(createTestEntity("1", "1", "1"));
-        list.add(createTestEntity("2", "2", "2"));
-        list.add(createTestEntity("3", "3", "3"));
-        list.add(createTestEntity("4", "3", "4"));
+        list.add(createTestEntity("1", "1", "1", addAssociation));
+        list.add(createTestEntity("2", "2", "2", addAssociation));
+        list.add(createTestEntity("3", "3", "3", addAssociation));
+        list.add(createTestEntity("4", "3", "4", addAssociation));
 
         return list;
     }
 
-    private EntityBody createTestEntity(String id, String value1, String value2) {
+    private EntityBody createTestEntity(String id, String value1, String value2, boolean addAssociation) {
         EntityBody body = new EntityBody();
         body.put("id", id);
         body.put("field1", value1);
         body.put("field2", value2);
 
+        if (addAssociation) {
+            EntityBody assoc = new EntityBody();
+            assoc.put("sectionId", id);
+            assoc.put("targetId", "77");
+
+            List<EntityBody> assocList = new ArrayList<EntityBody>();
+            assocList.add(assoc);
+
+            body.put("studentSectionAssociation", assocList);
+        }
+
         return body;
     }
+
 }

@@ -88,7 +88,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$disciplineIncidents$$ entity
+     * Get a single $$disciplineIncidents$$ entity.
      * 
      * @param disciplineIncidentId
      *            The Id of the $$disciplineIncidents$$.
@@ -107,7 +107,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$disciplineIncidents$$ entity
+     * Delete a $$disciplineIncidents$$ entity.
      * 
      * @param disciplineIncidentId
      *            The Id of the $$disciplineIncidents$$.
@@ -149,7 +149,8 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * $$studentDisciplineIncidentAssociations$$
+     * Returns the $$studentDisciplineIncidentAssociations$$ that
+     * reference the given $$disciplineIncidents$$.
      *
      * @param disciplineIncidentId
      *            The id of the $$disciplineIncidents$$.
@@ -170,7 +171,8 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * $$studentDisciplineIncidentAssociations$$ - student lookup
+     * Returns the $$students$$ that are referenced from the $$studentDisciplineIncidentAssociations$$ 
+     * that references the given $$disciplineIncidents$$.
      *
      * @param disciplineIncidentId
      *            The id of the $$disciplineIncidents$$.
