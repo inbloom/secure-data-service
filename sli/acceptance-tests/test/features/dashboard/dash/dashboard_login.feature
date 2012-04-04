@@ -33,12 +33,10 @@ Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 When I select "New York Realm " and click go
-And I wait for "1" seconds
 When I login as "mario.sanchez" "mario.sanchez1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"
-And I wait for "2" seconds
 Then I am informed that "Page Not Accessible"
 And I am informed that "The page you are requesting is not available"
 
@@ -50,9 +48,7 @@ When I navigate to the Dashboard home page
 And was redirected to the Realm page
 When I select "New York Realm" and click go
 And was redirected to the SLI-IDP login page
-And I wait for "1" seconds
 When I login as "InvalidJohnDoe" "demo1234"
-And I wait for "2" seconds
 Then I am informed that "Authentication failed"
 
 @wip
@@ -62,10 +58,8 @@ Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
-And I wait for "1" seconds
 When I login as "linda.kim" "linda.kim1234"
 When I access "/simon"
-And I wait for "2" seconds
 Then I am informed that "HTTP Status 403 - Access is denied"
 
 @wip
