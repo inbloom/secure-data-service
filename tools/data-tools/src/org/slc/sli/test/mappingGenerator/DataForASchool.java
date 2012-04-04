@@ -51,7 +51,7 @@ public class DataForASchool {
     private List<String> students = new ArrayList<String>();
     private List<String> parents = new ArrayList<String>();
     private List<String> studentParentAssociations = new ArrayList<String>();
-    
+
     private List<String> disciplineIncidents = new ArrayList<String>();
     private List<String> studentDisciplineIncidentAssociations = new ArrayList<String>();
     private List<String> disciplineActions = new ArrayList<String>();
@@ -144,7 +144,7 @@ public class DataForASchool {
         try {
             ValidateSchema vs = new ValidateSchema();
             String xmlDir = "./" + path + "/";
-            vs.check(xmlDir);
+            ValidateSchema.check(xmlDir);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -195,7 +195,7 @@ public class DataForASchool {
 			}
 		}
 	}
-	
+
     public void prepareTeacherSchoolAssociation() {
         Random random = new Random();
         for (String teacherId : teachers) {
@@ -357,7 +357,7 @@ public class DataForASchool {
         // StaffEducationOrgEmploymentAssociation
         // StaffEducationOrgAssignmentAssociation
         // Teacher
-        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY);
+        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY, true);
         for (String teacherId : teachers) {
             list.add(tg.generate(teacherId));
         }
@@ -481,9 +481,9 @@ public class DataForASchool {
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
         // StudentSchoolAssociation
-        StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
+        //StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
         for (StudentSchoolAssociationInternal ssai : studentSchoolAssociations) {
-            list.add(ssag.generateLowFi(ssai.student, ssai.school));
+            list.add(StudentSchoolAssociationGenerator.generateLowFi(ssai.student, ssai.school));
         }
 
         // StudentSectionAssociation
@@ -567,22 +567,22 @@ public class DataForASchool {
         for (String disciplineId : disciplineIncidents) {
             DisciplineIncident disciplineIncident = dg.generate(disciplineId, delimiter);
             list.add(disciplineIncident);
-        }        
-        
+        }
+
         // StudentDisciplineIncidentAssociation
         StudentDisciplineAssociationGenerator sdag = new StudentDisciplineAssociationGenerator();
         for (String stringId : studentDisciplineIncidentAssociations) {
         	StudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
         	list.add(discAssociate);
         }
-        
+
         // DisciplineAction - Assuming action in all cases (even StudentParticipationCodeType.VICTIM.  Sorry!)
         DisciplineActionGenerator sdactg = new DisciplineActionGenerator();
         for (String stringId : disciplineActions) {
         	DisciplineAction discAction = sdactg.generate(stringId, delimiter);
         	list.add(discAction);
         }
-        
+
         // BehaviorDescriptor
         BehaviorDescriptorGenerator bdg = new BehaviorDescriptorGenerator();
         for (int iBehavior=0; iBehavior<numBehaviors; iBehavior++) {
@@ -590,7 +590,7 @@ public class DataForASchool {
         	BehaviorDescriptor bd = bdg.generate(iBehavior, schoolId);
         	list.add(bd);
         }
-        
+
         // DisciplineDescriptor
         DisciplineDescriptorGenerator ddg = new DisciplineDescriptorGenerator();
         for (int iDiscipline=0; iDiscipline<numDisciplines; iDiscipline++) {

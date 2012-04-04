@@ -3,8 +3,6 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.ClassroomPositionType;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
-import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
@@ -19,11 +17,7 @@ public class TeacherSectionAssociationGenerator {
 
         TeacherSectionAssociation tsa = new TeacherSectionAssociation();
 
-        StaffIdentityType sit = new StaffIdentityType();
-        sit.setStaffUniqueStateId(teacher);
-        StaffReferenceType srt = new StaffReferenceType();
-        srt.setStaffIdentity(sit);
-        tsa.setTeacherReference(srt);
+        tsa.setTeacherReference(TeacherGenerator.getTeacherReference(teacher));
 
         SectionIdentityType secit = new SectionIdentityType();
         secit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(school);
@@ -42,7 +36,7 @@ public class TeacherSectionAssociationGenerator {
     public static TeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
 
         TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
-        
+
         // construct and add the teacher reference
         StaffIdentityType staffIdentity = new StaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
@@ -69,7 +63,7 @@ public class TeacherSectionAssociationGenerator {
 
         teacherSection.setSectionReference(sectionRef);
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
-        
+
         return teacherSection;
     }
 }

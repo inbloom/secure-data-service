@@ -18,11 +18,7 @@ public class TeacherSchoolAssociationGenerator {
     public TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
         TeacherSchoolAssociation tsa = new TeacherSchoolAssociation();
 
-        StaffIdentityType sit = new StaffIdentityType();
-        sit.setStaffUniqueStateId(staffId);
-        StaffReferenceType srt = new StaffReferenceType();
-        srt.setStaffIdentity(sit);
-        tsa.setTeacherReference(srt);
+        tsa.setTeacherReference(TeacherGenerator.getTeacherReference(staffId));
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
 

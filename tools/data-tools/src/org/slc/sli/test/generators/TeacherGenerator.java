@@ -8,6 +8,8 @@ import org.slc.sli.test.edfi.entities.OldEthnicityType;
 import org.slc.sli.test.edfi.entities.RaceItemType;
 import org.slc.sli.test.edfi.entities.RaceType;
 import org.slc.sli.test.edfi.entities.SexType;
+import org.slc.sli.test.edfi.entities.StaffIdentityType;
+import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Teacher;
 
@@ -18,6 +20,9 @@ public class TeacherGenerator {
     ElectronicMailGenerator emg;
     Random random = new Random();
     boolean optional = true;
+    RaceItemType[] raceItemTypes = RaceItemType.values();
+    LevelOfEducationType[] levelOfEducationTypes = LevelOfEducationType.values();
+    OldEthnicityType[] oldEthnicityTypes = OldEthnicityType.values();
 
     public TeacherGenerator(StateAbbreviationType state, boolean optional) {
         try {
@@ -50,42 +55,47 @@ public class TeacherGenerator {
             teacher.setStaffUniqueStateId(teacherId);
             teacher.setName(ng.getName());
 
-            teacher.getOtherName().add(ng.getOtherName());
-            if (random.nextBoolean())
-                teacher.getOtherName().add(ng.getOtherName());
-
             teacher.setSex(random.nextBoolean() ? SexType.FEMALE : SexType.MALE);
-
-            teacher.setBirthDate("2011-03-04");
-
-            teacher.getAddress().add(ag.getRandomAddress());
-            if (random.nextBoolean())
-                teacher.getAddress().add(ag.getRandomAddress());
-
-            teacher.getTelephone().add(tg.getTelephone());
-
-            teacher.getElectronicMail().add(emg.generate(teacher.getName().getFirstName() + "." + teacher.getName().getLastSurname()));
-
-            teacher.setOldEthnicity(OldEthnicityType.AMERICAN_INDIAN_OR_ALASKAN_NATIVE);
 
             RaceType rt = new RaceType();
             teacher.setRace(rt);
-            teacher.getRace().getRacialCategory().add(RaceItemType.WHITE);
+            teacher.getRace().getRacialCategory().add(raceItemTypes[random.nextInt(raceItemTypes.length)]);
 
-            teacher.setHighestLevelOfEducationCompleted(LevelOfEducationType.BACHELOR_S);
-
-            teacher.setYearsOfPriorProfessionalExperience(new Integer(20));
-
-            teacher.setYearsOfPriorTeachingExperience(new Integer(15));
+            teacher.setHighestLevelOfEducationCompleted(levelOfEducationTypes[random.nextInt(levelOfEducationTypes.length)]);
 
             teacher.setHispanicLatinoEthnicity(random.nextBoolean());
 
             teacher.setTeacherUniqueStateId(teacherId);
 
-            teacher.setHighlyQualifiedTeacher(random.nextBoolean());
-
             if (optional) {
+                //TODO: add StaffIdentificationCodes
 
+                teacher.getOtherName().add(ng.getOtherName());
+                if (random.nextBoolean())
+                    teacher.getOtherName().add(ng.getOtherName());
+
+                teacher.setBirthDate("2011-03-04");
+
+                teacher.getAddress().add(ag.getRandomAddress());
+                if (random.nextBoolean())
+                    teacher.getAddress().add(ag.getRandomAddress());
+
+                teacher.getTelephone().add(tg.getTelephone());
+
+                teacher.getElectronicMail().add(
+                        emg.generate(teacher.getName().getFirstName() + "." + teacher.getName().getLastSurname()));
+
+                teacher.setOldEthnicity(oldEthnicityTypes[random.nextInt(oldEthnicityTypes.length)]);
+
+                teacher.setYearsOfPriorProfessionalExperience(new Integer(20));
+
+                teacher.setYearsOfPriorTeachingExperience(new Integer(15));
+
+                //TODO: add Credentials
+
+                teacher.setLoginId(teacher.getName().getFirstName() + teacher.getName().getLastSurname());
+
+                teacher.setHighlyQualifiedTeacher(random.nextBoolean());
             }
 
         } catch (Exception e) {
@@ -93,6 +103,14 @@ public class TeacherGenerator {
         }
 
         return teacher;
+    }
+
+    public static StaffReferenceType getTeacherReference(String staffId) {
+        StaffIdentityType sit = new StaffIdentityType();
+        sit.setStaffUniqueStateId(staffId);
+        StaffReferenceType srt = new StaffReferenceType();
+        srt.setStaffIdentity(sit);
+        return srt;
     }
 
     public static Teacher generateLowFi(String teacherId) {
