@@ -110,7 +110,7 @@ public class LayoutControllerTest {
             }
             
             @Override
-            public String getUserDistrictId(String token) {
+            public String getUserDistrictId() {
                 return "aa";
             }
         });

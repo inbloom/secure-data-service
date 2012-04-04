@@ -11,5 +11,5 @@ import org.slc.sli.entity.GenericEntity;
  */
 public interface InstitutionalHierarchyManager {
     public List<GenericEntity> getUserInstHierarchy(String token);
-    public String getUserDistrictId(String token);
+    public String getUserDistrictId();
 }
