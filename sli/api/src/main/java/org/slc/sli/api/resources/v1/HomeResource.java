@@ -65,7 +65,7 @@ public class HomeResource {
 
         // get the entity ID and EntityDefinition for user
         Pair<String, EntityDefinition> pair = this.getEntityInfoForUser();
-        if(pair != null) {
+        if (pair != null) {
             String userId = pair.getLeft();
             EntityDefinition defn = pair.getRight();
 
