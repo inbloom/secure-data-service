@@ -29,7 +29,8 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- *  Association between a student and a program.
+ * This association represents the program(s) that a
+ * student participates in or is served by.
  * 
  * @author jtully
  * 

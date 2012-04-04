@@ -86,7 +86,7 @@ function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, vie
     // make ajax call and process response                        
     $("#studentDiv").load(studentContentUrl, function(responseText, textStatus, XMLHttpRequest) {
     
-        DashboardUtil.checkAjaxError(XMLHttpRequest);
+        DashboardUtil.checkAjaxError(XMLHttpRequest, studentContentUrl);
     
         document.getElementById("viewSelector").selectedIndex = viewIndex;
         if (document.getElementById("studentFilterSelector")) {
