@@ -1,13 +1,20 @@
 package org.slc.sli.api.aspect;
 
+import java.lang.reflect.Modifier;
+import java.util.Set;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
+
+import org.slc.sli.aspect.LoggerCarrier;
+import org.slc.sli.aspect.SecurityEvent;
 
 /**
  * Tests that logging can be done via inter-type declared methods
@@ -15,7 +22,6 @@ import org.springframework.util.StopWatch;
  * @author dkornishev
  * 
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LoggingAspectTest {
@@ -45,6 +51,39 @@ public class LoggingAspectTest {
         error("Error msg", new Exception("I am an error msg.  FEAR ME."));
     }
     
+    @Test
+    public void padCoverageNumbers() {
+        StopWatch sw = new StopWatch();
+        sw.start();
+        Reflections reflections = new Reflections("org.slc.sli");
+        Set<Class<? extends LoggerCarrier>> logs = reflections.getSubTypesOf(LoggerCarrier.class);
+        
+        SecurityEvent se = new SecurityEvent();
+        String msg = "padding {}";
+        int param = 42;
+        Exception x = new Exception("bogus");
+        for (Class<? extends LoggerCarrier> cl : logs) {
+            if (!cl.isInterface() && !cl.isEnum() && !Modifier.isAbstract(cl.getModifiers())) {
+                try {
+                    LoggerCarrier instance = cl.newInstance();
+                    instance.audit(se);
+                    instance.debug(msg);
+                    instance.debug(msg, param);
+                    instance.info(msg);
+                    instance.info(msg, param);
+                    instance.warn(msg);
+                    instance.warn(msg, param);
+                    instance.error(msg, x);
+                } catch (Exception e) {
+                    info("Error padding coverage for {}", cl.getName());
+                }
+            }
+        }
+        sw.stop();
+        
+        info("Finished in {} ms", sw.getTotalTimeMillis());
+    }
+    
     @Ignore
     @Test
     public void benchCompare() {
@@ -57,11 +96,11 @@ public class LoggingAspectTest {
             plain.start();
             LOG.debug("DEBUG MSG< OMGFG PLAIN {}/{}/{}{}", new Object[] { true, Math.random(), "hello world", i });
             plain.stop();
-
+            
             plainNoField.start();
             LoggerFactory.getLogger(this.getClass()).debug("DEBUG MSG< OMGFG PLAIN {}/{}/{}{}", new Object[] { true, Math.random(), "hello world", i });
             plainNoField.stop();
-
+            
             aop.start();
             debug("DEBUG MSG< OMGFG AOP {}/{}/{}{}", true, Math.random(), "hello world", i);
             aop.stop();

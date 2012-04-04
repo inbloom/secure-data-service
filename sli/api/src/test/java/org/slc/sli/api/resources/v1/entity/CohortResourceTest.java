@@ -351,8 +351,7 @@ public class CohortResourceTest {
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
-
-/*    @Test
+    @Test
     public void testGetStudentAssociations() {
         //create one entity
         Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -368,7 +367,7 @@ public class CohortResourceTest {
         createResponse = studentCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
         //String associationId = parseIdFromLocation(createResponse);
 
-        Response response = cohortResource.getStaffCohortAssociations(cohortId, httpHeaders, uriInfo);
+        Response response = cohortResource.getStudentCohortAssociations(cohortId, httpHeaders, uriInfo);
         
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
 
@@ -402,18 +401,13 @@ public class CohortResourceTest {
         createResponse = studentResource.create(new EntityBody(createTestStudentEntity()), httpHeaders, uriInfo); 
         String studentId = parseIdFromLocation(createResponse);
     
-        Map<String, Object> map = createTestStudentProgramAssociationEntity();
+        Map<String, Object> map = createTestStudentAssociationEntity();
         map.put(ParameterConstants.COHORT_ID, cohortId);
         map.put(ParameterConstants.STUDENT_ID, studentId);
     
-        createResponse = studentCohortAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        createResponse = studentCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
     
-        
-        System.out.println( uriInfo.getQueryParameters(true) );
-        System.out.println( uriInfo.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS) );
-        System.out.println("\n\n" + uriInfo + "\n\n");
-        
-        Response response = cohortResource.getStudentCohortAssociationStudent(cohortId, httpHeaders, uriInfo);
+        Response response = cohortResource.getStudentCohortAssociationStudents(cohortId, httpHeaders, uriInfo);
         
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
     
@@ -434,10 +428,9 @@ public class CohortResourceTest {
         }
     
         assertNotNull("Should return an entity", body);            
-        assertEquals("studentUniqueStateId should be 1001", "1001", body.get("studentUniqueStateId"));
+        assertEquals(StudentResource.UNIQUE_STATE_ID + " should be " + uniqueStateId, uniqueStateId, body.get(StudentResource.UNIQUE_STATE_ID));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-*/
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
