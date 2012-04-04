@@ -78,3 +78,8 @@ gem 'roodi', :require=>false
 #Use rails_best_practices to check your design
 gem 'rails_best_practices', :require=>false
 
+
+group :test do
+  gem "minitest"
+end
+
