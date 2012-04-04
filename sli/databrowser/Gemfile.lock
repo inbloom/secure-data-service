@@ -30,7 +30,6 @@ GEM
       multi_json (~> 1.0)
     addressable (2.2.7)
     ansi (1.4.2)
-    archive-tar-minitar (0.5.2)
     arel (3.0.2)
     builder (3.0.0)
     capistrano (2.11.2)
@@ -49,7 +48,6 @@ GEM
       execjs
     coffee-script-source (1.2.0)
     colored (1.2)
-    columnize (0.3.6)
     daemons (1.1.8)
     erubis (2.7.0)
     eventmachine (0.12.10)
@@ -68,8 +66,6 @@ GEM
       thor (~> 0.14)
     json (1.6.6)
     libv8 (3.3.10.4)
-    linecache19 (0.5.13)
-      ruby_core_source (>= 0.1.4)
     little-plugger (1.1.3)
     logging (1.6.2)
       little-plugger (>= 1.1.3)
@@ -133,16 +129,6 @@ GEM
       mime-types (>= 1.16)
     roodi (2.1.0)
       ruby_parser
-    ruby-debug-base19 (0.11.26)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby_core_source (>= 0.1.4)
-    ruby-debug19 (0.11.6)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby-debug-base19 (>= 0.11.19)
-    ruby_core_source (0.1.5)
-      archive-tar-minitar (>= 0.5.2)
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
     sass (3.1.15)
@@ -196,7 +182,6 @@ DEPENDENCIES
   rails_best_practices
   rest-client
   roodi
-  ruby-debug19
   sass-rails (~> 3.2.3)
   simplecov
   simplecov-rcov
