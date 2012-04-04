@@ -1,4 +1,3 @@
-@wip
 Feature: Application Authorization Tool
 As an SEA or LEA  Administrator / Operator, I want to be able to allow specific applications access to my district(s) data
 
@@ -25,11 +24,27 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	Then I should get a message that I am not authorized to access the page
 	And I am not logged into the application
 
+Scenario: Deny application
+  
+  Given I am an authenticated District Super Administrator for "Sunset School District"
+  And I am logged into the Application Authorization Tool
+  And I see an application "SDK Sample" in the table
+  And in Status it says "Approved"
+  And I click on the "Deny" button next to it
+  And I am asked 'Do you really want deny access to this application of the district's data'
+  When I click on Ok
+  Then the application is denied to use data of "Sunset School District"
+  And it is put on the bottom of the table
+  And the Status becomes "Not Approved"
+  And it is colored "red"
+  And the Approve button next to it is enabled
+  And the Deny button next to it is disabled
+  
 	Scenario: Approve application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
 	And I am logged into the Application Authorization Tool
-	And I see an application in the table
+	And I see an application "SDK Sample" in the table
 	And in Status it says "Not Approved"
 	And I click on the "Approve" button next to it
 	And I am asked 'Do you really want this application to access the district's data'
@@ -41,28 +56,5 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 	And the Approve button next to it is disabled
 	And the Deny button next to it is enabled
 	
-	Scenario: Deny application
 	
-	Given I am an authenticated District Super Administrator for "Sunset School District"
-	And I am logged into the Application Authorization Tool
-	And I see an application in the table
-	And in Status it says "Approved"
-	And I click on the "Deny" button next to it
-	And I am asked 'Do you really want deny access to this application of the district's data'
-	When I click on Ok
-	Then the application is denied to use data of "Sunset School District"
-	And it is put on the bottom of the table
-	And the Status becomes "Not Approved"
-	And it is colored "red"
-	And the Approve button next to it is enabled
-	And the Deny button next to it is disabled
 	
-	@currentTest
-	Scenario: Authenticated user (Educator) tries to access a resource through DB within a district that denied Data Browser
-	
-	# It is very critical that we expand this Gherkin properly when we will implement the non-Educator context mapping!
-    Given I have an open web browser
-	Given I am an authenticated end user (Educator) from <district>
-	And the Data Browser is denied access for <district>
-	When I try to access any resource through the DB (even the home-link) page
-	Then I get message that I am not authorized
