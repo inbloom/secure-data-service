@@ -14,6 +14,7 @@ import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerato
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
+import org.slc.sli.test.utils.DataUtils;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
 
@@ -32,6 +33,11 @@ public class StateEdFiXmlGenerator {
      */
     public static String fidelityOfData = "low";
 
+    /**
+     * used to determine the output directory for generated interchange and control files
+     */
+    public static String outputPath = "./data/";
+    		
     /**
      * Currently generates:
      * - edOrg
@@ -52,7 +58,7 @@ public class StateEdFiXmlGenerator {
 
         generateAndMarshalInterchanges();
 
-        ValidateSchema.check("./data/");
+        ValidateSchema.check(outputPath);
 
     }
 
@@ -88,8 +94,9 @@ public class StateEdFiXmlGenerator {
 
         InterchangeEducationOrganization edOrg = InterchangeEdOrgGenerator.generate();
 
-        JaxbUtils.marshal(edOrg, new PrintStream("data/InterchangeEducationOrganization.xml"));
+        JaxbUtils.marshal(edOrg, new PrintStream(outputPath + "InterchangeEducationOrganization.xml"));
 
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "EducationOrganization", outputPath + "InterchangeEducationOrganization.xml");
     }
 
     /**
@@ -101,8 +108,9 @@ public class StateEdFiXmlGenerator {
 
         InterchangeEducationOrgCalendar edOrgCal = InterchangeEdOrgCalGenerator.generate();
 
-        JaxbUtils.marshal(edOrgCal, new PrintStream("data/InterchangeEducationOrgCalendar.xml"));
+        JaxbUtils.marshal(edOrgCal, new PrintStream(outputPath + "InterchangeEducationOrgCalendar.xml"));
 
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "EducationOrgCalendar", outputPath + "InterchangeEducationOrgCalendar.xml");
     }
 
     /**
@@ -114,8 +122,9 @@ public class StateEdFiXmlGenerator {
 
         InterchangeMasterSchedule masterSchedule = InterchangeMasterScheduleGenerator.generate();
 
-        JaxbUtils.marshal(masterSchedule, new PrintStream("data/InterchangeMasterSchedule.xml"));
+        JaxbUtils.marshal(masterSchedule, new PrintStream(outputPath + "InterchangeMasterSchedule.xml"));
 
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "MasterSchedule", outputPath + "InterchangeMasterSchedule.xml");
     }
 
     /**
@@ -127,7 +136,9 @@ public class StateEdFiXmlGenerator {
 
         InterchangeStaffAssociation staffAssociation = InterchangeStaffAssociationGenerator.generate();
 
-        JaxbUtils.marshal(staffAssociation, new PrintStream("data/InterchangeStaffAssociation.xml"));
+        JaxbUtils.marshal(staffAssociation, new PrintStream(outputPath + "InterchangeStaffAssociation.xml"));
+        
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "StaffAssociation", outputPath + "InterchangeStaffAssociation.xml");
     }
 
     /**
@@ -139,8 +150,9 @@ public class StateEdFiXmlGenerator {
 
         InterchangeStudent student = InterchangeStudentGenerator.generate();
 
-        JaxbUtils.marshal(student, new PrintStream("data/InterchangeStudent.xml"));
+        JaxbUtils.marshal(student, new PrintStream(outputPath + "InterchangeStudent.xml"));
 
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "Student", outputPath + "InterchangeStudent.xml");
     }
 
     /**
@@ -152,7 +164,8 @@ public class StateEdFiXmlGenerator {
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
 
-        JaxbUtils.marshal(studentEnrollment, new PrintStream("data/InterchangeStudentEnrollment.xml"));
+        JaxbUtils.marshal(studentEnrollment, new PrintStream(outputPath + "InterchangeStudentEnrollment.xml"));
 
+        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "StudentEnrollment", outputPath + "InterchangeStudentEnrollment.xml");
     }
 }
