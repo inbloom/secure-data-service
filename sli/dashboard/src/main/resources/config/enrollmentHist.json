@@ -10,7 +10,7 @@
   items : [
     {id: "col1", name: "School Year", type:"FIELD", datatype: "string", field: "schoolYear", width: 100},
     {id: "col2", name: "School", type:"FIELD", datatype: "string", field: "school.nameOfInstitution", width: 220},
-    {id: "col3", name: "Gr.", type:"FIELD", datatype: "string", field: "entryGradeLevelCode", width: 30, sorter: EnumSorter, params: {sortEnum:['K','1','2','3','4','5','6','7','8','9','10','11','12']}},
+    {id: "col3", name: "Gr.", type:"FIELD", datatype: "string", field: "entryGradeLevelCode", width: 30, sorter: EnumSorter, params: {sortEnum:['IN','EE','PK','K','TK','1','2','3','4','5','6','7','8','9','10','11','12','AE','+S','O','UG']}},
     {id: "col4", name: "Entry Date", type:"FIELD", datatype: "string", field: "entryDate", width: 120},
     {id: "col5", name: "School Choice Transfer?", type:"FIELD", datatype: "string", field: "transfer", width: 180},
     {id: "col6", name: "Withdraw Date", type:"FIELD", datatype: "string", field: "exitWithdrawDate", width: 120},
