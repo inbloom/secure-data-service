@@ -1,10 +1,8 @@
 class Metadata
   include MongoMapper::EmbeddedDocument
 
-  key :idNamespace, String, :required => true
+  key :idNamespace, String
 
-  belongs_to :meta, :polymorphic => true
-
-  set_collection_name 'metaData'
+  embedded_in :meta
 
 end
