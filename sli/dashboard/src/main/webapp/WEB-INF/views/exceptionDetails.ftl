@@ -50,8 +50,17 @@
 	</tr>
 	<tr>
 		<td align="center" >
-		<#if exception?? && exception.message??>
+		<#if debugEnabled?? && debugEnabled && exception?? && exception.message??>
 			<label>${exception.message}</label>
+			    <br>
+			    <br>
+			    <button align="center" id="stackTraceMore" onclick="$('#stackTrace').show(); $(this).hide();">More Details</button>
+			    <div id="stackTrace" align="left" style="padding:20px; font-size:80%; float:left; display:none;"> 
+			        ${stackTrace} 
+			        <br>
+			        <br>
+			        <button id="stackTraceless" onclick="$('#stackTrace').hide(); $(stackTraceMore).show();">Less Details</button>
+			    </div>
 		<#else>
 			<label>SLI Exception details are available in the logs...</label>
 	    </#if>
