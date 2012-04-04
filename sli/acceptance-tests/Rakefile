@@ -889,8 +889,8 @@ end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -898,6 +898,7 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
+
 
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do

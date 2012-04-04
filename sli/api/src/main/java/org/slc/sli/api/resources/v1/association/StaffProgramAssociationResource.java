@@ -28,7 +28,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 /**
- *  Association between a staff member and a program.
+ * This association indicates the staff associated with a program.
  * 
  * @author jtully
  * 

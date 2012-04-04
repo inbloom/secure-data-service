@@ -1,5 +1,6 @@
 <h1>Listing staff</h1>
 
+<form>
 <table>
   <tr>
     <th>Last Name</th>
@@ -16,7 +17,6 @@
     <td><%= staff.body['name']['lastSurname'] %></td>
     <td><%= staff.body['name']['firstName'] %></td>
     <td><%= staff.type %></td>
-    <td><%= staff.metaData["idNamespace"] %></td>
   </tr>
 <% end %>
 </table>
