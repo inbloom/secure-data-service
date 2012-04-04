@@ -88,33 +88,33 @@ public class DataUtils {
      * 
      * @fileName input file
      */
-    public static final String determineInterchange(String fileName) {
+    public static final InterchangeType determineInterchange(String fileName) {
     	String lowerCaseBaseName = FilenameUtils.getBaseName(fileName).toLowerCase();
     	
     	// TODO this should parse the xml header to determine the interchange
     	
     	if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
-    		return "EducationOrganization";
+    		return InterchangeType.EDUCATION_ORGANIZATION;
     	} else if (lowerCaseBaseName.startsWith("interchangeeducationorgcalendar")) {
-    		return "EducationOrgCalendar";
+    		return InterchangeType.EDUCATION_ORG_CALENDAR;
     	} else if (lowerCaseBaseName.startsWith("interchangemasterschedule")) {
-    		return "MasterSchedule";
+    		return InterchangeType.MASTER_SCHEDULE;
     	} else if (lowerCaseBaseName.startsWith("interchangestaffassociation")) {
-    		return "StaffAssociation";
+    		return InterchangeType.STAFF_ASSOCIATION;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentenrollment")) {
-    		return "StudentEnrollment";
+    		return InterchangeType.STUDENT_ENROLLMENT;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentgrade")) {
-    		return "StudentGrades";
+    		return InterchangeType.STUDENT_GRADES;
     	} else if (lowerCaseBaseName.startsWith("interchangeassessmentmetadata")) {
-    		return "AssessmentMetadata";
+    		return InterchangeType.ASSESSMENT_METADATA;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentassessment")) {
-    		return "StudentAssessment";
+    		return InterchangeType.STUDENT_ASSESSMENT;
     	} else if (lowerCaseBaseName.startsWith("interchangeattendance")) {
-    		return "Attendance";
+    		return InterchangeType.STUDENT_ATTENDANCE;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentparent")) {
-    		return "Parent";
-    	} else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be at the bottom
-    		return "Student";
+    		return InterchangeType.STUDENT_PARENT_ASSOCIATION;
+    	} else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be after other interchanges it's name is a subset of
+    		return InterchangeType.STUDENT;
     	}
     	
     	return null;
