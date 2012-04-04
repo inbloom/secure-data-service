@@ -54,7 +54,7 @@ public class SectionGenerator {
         return s;
     }
 
-    public static Section getFastSection(String sectionId, String schoolId, String courseId, String sessionId) {
+    public static Section generateLowFi(String sectionId, String schoolId, String courseId, String sessionId) {
         Section section = new Section();
         section.setUniqueSectionCode(sectionId);
         section.setSequenceOfCourse(1);

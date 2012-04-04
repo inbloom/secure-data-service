@@ -22,19 +22,16 @@ public class EducationAgencyGenerator {
 
     private AddressGenerator nyAddressGen;
 
-    public EducationAgencyGenerator() throws Exception
-    {
+    public EducationAgencyGenerator() throws Exception {
         nyAddressGen = new AddressGenerator(StateAbbreviationType.NY);
     }
 
-    public StateEducationAgency getSEA(String id)
-    {
+    public StateEducationAgency getSEA(String id) {
         StateEducationAgency agency = new StateEducationAgency();
-        //agency.setStateOrganizationId(String value)
-        agency.setId(id);
+        if(id != null) agency.setId(id); 
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
         edorgCode.setID("NYSEA");
-        edorgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SEA);
+        edorgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
         agency.getEducationOrgIdentificationCode().add(edorgCode);
         agency.setNameOfInstitution("New York State Education Agency");
         agency.setShortNameOfInstitution("NYSEA");
@@ -65,17 +62,18 @@ public class EducationAgencyGenerator {
     {
     	EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
     	EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
-    	identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg.getId());
+    	identity.getStateOrganizationIdOrEducationOrgIdentificationCode().
+        	addAll(edOrg.getEducationOrgIdentificationCode());
     	return ref;
     }
-
+    
     public LocalEducationAgency getLEA(String id)
     {
         LocalEducationAgency agency = new LocalEducationAgency();
-        //agency.setStateOrganizationId(String value)
+        agency.setStateOrganizationId("ManhattanLEA");
         agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
-        edorgCode.setID("Manhattan LEA");
+        edorgCode.setID("ManhattanLEA");
         edorgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.LEA);
         agency.getEducationOrgIdentificationCode().add(edorgCode);
         agency.setNameOfInstitution("Manhattan Education Agency");
@@ -107,7 +105,6 @@ public class EducationAgencyGenerator {
         //agency.setStateEducationAgencyReference(EducationalOrgReferenceType value) ;
         return agency;
     }
-
 
     public EducationServiceCenter getEducationServiceCenter(String id)
     {

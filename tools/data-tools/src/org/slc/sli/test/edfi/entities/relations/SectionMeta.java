@@ -10,8 +10,11 @@ public class SectionMeta {
 
     public SectionMeta(String id, SchoolMeta schoolMeta, CourseMeta courseMeta, SessionMeta sessionMeta) {
 
-        // TODO: this field can only be 30 characters long (EdFi schema UniqueSectionCode)
-        this.id = courseMeta.simpleId + "-" + sessionMeta.simpleId + "-" + id;
+        String schoolIdNoAlpha = schoolMeta.id.replaceAll("[a-z]", "");
+        String sessionIdNoAlpha = courseMeta.simpleId.replaceAll("[a-z]", "");
+        String courseIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
+
+        this.id = schoolIdNoAlpha + "-" + sessionIdNoAlpha + "-" + courseIdNoAlpha + "-" + id;
         this.schoolId = schoolMeta.id;
         this.courseId = courseMeta.id;
         this.sessionId = sessionMeta.id;

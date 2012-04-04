@@ -4,7 +4,7 @@ import org.slc.sli.test.edfi.entities.*;
 
 public class StudentSchoolAssociationGenerator {
 
-    public static StudentSchoolAssociation generate(String studentId, String schoolId) {
+    public static StudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
         StudentSchoolAssociation ssa = new StudentSchoolAssociation();
 
         StudentIdentityType sit = new StudentIdentityType();

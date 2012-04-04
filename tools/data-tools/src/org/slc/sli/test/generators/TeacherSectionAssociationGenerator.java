@@ -39,7 +39,7 @@ public class TeacherSectionAssociationGenerator {
         return tsa;
     }
 
-    public static TeacherSectionAssociation getFastTeacherSectionAssociation(TeacherMeta teacherMeta, String sectionId) {
+    public static TeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
 
         TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
         
@@ -59,10 +59,10 @@ public class TeacherSectionAssociationGenerator {
         sectionIdentity.setUniqueSectionCode(sectionId);
         sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(teacherMeta.schoolIds.get(0));
 
-        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
-        edOrgIdCode.setID(sectionId);
-        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
+//        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
+//        edOrgIdCode.setID(sectionId);
+//        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+//        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
 
         SectionReferenceType sectionRef = new SectionReferenceType();
         sectionRef.setSectionIdentity(sectionIdentity);

@@ -12,8 +12,9 @@ import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
-public class MetaRelations {
+public final class MetaRelations {
 
+    // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
     private static final int SCHOOLS_PER_LEA = 1;
@@ -23,29 +24,19 @@ public class MetaRelations {
     private static final int TEACHERS_PER_SCHOOL = 3;
     private static final int STUDENTS_PER_SCHOOL = 5;
 
-    // InterchangeEducationOrganization
-    public static Map<String, SeaMeta> seaMap = new HashMap<String, SeaMeta>();
-    public static Map<String, LeaMeta> leaMap = new HashMap<String, LeaMeta>();
-    public static Map<String, SchoolMeta> schoolMap = new HashMap<String, SchoolMeta>();
-    public static Map<String, CourseMeta> courseMap = new HashMap<String, CourseMeta>();
+    // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
+    public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
+    public static final Map<String, LeaMeta> LEA_MAP = new HashMap<String, LeaMeta>();
+    public static final Map<String, SchoolMeta> SCHOOL_MAP = new HashMap<String, SchoolMeta>();
+    public static final Map<String, CourseMeta> COURSE_MAP = new HashMap<String, CourseMeta>();
 
-    // InterchangeEducationOrganizationCalendar
-    public static Map<String, SessionMeta> sessionMap = new HashMap<String, SessionMeta>();
+    public static final Map<String, SessionMeta> SESSION_MAP = new HashMap<String, SessionMeta>();
 
-    // InterchangeMasterSchedule
-    public static Map<String, SectionMeta> sectionMap = new HashMap<String, SectionMeta>();
+    public static final Map<String, SectionMeta> SECTION_MAP = new HashMap<String, SectionMeta>();
 
-    // InterchangeStaffAssociation
-    public static Map<String, TeacherMeta> teacherMap = new HashMap<String, TeacherMeta>();
+    public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
-    // InterchangeStudent
-    public static Map<String, StudentMeta> studentMap = new HashMap<String, StudentMeta>();
-
-    public static void main(String[] args) {
-
-        buildSeas();
-
-    }
+    public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
 
     /**
      * The top level call to start the XML generation process is
@@ -70,7 +61,7 @@ public class MetaRelations {
 
             SeaMeta seaMeta = new SeaMeta("sea" + idNum);
 
-            seaMap.put(seaMeta.id, seaMeta);
+            SEA_MAP.put(seaMeta.id, seaMeta);
 
             buildLeasForSea(seaMeta);
         }
@@ -78,6 +69,7 @@ public class MetaRelations {
 
     /**
      * Looping over all LEAs, build Schools for each LEA
+     *
      * @param seaMeta
      */
     private static void buildLeasForSea(SeaMeta seaMeta) {
@@ -86,7 +78,7 @@ public class MetaRelations {
 
             LeaMeta leaMeta = new LeaMeta("lea" + idNum, seaMeta);
 
-            leaMap.put(leaMeta.id, leaMeta);
+            LEA_MAP.put(leaMeta.id, leaMeta);
 
             buildSchoolsForLea(leaMeta);
         }
@@ -94,11 +86,12 @@ public class MetaRelations {
 
     /**
      * For each School, generate:
-     * 	 - teachers
-     * 	 - courses
-     * 	 - sessions
-     * 	 - sections
+     * - teachers
+     * - courses
+     * - sessions
+     * - sections
      * And correlate sections with teachers.
+     *
      * @param leaMeta
      */
     private static void buildSchoolsForLea(LeaMeta leaMeta) {
@@ -107,7 +100,7 @@ public class MetaRelations {
 
             SchoolMeta schoolMeta = new SchoolMeta("school" + idNum, leaMeta);
 
-            schoolMap.put(schoolMeta.id, schoolMeta);
+            SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
             Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
@@ -129,7 +122,8 @@ public class MetaRelations {
     /**
      * Generate the teachers for this school.
      * teachersInSchoolMap is used later in this class.
-     * teacherMap is used to actually generate the XML.
+     * TEACHER_MAP is used to actually generate the XML.
+     *
      * @param schoolMeta
      * @return
      */
@@ -143,7 +137,7 @@ public class MetaRelations {
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             teachersInSchoolMap.put(teacherMeta.id, teacherMeta);
-            teacherMap.put(teacherMeta.id, teacherMeta);
+            TEACHER_MAP.put(teacherMeta.id, teacherMeta);
         }
 
         return teachersInSchoolMap;
@@ -152,7 +146,8 @@ public class MetaRelations {
     /**
      * Generate the students for this school.
      * studentsInSchoolMap is used later in this class.
-     * studentMap is used to actually generate the XML.
+     * STUDENT_MAP is used to actually generate the XML.
+     *
      * @param schoolMeta
      * @return
      */
@@ -166,7 +161,7 @@ public class MetaRelations {
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             studentsInSchoolMap.put(studentMeta.id, studentMeta);
-            studentMap.put(studentMeta.id, studentMeta);
+            STUDENT_MAP.put(studentMeta.id, studentMeta);
         }
 
         return studentsInSchoolMap;
@@ -175,7 +170,8 @@ public class MetaRelations {
     /**
      * Generate the courses for the school.
      * coursesForSchool is used later in this class.
-     * courseMap is used to actually generate the XML.
+     * COURSE_MAP is used to actually generate the XML.
+     *
      * @param schoolMeta
      * @return
      */
@@ -190,7 +186,7 @@ public class MetaRelations {
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             coursesForSchool.put(courseMeta.id, courseMeta);
-            courseMap.put(courseMeta.id, courseMeta);
+            COURSE_MAP.put(courseMeta.id, courseMeta);
         }
 
         return coursesForSchool;
@@ -199,7 +195,8 @@ public class MetaRelations {
     /**
      * Generate the sessions for the school.
      * sessionsForSchool is used later in this class.
-     * sessionMap is used to actually generate the XML.
+     * SESSION_MAP is used to actually generate the XML.
+     *
      * @param schoolMeta
      * @return
      */
@@ -214,7 +211,7 @@ public class MetaRelations {
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             sessionsForSchool.put(sessionMeta.id, sessionMeta);
-            sessionMap.put(sessionMeta.id, sessionMeta);
+            SESSION_MAP.put(sessionMeta.id, sessionMeta);
         }
 
         return sessionsForSchool;
@@ -223,7 +220,8 @@ public class MetaRelations {
     /**
      * Generate the sections for this school.
      * sectionMapForSchool is used later in this class.
-     * sectionMap is used to actually generate the XML.
+     * SECTION_MAP is used to actually generate the XML.
+     *
      * @param schoolMeta
      * @param coursesForSchool
      * @param sessionsForSchool
@@ -245,7 +243,7 @@ public class MetaRelations {
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
                     sectionMapForSchool.put(sectionMeta.id, sectionMeta);
-                    sectionMap.put(sectionMeta.id, sectionMeta);
+                    SECTION_MAP.put(sectionMeta.id, sectionMeta);
                 }
             }
         }
@@ -255,6 +253,7 @@ public class MetaRelations {
 
     /**
      * Correlates teachers and sections on a 'per school' basis.
+     *
      * @param sectionsForSchool
      * @param teachersForSchool
      */
@@ -278,6 +277,7 @@ public class MetaRelations {
 
     /**
      * Correlates students and sections on a 'per school' basis.
+     *
      * @param sectionsForSchool
      * @param studentsForSchool
      */

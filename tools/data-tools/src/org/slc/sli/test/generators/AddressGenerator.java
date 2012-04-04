@@ -127,7 +127,7 @@ public class AddressGenerator {
         return add;
     }
 
-    public static Address getFastAddress() {
+    public static Address generateLowFi() {
         Address add = new Address();
 
         add.setStreetNumberName("streetNumberName");
