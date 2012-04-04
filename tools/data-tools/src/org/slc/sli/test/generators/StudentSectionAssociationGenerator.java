@@ -9,7 +9,7 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
 
 public class StudentSectionAssociationGenerator {
 
-    public static StudentSectionAssociation generate(String studentId, String schoolId, String sectionCode) {
+    public static StudentSectionAssociation generateLowFi(String studentId, String schoolId, String sectionCode) {
         StudentSectionAssociation ssa = new StudentSectionAssociation();
 
         StudentIdentityType sit = new StudentIdentityType();

@@ -3,6 +3,7 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.LevelOfEducationType;
+import org.slc.sli.test.edfi.entities.Name;
 import org.slc.sli.test.edfi.entities.OldEthnicityType;
 import org.slc.sli.test.edfi.entities.RaceItemType;
 import org.slc.sli.test.edfi.entities.RaceType;
@@ -80,9 +81,21 @@ public class TeacherGenerator {
         return teacher;
     }
 
-    public static Teacher getFastTeacher(String teacherId) {
+    public static Teacher generateLowFi(String teacherId) {
+        Random random = new Random();
         Teacher teacher = new Teacher();
         teacher.setStaffUniqueStateId(teacherId);
+        Name name = new Name();
+        name.setFirstName("Vincent");
+        name.setLastSurname("Valentine");
+        teacher.setName(name);
+        teacher.setSex(SexType.MALE);
+        teacher.setHispanicLatinoEthnicity(false);
+        RaceType raceType = new RaceType();
+        raceType.getRacialCategory().add(RaceItemType.WHITE);
+        raceType.getRacialCategory().add(RaceItemType.ASIAN);
+        teacher.setRace(raceType);
+        teacher.setHighestLevelOfEducationCompleted(LevelOfEducationType.NO_DEGREE);
         return teacher;
     }
 }
