@@ -46,6 +46,7 @@ import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
 import org.slc.sli.test.edfi.entities.MethodCreditEarnedType;
 import org.slc.sli.test.edfi.entities.Name;
+import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.OtherName;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.RaceItemType;
@@ -89,6 +90,7 @@ public class StudentGradeGenerator {
 	private OtherName otherName = otherNameGenerator.getName();
 	private static Random rand = new Random(); 
 	private String thisDay, oneYearAgo, oneYearHence;
+	private ObjectFactory factory = new ObjectFactory();
 	
 	public StudentGradeGenerator() throws Exception
 	{
@@ -504,7 +506,7 @@ public class StudentGradeGenerator {
 		Session [] sessions                              = new Session[SESSION_COUNT];
 		SessionReferenceType [] sessionRefs              = new SessionReferenceType[SESSION_COUNT];
 		
-		SectionGenerator sectionGenerator                = new SectionGenerator();
+		//SectionGenerator sectionGenerator                = new SectionGenerator();
 		int SECTION_COUNT                                = 1;
 		Section [] sections                              = new Section[SECTION_COUNT];
 		SectionReferenceType [] sectionRefs              = new SectionReferenceType[SECTION_COUNT];
@@ -513,12 +515,12 @@ public class StudentGradeGenerator {
 		stateId.add("New-York-Ed-Org");
 		for(int i = 0; i < SESSION_COUNT; i++){
 			sessions[i]                                  = sessionGenerator.sessionGenerator(stateId);
-			sessionRefs[i]                               = sessionGenerator.getSessionReferenceType();
+			sessionRefs[i]                               = SessionGenerator.getSessinReferenceType(sessions[i]);
 		}
 		
 		for(int i = 0; i < SECTION_COUNT; i++){
-			sections[i]                                  = sectionGenerator.generate("sectionCode " + i, 1, "School-Id");
-			sectionRefs[i]                               = sectionGenerator.getSectionReference(sections[i]);
+			sections[i]                                  = SectionGenerator.generate("sectionCode " + i, 1, "School-Id");
+			sectionRefs[i]                               = SectionGenerator.getSectionReference(sections[i]);
 		}
 		
 		LearningObjectiveGenerator learningObGenerator   = new LearningObjectiveGenerator();
@@ -529,6 +531,18 @@ public class StudentGradeGenerator {
 			learningObjectives[i]                        = learningObGenerator.getLearningObjective("LOID" + i);
 		    learningObjectiveRefs[i]                     = learningObGenerator.getLearningObjectiveReferenceType(learningObjectives[i]);	
 		}
+		
+		StudentCompetancyObjectiveGenerator scoGenerator = new StudentCompetancyObjectiveGenerator();
+		int STUDENT_COMPETANCY_COUNT                     = 2;
+		StudentCompetencyObjective[] scoObjectives       = new StudentCompetencyObjective[STUDENT_COMPETANCY_COUNT];
+		StudentCompetencyObjectiveReferenceType[] scoObjectiveRefs = new StudentCompetencyObjectiveReferenceType[STUDENT_COMPETANCY_COUNT];
+		for(int i = 0; i < STUDENT_COMPETANCY_COUNT; i++){
+			scoObjectives[i]                             = scoGenerator.getStudentCompetencyObjective("SCOID" + i);
+			scoObjectiveRefs[i]                          = scoGenerator.getStudentCompetencyObjectiveReferenceType(scoObjectives[i]);
+		}
+		
+		int GRADE_BOOK_ENTRY_COUNT                       = 2;
+		GradebookEntry [] gradeBookEntries               = new GradebookEntry[GRADE_BOOK_ENTRY_COUNT];
 	}
 
 }

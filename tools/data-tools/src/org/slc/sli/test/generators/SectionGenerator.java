@@ -12,7 +12,6 @@ import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
-import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
@@ -55,9 +54,10 @@ public class SectionGenerator {
         return s;
     }
 
-    public static Section getFastSection(String sectionId, String schoolId, String courseId, String sessionId) {
+    public static Section generateLowFi(String sectionId, String schoolId, String courseId, String sessionId) {
         Section section = new Section();
         section.setUniqueSectionCode(sectionId);
+        section.setSequenceOfCourse(1);
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
@@ -71,6 +71,12 @@ public class SectionGenerator {
         // construct and add the course reference
         CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
         courseOfferingIdentity.setLocalCourseCode(courseId);
+        CourseCode courseCode = new CourseCode();
+        courseCode.setID(courseId);
+        courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+        courseOfferingIdentity.getCourseCode().add(courseCode);
+        courseOfferingIdentity.setTerm(TermType.SPRING_SEMESTER);
+        courseOfferingIdentity.setSchoolYear("2011-2012");
 
         CourseOfferingReferenceType courseRef = new CourseOfferingReferenceType();
         courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
@@ -93,71 +99,70 @@ public class SectionGenerator {
         SectionReferenceType sectionRef = new SectionReferenceType();
         SectionIdentityType identity = new SectionIdentityType();
         sectionRef.setSectionIdentity(identity);
-        
+
         CourseOfferingIdentityType courseIdentity = section.getCourseOfferingReference().getCourseOfferingIdentity();
-        identity.getStateOrganizationIdOrEducationOrgIdentificationCode() ;
-        identity.setUniqueSectionCode(section.getUniqueSectionCode()) ;
-        
-        identity.setCourseCode(courseIdentity.getCourseCode().get(0)) ;
-        identity.setLocalCourseCode(courseIdentity.getLocalCourseCode()) ;
-        identity.setSchoolYear(courseIdentity.getSchoolYear()) ;
-        identity.setTerm(courseIdentity.getTerm()) ;
-        identity.setClassPeriodName(section.getClassPeriodReference().getClassPeriodIdentity().getClassPeriodName()) ;
-        identity.setLocation(section.getLocationReference().getLocationIdentity().getClassroomIdentificationCode()) ;
+        identity.getStateOrganizationIdOrEducationOrgIdentificationCode();
+        identity.setUniqueSectionCode(section.getUniqueSectionCode());
+
+        identity.setCourseCode(courseIdentity.getCourseCode().get(0));
+        identity.setLocalCourseCode(courseIdentity.getLocalCourseCode());
+        identity.setSchoolYear(courseIdentity.getSchoolYear());
+        identity.setTerm(courseIdentity.getTerm());
+        identity.setClassPeriodName(section.getClassPeriodReference().getClassPeriodIdentity().getClassPeriodName());
+        identity.setLocation(section.getLocationReference().getLocationIdentity().getClassroomIdentificationCode());
         return sectionRef;
     }
-    
-    public static SectionReferenceType getSectionReferenceType(
-    		String stateOrganizationId,/*Ny State Board Of Education*/
-    		String educationOrgIdentificationCode_ID,/*Manhattan High School*/
-    		String schoolYear,
-    		String classPeriodName,
-    		String location,
-    		String courseCodeID,
-    		String localCourseCode,
-    		String uniqueSectionCode
-    		)
-    {
-    	SectionReferenceType sectionReference = new SectionReferenceType();
-    	SectionIdentityType sectionIdentity = new SectionIdentityType();
-    	sectionReference.setSectionIdentity(sectionIdentity);
-    	
-    	if(stateOrganizationId !=null)
-    		sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrganizationId);
-    	
-    	if(educationOrgIdentificationCode_ID != null) {
-    	    EducationOrgIdentificationCode edOrgCode = new EducationOrgIdentificationCode();
-    	    edOrgCode.setID(educationOrgIdentificationCode_ID);
-    	    edOrgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-    	    sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgCode);
-    	}
-    	
-    	if(uniqueSectionCode != null) sectionIdentity.setUniqueSectionCode(uniqueSectionCode);
-    	if(schoolYear != null)sectionIdentity.setSchoolYear(schoolYear);
-    	sectionIdentity.setTerm(TermType.YEAR_ROUND);
-    	if(classPeriodName != null)sectionIdentity.setClassPeriodName(classPeriodName);
-    	if(location != null)sectionIdentity.setLocation(location);
-    	
-    	CourseCode courseCode = new CourseCode();
-    	if(courseCode != null) sectionIdentity.setCourseCode(courseCode);
-    	courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
-    	if(courseCodeID != null) courseCode.setID(courseCodeID);
-    	courseCode.setAssigningOrganizationCode("CourseCode Assigner");
-    	if(localCourseCode != null)sectionIdentity.setLocalCourseCode(localCourseCode);
+
+    public static SectionReferenceType getSectionReferenceType(String stateOrganizationId,/*
+                                                                                           * Ny
+                                                                                           * State
+                                                                                           * Board
+                                                                                           * Of
+                                                                                           * Education
+                                                                                           */
+            String educationOrgIdentificationCode_ID,/* Manhattan High School */
+            String schoolYear, String classPeriodName, String location, String courseCodeID, String localCourseCode,
+            String uniqueSectionCode) {
+        SectionReferenceType sectionReference = new SectionReferenceType();
+        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        sectionReference.setSectionIdentity(sectionIdentity);
+
+        if (stateOrganizationId != null)
+            sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrganizationId);
+
+        if (educationOrgIdentificationCode_ID != null) {
+            EducationOrgIdentificationCode edOrgCode = new EducationOrgIdentificationCode();
+            edOrgCode.setID(educationOrgIdentificationCode_ID);
+            edOrgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+            sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgCode);
+        }
+
+        if (uniqueSectionCode != null)
+            sectionIdentity.setUniqueSectionCode(uniqueSectionCode);
+        if (schoolYear != null)
+            sectionIdentity.setSchoolYear(schoolYear);
+        sectionIdentity.setTerm(TermType.YEAR_ROUND);
+        if (classPeriodName != null)
+            sectionIdentity.setClassPeriodName(classPeriodName);
+        if (location != null)
+            sectionIdentity.setLocation(location);
+
+        CourseCode courseCode = new CourseCode();
+        if (courseCode != null)
+            sectionIdentity.setCourseCode(courseCode);
+        courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+        if (courseCodeID != null)
+            courseCode.setID(courseCodeID);
+        courseCode.setAssigningOrganizationCode("CourseCode Assigner");
+        if (localCourseCode != null)
+            sectionIdentity.setLocalCourseCode(localCourseCode);
         return sectionReference;
     }
-    
-    public static void main(String []args)
-    {
-    	SectionReferenceType sRef = SectionGenerator.getSectionReferenceType(
-    			"stateOrganizationId",
-    			"educationOrgIdentificationCode_ID",
-    			"schoolYear",
-    			"classPeriodName",
-    			"location",
-    			"courseCodeID",
-    			"localCourseCode",
-    			"uniqueSectionCode");
-    	System.out.println(sRef);
+
+    public static void main(String[] args) {
+        SectionReferenceType sRef = SectionGenerator.getSectionReferenceType("stateOrganizationId",
+                "educationOrgIdentificationCode_ID", "schoolYear", "classPeriodName", "location", "courseCodeID",
+                "localCourseCode", "uniqueSectionCode");
+        System.out.println(sRef);
     }
 }

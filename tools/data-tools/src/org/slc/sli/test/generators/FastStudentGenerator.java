@@ -40,7 +40,7 @@ public class FastStudentGenerator {
 
     public static final Calendar RIGHT_NOW = Calendar.getInstance();
 
-    public static Student generate(String studentId) {
+    public static Student generateLowFi(String studentId) {
 
         Random random = new Random();
 
@@ -98,7 +98,7 @@ public class FastStudentGenerator {
     }
 
     private static void setAddresses(Student student) {
-        Address address = AddressGenerator.getFastAddress();
+        Address address = AddressGenerator.generateLowFi();
 
         student.getAddress().add(address);
         student.getAddress().add(address);
