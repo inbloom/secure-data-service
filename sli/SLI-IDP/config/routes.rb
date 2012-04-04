@@ -1,6 +1,5 @@
 SLIIDP::Application.routes.draw do
   resources :Teacher
-
   resources :Staff
 
   # The priority is based upon order of creation:

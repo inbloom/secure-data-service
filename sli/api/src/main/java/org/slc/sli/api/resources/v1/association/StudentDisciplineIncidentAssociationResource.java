@@ -31,7 +31,11 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates those students who were
+ * victims, perpetrators, witnesses, and/or reporters for a discipline
+ * incident.
+ * 
+ * @author slee
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
 @Component
@@ -92,7 +96,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Get a single $$studentDisciplineIncidentAssociations$$ entity
+     * Get a single $$studentDisciplineIncidentAssociations$$ entity.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
@@ -111,7 +115,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Delete a $$studentDisciplineIncidentAssociations$$ entity
+     * Delete a $$studentDisciplineIncidentAssociations$$ entity.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
@@ -153,8 +157,8 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentDisciplineIncidentAssociations$$
+     * Returns each $$students$$ that is referenced by
+     * the given $$studentDisciplineIncidentAssociations$$.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the studentDisciplineIncidentAssociationId.
@@ -179,8 +183,8 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$disciplineIncidents$$ that
-     * references the given $$studentDisciplineIncidentAssociations$$
+     * Returns each $$disciplineIncidents$$ that is referenced by
+     * the given $$studentDisciplineIncidentAssociations$$.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the studentDisciplineIncidentAssociationId.
@@ -203,23 +207,4 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
                                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "_id", studentDisciplineIncidentAssociationId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

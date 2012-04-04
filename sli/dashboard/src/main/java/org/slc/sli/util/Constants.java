@@ -133,6 +133,8 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String ATTR_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
+    public static final String ATTR_SCHOOL = "school";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
@@ -171,6 +173,8 @@ public final class Constants {
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
+
+    public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     
     /**
      * Contains the possible values for FRE participation

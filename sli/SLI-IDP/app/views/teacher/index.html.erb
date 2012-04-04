@@ -1,24 +1,48 @@
-<h1>Listing teachers</h1>
+<h1>Sandbox User Selection</h1>
 
-<table>
-  <tr>
-    <th>Last Name</th>
-    <th>First Name</th>
-    <th>Role</th>
-    <th>Tenant</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<script type="text/javascript">
+function loadUser(sel) {
+    var t = '<%= Teacher_path('placeholder') %>';
+    t = t.replace('placeholder', "" + sel.options[sel.selectedIndex].value);
 
-<% @teachers.each do |teacher| %>
-  <tr>
-    <td><%= teacher.body['name']['lastSurname'] %></td>
-    <td><%= teacher.body['name']['firstName'] %></td>
-    <td><%= teacher.type %></td>
-    <td><%= teacher.tenantId %></td>
-  </tr>
-<% end %>
-</table>
+    $.getJSON(t, function(json) {
+            $('#mongo_identifier').text(sel.options[sel.selectedIndex].value);
+            $('#first_name').text(json.body.name.firstName);
+            $('#last_name').text(json.body.name.lastSurname);
+            $('#tenant').text(json.metaData.idNamespace);
+            $('#state_unique_id').text(json.body.staffUniqueStateId);
+            $('#login_button_text').text(json.body.staffUniqueStateId);
+            $('#roles').text('<look this up>');
+            $("#user").show();
+            } )
+}
 
-<br />
+function doLogin(id) {
+    <%= controller.loginAs(:id) %>;
+}
+
+$(document).ready(function() {
+    $('#selected_user').trigger('change');
+})
+</script>
+
+<p>Available Users:
+<%= select_tag('selected_user',
+        options_from_collection_for_select(@teachers, :get_id, :last_comma_first),
+        :onchange => 'loadUser(this)') %>
+</p>
+
+<h2>Details</h2>
+<div id='user' style='display:none'>
+<p>
+   Identifier: <span id='mongo_identifier'></span></br/>
+   First Name: <span id='first_name'></span><br/>
+   Last Name: <span id='last_name'></span><br/>
+   Tenant: <span id='tenant'></span><br/>
+   State Id: <span id='state_unique_id'></span><br/>
+   Roles: <span id='roles'></span><br/>
+   <br/>
+
+   <%= button_to_function("Login", "doLogin($('#mongo_identifier').text())") %>
+</div>
+
