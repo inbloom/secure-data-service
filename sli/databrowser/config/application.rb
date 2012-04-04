@@ -48,15 +48,17 @@ module DbRails
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    # I read this on SO, but it doesn't seem to work for getting request variables.
-    # http://stackoverflow.com/questions/8623437/how-do-i-prepend-a-session-id-to-every-log-message-rails-3
-    config.middleware.delete  ActionDispatch::Cookies
-    config.middleware.delete ActionDispatch::Session::CookieStore
+  # I read this on SO, but it doesn't seem to work for getting request variables.
+  # http://stackoverflow.com/questions/8623437/how-do-i-prepend-a-session-id-to-every-log-message-rails-3
 
-    config.middleware.insert_before   Rails::Rack::Logger, "LoggingMiddleware"
+  ## TODO - something isn't right here
+  #    config.middleware.delete  ActionDispatch::Cookies
+  #    config.middleware.delete ActionDispatch::Session::CookieStore
 
-    config.middleware.insert_after    ActionDispatch::Static, ActionDispatch::Cookies
-    config.middleware.insert_after    ActionDispatch::Cookies,  ActionDispatch::Session::CookieStore
+  #   config.middleware.insert_before   Rails::Rack::Logger, "LoggingMiddleware"
+
+  #  config.middleware.insert_after    ActionDispatch::Static, ActionDispatch::Cookies
+  # config.middleware.insert_after    ActionDispatch::Cookies,  ActionDispatch::Session::CookieStore
 
   end
 end
