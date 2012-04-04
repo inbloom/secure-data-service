@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.AdministrativeFundingControlType;
 import org.slc.sli.test.edfi.entities.CharterStatusType;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
@@ -144,13 +146,26 @@ public class SchoolGenerator {
 
             EducationalOrgIdentityType edOrgIdenType = new EducationalOrgIdentityType();
             // TODO remove hardcoded story data value used for testing
-            edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add("IL-SUNSET");
+            EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
+            code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
+            code.setID("SchoolId");
+            edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(code);
+            
             EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
             school.setLocalEducationAgencyReference(edOrgRef) ;
             schools.add(school);
         }
         return schools;
+    }
+    
+    public static EducationalOrgReferenceType getEducationalOrgReferenceType(School school)
+    {
+        EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
+        EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
+        eor.setEducationalOrgIdentity(eoit);
+    	return eor;
     }
 
     public School getSchool(String schoolId)

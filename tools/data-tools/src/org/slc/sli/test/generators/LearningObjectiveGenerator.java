@@ -17,6 +17,7 @@ public class LearningObjectiveGenerator {
 	
 	public LearningObjectiveGenerator() {
 		LearningStandardIdentityType lsIdentity = new LearningStandardIdentityType();
+		learningStandardId = new LearningStandardId();
 		lsIdentity.setLearningStandardId(learningStandardId);
 		learningStandardId.setContentStandardName("Learning Standard Content Standard");
 		learningStandardId.setIdentificationCode( "Learning Standard Content Standard G1");
@@ -29,12 +30,18 @@ public class LearningObjectiveGenerator {
 		LearningObjective lo = new LearningObjective();
 		String id = learningObjectiveId == null?("LOID" + loId ):learningObjectiveId;
 		lo.setId(id);
+		
+		LearningStandardId learningStdIdForObjective = new LearningStandardId();
+		learningStdIdForObjective.setContentStandardName("Learning Standard Content Standard");
+		learningStdIdForObjective.setIdentificationCode("Objective" + loId);
+		
 		lo.setLearningObjectiveId(learningStandardId) ;
 		lo.setObjective( "Learning Objective " + loId) ;
 		lo.setDescription("Learning Objective Desciption " + loId) ;
 		lo.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES) ;
 		lo.setObjectiveGradeLevel(GradeLevelType.OTHER) ;
 		lo.getLearningStandardReference().add(learningStandardRef) ;
+		
 		return lo;
 	}
 	 
