@@ -13,8 +13,22 @@ import org.slc.sli.test.edfi.entities.Teacher;
 
 public class TeacherGenerator {
     AddressGenerator ag;
+    NameGenerator ng;
+    TelephoneGenerator tg;
+    ElectronicMailGenerator emg;
+    Random random = new Random();
+    boolean optional = true;
 
-    public TeacherGenerator(StateAbbreviationType state) {
+    public TeacherGenerator(StateAbbreviationType state, boolean optional) {
+        try {
+            ng = new NameGenerator();
+            tg = new TelephoneGenerator();
+            emg = new ElectronicMailGenerator();
+            this.optional = optional;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         this.setState(state);
     }
 
@@ -30,12 +44,8 @@ public class TeacherGenerator {
     public Teacher generate(String teacherId) {
 
         Teacher teacher = new Teacher();
-        Random random = new Random();
 
         try {
-            NameGenerator ng = new NameGenerator();
-            Random rondom = new Random();
-
             teacher.setId(teacherId);
             teacher.setStaffUniqueStateId(teacherId);
             teacher.setName(ng.getName());
@@ -44,7 +54,7 @@ public class TeacherGenerator {
             if (random.nextBoolean())
                 teacher.getOtherName().add(ng.getOtherName());
 
-            teacher.setSex(rondom.nextBoolean() ? SexType.FEMALE : SexType.MALE);
+            teacher.setSex(random.nextBoolean() ? SexType.FEMALE : SexType.MALE);
 
             teacher.setBirthDate("2011-03-04");
 
@@ -52,9 +62,9 @@ public class TeacherGenerator {
             if (random.nextBoolean())
                 teacher.getAddress().add(ag.getRandomAddress());
 
-            // teacher.getTelephone().add(e);
+            teacher.getTelephone().add(tg.getTelephone());
 
-            // teacher.getElectronicMail().add(e);
+            teacher.getElectronicMail().add(emg.generate(teacher.getName().getFirstName() + "." + teacher.getName().getLastSurname()));
 
             teacher.setOldEthnicity(OldEthnicityType.AMERICAN_INDIAN_OR_ALASKAN_NATIVE);
 
@@ -68,11 +78,15 @@ public class TeacherGenerator {
 
             teacher.setYearsOfPriorTeachingExperience(new Integer(15));
 
-            teacher.setHispanicLatinoEthnicity(rondom.nextBoolean());
+            teacher.setHispanicLatinoEthnicity(random.nextBoolean());
 
             teacher.setTeacherUniqueStateId(teacherId);
 
-            teacher.setHighlyQualifiedTeacher(rondom.nextBoolean());
+            teacher.setHighlyQualifiedTeacher(random.nextBoolean());
+
+            if (optional) {
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +96,6 @@ public class TeacherGenerator {
     }
 
     public static Teacher generateLowFi(String teacherId) {
-        Random random = new Random();
         Teacher teacher = new Teacher();
         teacher.setStaffUniqueStateId(teacherId);
         Name name = new Name();
