@@ -3,6 +3,8 @@ package org.slc.sli.controller;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
-import org.slc.sli.util.DashboardUserMessageException;
 import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -24,6 +25,8 @@ import org.slc.sli.view.widget.WidgetFactory;
 
 /**
  * Controller for all types of requests.
+ * 
+ * TODO: Refactor methods to be private and mock in unit tests with PowerMockito
  * 
  * @author dwu
  */
@@ -44,7 +47,7 @@ public abstract class GenericLayoutController {
      *            - entity id to pass to the child panels
      * @return
      */
-    protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request) {
         
         // set up model map
         ModelMap model = new ModelMap();
@@ -55,14 +58,26 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
+        setContextPath(model, request);
         
         // TODO: refactor so the below params can be removed
-        model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(SecurityUtil.getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
-        model.addAttribute("random", new Random());
+        populateModelLegacyItems(model);
         return model;
     }
+    
+    protected void setContextPath(ModelMap model, HttpServletRequest request) {
+        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath()); 
+    }
+    
+
+    // TODO: refactor so the below params can be removed
+    public void populateModelLegacyItems(ModelMap model) {
+        model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
+        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(getUsername());
+        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
+        model.addAttribute("random", new Random());
+    }
+    
     
     protected String getLayoutView(String layoutName) {
         return LAYOUT_DIR + layoutName;
@@ -87,13 +102,11 @@ public abstract class GenericLayoutController {
     @ExceptionHandler(Throwable.class)
     public ModelAndView handleThrowable(Throwable t) {
         logger.error("An error running layout: ", t);
-        String message =  (t instanceof DashboardUserMessageException) ? t.getMessage() : DEFAULT_MESSAGE;
-        return new ModelAndView("error", "error", message);
+        return new ModelAndView("error", "error", DEFAULT_MESSAGE);
     }
     
-    @ExceptionHandler(DashboardUserMessageException.class)
-    public ModelAndView handleThrowable(DashboardUserMessageException de) {
-        logger.error("An error running layout: ", de);
-        return new ModelAndView("error", "error", de.getMessage());
+    public String getUsername() {
+        return SecurityUtil.getUsername();
     }
+    
 }

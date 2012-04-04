@@ -1,10 +1,10 @@
+@wip
 Feature:  View Student's contact information
 As a teacher in a school district, I want to click on a student and be directed to their profile page that contains the student's contact info
 
 Background:
 Given I have an open web browser
 Given the server is in "test" mode
-When I navigate to the Dashboard home page
 Given I am authenticated to SLI as "lkim" password "lkim"
 When I click on the Dashboard page
 And I wait for "1" seconds

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <Assessment id="Grade-8-2011-ISAT-Writing">
+    <AssessmentTitle>Grade 8 2011 ISAT Writing</AssessmentTitle>
+    <AssessmentIdentificationCode
+      IdentificationSystem="Test Contractor">
+      <ID>Grade 8 2011 ISAT Writing</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Writing</AcademicSubject>
+    <GradeLevelAssessed>Eighth grade </GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Fifth grade</LowestGradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <Description>1</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>120</MinimumScore>
+      <MaximumScore>221</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <Description>2</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>221</MinimumScore>
+      <MaximumScore>246</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <Description>3</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>246</MinimumScore>
+      <MaximumScore>288</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <Description>4</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>288</MinimumScore>
+      <MaximumScore>410</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Multiple Choice</AssessmentForm>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>450</MaxRawScore>
+    <Nomenclature>Nomenclature?</Nomenclature>
+    <AssessmentPeriod></AssessmentPeriod>
+    <AssessmentItemReference></AssessmentItemReference>
+    <ObjectiveAssessmentReference></ObjectiveAssessmentReference>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode
+          IdentificationSystem="Test Contractor">
+          <ID>ISAT Writing for Grade 8</ID>
+        </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+    <SectionReference></SectionReference>
+  </Assessment>
+  
+  <AssessmentFamily id="ISAT_Writing_for_Grade_8">
+    <AssessmentFamilyTitle>ISAT Writing for Grade 8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>ISAT Writing for Grade 8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>ISAT Writing for Grades 3-8</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="ISAT_Writing_for_Grades_3-8">
+    <AssessmentFamilyTitle>ISAT Writing for Grades 3-8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>ISAT Writing for Grades 3-8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>ISAT</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="ISAT">
+    <AssessmentFamilyTitle>ISAT</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>ISAT</ID>
+    </AssessmentFamilyIdentificationCode>
+  </AssessmentFamily>
+  
+  
+</InterchangeAssessmentMetadata>

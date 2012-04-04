@@ -343,7 +343,7 @@ public class MockRepo implements Repository<Entity> {
         
         if (entityType.equals("realm")) {
             final Map<String, Object> body = new HashMap<String, Object>();
-            body.put("regionId", "SLI");
+            body.put("tenantId", "SLI");
             
             return new Entity() {
                 @Override

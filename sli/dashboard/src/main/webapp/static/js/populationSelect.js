@@ -82,7 +82,12 @@ function printStudentList(edorgIndex,schoolIndex, courseIndex, sectionIndex, vie
     var studentContentUrl = "studentlistcontent?population=" + studentUIDs 
                             + "&viewIndex=" + viewIndex + "&filterIndex=" + filterIndex 
                             + "&username=" + "${username}" + "&sessionId=" + sessionId + "&courseId=" + courseId + "&sectionId=" + sectionId;
-    $("#studentDiv").load(studentContentUrl, function() {
+    
+    // make ajax call and process response                        
+    $("#studentDiv").load(studentContentUrl, function(responseText, textStatus, XMLHttpRequest) {
+    
+        DashboardUtil.checkAjaxError(XMLHttpRequest, studentContentUrl);
+    
         document.getElementById("viewSelector").selectedIndex = viewIndex;
         if (document.getElementById("studentFilterSelector")) {
             document.getElementById("studentFilterSelector").selectedIndex = filterIndex;        

@@ -214,6 +214,24 @@ public class LearningObjectiveResourceTest {
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
     
+    @Test
+    public void testGetLearningStardards() {
+        Response res = learningObjResource.getLearningStandards("0", 0, 0, null, null);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    }
+    
+    @Test
+    public void testGetParentLearningObjectives() {
+        Response res = learningObjResource.getParentLearningObjective("0", null, null);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    }
+    
+    @Test
+    public void testGetChildLearningObjectives() {
+        Response res = learningObjResource.getChildrenLearningObjective("0", null, null);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    }
+
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {

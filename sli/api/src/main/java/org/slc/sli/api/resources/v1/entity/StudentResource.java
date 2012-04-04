@@ -36,7 +36,13 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This entity represents an individual for whom
+ * instruction, services and/or care are provided 
+ * in an early childhood, elementary or secondary
+ * educational program under the jurisdiction of a school, 
+ * education agency, or other institution
+ * or program. A student is a person who has been enrolled in a 
+ * school or other educational institution.
  * 
  * @author jstokes
  * 
@@ -494,7 +500,8 @@ public class StudentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * $$studentDisciplineIncidentAssociations$$
+     * Returns each $$studentDisciplineIncidentAssociations$$ that references  
+     * the given $$students$$.
      *
      * @param studentId The Id of the Student.
      * @param headers   HTTP Request Headers
@@ -511,7 +518,9 @@ public class StudentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * $$studentDisciplineIncidentAssociations$$
+     * Returns each $$DisciplineIncidents$$ that is 
+     * referenced by the $$studentDisciplineIncidentAssociations$$
+     * that is references the given $$students$$.
      *
      * @param studentId The Id of the Student.
      * @param headers   HTTP Request Headers
@@ -521,15 +530,15 @@ public class StudentResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.DISCIPLINE_INCIDENTS)
-    public Response getStudentDisciplineIncidentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
-                                                                   @Context HttpHeaders headers,
-                                                                   @Context final UriInfo uriInfo) {
+    public Response getStudentDisciplineIncidentAssociationDisciplineIncidents(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                                                               @Context HttpHeaders headers,
+                                                                               @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
 
     /**
      * Returns each $$studentCohortAssociations$$ that
-     * references the given $$students$$
+     * references the given $$students$$.
      * 
      * @param studentId
      *            The Id of the $$student$.
@@ -548,7 +557,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
-    public Response getStaffCohortAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+    public Response getStudentCohortAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, headers, uriInfo);
@@ -557,7 +566,7 @@ public class StudentResource extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$cohorts$$ associated to the given $$students$$ through
-     * a $$studentCohortAssociations$$ 
+     * a $$studentCohortAssociations$$.
      * 
      * @param studentId
      *            The Id of the $$students$.
@@ -570,7 +579,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
-    public Response getStaffCohortAssociationCohorts(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+    public Response getStudentCohortAssociationCohorts(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, 
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, 
@@ -579,7 +588,7 @@ public class StudentResource extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$studentProgramAssociations$$ that
-     * references the given $$students$$
+     * references the given $$students$$.
      * 
      * @param studentId
      *            The Id of the Student.
@@ -606,7 +615,7 @@ public class StudentResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns the $$programs$$ that are referenced from the $$studentsProgramAssociations$$ 
+     * Returns the $$programs$$ that are referenced from the $$studentsProgramAssociations$$.
      * that references the given $$students$$.
      * 
      * @param studentId
