@@ -33,7 +33,7 @@ public class InterchangeStudentGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated InterchangeStudent object in: " + (System.currentTimeMillis() - startTime));
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudent entries in: " + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

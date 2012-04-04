@@ -46,7 +46,7 @@ public class InterchangeEdOrgGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated InterchangeEducationOrganization object in: "
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeEducationOrganization entries in: "
                 + (System.currentTimeMillis() - startTime));
         return interchange;
     }

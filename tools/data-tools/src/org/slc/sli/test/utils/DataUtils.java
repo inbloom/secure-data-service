@@ -122,7 +122,7 @@ public class DataUtils {
     
     public static final boolean writeControlFile(String fileToWrite, String interchange, String filename) {
         boolean success = false;
-        System.out.println("--- Starting to write control file for " + filename + " --- ");
+//        System.out.println("--- Starting to write control file for " + filename + " --- ");
         try {
             String md5HashWord = DataUtils.createMd5ForFile(filename);
             File controlFile = new File(fileToWrite);
@@ -163,7 +163,7 @@ public class DataUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("--- Finished writing control file for " + filename + " --- ");
+        System.out.println("--- Wrote control file entry for " + filename + " --- ");
         return success;
     }
 

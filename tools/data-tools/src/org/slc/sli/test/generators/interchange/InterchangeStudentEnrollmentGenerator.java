@@ -35,7 +35,7 @@ public class InterchangeStudentEnrollmentGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated InterchangeStudentEnrollment object in: "
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentEnrollment entries in: "
                 + (System.currentTimeMillis() - startTime));
         return interchange;
     }

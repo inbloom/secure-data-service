@@ -37,7 +37,7 @@ public class InterchangeStaffAssociationGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated InterchangeStaffAssociation object in: "
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeStaffAssociation entries in: "
                 + (System.currentTimeMillis() - startTime));
         return interchange;
     }

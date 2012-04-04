@@ -35,7 +35,7 @@ public class InterchangeMasterScheduleGenerator {
         addEntitiesToInterchange(interchangeObjects);
 
         System.out
-                .println("generated InterchangeMasterSchedule object in: " + (System.currentTimeMillis() - startTime));
+                .println("generated " + interchangeObjects.size() + " InterchangeMasterSchedule entries in: " + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 

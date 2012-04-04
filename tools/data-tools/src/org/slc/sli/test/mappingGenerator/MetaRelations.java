@@ -17,12 +17,12 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
-    private static final int SCHOOLS_PER_LEA = 1;
+    private static final int SCHOOLS_PER_LEA = 2;
     private static final int COURSES_PER_SCHOOL = 2;
     private static final int SESSIONS_PER_SCHOOL = 1;
     private static final int SECTIONS_PER_COURSE_SESSION = 2;
-    private static final int TEACHERS_PER_SCHOOL = 3;
-    private static final int STUDENTS_PER_SCHOOL = 5;
+    private static final int TEACHERS_PER_SCHOOL = 4;
+    private static final int STUDENTS_PER_SCHOOL = 50;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();

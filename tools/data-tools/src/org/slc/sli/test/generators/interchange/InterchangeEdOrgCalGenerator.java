@@ -34,7 +34,7 @@ public class InterchangeEdOrgCalGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated InterchangeEducationOrgCalendar object in: "
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeEducationOrgCalendar entries in: "
                 + (System.currentTimeMillis() - startTime));
         return interchange;
     }
