@@ -52,6 +52,7 @@ public class Config {
         protected String style;
         protected String formatter;
         protected String sorter;
+        protected String align;
         protected Map<String, Object> params;
         
         public String getDescription() {
@@ -94,6 +95,14 @@ public class Config {
             return datatype;
         }
         
+        public String getAlign() {
+            return align;
+        }
+
+        public void setAlign(String align) {
+            this.align = align;
+        }
+
         @Override
         public String toString() {
             return "ViewItem [width=" + width + ", type=" + datatype + ", color=" + color + ", style=" + style
