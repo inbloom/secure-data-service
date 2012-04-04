@@ -33,6 +33,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   overviewTab = @driver.find_element(:id, tabIndex)
   checkPanelNameExists(overviewTab, panelName)
   
+  # contact info is in the first panel
   studentContactInfo = overviewTab.find_element(:class, "panel")
   contactSections = studentContactInfo.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   
