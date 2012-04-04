@@ -98,21 +98,24 @@ end
 Given /^I am logged into the Application Authorization Tool$/ do
 end
 
-Given /^I see an application in the table$/ do
-  apps = @driver.find_elements(:xpath, ".//tr")
+Given /^I see an application "([^"]*)" in the table$/ do |arg1|
+  @appName = arg1
+  apps = @driver.find_elements(:xpath, ".//tr/td[text()='#{arg1}']/..")
   assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
   headings = @driver.find_elements(:xpath, ".//tr/th")
+  index = 0
   headings.each do |heading|
     if heading.text == "Status"
-      index = headings.index(heading)
+      index = headings.index(heading) + 1
     end
   end
   
-  @appRow = @driver.find_element(:xpath, ".//tr/td[text()='#{arg1}']/..")
-  @appName = @appRow.find_element(:xpath, ".//td[1]").text
+  @appRow = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  actualStatus = @appRow.find_element(:xpath, ".//td[#{index}]").text
+  assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus}")
 end
 
 Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
@@ -147,8 +150,7 @@ Then /^is put on the top of the table$/ do
 end
 
 Then /^the Status becomes "([^"]*)"$/ do |arg1|
-  status = @row.find_element(:xpath, ".//td[4]").text
-  assert(status == arg1, "Status should have switched to #{arg1} instead it's #{status}")
+  assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
 end
 
 Then /^it is colored "([^"]*)"$/ do |arg1|
@@ -196,14 +198,6 @@ end
 
 Then /^it is put on the bottom of the table$/ do
   @row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
-end
-
-Then /^the Status becomes Not Approved$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^it is colored red$/ do
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^the Approve button next to it is enabled$/ do
