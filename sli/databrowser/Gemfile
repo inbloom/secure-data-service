@@ -19,7 +19,7 @@ gem 'rest-client'
 gem 'mocha'
 
 # Better than the Rails Logger
-#gem 'logging-rails', :require => 'logging/rails'
+gem 'logging-rails', :require => 'logging/rails'
 
 
 # Gems used only for assets and not required
