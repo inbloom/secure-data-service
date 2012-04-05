@@ -32,8 +32,9 @@ When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
-When I select "New York Realm " and click go
-When I login as "mario.sanchez" "mario.sanchez1234"
+When I select "Sunset School District 4526" and click go
+And I wait for "1" seconds
+When I login as "linda.kim" "linda.kim1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"

@@ -257,6 +257,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ListTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
+                     :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests] do
   displayFailureReport()
 end
@@ -871,7 +872,9 @@ end
 
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
+  Rake::Task["importSandboxData"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -888,6 +891,7 @@ end
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -895,6 +899,7 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
+
 
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do

@@ -190,7 +190,13 @@ public class LiveAPIClient implements APIClient {
         // TODO: Remove v1, when api is switched over
         return createEntityFromAPI(getApiUrl() + "/v1" + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, false);
     }
-    
+
+    @Override
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
+                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances", token, false);
+    }
+
     /**
      * Get one section
      */
@@ -647,20 +653,27 @@ public class LiveAPIClient implements APIClient {
         
         return entities;
     }
-    
+
+    /*
+     * Retrieves and returns student school associations for a given student.
+     */
     @Override
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student) {
         List<String> urls = extractLinksFromEntity(student, STUDENT_SCHOOL_ASSOCIATIONS_LINK);
         
-        if (urls.isEmpty())
+        if (urls == null || urls.isEmpty()) {
             return new LinkedList<GenericEntity>();
+        }
         
+        //Retrieve the student school associations from the furst link with STUDENT_SCHOOL_ASSOCIATIONS_LINK
         String url = urls.get(0);
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token, false);
         
         for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
             studentSchoolAssociation = GenericEntityEnhancer.enhanceStudentSchoolAssociation(studentSchoolAssociation);
             String schoolUrl = extractLinksFromEntity(studentSchoolAssociation, SCHOOL_LINK).get(0);
+            
+            //Retrieve the school for the corresponding student school association
             GenericEntity school = createEntityFromAPI(schoolUrl, token, false);
             studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
         }
@@ -700,23 +713,6 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> entities = createEntitiesFromAPI(url.toString(), token, false);
         
         return entities;
-    }
-    
-    /**
-     * Return a list of students for a section with the optional fields
-     * 
-     * @param token
-     *            Security token
-     * @param sectionId
-     *            The sectionId
-     * @param studentIds
-     *            The studentIds (this is only here to get MockClient working)
-     * @return
-     */
-    @Override
-    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
-                + "/students" + "?optionalFields=attendances", token, false);
     }
     
     /**

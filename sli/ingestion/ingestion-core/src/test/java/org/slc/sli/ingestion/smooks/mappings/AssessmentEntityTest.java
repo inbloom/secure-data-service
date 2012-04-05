@@ -137,7 +137,7 @@ public class AssessmentEntityTest {
                 "assessmentIdentificationCode");
         Map assessmentIdentificationCodeMap = (Map) assessmentIdentificationCodeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "identificationSystem",
-                "Test Contractor ");
+                "Test Contractor");
         EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "assigningOrganizationCode",
                 "AssigningOrg");
         EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "ID", "TAKS 3rd Grade Reading");
