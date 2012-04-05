@@ -98,7 +98,9 @@ public class NeutralRecordfEntityPersistHandlerTest {
                 .thenReturn(studentSchoolAssociationFound);
 
         mockedValidator = mock(Validator.class);
-        entityPersistHandler.setPreValidator(mockedValidator);
+        List<Validator<NeutralRecordEntity>> mockedValidators = new ArrayList<Validator<NeutralRecordEntity>>();
+        mockedValidators.add(mockedValidator);
+        entityPersistHandler.setPreValidators(mockedValidators);
     }
 
     /*
