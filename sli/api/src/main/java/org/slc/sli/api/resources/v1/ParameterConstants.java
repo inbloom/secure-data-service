@@ -87,6 +87,7 @@ public class ParameterConstants {
     public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
     public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
     public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
+    public static final String OPTIONAL_FIELD_TRANSCRIPT = "transcript";
 
     /**
      * Entity/Association IDs
