@@ -7,13 +7,18 @@ public class ProgramMeta {
 
     public Set<String> staffIds;
     public Set<String> studentIds;
+
+    public String schoolId; // this is used in generating studentProgram associations
     
     public final String id;
 
-    public ProgramMeta(String id) {
-        this.id = id;
+    public ProgramMeta(String id, SchoolMeta schoolMeta) {
+        this.id = schoolMeta.id + "-" + id;
+
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
+        
+        schoolId = schoolMeta.id;
     }
 
     @Override
