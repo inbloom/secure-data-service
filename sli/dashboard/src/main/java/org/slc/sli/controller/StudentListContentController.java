@@ -89,7 +89,7 @@ public class StudentListContentController extends DashboardController {
             uids = Arrays.asList(population.split(","));
         }
         
-        viewManager.setViewConfigs(viewManager.getApplicableViewConfigs(uids, selectedSectionId, SecurityUtil.getToken()));
+        viewManager.setViewConfigs(viewManager.getApplicableViewConfigs(uids, SecurityUtil.getToken()));
         
         if (viewManager.getViewConfigs().size() > 0) {
             

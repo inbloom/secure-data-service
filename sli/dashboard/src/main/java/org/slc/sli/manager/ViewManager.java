@@ -37,7 +37,7 @@ public class ViewManager extends ApiClientManager {
         
     }
     
-    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String sectionId, String token) {
+    public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
         // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
         List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
@@ -50,7 +50,7 @@ public class ViewManager extends ApiClientManager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = entityManager.getStudents(token, sectionId, uids);
+                List<GenericEntity> students = entityManager.getStudents(token, uids);
                 
                 if (students == null) { continue; } // protect against crashing when viewing no students.
                 // if we can find at least one student in the range, the viewConfig is applicable
