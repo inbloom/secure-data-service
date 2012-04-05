@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -15,9 +13,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private ErrorReport errorReport;
 
-    private static final Logger LOG = LoggerFactory.getLogger(XsdErrorHandler.class);
-
     private MessageSource messageSource;
+
+    private String errorPrefix = "";
 
     private boolean isValid;
 
@@ -34,9 +32,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex);
-        errorReport.warning(errorMessage, XsdErrorHandler.class);
-        LOG.warn("\nWARNING: " + errorMessage);
-        LOG.warn("Entity validated");
+        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
     }
 
     /**
@@ -48,9 +44,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex);
-        errorReport.error(errorMessage, XsdErrorHandler.class);
-        LOG.error("\nERROR: " + errorMessage);
-        LOG.error("Entity invalidated");
+        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
         setIsValid(false);
     }
 
@@ -65,9 +59,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex);
-        errorReport.fatal(errorMessage, XsdErrorHandler.class);
-        LOG.error("\nFATAL ERROR: " + errorMessage);
-        LOG.error("Processing of XML file will be aborted");
+        errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
         setIsValid(false);
         throw ex;
     }
@@ -109,6 +101,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public boolean isValid() {
         return isValid;
+    }
+
+    public void setErrorPrefix(String errorPrefix) {
+        this.errorPrefix = errorPrefix;
     }
 
 }
