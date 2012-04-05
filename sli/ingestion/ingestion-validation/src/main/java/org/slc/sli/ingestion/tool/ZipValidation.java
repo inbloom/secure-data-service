@@ -3,12 +3,14 @@ package org.slc.sli.ingestion.tool;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.ZipFileValidator;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Zip Validation and extraction class.
@@ -44,7 +46,7 @@ public class ZipValidation implements MessageSourceAware {
             }
 
         } catch (IOException ex) {
-            fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
+            fr.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName()), this);
         } catch (Exception ex) {
             fr.error(ex.getMessage(), this);
         }

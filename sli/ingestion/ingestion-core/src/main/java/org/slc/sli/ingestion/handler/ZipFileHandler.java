@@ -10,6 +10,7 @@ import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -31,7 +32,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
             // find manifest (ctl file)
             return ZipFileUtil.findCtlFile(dir);
         } catch (IOException ex) {
-            errorReport.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName()), this);
         }
 
         return null;

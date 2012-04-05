@@ -40,6 +40,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      * @param ex
      *            Parser exception thrown by SAX
      */
+    @Override
     public void warning(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.warning(errorMessage, XsdErrorHandler.class);
@@ -52,6 +53,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      * @param ex
      *            Parser exception thrown by SAX
      */
+    @Override
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.error(errorMessage, XsdErrorHandler.class);
@@ -67,6 +69,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      * @throws SAXParseException
      *             Parser exception thrown by SAX
      */
+    @Override
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex.getMessage());
         errorReport.fatal(errorMessage, XsdErrorHandler.class);
@@ -144,6 +147,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         this.messageSource = messageSource;
     }
 
+    @Override
     public void setErrorReport(ErrorReport errorReport) {
         this.errorReport = errorReport;
     }
