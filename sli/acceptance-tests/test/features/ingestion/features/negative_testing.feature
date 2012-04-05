@@ -167,7 +167,8 @@ Scenario: Post a zip file and then post it against and make sure the updated dat
   And a batch job log has been created
   And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify that "metaData.created" is equal to "metaData.updated"
-  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  Given I am using preconfigured Ingestion Landing Zone
+  And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
