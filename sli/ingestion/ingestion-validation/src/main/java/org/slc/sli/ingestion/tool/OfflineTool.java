@@ -61,19 +61,25 @@ public class OfflineTool {
 
         logger.addAppender(consoleAppender);
 
+        File file = null;
+
         if ((args.length != inputArgumentCount)) {
-
-
             logger.error(appName + ":Illegal options");
-            logger.error("Usage: " + appName + "[directory]");
+            logger.error("Usage: " + appName + " [Zip/Ctl File]");
             return;
+        } else {
+            file = new File(args[0]);
+            if (!file.exists()) {
+                logger.error(args[0] + " does not exist");
+                return;
+            }
+            if (file.isDirectory()) {
+                logger.error("Illegal option - directory path. Expecting a Zip or a Ctl file");
+                logger.error("Usage: " + appName + " [Zip/Ctl File]");
+            }
         }
 
-        File file = new File(args[0]);
-        if (!file.exists()) {
-            logger.error(args[0] + " doesn not exist");
-            return;
-        }
+
 
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
@@ -81,7 +87,7 @@ public class OfflineTool {
         FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
         fileAppender.setContext(loggerContext);
         fileAppender.setName("ToolLog");
-        fileAppender.setFile(file.getParentFile() + "/" + file.getName() + "-" + time.getTime() + ".log");
+        fileAppender.setFile(file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log");
         fileAppender.setEncoder(encoder);
         fileAppender.start();
 

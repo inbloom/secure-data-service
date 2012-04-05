@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -8,13 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
@@ -31,21 +32,24 @@ public class XsdValidatorTest {
 
     @Test
     public void testValidXml() throws IOException {
-        Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        ife.setFile(xmlFile);
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
     @Test
     public void testInValidXml() throws IOException {
-        Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-InValid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        ife.setFile(xmlFile);
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
     @Test
     public void testXmlNotExists() {
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "XsdValidation/NoFile.xml", "");
+        //ife.setFile(xmlFile.getFile());
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 

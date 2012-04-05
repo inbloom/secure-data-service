@@ -70,10 +70,14 @@ public class ValidationController {
 
     private void processXMLValidators(BatchJob job) {
         ErrorReport errorReport = new LoggingErrorReport(logger);
-
+        boolean isValid = false;
         for (IngestionFileEntry ife : job.getFiles()) {
+            logger.info("Processing file: {} ...", ife.getFileName());
             for (Validator<IngestionFileEntry> validator : validators) {
-                validator.isValid(ife, errorReport);
+                isValid = validator.isValid(ife, errorReport);
+                if (!isValid) {
+                    break;
+                }
             }
         }
     }
