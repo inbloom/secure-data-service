@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.config.LozengeConfig;
@@ -98,12 +97,6 @@ public abstract class GenericLayoutController {
     }
     
     private static final String DEFAULT_MESSAGE = "An error had occurred. Please try again later.";
-    
-    @ExceptionHandler(Throwable.class)
-    public ModelAndView handleThrowable(Throwable t) {
-        logger.error("An error running layout: ", t);
-        return new ModelAndView("error", "error", DEFAULT_MESSAGE);
-    }
     
     public String getUsername() {
         return SecurityUtil.getUsername();
