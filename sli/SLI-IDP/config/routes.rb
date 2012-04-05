@@ -1,5 +1,6 @@
 SLIIDP::Application.routes.draw do
-  root :to => "idp#index"
+  root :to => redirect('/idp')
+  get "idp" => "idp#index"
   post "idp/login"
   post "idp/logout"
 
