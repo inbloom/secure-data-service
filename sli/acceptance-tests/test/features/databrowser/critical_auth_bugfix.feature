@@ -1,4 +1,3 @@
-@wip
 Feature: Validate critical bugs do not resurface after being sqashed
 I want to detect the ressurection of 'zombie bugs' for critical defects fixed previously
 
