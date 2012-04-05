@@ -11,6 +11,7 @@ import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 
 public final class MetaRelations {
 
@@ -23,6 +24,9 @@ public final class MetaRelations {
     private static final int SECTIONS_PER_COURSE_SESSION = 1;
     private static final int TEACHERS_PER_SCHOOL = 1;
     private static final int STUDENTS_PER_SCHOOL = 25;
+    private static final int PROGRAMS_PER_SCHOOL = 2;
+    private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
+    private static final int COHORTS_PER_SCHOOL = 10;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -37,6 +41,8 @@ public final class MetaRelations {
     public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
+
+    public static final Map<String, ProgramMeta> PROGRAM_MAP = new HashMap<String, ProgramMeta>();
 
     /**
      * The top level call to start the XML generation process is
@@ -110,12 +116,15 @@ public final class MetaRelations {
 
             Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
 
+            Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+
             Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
-                    sessionsForSchool);
+                    sessionsForSchool, programForSchool);
 
             addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
             addStudentsToSections(sectionsForSchool, studentsForSchool);
+            
         }
     }
 
@@ -231,12 +240,17 @@ public final class MetaRelations {
      * @param schoolMeta
      * @param coursesForSchool
      * @param sessionsForSchool
+     * @param programsForSchool
      * @return
      */
     private static Map<String, SectionMeta> buildSectionsForSchool(SchoolMeta schoolMeta,
-            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool) {
+            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool,
+            Map<String, ProgramMeta> programsForSchool) {
 
         Map<String, SectionMeta> sectionMapForSchool = new HashMap<String, SectionMeta>();
+        
+        Object[] programMetas = programsForSchool.values().toArray();
+        int programCounter = 0;
 
         for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
@@ -244,7 +258,15 @@ public final class MetaRelations {
 
                 for (int idNum = 0; idNum < SECTIONS_PER_COURSE_SESSION; idNum++) {
 
-                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta);
+                    // program reference in section is optional; will create one program reference 
+                    // for every inverse-probability-section-has-program section
+                    ProgramMeta programMeta = null;
+                    if(sectionMapForSchool.size() % INV_PROB_SECTION_HAS_PROGRAM == 0) {
+                        programMeta = (ProgramMeta) programMetas[programCounter];
+                        programCounter = (programCounter + 1) % programMetas.length;
+                    }
+
+                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta, programMeta);
 
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -255,6 +277,31 @@ public final class MetaRelations {
         }
 
         return sectionMapForSchool;
+    }
+
+    /**
+     * Generate the programs for this school.
+     * programMapForSchool is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+    private static Map<String, ProgramMeta> buildProgramsForSchool(SchoolMeta schoolMeta) {
+
+        Map<String, ProgramMeta> programMapForSchool = new HashMap<String, ProgramMeta>();
+
+        for (int idNum = 0; idNum < PROGRAMS_PER_SCHOOL; idNum++) {
+
+            ProgramMeta programMeta = new ProgramMeta("program" + idNum);
+
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
+            programMapForSchool.put(programMeta.id, programMeta);
+            PROGRAM_MAP.put(programMeta.id, programMeta);
+        }
+
+        return programMapForSchool;
     }
 
     /**
