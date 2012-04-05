@@ -71,7 +71,7 @@ public class OfflineTool {
 
         File file = new File(args[0]);
         if (!file.exists()) {
-            logger.error(args[0] + " doesn not exist");
+            logger.error(args[0] + " does not exist");
             return;
         }
 
