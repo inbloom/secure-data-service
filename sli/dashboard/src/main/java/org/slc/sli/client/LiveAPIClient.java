@@ -646,19 +646,25 @@ public class LiveAPIClient implements APIClient {
         return entities;
     }
 
-    
+    /*
+     * Retrieves and returns student school associations for a given student.
+     */
     @Override
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student) {
         List<String> urls = extractLinksFromEntity(student, STUDENT_SCHOOL_ASSOCIATIONS_LINK);
         
-        if (urls.isEmpty())
+        if (urls == null || urls.isEmpty()) {
             return new LinkedList<GenericEntity>();
+        }
         
+        //Retrieve the student school associations from the furst link with STUDENT_SCHOOL_ASSOCIATIONS_LINK
         String url = urls.get(0);
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token, false);
         
         for (GenericEntity studentSchoolAssociation : studentSchoolAssociations) {
             String schoolUrl = extractLinksFromEntity(studentSchoolAssociation, SCHOOL_LINK).get(0);
+            
+            //Retrieve the school for the corresponding student school association
             GenericEntity school = createEntityFromAPI(schoolUrl, token, false);
             studentSchoolAssociation.put(Constants.ATTR_SCHOOL, school);
         }
