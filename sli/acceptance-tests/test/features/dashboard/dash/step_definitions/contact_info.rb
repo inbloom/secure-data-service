@@ -35,6 +35,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   
   # contact info is in the first panel
   studentContactInfo = overviewTab.find_element(:class, "panel")
+  #the first table is the student's contact info
   contactSections = studentContactInfo.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   
   all_trs = contactSections.find_elements(:tag_name, "tr")

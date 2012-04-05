@@ -84,7 +84,7 @@ And Tab has a title named "ELL"
 #Check the District tab
 And Tab has a title named "Daybreak District"
 #Check Enrollment
-And Student Enrollment History includes "East Daybreak Junior High;Eighth grade;2012-01-01"
+And Student Enrollment History includes "East Daybreak Junior High;8;2012-01-01"
 And Student Enrollment History includes "2012-01-01;8;2012-01-02"
 And Student Enrollment History includes "2012-01-01;8;2012-01-02"
 
