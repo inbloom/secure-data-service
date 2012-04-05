@@ -807,7 +807,7 @@
                 </configuration>
                 <executions>
                     <execution>
-		        <phase>compile</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>compile</goal>
                             <goal>test-compile</goal>

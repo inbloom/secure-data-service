@@ -13,11 +13,12 @@
   <description>Modeling</description>
 
   <modules>
+    <module>psm</module>
     <module>uml</module>
     <module>xsd2xmi</module>
     <module>xmi</module>
     <module>xmi2Dpl</module>
-    <module>uml2Doc</module>
+    <module>uml2Xsd</module>
   </modules>
 
   <dependencyManagement>
