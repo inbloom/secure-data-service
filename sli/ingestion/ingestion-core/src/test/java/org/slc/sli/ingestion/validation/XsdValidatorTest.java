@@ -33,6 +33,7 @@ public class XsdValidatorTest {
     public void testValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
+        ife.setFile(xmlFile.getFile());
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
@@ -40,12 +41,14 @@ public class XsdValidatorTest {
     public void testInValidXml() throws IOException {
         Resource xmlFile = new ClassPathResource("XsdValidation/InterchangeStudent-InValid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getFile().getAbsolutePath(), "");
+        ife.setFile(xmlFile.getFile());
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
     @Test
     public void testXmlNotExists() {
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "XsdValidation/NoFile.xml", "");
+        //ife.setFile(xmlFile.getFile());
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 

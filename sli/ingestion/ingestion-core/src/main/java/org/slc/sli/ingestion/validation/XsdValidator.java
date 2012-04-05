@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
@@ -45,7 +46,11 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             Schema schema = schemaFactory.newSchema(xsdResource.getURL());
 
             Validator validator = schema.newValidator();
-            String sourceXml = ingestionFileEntry.getFileName();
+            File xmlFile = ingestionFileEntry.getFile();
+            if (xmlFile == null) {
+                throw new FileNotFoundException();
+            }
+            String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
             Source sc = new StreamSource(sourceXml);
 
             validator.setErrorHandler(errorHandler);
