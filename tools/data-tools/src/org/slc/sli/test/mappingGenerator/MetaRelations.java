@@ -125,6 +125,10 @@ public final class MetaRelations {
 
             addStudentsToSections(sectionsForSchool, studentsForSchool);
             
+            addStudentsToPrograms(sectionsForSchool, studentsForSchool);
+
+            addTeachersToPrograms(sectionsForSchool, teachersForSchool);
+            
         }
     }
 
@@ -343,6 +347,46 @@ public final class MetaRelations {
             }
             studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
             sectionCounter++;
+        }
+    }
+
+    /**
+     * Correlates students and program on a 'per school' basis.
+     * Student S is correlated with a program P iff there exists a section X s.t. S is  
+     * correlated with X and X is correlated with P. 
+     *
+     * @param sectionsForSchool
+     * @param studentsForSchool
+     */
+    private static void addStudentsToPrograms(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, StudentMeta> studentsForSchool) {
+        for (StudentMeta studentMeta : studentsForSchool.values()) {
+            for (String sectionId : studentMeta.sectionIds) {
+                SectionMeta sectionMeta = sectionsForSchool.get(sectionId);
+                if(sectionMeta != null && sectionMeta.programId != null) {
+                    studentMeta.programIds.add(sectionMeta.programId);
+                }
+            }
+        }
+    }
+
+    /**
+     * Correlates teacher and program on a 'per school' basis.
+     * Teacher T is correlated with a program P there exists a section X s.t. T is  
+     * correlated with X and X is correlated with P. 
+     *
+     * @param sectionsForSchool
+     * @param teachersForSchool
+     */
+    private static void addTeachersToPrograms(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, TeacherMeta> teachersForSchool) {
+        for (TeacherMeta teacherMeta : teachersForSchool.values()) {
+            for (String sectionId : teacherMeta.sectionIds) {
+                SectionMeta sectionMeta = sectionsForSchool.get(sectionId);
+                if(sectionMeta != null && sectionMeta.programId != null) {
+                    teacherMeta.programIds.add(sectionMeta.programId);
+                }
+            }
         }
     }
 
