@@ -3,6 +3,7 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
@@ -46,6 +47,8 @@ public final class MetaRelations {
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
 
     public static final Map<String, ProgramMeta> PROGRAM_MAP = new HashMap<String, ProgramMeta>();
+
+    public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
     /**
      * The top level call to start the XML generation process is
@@ -318,9 +321,26 @@ public final class MetaRelations {
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             programMapForSchool.put(programMeta.id, programMeta);
             PROGRAM_MAP.put(programMeta.id, programMeta);
+            
+            buildCohortsForProgram(programMeta, schoolMeta);
         }
 
         return programMapForSchool;
+    }
+
+    /**
+     * Generate the cohorts for this program.
+     * programMapForSchool is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+    private static void buildCohortsForProgram(ProgramMeta programMeta, SchoolMeta schoolMeta) {
+        CohortMeta cohortMeta = new CohortMeta("cohort", programMeta);
+        COHORT_MAP.put(cohortMeta.id, cohortMeta);
+        programMeta.cohortIds.add(cohortMeta.id);
+        return;
     }
 
     /**
@@ -382,12 +402,23 @@ public final class MetaRelations {
     private static void addStudentsToPrograms(Map<String, SectionMeta> sectionsForSchool,
             Map<String, StudentMeta> studentsForSchool,
             Map<String, ProgramMeta> programsForSchool) {
+
         for (StudentMeta studentMeta : studentsForSchool.values()) {
             for (String sectionId : studentMeta.sectionIds) {
                 SectionMeta sectionMeta = sectionsForSchool.get(sectionId);
                 if(sectionMeta != null && sectionMeta.programId != null && programsForSchool.containsKey(sectionMeta.programId)) {
                     ProgramMeta programMeta = programsForSchool.get(sectionMeta.programId);
                     programMeta.studentIds.add(studentMeta.id);
+                }
+            }
+        }
+
+        // for each cohort in the program, add all the students in it to the cohort too. 
+        for (ProgramMeta programMeta : programsForSchool.values()) {
+            for(String cohortId : programMeta.cohortIds) {
+                CohortMeta cohortMeta = COHORT_MAP.get(cohortId);
+                if(cohortMeta != null) {
+                    cohortMeta.studentIds.addAll(programMeta.studentIds);
                 }
             }
         }
@@ -410,8 +441,19 @@ public final class MetaRelations {
             if (staffCounter >= staffMetas.length) {
                 staffCounter = 0;
             }
-            programMeta.staffIds.add(((StaffMeta) staffMetas[staffCounter]).id);
+            String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
+            programMeta.staffIds.add(staffId);
             staffCounter++;
+        }
+
+        // for each cohort in the program, add all the staff in it to the cohort too. 
+        for (ProgramMeta programMeta : programsForSchool.values()) {
+            for(String cohortId : programMeta.cohortIds) {
+                CohortMeta cohortMeta = COHORT_MAP.get(cohortId);
+                if(cohortMeta != null) {
+                    cohortMeta.staffIds.addAll(programMeta.staffIds);
+                }
+            }
         }
     }
 
