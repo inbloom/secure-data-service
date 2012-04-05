@@ -284,7 +284,7 @@ public class ConfigManager extends ApiClientManager {
     }
     
     protected String getCustomConfigPathForUserDomain(String token) {
-        return institutionalHierarchyManager.getUserDistrictId();
+        return institutionalHierarchyManager.getUserDistrictId(token);
     }
     
     /**
