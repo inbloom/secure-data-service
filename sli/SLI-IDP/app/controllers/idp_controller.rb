@@ -3,7 +3,7 @@ class IdpController < ApplicationController
   def index
     @users = Teacher.all() + Staff.all()
     @roles = ['IT Administrator', 'Leader', 'Educator', 'Aggregator']
-    @idp_name = 'Hard-coded Name'
+    @idp_name = '<Realm>'
   end
 
   def login
@@ -13,5 +13,6 @@ class IdpController < ApplicationController
   end
 
   def logout
+    # do something to trigger logout
   end
 end
