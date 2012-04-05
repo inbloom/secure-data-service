@@ -72,7 +72,11 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result.has_key?(key), "Response does not contain key #{key}")
-  assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
+  if @result[key].is_a?(Array)
+    assert(@result[key] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
+  else
+    assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
+  end
 end
 
 Then /^the response should contain the appropriate fields and values$/ do

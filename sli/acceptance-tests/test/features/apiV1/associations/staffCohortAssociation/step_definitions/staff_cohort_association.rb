@@ -28,7 +28,8 @@ Transform /^<([^"]*)>$/ do |val|
 
     #staff related data
   when "ENDPOINT1 FIELD" then "staffId"
-  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "f0e41d87-92d4-4850-9262-ed2f2723159b"
+  when "ENDPOINT1 ID" then "f0e41d87-92d4-4850-9262-ed2f2723159b"
+  when "ENDPOINT1 FIELD EXPECTED VALUE" then ["f0e41d87-92d4-4850-9262-ed2f2723159b"]
   when "ENDPOINT1 LINK NAME" then "getStaff"
   when "ENDPOINT1 RESOLUTION LINK NAME" then "getStaff"
   when "ENDPOINT1 TYPE" then "staff"
@@ -36,7 +37,8 @@ Transform /^<([^"]*)>$/ do |val|
 
     #cohort related data
   when "ENDPOINT2 FIELD" then "cohortId"
-  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826"
+  when "ENDPOINT2 ID" then "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826"
+  when "ENDPOINT2 FIELD EXPECTED VALUE" then ["7e9915ed-ea6f-4e6b-b8b0-aeae20a25826"]
   when "ENDPOINT2 LINK NAME" then "getCohort"
   when "ENDPOINT2 RESOLUTION LINK NAME" then "getCohorts"
   when "ENDPOINT2 TYPE" then "cohort"
@@ -62,8 +64,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => "21e57d58-f775-4cc8-b759-d8d9d811b5b4",
-    "cohortId" => "a50121a2-c566-401b-99a5-71eb5cab5f4f",
+    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
+    "cohortId" => ["a50121a2-c566-401b-99a5-71eb5cab5f4f"],
     "beginDate" => "2012-02-29",
     "endDate" => "2012-03-29",
     "studentRecordAccess" => true

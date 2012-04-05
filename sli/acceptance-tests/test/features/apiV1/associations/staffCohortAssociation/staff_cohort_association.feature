@@ -30,7 +30,7 @@ Scenario: Read an association and confirm presentation of links
      And I should receive a link named "<SELF LINK NAME>" with URI "/<ASSOCIATION URI>/<ASSOCIATION ID>"
      And I should receive a link named "<ENDPOINT1 LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID>"
      And I should receive a link named "<ENDPOINT2 LINK NAME>" with URI "/<ENDPOINT2 URI>/<ENDPOINT2 ID>"
-
+@wip
 Scenario: Read endpoint1 of an association and confirm presentation of links
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
@@ -39,7 +39,7 @@ Scenario: Read endpoint1 of an association and confirm presentation of links
      And each entity's "id" should be "<ENDPOINT1 ID>"
      And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>"
      And in each entity, I should receive a link named "<ENDPOINT2 RESOLUTION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
-
+@wip
 Scenario: Read endpoint2 of an association and confirm presentation of links
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200
@@ -54,21 +54,21 @@ Scenario: Read associations for endpoint1
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ASSOCIATION TYPE>"
-     And each entity's "<ENDPOINT1 FIELD>" should be "<ENDPOINT1 ID>"
+     And each entity's "<ENDPOINT1 FIELD>" should be "<ENDPOINT1 FIELD EXPECTED VALUE>"
 
 Scenario: Read associations for endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION COUNT FOR ENDPOINT 2>" entities
      And each entity's "entityType" should be "<ASSOCIATION TYPE>"
-     And each entity's "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 ID>"
-
+     And each entity's "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 FIELD EXPECTED VALUE>"
+@wip
 Scenario: Read entities associated to endpoint1
     When I navigate to GET "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<RESOLUTION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ENDPOINT2 TYPE>"
-
+@wip
 Scenario: Read entities associated to endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
@@ -107,7 +107,7 @@ Scenario: Non-happy path: Attempt to create association with invalid reference f
 Scenario: Non-happy path: Attempt to read a non-existing association
     When I navigate to GET "/<ASSOCIATION URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
- 
+
 Scenario: Non-happy path: Attempt to update a non-existing association
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
@@ -127,7 +127,7 @@ Scenario: Non-happy path: Attempt to update endpoint2 to an invalid reference
      And I navigate to PUT "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
     Then I should receive a return code of 400
      And the error message should indicate "<VALIDATION>"
- 
+
 Scenario: Non-happy path: Attempt to delete a non-existing association
     When I navigate to DELETE "/<ASSOCIATION URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
