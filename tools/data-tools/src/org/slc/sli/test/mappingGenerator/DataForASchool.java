@@ -1,8 +1,9 @@
 package org.slc.sli.test.mappingGenerator;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -12,22 +13,30 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.generators.BehaviorDescriptorGenerator;
+import org.slc.sli.test.generators.DisciplineActionGenerator;
+import org.slc.sli.test.generators.DisciplineDescriptorGenerator;
+import org.slc.sli.test.generators.DisciplineGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.generators.StudentDisciplineAssociationGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
-import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
 import org.slc.sli.test.mappingGenerator.internals.*;
-import org.slc.sli.test.validator.ValidateSchema;
+import org.slc.sli.test.utils.ValidateSchema;
 
 public class DataForASchool {
     private String prefix = "a";
     private Random random = new Random();
-    private int parentsPerStudent = 2;
+    private static final int numStudents = 10;
+    private static final int numBehaviors = 3;
+    private static final int numDisciplines = 3;
+    private static final int parentsPerStudent = 2;
+    private static final String delimiter = "_";
 
     private List<String> schools = new ArrayList<String>();
 
@@ -43,6 +52,10 @@ public class DataForASchool {
     private List<String> parents = new ArrayList<String>();
     private List<String> studentParentAssociations = new ArrayList<String>();
 
+    private List<String> disciplineIncidents = new ArrayList<String>();
+    private List<String> studentDisciplineIncidentAssociations = new ArrayList<String>();
+    private List<String> disciplineActions = new ArrayList<String>();
+
 
     private List<StudentSchoolAssociationInternal> studentSchoolAssociations = new ArrayList<StudentSchoolAssociationInternal>();
 
@@ -51,31 +64,53 @@ public class DataForASchool {
      * @throws JAXBException
      */
     public static void main(String[] args) {
-        DataForASchool data = new DataForASchool();
-        data.prepareData();
-        data.printOnScreen();
+        String root = "data";
+        System.out.println(new Date());
 
-        String path = "data";
+        for (int i = 0; i < 2; i++) {
+            DataForASchool data = new DataForASchool(Integer.toString(i));
+            String path = root + "/temp" + i;
+            File folder = new File(path);
 
-        data.saveInterchanges(path);
-        data.validateInterchanges(path);
+            if (!folder.exists())
+                folder.mkdirs();
+
+            data.generateData(path, false, true, i);
+        }
+
+        System.out.println(new Date());
+
+    }
+
+    public DataForASchool(String prefix) {
+        this.prefix = "a" + prefix;
+    }
+
+    public void generateData(String path, boolean display, boolean validate, int iteration) {
+        prepareData(iteration);
+        saveInterchanges(path);
+        if (display)
+            printOnScreen();
+        if (validate)
+            validateInterchanges(path);
     }
 
     public void saveInterchanges(String path) {
         try {
             printInterchangeEducationOrganization(new PrintStream(path + "/InterchangeEducationOrganization.xml"));
-            printInterchangeMasterSchedule(new PrintStream(path + "/InterchangeMasterSchedule.xml"));
-            printInterchangeAssessmentMetadata(new PrintStream(path + "/InterchangeAssessmentMetadata.xml"));
+//            printInterchangeMasterSchedule(new PrintStream(path + "/InterchangeMasterSchedule.xml"));
+//            printInterchangeAssessmentMetadata(new PrintStream(path + "/InterchangeAssessmentMetadata.xml"));
             printInterchangeStaffAssociation(new PrintStream(path + "/InterchangeStaffAssociation.xml"));
+            printInterchangeStudent(new PrintStream(path + "/InterchangeStudent.xml"));
             printInterchangeStudentParent(new PrintStream(path + "/InterchangeStudentParent.xml"));
-            printInterchangeStudentAssessment(new PrintStream(path + "/InterchangeStudentAssessment.xml"));
-            printInterchangeEducationOrgCalendar(new PrintStream(path + "/InterchangeEducationOrgCalendar.xml"));
+//            printInterchangeStudentAssessment(new PrintStream(path + "/InterchangeStudentAssessment.xml"));
+//            printInterchangeEducationOrgCalendar(new PrintStream(path + "/InterchangeEducationOrgCalendar.xml"));
             printInterchangeStudentEnrollment(new PrintStream(path + "/InterchangeStudentEnrollment.xml"));
-            printInterchangeStudentGrade(new PrintStream(path + "/InterchangeStudentGrade.xml"));
-            printInterchangeStudentProgram(new PrintStream(path + "/InterchangeStudentProgram.xml"));
-            printInterchangeStudentCohort(new PrintStream(path + "/InterchangeStudentCohort.xml"));
+//            printInterchangeStudentGrade(new PrintStream(path + "/InterchangeStudentGrade.xml"));
+//            printInterchangeStudentProgram(new PrintStream(path + "/InterchangeStudentProgram.xml"));
+//            printInterchangeStudentCohort(new PrintStream(path + "/InterchangeStudentCohort.xml"));
             printInterchangeStudentDiscipline(new PrintStream(path + "/InterchangeStudentDiscipline.xml"));
-            printInterchangeStudentAttendance(new PrintStream(path + "/InterchangeStudentAttendance.xml"));
+//            printInterchangeStudentAttendance(new PrintStream(path + "/InterchangeStudentAttendance.xml"));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -109,36 +144,57 @@ public class DataForASchool {
         try {
             ValidateSchema vs = new ValidateSchema();
             String xmlDir = "./" + path + "/";
-            vs.check(xmlDir);
+            ValidateSchema.check(xmlDir);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
-
-    public void prepareData() {
-        prepareSchool(2);
-        prepareTeacher(2);
+    public void prepareData(int iteration) {
+        prepareSchool(1);
+        prepareTeacher(5, iteration);
         prepareTeacherSchoolAssociation();
         prepareSection(4);
         prepareTeacherSectionAssociation();
-        prepareStudent(2);
-        prepareParent(2*parentsPerStudent);
+        prepareStudent(numStudents);
+        prepareParent(numStudents*parentsPerStudent);
+        prepareStudentParentAssociation(numStudents*parentsPerStudent);
         prepareStudentSchoolAssociation();
+        prepareDisciplineIncident(3);
+        prepareStudentDisciplineIncidentAssociation();
     }
 
     public void prepareSchool(int total) {
         for (int i = 0; i < total; i++) {
-            schools.add(this.prefix + "-School-"+i);
+            schools.add("school-"+ this.prefix + "-" + i);
         }
     }
 
-    public void prepareTeacher(int total) {
-        for (int i = 0; i < total; i++) {
-            teachers.add(this.prefix + "-teacher-" + i);
-        }
-    }
+	public void prepareTeacher(int total, int iteration) {
+
+		for (int i = 0; i < total; i++) {
+
+			if (iteration == 0) {
+				switch (i) {
+				case 0:
+					teachers.add("cgray");
+					break;
+				case 1:
+					teachers.add("linda.kim");
+					break;
+				case 2:
+					teachers.add("rbraverman");
+					break;
+				default:
+					teachers.add("teacher_" + this.prefix + "-" + i);
+					break;
+				}
+			} else {
+				teachers.add("teacher_" + this.prefix + "-" + i);
+			}
+		}
+	}
 
     public void prepareTeacherSchoolAssociation() {
         Random random = new Random();
@@ -179,13 +235,28 @@ public class DataForASchool {
 
     public void prepareStudent(int total) {
         for (int i = 0 ; i < total ; i++) {
-            students.add(this.prefix + "-student-" + i);
+            students.add("student-" + this.prefix + "-" + i);
         }
     }
 
     public void prepareParent(int total) {
         for (int i = 0 ; i < total ; i++) {
-            parents.add(this.prefix + "-parent-" + i);
+            parents.add("parent-" + this.prefix + "-" + i);
+        }
+    }
+
+    public void prepareStudentParentAssociation(int total) {
+        int iStudent = 0;
+        int iParent = 0;
+        while (iStudent<students.size()) {
+            String studentId = students.get(iStudent);
+            while (iParent<parents.size()) {
+                String parentId = parents.get(iParent);
+                studentParentAssociations.add(studentId+delimiter+parentId);
+                iParent++;
+                if (iParent%parentsPerStudent == 0) break;
+            }
+            iStudent++;
         }
     }
 
@@ -195,6 +266,21 @@ public class DataForASchool {
             ssai.student = student;
             ssai.school = schools.get(random.nextInt(schools.size()));
             studentSchoolAssociations.add(ssai);
+        }
+    }
+
+    public void prepareDisciplineIncident(int total) {
+    	String schoolId = schools.get(0);
+        for (int i = 0 ; i < total ; i++) {
+            disciplineIncidents.add(schoolId+delimiter+this.prefix + "-discInc-" + i);
+        }
+    }
+
+    public void prepareStudentDisciplineIncidentAssociation() {
+        for (String discId : disciplineIncidents) {
+        	String studentId = students.get(random.nextInt(students.size()));
+            studentDisciplineIncidentAssociations.add(studentId+delimiter+discId);
+            disciplineActions.add(studentId+delimiter+discId);
         }
     }
 
@@ -271,26 +357,50 @@ public class DataForASchool {
         // StaffEducationOrgEmploymentAssociation
         // StaffEducationOrgAssignmentAssociation
         // Teacher
-        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY);
+        TeacherGenerator tg = new TeacherGenerator(StateAbbreviationType.NY, true);
         for (String teacherId : teachers) {
             list.add(tg.generate(teacherId));
         }
 
         // TeacherSchoolAssociation
+        TeacherSchoolAssociationGenerator tsag = new TeacherSchoolAssociationGenerator();
         for (TeacherSchoolAssociationInternal tsai : teacherSchoolAssociations) {
-            list.add(TeacherSchoolAssociationGenerator.generate(tsai.teacherId, tsai.schoolIds));
+            list.add(tsag.generate(tsai.teacherId, tsai.schoolIds));
         }
 
         // TeacherSectionAssociation
-        for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
-            list.add(TeacherSectionAssociationGenerator.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
-        }
+        // TODO uncomment when course is done
+//        TeacherSectionAssociationGenerator tsecag = new TeacherSectionAssociationGenerator();
+//        for (TeacherSectionAssociationInternal tsai : teacherSectionAssociations) {
+//            list.add(tsecag.generate(tsai.teacherId, tsai.section.schoolId, tsai.section.sectionCode));
+//        }
 
         // LeaveEvent
         // OpenStaffPosition
         // CredentialFieldDescriptor
 
         marshaller.marshal(interchangeStaffAssociation, ps);
+    }
+
+    public void printInterchangeStudent(PrintStream ps) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(InterchangeStudent.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+
+        InterchangeStudent interchangeStudent = new InterchangeStudent();
+
+        List<Student> list = interchangeStudent.getStudent();
+
+        // student
+        boolean includeOptionalData = false;
+        boolean randomizeData = true;
+        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY, includeOptionalData, randomizeData);
+        for (String studentId : students) {
+            Student student = sg.generate(studentId);
+            list.add(student);
+        }
+
+        marshaller.marshal(interchangeStudent, ps);
     }
 
     public void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
@@ -302,40 +412,27 @@ public class DataForASchool {
 
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
-        // student
-        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
-        for (String studentId : students) {
-            Student student = sg.generate(studentId);
-            list.add(student);
-        }
+        // TODO uncomment once ingestion is updated to include students here
+//        // student
+//        StudentGenerator sg = new StudentGenerator(StateAbbreviationType.NY);
+//        for (String studentId : students) {
+//            Student student = sg.generate(studentId);
+//            list.add(student);
+//        }
 
         // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
         for (String parentId : parents) {
-        	Parent parent = pg.generate(parentId);
-        	list.add(parent);
+            Parent parent = pg.generate(parentId);
+            list.add(parent);
         }
-        
+
         // studentParentAssociation
-        int iStudent=0;
-    	int iParent = 0;
-        while (iStudent<students.size()) {
-        	String studentId = students.get(iStudent);
-        	while (iParent<parents.size()) {
-        		String parentId = parents.get(iParent);
-        		StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
-        		StudentParentAssociation spa = spag.generate(studentId, parentId);
-        		list.add(spa);
-        		iParent++;
-        		if (iParent%parentsPerStudent == 0) break;
-        	}
-        	iStudent++;
+        StudentParentAssociationGenerator spag = new StudentParentAssociationGenerator();
+        for (String studentParentId : studentParentAssociations) {
+            StudentParentAssociation spa = spag.generate(studentParentId, delimiter);
+            list.add(spa);
         }
-        // for (String studentParentAssociationsId : studentParentAssociations) {
-        // StudentParentAssociation studentParentAssociation =
-        // StudentParentAssociationGenerator.generate(studentParentAssociationsId);
-        // list.add(studentParentAssociation);
-        // }
 
         marshaller.marshal(interchangeStudentParent, ps);
     }
@@ -384,9 +481,9 @@ public class DataForASchool {
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
         // StudentSchoolAssociation
-        StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
+        //StudentSchoolAssociationGenerator ssag = new StudentSchoolAssociationGenerator();
         for (StudentSchoolAssociationInternal ssai : studentSchoolAssociations) {
-            list.add(ssag.generate(ssai.student, ssai.school));
+            list.add(StudentSchoolAssociationGenerator.generateLowFi(ssai.student, ssai.school));
         }
 
         // StudentSectionAssociation
@@ -466,10 +563,41 @@ public class DataForASchool {
                 .getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
         // DisciplineIncident
+        DisciplineGenerator dg = new DisciplineGenerator();
+        for (String disciplineId : disciplineIncidents) {
+            DisciplineIncident disciplineIncident = dg.generate(disciplineId, delimiter);
+            list.add(disciplineIncident);
+        }
+
         // StudentDisciplineIncidentAssociation
-        // DisciplineAction
+        StudentDisciplineAssociationGenerator sdag = new StudentDisciplineAssociationGenerator();
+        for (String stringId : studentDisciplineIncidentAssociations) {
+        	StudentDisciplineIncidentAssociation discAssociate = sdag.generate(stringId, delimiter);
+        	list.add(discAssociate);
+        }
+
+        // DisciplineAction - Assuming action in all cases (even StudentParticipationCodeType.VICTIM.  Sorry!)
+        DisciplineActionGenerator sdactg = new DisciplineActionGenerator();
+        for (String stringId : disciplineActions) {
+        	DisciplineAction discAction = sdactg.generate(stringId, delimiter);
+        	list.add(discAction);
+        }
+
         // BehaviorDescriptor
+        BehaviorDescriptorGenerator bdg = new BehaviorDescriptorGenerator();
+        for (int iBehavior=0; iBehavior<numBehaviors; iBehavior++) {
+        	String schoolId = schools.get(random.nextInt(schools.size()));
+        	BehaviorDescriptor bd = bdg.generate(iBehavior, schoolId);
+        	list.add(bd);
+        }
+
         // DisciplineDescriptor
+        DisciplineDescriptorGenerator ddg = new DisciplineDescriptorGenerator();
+        for (int iDiscipline=0; iDiscipline<numDisciplines; iDiscipline++) {
+        	String schoolId = schools.get(random.nextInt(schools.size()));
+        	DisciplineDescriptor dd = ddg.generate(iDiscipline, schoolId);
+        	list.add(dd);
+        }
 
         marshaller.marshal(interchangeStudentDiscipline, ps);
     }
