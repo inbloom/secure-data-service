@@ -27,7 +27,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #staff related data
   id = "staffId"                                if human_readable_id == "ENDPOINT1 FIELD"
-  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "ENDPOINT1 ID"
+  id = ["f0e41d87-92d4-4850-9262-ed2f2723159b"] if human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,16 +36,17 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #educationOrganization related data
   id = "programId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "e8d33606-d114-4ee4-878b-90ac7fc3df16"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "e8d33606-d114-4ee4-878b-90ac7fc3df16"   if human_readable_id == "ENDPOINT2 ID"
+  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] if human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getProgram"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getPrograms"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "program"                                if human_readable_id == "ENDPOINT2 TYPE" 
   id = "programs"                               if human_readable_id == "ENDPOINT2 URI" 
   
   #update related field data
-  id = "staffId"                                if human_readable_id == "UPDATE FIELD"
-  id = "858bf25e-51b8-450a-ade6-adda0a570d9e"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "beginDate"                              if human_readable_id == "UPDATE FIELD"
+  id = "2012-01-01"                             if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "2012-03-07"                             if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
@@ -63,8 +65,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => "21e57d58-f775-4cc8-b759-d8d9d811b5b4",
-    "programId" => "e8d33606-d114-4ee4-878b-90ac7fc3df16",
+    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
+    "programId" => ["e8d33606-d114-4ee4-878b-90ac7fc3df16"],
     "beginDate" => "2012-01-01"
 }
 end
