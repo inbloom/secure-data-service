@@ -29,17 +29,32 @@ public class InstitutionalHierarchyManagerImpl extends ApiClientManager implemen
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
     }
     
+    /**
+     * read token. Then, find district name associated with school.
+     * 
+     * @param token
+     *            token-id, it is also using token as key value for cache.
+     * @return District name
+     */
     @Cacheable(cacheName = "user.district")
     public String getUserDistrictId(String token) {
+        // get list of school
+        // Delete this comment after Replace getToken() to token when token passes actual token
+        // instead of username
         List<GenericEntity> schools = getApiClient().getSchools(getToken(), null);
         if (!schools.isEmpty()) {
+            // read first school
             GenericEntity school = schools.get(0);
+            // read parenet organization
+            // Delete this comment after Replace getToken() to token when token passes actual token
+            // instead of username
             GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
             @SuppressWarnings("unchecked")
-            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg.get("metaData");
+            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
+                    .get(Constants.METADATA);
             if (!metaData.isEmpty()) {
-                if (metaData.containsKey("externalId")) {
-                    return metaData.get("externalId").toString();
+                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
+                    return metaData.get(Constants.EXTERNAL_ID).toString();
                 }
             }
         }
