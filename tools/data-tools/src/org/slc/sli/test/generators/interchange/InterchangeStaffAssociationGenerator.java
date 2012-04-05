@@ -29,7 +29,6 @@ public class InterchangeStaffAssociationGenerator {
      * @return
      */
     public static InterchangeStaffAssociation generate() {
-        long startTime = System.currentTimeMillis();
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
         List<Object> interchangeObjects = interchange
@@ -37,8 +36,6 @@ public class InterchangeStaffAssociationGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStaffAssociation entries in: "
-                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 
@@ -51,6 +48,10 @@ public class InterchangeStaffAssociationGenerator {
 
         generateTeachersAndAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
+        generateTeacherSchoolAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+
+        generateTeacherSectionAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+
     }
 
     /**
@@ -62,6 +63,7 @@ public class InterchangeStaffAssociationGenerator {
      * @param teacherMetas
      */
     private static void generateTeachersAndAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (TeacherMeta teacherMeta : teacherMetas) {
 
@@ -75,39 +77,60 @@ public class InterchangeStaffAssociationGenerator {
 
             interchangeObjects.add(teacher);
 
-            generateTeacherSchoolAssoc(interchangeObjects, teacherMeta);
-
-            generateTeacherSectionAssoc(interchangeObjects, teacherMeta);
         }
+
+        System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, TeacherMeta teacherMeta) {
-        for (String schoolId : teacherMeta.schoolIds) {
+    private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+        long startTime = System.currentTimeMillis();
 
-            TeacherSchoolAssociation teacherSchool;
+        int objGenCounter = 0;
+        for (TeacherMeta teacherMeta : teacherMetas) {
+            for (String schoolId : teacherMeta.schoolIds) {
 
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                teacherSchool = null;
-            } else {
-                teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
+                TeacherSchoolAssociation teacherSchool;
+
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    teacherSchool = null;
+                } else {
+                    teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
+                }
+
+                interchangeObjects.add(teacherSchool);
+
+                objGenCounter++;
             }
-
-            interchangeObjects.add(teacherSchool);
         }
+
+        System.out.println("generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateTeacherSectionAssoc(List<Object> interchangeObjects, TeacherMeta teacherMeta) {
-        for (String sectionId : teacherMeta.sectionIds) {
+    private static void generateTeacherSectionAssoc(List<Object> interchangeObjects,
+            Collection<TeacherMeta> teacherMetas) {
+        long startTime = System.currentTimeMillis();
 
-            TeacherSectionAssociation teacherSection;
+        int objGenCounter = 0;
+        for (TeacherMeta teacherMeta : teacherMetas) {
+            for (String sectionId : teacherMeta.sectionIds) {
 
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                teacherSection = null;
-            } else {
-                teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
+                TeacherSectionAssociation teacherSection;
+
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    teacherSection = null;
+                } else {
+                    teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
+                }
+
+                interchangeObjects.add(teacherSection);
+
+                objGenCounter++;
             }
-
-            interchangeObjects.add(teacherSection);
         }
+
+        System.out.println("generated " + objGenCounter + " TeacherSectionAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 }

@@ -17,12 +17,12 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
-    private static final int SCHOOLS_PER_LEA = 2;
-    private static final int COURSES_PER_SCHOOL = 2;
+    private static final int SCHOOLS_PER_LEA = 1;
+    private static final int COURSES_PER_SCHOOL = 1;
     private static final int SESSIONS_PER_SCHOOL = 1;
-    private static final int SECTIONS_PER_COURSE_SESSION = 2;
-    private static final int TEACHERS_PER_SCHOOL = 4;
-    private static final int STUDENTS_PER_SCHOOL = 50;
+    private static final int SECTIONS_PER_COURSE_SESSION = 1;
+    private static final int TEACHERS_PER_SCHOOL = 1;
+    private static final int STUDENTS_PER_SCHOOL = 25;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -132,7 +132,13 @@ public final class MetaRelations {
         Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
         for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
 
-            TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
+            TeacherMeta teacherMeta;
+            if (idNum == 0) {
+                // hardcode first teacher as he is set up in ny idp
+                teacherMeta = TeacherMeta.create("wadama", schoolMeta);
+            } else {
+                teacherMeta = TeacherMeta.createWithChainedId("teacher" + idNum, schoolMeta);
+            }
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
