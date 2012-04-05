@@ -33,7 +33,7 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 156   |
-        | course                      | 8     |
+        | course                      | 9     |
         | educationOrganization       | 3     |
         | school                      | 4     |
         | section                     | 9     |
@@ -48,7 +48,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 315   |
+        | studentSectionGradebookEntry| 78   |
         | attendance                  | 13650 |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
@@ -60,13 +60,13 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14712 records." in the resulting batch job file
+    And I should see "Processed 14714 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 15" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 15" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 16" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 16" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 10" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 10" in the resulting batch job file
@@ -80,8 +80,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records considered: 365" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 365" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 427" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 427" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 428" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 428" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 6" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 6" in the resulting batch job file
