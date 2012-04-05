@@ -119,13 +119,15 @@ public class EntityManager extends ApiClientManager {
         student = ContactSorter.sort(student);
         GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
         
-        student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-        GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
+        if (section != null) {
+            student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+            GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
 
-        if (teacher != null) {
-            Map teacherName = (Map) teacher.get(Constants.ATTR_NAME);
-            if (teacherName != null)
-                 student.put(Constants.ATTR_TEACHER_NAME, teacherName);
+            if (teacher != null) {
+                Map teacherName = (Map) teacher.get(Constants.ATTR_NAME);
+                if (teacherName != null)
+                    student.put(Constants.ATTR_TEACHER_NAME, teacherName);
+            }
         }
         
         List<GenericEntity> studentEnrollment = getApiClient().getStudentEnrollment(token, student);

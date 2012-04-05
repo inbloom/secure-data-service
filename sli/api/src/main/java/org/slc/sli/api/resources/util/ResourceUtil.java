@@ -244,8 +244,13 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all reference fields on supplied entity type
         for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
+            String referenceGuid = null;
+
+            //there should be a better way to do this...
             // see what GUID is stored in the reference field
-            String referenceGuid = (String) entityBody.get(referenceField.getKey());
+            if (entityBody.get(referenceField.getKey()) instanceof String)
+                referenceGuid = (String) entityBody.get(referenceField.getKey());
+
             // if a value (GUID) was stored there
             if (referenceGuid != null) {
                 String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()

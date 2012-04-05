@@ -1,9 +1,9 @@
 class Name
-  include MongoMapper::Document
+  include MongoMapper::EmbeddedDocument
 
-  key :firstName, String, :required => true
-  key :lastSurname, String, :required => true
+  key :firstName, String
+  key :lastSurname, String
 
-  belongs_to :body
+  embedded_in :body
 
 end

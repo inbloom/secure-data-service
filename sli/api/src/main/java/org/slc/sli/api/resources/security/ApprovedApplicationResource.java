@@ -25,7 +25,6 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +74,6 @@ public class ApprovedApplicationResource {
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
-        boolean isUserAdmin = isUserAnAdmin();
-        LOG.debug("User is an administrator? {}", isUserAdmin);
-
         for (final String id : allowedApps) {
 
             EntityBody result  = SecurityUtil.sudoRun(new SecurityTask<EntityBody>()  {
@@ -89,12 +85,7 @@ public class ApprovedApplicationResource {
 
             if (result != null) {
                 boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
-
-                //don't allow non-admins to see admin apps
-                if (isAdminApp && !isUserAdmin) {
-                    continue;
-                }
-
+                
                 //is_admin query param specified
                 if (!adminFilter.equals("")) {
                     boolean adminFilterVal = Boolean.valueOf(adminFilter);
@@ -151,12 +142,6 @@ public class ApprovedApplicationResource {
         }
         return toReturn;
     }
-
-    private boolean isUserAnAdmin() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        return context.getAuthentication().getAuthorities().contains(Right.ADMIN_ACCESS);
-    }
-
 
     /**
      * Filters out attributes we don't want ordinary users to see.
