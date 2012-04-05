@@ -162,8 +162,8 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    turn (0.8.2)
-      ansi (>= 1.2.2)
+    turn (0.9.4)
+      ansi
     tzinfo (0.3.31)
     uglifier (1.2.3)
       execjs (>= 0.3.0)
@@ -192,5 +192,5 @@ DEPENDENCIES
   sqlite3
   therubyracer
   thin
-  turn
+  turn (~> 0.9.4)
   uglifier (>= 1.0.3)

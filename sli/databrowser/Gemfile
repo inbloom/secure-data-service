@@ -52,7 +52,7 @@ end
 group :development, :test do
 	gem 'simplecov', :require=>false, :group=>:test
 	gem 'simplecov-rcov', :require=>false, :group=>:test
-	gem 'turn'
+	gem 'turn', "~> 0.9.4"
 end
 # gem 'rspec', :require=>false, :group=>:test
 # gem 'rspec-rails', :require=>false, :group=>:test
