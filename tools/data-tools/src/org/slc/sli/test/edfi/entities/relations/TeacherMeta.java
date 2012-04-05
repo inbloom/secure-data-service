@@ -2,14 +2,11 @@ package org.slc.sli.test.edfi.entities.relations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
 public final class TeacherMeta {
     public final String id;
     public final List<String> schoolIds;
     public final List<String> sectionIds;
-    public final Set<String> programIds;
 
     public final String simpleId;
 
@@ -18,7 +15,6 @@ public final class TeacherMeta {
         this.schoolIds = new ArrayList<String>();
         this.schoolIds.add(schoolId);
         this.sectionIds = new ArrayList<String>();
-        this.programIds = new HashSet<String>();
 
         this.simpleId = id;
     }
@@ -33,7 +29,7 @@ public final class TeacherMeta {
 
     @Override
     public String toString() {
-        return "TeacherMeta [id=" + id + ", schoolIds=" + schoolIds + ", sectionIds=" + sectionIds + ", programIds=" + programIds + "]";
+        return "TeacherMeta [id=" + id + ", schoolIds=" + schoolIds + ", sectionIds=" + sectionIds + "]";
     }
 
 }
