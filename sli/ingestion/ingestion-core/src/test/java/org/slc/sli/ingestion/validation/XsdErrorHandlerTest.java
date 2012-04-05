@@ -44,23 +44,22 @@ public class XsdErrorHandlerTest {
 
     @Test
     public void testWarning() {
-        xsdErrorHandler.setIsValid(true);
-        
         // Test receiving a SAX warning.
+        xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn(
-                "cvc-totalDigits-valid: Value '4000' has 4 total digits, but the number of total digits has been limited to 3.");
+                "cvc-totalDigits-valid: Value '4000' has '4' total digits, but the number of total digits has been limited to '3'.");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
     }
 
     @Test
     public void testError() {
-        xsdErrorHandler.setIsValid(true);
-        
         // Test receiving a SAX error.
+        xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn(
                 "cvc-complex-type.2.4.b: The content of element 'LearningStyles' is not complete. One of "
-                        + "'{\"http://ed-fi.org/0100\":VisualLearning}' is expected.");
+                        + "'{\"http://ed-fi.org/0100\":VisualLearning, \"http://ed-fi.org/0100\":AuditoryLearning, "
+                        + "\"http://ed-fi.org/0100\":TactileLearning}' is expected.");
         xsdErrorHandler.error(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
         assertFalse(xsdErrorHandler.isValid());
@@ -69,6 +68,7 @@ public class XsdErrorHandlerTest {
     @Test
     public void testFatalError() throws SAXException {
         // Test receiving a SAX fatal error.
+        xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn(
                 "cvc-complex-type.2.4.a: Invalid content was found starting with element 'Race'. One of "
                         + "'{\"http://ed-fi.org/0100\":CohortYears, \"http://ed-fi.org/0100\":StudentIndicators, "
@@ -98,7 +98,7 @@ public class XsdErrorHandlerTest {
                     + "'{\"http://ed-fi.org/0100\":CohortYears, \"http://ed-fi.org/0100\":StudentIndicators, \"http://ed-fi.org/0100\":LoginId}' is expected.";
             String errorMessage = method.invoke(xsdErrorHandler, argObjects).toString();
             assertEquals(errorMessage,
-                    "Element Race is out of order.  Expected one of CohortYears, StudentIndicators, LoginId");
+                    "Element Race is out of order.  Expected one of {CohortYears, StudentIndicators, LoginId}");
         } catch (Exception e) {
             // Should never happen.
             throw e;

@@ -103,8 +103,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
                 for (int j = 0; j < argTokens.length; j += 2) {
                     arg += argTokens[j];
                 }
-                // Remove curly braces and colons.
-                arg = arg.replaceAll("[{:}]", "");
+                // Remove colons.
+/*                arg = arg.replaceAll("[{:}]", "");*/
+                arg = arg.replaceAll(":", "");
                 messageArgs[i] = arg;
         }
 

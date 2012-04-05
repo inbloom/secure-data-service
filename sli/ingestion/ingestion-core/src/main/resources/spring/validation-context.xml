@@ -91,8 +91,8 @@
         <entry key="cvc-enumeration-valid" value="XSD_ENUMERATION_VALUE_NOT_ALLOWED" />
         <entry key="cvc-fractionDigits-valid " value="XSD_TOO_MANY_FRACTION_DIGITS" />
         <entry key="cvc-length-valid" value="XSD_INCORRECT_LENGTH" />
-        <entry key="cvc-minLength-valid" value="XSD_INCORRECT_LENGTH" />
-        <entry key="cvc-maxLength-valid" value="XSD_INCORRECT_LENGTH" />
+        <entry key="cvc-minLength-valid" value="XSD_LENGTH_TOO_SMALL" />
+        <entry key="cvc-maxLength-valid" value="XSD_LENGTH_TOO_LARGE" />
         <entry key="cvc-maxExclusive-valid" value="XSD_VALUE_TOO_LARGE" />
         <entry key="cvc-maxInclusive-valid" value="XSD_VALUE_TOO_LARGE" />
         <entry key="cvc-minExclusive-valid" value="XSD_VALUE_TOO_SMALL" />
