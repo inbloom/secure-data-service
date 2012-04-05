@@ -1,3 +1,4 @@
+@wip
 Feature: Display Higest score for assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -9,6 +10,7 @@ Background:
    
 Scenario: Calculating Highest ReportingResultType for any a defined assessment 
   Given I am authenticated to SLI as "cgray" "cgray"
+  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -26,6 +28,7 @@ Scenario: Calculating Highest ReportingResultType for any a defined assessment
 @wip
 Scenario: Calculating most highest ever for an assessment 
   Given I am authenticated to SLI as "cgray" "cgray"
+  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -47,6 +50,7 @@ Scenario: Calculating most highest ever for an assessment
 
 Scenario: Calculating most highest ever for an objective assessment 
   Given I am authenticated to SLI as "cgray" "cgray"
+  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"

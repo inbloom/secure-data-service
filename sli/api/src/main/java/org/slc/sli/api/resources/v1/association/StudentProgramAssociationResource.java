@@ -29,7 +29,8 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- *  Association between a student and a program.
+ * This association represents the program(s) that a
+ * student participates in or is served by.
  * 
  * @author jtully
  * 
@@ -99,7 +100,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      * @return A single studentProgramAssociation entity
      */
     @GET
-    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID) final String studentProgramAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -148,7 +149,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Returns each $$student$$ that
+     * Returns each $$students$$ that
      * references the given $$studentProgramAssociations$$
      * 
      * @param studentProgramAssociationId

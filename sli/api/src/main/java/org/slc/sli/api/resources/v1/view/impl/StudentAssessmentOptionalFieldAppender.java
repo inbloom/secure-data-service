@@ -45,25 +45,16 @@ public class StudentAssessmentOptionalFieldAppender implements OptionalFieldAppe
             //get the student assessment associations for the given student
             List<EntityBody> studentAssessmentAssociationsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentAssessmentAssociations, ParameterConstants.STUDENT_ID,
                     (String) student.get("id"));
-            
-            //List<EntityBody> assessmentsForStudent = new ArrayList<EntityBody>();
+
             for (EntityBody studentAssessmentAssociation : studentAssessmentAssociationsForStudent) {
                 //get the assessment
                 EntityBody assessment = optionalFieldAppenderHelper.getEntityFromList(assessments, "id",
                         (String) studentAssessmentAssociation.get(ParameterConstants.ASSESSMENT_ID));
 
                 studentAssessmentAssociation.put(PathConstants.ASSESSMENTS, assessment);
-                //assessmentsForStudent.add(assessment);
             }
             
-            //create the map to hold the assessments and the student assessment associations
-            //EntityBody body = new EntityBody();
-            //body.put(PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS, studentAssessmentAssociationsForStudent);
-            //body.put(PathConstants.ASSESSMENTS, assessmentsForStudent);
-            
             //add the body to the student
-            //student.put(ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, body);
-
             student.put(PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS, studentAssessmentAssociationsForStudent);
         }
         
