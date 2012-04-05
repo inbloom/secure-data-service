@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.Fault;
@@ -32,36 +31,36 @@ public class ValidationController {
 
     private List<? extends Validator<IngestionFileEntry>> validators;
 
-    private static final Logger LOG = LoggerFactory.getLogger(ValidationController.class);
+    private static Logger logger = null;
 
     /*
      * retrieve zip file or control file from the input directory and invoke
      * relevant validator
      */
     void doValidation(File path) {
-        if (!path.exists()) {
-            //TODO: Report an issue
+
+        logger = OfflineTool.getThreadLocal().get();
+        BatchJob job = null;
+        if (path.isFile() && path.getName().endsWith(".ctl")) {
+            job = processControlFile(path);
+        } else if (path.isFile() && path.getName().endsWith(".zip")) {
+            job = processZip(path);
+        } else {
+            logger.error("Invalid input: No clt/zip file found");
             return;
         }
 
-        BatchJob job = null;
-        if (path.isDirectory()) {
-            job = processDirectory(path);
-        } else if (path.isFile() && path.getName().endsWith(".zip")) {
-            job = processZip(path);
-        }
-
         if (job == null) {
-            LOG.error("Invalid input: No clt/zip file found");
+            logger.error("Invalid input: No clt/zip file found");
             return;
         }
 
         if (job.getFaultsReport().hasErrors()) {
             for (Fault fault : job.getFaultsReport().getFaults()) {
                 if (fault.isError()) {
-                    LOG.error(fault.getMessage());
+                    logger.error(fault.getMessage());
                 } else {
-                    LOG.warn(fault.getMessage());
+                    logger.warn(fault.getMessage());
                 }
             }
         } else {
@@ -70,7 +69,7 @@ public class ValidationController {
     }
 
     private void processXMLValidators(BatchJob job) {
-        ErrorReport errorReport = new LoggingErrorReport(LOG);
+        ErrorReport errorReport = new LoggingErrorReport(logger);
 
         for (IngestionFileEntry ife : job.getFiles()) {
             for (Validator<IngestionFileEntry> validator : validators) {
@@ -80,9 +79,9 @@ public class ValidationController {
     }
 
     private BatchJob processZip(File zipFile) {
-        ErrorReport errorReport = new LoggingErrorReport(LOG);
+        ErrorReport errorReport = new LoggingErrorReport(logger);
 
-        LOG.info("Processing a zip file [{}] ...", zipFile.getAbsolutePath());
+        logger.info("Processing a zip file [{}] ...", zipFile.getAbsolutePath());
 
         File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 
@@ -93,31 +92,13 @@ public class ValidationController {
             job = processControlFile(ctlFile);
         }
 
-        LOG.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
-
-        return job;
-    }
-
-    private BatchJob processDirectory(File directory) {
-        LOG.info("Processing a folder [{}] ...", directory.getAbsolutePath());
-
-        CtlFilter ctlFilter = new CtlFilter();
-        File[] ctlFiles = directory.listFiles(ctlFilter);
-
-        BatchJob job = null;
-
-        if (ctlFiles.length > 0) {
-
-            job = processControlFile(ctlFiles[0]);
-        }
-
-        LOG.info("Folder [{}] processing is complete.", directory.getAbsolutePath());
+        logger.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
 
         return job;
     }
 
     private BatchJob processControlFile(File ctlFile) {
-        LOG.info("Processing a conotrol file [{}] ...", ctlFile.getAbsolutePath());
+        logger.info("Processing a conotrol file [{}] ...", ctlFile.getAbsolutePath());
 
         try {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
@@ -129,9 +110,9 @@ public class ValidationController {
             return batchJobAssembler.assembleJob(cfd);
 
         } catch (IOException e) {
-            LOG.error("Cannot parse control file", ValidationController.class);
+            logger.error("Cannot parse control file", ValidationController.class);
         } finally {
-            LOG.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
+            logger.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
         }
 
         return null;
