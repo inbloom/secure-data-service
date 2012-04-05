@@ -3,12 +3,13 @@ package org.slc.sli.controller;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.config.LozengeConfig;
@@ -45,7 +46,7 @@ public abstract class GenericLayoutController {
      *            - entity id to pass to the child panels
      * @return
      */
-    protected ModelMap getPopulatedModel(String layoutId, Object entityKey) {
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request) {
         
         // set up model map
         ModelMap model = new ModelMap();
@@ -56,10 +57,15 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
+        setContextPath(model, request);
         
         // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
+    }
+    
+    protected void setContextPath(ModelMap model, HttpServletRequest request) {
+        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath()); 
     }
     
 
@@ -91,12 +97,6 @@ public abstract class GenericLayoutController {
     }
     
     private static final String DEFAULT_MESSAGE = "An error had occurred. Please try again later.";
-    
-    @ExceptionHandler(Throwable.class)
-    public ModelAndView handleThrowable(Throwable t) {
-        logger.error("An error running layout: ", t);
-        return new ModelAndView("error", "error", DEFAULT_MESSAGE);
-    }
     
     public String getUsername() {
         return SecurityUtil.getUsername();

@@ -126,32 +126,7 @@ public class ApprovedApplicationResourceTest {
         assertTrue(ents.contains(adminApp));
         assertFalse(ents.contains(userApp));
         assertFalse(ents.contains(disabledApp));
-    }
-    
-    @Test
-    public void testNonAdminUser() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.READ_GENERAL);
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertFalse(ents.contains(adminApp));
-        assertTrue(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
-    }
-    
-    @Test
-    public void testNonAdminUserFilterByAdmin() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.READ_GENERAL);
-        Response resp = resource.getApplications("true");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertFalse(ents.contains(adminApp));
-        assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
-    }
-    
+    }   
     
     @Test
     public void testNoneAllowed() {

@@ -31,9 +31,11 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates the staff associated
+ * with a cohort of students.
  * 
  * @author kmyers
+ * @author srichards
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
@@ -98,7 +100,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$staffCohortAssociations$$ entity
+     * Get a single $$staffCohortAssociations$$ entity.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
@@ -117,7 +119,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$staffCohortAssociations$$ entity
+     * Delete a $$staffCohortAssociations$$ entity.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
@@ -160,7 +162,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$staff$$ that
-     * references the given $$staffCohortAssociations$$
+     * is referenced by the given $$staffCohortAssociations$$.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociation$$.
@@ -189,7 +191,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     
     /**
      * Returns each $$cohorts$$ that
-     * references the given $$staffCohortAssociations$$
+     * is referenced by the given $$staffCohortAssociations$$.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.

@@ -1,9 +1,9 @@
 class Body
-  include MongoMapper::Document
+  include MongoMapper::EmbeddedDocument
 
-  one :name, :required => true
-  key :staffUniqueStateId, String, :required => true
+  has_one :name
+  key :staffUniqueStateId, String
 
-  belongs_to :entity, :polymorphic => true
+  embedded_in :entity
 
 end
