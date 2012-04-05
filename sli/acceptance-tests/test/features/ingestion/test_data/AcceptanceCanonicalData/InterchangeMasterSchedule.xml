@@ -32,16 +32,16 @@
   </Section>
 
   <Section>
-    <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+    <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <LocalCourseCode>10th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>8th Grade English</ID>
+          <ID>10th Grade English</ID>
         </CourseCode>
         <Term>First Trimester</Term>
         <SchoolYear>2010-2011</SchoolYear>
@@ -50,41 +50,41 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        <SessionName>Fall 2010 Daybreak Central High</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
 
   <Section>
-    <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+    <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>8th Grade Composition</LocalCourseCode>
+        <LocalCourseCode>10th Grade Writing</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>8th Grade Composition</ID>
+          <ID>10th Grade Writing</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>1</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        <SessionName>Spring 2011 Daybreak Central High</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
