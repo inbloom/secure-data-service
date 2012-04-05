@@ -72,6 +72,7 @@ public class ValidationController {
         ErrorReport errorReport = new LoggingErrorReport(logger);
         boolean isValid = false;
         for (IngestionFileEntry ife : job.getFiles()) {
+            logger.info("Processing file: {} ...", ife.getFileName());
             for (Validator<IngestionFileEntry> validator : validators) {
                 isValid = validator.isValid(ife, errorReport);
                 if (!isValid) {
