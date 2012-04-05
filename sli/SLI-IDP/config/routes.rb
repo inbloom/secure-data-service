@@ -1,6 +1,7 @@
 SLIIDP::Application.routes.draw do
-  resources :Teacher
-  resources :Staff
+  root :to => "idp#index"
+  post "idp/login"
+  post "idp/logout"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
