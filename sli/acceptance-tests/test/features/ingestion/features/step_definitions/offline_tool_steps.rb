@@ -15,12 +15,12 @@ INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 # STEPS: GIVEN
 ############################################################
 
-Given /^I am using local data store$/ do
+Given /^I am using local input file directory$/ do
   @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
 end
 
 Given /^I am using default offline tool package$/ do
-  @tool_path = File.dirname(__FILE__) + '/../../test_data/'
+  @tool_path = File.dirname(__FILE__) + '/../../../../../../ingestion/ingestion-validation/target/ingestion-validation-1.0-SNAPSHOT.jar'
 end
 
 Given /^I post "([^"]*)" file as an input to offline validation tool$/ do |file_name|
@@ -79,9 +79,15 @@ end
 When /^I run offline validation command on input file$/ do
   @source_path = @local_file_store_path + @source_file_name
   
-  #Run shell script
-  puts "Will Execute sh: " + "java -jar #{@tool_path} #{@source_path}"
-  runShellCommand("java -jar " + @tool_path + " " + @source_path)
+  if (INGESTION_MODE == 'remote')
+    #Run shell script
+    puts "Will Execute sh: " + "java -jar #{@tool_path} #{@source_path}"
+    runShellCommand("java -jar " + @tool_path + " " + @source_path)
+  else
+    #Run shell script
+    puts "Will Execute sh: " + "java -jar #{@tool_path} #{@source_path}"
+    runShellCommand("java -jar " + @tool_path + " " + @source_path)
+  end
 end
 
 When /^ "([^"]*)" seconds have elapsed$/ do |secs|

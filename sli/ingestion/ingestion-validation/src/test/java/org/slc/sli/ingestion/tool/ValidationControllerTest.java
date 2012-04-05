@@ -35,7 +35,7 @@ public class ValidationControllerTest {
     public void testDoValidationZipFile() {
         Resource zipFileResource = new ClassPathResource(zipFileName);
         try {
-           validationController.doValidation(zipFileResource.getFile().getParent());
+           validationController.doValidation(zipFileResource.getFile());
         } catch (IOException e) {
             fail("IO exception");
         }
@@ -49,7 +49,7 @@ public class ValidationControllerTest {
     public void testDovalidationInvalidZip() {
         Resource invalidFileResource = new ClassPathResource("invalidZip/SessionInValid.zip");
         try {
-           validationController.doValidation(invalidFileResource.getFile().getParent());
+           validationController.doValidation(invalidFileResource.getFile());
         } catch (IOException e) {
             fail("IO exception");
         }
@@ -65,7 +65,7 @@ public class ValidationControllerTest {
     public void testDovalidationInvalid() {
         Resource invalidFileResource = new ClassPathResource("invalid/Session1.zip");
         try {
-           validationController.doValidation(invalidFileResource.getFile().getParent());
+           validationController.doValidation(invalidFileResource.getFile());
         } catch (IOException e) {
             fail("IO exception");
         }
@@ -79,7 +79,7 @@ public class ValidationControllerTest {
     public void testDoValidationCtrFile() {
         Resource ctlFileResource = new ClassPathResource(controlFileName);
         try {
-            validationController.doValidation(ctlFileResource.getFile().getParent());
+            validationController.doValidation(ctlFileResource.getFile().getParentFile());
         } catch (IOException e) {
             fail("IO exception");
         }

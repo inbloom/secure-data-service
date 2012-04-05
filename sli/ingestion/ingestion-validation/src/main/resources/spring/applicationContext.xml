@@ -10,6 +10,7 @@
 <context:component-scan base-package="org.slc.sli.ingestion.landingzone" />
 
 <import resource="classpath:/spring/validation-context.xml" />
+<import resource="classpath:/spring/handler-context.xml" />
 
   <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
@@ -37,9 +38,8 @@
     <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
 
     <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
-        <property name="zipValidation" ref="zipValidation"/>
-        <property name="ctlValidation" ref="ctlFileValidation"/>
+        <property name="zipFileHandler" ref="zipFileHandler"/>
+        <property name="batchJobAssembler" ref="batchJobAssembler"/>
         <property name="validators" ref="validators"/>
-        <property name="lz" ref="lz"/>
      </bean>
 </beans>

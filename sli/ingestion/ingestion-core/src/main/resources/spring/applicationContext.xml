@@ -74,6 +74,7 @@
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
+  <import resource="handler-context.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
@@ -99,7 +100,7 @@
     <property name="lzDirectory" value="${landingzone.inbounddir}" />
   </bean>
 
-  <bean id="xmlFileHandler" parent="smooksFileHandler">
+    <bean id="xmlFileHandler" parent="smooksFileHandler">
     <property name="preValidator">
       <bean
         class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
@@ -112,8 +113,6 @@
         class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
     </property>
   </bean>
-
-  <bean id="matchDiffHandler" class="org.slc.sli.ingestion.handler.MatchDiffHandler" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
     <property name="fileHandlerMap">
@@ -133,6 +132,8 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
+
+
 
 </beans>
 

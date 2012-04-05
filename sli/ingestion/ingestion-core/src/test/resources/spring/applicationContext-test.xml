@@ -56,6 +56,9 @@
 
   <bean id="repo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
+  <bean id="zipFileHandler" class="org.slc.sli.ingestion.handler.ZipFileHandler">
+    <property name="preValidator" ref="zipFileValidator" />
+  </bean>
 
   <context:annotation-config />
 
