@@ -60,6 +60,9 @@ public final class XmiWriter {
             case DATA_TYPE: {
                 return XmiElementName.DATA_TYPE;
             }
+            case ENUM_TYPE: {
+                return XmiElementName.ENUMERATION;
+            }
             case TAG_DEFINITION: {
                 return XmiElementName.TAG_DEFINITION;
             }

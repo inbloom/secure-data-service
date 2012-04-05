@@ -425,21 +425,25 @@ public class LiveAPIClientTest {
         assertEquals(ge.get(Constants.ATTR_ID), "school");
     }
     
-    
+    //Test student enrollment, by mocking out calls to API
     @Test
     public void testGetStudentEnrollment() {
         GenericEntity student = new GenericEntity();
-        ArrayList<Map> links = new ArrayList<Map>();
-        HashMap link = new HashMap();
+        ArrayList<Map<String, String>> links = new ArrayList<Map<String, String>>();
+        HashMap<String, String> link = new HashMap<String, String>();
         link.put(Constants.ATTR_REL, "getStudentSchoolAssociations");
         link.put(Constants.ATTR_HREF, "getStudentSchoolAssociationLink");
         links.add(link);
         student.put(Constants.ATTR_LINKS, links);
         LiveAPIClient liveClient = new LiveAPIClient() {
+            
+            /*
+             * Mock out call to studentSchoolAssociations to return a fake association when a call is made.
+             */
             public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
                 GenericEntity studentSchoolAssociation = new GenericEntity();
-                ArrayList<Map> links = new ArrayList<Map>();
-                HashMap link = new HashMap();
+                ArrayList<Map<String, String>> links = new ArrayList<Map<String, String>>();
+                HashMap<String, String> link = new HashMap<String, String>();
                 link.put(Constants.ATTR_REL, "getSchool");
                 link.put(Constants.ATTR_HREF, "getSchoolLink");
                 links.add(link);
@@ -449,6 +453,10 @@ public class LiveAPIClientTest {
                 return associations;
             }
             
+            
+            /*
+             * Mock out call to schools to return a fake school when a call is made via the api.
+             */
             public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
                 GenericEntity school = new GenericEntity();
                 school.put(Constants.ATTR_NAME, "schoolName");
@@ -457,9 +465,10 @@ public class LiveAPIClientTest {
             
         };
         
+        //Make the getStudentEnrollment call and assert that the school returned in the call is the faked out school in the earlier call
         List<GenericEntity> enrollment = liveClient.getStudentEnrollment("fakeToken", student);
         GenericEntity firstEnrollment = enrollment.get(0);
-        Map school = (Map) firstEnrollment.get(Constants.ATTR_SCHOOL);
+        Map<String, String> school = (Map<String, String>) firstEnrollment.get(Constants.ATTR_SCHOOL);
         assertEquals(school.get(Constants.ATTR_NAME), "schoolName");
     }
     
