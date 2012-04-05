@@ -189,5 +189,5 @@ DEPENDENCIES
   simplecov-rcov
   therubyracer
   thin
-  turn
+  turn (~> 0.9.4)
   uglifier (>= 1.0.3)
