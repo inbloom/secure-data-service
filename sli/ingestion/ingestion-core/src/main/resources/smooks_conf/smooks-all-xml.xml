@@ -936,9 +936,14 @@
     <jb:value property="sessionId" data="Section/SessionReference/SessionIdentity/SessionName" />
 
     <!-- ProgramReference -->
-    <jb:value property="programReference" data="Section/ProgramReference/ProgramIdentity/ProgramId" />
+    <jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
   </jb:bean>
 
+    <!-- ProgramReferenceType -->
+  <jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section">
+    <jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId" />
+  </jb:bean>
+  
   <!-- AvailableCreditsType -->
   <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
     <jb:value property="creditType" data="Section/AvailableCredit/@CreditType" />
