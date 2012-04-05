@@ -26,14 +26,12 @@ public class InterchangeStudentGenerator {
      * @return
      */
     public static InterchangeStudent generate() {
-        long startTime = System.currentTimeMillis();
 
         InterchangeStudent interchange = new InterchangeStudent();
         List<Student> interchangeObjects = interchange.getStudent();
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudent entries in: " + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 
@@ -55,6 +53,7 @@ public class InterchangeStudentGenerator {
      * @param studentMetas
      */
     private static void generateStudents(List<Student> interchangeObjects, Collection<StudentMeta> studentMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (StudentMeta studentMeta : studentMetas) {
 
@@ -70,6 +69,8 @@ public class InterchangeStudentGenerator {
 
         }
 
+        System.out.println("generated " + studentMetas.size() + " Student objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
 }
