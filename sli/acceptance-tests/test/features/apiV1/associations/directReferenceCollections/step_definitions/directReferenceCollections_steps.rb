@@ -38,7 +38,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
 
   #general
-  id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = ["11111111-1111-1111-1111-111111111111"] if human_readable_id == "INVALID REFERENCE"
   id = "self"                                   if human_readable_id == "SELF LINK NAME"
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -57,6 +57,11 @@ Given /^referring collection "([^"]*)" exposed as "([^"]*)"$/ do |referring_coll
 end
 
 Given /^referring field "([^"]*)" with value "([^"]*)"$/ do |referring_field, reference_value|
+  @referring_field = referring_field
+  @reference_value = reference_value
+end
+
+Given /^referring field "([^"]*)" with value \["([^"]*)"\]$/ do |referring_field, reference_value|
   @referring_field = referring_field
   @reference_value = reference_value
 end
@@ -82,12 +87,28 @@ Given /^the ID to use for testing a valid update is "([^"]*)"$/ do |new_valid_va
   @new_valid_value = new_valid_value
 end
 
+Given /^the ID to use for testing a valid update is (\[.*\])$/ do |new_valid_value|
+  @new_valid_value = new_valid_value
+end
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
 When /^I request "([^"]*)"$/ do |links|
   @should_get_links = (links=="links")
+end
+
+# Special collection property setter
+When /^I set the list "([^"]*)" to (\[.*\])$/ do |property,value|
+  @fields = {} if @fields == nil
+  @fields[property] = eval(value)
+end
+
+# Default property setter (used for invalid references only?)
+When /^I set the list "([^"]*)" to "([^"].*)"$/ do |property, value|
+  @fields = {} if @fields == nil
+  @fields[property] = value
 end
 
 ###############################################################################
@@ -105,24 +126,26 @@ Then /^the response should contain links if I requested them$/ do
   end
 end
 
+Then /^list "([^"]*)" should be (\[.*\])$/ do |key, value|
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result.has_key?(key), "Response does not contain key #{key}")
+  assert(@result[key].is_a?(Array), "Response key is a #{@result[key].class}, expected Array")
+  assert(@result[key].to_s() == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
+
+end
+
+Then /^I should receive a link for each ID named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
+  puts "\nrel: #{rel}\n"
+  puts "\nhref: #{href}\n"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  # assert(@result.has_key?("links"), "Response contains no links")
+  # found = false
+  # @result["links"].each do |link|
+    # if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+      # found = true
+    # end
+  # end
+  # assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+end
