@@ -1,7 +1,8 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.SupportResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

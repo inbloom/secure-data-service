@@ -1,5 +1,7 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources;
 
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.PathConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,11 +15,8 @@ import java.util.Map;
 
 /**
  * Support Resource
- * 
- * This resource provides the basic contact information (E-Mail) of who to contact for
- * support issues.
- *
- *
+ * This resource provides the basic contact information (E-Mail) of who to contact
+ * for support issues.
  */
 @Path(PathConstants.V1 + "/" + "system/support")
 @Component
@@ -27,7 +26,12 @@ public class SupportResource {
     
     @Value("${sli.support.email}")
     private String email;
-    
+
+    /**
+     * Returns a simple json object with the email of who to contact for support
+     *
+     * @return {email: someone@someone.com}
+     */
     @GET
     @Path("email")
     public Object getEmail() {
