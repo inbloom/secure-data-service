@@ -189,6 +189,12 @@ public class LiveAPIClient implements APIClient {
         return createEntityFromAPI(getApiUrl() + "/v1" + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, false);
     }
 
+    @Override
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
+                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances", token, false);
+    }
+
     /**
      * Get one section
      */
@@ -705,20 +711,6 @@ public class LiveAPIClient implements APIClient {
 
         return entities;
     }
-
-    /**
-     * Return a list of students for a section with the optional fields
-     * @param token Security token
-     * @param sectionId The sectionId
-     * @param studentIds The studentIds (this is only here to get MockClient working)
-     * @return
-     */
-    @Override
-    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
-                + "/studentSectionAssociations" + "/students" + "?optionalFields=attendances", token, false);
-     }
-
 
     /**
      * Builds a student based URI using the given studentId,path and param map
