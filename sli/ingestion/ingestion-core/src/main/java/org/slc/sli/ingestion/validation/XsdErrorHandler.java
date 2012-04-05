@@ -1,6 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,51 +23,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private boolean isValid;
 
-    private final HashMap<String, String> saxToIngestionErrorCodes = new HashMap<String, String>() {
-        private static final long serialVersionUID = 1L;
-
-        {
-            put("cvc-attribute.3", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-attribute.4", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.3.1", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.3.2.1", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.3.2.2", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.5.1", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.5.2", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-elt.3.1", "XSD_INVALID_ATTRIBUTE");
-            put("cvc-complex-type.4", "XSD_MISSING_ATTRIBUTE");
-            put("cvc-datatype-valid.1.2.1", "XSD_INVALID_VALUE");
-            put("cvc-datatype-valid.1.2.2", "XSD_INVALID_VALUE");
-            put("cvc-datatype-valid.1.2.3", "XSD_INVALID_VALUE");
-            put("cvc-complex-type.2.1", "XSD_NO_CHILDREN");
-            put("cvc-complex-type.2.4.d", "XSD_NO_CHILDREN");
-            put("cvc-elt.3.2.1", "XSD_NO_CHILDREN");
-            put("cvc-elt.5.2.2.1", "XSD_NO_CHILDREN");
-            put("cvc-type.3.1.2", "XSD_NO_CHILDREN");
-            put("cvc-complex-type.2.2", "XSD_NO_CHILDREN");
-            put("cvc-complex-type.2.3", "XSD_NO_CHILDREN");
-            put("cvc-elt.1", "XSD_INVALID_ELEMENT");
-            put("cvc-elt.5.2.2.2.1", "XSD_VALUE_DOESNT_MATCH");
-            put("cvc-elt.5.2.2.2.2", "XSD_VALUE_DOESNT_MATCH");
-            put("cvc-complex-type.2.4.a", "XSD_ELEMENT_OUT_OF_ORDER");
-            put("cvc-type.3.1.3", "XSD_INVALID_CONTENT");
-            put("cvc-complex-type.2.4.b", "XSD_INCOMPLETE_CONTENT");
-            put("cvc-complex-type.2.4.c", "XSD_ELEMENT_MISSING");
-            put("cvc-type.3.1.1", "XSD_ELEMENT_CANNOT_HAVE_ATTRIBUTES");
-            put("cvc-enumeration-valid", "XSD_ENUMERATION_VALUE_NOT_ALLOWED");
-            put("cvc-fractionDigits-valid ", "XSD_TOO_MANY_FRACTION_DIGITS");
-            put("cvc-length-valid", "XSD_INCORRECT_LENGTH");
-            put("cvc-minLength-valid", "XSD_INCORRECT_LENGTH");
-            put("cvc-maxLength-valid", "XSD_INCORRECT_LENGTH");
-            put("cvc-maxExclusive-valid", "XSD_VALUE_TOO_LARGE");
-            put("cvc-maxInclusive-valid", "XSD_VALUE_TOO_LARGE");
-            put("cvc-minExclusive-valid", "XSD_VALUE_TOO_SMALL");
-            put("cvc-minInclusive-valid", "XSD_VALUE_TOO_SMALL");
-            put("cvc-pattern-valid", "XSD_INCORRECT_FORMAT");
-            put("cvc-totalDigits-valid", "XSD_TOO_MANY_DIGITS");
-            put("UNKNOWN-CVC-CODE", "XSD_UNKNOWN");
-        }
-    };
+    private Map<String, String> saxToIngestionErrorCodes;
 
     public XsdErrorHandler() {
         setIsValid(true);
@@ -175,8 +131,12 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         return errorCode;
     }
 
-    public MessageSource getMessageSource() {
-        return messageSource;
+    public Map<String, String> getSaxToIngestionErrorCodes() {
+        return this.saxToIngestionErrorCodes;
+    }
+
+    public void setSaxToIngestionErrorCodes(Map<String, String> saxToIngestionErrorCodes) {
+        this.saxToIngestionErrorCodes = saxToIngestionErrorCodes;
     }
 
     public void setMessageSource(MessageSource messageSource) {
