@@ -10,6 +10,9 @@ require_relative '../../entities/common.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "SECTION ID"
+  id = "bac890d6-b580-4d9d-a0d4-8bce4e8d351a" if template == "STUDENT SECTION ASSOC ID"
+  id = "f917478f-a6f2-4f78-ad9d-bf5972b5567b" if template == "COURSE ID"
+  id = "32930275-a9f3-4eaa-866f-7b35efc303ee" if template == "SCHOOL ID"
   id
 end
 
@@ -18,16 +21,25 @@ end
 ###############################################################################
 
 Given /^optional field "([^\"]*)"$/ do |field|
-  if !defined? @optFields
-    @optFields = "";
-  end
   if !defined? @queryParams
-    @queryParams = [ "optionalParams=#{field}" ]
+    @queryParams = [ "optionalFields=#{field}" ]
   else
     @fields = @queryParams[0].split("=")[1];
     @fields = @fields + ",#{field}"
     @queryParams[0] = "optionalFields=#{@fields}"
   end
+end
+
+#################################################################################
+# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
+#################################################################################
+
+When /^I look at the first one$/ do
+  @col = @col[0]
+end
+
+When /^I go back up one level$/ do
+  @col = @backup
 end
 
 #################################################################################
@@ -45,21 +57,31 @@ Then /^I should see "([^\"]*)" is "([^\"]*)" in it$/ do |key, value|
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)"$/ do |count, collection|
-  assert(@result[0][collection] != nil, "Response contains no #{collection}")
-  assert(@result[0][collection].length == convert(count), "Expected #{count} #{collection}, received #{@result[0][collection].length}")
-  @arr = @result[0][collection]
+  @col = @result[0][collection]
+  assert(@col != nil, "Response contains no #{collection}")
+  assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
 end
 
-Then /^I should find "([^\"]*)" in each of them$/ do |key|
-  @arr.each do |col|
+Then /^I should find "([\d]*)" "([^\"]*)" in it$/ do |count, collection|
+  if !defined? @col
+    @col = @result[0][collection]
+  else
+    @col = @col[collection]
+  end
+  assert(@col != nil, "Response contains no #{collection}")
+  assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
+end
+
+Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
+  @col.each do |col|
     assert(col[key] != nil, "Response contains no #{key}")
   end
 end
 
-Then /^I look at the first one$/ do
-  @col = @arr[0]
-end
-
 Then /^inside "([^\"]*)"$/ do |key|
+  if !defined? @col
+    @col = @result[0]
+  end
+  @backup = @col
   @col = @col[key]
 end
