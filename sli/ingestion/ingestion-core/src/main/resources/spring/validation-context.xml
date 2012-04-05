@@ -59,51 +59,7 @@
         <property name="xsd" ref="xsd" />
     </bean>
 
-
-    <util:map id="saxToIngestionErrorCodes" key-type="java.lang.String" value-type="java.lang.String">
-        <entry key="cvc-attribute.3" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-attribute.4" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.3.1" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.3.2.1" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.3.2.2" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.5.1" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.5.2" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-elt.3.1" value="XSD_INVALID_ATTRIBUTE" />
-        <entry key="cvc-complex-type.4" value="XSD_MISSING_ATTRIBUTE" />
-        <entry key="cvc-datatype-valid.1.2.1" value="XSD_INVALID_VALUE" />
-        <entry key="cvc-datatype-valid.1.2.2" value="XSD_INVALID_VALUE" />
-        <entry key="cvc-datatype-valid.1.2.3" value="XSD_INVALID_VALUE" />
-        <entry key="cvc-complex-type.2.1" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-complex-type.2.4.d" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-elt.3.2.1" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-elt.5.2.2.1" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-type.3.1.2" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-complex-type.2.2" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-complex-type.2.3" value="XSD_NO_CHILDREN" />
-        <entry key="cvc-elt.1" value="XSD_INVALID_ELEMENT" />
-        <entry key="cvc-elt.5.2.2.2.1" value="XSD_VALUE_DOESNT_MATCH" />
-        <entry key="cvc-elt.5.2.2.2.2" value="XSD_VALUE_DOESNT_MATCH" />
-        <entry key="cvc-complex-type.2.4.a" value="XSD_ELEMENT_OUT_OF_ORDER" />
-        <entry key="cvc-type.3.1.3" value="XSD_INVALID_CONTENT" />
-        <entry key="cvc-complex-type.2.4.b" value="XSD_INCOMPLETE_CONTENT" />
-        <entry key="cvc-complex-type.2.4.c" value="XSD_ELEMENT_MISSING" />
-        <entry key="cvc-type.3.1.1" value="XSD_ELEMENT_CANNOT_HAVE_ATTRIBUTES" />
-        <entry key="cvc-enumeration-valid" value="XSD_ENUMERATION_VALUE_NOT_ALLOWED" />
-        <entry key="cvc-fractionDigits-valid " value="XSD_TOO_MANY_FRACTION_DIGITS" />
-        <entry key="cvc-length-valid" value="XSD_INCORRECT_LENGTH" />
-        <entry key="cvc-minLength-valid" value="XSD_LENGTH_TOO_SMALL" />
-        <entry key="cvc-maxLength-valid" value="XSD_LENGTH_TOO_LARGE" />
-        <entry key="cvc-maxExclusive-valid" value="XSD_VALUE_TOO_LARGE" />
-        <entry key="cvc-maxInclusive-valid" value="XSD_VALUE_TOO_LARGE" />
-        <entry key="cvc-minExclusive-valid" value="XSD_VALUE_TOO_SMALL" />
-        <entry key="cvc-minInclusive-valid" value="XSD_VALUE_TOO_SMALL" />
-        <entry key="cvc-pattern-valid" value="XSD_INCORRECT_FORMAT" />
-        <entry key="cvc-totalDigits-valid" value="XSD_TOO_MANY_DIGITS" />
-        <entry key="UNKNOWN-CVC-CODE" value="XSD_UNKNOWN" />
-    </util:map>
-
     <bean id="xsdErrorHandler" class="org.slc.sli.ingestion.validation.XsdErrorHandler">
-        <property name="saxToIngestionErrorCodes" ref="saxToIngestionErrorCodes" />
         <property name="messageSource" ref="messageSource" />
     </bean>
 
