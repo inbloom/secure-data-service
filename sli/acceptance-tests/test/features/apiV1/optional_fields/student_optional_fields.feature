@@ -22,7 +22,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find "1" "studentAssessmentAssociations"
     And I should find "assessments" expanded in each of them
     When I look at the first one
-    And I should see "administrationDate" is "2011-05-10" in it
+    Then I should see "administrationDate" is "2011-05-10" in it
     And inside "assessments"
     And I should see "academicSubject" is "Reading" in it
     And I should see "assessmentTitle" is "SAT" in it
@@ -32,7 +32,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find "3" "studentSectionGradebookEntries"
     And I should find "gradebookEntries" expanded in each of them
     When I look at the first one
-    And I should see "letterGradeEarned" is "A" in it
+    Then I should see "letterGradeEarned" is "A" in it
     And inside "gradebookEntries"
     And I should see "dateAssigned" is "2012-01-31" in it
     And I should see "gradebookEntryType" is "Quiz" in it
@@ -50,14 +50,18 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find "sections" expanded in each of them
     And I should find "studentTranscriptAssociations" expanded in each of them
     When I look at the first one
-    And I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
+    Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
     And I should see "courseId" is "<COURSE ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
     And I should see "uniqueSectionCode" is "8th Grade English - Sec 6" in it
+    And inside "sessions"
+    And I should see "sessionName" is "Spring 2012" in it
     When I go back up one level
-    And I should find "1" "studentTranscriptAssociations" in it
+    Then inside "courses"
+    And I should see "courseDescription" is "Intro to Russian" in it
+    When I go back up one level
+    And I go back up one level
+    Then I should find "1" "studentTranscriptAssociations" in it
     When I look at the first one
     And I should see "finalLetterGradeEarned" is "B" in it
-    And inside "creditsEarned"
-    And I should see "credit" is "3" in it
