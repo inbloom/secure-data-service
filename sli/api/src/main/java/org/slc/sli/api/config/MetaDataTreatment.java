@@ -31,8 +31,12 @@ public class MetaDataTreatment implements Treatment {
 
     @Override
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id) {
-        Entity entity = repo.findById(defn.getStoredCollectionName(), id);
-        stored.put(METADATA, entity.getMetaData());
+        //if no metadata is present then lookup from repo and add it
+        if (!stored.containsKey(METADATA)) {
+            Entity entity = repo.findById(defn.getStoredCollectionName(), id);
+            stored.put(METADATA, entity.getMetaData());
+        }
+
         return stored;
     }
 
