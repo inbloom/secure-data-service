@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.validation;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -23,16 +21,9 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private boolean isValid;
 
-    private Map<String, String> saxToIngestionErrorCodes;
-
     public XsdErrorHandler() {
         setIsValid(true);
     }
-
-/*    public XsdErrorHandler(ErrorReport errorReport) {
-        this.errorReport = errorReport;
-        setIsValid(true);
-    }*/
 
     /**
      * Report a SAX parsing warning.
@@ -42,9 +33,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     @Override
     public void warning(SAXParseException ex) {
-        String errorMessage = getErrorMessage(ex.getMessage());
+        String errorMessage = getErrorMessage(ex);
         errorReport.warning(errorMessage, XsdErrorHandler.class);
-        LOG.warn("WARNING: " + errorMessage);
+        LOG.warn("\nWARNING: " + errorMessage);
+        LOG.warn("Entity validated");
     }
 
     /**
@@ -55,9 +47,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     @Override
     public void error(SAXParseException ex) {
-        String errorMessage = getErrorMessage(ex.getMessage());
+        String errorMessage = getErrorMessage(ex);
         errorReport.error(errorMessage, XsdErrorHandler.class);
-        LOG.error("ERROR: " + errorMessage);
+        LOG.error("\nERROR: " + errorMessage);
+        LOG.error("Entity invalidated");
         setIsValid(false);
     }
 
@@ -71,76 +64,31 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     @Override
     public void fatalError(SAXParseException ex) throws SAXException {
-        String errorMessage = getErrorMessage(ex.getMessage());
+        String errorMessage = getErrorMessage(ex);
         errorReport.fatal(errorMessage, XsdErrorHandler.class);
-        LOG.error("FATAL ERROR: " + errorMessage);
+        LOG.error("\nFATAL ERROR: " + errorMessage);
+        LOG.error("Processing of XML file will be aborted");
         setIsValid(false);
         throw ex;
     }
 
     /**
-     * Convert the SAX error message into an ingestion error message.
+     * Incorporate the SAX error message into an ingestion error message.
      *
      * @param saxErrorMessage
      *            Error message returned by SAX
      * @return Error message returned by Ingestion
      */
-    private String getErrorMessage(String saxErrorMessage) {
-        // Convert the SAX error message into an ingestion error message.
-
-        // Split error message using :; error messages will be of the format errorcode:errormessage
-        int splitpoint = saxErrorMessage.indexOf(':');
-        String saxErrorcode = saxErrorMessage.substring(0, splitpoint);
-        String saxErrorMessageDetail = saxErrorMessage.substring(splitpoint + 1, saxErrorMessage.length());
-
-        // Get the corresponding ingestion message code from the SAX error code.
-        String messageCode = getMessageCode(saxErrorcode);
-
-        // Extract the arguments from the SAX error message. // Args are delineated by "''".
-        String[] saxErrorMessageTokens = saxErrorMessageDetail.split("'");
-        String[] messageArgs = new String[saxErrorMessageTokens.length / 2];
-        for (int i = 0; i < messageArgs.length; i++) {
-            // Remove double-quoted substrings.
-            String[] argTokens = saxErrorMessageTokens[(i * 2) + 1].split("\"");
-            String arg = new String();
-                for (int j = 0; j < argTokens.length; j += 2) {
-                    arg += argTokens[j];
-                }
-                // Remove colons.
-/*                arg = arg.replaceAll("[{:}]", "");*/
-                arg = arg.replaceAll(":", "");
-                messageArgs[i] = arg;
-        }
+    private String getErrorMessage(SAXParseException ex) {
+        // Create an ingestion error message incorporating the SAXParseException information.
+        String[] messageArgs = new String[4];
+        messageArgs[0] = ex.getSystemId();
+        messageArgs[1] = String.valueOf(ex.getLineNumber());
+        messageArgs[2] = String.valueOf(ex.getColumnNumber());
+        messageArgs[3] = ex.getMessage();
 
         // Return the ingestion error message.
-        return messageSource.getMessage(messageCode, messageArgs, "#?" + messageCode + "?#", null);
-    }
-
-    /**
-     * Convert the SAX error code into an ingestion error code.
-     *
-     * @param saxErrorCode
-     *            Error message code returned by SAX
-     * @return Error message code returned by ingestion
-     */
-    private String getMessageCode(String saxErrorCode) {
-        // Convert the SAX error code into an ingestion error code.
-        String errorCode = null;
-        if (saxToIngestionErrorCodes.containsKey(saxErrorCode)) {
-            errorCode = saxToIngestionErrorCodes.get(saxErrorCode);
-        } else {
-            errorCode = saxToIngestionErrorCodes.get("UNKNOWN-CVC-CODE");
-        }
-
-        return errorCode;
-    }
-
-    public Map<String, String> getSaxToIngestionErrorCodes() {
-        return this.saxToIngestionErrorCodes;
-    }
-
-    public void setSaxToIngestionErrorCodes(Map<String, String> saxToIngestionErrorCodes) {
-        this.saxToIngestionErrorCodes = saxToIngestionErrorCodes;
+        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?" + "XSD_VALIDATION_ERROR" + "?#", null);
     }
 
     public void setMessageSource(MessageSource messageSource) {
