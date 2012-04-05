@@ -7,12 +7,10 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
-And I wait for "2" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "10" seconds
 
 Scenario: Student has 1 email, 1 address, 1 phone
 Given I click on student "Imelda Lindsey"
@@ -133,7 +131,7 @@ And the list of address includes
 4606 Albemarle Road, APT 5760
 Chicago, IL 60457-1957
 """
-And the order of the addressess is  "4256 Wyckoff Street;4606 Albemarle Road"
+And the order of the addressess is "4256 Wyckoff Street;4606 Albemarle Road"
 
 @wip
 Scenario: Max (10) phone numbers 

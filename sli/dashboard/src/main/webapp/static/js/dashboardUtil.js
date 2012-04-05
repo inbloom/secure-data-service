@@ -59,6 +59,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
             if (item1.params) {
         	  colModelItem.formatoptions = item1.params;
             }
+            if (item1.align) {
+            	colModelItem.align = item1.align;
+            }
             colModel.push( colModelItem );
         }
         
