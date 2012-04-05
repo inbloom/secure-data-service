@@ -12,6 +12,7 @@ class IdpController < ApplicationController
         destination_map = {'https://devopenam1.slidev.org:80/idp2/SSORedirect/metaAlias/idp' => 'NY'}
         tenant = destination_map[saml.destination]
         @idp_name = tenant
+        session[:tenant] = tenant
       rescue
         @error = "Error parsing SAMLRequest!"
       end
@@ -27,7 +28,7 @@ class IdpController < ApplicationController
   def login
     @staffUniqueStateId = params[:selected_user]
     @roles = params[:selected_roles].join ','
-    @tenant = "Not Implemented"
+    @tenant = session[:tenant]
   end
 
   def logout
