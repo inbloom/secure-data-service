@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.FileAppender;
 
 import org.slf4j.LoggerFactory;
@@ -46,12 +47,28 @@ public class OfflineTool {
     int inputArgumentCount;
 
     private void start(String[] args) {
+        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+        encoder.setContext(loggerContext);
+        encoder.setPattern("%date %-5level %msg%n");
+        encoder.start();
+
+        ConsoleAppender<ILoggingEvent> consoleAppender = new ConsoleAppender<ILoggingEvent>();
+        consoleAppender.setName("ConsoleAppender");
+        consoleAppender.setContext(loggerContext);
+        consoleAppender.setTarget("System.err");
+        consoleAppender.setEncoder(encoder);
+        consoleAppender.start();
+
+        logger.addAppender(consoleAppender);
+
         if ((args.length != inputArgumentCount)) {
+
 
             logger.error(appName + ":Illegal options");
             logger.error("Usage: " + appName + "[directory]");
             return;
         }
+
         File file = new File(args[0]);
         if (!file.exists()) {
             logger.error(args[0] + " doesn not exist");
@@ -65,16 +82,13 @@ public class OfflineTool {
         fileAppender.setContext(loggerContext);
         fileAppender.setName("ToolLog");
         fileAppender.setFile(file.getParentFile() + "/" + file.getName() + "-" + time.getTime() + ".log");
-
-        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
-        encoder.setContext(loggerContext);
-        encoder.setPattern("%date %-5level %msg%n");
-        encoder.start();
-
         fileAppender.setEncoder(encoder);
         fileAppender.start();
+
+        logger.detachAppender("ConsoleAppender");
         logger.addAppender(fileAppender);
         getThreadLocal().set(logger);
+
         controller.doValidation(file);
     }
 
