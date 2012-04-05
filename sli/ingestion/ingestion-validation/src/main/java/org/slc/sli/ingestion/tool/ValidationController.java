@@ -45,10 +45,13 @@ public class ValidationController {
         }
 
         BatchJob job = null;
-        if (path.isDirectory()) {
-            job = processDirectory(path);
+        if (path.isFile() && path.getName().endsWith(".ctl")) {
+            job = processControlFile(path);
         } else if (path.isFile() && path.getName().endsWith(".zip")) {
             job = processZip(path);
+        } else {
+            LOG.error("Invalid input: No clt/zip file found");
+            return;
         }
 
         if (job == null) {
@@ -94,24 +97,6 @@ public class ValidationController {
         }
 
         LOG.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
-
-        return job;
-    }
-
-    private BatchJob processDirectory(File directory) {
-        LOG.info("Processing a folder [{}] ...", directory.getAbsolutePath());
-
-        CtlFilter ctlFilter = new CtlFilter();
-        File[] ctlFiles = directory.listFiles(ctlFilter);
-
-        BatchJob job = null;
-
-        if (ctlFiles.length > 0) {
-
-            job = processControlFile(ctlFiles[0]);
-        }
-
-        LOG.info("Folder [{}] processing is complete.", directory.getAbsolutePath());
 
         return job;
     }
