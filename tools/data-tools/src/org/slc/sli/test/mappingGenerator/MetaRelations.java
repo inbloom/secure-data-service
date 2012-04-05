@@ -320,7 +320,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < PROGRAMS_PER_SCHOOL; idNum++) {
 
-            ProgramMeta programMeta = new ProgramMeta("program" + idNum);
+            ProgramMeta programMeta = new ProgramMeta("program" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
