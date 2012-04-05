@@ -28,6 +28,6 @@ DbRails::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = false
 
-  config.log_tags = [:uuid, :remote_ip]
+  # config.log_tags = [:uuid, :remote_ip]
 
 end

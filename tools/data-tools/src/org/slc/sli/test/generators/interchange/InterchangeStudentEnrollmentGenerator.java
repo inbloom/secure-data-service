@@ -27,7 +27,6 @@ public class InterchangeStudentEnrollmentGenerator {
      * @return
      */
     public static InterchangeStudentEnrollment generate() {
-        long startTime = System.currentTimeMillis();
 
         InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
         List<Object> interchangeObjects = interchange
@@ -35,8 +34,6 @@ public class InterchangeStudentEnrollmentGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentEnrollment entries in: "
-                + (System.currentTimeMillis() - startTime));
         return interchange;
     }
 
@@ -47,60 +44,63 @@ public class InterchangeStudentEnrollmentGenerator {
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateStudentAssocs(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        generateStudentSchoolAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+
+        generateStudentSectionAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
 
-    /**
-     * Loops student-school and student-section associations and populates
-     * the interchange.
-     *
-     * @param interchangeObjects
-     * @param studentMetas
-     */
-    private static void generateStudentAssocs(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+        long startTime = System.currentTimeMillis();
 
+        int objGenCounter = 0;
         for (StudentMeta studentMeta : studentMetas) {
+            for (String schoolId : studentMeta.schoolIds) {
 
-            generateStudentSchoolAssoc(interchangeObjects, studentMeta);
+                StudentSchoolAssociation studentSchool;
 
-            generateStudentSectionAssoc(interchangeObjects, studentMeta);
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    studentSchool = null;
+                } else {
+                    studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
+                }
+
+                interchangeObjects.add(studentSchool);
+
+                objGenCounter++;
+            }
         }
 
+        System.out.println("generated " + objGenCounter + " StudentSchoolAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, StudentMeta studentMeta) {
+    private static void generateStudentSectionAssoc(List<Object> interchangeObjects,
+            Collection<StudentMeta> studentMetas) {
+        long startTime = System.currentTimeMillis();
 
-        for (String schoolId : studentMeta.schoolIds) {
+        int objGenCounter = 0;
+        for (StudentMeta studentMeta : studentMetas) {
+            for (String sectionId : studentMeta.sectionIds) {
 
-            StudentSchoolAssociation studentSchool;
+                // TODO: need to take another look at SectionIdentity and constructing it fully
+                StudentSectionAssociation studentSection;
 
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentSchool = null;
-            } else {
-                studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    studentSection = null;
+                } else {
+                    studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
+                            studentMeta.schoolIds.get(0), sectionId);
+                }
+
+                interchangeObjects.add(studentSection);
+
+                objGenCounter++;
             }
-
-            interchangeObjects.add(studentSchool);
         }
-    }
 
-    private static void generateStudentSectionAssoc(List<Object> interchangeObjects, StudentMeta studentMeta) {
-
-        for (String sectionId : studentMeta.sectionIds) {
-
-            // TODO: need to take another look at SectionIdentity and constructing it fully
-            StudentSectionAssociation studentSection;
-
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentSection = null;
-            } else {
-                studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
-                        studentMeta.schoolIds.get(0), sectionId);
-            }
-
-            interchangeObjects.add(studentSection);
-        }
+        System.out.println("generated " + objGenCounter + " StudentSectionAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
 }

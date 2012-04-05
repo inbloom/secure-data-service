@@ -23,4 +23,7 @@ class Staff
     self.body.staffUniqueStateId
   end
 
+  def roles
+    ['IT Administrator']
+  end
 end
