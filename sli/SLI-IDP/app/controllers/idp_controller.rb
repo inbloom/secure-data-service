@@ -1,9 +1,23 @@
+require 'base64'
+require 'rexml/document'
+require 'IDP'
+
 class IdpController < ApplicationController
   
   def index
+    
+    if params[:SAMLRequest]
+      saml = IDP::SAMLRequest.new params[:SAMLRequest]
+      destination_map = {'https://devopenam1.slidev.org:80/idp2/SSORedirect/metaAlias/idp' => 'NY'}
+      tenant = destination_map[saml.destination]
+      @idp_name = tenant
+    else
+      @error = "Warning.  No SMALRequest parameter found"
+    end
+    
     @users = Teacher.all() + Staff.all()
     @roles = ['IT Administrator', 'Leader', 'Educator', 'Aggregator']
-    @idp_name = '<Realm>'
+    @idp_name = '<Realm>' unless tenant
   end
 
   def login
