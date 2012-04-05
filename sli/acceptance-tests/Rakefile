@@ -236,6 +236,11 @@ task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
 end
 
+desc "Run Ingestion Batch Job Tests"
+task :ingestionBatchJobTest do
+  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end

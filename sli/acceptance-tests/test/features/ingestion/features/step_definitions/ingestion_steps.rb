@@ -14,6 +14,10 @@ INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 
+DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
+DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
+MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -26,8 +30,38 @@ end
 # STEPS: GIVEN
 ############################################################
 
+############################################################
+# STEPS: GIVEN by lchen  \(.*\)
+############################################################
+
+Given /^I am loading json file "([^"]*)" to mongodb$/ do |file_name|
+
+  setFixture("batchJob",file_name,"test/data",true)
+end
+
+
+
+def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
+  #turn true/false into command line option
+  dropOption = (dropExistingCollection) ? "--drop":""
+  Kernel::system "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+    #allow for user to pass block to run the test for each running of setFixture
+    if(success && block_given?)
+      yield
+    else
+      puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
+    end
+  end
+end
+
+
+############################################################
+# STEPS: GIVEN lchen
+############################################################
+
 Given /^I am using local data store$/ do
   @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
+  puts "localfilestorepath =" + @local_file_store_path
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
@@ -101,6 +135,7 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
 
   runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
   @source_file_name = file_name
+  puts "sourceFileName = " + file_name
 
   FileUtils.rm_r zip_dir
 end
@@ -129,6 +164,14 @@ end
 ############################################################
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
+  sleep(Integer(secs))
+end
+
+When /^"([^"]*)" seconds have elapsed, the batchJob table is populated, the job is running with error$/ do |secs|
+  sleep(Integer(secs))
+end
+
+When /^"([^"]*)" seconds have elapsed, the batchJob table is populated, the job is running successfully$/ do |secs|
   sleep(Integer(secs))
 end
 
@@ -218,6 +261,9 @@ end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
+
+  puts "mongoConnection = " + INGESTION_DB
+  puts "databaseName = " + INGESTION_DB_NAME
 
   @result = "true"
 
@@ -407,6 +453,7 @@ Then /^the field "([^\"]*)" has value "([^\"]*)"$/ do |field, value|
       i = $2.to_i
       object[f].should be_a Array
       object[f][i].should_not == nil
+      puts "object[f][i] = " + object[f][i].to_str
       object = object[f][i]
     else
       object[f].should_not == nil
