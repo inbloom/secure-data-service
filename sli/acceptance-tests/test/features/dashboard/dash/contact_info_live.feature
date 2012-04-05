@@ -131,7 +131,7 @@ And the list of address includes
 4606 Albemarle Road, APT 5760
 Chicago, IL 60457-1957
 """
-And the order of the addressess is  "4256 Wyckoff Street;4606 Albemarle Road"
+And the order of the addressess is "4256 Wyckoff Street;4606 Albemarle Road"
 
 @wip
 Scenario: Max (10) phone numbers 

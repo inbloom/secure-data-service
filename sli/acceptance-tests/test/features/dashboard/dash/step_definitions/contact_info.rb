@@ -134,7 +134,7 @@ Given /^the order of the email addresses is "([^"]*)"$/ do |listOfEmails|
 end
 
 # we don't perform an exact match
-Given /^the order of the addressess is  "([^"]*)"$/ do |listOfAddresses|
+Given /^the order of the addressess is "([^"]*)"$/ do |listOfAddresses|
   array = listOfAddresses.split(";")
    
   assert(array.length == @section[2].length, "Address Counts do not match")
