@@ -3,60 +3,45 @@
 
 <#assign addressSize = panelData.address?size>
 
-<div class="header">
-	Contact Information 
-</div>
-<div class="studentContactInfo">
-	<div class="top_section">
-	Student
-	</div>
+<div class="tabular">
+    <table ><thead><tr><th></th><td style="width:200px"><h6>Student</h6></td></tr></thead><tbody>
+    <tr><th></th><td></td></tr>
 	<!-- display telephone numbers for student -->
-	<div class="section">
 		<#list panelData.telephone as telephone>
-			<div class = "contactInfoRow">
-				<div class = "contactInfoCol1">
+		<tr>
+				<th>
 					${telephone.telephoneNumberType}:
-				</div>
-				<div class = "contactInfoCol2">
-					<!-- The first phone number listed should be bolded. -->
-					<#if telephone_index == 0>
-						<div class = "bold">
-					</#if>
+				</th>
+				<td style="width:200px;<#if telephone_index == 0>font-weight:bold;</#if>">
 					${telephone.telephoneNumber}
-					<#if telephone_index == 0>
-						</div>
-					</#if>
-				</div>
-			</div>
+				</td>
+			</tr>
 		</#list>
-	</div>
-	
-	<div class="section">
+	<tr><th></th><td></td></tr>
 		<#list panelData.electronicMail as electronicMail>
-			<div class = "contactInfoRow">
-				<div class="contactInfoCol1">
+			<tr>
+				<th>
 					<!-- show only once -->
 					<#if electronicMail_index == 0>
 					E-mail:
 					</#if>
-				</div>
-				<div class="contactInfoCol2">
+				</th>
+				<td style="width:200px">
 					${electronicMail.emailAddress}
-				</div>
-			</div>
+				</td>
+			</tr>
 		</#list>
-	</div>
-	
-	<div class="section">
+	<tr><th></th><td></td></tr>
 		<#list panelData.address as address>
-			<div class = "contactInfoRow">
-				<div class="contactInfoCol1">
+			<tr>
+				<th>
 				<!-- show only once -->
 				<#if address_index == 0>
 					Address:
 				</#if>
-				</div>
-				<div class="contactInfoCol2">
+				</th>
+				<td style="width:200px;line-height:12px">
+				    <div>
 					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
 					<!-- 
 					ignore apartmentRoomSuiteNumber is null.
@@ -67,18 +52,24 @@
 					<!--
 					ignore BuildingSiteNumber if null otherwise display it on its own line
 					-->
+					</div>
 					<#if address.buildingSiteNumber ??>
-					<br>
+					
+					<div>
 					${address.buildingSiteNumber}
+					</div>
 					</#if>
-					<br>
+					
+					<div>
 					${address.city}, ${address.stateAbbreviation} ${address.postalCode}
+					</div>
 					<#if address.countryCode ?? && address.countryCode != "US">
-						<br>
+						<div>
 						${address.countryCode}
+						</div>
 					</#if>
-				</div>
-			</div>
+				</td>
+			</tr>
 		</#list>
-	</div>
+	</tbody></table>
 </div>

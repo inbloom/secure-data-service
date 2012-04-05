@@ -3,42 +3,29 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<Assessment id="ACT-1">
-		<AssessmentTitle></AssessmentTitle>
+		<AssessmentTitle>ACT 2011</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
 			<ID>ACT</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>College entrance exam</AssessmentCategory>
 		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
+		<ObjectiveAssessmentReference ref="ACTEnglish"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTReading"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTMathematics"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTScience"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTWriting"></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>ACT-Family</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
-		<ObjectiveAssessmentReference ref="ACTEnglish"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ACTReading"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ACTScience"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="ACTMathematics"></ObjectiveAssessmentReference>
 	</Assessment>
 	
 	<AssessmentFamily id="ACT-Family">
@@ -52,20 +39,6 @@
 	<ObjectiveAssessment id="ACTEnglish">
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 		<ObjectiveAssessmentReference ref="ACTEnglishUsage"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTEnglishRhetorical"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
@@ -73,80 +46,39 @@
 	<ObjectiveAssessment id="ACTEnglishUsage">
 		<IdentificationCode>ACT-English-Usage</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>18</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTEnglishRhetorical">
 		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>18</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTMathematics">
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 		<ObjectiveAssessmentReference ref="ACTMathematicsPreAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathemacticsAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathematicsPlaneGeometry"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
+	<ObjectiveAssessment id="ACTMathematicsPreAlgebra">
+		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
+		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
+		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
 	<ObjectiveAssessment id="ACTReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTReadingArts"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
@@ -154,86 +86,21 @@
 	<ObjectiveAssessment id="ACTReadingSocialStudies">
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>18</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>18</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTScience">
 		<IdentificationCode>ACT-Science</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTWriting">
 		<IdentificationCode>ACT-Writing</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<Description>State Criteria</Description>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Writing score</AssessmentReportingMethod>
-			<MinimumScore>2</MinimumScore>
-			<MaximumScore>12</MaximumScore>
-			<AssessmentReportingMethod>Writing Plus English score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>36</MaximumScore>
-			<AssessmentReportingMethod>Writing National Percentile rank</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>Writing State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>Writing Plus English State Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-			<AssessmentReportingMethod>Writing Plus English National Percentile score</AssessmentReportingMethod>
-			<MinimumScore>1</MinimumScore>
-			<MaximumScore>99</MaximumScore>
-		</AssessmentPerformanceLevel>
 	</ObjectiveAssessment>
 	
 </InterchangeAssessmentMetadata>

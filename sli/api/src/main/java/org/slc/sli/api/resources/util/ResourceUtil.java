@@ -73,18 +73,32 @@ public class ResourceUtil {
      * 
      * @param uriInfo
      *            base URI
-     * @param userId
-     *            unique identifier of user/object
+     * @param entityId
+     *            unique identifier of entity
      * @param defn
-     *            entity definition for user/object
-     * @param createSelfLink
-     *            whether or not to include a self link
+     *            entity definition for entity
      * @return the self link
      */
-    public static EmbeddedLink getSelfLinkForEntity(final UriInfo uriInfo, final String userId,
+    public static EmbeddedLink getSelfLinkForEntity(final UriInfo uriInfo, final String entityId,
             final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.SELF, defn.getType(), ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                PathConstants.TEMP_MAP.get(defn.getResourceName()), userId).toString());
+        return new EmbeddedLink(ResourceConstants.SELF, defn.getType(), getURI(uriInfo, PathConstants.V1,
+                PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId).toString());
+    }
+    
+    /**
+     * Create the custom entity link
+     * 
+     * @param uriInfo
+     *            base uri
+     * @param entityId
+     *            unique id of the identity
+     * @param defn
+     *            definition of the entity
+     * @return the custom entity link
+     */
+    public static EmbeddedLink getCustomLink(final UriInfo uriInfo, final String entityId, final EntityDefinition defn) {
+        return new EmbeddedLink(ResourceConstants.CUSTOM, defn.getType(), getURI(uriInfo, PathConstants.V1,
+                PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES).toString());
     }
     
     /**
@@ -154,7 +168,8 @@ public class ResourceUtil {
         // start with self link
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         if (defn != null) {
-            links.add(ResourceUtil.getSelfLinkForEntity(uriInfo, id, defn));
+            links.add(getSelfLinkForEntity(uriInfo, id, defn));
+            links.add(getCustomLink(uriInfo, id, defn));
         }
         
         links.addAll(getReferenceLinks(defn, entityBody, uriInfo));
@@ -167,9 +182,9 @@ public class ResourceUtil {
         
         return links;
     }
-
-    private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs, final EntityDefinition defn,
-            final UriInfo uriInfo, String id) {
+    
+    private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,
+            final EntityDefinition defn, final UriInfo uriInfo, String id) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
@@ -207,7 +222,7 @@ public class ResourceUtil {
         }
         return links;
     }
-
+    
     private static List<EmbeddedLink> getLinksForAssociation(final UriInfo uriInfo, String id,
             AssociationDefinition assoc) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
@@ -223,14 +238,19 @@ public class ResourceUtil {
                 .toString()));
         return links;
     }
-
+    
     private static List<EmbeddedLink> getReferenceLinks(final EntityDefinition defn, final EntityBody entityBody,
             final UriInfo uriInfo) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all reference fields on supplied entity type
         for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
+            String referenceGuid = null;
+
+            //there should be a better way to do this...
             // see what GUID is stored in the reference field
-            String referenceGuid = (String) entityBody.get(referenceField.getKey());
+            if (entityBody.get(referenceField.getKey()) instanceof String)
+                referenceGuid = (String) entityBody.get(referenceField.getKey());
+
             // if a value (GUID) was stored there
             if (referenceGuid != null) {
                 String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()

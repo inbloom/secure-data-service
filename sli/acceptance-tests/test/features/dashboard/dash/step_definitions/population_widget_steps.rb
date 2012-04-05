@@ -103,7 +103,7 @@ end
 Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent|
   @dropDownId = "sectionSelect"
   desiredContentArray = listContent.split(";")
-  select = @driver.find_element(:id, @dropDownId)
+  select = @explicitWait.until{@driver.find_element(:id, @dropDownId)}
   all_options = select.find_elements(:tag_name, "option")
   matchCondition = true
   selectContent = ""

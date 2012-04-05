@@ -31,9 +31,11 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates the staff associated
+ * with a cohort of students.
  * 
  * @author kmyers
+ * @author srichards
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
@@ -88,7 +90,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -98,7 +100,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$staffCohortAssociations$$ entity
+     * Get a single $$staffCohortAssociations$$ entity.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
@@ -106,7 +108,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single school entity
+     * @return A single $$schools$$ entity
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
@@ -117,7 +119,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$staffCohortAssociations$$ entity
+     * Delete a $$staffCohortAssociations$$ entity.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
@@ -160,7 +162,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
 
     /**
      * Returns each $$staff$$ that
-     * references the given $$staffCohortAssociations$$
+     * is referenced by the given $$staffCohortAssociations$$.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociation$$.
@@ -189,7 +191,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     
     /**
      * Returns each $$cohorts$$ that
-     * references the given $$staffCohortAssociations$$
+     * is referenced by the given $$staffCohortAssociations$$.
      * 
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.

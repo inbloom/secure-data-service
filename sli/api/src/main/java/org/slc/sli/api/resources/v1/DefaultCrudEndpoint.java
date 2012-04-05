@@ -3,6 +3,9 @@ package org.slc.sli.api.resources.v1;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.DefaultValue;
+
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,6 +47,10 @@ import java.util.ArrayList;
 @Component
 @Scope("request")
 public class DefaultCrudEndpoint implements CrudEndpoint {
+    /* Shared query parameters that are used by all endpoints */ 
+    @QueryParam(ParameterConstants.INCLUDE_CUSTOM) 
+    @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM) protected String includeCustomEntityStr;
+    
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
     
@@ -144,12 +151,16 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 // list all entities matching query parameters and iterate over results
                 for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
-                            entityDefs, entityDef, entityBody, uriInfo));
+                    entityBody.put(ResourceConstants.LINKS,
+                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                    
+                    // add the custom entity if it was requested
+                    addCustomEntity(entityBody, entityDef, uriInfo);   
+                    
                     // add entity to resulting response
                     results.add(entityBody);
                 }
-                
+                                
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
                 return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -189,10 +200,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource2 = endpointEntity.getStoredCollectionName();
                 
                 // write some information to debug
-                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] {resource1, key, value});
+                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
                 LOGGER.debug("Then for each result, ");
-                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}", new Object[] {
-                        resource2, resource1, idKey});
+                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
+                        new Object[] { resource2, resource1, idKey });
                 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
                 NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value,
@@ -205,14 +216,17 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 Map<String, List<EntityBody>> associations = new HashMap<String, List<EntityBody>>();
                 // for each association
                 for (EntityBody entityBody : entityDef.getService().list(associationNeutralQuery)) {
+                    // add the custom entity if it was requested
+                    addCustomEntity(entityBody, entityDef, uriInfo); 
+                    
                     ids.add((String) entityBody.get(idKey));
-
+                    
                     if (associations.containsKey((String) entityBody.get(idKey))) {
                         associations.get((String) entityBody.get(idKey)).add(entityBody);
                     } else {
                         List<EntityBody> list = new ArrayList<EntityBody>();
                         list.add(entityBody);
-
+                        
                         associations.put((String) entityBody.get(idKey), list);
                     }
                 }
@@ -220,21 +234,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (ids.size() == 0) {
                     return Response.ok(finalResults).build();
                 }
-
+                
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                     if (associations.get(result.get("id")) != null)
                         result.put(resource1, associations.get(result.get("id")));
-
-                    result.put(
-                            ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs,
-                                    entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
+                    
+                    result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
+                            entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                     finalResults.add(result);
                 }
-
-                finalResults = appendOptionalFields(uriInfo, finalResults);
                 
+                finalResults = appendOptionalFields(uriInfo, finalResults);
+                                
                 long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                 return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
             }
@@ -294,8 +306,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 for (EntityBody result : entities) {
                     if (result != null) {
-                        result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
-                                entityDefs, entityDef, result, uriInfo));
+                        result.put(ResourceConstants.LINKS,
+                                ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
+                        
+                        // add the custom entity if it was requested
+                        addCustomEntity(result, entityDef, uriInfo);
                     }
                     finalResults.add(result);
                 }
@@ -391,9 +406,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
                     // if links should be included then put them in the entity body
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
-                            entityDefs, entityDef, entityBody, uriInfo));
-                    results.add(entityBody);
+                    entityBody.put(ResourceConstants.LINKS,
+                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                                        
+                    results.add(entityBody);                  
                 }
                 
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), new ApiQuery(uriInfo));
@@ -404,6 +420,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     
     /**
      * Returns the sub-resource responsible for responding to requests for custom entity data
+     * 
+     * @param id
+     *            the id of the entity the custom resource is applied to
      */
     @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -433,6 +452,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         neutralQuery.setLimit(originalLimit);
         neutralQuery.setOffset(originalOffset);
         return count;
+    }
+    
+    /** 
+     * Retrieve the custom entity for the given request if flag includeCustom is set to true. 
+     * 
+     */
+    private void addCustomEntity(EntityBody entityBody, final EntityDefinition entityDef, UriInfo uriInfo) {
+        boolean includeCustomEntity = "true".equals(includeCustomEntityStr); 
+        if (includeCustomEntity) {
+           String entityId = (String) entityBody.get("id");
+           EntityBody custom = entityDef.getService().getCustom(entityId);
+           if (custom != null)
+               entityBody.put(ResourceConstants.CUSTOM, custom); 
+        }
     }
     
     /**
@@ -467,19 +500,22 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
-        //neutralQuery.setIncludeFields(includeField);
+        // neutralQuery.setIncludeFields(includeField);
         return neutralQuery;
     }
-
+    
     /**
      * Append the optional fields to the given list of entities
-     * @param info UriInfo
-     * @param entities The list of entities
+     * 
+     * @param info
+     *            UriInfo
+     * @param entities
+     *            The list of entities
      * @return
      */
     protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities) {
         List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
-
+        
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
@@ -489,7 +525,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
             }
         }
-
+        
         return entities;
     }
     
@@ -520,7 +556,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         
         return resp;
     }
-
+    
     /**
      * Returns all entities for which the logged in User has permission and context.
      * 
@@ -539,7 +575,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
         return this.readAll(typeName, headers, uriInfo);
     }
-
+    
     /**
      * Create a new entity.
      * 
@@ -548,7 +584,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
-     *              URI information including path and query parameters
+     *            URI information including path and query parameters
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
@@ -557,7 +593,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response create(final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
         return this.create(typeName, newEntityBody, headers, uriInfo);
     }
-
+    
     /**
      * Get a single entity
      * 
@@ -572,7 +608,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String id, HttpHeaders headers, final UriInfo uriInfo) {
         return this.read(typeName, id, headers, uriInfo);
     }
-
+    
     /**
      * Delete a entity
      * 
@@ -588,7 +624,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response delete(final String id, HttpHeaders headers, final UriInfo uriInfo) {
         return this.delete(typeName, id, headers, uriInfo);
     }
-
+    
     /**
      * Update an existing entity.
      * 
@@ -607,4 +643,3 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return this.update(typeName, id, newEntityBody, headers, uriInfo);
     }
 }
-

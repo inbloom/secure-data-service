@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -23,7 +25,6 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,48 +68,11 @@ public class ApprovedApplicationResource {
         this.service = def.getService();
     }
 
-    private List<String> getAllowedApps() {
-        SLIPrincipal principal = null;
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context.getAuthentication() != null) {
-            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-        }
-        if (principal == null) {
-            throw new InsufficientAuthenticationException("Application list is a protected resource.");
-        }
-        return appValidator.getAuthorizedApps(principal);
-    }
-
-    private boolean isUserAnAdmin() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        return context.getAuthentication().getAuthorities().contains(Right.ADMIN_ACCESS);
-    }
-
     @GET
-    public Response getApplications() {
-        List<String> allowedApps = getAllowedApps();
-
-        //For now, null (meaning no LEA data for the user) defaults to all apps
-        if (allowedApps == null) {
-            allowedApps = new ArrayList<String>();
-
-            //the app list is an admin-protected resource, so we must sudo it
-            Iterable<String> appIds = SecurityUtil.sudoRun(new SecurityTask<Iterable<String>>()  {
-                @Override
-                public  Iterable<String> execute() {
-                    return service.listIds(new NeutralQuery());
-                }
-            });
-
-            for (String id : appIds) {
-                allowedApps.add(id);
-            }
-        }
+    public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
+        List<String> allowedApps = getAllowedAppIds();
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-
-        boolean isAdmin = isUserAnAdmin();
-        LOG.debug("User is an administrator? {}", isAdmin);
 
         for (final String id : allowedApps) {
 
@@ -120,14 +84,25 @@ public class ApprovedApplicationResource {
             });
 
             if (result != null) {
+                boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
+                
+                //is_admin query param specified
+                if (!adminFilter.equals("")) {
+                    boolean adminFilterVal = Boolean.valueOf(adminFilter);
 
-                //don't allow non-admins to see admin apps
-                if ((Boolean) result.get("is_admin") && !isAdmin) {
-                    continue;
+                    //non-admin app, but is_admin == true
+                    if (!isAdminApp && adminFilterVal) {
+                        continue;
+                    }
+
+                    //admin app, but is_admin == false
+                    if (isAdminApp && !adminFilterVal) {
+                        continue;
+                    }
                 }
 
                 //don't allow disabled apps
-                if (!(Boolean) result.get("enabled")) {
+                if (result.get("enabled") == null || !(Boolean) result.get("enabled")) {
                     continue;
                 }
 
@@ -136,6 +111,36 @@ public class ApprovedApplicationResource {
             }
         }
         return Response.status(Status.OK).entity(results).build();
+    }
+
+    private List<String> getAllowedAppIds() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+        }
+        if (principal == null) {
+            throw new InsufficientAuthenticationException("Application list is a protected resource.");
+        }
+        List<String> toReturn = appValidator.getAuthorizedApps(principal);
+
+        //For now, null (meaning no LEA data for the user) defaults to all apps
+        if (toReturn == null) {
+            toReturn = new ArrayList<String>();
+
+            //the app list is an admin-protected resource, so we must sudo it
+            Iterable<String> appIds = SecurityUtil.sudoRun(new SecurityTask<Iterable<String>>()  {
+                @Override
+                public  Iterable<String> execute() {
+                    return service.listIds(new NeutralQuery());
+                }
+            });
+
+            for (String id : appIds) {
+                toReturn.add(id);
+            }
+        }
+        return toReturn;
     }
 
     /**

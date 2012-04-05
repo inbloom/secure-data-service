@@ -76,11 +76,18 @@ public class ParameterConstants {
     public static final String OPTIONAL_FIELDS = "optionalFields";
     
     /**
+     * Query parameter for inclusion of custom entity.
+     */
+    public static final String INCLUDE_CUSTOM = "includeCustom"; 
+    public static final String DEFAULT_INCLUDE_CUSTOM = "false"; 
+    
+    /**
      * Optional Fields
      */
     public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
     public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
     public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
+    public static final String OPTIONAL_FIELD_TRANSCRIPT = "transcript";
 
     /**
      * Entity/Association IDs

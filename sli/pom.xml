@@ -175,8 +175,8 @@
 	<modules>
 		<module>sli-configuration</module>
 		<module>common</module>
-		<module>api</module>
 		<module>data-access</module>
+		<module>api</module>
                 <!-- module>admin-tools</module -->
 		<module>ingestion</module>
 		<module>dashboard</module>
@@ -803,12 +803,11 @@
                 <version>1.4</version>
                 <configuration>
                     <XnoInline>true</XnoInline>
-                    <showWeaveInfo>true</showWeaveInfo>
                     <complianceLevel>1.6</complianceLevel>
                 </configuration>
                 <executions>
                     <execution>
-		        <phase>compile</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>compile</goal>
                             <goal>test-compile</goal>
