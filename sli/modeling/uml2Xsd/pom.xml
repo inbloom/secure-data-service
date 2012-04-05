@@ -8,8 +8,8 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>uml2Doc</artifactId>
-	<name>UML to Documentation</name>
+	<artifactId>uml2Xsd</artifactId>
+	<name>UML to W3C XML Schema</name>
 
 	<dependencies>
 
