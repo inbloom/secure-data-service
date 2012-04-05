@@ -33,7 +33,6 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 156   |
-        | studentSchoolAssociation    | 156   |
         | course                      | 8     |
         | educationOrganization       | 3     |
         | school                      | 4     |
@@ -61,7 +60,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14662 records." in the resulting batch job file
+    And I should see "Processed 14712 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -81,8 +80,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records considered: 365" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 365" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 377" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 377" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 427" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 427" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 6" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 6" in the resulting batch job file

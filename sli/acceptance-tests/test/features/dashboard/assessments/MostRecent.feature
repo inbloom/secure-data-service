@@ -1,3 +1,4 @@
+@wip
 Feature: Display simple assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -9,6 +10,7 @@ Background:
 
 Scenario: Displaying simple ISAT reading results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
+  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -25,6 +27,7 @@ Scenario: Displaying simple ISAT reading results for all students
 
 Scenario: Displaying most recent ISAT writing results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
+  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"

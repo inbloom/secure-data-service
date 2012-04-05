@@ -30,7 +30,7 @@ public class IdNormalizer {
      *
      * @param collection
      *            Referenced collection
-     * @param idNamespace
+     * @param tenantId
      *            ID namespace that uniquely identifies external ID
      * @param externalSearchCriteria
      *            Search criteria that is used to resolve an externalId
@@ -38,12 +38,12 @@ public class IdNormalizer {
      *            Error reporting
      * @return The resolved internalId
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String idNamespace, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
         Map<String, String> filterFields = new HashMap<String, String>();
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
+        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         Query query = new Query();
-        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, idNamespace, errorReport);
+        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, tenantId, errorReport);
 
         Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
@@ -66,7 +66,7 @@ public class IdNormalizer {
      *
      * @param collection
      *            Referenced collection
-     * @param idNamespace
+     * @param tenantId
      *            ID namespace that uniquely identifies external ID
      * @param externalId
      *            External ID to be resolved
@@ -74,10 +74,10 @@ public class IdNormalizer {
      *            Error reporting
      * @return Resolved internal ID
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String idNamespace, String externalId, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, String externalId, ErrorReport errorReport) {
         Map<String, String> filterFields = new HashMap<String, String>();
 
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
+        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
 
         Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
@@ -99,7 +99,7 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param query
     */
-    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String idNamespace, ErrorReport errorReport) {
+    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String tenantId, ErrorReport errorReport) {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
              StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
@@ -113,7 +113,7 @@ public class IdNormalizer {
 
              } else {
 
-                resolveDifferentCollectionCriteria(entityRepository, query, searchCriteriaEntry, idNamespace, errorReport);
+                resolveDifferentCollectionCriteria(entityRepository, query, searchCriteriaEntry, tenantId, errorReport);
 
              }
         }
@@ -161,7 +161,7 @@ public class IdNormalizer {
     * @param externalSearchCriteria
     * @param errorReport
     */
-    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, String idNamespace, ErrorReport errorReport) {
+    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,  Map.Entry<?, ?> searchCriteriaEntry, String tenantId, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
         String pathCollection = tokenizer.nextToken();
         pathCollection = WordUtils.uncapitalize(pathCollection);
@@ -169,13 +169,13 @@ public class IdNormalizer {
 
         Map<String, String> tempFilter = new HashMap<String, String>();
         Query referenceQuery = new Query();
-        resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, idNamespace, errorReport);
+        resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, tenantId, errorReport);
 
         if (tempFilter.isEmpty()) {
 
             return;
         }
-        tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
+        tempFilter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
         Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {

@@ -50,20 +50,18 @@ Then /^I should see my available links labeled$/ do
   assertWithWait("Failed to find 'me' Link on page")  {@driver.find_element(:link_text, "Me")}
 end
 
-Given /^I have navigated to any page of the Data Browser$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 When /^I click on the Logout link$/ do
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:link_text, "Logout")
 end
 
 Then /^I am redirected to a page that informs me that I have signed out$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("success") != nil }
+  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("signed off") != nil }
 end
 
-Then /^I am no longer authenticated to SLI$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I am forced to reauthenticate to access the databrowser$/ do
+  @driver.get PropLoader.getProps['databrowser_server_url']
+  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
 end
 
 Given /^I have navigated to the "([^"]*)" page of the Data Browser$/ do |arg1|

@@ -95,6 +95,6 @@ When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeNa
   end
   
   students.each do |student|
-      assert(student[1]==1, student[0].to_s + " doesn't have ELL" )
+      assert(student[1]==1, student[0].to_s + " doesn't have " + lozengeName )
   end
 end

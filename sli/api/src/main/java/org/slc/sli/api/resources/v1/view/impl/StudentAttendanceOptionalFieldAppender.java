@@ -40,19 +40,17 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
-        String collectionName = "attagg" + System.currentTimeMillis();
+        String collectionName = buildCollectionName();
         Map<String, EntityBody> studentAttendances = new HashMap<String, EntityBody>();
 
         //get the section Ids
         Set<String> sectionIds = optionalFieldAppenderHelper.getSectionIds(entities);
 
         //execute the map/reduce
-        if (!executeMapReduce(collectionName, sectionIds)) return entities;
+        if (!executeMapReduce(buildCommand(collectionName, sectionIds))) return entities;
 
         //get the attendance aggregate objects
-        List<Object> attendanceEntities = template.findAll(Object.class, collectionName);
-        //drop the temp collection
-        template.dropCollection(collectionName);
+        List<Object> attendanceEntities = retrieveAttendanceEntities(collectionName);
 
         for (Object entity : attendanceEntities) {
             Map<String, Object> map = (Map<String, Object>) entity;
@@ -74,7 +72,38 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
         return entities;
     }
 
-    protected boolean executeMapReduce(String collectionName, Set<String> sectionIds) {
+    /**
+     * Retrieve the attendance entities
+     * @param collectionName The collection to retrieve data from
+     * @return
+     */
+    protected List<Object> retrieveAttendanceEntities(String collectionName) {
+        //get the attendance aggregate objects
+        List<Object> attendanceEntities = template.findAll(Object.class, collectionName);
+        //drop the temp collection
+        template.dropCollection(collectionName);
+
+        return attendanceEntities;
+    }
+
+    /**
+     * Execute the map/reduce command
+     * Hopefully we can move this to a scheduler so that
+     * we don't need to run it all the time
+     * @param command The command to run
+     * @return
+     */
+    protected boolean executeMapReduce(String command) {
+        return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(command) + "\"}").ok();
+    }
+
+    /**
+     * Build the map/reduce command
+     * @param collectionName The collection to save the data to
+     * @param sectionIds The sectionIds for the query
+     * @return
+     */
+    protected String buildCommand(String collectionName, Set<String> sectionIds) {
         StringBuffer buffer = new StringBuffer();
         String separator = "";
 
@@ -101,7 +130,19 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
         buffer.append("\" }");
         buffer.append("});");
 
-        return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(buffer.toString()) + "\"}").ok();
+        return buffer.toString();
+    }
+
+    /**
+     * Build a temporary collection name
+     * @return
+     */
+    protected String buildCollectionName() {
+        return "attagg" + System.currentTimeMillis();
+    }
+
+    protected void setTemplate(MongoTemplate template) {
+        this.template = template;
     }
 
 }

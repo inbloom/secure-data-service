@@ -29,8 +29,13 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- * 
+ * StaffResource
+ *
+ * This entity represents an individual who performs specified activities for any public
+ * or private education institution or agency that provides instructional and/or support
+ * services to students or staff at the early childhood level through high school
+ * completion.
+ *
  * @author jstokes
  * 
  */
@@ -52,8 +57,8 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$staff$$ entities for which the logged in User has permission and context.
-     * 
+     * readAll
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -62,7 +67,7 @@ public class StaffResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns all $$staff$$ entities for which the logged in User has permission and context.
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
@@ -73,15 +78,15 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$staff$$ entity.
-     * 
+     * create
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return A 201 response on successfully created entity with the ID of the entity
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
@@ -94,15 +99,15 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$staff$$ entity
-     * 
+     * read
+     *
      * @param staffId
-     *            The Id of the $$staff$$.
+     *            The id (or list of ids) of the $$staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$staff$$ entity
+     * @return A list of entities matching the list of ids queried for
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}")
@@ -113,7 +118,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$staff$$ entity
+     * delete
      * 
      * @param staffId
      *            The Id of the $$staff$$.
@@ -132,7 +137,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$staff$$ entity.
+     * update
      * 
      * @param staffId
      *            The id of the $$staff$$.
@@ -154,22 +159,15 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Returns each $$staffEducationOrganizationAssociations$$ that
-     * references the given $$staff$$
-     * 
-     * @param schoolId
+     * getStaffEducationOrganizationAssociations
+     *
+     * @param staffId
      *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staffEducationOrganizationAssociations$$ that references the given $$staff$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -182,16 +180,16 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$staff$$ associated to the given school through
-     * a $$staffEducationOrganizationAssociations$$ 
-     * 
-     * @param schoolId
+     * getStaffEducationOrganizationAssociationEducationOrganizations
+     *
+     * @param staffId
      *            The Id of the School.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staff$$ associated to the given school
+     * through a $$staffEducationOrganizationAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -204,22 +202,15 @@ public class StaffResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$staffCohortAssociations$$ that
-     * references the given $$staff$$
-     * 
-     * @param studentId
+     * getStaffCohortAssociations
+     *
+     * @param staffId
      *            The Id of the Staff.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staffCohortAssociations$$ that references the given $$staff$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -232,16 +223,15 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$cohorts$$ associated to the given staff through
-     * a $$staffCohortAssociations$$ 
-     * 
+     * getStaffCohortAssociationCohorts
+     *
      * @param staffId
      *            The Id of the Staff.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$cohorts$$ associated to the given staff through a $$staffCohortAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -252,23 +242,18 @@ public class StaffResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, 
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
-      /**
+    /**
+     * getStaffProgramAssociations
      * Returns each $$staffProgramAssociations$$ that
      * references the given $$staff$$
      * 
      * @param staffId
      *            The Id of the $$staff$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staffProgramAssociations$$ that references the given $$staff$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -281,6 +266,7 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
+     * getStaffProgramAssociationPrograms
      * Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$ 
      * that references the given $$staff$$.
      * 
@@ -290,7 +276,8 @@ public class StaffResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$
+     * that references the given $$staff$$.
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
