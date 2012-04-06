@@ -118,6 +118,9 @@ public class PersistenceProcessor implements Processor {
                 // TODO Add a recordCount variables to IngestionFileEntry for each file (i.e. original, neutral, ...) - see if things have changed with transform
                 // TODO BatchJobUtil.stopMetric(job.getId(), this.getClass().getName(), fe.getFileName(), fe.getNeutralRecordCount(), fe.getFaultsReport.getFaults().size())
 
+                // TODO BatchJobUtils log file/record level errors
+                // job.logFileErrorReport(StageType.PERSISTENCEPROCESSOR, fe.getFileName(), errorReportForFile);
+
                 // Inform user if there were any record-level errors encountered
                 if (errorReportForFile != null && errorReportForFile.hasErrors()) {
                     job.getFaultsReport().error(

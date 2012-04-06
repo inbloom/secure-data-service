@@ -45,8 +45,9 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             File zipFile = exchange.getIn().getBody(File.class);
             
             BatchJob job = BatchJob.createDefault(zipFile.getName());
-            // TODO JobLogStatus.createBatchJob(file)
-            // Need to refactor to allow us to log errors below into the db
+            log.info("Created job [{}]", job.getId());
+            
+            // TODO job.beginStage(StageType.TYPE_ZIPFILEPREPROCESSOR);
             
             FaultsReport fr = job.getFaultsReport();
             
@@ -59,13 +60,17 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
                 try {
                     // find manifest (ctl file)
                     File ctlFile = ZipFileUtil.findCtlFile(dir);
-                    
+
+                    // TODO remove this pass the job on for testing purposes
+                    exchange.getIn().setHeader("BatchJob", job);
+
                     // send control file back
                     exchange.getIn().setBody(ctlFile, File.class);
-                    // TODO JobLogStatus.addFile(job.getId(), ctlFile);
+                    // TODO JobLogStatus.addResource(job.getId(), ctlFile);
                     // Pass the Id along
                     // exchange.getIn().setBody(job.getId(), String.class);
                     
+                    // TODO job.endStage(StageType.TYPE_ZIPFILEPREPROCESSOR);
                     return;
                 } catch (IOException ex) {
                     fr.error(messageSource.getMessage("SL_ERR_MSG4", new Object[] { zipFile.getName() }, null), this);
@@ -86,7 +91,10 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:", exception);
+            // TODO: JobLogStatus.logError(batchJobId, this.getClass().getName(), JobLogStatus.Severity.ERROR, ex);
         }
+        
+        // TODO job.endStage(StageType.TYPE_ZIPFILEPREPROCESSOR);
     }
     
     public ZipFileValidator getValidator() {

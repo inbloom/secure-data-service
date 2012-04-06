@@ -6,11 +6,11 @@ import java.io.IOException;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.PatternLayout;
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.model.NewBatchJob;
 
 
 /**
@@ -20,7 +20,7 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
  */
 public class BatchJobLogger {
 
-    public static Logger createLoggerForJob(BatchJob job, LandingZone lz) throws IOException {
+    public static Logger createLoggerForJob(NewBatchJob job, LandingZone lz) throws IOException {
 
         File logFile = lz.getLogFile(job.getId());
 
@@ -31,7 +31,7 @@ public class BatchJobLogger {
         patternLayout.setPattern("%date %-5level %msg%n");
         patternLayout.start();
 
-        FileAppender<ILoggingEvent> appender = new FileAppender<ILoggingEvent>();
+        FileAppender appender = new FileAppender();
         appender.setContext(lc);
         appender.setFile(logFile.getAbsolutePath()); // tricky if we're not localFS...
         appender.setLayout(patternLayout);

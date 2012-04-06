@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.landingzone;
 import java.io.File;
 import java.io.Serializable;
 
+import org.slc.sli.ingestion.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -27,7 +28,8 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private File deltaNeutralRecordFile;
     private String checksum;
     private FaultsReport faultsReport;
-
+    private DatabaseLoggingErrorReport databaseErrorsReport;
+    
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
@@ -38,6 +40,7 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.fileName = fileName;
         this.checksum = checksum;
         this.faultsReport = new FaultsReport();
+        this.databaseErrorsReport = new DatabaseLoggingErrorReport();
     }
 
     // Methods
@@ -157,9 +160,13 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         return this.faultsReport;
     }
 
+    public DatabaseLoggingErrorReport getDatabaseErrorsReport() {
+        return databaseErrorsReport;
+    }
+
     @Override
     public ErrorReport getErrorReport() {
-        return getFaultsReport();
+        return getDatabaseErrorsReport();
     }
 
     public String getBatchJobId() {

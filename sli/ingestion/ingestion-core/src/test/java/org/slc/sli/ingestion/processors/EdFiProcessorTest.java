@@ -15,6 +15,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
@@ -45,6 +46,10 @@ public class EdFiProcessorTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
+        // TODO test only set the relevant context information for error logging
+        inputFileEntry.getDatabaseErrorsReport().setBatchJobId("edfi-12342-3423-383832");
+        inputFileEntry.getDatabaseErrorsReport().setBatchJobStage(BatchJobStageType.TYPE_EDFIPROCESSOR);
+        inputFileEntry.getDatabaseErrorsReport().setResourceId(inputFileEntry.getFileName());
 
         edFiProcessor.processFileEntry(inputFileEntry);
 

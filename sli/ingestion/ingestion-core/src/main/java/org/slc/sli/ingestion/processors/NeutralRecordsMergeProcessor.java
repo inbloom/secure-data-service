@@ -52,9 +52,9 @@ public class NeutralRecordsMergeProcessor implements Processor {
 
         mergeNeutralRecordsInBatchJob(job);
 
-        BatchJobUtils.saveBatchJobUsingStateManager(job);
-        // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
-        BatchJobUtils.stopStage(job.getId(), this.getClass().getName());
+        // TODO BatchJobUtils
+        // batchJob.stopStage(StageType.NEUTRALRECORDSMERGEPROCESSOR);
+         BatchJobUtils.saveBatchJobUsingStateManager(job);
 
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
     }

@@ -50,6 +50,7 @@ public class ControlFileProcessorTest {
 
         Exchange eObject = new DefaultExchange(new DefaultCamelContext());
 
+        eObject.getIn().setHeaders(preObject.getIn().getHeaders());
         eObject.getIn().setBody(preObject.getIn().getBody());
 
         processor.process(eObject);
