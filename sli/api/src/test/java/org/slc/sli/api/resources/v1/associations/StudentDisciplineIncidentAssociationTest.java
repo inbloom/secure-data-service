@@ -31,8 +31,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.association.StudentCohortAssociation;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.entity.DisciplineIncidentResource;
 import org.slc.sli.api.resources.v1.association.StudentDisciplineIncidentAssociationResource;
