@@ -151,6 +151,8 @@ public final class MetaRelations {
 
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                     sessionsForSchool, programForSchool);
+        
+        Map<String, CohortMeta> freeStandingCohortsForSchool = buildFreeStandingCohortsForSchool(schoolMeta);
 
         addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
@@ -159,7 +161,9 @@ public final class MetaRelations {
         addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
         addStaffToPrograms(programForSchool, staffForSea);
-            
+
+        addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
+
     }
 
     /**
@@ -341,20 +345,40 @@ public final class MetaRelations {
     }
 
     /**
-     * Generate the cohorts for this program.
-     * programMapForSchool is used later in this class.
-     * PROGRAM_MAP is used to actually generate the XML.
+     * Generate a cohort for this program.
+     * COHORT_MAP is used to actually generate the XML.
      *
      * @param schoolMeta
+     * @param programMeta
      * @return
      */
     private static void buildCohortsForProgram(ProgramMeta programMeta, SchoolMeta schoolMeta) {
-        CohortMeta cohortMeta = new CohortMeta("cohort", programMeta);
+        CohortMeta cohortMeta = new CohortMeta("coh", programMeta);
         COHORT_MAP.put(cohortMeta.id, cohortMeta);
         programMeta.cohortIds.add(cohortMeta.id);
         return;
     }
 
+    /**
+     * Generate free-standing (non-program-affiliated cohorts for school.
+     * 
+     * freeStandingCohortsForSchool is used later in this class
+     * COHORT_MAP is used to actually generate the XML.
+     * 
+     * @param schoolMeta
+     */
+    private static Map<String, CohortMeta> buildFreeStandingCohortsForSchool(SchoolMeta schoolMeta) {
+
+        Map<String, CohortMeta> freeStandingCohortsForSchool = new HashMap<String, CohortMeta>(FREE_STANDING_COHORT_PER_SCHOOL);
+        for(int idNum = 0; idNum < FREE_STANDING_COHORT_PER_SCHOOL; idNum++) {
+            CohortMeta cohortMeta = new CohortMeta("coh" + idNum, schoolMeta);
+            freeStandingCohortsForSchool.put(cohortMeta.id, cohortMeta);
+            COHORT_MAP.put(cohortMeta.id, cohortMeta);
+        }
+        return freeStandingCohortsForSchool;
+        
+    }
+    
     /**
      * Correlates teachers and sections on a 'per school' basis.
      *
@@ -469,4 +493,28 @@ public final class MetaRelations {
         }
     }
 
+    /**
+     * Assign staff and student to the school's free-standing cohorts
+     * 
+     * @param freeStandingCohortsForSchool
+     * @param studentsForSchool
+     * @param staffForSea
+     */
+    private static void addStaffStudentToFreeStandingCohorts(Map<String, CohortMeta> freeStandingCohortsForSchool,
+                                                             Map<String, StudentMeta> studentsForSchool,
+                                                             Map<String, StaffMeta> staffForSea) {
+        Object[] studentIds = studentsForSchool.keySet().toArray();
+        Object[] staffIds = staffForSea.keySet().toArray();
+        int studentIdsIndx = 0; 
+        int staffIdsIndx = 0;
+        
+        for (CohortMeta cohortMeta : freeStandingCohortsForSchool.values()) {
+            for(int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
+                cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
+                studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
+            }
+            cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
+            staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+        }
+    }
 }
