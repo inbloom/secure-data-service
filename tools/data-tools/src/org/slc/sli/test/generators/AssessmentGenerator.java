@@ -31,63 +31,69 @@ public class AssessmentGenerator {
     	aidCode.setID(assessmentId);
     	aidCode.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
     	assessment.getAssessmentIdentificationCode().add(aidCode);
-    	
+
     	if (includeOptional) {
-    		
+
         	assessment.setAssessmentCategory(AssessmentCategoryType.ACHIEVEMENT_TEST);
-        	
+
         	assessment.setAcademicSubject(AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES);
-        	
+
         	assessment.setGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
-        	
+
         	assessment.setLowestGradeLevelAssessed(GradeLevelType.ADULT_EDUCATION);
 
 //        	assessment.getAssessmentPerformanceLevel().add(apl);
-        	
+
         	assessment.setContentStandard(ContentStandardType.ACT);
-        	
+
         	assessment.setAssessmentForm("ThisAssessmentForm");
-        	
+
         	assessment.setVersion(1);
-        	
+
         	assessment.setRevisionDate("03-24-2012");
-        	
+
         	assessment.setMaxRawScore(800);
-        	
+
         	assessment.setNomenclature("StandardNomenclature");
-        	
+
         	AssessmentPeriodDescriptorType apdType = new AssessmentPeriodDescriptorType();
           	ObjectFactory fact = new ObjectFactory();
         	JAXBElement<String> str = fact.createAssessmentPeriodDescriptorTypeShortDescription("AssessmentPeriod1");
           	apdType.getCodeValueOrShortDescriptionOrDescription().add(str);
         	assessment.setAssessmentPeriod(apdType);
-        	
+
 //        	assessment.getAssessmentItemReference()
-        	
+
 //        	assessment.getObjectiveAssessmentReference()
-        	
+
         	AssessmentFamilyReferenceType afrType = new AssessmentFamilyReferenceType();
         	AssessmentFamilyIdentityType afiType = new AssessmentFamilyIdentityType();
         	afiType.setAssessmentFamilyTitle("AssessmentFamilyTitle1");
         	afrType.setAssessmentFamilyIdentity(afiType);
         	assessment.setAssessmentFamilyReference(afrType);
-        	
+
         	SectionReferenceType srType = new SectionReferenceType();
           	srType.getSectionIdentity().setUniqueSectionCode("Section 12a");
         	assessment.getSectionReference().add(srType);
     	}
-    	   	
+
     	return assessment;
     }
 
-    public static AssessmentReferenceType getAssessmentReference(String assessmentTitle, String assessmentId) {
-    	AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
+    public static AssessmentReferenceType getAssessmentReference(String assessmentTitle, String assessmentId, AssessmentIdentificationSystemType assessmentIdentificationSystem) {
+        AssessmentReferenceType art = new AssessmentReferenceType();
+
+        AssessmentIdentityType ait = new AssessmentIdentityType();
+
+        AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
     	aic.setID(assessmentId);
     	aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
-    	AssessmentIdentityType ait = new AssessmentIdentityType();
-        ait.getAssessmentIdentificationCode().add(aic);
-        ait.setAssessmentTitle(assessmentTitle);
-        AssessmentReferenceType art = new AssessmentReferenceType();
+    	aic.setIdentificationSystem(assessmentIdentificationSystem);
+
+    	ait.getAssessmentIdentificationCode().add(aic);
+//        ait.setAssessmentTitle(assessmentTitle);
+
+
         art.setAssessmentIdentity(ait);
         return art;
     }
