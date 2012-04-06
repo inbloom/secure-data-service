@@ -1,32 +1,24 @@
 package org.slc.sli.test.edfi.entities.relations;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public final class StaffMeta {
+public class StaffMeta {
     public final String id;
-    public final List<String> edOrgIds;
+    public final String edOrgId;
 
     public final String simpleId;
 
     private StaffMeta(String id, String edOrgId) {
         this.id = id;
-        this.edOrgIds = new ArrayList<String>();
-        this.edOrgIds.add(edOrgId);
+        this.edOrgId = edOrgId;
         this.simpleId = id;
     }
 
-    public static StaffMeta createWithChainedId(String id, SchoolMeta schoolMeta) {
-        return new StaffMeta(schoolMeta.id + "-" + id, schoolMeta.id);
-    }
-
-    public static StaffMeta create(String id, SchoolMeta schoolMeta) {
-        return new StaffMeta(id, schoolMeta.id);
+    public static StaffMeta createWithChainedId(String id, SeaMeta seaMeta) {
+        return new StaffMeta(seaMeta.id + "-" + id, seaMeta.id);
     }
 
     @Override
     public String toString() {
-        return "StaffMeta [id=" + id + ", schoolIds=" + edOrgIds + "]";
+        return "StaffMeta [id=" + id + ", edOrgId=" + edOrgId + "]";
     }
 
 }

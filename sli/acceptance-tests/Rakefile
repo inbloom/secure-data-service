@@ -108,7 +108,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests, :ingestionTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -165,8 +165,8 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, 
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, 
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests] do
   displayFailureReport()
   if $SUCCESS
@@ -236,6 +236,29 @@ task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
 end
 
+desc "Run Ingestion XSD Validation Test"
+task :ingestionXsdValidationTests do
+  runTests("test/features/ingestion/features/xsd_verification.feature")
+end
+
+############################################################
+# Ingestion Offline Tool tests start
+############################################################
+desc "Run Ingestion Offline Tool Acceptances Tests"
+task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Ingestion Offline Tool Simple Test"
+task :ingestionOfflineSimpleTest do
+  runTests("test/features/ingestion/features/offline_validation.feature")
+end
+
 ########
 ############################################################
 # Ingestion tests end
@@ -251,6 +274,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
+                     :v1DirectReferenceCollectionsTests,
                      :v1CascadeDeletionTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
@@ -368,6 +392,12 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Direct Reference Collections Tests"
+task :v1DirectReferenceCollectionsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferenceCollections")
 end
 
 desc "Run V1 Student Parent Association Tests"
@@ -939,7 +969,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1004,11 +1034,6 @@ task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
-desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest do
-    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
-end
-
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
   runTests("test/features/dashboard/dash/attendance.feature")
@@ -1056,6 +1081,17 @@ desc "Run SDK Tests Tests"
 task :sdkTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api_deprecated/end_user_stories/JavaSDK")
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest => [:realmInit] do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+    displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################

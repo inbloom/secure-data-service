@@ -17,7 +17,7 @@ public class StudentMeta {
         this.schoolIds.add(schoolMeta.id);
 
         this.sectionIds = new ArrayList<String>();
-
+        
         this.simpleId = id;
     }
 

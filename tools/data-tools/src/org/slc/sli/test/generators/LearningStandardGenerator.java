@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators;
 
+import java.util.Random;
+
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -9,53 +11,55 @@ import org.slc.sli.test.edfi.entities.LearningStandardIdentityType;
 import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
 
 public class LearningStandardGenerator {
+    private ContentStandardType[] csts = ContentStandardType.values();
+    private GradeLevelType[] glts = GradeLevelType.values();
+    private AcademicSubjectType[] asts = AcademicSubjectType.values();
 
-    public static LearningStandard getLearningStandard() {
-        LearningStandard learningStandard = new LearningStandard();
-        LearningStandardId id = new LearningStandardId();
-        learningStandard.setLearningStandardId(id);
-        id.setIdentificationCode("IdentificationCode");
-        id.setContentStandardName("Content Standard Name");
-        learningStandard.setDescription("Description");
-        learningStandard.setContentStandard(ContentStandardType.ACT);
-        learningStandard.setGradeLevel(GradeLevelType.EIGHTH_GRADE);
-        learningStandard.setSubjectArea(AcademicSubjectType.ENGLISH);
-        learningStandard.setCourseTitle("CourseTitle");
-        return learningStandard;
+    private Random random = new Random();
+
+    private boolean optional = true;
+
+    public LearningStandardGenerator(boolean optional) {
+        this.optional = optional;
     }
 
-    public static LearningStandardReferenceType LearningStandardReferenceType(
-            final String learningStandardCode,
-            final String contentStandardName) {
-        LearningStandardReferenceType learningStandardRef =
-                new LearningStandardReferenceType();
-        LearningStandardIdentityType identity =
-                new LearningStandardIdentityType();
-        learningStandardRef.setLearningStandardIdentity(identity);
-        LearningStandardId id = new LearningStandardId();
-        identity.setLearningStandardId(id);
-        if (learningStandardCode != null) {
-            id.setIdentificationCode(learningStandardCode);
+    public LearningStandard generate(String learningStandardCode) {
+        LearningStandard ls = new LearningStandard();
+
+        ls.setId(learningStandardCode);
+
+        LearningStandardId lsid = new LearningStandardId();
+        lsid.setContentStandardName(learningStandardCode + "Name");
+        lsid.setIdentificationCode(learningStandardCode);
+        ls.setLearningStandardId(lsid);
+
+        ls.setDescription(learningStandardCode + " Descriptions");
+
+        ls.setContentStandard(csts[random.nextInt(csts.length)]);
+
+        ls.setGradeLevel(glts[random.nextInt(glts.length)]);
+
+        ls.setSubjectArea(asts[random.nextInt(asts.length)]);
+
+        if (optional) {
+            ls.setCourseTitle(learningStandardCode + " CourseTitle");
         }
-        if (contentStandardName != null) {
-            id.setContentStandardName(contentStandardName);
-        }
-        return learningStandardRef;
+
+        return ls;
     }
 
-    public static LearningStandardReferenceType LearningStandardReferenceType(
-            final LearningStandard learningStandard) {
-        LearningStandardReferenceType learningStandardRef =
-                new LearningStandardReferenceType();
-        LearningStandardIdentityType identity =
-                new LearningStandardIdentityType();
-        learningStandardRef.setLearningStandardIdentity(identity);
-        LearningStandardId id = new LearningStandardId();
-        identity.setLearningStandardId(id);
-        id.setIdentificationCode(learningStandard.getLearningStandardId().
-                getIdentificationCode());
-        id.setContentStandardName(learningStandard.getLearningStandardId().
-                getContentStandardName());
-        return learningStandardRef;
+    public static LearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
+        LearningStandardReferenceType lsrt = new LearningStandardReferenceType();
+
+        lsrt.setRef(learningStandardCode);
+
+        LearningStandardId lsid = new LearningStandardId();
+        lsid.setContentStandardName(learningStandardCode + "Name");
+        lsid.setIdentificationCode(learningStandardCode);
+        LearningStandardIdentityType lsit = new LearningStandardIdentityType();
+        lsit.setLearningStandardId(lsid);
+        lsrt.setLearningStandardIdentity(lsit);
+
+        return lsrt;
     }
 }
