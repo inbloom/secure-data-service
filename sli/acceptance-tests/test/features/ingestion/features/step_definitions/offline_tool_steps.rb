@@ -138,7 +138,7 @@ end
 # STEPS: THEN
 ############################################################
 
-def checkForContentInFileGivenPrefix(message, prefix)
+def checkForContentInLogFile(message, prefix)
   
   if (INGESTION_MODE == 'remote')
 
@@ -201,7 +201,7 @@ end
 
 Then /^I should see "([^"]*)" in the resulting log file$/ do |message|
   prefix = @source_file_name + "-"
-  checkForContentInFileGivenPrefix(message, prefix)
+  checkForContentInLogFile(message, prefix)
   
   #deleting the log files
   Dir.foreach(@local_file_store_path) do |file|
