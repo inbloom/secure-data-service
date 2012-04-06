@@ -55,7 +55,6 @@ public class SamlHelper {
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
     private static final String NAMEID_FORMAT_TRANSIENT = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
-    private static final String SAML_SUCCESS = "urn:oasis:names:tc:SAML:2.0:status:Success";
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
     
@@ -100,6 +99,17 @@ public class SamlHelper {
     }
     
     /**
+     * Composes AuthnRequest using post binding
+     * 
+     * @param destination idp endpoint
+     * @param forceAuthn boolean indicating whether authentication at the idp should be enforced
+     * @return pair {saml message id, encoded saml message}
+     */
+    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination, boolean forceAuthn) {
+        return composeAuthnRequest(destination, POST_BINDING, forceAuthn);
+    }
+    
+    /**
      * Composes AuthnRequest using artifact binding
      * 
      * @param destination
@@ -129,16 +139,6 @@ public class SamlHelper {
      */
     public String createSamlLogoutRequest(String destination, String userId) {
         return composeLogoutRequest(destination, userId);
-    }
-    
-    /**
-     * Composes LogoutRequest (binding-agnostic).
-     * 
-     * @param destination destination idp endpoint
-     * @return deflated, base64-encoded and url encoded saml message
-     */
-    public String createSamlLogoutResponse(String destination) {
-        return composeLogoutResponse(destination);
     }
     
     /**
@@ -201,7 +201,66 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
-        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "true"));
+        doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameIDPolicy", SAMLP_NS);
+        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
+        nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        
+        doc.getRootElement().addContent(nameId);
+        
+        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
+        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
+        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
+        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+        authnContext.addContent(classRef);
+        
+        doc.getRootElement().addContent(authnContext);
+        
+        // add signature and digest here
+        try {
+            String xmlString = nodeToXmlString(domer.output(doc));
+            LOG.debug(xmlString);            
+            return Pair.of(id, xmlToEncodedString(xmlString));
+        } catch (Exception e) {
+            LOG.error("Error composing AuthnRequest", e);
+            throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
+        }
+    }
+    
+    /**
+     * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
+     * 
+     * AssertionConsumerServiceURL attribute can be added to root element, but seems not required. If added, must match an
+     * endpoint that was sent to the idp during federation (sp.xml)
+     * SPNameQualifier attribute can be added to NameId, but seems not required. Same as IssuerName
+     * 
+     * @param destination idp url to where the message is going
+     * @param binding binding to be specified in saml
+     * @param forceAuthn boolean indicating whether authentication at the idp should be forced onto user
+     * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
+     * @throws Exception
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    private Pair<String, String> composeAuthnRequest(String destination, String binding, boolean forceAuthn) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", String.valueOf(forceAuthn)));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
         doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
         
@@ -305,6 +364,14 @@ public class SamlHelper {
     private String composeSignedLogoutRequest(String destination, String userId, String sessionIndex) {
         Document doc = new Document();
         
+        if (destination.equals(null)) {
+            throw new IllegalArgumentException("idp destination cannot be null");
+        } else if (userId.equals(null)) {
+            throw new IllegalArgumentException("user id cannot be null");
+        } else if (sessionIndex.equals(null)) {
+            throw new IllegalArgumentException("session index cannot be null");
+        }
+        
         String id = "sli-" + UUID.randomUUID().toString();
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
@@ -337,43 +404,6 @@ public class SamlHelper {
         } catch (Exception e) {
             LOG.error("Error composing LogoutRequest", e);
             throw new IllegalArgumentException("Couldn't compose LogoutRequest", e);
-        }
-    }
-    
-    /**
-     * Composes a Logout Response (for IDP-initiated Single Logout).
-     * 
-     * @param destination IDP endpoint
-     * @return deflated, base64-encoded and url encoded saml message
-     */
-    @SuppressWarnings("unchecked")
-    private String composeLogoutResponse(String destination) {
-        Document doc = new Document();
-        
-        String id = "sli-" + UUID.randomUUID().toString();
-        doc.setRootElement(new Element("LogoutResponse", SAMLP_NS));
-        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
-        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
-        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
-        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
-        
-        Element issuer = new Element("Issuer", SAML_NS);
-        issuer.addContent(this.issuerName);
-        doc.getRootElement().addContent(issuer);
-        
-        Element status = new Element("Status", SAMLP_NS);
-        Element statusCode = new Element("StatusCode", SAMLP_NS);
-        statusCode.getAttributes().add(new Attribute("Value", SAML_SUCCESS));
-        status.addContent(statusCode);
-        doc.getRootElement().addContent(status);
-        
-        try {
-            String xmlString = nodeToXmlString(domer.output(doc));
-            LOG.debug(xmlString);
-            return xmlToEncodedString(xmlString);
-        } catch (Exception e) {
-            LOG.error("Error composing LogoutResponse", e);
-            throw new IllegalArgumentException("Couldn't compose LogoutResponse", e);
         }
     }
     

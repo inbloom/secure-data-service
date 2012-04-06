@@ -69,8 +69,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
      * This is where we verify the user's district has access to the client
      */
     @Override
-    public OAuth2AccessToken createAccessToken(
-            OAuth2Authentication authentication) throws AuthenticationException {
+    public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
         validateAppAuthorization(authentication);
         return super.createAccessToken(authentication);
     }
@@ -108,8 +107,7 @@ public class OAuthSessionService extends RandomValueTokenServices {
             LOGGER.debug("Invalid or expired access token {}", accessTokenValue);
 
             //Ideally we would throw an exception.  However, since this method is called
-            //in a filter, it's too early in a chain for the Jersey ExceptionMapper to handle
-            //properly.
+            //in a filter, it's too early in a chain for the Jersey ExceptionMapper to handle properly.
             return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), 
                     new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
         }

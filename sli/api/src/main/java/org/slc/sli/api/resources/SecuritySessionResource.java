@@ -1,14 +1,16 @@
 package org.slc.sli.api.resources;
 
-import org.slc.sli.api.resources.security.SamlFederationResource;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.OAuthTokenUtil;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -20,13 +22,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.roles.Role;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.util.OAuthTokenUtil;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * System resource class for security session context.
@@ -39,16 +42,13 @@ import java.util.TreeMap;
 public class SecuritySessionResource {
 
     @Autowired
-    private RoleRightAccess roleRightAccess;
+    private RoleRightAccess roleAccessor;
 
     @Autowired
     private ClientRoleResolver roleResolver;
 
     @Autowired
     private OAuthTokenUtil oAuthTokenUtil;
-
-    @Autowired
-    private SamlFederationResource federationResource;
 
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
@@ -57,12 +57,13 @@ public class SecuritySessionResource {
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
      *
-     * @return SecurityContext that will be send back as a response of type "application/json".
+     * @return HashMap indicating success or failure for logout action (matches type "application/json" through jersey).
+     * @throws IOException 
      */
     @GET
     @Path("logout")
-    public Object logoutUser() {
-
+    public Map<String, Object> logoutUser() throws IOException {
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
 
@@ -71,34 +72,37 @@ public class SecuritySessionResource {
             throw new InsufficientAuthenticationException(noLoginMsg);
         }
 
-        oAuthTokenUtil.deleteTokensForPrincipal(oAuth);
-
-        if (federationResource.logoutOfIdp((SLIPrincipal) oAuth.getPrincipal())) {
-            return "{logout: true}";
-        }
-        return "{logout: false}";
+        Map<String, Object> logoutMap = new HashMap<String, Object>();
+        if (oAuthTokenUtil.deleteTokensForPrincipal(oAuth)) {
+            logoutMap.put("logout", true);
+        } else {
+            logoutMap.put("logout", false);   
+        }        
+        return logoutMap;
     }
-
-
 
     /**
      * Method processing HTTP GET requests, producing "application/json" MIME media
      * type.
-     *
+     * 
      * @return SecurityContext that will be send back as a response of type "application/json".
      */
     @GET
     @Path("debug")
     public SecurityContext getSecurityContext() {
-
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
-
-        final String noLoginMsg = "User must be logged in";
-        if (oAuth instanceof AnonymousAuthenticationToken) {
-            throw new InsufficientAuthenticationException(noLoginMsg);
+        
+        if (auth == null) {
+            throw new InsufficientAuthenticationException("User must be logged in");
+        } else if (auth instanceof OAuth2Authentication) {
+            if (((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
+                throw new InsufficientAuthenticationException("User must be logged in");
+            }
+        } else if (auth instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("User must be logged in");
         }
-
+        
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
         return SecurityContextHolder.getContext();
@@ -107,13 +111,13 @@ public class SecuritySessionResource {
     @GET
     @Path("check")
     public Object sessionCheck() {
-
+        
         final Map<String, Object> sessionDetails = new TreeMap<String, Object>();
-
+        
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
             sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-
+            
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
@@ -122,25 +126,25 @@ public class SecuritySessionResource {
             sessionDetails.put("adminRealm", principal.getAdminRealm());
             sessionDetails.put("edOrg", principal.getEdOrg());
             sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
-
+            
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override
                 public List<Role> execute() {
-                    return roleRightAccess.fetchAllRoles();
+                    return roleAccessor.fetchAllRoles();
                 }
             });
-
+            
             sessionDetails.put("all_roles", allRoles);
-
+            
         } else {
             sessionDetails.put("authenticated", false);
             sessionDetails.put("redirect_user", realmPage);
         }
-
+        
         return sessionDetails;
     }
 
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext.getAuthentication().getCredentials().equals(""));
+        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
     }
 }

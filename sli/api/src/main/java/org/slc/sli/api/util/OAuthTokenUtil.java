@@ -248,17 +248,23 @@ public class OAuthTokenUtil {
         }
     }
 
-    public void deleteTokensForUser(String userName, String realmId) {
+    public boolean deleteTokensForUser(String userName, String realmId) {
         RemoveTokensTask removeTokensTask = new RemoveTokensTask();
         removeTokensTask.setUserName(userName);
         removeTokensTask.setRealmId(realmId);
-        @SuppressWarnings("unused")
         Object result = SecurityUtil.sudoRun(removeTokensTask);
+        if (Boolean.valueOf(result.toString()) == true) {
+            return true;
+        }
+        return false;
     }
 
-    public void deleteTokensForPrincipal(Authentication oAuth) {
+    public boolean deleteTokensForPrincipal(Authentication oAuth) {
         SLIPrincipal principal = (SLIPrincipal) oAuth.getPrincipal();
-        deleteTokensForUser(principal.getName(), principal.getRealm());
+        if (deleteTokensForUser(principal.getName(), principal.getRealm())) {
+            return true;
+        }
+        return false;
     }
 
     private class RemoveTokensTask implements SecurityTask<Object> {

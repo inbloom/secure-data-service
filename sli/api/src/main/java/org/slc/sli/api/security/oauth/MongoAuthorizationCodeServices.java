@@ -199,11 +199,10 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
     }
     
     /**
-     * Gets the EntityService associated with the OAuth 2.0 session collection.
-     * 
+     * Gets the EntityService associated with the OAuth 2.0 authorization code collection.
      * @return Instance of EntityService for performing collection operations.
      */
-    public EntityService getService() {
+    private EntityService getService() {
         EntityDefinition defn = store.lookupByResourceName(OAUTH_AUTHORIZATION_CODE);
         return defn.getService();
     }

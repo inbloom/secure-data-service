@@ -2,6 +2,13 @@ package org.slc.sli.api.security.oauth;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -13,12 +20,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.stereotype.Component;
 
 /**
  * Responsible for storage and management of access and refresh tokens for OAuth
@@ -125,13 +126,12 @@ public class MongoTokenStore implements TokenStore {
         }
         return null;
     }
-
+    
     /**
      * Removes the Access Token's validation by expiring it immediately.
      */
     @Override
     public void removeAccessToken(String tokenValue) {
-
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("token=" + tokenValue));
         neutralQuery.setOffset(0);
