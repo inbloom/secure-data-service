@@ -1,13 +1,12 @@
 package org.slc.sli.ingestion.validation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,9 +32,9 @@ public class XsdErrorHandlerTest {
     @Autowired
     private XsdErrorHandler xsdErrorHandler;
 
-    private ErrorReport errorReport = new TestErrorReport();
+    private final ErrorReport errorReport = new TestErrorReport();
 
-    private SAXParseException mockedSAXParseException = Mockito.mock(SAXParseException.class);
+    private final SAXParseException mockedSAXParseException = Mockito.mock(SAXParseException.class);
 
     @Before
     public void setup() {
@@ -46,8 +45,8 @@ public class XsdErrorHandlerTest {
     @Test
     public void testWarning() {
         // Test receiving a SAX warning.
-        when(mockedSAXParseException.getMessage()).thenReturn(
-                "cvc-totalDigits-valid: Value '4000' has 4 total digits, but the number of total digits has been limited to 3.");
+        xsdErrorHandler.setIsValid(true);
+        when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException warning");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
         assertTrue(xsdErrorHandler.isValid());
@@ -56,9 +55,8 @@ public class XsdErrorHandlerTest {
     @Test
     public void testError() {
         // Test receiving a SAX error.
-        when(mockedSAXParseException.getMessage()).thenReturn(
-                "cvc-complex-type.2.4.b: The content of element 'LearningStyles' is not complete. One of "
-                        + "'{\"http://ed-fi.org/0100\":VisualLearning}' is expected.");
+        xsdErrorHandler.setIsValid(true);
+        when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException error");
         xsdErrorHandler.error(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
         assertFalse(xsdErrorHandler.isValid());
@@ -67,10 +65,8 @@ public class XsdErrorHandlerTest {
     @Test
     public void testFatalError() throws SAXException {
         // Test receiving a SAX fatal error.
-        when(mockedSAXParseException.getMessage()).thenReturn(
-                "cvc-complex-type.2.4.a: Invalid content was found starting with element 'Race'. One of "
-                        + "'{\"http://ed-fi.org/0100\":CohortYears, \"http://ed-fi.org/0100\":StudentIndicators, "
-                        + "\"http://ed-fi.org/0100\":LoginId}' is expected.");
+        xsdErrorHandler.setIsValid(true);
+        when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
         try {
             xsdErrorHandler.fatalError(mockedSAXParseException);
         } catch (SAXException e) {
@@ -88,35 +84,18 @@ public class XsdErrorHandlerTest {
         // Make the XsdErrorHandler private method getErrorMessage accessible.
         try {
             Class[] argClasses = new Class[1];
-            argClasses[0] = String.class;
+            argClasses[0] = org.xml.sax.SAXParseException.class;
             Method method = XsdErrorHandler.class.getDeclaredMethod("getErrorMessage", argClasses);
             method.setAccessible(true);
             Object[] argObjects = new Object[1];
-            argObjects[0] = "cvc-complex-type.2.4.a: Invalid content was found starting with element 'Race'. One of "
-                    + "'{\"http://ed-fi.org/0100\":CohortYears, \"http://ed-fi.org/0100\":StudentIndicators, \"http://ed-fi.org/0100\":LoginId}' is expected.";
+            when(mockedSAXParseException.getSystemId()).thenReturn("/home/landingzone/TestFile.xml");
+            when(mockedSAXParseException.getLineNumber()).thenReturn(12581);
+            when(mockedSAXParseException.getColumnNumber()).thenReturn(36);
+            when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
+            argObjects[0] = mockedSAXParseException;
             String errorMessage = method.invoke(xsdErrorHandler, argObjects).toString();
             assertEquals(errorMessage,
-                    "Element Race is out of order.  Expected one of CohortYears, StudentIndicators, LoginId");
-        } catch (Exception e) {
-            // Should never happen.
-            throw e;
-        }
-    }
-
-    @Test
-    @SuppressWarnings("rawtypes")
-    public void testGetMessageCode() throws Exception {
-        // Test conversion of a SAX to ingestion error message.
-        // Make the XsdErrorHandler private method getErrorMessage accessible.
-        try {
-            Class[] argClasses = new Class[1];
-            argClasses[0] = String.class;
-            Method method = XsdErrorHandler.class.getDeclaredMethod("getMessageCode", argClasses);
-            method.setAccessible(true);
-            Object[] argObjects = new Object[1];
-            argObjects[0] = "cvc-complex-type.2.4.a";
-            String errorCode = method.invoke(xsdErrorHandler, argObjects).toString();
-            assertEquals(errorCode, "XSD_ELEMENT_OUT_OF_ORDER");
+                    "File /home/landingzone/TestFile.xml, Line 12581, Column 36:\nSAXParseException fatal error");
         } catch (Exception e) {
             // Should never happen.
             throw e;

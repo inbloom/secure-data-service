@@ -5,153 +5,156 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.handler.ZipFileHandler;
+import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.LoggingErrorReport;
+import org.slc.sli.ingestion.validation.Validator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/*
+/**
  * Validation Controller reads zip file or ctl file in a give directory and applies set of pre-defined validators.
  * @author mpatel
  */
 public class ValidationController {
 
-	private ZipValidation zipValidation;
+    private ZipFileHandler zipFileHandler;
 
-	private ControlFileValidation ctlValidation;
+    private BatchJobAssembler batchJobAssembler;
 
-	private LocalFileSystemLandingZone lz;
+    private List<? extends Validator<IngestionFileEntry>> validators;
 
-	private List<SimpleValidatorSpring> validators;
+    private static Logger logger = null;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ControlFile.class);
+    /*
+     * retrieve zip file or control file from the input directory and invoke
+     * relevant validator
+     */
+    void doValidation(File path) {
 
-	ValidationController() {
-		lz = new LocalFileSystemLandingZone();
-	}
+        logger = LoggerUtil.getLogger();
+        BatchJob job = null;
+        if (path.isFile() && path.getName().endsWith(".ctl")) {
+            job = processControlFile(path);
+        } else if (path.isFile() && path.getName().endsWith(".zip")) {
+            job = processZip(path);
+        } else {
+            logger.error("Invalid input: No clt/zip file found");
+            return;
+        }
 
-	/*
-	 * retrieve zip file or control file from the input directory and invoke
-	 * relevant validator
-	 */
-	void doValidation(String dirName) {
-		File directory = new File(dirName);
-		BatchJob job = null;
-		Logger jobLogger = null;
-		lz.setDirectory(directory);
-		ZipFilter zFilter = new ZipFilter();
-		String[] zipFiles = directory.list(zFilter);
-		if (zipFiles.length > 0) {
-			job = BatchJob.createDefault(zipFiles[0]);
-			File ctlFile = zipFileValidation(dirName, zipFiles[0], job);
-			if (ctlFile != null) {
-				File newDir = new File(ctlFile.getParent());
-				lz.setDirectory(newDir);
-				try {
-					LocalFileSystemLandingZone zlz = new LocalFileSystemLandingZone();
-					zlz.setDirectory(directory);
-					jobLogger = BatchJobLogger.createLoggerForJob(job, zlz);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+        if (job == null) {
+            logger.error("Invalid input: No clt/zip file found");
+            return;
+        }
 
-				job = ctlFileValidation(ctlFile.getParent(), ctlFile.getName(),
-						job);
-			}
-		} else {
-			CtlFilter ctlFilter = new CtlFilter();
-			String[] ctlFiles = directory.list(ctlFilter);
+        if (job.getFaultsReport().hasErrors()) {
+            for (Fault fault : job.getFaultsReport().getFaults()) {
+                if (fault.isError()) {
+                    logger.error(fault.getMessage());
+                } else {
+                    logger.warn(fault.getMessage());
+                }
+            }
+        } else {
+            processXMLValidators(job);
+        }
+    }
 
-			if (ctlFiles.length > 0) {
-				try {
-					job = BatchJob.createDefault(ctlFiles[0]);
-					jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
-					ctlFileValidation(dirName, ctlFiles[0], job);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+    private void processXMLValidators(BatchJob job) {
+        ErrorReport errorReport = new LoggingErrorReport(logger);
+        boolean isValid = false;
+        for (IngestionFileEntry ife : job.getFiles()) {
+            logger.info("Processing file: {} ...", ife.getFileName());
+            for (Validator<IngestionFileEntry> validator : validators) {
+                isValid = validator.isValid(ife, errorReport);
+                if (!isValid) {
+                    break;
+                }
+            }
+        }
+    }
 
-			}
-		}
-		/*
-		 * for(IngestionFileEntry ife : job.getFiles()) {
-		 * for(SimpleValidatorSpring validator : validators) {
-		 * validator.isValid(ife, job.getFaultsReport()); } }
-		 */
-		if (job != null) {
-			FaultsReport fr = job.getFaultsReport();
+    private BatchJob processZip(File zipFile) {
+        ErrorReport errorReport = new LoggingErrorReport(logger);
 
-			for (Fault fault : fr.getFaults()) {
-				if (fault.isError()) {
-					jobLogger.error(fault.getMessage());
-				} else {
-					jobLogger.warn(fault.getMessage());
-				}
-			}
-		}
-	}
+        logger.info("Processing a zip file [{}] ...", zipFile.getAbsolutePath());
 
-	public void setZipValidation(ZipValidation zv) {
-		zipValidation = zv;
-	}
+        File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 
-	public ZipValidation getZipValidation() {
-		return zipValidation;
-	}
+        BatchJob job = null;
 
-	public void setCtlValidation(ControlFileValidation cv) {
-		ctlValidation = cv;
-	}
+        if (!errorReport.hasErrors()) {
 
-	public ControlFileValidation getCtlValidation() {
-		return ctlValidation;
-	}
+            job = processControlFile(ctlFile);
+        }
 
-	public List<SimpleValidatorSpring> getValidators() {
-		return validators;
-	}
+        logger.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
 
-	public void setValidators(List<SimpleValidatorSpring> validators) {
-		this.validators = validators;
-	}
+        return job;
+    }
 
-	class ZipFilter implements FilenameFilter {
-		public boolean accept(File d, String n) {
-			return n.endsWith(".zip");
-		}
-	}
+    private BatchJob processControlFile(File ctlFile) {
+        logger.info("Processing a conotrol file [{}] ...", ctlFile.getAbsolutePath());
 
-	public class CtlFilter implements FilenameFilter {
-		public boolean accept(File d, String n) {
-			return n.endsWith(".ctl");
-		}
-	}
+        try {
+            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
+            lz.setDirectory(ctlFile.getParentFile());
+            ControlFile cfile = ControlFile.parse(ctlFile);
 
-	/* validate zip file and return control file for further validation */
-	File zipFileValidation(String dirName, String fileName, BatchJob job) {
-		File zFile = new File(dirName + "/" + fileName);
-		return zipValidation.validate(zFile, job);
-	}
+            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
-	/* validate control file */
-	BatchJob ctlFileValidation(String dirName, String fileName, BatchJob job) {
-		File ctlFile = new File(dirName + "/" + fileName);
-		try {
-			ControlFile cfile = ControlFile.parse(ctlFile);
-			ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
-			ctlValidation.validate(cfd, job);
-		} catch (IOException ex) {
-			LOG.error("exception parsing control file" + fileName + ex);
-		}
-		return job;
-	}
+            return batchJobAssembler.assembleJob(cfd);
+
+        } catch (IOException e) {
+            logger.error("Cannot parse control file", ValidationController.class);
+        } finally {
+            logger.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
+        }
+
+        return null;
+    }
+
+    /**
+     *  Filters all the ctl files in the specified directory
+     * @author mpatel
+     *
+     */
+    public class CtlFilter implements FilenameFilter {
+        public boolean accept(File d, String n) {
+            return n.endsWith(".ctl");
+        }
+    }
+
+    public ZipFileHandler getZipFileHandler() {
+        return zipFileHandler;
+    }
+
+    public void setZipFileHandler(ZipFileHandler zipFileHandler) {
+        this.zipFileHandler = zipFileHandler;
+    }
+
+    public BatchJobAssembler getBatchJobAssembler() {
+        return batchJobAssembler;
+    }
+
+    public void setBatchJobAssembler(BatchJobAssembler batchJobAssembler) {
+        this.batchJobAssembler = batchJobAssembler;
+    }
+
+    public List<? extends Validator<IngestionFileEntry>> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<? extends Validator<IngestionFileEntry>> validators) {
+        this.validators = validators;
+    }
+
 }

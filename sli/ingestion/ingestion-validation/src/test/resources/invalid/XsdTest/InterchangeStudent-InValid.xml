@@ -1,6 +1,4 @@
-<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
-  <Student>
+<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">  <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
     <Name>
       <FirstName>Rhonda</FirstName>
@@ -15,13 +13,11 @@
     <Race></Race>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities></Section504Disabilities>
-    <DisplacementStatus>false</DisplacementStatus>
+    <DisplacementStatus></DisplacementStatus>
     <BirthData>
-      <BirthDate>2006-07-02-081</BirthDate>
+      <BirthDate>2006-07-02</BirthDate>
     </BirthData>
-  </Student>
-
-  <Student>
+  </Student>  <Student>
     <StudentUniqueStateId>814202099</StudentUniqueStateId>
     <Name>
       <FirstName>Yolanda</FirstName>
@@ -30,15 +26,14 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race></Race>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities></Section504Disabilities>
+    <DisplacementStatus></DisplacementStatus>
     <BirthData>
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
-    <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities></Section504Disabilities>
-    <DisplacementStatus>false</DisplacementStatus>
-  </Student>
-</InterchangeStudent>
+  </Student>  </InterchangeStudent>

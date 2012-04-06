@@ -56,11 +56,11 @@
     </util:map>
 
     <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator">
-        <property name="xsd" ref="xsd"></property>
+        <property name="xsd" ref="xsd" />
     </bean>
 
     <bean id="xsdErrorHandler" class="org.slc.sli.ingestion.validation.XsdErrorHandler">
-        <property name="messageSource" ref="messageSource"></property>
+        <property name="messageSource" ref="messageSource" />
     </bean>
 
       <bean id="controlFileValidator"
@@ -89,10 +89,5 @@
       </list>
     </property>
   </bean>
-  
-     
-     <bean id="assembler" class="org.slc.sli.ingestion.landingzone.BatchJobAssembler">
-         <property name="validator" ref="controlFileValidator" />
-     </bean>
-  
+
 </beans>
