@@ -4,6 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+@smoke
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Specified Tenant
 Given I post "idNamespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
