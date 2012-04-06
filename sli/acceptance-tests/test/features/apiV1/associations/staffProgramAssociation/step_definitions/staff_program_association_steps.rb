@@ -18,7 +18,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = 5                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "22f88217-4dc0-4113-a712-b6027c241606"   if human_readable_id == "ASSOCIATION ID"
+  id = "22f88217-4dc0-4113-a712-b6027c241606"   if human_readable_id == "ASSOCIATION ID - SINGLE"
   id = "387f4818-b879-456a-acc7-5b4294c94549"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "9aaa3307-fc54-484d-bf4d-1f459aa75ee0"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getStaffProgramAssociations"            if human_readable_id == "ASSOCIATION LINK NAME"
@@ -27,8 +27,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #staff related data
   id = "staffId"                                if human_readable_id == "ENDPOINT1 FIELD"
-  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "ENDPOINT1 ID"
-  id = ["f0e41d87-92d4-4850-9262-ed2f2723159b"] if human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "ENDPOINT1 ID - SINGLE"
+  id = ["f0e41d87-92d4-4850-9262-ed2f2723159b"] if human_readable_id == "ENDPOINT1 FIELD - SINGLE - EXPECTED VALUE"
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
@@ -36,8 +36,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #educationOrganization related data
   id = "programId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "e8d33606-d114-4ee4-878b-90ac7fc3df16"   if human_readable_id == "ENDPOINT2 ID"
-  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] if human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "e8d33606-d114-4ee4-878b-90ac7fc3df16"   if human_readable_id == "ENDPOINT2 ID - SINGLE"
+  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] if human_readable_id == "ENDPOINT2 FIELD - SINGLE - EXPECTED VALUE"
   id = "getProgram"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getPrograms"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "program"                                if human_readable_id == "ENDPOINT2 TYPE" 
