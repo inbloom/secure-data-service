@@ -86,14 +86,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
 
     private void reportErrors(List<ValidationError> errors, NeutralRecordEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
-
-            String message = "ERROR: There has been a data validation error when saving an entity" + "\n" +
-                             "       Error      " + err.getType().name() + "\n" +
-                             "       Entity     " + entity.getType() + "\n" +
-                             "       Instance   " + entity.getRecordNumberInFile() + "\n" +
-                             "       Field      " + err.getFieldName() + "\n" +
-                             "       Value      " + err.getFieldValue() + "\n" +
-                             "       Expected   " + Arrays.toString(err.getExpectedTypes())  + "\n";
+            String message = getFailureMessage("DAL_" + err.getType().name(), entity.getType(),
+                    entity.getRecordNumberInFile(), err.getFieldName(), err.getFieldValue(),
+                    Arrays.toString(err.getExpectedTypes()));
             errorReport.error(message, this);
         }
     }
