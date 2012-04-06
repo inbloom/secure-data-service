@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.tuple.Pair;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,7 +169,9 @@ public class DiscoController {
         cookie.setPath("/");
         res.addCookie(cookie);
         LOG.debug("Set the realm cookie to {}", realmId);
-        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
+                + "?SAMLRequest=" + tuple.getRight();
+        return "redirect:" + redirectUrl;
     }
 
 }
