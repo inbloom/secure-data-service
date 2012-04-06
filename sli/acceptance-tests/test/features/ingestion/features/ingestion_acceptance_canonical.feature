@@ -3,7 +3,8 @@ Feature: Acceptance Canonical Data Ingestion Test
 Background: I have a landing zone route configured
 Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone
-
+    
+@integration
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
@@ -16,6 +17,7 @@ Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion 
         | section                     |
         | studentSectionAssociation   |
         | teacher                     |
+        | staff                       |
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
@@ -39,6 +41,7 @@ Then I should see following map of entry counts in the corresponding collections
         | section                     | 9     |
         | studentSectionAssociation   | 209   |
         | teacher                     | 3     |
+        | staff                       | 2     |
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
         | session                     | 10    |
@@ -60,7 +63,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14714 records." in the resulting batch job file
+    And I should see "Processed 14716 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -74,8 +77,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 9" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 11" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 11" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 13" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 13" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 365" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 365" in the resulting batch job file
