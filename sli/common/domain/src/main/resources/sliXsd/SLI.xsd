@@ -389,7 +389,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0"
+				<xs:element maxOccurs="unbounded" minOccurs="0"
 					name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>
@@ -1215,7 +1215,7 @@
 					</xs:annotation>
 				</xs:element>
 
-				<xs:element minOccurs="0"
+				<xs:element maxOccurs="unbounded" minOccurs="0"
 					name="programReference" type="reference">
 					<xs:annotation>
 						<xs:documentation>Optional reference to program (e.g., CTE, etc.)
@@ -1414,7 +1414,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="staffId" type="reference">
+				<xs:element maxOccurs="unbounded" name="staffId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the cohort of
 							students.
@@ -1424,7 +1424,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="cohortId" type="reference">
+				<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
 					<xs:annotation>
 						<xs:documentation>Reference to the cohort associated with the
 							staff.
@@ -1545,7 +1545,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="staffId" type="reference">
+				<xs:element name="staffId" type="reference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The staff associated with the program.
 						</xs:documentation>
@@ -1554,7 +1554,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="programId" type="reference">
+				<xs:element name="programId" type="reference" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The program associated to the staff.
 						</xs:documentation>
