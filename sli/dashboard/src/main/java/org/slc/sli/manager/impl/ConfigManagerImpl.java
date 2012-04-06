@@ -5,10 +5,13 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.googlecode.ehcache.annotations.Cacheable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.Config.Type;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.util.DashboardException;
@@ -238,27 +242,28 @@ public class ConfigManagerImpl implements ConfigManager {
      * @return proper Config to be used for the dashboard
      */
     private Config getConfigByPath(String customPath, String componentId) {
-        Gson gson = new GsonBuilder().create();
-        Config customConfig = null;
         Config driverConfig = null;
         try {
             // read Driver (default) config.
             File f = new File(getDriverConfigLocation(componentId));
-            driverConfig = gson.fromJson(new FileReader(f), Config.class);
+            driverConfig = loadConfig(f);
             
             // read custom Config
             f = new File(getComponentConfigLocation(customPath, componentId));
             // if custom config exist, read the config file
             if (f.exists()) {
-                customConfig = gson.fromJson(new FileReader(f), Config.class);
                 // get overwritten Config file with customConfig based on Driver config.
-                return driverConfig.overWrite(customConfig);
+                return driverConfig.overWrite(loadConfig(f));
             }
             return driverConfig;
         } catch (Throwable t) {
             logger.error("Unable to read config for " + componentId + ", for path " + customPath);
             throw new DashboardException("Unable to read config for " + componentId + ", for path " + customPath);
         }
+    }
+    
+    private Config loadConfig(File f) throws Exception {
+        return new GsonBuilder().create().fromJson(new FileReader(f), Config.class);
     }
     
     protected String getCustomConfigPathForUserDomain(String token) {
@@ -277,5 +282,37 @@ public class ConfigManagerImpl implements ConfigManager {
     
     public void setConfigPersistor(ConfigPersistor configPersistor) {
         this.persistor = configPersistor;
+    }
+
+    @Override
+    @Cacheable(cacheName = "user.config.widget")
+    public Collection<Config> getWidgetConfigs(String token) {
+        // id to config map
+        Map<String, Config> widgets = new HashMap<String, Config>();
+        Config config;
+        // list files in driver dir
+        File driverConfigDir = new File(this.driverConfigLocation);
+        File[] configs = driverConfigDir.listFiles();
+        if (configs == null) {
+            logger.error("Unable to read config directory");
+            throw new DashboardException("Unable to read config directory!!!!");
+        }
+        
+        for (File f : driverConfigDir.listFiles()) {
+            try {
+                config = loadConfig(f);
+            } catch (Exception t) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);  
+                continue;
+            }
+            // assemble widgets
+            if (config.getType() == Type.WIDGET) {
+                widgets.put(config.getId(), config);
+            }
+        }
+        for (String id : widgets.keySet()) {
+            widgets.put(id, getComponentConfig(token, id));
+        }
+        return widgets.values();
     }
 }

@@ -57,6 +57,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
+        model.addAttribute(Constants.MM_KEY_WIDGET_CONFIGS_JSON, JsonConverter.toJson(configManager.getWidgetConfigs(getToken())));
         setContextPath(model, request);
         
         // TODO: refactor so the below params can be removed
@@ -96,10 +97,11 @@ public abstract class GenericLayoutController {
         this.customizationAssemblyFactory = customizedDataFactory;
     }
     
-    private static final String DEFAULT_MESSAGE = "An error had occurred. Please try again later.";
-    
     public String getUsername() {
         return SecurityUtil.getUsername();
     }
     
+    public String getToken() {
+        return SecurityUtil.getToken();
+    }
 }

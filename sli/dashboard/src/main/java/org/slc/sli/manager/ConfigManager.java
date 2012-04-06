@@ -1,5 +1,6 @@
 package org.slc.sli.manager;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.slc.sli.config.LozengeConfig;
@@ -34,4 +35,17 @@ public interface ConfigManager extends Manager {
      * @return proper Config to be used for the dashbord
      */
     public Config getComponentConfig(String token, String componentId);    
+    /**
+     * Get all available widget configs relevant for the user
+     * @param token - token of the user
+     * @return collection of widget conigs
+     */
+    public Collection<Config> getWidgetConfigs(String token);
+    
+    /**
+     * This is temporary in order to pass JUnit test.
+     * TODO: fix it
+     * @param institutionalHierarchyManager
+     */
+    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager);
 }

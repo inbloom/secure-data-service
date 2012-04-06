@@ -20,9 +20,9 @@ import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
+import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
-import org.slc.sli.manager.impl.ConfigManagerImpl;
 
 /**
  * Tesing layout controller
@@ -38,7 +38,7 @@ public class LayoutControllerTest {
     ApplicationContext applicationContext;
     
     @Autowired
-    ConfigManagerImpl configManager;
+    ConfigManager configManager;
     
     CustomizationAssemblyFactoryImpl dataFactory = new CustomizationAssemblyFactoryImpl() {
         
@@ -78,6 +78,10 @@ public class LayoutControllerTest {
         
         public String getUsername() {
             return "lkim";
+        }
+        
+        public String getToken() {
+            return "";
         }
         
         public void populateModelLegacyItems(ModelMap model) {

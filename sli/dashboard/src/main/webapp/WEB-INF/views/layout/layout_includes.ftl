@@ -43,4 +43,5 @@
 <script>
   var dataModel = ${dataJson};
   var config = ${viewConfigsJson};
+  var widgetConfig = ${widgetConfig};
 </script>
