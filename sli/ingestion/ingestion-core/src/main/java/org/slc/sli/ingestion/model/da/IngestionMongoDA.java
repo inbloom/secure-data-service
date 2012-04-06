@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.*;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.model.Error;
@@ -48,7 +49,10 @@ public class IngestionMongoDA implements BatchJobDAO {
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         // TODO Auto-generated method stub
-        return null;
+    	NewBatchJob ingestionJob = new NewBatchJob();
+    	Query query = new Query(Criteria.where("_id").is("jobId"));    	
+    	ingestionJob = template.findOne(query, NewBatchJob.class);
+        return ingestionJob;
     }
 
     /**
