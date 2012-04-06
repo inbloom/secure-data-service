@@ -15,6 +15,7 @@ public final class TeacherMeta {
         this.schoolIds = new ArrayList<String>();
         this.schoolIds.add(schoolId);
         this.sectionIds = new ArrayList<String>();
+
         this.simpleId = id;
     }
 
