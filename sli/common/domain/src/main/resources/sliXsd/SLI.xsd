@@ -2777,7 +2777,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="staff">
+				<xs:extension base="abstractStaff">
 					<xs:sequence>
 						<xs:element minOccurs="0" name="teacherUniqueStateId"
 							type="uniqueStateIdentifier">
@@ -2806,6 +2806,26 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+  
+    <xs:element name="staff">
+          <xs:annotation>
+              <xs:documentation>This entity represents a person that is employed by
+                  an LEA or other
+                  educational unit engaged in student instruction.
+                  These persons are
+                  instructional-type staff members. In the data
+                  model, a teacher
+                  entity is a staff
+                  member with additional properties.
+              </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+              <xs:complexContent>
+                  <xs:extension base="abstractStaff">
+                  </xs:extension>
+              </xs:complexContent>
+          </xs:complexType>
+      </xs:element>
 
 	<xs:element name="teacherSchoolAssociation">
 		<xs:annotation>
