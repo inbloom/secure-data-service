@@ -2,20 +2,31 @@ package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import com.sun.jersey.core.util.Base64;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +53,8 @@ public class AuthController {
     
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
     
+    private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
+    
     @Autowired
     private EntityDefinitionStore store;
     
@@ -51,12 +64,24 @@ public class AuthController {
     @Autowired
     private SamlHelper saml;
     
+    @Autowired
+    private AuthorizationServerTokenServices tokenServices;
+    
+    @Autowired
+    private AuthorizationCodeServices authorizationCodeServices;
+    
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+    
     private EntityService service;
+    
+    private AuthorizationCodeTokenGranter granter;
     
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
         service = def.getService();
+        granter = new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService);
     }
     
     /**
@@ -123,9 +148,17 @@ public class AuthController {
         return "realms";
     }
     
-    @RequestMapping(value = "tsoken2", method = RequestMethod.GET)
-    public void getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri) {
-        this.authCodeService
+    @RequestMapping(value = "token", method = RequestMethod.POST)
+    public OAuth2AccessToken getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri, @RequestHeader(value = "Authorization", required = false) String authz,
+            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret) {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("code", authorizationCode);
+        parameters.put("redirect_uri", redirectUri);
+        
+        info("Hoora");
+        Pair<String, String> tuple = Pair.of(clientId, clientSecret);// extractClientCredentials(authz);
+        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
+        return token;
     }
     
     /**
@@ -169,6 +202,19 @@ public class AuthController {
         res.addCookie(cookie);
         LOG.debug("Set the realm cookie to {}", realmId);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+    }
+    
+    private Pair<String, String> extractClientCredentials(String authz) {
+        Matcher m = BASIC_AUTH.matcher(authz);
+        
+        if (authz != null && m.find()) {
+            String decoded = Base64.base64Decode(m.group(1));
+            String[] values = decoded.split(":");
+            return Pair.of(values[0], values[1]);
+        } else {
+            throw new IllegalArgumentException("Client auth must be provided");
+        }
+        
     }
     
 }

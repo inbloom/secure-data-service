@@ -85,7 +85,7 @@ public class SamlFederationResource {
     @SuppressWarnings("unchecked")
     public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
         
-        LOG.info("Received a SAML post...");
+        LOG.info("Received a SAML post... ");
         
         Document doc = saml.decodeSamlPost(postData);
         
