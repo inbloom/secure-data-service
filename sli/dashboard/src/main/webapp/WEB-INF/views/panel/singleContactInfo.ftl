@@ -1,5 +1,5 @@
 <div class="tabular">
-    <table ><thead><tr><th></th><td style="width:200px"><h6>${singleContactName}</h6></td></tr></thead><tbody>
+    <table ><thead><tr><th></th><td class="singleOfSixColumns"><h6>${singleContactName}</h6></td></tr></thead><tbody>
     <tr><th></th><td></td></tr>
 	<!-- display telephone numbers for student -->
 		<#list singleContact.telephone as telephone>
@@ -7,7 +7,7 @@
 				<th>
 					${telephone.telephoneNumberType}:
 				</th>
-				<td style="width:200px;<#if telephone_index == 0>font-weight:bold;</#if>">
+				<td class="singleOfSixColumns">
 					${telephone.telephoneNumber}
 				</td>
 			</tr>
@@ -21,7 +21,7 @@
 					E-mail:
 					</#if>
 				</th>
-				<td style="width:200px">
+				<td class="singleOfSixColumns">
 					${electronicMail.emailAddress}
 				</td>
 			</tr>
@@ -35,7 +35,7 @@
 					Address:
 				</#if>
 				</th>
-				<td style="width:200px;line-height:12px">
+				<td class="singleOfSixColumns">
 				    <div>
 					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
 					<!-- 
