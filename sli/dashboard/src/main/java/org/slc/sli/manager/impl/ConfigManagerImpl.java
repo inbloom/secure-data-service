@@ -162,17 +162,6 @@ public class ConfigManagerImpl implements ConfigManager {
     }
     
     /**
-     * Merges a hierarchy of configuration sets into one set
-     * 
-     * @param configSets
-     * @return ViewConfigSet
-     */
-    protected ViewConfigSet mergeConfigSets(List<ViewConfigSet> configSets) {
-        // TODO: implement merge
-        return null;
-    }
-    
-    /**
      * this method should be called by Spring Framework
      * set location of config file to be read. If the directory does not exist, create it.
      * 
