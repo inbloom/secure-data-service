@@ -9,6 +9,7 @@ import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
+import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
@@ -17,12 +18,13 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
-    private static final int SCHOOLS_PER_LEA = 2;
-    private static final int COURSES_PER_SCHOOL = 2;
+    private static final int SCHOOLS_PER_LEA = 1;
+    private static final int COURSES_PER_SCHOOL = 1;
     private static final int SESSIONS_PER_SCHOOL = 1;
-    private static final int SECTIONS_PER_COURSE_SESSION = 2;
-    private static final int TEACHERS_PER_SCHOOL = 4;
-    private static final int STUDENTS_PER_SCHOOL = 50;
+    private static final int SECTIONS_PER_COURSE_SESSION = 1;
+    private static final int STAFF_PER_SCHOOL = 1;
+    private static final int TEACHERS_PER_SCHOOL = 1;
+    private static final int STUDENTS_PER_SCHOOL = 25;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -34,6 +36,7 @@ public final class MetaRelations {
 
     public static final Map<String, SectionMeta> SECTION_MAP = new HashMap<String, SectionMeta>();
 
+    public static final Map<String, StaffMeta> STAFF_MAP = new HashMap<String, StaffMeta>();
     public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
@@ -102,20 +105,37 @@ public final class MetaRelations {
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
-            Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
+            buildAndRelateEntitiesWithSchool(schoolMeta);
+        }
+    }
 
-            Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
+    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta) {
 
-            Map<String, CourseMeta> coursesForSchool = buildCoursesForSchool(schoolMeta);
+        buildStaffForSchool(schoolMeta);
 
-            Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
+        Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
-            Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
-                    sessionsForSchool);
+        Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
 
-            addSectionsToTeachers(sectionsForSchool, teachersForSchool);
+        Map<String, CourseMeta> coursesForSchool = buildCoursesForSchool(schoolMeta);
 
-            addStudentsToSections(sectionsForSchool, studentsForSchool);
+        Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
+
+        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
+                sessionsForSchool);
+
+        addSectionsToTeachers(sectionsForSchool, teachersForSchool);
+
+        addStudentsToSections(sectionsForSchool, studentsForSchool);
+    }
+
+    private static void buildStaffForSchool(SchoolMeta schoolMeta) {
+
+        for (int idNum = 0; idNum < STAFF_PER_SCHOOL; idNum++) {
+
+            StaffMeta staffMeta = StaffMeta.createWithChainedId("staff" + idNum, schoolMeta);
+
+            STAFF_MAP.put(staffMeta.id, staffMeta);
         }
     }
 
@@ -132,7 +152,13 @@ public final class MetaRelations {
         Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
         for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
 
-            TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
+            TeacherMeta teacherMeta;
+            if (idNum == 0) {
+                // hardcode first teacher as he is set up in ny idp
+                teacherMeta = TeacherMeta.create("wadama", schoolMeta);
+            } else {
+                teacherMeta = TeacherMeta.createWithChainedId("teacher" + idNum, schoolMeta);
+            }
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -297,6 +323,21 @@ public final class MetaRelations {
             studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
             sectionCounter++;
         }
+    }
+
+    public static void main(String[] args) {
+
+        buildFromSea();
+
+        System.out.println("SEA_MAP" + SEA_MAP);
+        System.out.println("LEA_MAP" + LEA_MAP);
+        System.out.println("SCHOOL_MAP" + SCHOOL_MAP);
+        System.out.println("COURSE_MAP" + COURSE_MAP);
+        System.out.println("SESSION_MAP" + SESSION_MAP);
+        System.out.println("SECTION_MAP" + SECTION_MAP);
+        System.out.println("STAFF_MAP" + STAFF_MAP);
+        System.out.println("TEACHER_MAP" + TEACHER_MAP);
+        System.out.println("STUDENT_MAP" + STUDENT_MAP);
     }
 
 }

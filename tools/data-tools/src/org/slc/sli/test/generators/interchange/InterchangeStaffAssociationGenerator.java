@@ -4,10 +4,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
+import org.slc.sli.test.edfi.entities.Staff;
 import org.slc.sli.test.edfi.entities.Teacher;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
+import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.generators.StaffGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
@@ -46,12 +49,34 @@ public class InterchangeStaffAssociationGenerator {
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateTeachersAndAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+        generateStaff(interchangeObjects, MetaRelations.STAFF_MAP.values());
+
+        generateTeachers(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
         generateTeacherSchoolAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
         generateTeacherSectionAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
+    }
+
+    private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) {
+        long startTime = System.currentTimeMillis();
+
+        for (StaffMeta staffMeta : staffMetas) {
+
+            Staff staff;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                staff = null;
+            } else {
+                staff = StaffGenerator.generateLowFi(staffMeta.id);
+            }
+
+            interchangeObjects.add(staff);
+        }
+
+        System.out.println("generated " + staffMetas.size() + " Staff objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -62,7 +87,7 @@ public class InterchangeStaffAssociationGenerator {
      * @param interchangeObjects
      * @param teacherMetas
      */
-    private static void generateTeachersAndAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+    private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
         long startTime = System.currentTimeMillis();
 
         for (TeacherMeta teacherMeta : teacherMetas) {
@@ -76,7 +101,6 @@ public class InterchangeStaffAssociationGenerator {
             }
 
             interchangeObjects.add(teacher);
-
         }
 
         System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "

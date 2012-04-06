@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Apr 03 21:03:51 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Apr 05 20:07:01 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -32,10 +32,6 @@
         </UML:TaggedValue>
       </UML:ModelElement.taggedValue>
       <UML:Namespace.ownedElement>
-        <UML:DataType xmi.id = 'cc3a5de4-4484-4fdc-bbb1-1f37694649a8' name = 'anyURI'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
-        <UML:DataType xmi.id = '5aeecaf3-9246-44ad-a104-a63bbdc1dd6f' name = 'date'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '30fae23c-0cee-4f00-8de5-8448b06ce101' name = 'NameOfInstitution'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -82,8 +78,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'f8c077e9-7d8d-42da-be0e-342b72641e7a' name = 'integer'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '7d4c7d55-92b4-418a-a6b9-782c0ce29de0' name = 'LocalCourseCode'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -136,8 +130,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '9c8b2007-b56c-46b6-b866-344c45bf94d8' name = 'gMonth'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'db93e9b3-59bc-4fd1-82bb-f8c78b4ce20d' name = 'Indicator'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -175,8 +167,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'e7eaacdd-d010-49e3-b3a9-43f963ce8597' name = 'QName'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'f655443e-bd25-4fd5-a83d-0ead747c5b36' name = 'DisciplineActionIdentifier'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -303,8 +293,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'f9e18b11-758d-4520-96fe-d9c15657810b' name = 'float'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'b5ef373b-f05b-4c54-89e6-69c1c0d2c59d' name = 'ElectronicMailAddress'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -317,8 +305,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'f7bb2c0c-b929-417e-8bfd-89589c8d0c75' name = 'int'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'd430a9d1-37a5-475c-a9ca-f15d1cbcc18e' name = 'ApartmentRoomSuiteNumber'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -372,8 +358,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '515db999-b74f-43cc-8efe-7d522c266430' name = 'normalizedString'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '8bf70895-66ff-474b-8553-896b045d793f' name = 'CIPCode'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -512,8 +496,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'eb81bb0a-8e6e-43b5-9694-3f17f7392e1c' name = 'short'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '6b90cd0a-655f-4778-b01a-24990d4d26df' name = 'WebSite'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -526,8 +508,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'd974ea91-3e72-40e5-a560-1730e68d3f0f' name = 'double'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '62ea4024-2efd-422e-9e8c-d4419f57be6d' name = 'AssessmentForm'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -541,10 +521,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '2f1cd2d0-149d-4f63-8dc5-fa80aca86c32' name = 'byte'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
-        <UML:DataType xmi.id = 'b7732697-d7c3-48e3-9712-1d346314bee1' name = 'gDay'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'aa90fc6d-dc4b-436b-865d-38d27bd1d44f' name = 'AlternateDayName'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -583,10 +559,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'ba76a1be-7f89-47bd-b638-a34f327fe9ef' name = 'decimal'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
-        <UML:DataType xmi.id = '58edc1de-97a5-42c4-a664-5cafb366cb7d' name = 'gYearMonth'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '7a6c4d13-ac1c-49e3-be02-c74796c85ba4' name = 'ClassroomIdentificationCode'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -626,8 +598,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '5f653d68-f74b-4a11-93a0-474fbf98889e' name = 'ID'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '17de79d6-e735-4108-aa6e-bf8feee12bff' name = 'MiddleName'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -642,8 +612,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '8a794ae6-b5b0-4639-aea0-83dc49550fc6' name = 'hexBinary'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'c5ea7878-94a8-446f-9027-763d6b12c6de' name = 'BuildingSiteNumber'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -692,10 +660,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'cbc69db7-5c96-4972-93a9-38d831ad2bb4' name = 'IDREF'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
-        <UML:DataType xmi.id = '65b2f001-2583-4a5b-8a86-206adc2246ad' name = 'token'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '0eef2105-322b-4f5d-ad8d-349af8b99fa9' name = 'Result'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -721,8 +685,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'e9456507-5195-4c17-956e-b737f4e13b75' name = 'boolean'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '61388bc2-c07b-40cd-a88b-60253d33c706' name = 'Currency'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -734,8 +696,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = 'd414ff0b-802d-46a0-ae72-768d2b271832' name = 'dateTime'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '6c32edf4-1200-48ab-84d4-a21720379164' name = 'Rating'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -748,8 +708,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '5fab8009-31f8-44be-85fd-34e8c7143eeb' name = 'time'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'd952d25c-9933-46ee-8938-03025ee81c14' name = 'StaffId'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -776,6 +734,9 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209D'/>
+          </UML:GeneralizableElement.generalization>
         </UML:DataType>
         <UML:DataType xmi.id = 'cac861a1-b211-4391-adea-cf8d890bc656' name = 'ServiceCategory'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
@@ -856,8 +817,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a' name = 'string'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'c1e4138c-051a-4d7e-9093-bc16042f4222' name = 'RatingOrganization'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -883,10 +842,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '5d46eab9-de72-44cf-98f4-a803a4a7360e' name = 'language'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
-        <UML:DataType xmi.id = '94fb00cd-fea8-4a07-93ce-f09966f00dd8' name = 'gMonthDay'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '1237e97e-4216-45f8-8b82-4fd18315ad85' name = 'CodeValue'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -990,20 +945,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '9e78726b-8af3-4ba6-9f12-93c2f219c1e7' name = 'base64Binary'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
-          <UML:ModelElement.taggedValue>
-            <UML:TaggedValue xmi.id = '10-71-1-42-4dde7cf9:136781d91f8:-8000:00000000000051ED'
-              isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>A W3C XML Schema base64 binary type.</UML:TaggedValue.dataValue>
-              <UML:TaggedValue.type>
-                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
-              </UML:TaggedValue.type>
-            </UML:TaggedValue>
-          </UML:ModelElement.taggedValue>
-        </UML:DataType>
-        <UML:DataType xmi.id = 'dbe38d2c-4df8-45b7-a941-c474b2ed4050' name = 'duration'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '87ba94da-d581-4261-a401-5d023e1a0e71' name = 'IndicatorName'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -1053,8 +994,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '502dfd67-c1b0-4af2-83c1-c8ee1b557c85' name = 'gYear'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = 'd52ba73c-9fb4-4b45-aafa-96834c1102a0' name = 'HonorsDescription'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -1067,8 +1006,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '5f141a87-46db-4657-92aa-58ce49b401c9' name = 'NOTATION'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '55c9fc0c-b094-49b2-8455-d26a104bc753' name = 'BellScheduleName'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -1093,8 +1030,6 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id = '26484ffe-30eb-45c2-bfa4-020312c44375' name = 'long'
-          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
         <UML:DataType xmi.id = '3a820517-f4c3-4aeb-9e3f-e7f5589df2a3' name = 'ProfileThumbnail'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
@@ -13781,6 +13716,15 @@
                 <UML:Enumeration xmi.idref = 'f6d6c30d-d2b6-4f4b-82be-5eac66df79c8'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
+            <UML:Operation xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002095'
+              name = 'newOperation' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false'>
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002096'
+                  name = 'return' isSpecification = 'false' kind = 'return'/>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
           </UML:Classifier.feature>
         </UML:Class>
         <UML:Class xmi.id = 'c4e62778-bd89-46a4-8c45-e346e9a6ddbc' name = 'SessionIdentityType'
@@ -21129,6 +21073,15 @@
                 <UML:Enumeration xmi.idref = '31e5990a-c117-4aab-89a2-77fb6283c842'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
+            <UML:Operation xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002093'
+              name = 'newOperation' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false'>
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002094'
+                  name = 'return' isSpecification = 'false' kind = 'return'/>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
           </UML:Classifier.feature>
         </UML:Class>
         <UML:Class xmi.id = 'd6a2e45d-54d5-4933-ac32-f4a36d1edcac' name = 'EducationOrganization'
@@ -26823,9 +26776,7 @@
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000634F'
               isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>The session associated with the
-									session. This reference is optional only if the session
-									reference is available elsewhere in the interchange.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>The session associated with the session. This reference is optional only if the session reference is available elsewhere in the interchange.</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
               </UML:TaggedValue.type>
@@ -29928,6 +29879,89 @@
             </UML:AssociationEnd>
           </UML:Association.connection>
         </UML:Association>
+        <UML:Generalization xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209D'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = 'ba7126ee-8093-4462-ae5c-924767ba203a'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Package xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209E'
+          name = 'W3C XML Schema datatypes' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
+          <UML:Namespace.ownedElement>
+            <UML:DataType xmi.id = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a' name = 'string'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'e9456507-5195-4c17-956e-b737f4e13b75' name = 'boolean'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'cc3a5de4-4484-4fdc-bbb1-1f37694649a8' name = 'anyURI'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '2f1cd2d0-149d-4f63-8dc5-fa80aca86c32' name = 'byte'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '9e78726b-8af3-4ba6-9f12-93c2f219c1e7' name = 'base64Binary'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-42-4dde7cf9:136781d91f8:-8000:00000000000051ED'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>A W3C XML Schema base64 binary type.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+            </UML:DataType>
+            <UML:DataType xmi.id = '5aeecaf3-9246-44ad-a104-a63bbdc1dd6f' name = 'date'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'd414ff0b-802d-46a0-ae72-768d2b271832' name = 'dateTime'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'ba76a1be-7f89-47bd-b638-a34f327fe9ef' name = 'decimal'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'd974ea91-3e72-40e5-a560-1730e68d3f0f' name = 'double'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'dbe38d2c-4df8-45b7-a941-c474b2ed4050' name = 'duration'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'f9e18b11-758d-4520-96fe-d9c15657810b' name = 'float'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'b7732697-d7c3-48e3-9712-1d346314bee1' name = 'gDay'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '9c8b2007-b56c-46b6-b866-344c45bf94d8' name = 'gMonth'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '94fb00cd-fea8-4a07-93ce-f09966f00dd8' name = 'gMonthDay'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '502dfd67-c1b0-4af2-83c1-c8ee1b557c85' name = 'gYear'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '5f653d68-f74b-4a11-93a0-474fbf98889e' name = 'ID'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'cbc69db7-5c96-4972-93a9-38d831ad2bb4' name = 'IDREF'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'f7bb2c0c-b929-417e-8bfd-89589c8d0c75' name = 'int'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '26484ffe-30eb-45c2-bfa4-020312c44375' name = 'long'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'e7eaacdd-d010-49e3-b3a9-43f963ce8597' name = 'QName'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '5f141a87-46db-4657-92aa-58ce49b401c9' name = 'NOTATION'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '515db999-b74f-43cc-8efe-7d522c266430' name = 'normalizedString'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'f8c077e9-7d8d-42da-be0e-342b72641e7a' name = 'integer'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '5d46eab9-de72-44cf-98f4-a803a4a7360e' name = 'language'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '8a794ae6-b5b0-4639-aea0-83dc49550fc6' name = 'hexBinary'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '58edc1de-97a5-42c4-a664-5cafb366cb7d' name = 'gYearMonth'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '65b2f001-2583-4a5b-8a86-206adc2246ad' name = 'token'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = '5fab8009-31f8-44be-85fd-34e8c7143eeb' name = 'time'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+            <UML:DataType xmi.id = 'eb81bb0a-8e6e-43b5-9694-3f17f7392e1c' name = 'short'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+          </UML:Namespace.ownedElement>
+        </UML:Package>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>

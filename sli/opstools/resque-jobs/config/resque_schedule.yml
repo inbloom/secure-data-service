@@ -1,0 +1,20 @@
+breakfast:
+  cron: 0 8 * * *
+  class: Eat
+  args: scrambled egg
+  description: Breakfast
+lunch:
+  cron: 0 12 * * *
+  class: Eat
+  args: penut-butter and jelly sandwich
+  description: Lunch
+dinner:
+  cron: 0 6 * * *
+  class: Eat
+  args: Steak
+  description: Dinner
+midnight_snack:
+  cron: 0 0 * * *
+  class: Eat
+  args: Milk & Cookies
+  description: Midnight Snack

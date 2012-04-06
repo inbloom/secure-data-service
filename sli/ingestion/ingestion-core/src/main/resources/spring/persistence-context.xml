@@ -48,6 +48,7 @@
     <value>studentSectionGradebookEntry</value>
     <value>studentTranscriptAssociation</value>
     <value>teacher</value>
+    <value>staff</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
     <value>graduationPlan</value>
