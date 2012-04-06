@@ -203,8 +203,10 @@ public class StateEdFiXmlGenerator {
 
         InterchangeStudentProgram studentProgram = InterchangeStudentProgramGenerator.generate();
 
-        JaxbUtils.marshal(studentProgram, new PrintStream(outputPath + "InterchangeStudentProgram.xml"));
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentProgram.xml";
 
-        DataUtils.writeControlFile(outputPath + "MainControlFile.ctl", "StudentProgram", outputPath + "InterchangeStudentProgram.xml");
+        JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentProgram", xmlFilePath);
     }
 }

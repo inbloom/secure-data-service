@@ -20,8 +20,6 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
-    private static final int SCHOOLS_PER_LEA = 1;
-    private static final int COURSES_PER_SCHOOL = 1;
     private static final int STAFF_PER_SEA = 3;
     private static final int SCHOOLS_PER_LEA = 2;
     private static final int COURSES_PER_SCHOOL = 2;
