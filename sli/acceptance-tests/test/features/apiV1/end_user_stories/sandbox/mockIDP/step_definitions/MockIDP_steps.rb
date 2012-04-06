@@ -26,15 +26,18 @@ Then /^I should be redirected to the Mock IDP page for the realm$/ do
 end
 
 Then /^the Mock IDP Page has a drop down with all the users defined in tenancy$/ do
-  pending # express the regexp above with the code you wish you had
+  userSelector=@driver.find_element(:id, "selected_user")
+  userSelector.text.should include("Administrator, Sample")
 end
 
 Then /^the Mock IDP Page has a multi select which has all the roles defined in the tenancy$/ do
-  pending # express the regexp above with the code you wish you had
+  roleSelector=@driver.find_element(:id, "selected_roles")
+  roleSelector.text.should include("IT Administrator","Leader","Educator","Aggregator")
 end
 
 Then /^the Mock IDP Page has a button the user can use to log in$/ do
-  pending # express the regexp above with the code you wish you had
+  loginButton=@driver.find_element(:id, "login_button").attribute("value")
+  loginButton.should == "Login"
 end
 
 Then /^the Mock IDP Page has a log out link$/ do
