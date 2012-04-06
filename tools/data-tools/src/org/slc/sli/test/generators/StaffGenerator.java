@@ -8,10 +8,10 @@ import org.slc.sli.test.edfi.entities.OldEthnicityType;
 import org.slc.sli.test.edfi.entities.RaceItemType;
 import org.slc.sli.test.edfi.entities.RaceType;
 import org.slc.sli.test.edfi.entities.SexType;
+import org.slc.sli.test.edfi.entities.Staff;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
-import org.slc.sli.test.edfi.entities.Staff;
 
 public class StaffGenerator {
     AddressGenerator ag;
@@ -51,7 +51,7 @@ public class StaffGenerator {
         populateFields(staff, staffId);
         return staff;
     }
-    
+
     protected void populateFields(Staff staff, String staffId) {
 
         try {
@@ -65,14 +65,15 @@ public class StaffGenerator {
             staff.setRace(rt);
             staff.getRace().getRacialCategory().add(raceItemTypes[random.nextInt(raceItemTypes.length)]);
 
-            staff.setHighestLevelOfEducationCompleted(levelOfEducationTypes[random.nextInt(levelOfEducationTypes.length)]);
+            staff.setHighestLevelOfEducationCompleted(levelOfEducationTypes[random
+                    .nextInt(levelOfEducationTypes.length)]);
 
             staff.setHispanicLatinoEthnicity(random.nextBoolean());
 
             staff.setStaffUniqueStateId(staffId);
 
             if (optional) {
-                //TODO: add StaffIdentificationCodes
+                // TODO: add StaffIdentificationCodes
 
                 staff.getOtherName().add(ng.getOtherName());
                 if (random.nextBoolean())
@@ -95,7 +96,7 @@ public class StaffGenerator {
 
                 staff.setYearsOfPriorTeachingExperience(new Integer(15));
 
-                //TODO: add Credentials
+                // TODO: add Credentials
 
                 staff.setLoginId(staff.getName().getFirstName() + staff.getName().getLastSurname());
             }
@@ -122,15 +123,14 @@ public class StaffGenerator {
     protected static void populateFieldsLowFi(Staff staff, String staffId) {
         staff.setStaffUniqueStateId(staffId);
         Name name = new Name();
-        name.setFirstName("Vincent");
-        name.setLastSurname("Valentine");
+        name.setFirstName("Gaius");
+        name.setLastSurname("Baltar");
         staff.setName(name);
         staff.setSex(SexType.MALE);
         staff.setHispanicLatinoEthnicity(false);
         RaceType raceType = new RaceType();
         raceType.getRacialCategory().add(RaceItemType.WHITE);
-        raceType.getRacialCategory().add(RaceItemType.ASIAN);
         staff.setRace(raceType);
-        staff.setHighestLevelOfEducationCompleted(LevelOfEducationType.NO_DEGREE);
+        staff.setHighestLevelOfEducationCompleted(LevelOfEducationType.DOCTORATE);
     }
 }
