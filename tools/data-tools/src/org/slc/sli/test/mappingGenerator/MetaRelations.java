@@ -30,6 +30,8 @@ public final class MetaRelations {
     private static final int TEACHERS_PER_SCHOOL = 1;
     private static final int STUDENTS_PER_SCHOOL = 25;
     private static final int PROGRAMS_PER_SCHOOL = 2;
+    private static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
+    private static final int FREE_STANDING_COHORT_SIZE = 4;
     private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
@@ -130,7 +132,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
-            SchoolMeta schoolMeta = new SchoolMeta("school" + idNum, leaMeta);
+            SchoolMeta schoolMeta = new SchoolMeta("sch" + idNum, leaMeta);
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
@@ -323,7 +325,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < PROGRAMS_PER_SCHOOL; idNum++) {
 
-            ProgramMeta programMeta = new ProgramMeta("program" + idNum, schoolMeta);
+            ProgramMeta programMeta = new ProgramMeta("prg" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
