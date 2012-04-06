@@ -20,9 +20,9 @@ import static junit.framework.Assert.assertTrue;
  * Test for support email
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml" })
 @TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class})
+        DirtiesContextTestExecutionListener.class })
 public class SupportResourceTest {
 
     @Autowired
