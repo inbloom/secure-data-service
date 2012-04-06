@@ -13,7 +13,6 @@ import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
-import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 
 public final class MetaRelations {
@@ -134,13 +133,11 @@ public final class MetaRelations {
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
-            buildAndRelateEntitiesWithSchool(schoolMeta);
+            buildAndRelateEntitiesWithSchool(schoolMeta, staffForSea);
         }
     }
 
-    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta) {
-
-        buildStaffForSchool(schoolMeta);
+    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta, Map<String, StaffMeta> staffForSea) {
 
         Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
@@ -150,15 +147,12 @@ public final class MetaRelations {
 
         Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
 
-        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
-                sessionsForSchool);
-
-        addSectionsToTeachers(sectionsForSchool, teachersForSchool);
-
         Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
 
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                     sessionsForSchool, programForSchool);
+
+        addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
         addStudentsToSections(sectionsForSchool, studentsForSchool);
             
@@ -409,7 +403,6 @@ public final class MetaRelations {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Correlates students and program on a 'per school' basis.
      * Student S is correlated with a program P iff there exists a section X s.t. S is  

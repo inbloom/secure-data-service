@@ -60,26 +60,6 @@ public class InterchangeStaffAssociationGenerator {
 
     }
 
-    private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) {
-        long startTime = System.currentTimeMillis();
-
-        for (StaffMeta staffMeta : staffMetas) {
-
-            Staff staff;
-
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staff = null;
-            } else {
-                staff = StaffGenerator.generateLowFi(staffMeta.id);
-            }
-
-            interchangeObjects.add(staff);
-        }
-
-        System.out.println("generated " + staffMetas.size() + " Staff objects in: "
-                + (System.currentTimeMillis() - startTime));
-    }
-
     /**
      * Loops all teachers and, using a Teacher Generator, populates interchange data.
      *
