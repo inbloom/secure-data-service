@@ -35,6 +35,7 @@ public class TeacherProgramResolver implements EntityContextResolver {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -54,9 +55,10 @@ public class TeacherProgramResolver implements EntityContextResolver {
         Set<String> programIds = new HashSet<String>();
 
         for (Entity staffProgramAssociation : staffProgramAssociations) {
-            String programId = (String) staffProgramAssociation.getBody().get("programId");
-            if (programId != null) {
-                programIds.add(programId);
+            for (String programId : (List<String>) staffProgramAssociation.getBody().get("programId")) {
+                if (programId != null) {
+                    programIds.add(programId);
+                }
             }
         }
 
