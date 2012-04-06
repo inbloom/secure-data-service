@@ -7,6 +7,8 @@ public class CohortMeta {
 
     public Set<String> staffIds;
     public Set<String> studentIds;
+    public ProgramMeta programMeta;
+    public SchoolMeta schoolMeta;
 
     public final String id;
 
@@ -17,12 +19,14 @@ public class CohortMeta {
      * @param programMeta
      */
     public CohortMeta(String id, ProgramMeta programMeta) {
-        
         String simplifiedProgramId = programMeta.id.replaceAll("[a-z]", "");
         this.id = simplifiedProgramId + "-prog-" + id;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
+        
+        this.programMeta = programMeta;
+        this.schoolMeta = null;
     }
 
     /**
@@ -31,12 +35,14 @@ public class CohortMeta {
      * @param programMeta
      */
     public CohortMeta(String id, SchoolMeta schoolMeta) {
-        
-        String simplifiedProgramId = schoolMeta.id.replaceAll("[a-z]", "");
-        this.id = simplifiedProgramId + "-sch-" + id;
+        String simplifiedSchoolId = schoolMeta.id.replaceAll("[a-z]", "");
+        this.id = simplifiedSchoolId + "-sch-" + id;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
+
+        this.programMeta = null;
+        this.schoolMeta = schoolMeta;
     }
 
     @Override

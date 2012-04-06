@@ -1,8 +1,10 @@
 package org.slc.sli.test.generators;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
@@ -16,6 +18,8 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramType;
+import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
+import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 
 /**
  * Generates Cohort data
@@ -25,6 +29,21 @@ import org.slc.sli.test.edfi.entities.ProgramType;
  */
 public class CohortGenerator {
 	private static final Logger log = Logger.getLogger(CohortGenerator.class);
+
+    /**
+     * Generates a Cohort from a CohortMeta.
+     *
+     * @param cohortMeta
+     * 
+     * @return <code>Cohort</code>
+     */
+    public static Cohort generateLowFi(CohortMeta cohortMeta) {
+        String cohortId = cohortMeta.id;
+        String programId = cohortMeta.programMeta.id;
+        String schoolId = cohortMeta.programMeta.schoolId;
+        
+        return generateLowFi(cohortId, programId, schoolId);
+    }
 
     /**
      * Generates a Cohort for a combination of a school and a program. 
@@ -89,7 +108,7 @@ public class CohortGenerator {
      * 
      * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(String cohortId, String programId, List<String> schoolIds) {
+    public static Cohort generateLowFi(String cohortId, String programId, Collection<String> schoolIds) {
         Cohort cohort = basicLowFiFactory(cohortId);
         
         // construct and add the school references
