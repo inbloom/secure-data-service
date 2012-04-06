@@ -14,9 +14,10 @@ When /^I view its student profile$/ do
   studentInfo = csiContent.find_element(:class, "studentInfo")
   table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
   @info = Hash.new
-  sName = csiContent.find_element(:class, "studentName") 
+  sName = csiContent.find_element(:xpath, "//div[@class='colMain']/h1") 
 
   @info["Name"] = sName.text
+  puts sName.text
   
 for i in 0..table_cells.length-1
   if table_cells[i].text.length > 0 
@@ -31,7 +32,7 @@ for i in 0..table_cells.length-1
 end
 
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
-   containsName = @info["Name"].include? expectedStudentName
+   containsName = @info["Name"] == expectedStudentName
    assert(containsName, "Actual name is :" + @info["Name"]) 
 end
 
@@ -72,6 +73,46 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   all_lozenges = csiContent.find_elements(:tag_name, "svg")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
+end
+
+# the order of expected enrollment history is: schoolYear, school, gradeLevel, entryDate, transfer, exitWithdrawDate, exitWithdrawType
+Then /^Student Enrollment History includes "([^"]*)"$/ do |expectedEnrollment|
+  #TODO check order of enrollment history
+  expectedArray = expectedEnrollment.split(';')
+  enrollmentTable = @driver.find_element(:xpath, "//div[@class='ui-jqgrid-bdiv']")
+  rows = enrollmentTable.find_elements(:tag_name, "tr")
+  
+  puts "There are " + rows.length.to_s + " entries in Enrollment History"
+  assert(rows.length > 1, "Is the enrollment history missing?")
+  assert(expectedArray.length == 7, "Missing expected enrollment history element, actual # of elements: " + expectedArray.length.to_s )
+  
+  enrollmentFound = false
+  # ignore row at index zero as it's the header
+  for i in (1..rows.length-1)
+    found = true
+    schoolYear = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'schoolYear')]")
+    school = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'nameOfInstitution')]")
+    gradeLevel = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'entryGradeLevel')]")
+    entryDate = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'entryDate')]")
+    transfer = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'transfer')]")
+    exitWithdrawDate = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'exitWithdrawDate')]")
+    exitWithdrawType = rows[i].find_element(:xpath, "td[contains(@aria-describedby,'exitWithdrawType')]")
+    
+    enrollmentArray = [ schoolYear, school, gradeLevel, entryDate, transfer, exitWithdrawDate, exitWithdrawType ] 
+    
+    for j in (0..expectedArray.length-1)
+      if (enrollmentArray[j].text != expectedArray[j])
+          found = false
+      end
+    end  
+    
+    if (found)
+      puts "Enrollment Entry Found in row " + i.to_s
+      enrollmentFound = true
+      break
+    end
+  end
+  assert(enrollmentFound, "Enrollment is not found")
 end
 
 def clickOnStudent(name)

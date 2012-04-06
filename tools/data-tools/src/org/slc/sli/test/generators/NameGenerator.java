@@ -133,7 +133,11 @@ public class NameGenerator {
         name.setMiddleName(firstNames.get(getRand()%firstNames.size()));
         name.setLastSurname(familyNames.get(getRand()%familyNames.size()));
         if(getRand()%4==0) name.setGenerationCodeSuffix(GenerationCodeSuffixType.JR);
-        name.setOtherNameType(OtherNameType.ALIAS);
+        int rand4 = getRand()%4;
+        if (rand4 == 0) name.setOtherNameType(OtherNameType.ALIAS);
+        else if (rand4 == 1) name.setOtherNameType(OtherNameType.NICKNAME);
+        else if (rand4 == 2) name.setOtherNameType(OtherNameType.OTHER_NAME);
+        else if (rand4 == 3) name.setOtherNameType(OtherNameType.PREVIOUS_LEGAL_NAME);
         return name;
     }
 
@@ -158,6 +162,33 @@ public class NameGenerator {
             return getFemaleOtherName();
         else
             return getMaleOtherName();
+    }
+
+    public static Name getFastName() {
+        Name name = new Name();
+
+        name.setFirstName("firstName");
+        name.setMiddleName("middleName");
+        name.setLastSurname("lastName");
+        name.setGenerationCodeSuffix(GenerationCodeSuffixType.II);
+        name.setMaidenName("maidenName");
+        name.setPersonalTitlePrefix(PersonalTitlePrefixType.COLONEL);
+        name.setVerification(PersonalInformationVerificationType.BAPTISMAL_OR_CHURCH_CERTIFICATE);
+
+        return name;
+    }
+
+    public static OtherName getFastOtherName() {
+        OtherName otherName = new OtherName();
+
+        otherName.setFirstName("firstName");
+        otherName.setMiddleName("middleName");
+        otherName.setLastSurname("lastName");
+        otherName.setGenerationCodeSuffix(GenerationCodeSuffixType.II);
+        otherName.setPersonalTitlePrefix(PersonalTitlePrefixType.COLONEL);
+        otherName.setOtherNameType(OtherNameType.ALIAS);
+
+        return otherName;
     }
 
     public static void main(String [] args) throws Exception

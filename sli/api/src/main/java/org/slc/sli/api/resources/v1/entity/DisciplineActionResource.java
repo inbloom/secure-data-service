@@ -29,7 +29,9 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This event entity represents actions taken by an
+ * education organization after a disruptive event that 
+ * is recorded as a discipline incident.
  * 
  * @author slee
  * 
@@ -88,7 +90,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$disciplineActions$$ entity
+     * Get a single $$disciplineActions$$ entity.
      * 
      * @param disciplineActionId
      *            The Id of the $$disciplineActions$$.
@@ -107,7 +109,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$disciplineActions$$ entity
+     * Delete a $$disciplineActions$$ entity.
      * 
      * @param disciplineActionId
      *            The Id of the $$disciplineActions$$.

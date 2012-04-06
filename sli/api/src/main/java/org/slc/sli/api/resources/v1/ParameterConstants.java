@@ -76,11 +76,18 @@ public class ParameterConstants {
     public static final String OPTIONAL_FIELDS = "optionalFields";
     
     /**
+     * Query parameter for inclusion of custom entity.
+     */
+    public static final String INCLUDE_CUSTOM = "includeCustom"; 
+    public static final String DEFAULT_INCLUDE_CUSTOM = "false"; 
+    
+    /**
      * Optional Fields
      */
     public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";
     public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
     public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
+    public static final String OPTIONAL_FIELD_TRANSCRIPT = "transcript";
 
     /**
      * Entity/Association IDs
@@ -118,6 +125,8 @@ public class ParameterConstants {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
-    public static final String STAFF_PROGRAM_ASSOCIATION_ID = "staffProgramAssociaitonId";    public static final String STUDENT_PROGRAM_ASSOCIATION_ID = "studentProgramAssociaitonId";    public static final String STUDENT_COHORT_ASSOCIATION_ID = "studentCohortAssociationId";
+    public static final String STAFF_PROGRAM_ASSOCIATION_ID = "staffProgramAssociatonId";
+    public static final String STUDENT_PROGRAM_ASSOCIATION_ID = "studentProgramAssociaitonId";
+    public static final String STUDENT_COHORT_ASSOCIATION_ID = "studentCohortAssociationId";
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
 }

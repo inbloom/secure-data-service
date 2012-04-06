@@ -110,7 +110,7 @@ public final class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
@@ -132,6 +132,8 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
+    public static final String ATTR_SCHOOL = "school";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
@@ -170,6 +172,12 @@ public final class Constants {
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
+
+    public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
+    
+    // extra elements added by API
+    public static final String METADATA = "metaData";
+    public static final String EXTERNAL_ID = "externalId";
     
     /**
      * Contains the possible values for FRE participation

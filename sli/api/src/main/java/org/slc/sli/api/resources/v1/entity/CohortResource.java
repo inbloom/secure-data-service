@@ -29,9 +29,11 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This entity represents any type of list of
+ * designated students for tracking, analysis, or intervention.
  * 
  * @author jstokes
+ * @author srichards
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COHORTS)

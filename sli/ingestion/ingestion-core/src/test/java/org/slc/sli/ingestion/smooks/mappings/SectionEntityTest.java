@@ -5,22 +5,22 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import junitx.util.PrivateAccessor;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -144,21 +144,37 @@ public class SectionEntityTest {
     + "               <StateOrganizationId>StateOrganizationId3</StateOrganizationId>                  "
     + "           </ClassPeriodIdentity>                                                               "
     + "       </ClassPeriodReference>                                                                  "
-    + "       <ProgramReference id=\"ID015\" ref=\"ID008\">                                            "
+    + "       <ProgramReference id=\"ID013\" ref=\"ID011\">                                                                       "
+    + "           <ProgramIdentity>                                                                    "
+    + "               <ProgramType>Adult/Continuing Education</ProgramType>                            "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID14</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID15</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID16</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "                   <ID>ID17</ID>                                                                "
+    + "               </EducationOrgIdentificationCode>                                                "
+    + "           </ProgramIdentity>                                                                   "
+    + "       </ProgramReference>                                                                      "
+    + "       <ProgramReference id=\"ID015\" ref=\"ID008\">                                                                       "
     + "           <ProgramIdentity>                                                                    "
     + "               <ProgramId>ProgramId0</ProgramId>                                                "
     + "               <StateOrganizationId>StateOrganizationId4</StateOrganizationId>                  "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
     + "                   <ID>ID18</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
     + "                   <ID>ID19</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
     + "           </ProgramIdentity>                                                                   "
     + "       </ProgramReference>                                                                      "
     + "   </Section>                                                                                   "
     + "</InterchangeMasterSchedule>";
-
 
     @Test
     public void testValidSection() throws Exception {
@@ -446,6 +462,9 @@ public class SectionEntityTest {
 
         Assert.assertEquals("SessionName0", entity.get("sessionId"));
 
-        Assert.assertEquals("ProgramId0", entity.get("programReference"));
+        @SuppressWarnings("unchecked")
+        List<String> programReferenceList = (List<String>) entity.get("programReference");
+        Assert.assertTrue(programReferenceList != null);
+        Assert.assertEquals("ProgramId0", programReferenceList.get(0));
     }
 }

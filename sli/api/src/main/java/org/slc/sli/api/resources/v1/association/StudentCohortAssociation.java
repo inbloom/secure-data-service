@@ -31,9 +31,11 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates the staff associated
+ * with a cohort of students.
  * 
  * @author kmyers
+ * @author srichards
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)

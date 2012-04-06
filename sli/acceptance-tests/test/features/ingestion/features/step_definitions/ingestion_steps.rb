@@ -181,7 +181,7 @@ When /^a batch job log has been created$/ do
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{maxTimeout}")
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
 
 end
@@ -263,8 +263,26 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @db = @conn[INGESTION_DB_NAME]
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
-  assert(@entity.count == 1, "Found more than one document with this query")
+  assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
   
+end
+
+When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
+  @entity.each do |ent|
+    if equal_or_unequal == "equal"
+      assert(getValueAtIndex(ent,arg1) == getValueAtIndex(ent,arg2), "#{arg1} is not equal to #{arg2}")
+    else
+      assert(getValueAtIndex(ent,arg1) != getValueAtIndex(ent,arg2), "#{arg1} is not not equal to #{arg2}")
+    end
+  end
+end
+
+def getValueAtIndex(ent, index_string)
+  val = ent.clone
+  index_string.split('.').each do |part|
+    is_num?(part) ? val = val[part.to_i] : val = val[part]
+  end
+  val
 end
 
 Then /^verify the following data in that document:$/ do |table|
