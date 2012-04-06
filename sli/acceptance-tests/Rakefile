@@ -969,7 +969,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1034,11 +1034,6 @@ task :PerformanceLevels do
     runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
 end
 
-desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest do
-    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
-end
-
 desc "Run dashboard attendance related tests"
 task :dashboardAttendance do
   runTests("test/features/dashboard/dash/attendance.feature")
@@ -1086,6 +1081,17 @@ desc "Run SDK Tests Tests"
 task :sdkTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/api_deprecated/end_user_stories/JavaSDK")
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest => [:realmInit] do
+    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+    displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
