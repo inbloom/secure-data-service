@@ -165,8 +165,8 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests, 
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, 
+task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests] do
   displayFailureReport()
   if $SUCCESS
@@ -251,6 +251,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
+                     :v1DirectReferenceCollectionsTests,
                      :v1CascadeDeletionTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
@@ -368,6 +369,12 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences")
+end
+
+desc "Run V1 Direct Reference Collections Tests"
+task :v1DirectReferenceCollectionsTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferenceCollections")
 end
 
 desc "Run V1 Student Parent Association Tests"
@@ -895,6 +902,7 @@ end
 
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()

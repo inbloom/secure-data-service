@@ -75,7 +75,6 @@ public class StudentProgramAssociationGenerator {
 
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
-        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
         pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         ProgramReferenceType prt = new ProgramReferenceType();
