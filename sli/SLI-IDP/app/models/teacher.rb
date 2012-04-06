@@ -18,10 +18,6 @@ class Teacher
       self.body.name.lastSurname + ", " + self.body.name.firstName + " (Educator)"
   end
 
-  def get_id
-      UUIDTools::UUID.parse_raw(self._id.to_s)
-  end
-
   def staffUniqueStateId
     self.body.staffUniqueStateId
   end

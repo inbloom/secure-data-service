@@ -27,16 +27,16 @@ import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 
-
 /**
  * Tesing layout controller
+ * 
  * @author svankina
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/application-context.xml" })
+@ContextConfiguration(locations = { "/application-context.xml" })
 public class LayoutControllerTest {
-
+    
     @Autowired
     ApplicationContext applicationContext;
     
@@ -64,23 +64,24 @@ public class LayoutControllerTest {
     
     /**
      * Mock class extension for testing
-     *
+     * 
      */
     class LayoutControllerMock extends GenericLayoutController {
         public ModelAndView handleStudentProfile(String id) {
             String tabbedOneCol = "tabbed_one_col";
             ModelMap model = getPopulatedModel("simpleLayout", id, null);
-            // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
+            // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant
+            // programs
             model.addAttribute("programUtil", new StudentProgramUtil());
             return getModelView(tabbedOneCol, model);
         }
         
         protected void setContextPath(ModelMap model, HttpServletRequest request) {
         }
-
+        
         public String getUsername() {
             return "lkim";
-        }        
+        }
         
         public void populateModelLegacyItems(ModelMap model) {
             
@@ -88,17 +89,15 @@ public class LayoutControllerTest {
         
     }
     
-    
     private AnnotationMethodHandlerAdapter handlerAdapter;
     
-        
     private LayoutControllerMock layoutController;
     
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-    //private HandlerAdapter handlerAdapter;
-    //private LayoutController layoutController;
     
+    // private HandlerAdapter handlerAdapter;
+    // private LayoutController layoutController;
     
     @Before
     public void setUp() throws Exception {
@@ -121,7 +120,6 @@ public class LayoutControllerTest {
         
     }
     
-    
     /*
      * TODO: Remove this test
      * This test is going to be removed when the controllers are rrefactored
@@ -130,6 +128,6 @@ public class LayoutControllerTest {
     public void testLayoutController() throws Exception {
         
         Assert.assertNotNull(layoutController.handleStudentProfile("1"));
-   }
+    }
     
 }

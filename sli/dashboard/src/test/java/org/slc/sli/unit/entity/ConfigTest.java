@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import org.junit.Test;
 
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.Config.Type;
 
 /**
  * 
@@ -29,14 +30,13 @@ public class ConfigTest {
             + "  {id: 'col1', name: 'School Year', type:'FIELD', datatype: 'string', field: 'studentSchool.schoolYear', width: 100}, "
             + "  {id: 'col2', name: 'School', type:'FIELD', datatype: 'string', field: 'studentSchool.nameOfInstitution', width: 220} ]}";
     
-    private static final String STUDENT_PROFILE_DRIVER = "{" + "id : 'studentProfile'," + "type: 'LAYOUT'," + "data :{"
-            + "entity: 'student'," + "alias: 'student'" + "}, " + "items: ["
-            + "{id : 'csi', name: 'Student Info', type: 'PANEL'}" + "]" + "}";
+    private static final String STUDENT_PROFILE_DRIVER = "{id : 'studentProfile',name: 'Name', type: 'LAYOUT',data :{"
+            + "entity: 'student',alias: 'student'}, items: [" + "{id : 'csi', name: 'Student Info', type: 'PANEL'}]}";
     
-    private static final String STUDENT_PROFILE_DISTRICT = "{" + "id : 'studentProfileDistrict',"
-            + "type: 'LAYOUT'," + "data :{" + "entity: 'studentDistrct'," + "alias: 'studentDistrct'" + "}, "
-            + "items: [" + "{id : 'csiDistrict', name: 'Student Info District', type: 'PANEL'},"
-            + "{id: 'tabDistrict', name: 'Daybreak district tab',  type : 'TAB', items: []}" + "]" + "}";
+    private static final String STUDENT_PROFILE_DISTRICT = "{id : 'studentProfileDistrict',"
+            + "type: 'FIELD', name: 'District Name', data :{entity: 'studentDistrct',alias: 'studentDistrct'}, "
+            + "items: [{id : 'csiDistrict', name: 'Student Info District', type: 'PANEL'},"
+            + "{id: 'tabDistrict', name: 'Daybreak district tab',  type : 'TAB', items: []}]}";
     
     /**
      * Test conversion from layout json string to Config object
@@ -80,8 +80,12 @@ public class ConfigTest {
         Config district = gson.fromJson(STUDENT_PROFILE_DISTRICT, Config.class);
         Config merged = driver.overWrite(district);
         
-        Assert.assertEquals(merged.getId(), "studentProfile");
-        Assert.assertEquals(merged.getType(), Config.Type.LAYOUT);
+        Assert.assertEquals(merged.getId(), driver.getId());
+        Assert.assertEquals(merged.getName(), "District Name");
+        Assert.assertEquals(driver.getName(), "Name");
+        Assert.assertEquals(district.getType(), Type.FIELD);
+        Assert.assertEquals(driver.getType(), Type.LAYOUT);
+        Assert.assertEquals(merged.getType(), Type.LAYOUT);
         
         Config.Data data = merged.getData();
         Assert.assertEquals(data.getAlias(), "student");

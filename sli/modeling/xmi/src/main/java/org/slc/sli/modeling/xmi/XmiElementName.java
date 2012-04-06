@@ -75,6 +75,14 @@ public enum XmiElementName {
     /**
      * 
      */
+    NAMESPACE_DOT_OWNED_ELEMENT("Namespace.ownedElement"),
+    /**
+     * 
+     */
+    PACKAGE("Package"),
+    /**
+     * 
+     */
     STRUCTURAL_FEATURE_DOT_MULTIPLICITY("StructuralFeature.multiplicity"),
     /**
      * 
