@@ -44,9 +44,12 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Then I should receive a return code of 204
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then list <reference field> should be <new valid value>
-     And I should receive a link named <target link name> for each ID in "<NEW VALID VALUE>" with URI prefix "/<URI OF REFERENCED ENTITY>"
+     And I should receive a link named <target link name> for each value in list "<NEW VALID VALUE>" with URI prefix "/<URI OF REFERENCED ENTITY>"
+    When I navigate to GET the first value in list "<NEW VALID VALUE>" with URI prefix "/<URI OF REFERENCED ENTITY>"
+    Then "id" should be the first value in list "<NEW VALID VALUE>"
+     And "entityType" should be <target entity type>
     Examples:
-        | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
+        | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                          | new valid value                                                                  |
         | "section"                               | "sections"                               | "programReference"               | "program"               | "programs"               | "getProgram"               | "getSections"                               | "58c9ef19-c172-4798-8e6e-c73e68ffb5a3" | ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] | ["e8d33606-d114-4ee4-878b-90ac7fc3df16", "cb292c7d-3503-414a-92a2-dc76a1585d79"] |
         | "cohort"                                | "cohorts"                                | "programId"                      | "program"               | "programs"               | "getProgram"               | "getCohorts"                                | "a50121a2-c566-401b-99a5-71eb5cab5f4f" | ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] | ["cb292c7d-3503-414a-92a2-dc76a1585d79"] |
         | "staffCohortAssociation"                | "staffCohortAssociations"                | "staffId"                        | "staff"                 | "staff"                  | "getStaff"                 | "getStaffCohortAssociations"                | "f4e62753-43e7-4cab-843b-c6c4a0d6c1c3" | ["f0e41d87-92d4-4850-9262-ed2f2723159b"] | ["ad878c6d-4eaf-4a8a-8284-8fb6570cea64"] |

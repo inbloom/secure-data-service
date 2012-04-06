@@ -111,6 +111,33 @@ When /^I set the list "([^"]*)" to "([^"].*)"$/ do |property, value|
   @fields[property] = value
 end
 
+When /^I navigate to GET the first value in list "([^"]*)" with URI prefix "([^"]*)"$/ do |list, prefix|
+  list = eval(list)
+  assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
+  assert(list.length > 0, "ID list length is 0, expected positive value")
+  id = list.first
+  uri = prefix + "/" + id
+
+  if defined? @queryParams
+    uri = uri + "?#{@queryParams.join('&')}"
+  end
+  restHttpGet(uri)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  contentType = contentType(@res)
+  jsonTypes = ["application/json", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
+  if jsonTypes.include? contentType
+    @result = JSON.parse(@res.body)
+    assert(@result != nil, "Result of JSON parsing is nil")
+  elsif /application\/xml/.match contentType
+    doc = Document.new @res.body
+    @result = doc.root
+    puts @result
+  else
+    @result = {}
+  end
+end
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
@@ -135,17 +162,12 @@ Then /^list "([^"]*)" should be (\[.*\])$/ do |key, value|
 
 end
 
-Then /^I should receive a link named "([^"]*)" for each ID in "([^"]*)" with URI prefix "([^"]*)"$/ do |rel, id_list, prefix|
-
-  # puts "\nrel: #{rel}\n"
-  # puts "\nid_list: #{id_list}\n"
-  # puts "\nprefix #{prefix}\n"
-
+Then /^I should receive a link named "([^"]*)" for each value in list "([^"]*)" with URI prefix "([^"]*)"$/ do |rel, list, prefix|
   assert(@result.has_key?("links"), "Response contains no links")
-  id_list = eval(id_list)
-  assert(id_list.is_a?(Array), "ID list is a #{id_list.class}, expected Array")
+  list = eval(list)
+  assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
 
-  id_list.each do | id |
+  list.each do | id |
     new_link=prefix + "/" + id
     found = false
     @result["links"].each do |link|
@@ -154,5 +176,22 @@ Then /^I should receive a link named "([^"]*)" for each ID in "([^"]*)" with URI
       end
     end
     assert(found, "Link not found rel=#{rel}, href ends with=#{new_link}")
+  end
+end
+
+Then /^"([^"]*)" should be the first value in list "([^"]*)"$/ do |key, list|
+  list = eval(list)
+  assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
+  assert(list.length > 0, "ID list length is 0, expected positive value")
+  value = list.first
+
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result.has_key?(key), "Response does not contain key #{key}")
+
+  if @result[key].is_a?(Array)
+    assert(@result[key] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
+  else
+    assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
   end
 end
