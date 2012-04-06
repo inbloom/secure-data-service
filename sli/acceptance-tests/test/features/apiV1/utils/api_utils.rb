@@ -100,6 +100,19 @@ Then /^each entity's "([^"]*)" should be "([^"]*)"$/ do |key, value|
   end
 end
 
+Then /^each entity's "([^"]*)" should be in the array "([^"]*)"$/ do |key, value|
+   @result.each do |entity|
+    assert(entity.has_key?(key), "Entity does not even contain key #{key}")
+    containsValue = false
+    value.each do |valueSegment|
+      if (valueSegment == entity[key])
+        containsValue = true
+      end
+    end
+    assert(containsValue, "Entity's value for key #{key} is not in array #{value} (was #{entity[key]})")
+  end
+end
+
 Then /^each entity's "([^"]*)" should contain "([^"]*)"$/ do |key, value|
    @result.each do |entity|
     assert(entity.has_key?(key), "Entity does not even contain key #{key}")
