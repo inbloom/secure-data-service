@@ -3,12 +3,17 @@
  */
 package org.slc.sli.test.generators;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.CohortIdentityType;
 import org.slc.sli.test.edfi.entities.CohortReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 
 /**
  * Generates StudentCohortAssociation data
@@ -21,6 +26,27 @@ public class StudentCohortAssociationGenerator {
 
 	private static String beginDate = "2011-03-04";
 	private static String endDate = "2012-03-04";
+
+    /**
+     * Generates a list of StudentCohortAssociation from a CohortMeta.
+     *
+     * @param cohortMeta
+     * 
+     * @return <code>List<StudentCohortAssociation></code>
+     */
+    public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
+        String cohortId = cohortMeta.id;
+        String schoolId = cohortMeta.programMeta.schoolId;
+        Set<String> studentIds = cohortMeta.studentIds;
+        
+        List<StudentCohortAssociation> list = new ArrayList<StudentCohortAssociation>(studentIds.size());
+        
+        for (String studentId : studentIds) {
+            list.add(generateLowFi(cohortId, studentId, schoolId));
+        }
+
+        return list;
+    }
 
     /**
      * Generates a StudentCohortAssociation between a cohort and a student 
