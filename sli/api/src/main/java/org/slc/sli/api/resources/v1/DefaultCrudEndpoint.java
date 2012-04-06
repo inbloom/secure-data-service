@@ -219,29 +219,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     // add the custom entity if it was requested
                     addCustomEntity(entityBody, entityDef, uriInfo);
 
-                    //ids.add((String) entityBody.get(idKey));
-                    Object value = entityBody.get(idKey);
-                    if (value instanceof List<?>) {
-                        for (String id : (List<String>) value) {
-                            ids.add(id);
-                            if (associations.containsKey(id)) {
-                                associations.get(id).add(entityBody);
-                            } else {
-                                List<EntityBody> list = new ArrayList<EntityBody>();
-                                list.add(entityBody);
-
-                                associations.put(id, list);
-                            }
-                        }
-                    } else {
-                        ids.add((String) value);
-                        if (associations.containsKey((String) entityBody.get(idKey))) {
-                            associations.get((String) entityBody.get(idKey)).add(entityBody);
+                    for (String id : entityBody.getId(idKey)) {
+                        ids.add(id);
+                        if (associations.containsKey(id)) {
+                            associations.get(id).add(entityBody);
                         } else {
                             List<EntityBody> list = new ArrayList<EntityBody>();
                             list.add(entityBody);
 
-                            associations.put((String) entityBody.get(idKey), list);
+                            associations.put(id, list);
                         }
                     }
                 }

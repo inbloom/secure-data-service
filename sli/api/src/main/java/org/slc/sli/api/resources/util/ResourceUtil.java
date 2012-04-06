@@ -246,10 +246,7 @@ public class ResourceUtil {
         // loop through all reference fields on supplied entity type
         for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
             // see what GUID is stored in the reference field
-            Object storedValue = entityBody.get(referenceField.getKey());
-
-            if (storedValue instanceof String) {
-                String referenceGuid = (String) storedValue;
+            for (String referenceGuid : entityBody.getId(referenceField.getKey())) {
                 // if a value (GUID) was stored there
                 if (referenceGuid != null) {
                     String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()
@@ -258,18 +255,6 @@ public class ResourceUtil {
 
                     links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                             PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
-                }
-            } else if (storedValue instanceof List<?>) {
-                for (String referenceGuid : (List<String>) storedValue) {
-                    // if a value (GUID) was stored there
-                    if (referenceGuid != null) {
-                        String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()
-                                .getResourceName());
-                        String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
-
-                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
-                    }
                 }
             }
         }
