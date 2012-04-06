@@ -3,68 +3,59 @@
  */
 package org.slc.sli.test.generators;
 
-import java.util.Random;
-
 import org.apache.log4j.Logger;
-import org.slc.sli.test.edfi.entities.Cohort;
 import org.slc.sli.test.edfi.entities.CohortIdentityType;
 import org.slc.sli.test.edfi.entities.CohortReferenceType;
-import org.slc.sli.test.edfi.entities.Student;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 
 /**
- * @author lchen
+ * Generates StudentCohortAssociation data
+ * 
+ * @author slee
  *
  */
 public class StudentCohortAssociationGenerator {
-	private static final Logger log = Logger.getLogger(StudentCohortAssociation.class);
-	private boolean includeOptionalData = true;
-	private boolean includeAllData = true;
-	private String beginDate = "2011-03-04";
-	private String endDate = "2012-03-04";
-	Random generator = new Random();
+	private static final Logger log = Logger.getLogger(StudentCohortAssociationGenerator.class);
 
-	public StudentCohortAssociation getStudentCohortAssociation( CohortReferenceType CohortReference, StudentReferenceType StudentReference) throws Exception {
-		StudentCohortAssociation sca = new StudentCohortAssociation();
-		if (includeAllData) {
-			sca.setStudentReference(StudentReference);
-			sca.setCohortReference(CohortReference);
-			sca.setBeginDate(beginDate);
+	private static String beginDate = "2011-03-04";
+	private static String endDate = "2012-03-04";
 
-		}
-		else {
-			log.info("Required Data is invalid !");
-		}
+    /**
+     * Generates a StudentCohortAssociation between a cohort and a student 
+     * with a school as a reference.
+     *
+     * @param cohortId
+     * @param studentId
+     * @param schoolId
+     * 
+     * @return <code>StudentCohortAssociation</code>
+     */
+    public static StudentCohortAssociation generateLowFi(String cohortId, String studentId, String schoolId) {
 
-		if (includeOptionalData)
-			sca.setEndDate(endDate);
-		else log.info("Optional Data is invalid!");
+        StudentCohortAssociation studentCohortAssoc = new StudentCohortAssociation();
+        
+        // construct and add the student reference
+        StudentIdentityType sit = new StudentIdentityType();
+        sit.setStudentUniqueStateId(studentId);
+        StudentReferenceType srt = new StudentReferenceType();
+        srt.setStudentIdentity(sit);
+        studentCohortAssoc.setStudentReference(srt);
 
-			/*
-		if (includeAllData) {
+        // construct and add the Cohort Reference       
+        CohortIdentityType ci = new CohortIdentityType();
+        ci.setCohortIdentifier(cohortId);
+        ci.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        CohortReferenceType crt = new CohortReferenceType();
+        crt.setCohortIdentity(ci);
+        studentCohortAssoc.setCohortReference(crt);
 
-			   	StudentIdentityType sit = new StudentIdentityType();
-		        sit.setStudentUniqueStateId(studentUniqueStateId);
-		        StudentReferenceType srt = new StudentReferenceType();
-		        srt.setStudentIdentity(sit);
-		        sca.setStudentReference(srt);
-
-		        CohortIdentityType cit =  new CohortIdentityType();
-		        cit.setCohortIdentifier(cohortIdentifier);
-
-		        CohortReferenceType r = CohortGenerator.getCohortReferenceType(cit);
-		        sca.setCohortReference(r);
-		} else {
-			log.info("Required Data is invalid !");
-		}
-
-		if (includeOptionalData)
-			sca.setEndDate(endDate);
-		else log.info("Optional Data is invalid!");
-		*/
-		return sca;
-	}
+        //set begin and end dates
+        studentCohortAssoc.setBeginDate(beginDate);
+        studentCohortAssoc.setEndDate(endDate);
+        
+        return studentCohortAssoc;
+    }
 
 }
