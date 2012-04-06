@@ -10,14 +10,16 @@ import ch.qos.logback.core.FileAppender;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Provides logging to console or file for the offline tool
+ *
  * @author npandey
  */
-
 public class LoggerUtil {
     private static Logger logger = null;
     private static LoggerContext loggerContext;
     private static PatternLayoutEncoder encoder;
     private static FileAppender<ILoggingEvent> fileAppender;
+
     public static FileAppender<ILoggingEvent> getFileAppender() {
         return fileAppender;
     }
@@ -27,6 +29,7 @@ public class LoggerUtil {
     static {
         loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         logger = loggerContext.getLogger("LoggerUtil.class");
+
         encoder = new PatternLayoutEncoder();
         encoder.setContext(loggerContext);
         encoder.setPattern("%date %-5level %msg%n");
@@ -49,7 +52,6 @@ public class LoggerUtil {
 
     public static void logToConsole() {
         logger.detachAndStopAllAppenders();
-
 
         consoleAppender.start();
 

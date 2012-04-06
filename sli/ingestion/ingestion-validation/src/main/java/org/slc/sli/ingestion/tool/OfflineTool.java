@@ -25,7 +25,6 @@ public class OfflineTool {
 
         OfflineTool main = context.getBean(OfflineTool.class);
 
-
         main.start(args);
     }
 
@@ -38,8 +37,6 @@ public class OfflineTool {
     int inputArgumentCount;
 
     private void start(String[] args) {
-
-
         LoggerUtil.logToConsole();
         File file = null;
 
@@ -66,7 +63,6 @@ public class OfflineTool {
 
         controller.doValidation(file);
     }
-
 
     public void setController(ValidationController controller) {
         this.controller = controller;
