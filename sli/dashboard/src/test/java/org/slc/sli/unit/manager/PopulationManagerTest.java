@@ -113,10 +113,6 @@ public class PopulationManagerTest {
         GenericEntity result = studentSummaries.get(0);
         assertTrue(result.get("id").equals(studentId));
         assertTrue(programs.equals(result.get("programs")));
-        
-        List<GenericEntity> assessments = (List<GenericEntity>) result.get("studentAssessments");
-        assertTrue(assessments.get(0).get("assessmentName").equals(assessmentName));
-        
     }
     
     @Test

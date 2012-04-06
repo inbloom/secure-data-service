@@ -48,7 +48,11 @@ public final class Attribute extends AbstractModelElement implements HasName {
     }
     
     public Type getType() {
-        return lookup.getType(type);
+        try {
+            return lookup.getType(type);
+        } catch (final RuntimeException e) {
+            throw new RuntimeException(name, e);
+        }
     }
     
     public Multiplicity getMultiplicity() {
