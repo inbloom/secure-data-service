@@ -10,6 +10,7 @@ import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
+import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
@@ -42,9 +43,8 @@ public final class MetaRelations {
 
     public static final Map<String, SectionMeta> SECTION_MAP = new HashMap<String, SectionMeta>();
 
-    public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
-
     public static final Map<String, StaffMeta> STAFF_MAP = new HashMap<String, StaffMeta>();
+    public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
 
@@ -134,28 +134,38 @@ public final class MetaRelations {
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
-            Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
+            buildAndRelateEntitiesWithSchool(schoolMeta);
+        }
+    }
 
-            Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
+    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta) {
 
-            Map<String, CourseMeta> coursesForSchool = buildCoursesForSchool(schoolMeta);
+        buildStaffForSchool(schoolMeta);
 
-            Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
+        Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
-            Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+        Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
 
-            Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
+        Map<String, CourseMeta> coursesForSchool = buildCoursesForSchool(schoolMeta);
+
+        Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
+
+        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
+                sessionsForSchool);
+
+        addSectionsToTeachers(sectionsForSchool, teachersForSchool);
+
+        Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+
+        Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                     sessionsForSchool, programForSchool);
 
-            addSectionsToTeachers(sectionsForSchool, teachersForSchool);
-
-            addStudentsToSections(sectionsForSchool, studentsForSchool);
+        addStudentsToSections(sectionsForSchool, studentsForSchool);
             
-            addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
+        addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
-            addStaffToPrograms(programForSchool, staffForSea);
+        addStaffToPrograms(programForSchool, staffForSea);
             
-        }
     }
 
     /**
@@ -399,6 +409,7 @@ public final class MetaRelations {
         }
     }
 
+<<<<<<< HEAD
     /**
      * Correlates students and program on a 'per school' basis.
      * Student S is correlated with a program P iff there exists a section X s.t. S is  
