@@ -3,6 +3,7 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
@@ -12,19 +13,24 @@ import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 
 public final class MetaRelations {
 
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
-    private static final int SCHOOLS_PER_LEA = 1;
-    private static final int COURSES_PER_SCHOOL = 1;
+    private static final int STAFF_PER_SEA = 3;
+    private static final int SCHOOLS_PER_LEA = 2;
+    private static final int COURSES_PER_SCHOOL = 2;
     private static final int SESSIONS_PER_SCHOOL = 1;
     private static final int SECTIONS_PER_COURSE_SESSION = 1;
-    private static final int STAFF_PER_SCHOOL = 1;
     private static final int TEACHERS_PER_SCHOOL = 1;
     private static final int STUDENTS_PER_SCHOOL = 25;
+    private static final int PROGRAMS_PER_SCHOOL = 2;
+    private static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
+    private static final int FREE_STANDING_COHORT_SIZE = 4;
+    private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -40,6 +46,10 @@ public final class MetaRelations {
     public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
+
+    public static final Map<String, ProgramMeta> PROGRAM_MAP = new HashMap<String, ProgramMeta>();
+
+    public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
     /**
      * The top level call to start the XML generation process is
@@ -66,8 +76,25 @@ public final class MetaRelations {
 
             SEA_MAP.put(seaMeta.id, seaMeta);
 
-            buildLeasForSea(seaMeta);
+            Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
+            buildLeasForSea(seaMeta, staffForSea);
         }
+    }
+
+    /**
+     * Create staff relations for each sea
+     */
+    private static Map<String, StaffMeta> buildStaffForSea(SeaMeta seaMeta) {
+
+        Map<String, StaffMeta> staffInSchoolMap = new HashMap<String, StaffMeta>(STAFF_PER_SEA);
+        for (int idNum = 0; idNum < STAFF_PER_SEA; idNum++) {
+
+            StaffMeta staffMeta = new StaffMeta("staff" + idNum, seaMeta);
+
+            STAFF_MAP.put(staffMeta.id, staffMeta);
+            staffInSchoolMap.put(staffMeta.id, staffMeta);
+        }
+        return staffInSchoolMap;
     }
 
     /**
@@ -75,7 +102,8 @@ public final class MetaRelations {
      *
      * @param seaMeta
      */
-    private static void buildLeasForSea(SeaMeta seaMeta) {
+    private static void buildLeasForSea(SeaMeta seaMeta,
+            Map<String, StaffMeta> staffForSea) {
 
         for (int idNum = 0; idNum < LEAS_PER_SEA; idNum++) {
 
@@ -83,7 +111,7 @@ public final class MetaRelations {
 
             LEA_MAP.put(leaMeta.id, leaMeta);
 
-            buildSchoolsForLea(leaMeta);
+            buildSchoolsForLea(leaMeta, staffForSea);
         }
     }
 
@@ -97,21 +125,19 @@ public final class MetaRelations {
      *
      * @param leaMeta
      */
-    private static void buildSchoolsForLea(LeaMeta leaMeta) {
+    private static void buildSchoolsForLea(LeaMeta leaMeta, Map<String, StaffMeta> staffForSea) {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
-            SchoolMeta schoolMeta = new SchoolMeta("school" + idNum, leaMeta);
+            SchoolMeta schoolMeta = new SchoolMeta("sch" + idNum, leaMeta);
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
-            buildAndRelateEntitiesWithSchool(schoolMeta);
+            buildAndRelateEntitiesWithSchool(schoolMeta, staffForSea);
         }
     }
 
-    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta) {
-
-        buildStaffForSchool(schoolMeta);
+    private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta, Map<String, StaffMeta> staffForSea) {
 
         Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
 
@@ -121,22 +147,19 @@ public final class MetaRelations {
 
         Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
 
+        Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
-                sessionsForSchool);
+                    sessionsForSchool, programForSchool);
 
         addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
         addStudentsToSections(sectionsForSchool, studentsForSchool);
-    }
+            
+        addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
-    private static void buildStaffForSchool(SchoolMeta schoolMeta) {
-
-        for (int idNum = 0; idNum < STAFF_PER_SCHOOL; idNum++) {
-
-            StaffMeta staffMeta = StaffMeta.createWithChainedId("staff" + idNum, schoolMeta);
-
-            STAFF_MAP.put(staffMeta.id, staffMeta);
-        }
+        addStaffToPrograms(programForSchool, staffForSea);
+            
     }
 
     /**
@@ -251,12 +274,17 @@ public final class MetaRelations {
      * @param schoolMeta
      * @param coursesForSchool
      * @param sessionsForSchool
+     * @param programsForSchool
      * @return
      */
     private static Map<String, SectionMeta> buildSectionsForSchool(SchoolMeta schoolMeta,
-            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool) {
+            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool,
+            Map<String, ProgramMeta> programsForSchool) {
 
         Map<String, SectionMeta> sectionMapForSchool = new HashMap<String, SectionMeta>();
+        
+        Object[] programMetas = programsForSchool.values().toArray();
+        int programCounter = 0;
 
         for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
@@ -264,7 +292,15 @@ public final class MetaRelations {
 
                 for (int idNum = 0; idNum < SECTIONS_PER_COURSE_SESSION; idNum++) {
 
-                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta);
+                    // program reference in section is optional; will create one program reference 
+                    // for every inverse-probability-section-has-program section
+                    ProgramMeta programMeta = null;
+                    if(sectionMapForSchool.size() % INV_PROB_SECTION_HAS_PROGRAM == 0) {
+                        programMeta = (ProgramMeta) programMetas[programCounter];
+                        programCounter = (programCounter + 1) % programMetas.length;
+                    }
+
+                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta, programMeta);
 
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -275,6 +311,48 @@ public final class MetaRelations {
         }
 
         return sectionMapForSchool;
+    }
+
+    /**
+     * Generate the programs for this school.
+     * programMapForSchool is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+    private static Map<String, ProgramMeta> buildProgramsForSchool(SchoolMeta schoolMeta) {
+
+        Map<String, ProgramMeta> programMapForSchool = new HashMap<String, ProgramMeta>();
+
+        for (int idNum = 0; idNum < PROGRAMS_PER_SCHOOL; idNum++) {
+
+            ProgramMeta programMeta = new ProgramMeta("prg" + idNum, schoolMeta);
+
+            // it's useful to return the objects created JUST for this school
+            // add to both maps here to avoid loop in map.putAll if we merged maps later
+            programMapForSchool.put(programMeta.id, programMeta);
+            PROGRAM_MAP.put(programMeta.id, programMeta);
+            
+            buildCohortsForProgram(programMeta, schoolMeta);
+        }
+
+        return programMapForSchool;
+    }
+
+    /**
+     * Generate the cohorts for this program.
+     * programMapForSchool is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+    private static void buildCohortsForProgram(ProgramMeta programMeta, SchoolMeta schoolMeta) {
+        CohortMeta cohortMeta = new CohortMeta("cohort", programMeta);
+        COHORT_MAP.put(cohortMeta.id, cohortMeta);
+        programMeta.cohortIds.add(cohortMeta.id);
+        return;
     }
 
     /**
@@ -325,19 +403,70 @@ public final class MetaRelations {
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * Correlates students and program on a 'per school' basis.
+     * Student S is correlated with a program P iff there exists a section X s.t. S is  
+     * correlated with X and X is correlated with P. 
+     *
+     * @param sectionsForSchool
+     * @param studentsForSchool
+     */
+    private static void addStudentsToPrograms(Map<String, SectionMeta> sectionsForSchool,
+            Map<String, StudentMeta> studentsForSchool,
+            Map<String, ProgramMeta> programsForSchool) {
 
-        buildFromSea();
+        for (StudentMeta studentMeta : studentsForSchool.values()) {
+            for (String sectionId : studentMeta.sectionIds) {
+                SectionMeta sectionMeta = sectionsForSchool.get(sectionId);
+                if(sectionMeta != null && sectionMeta.programId != null && programsForSchool.containsKey(sectionMeta.programId)) {
+                    ProgramMeta programMeta = programsForSchool.get(sectionMeta.programId);
+                    programMeta.studentIds.add(studentMeta.id);
+                }
+            }
+        }
 
-        System.out.println("SEA_MAP" + SEA_MAP);
-        System.out.println("LEA_MAP" + LEA_MAP);
-        System.out.println("SCHOOL_MAP" + SCHOOL_MAP);
-        System.out.println("COURSE_MAP" + COURSE_MAP);
-        System.out.println("SESSION_MAP" + SESSION_MAP);
-        System.out.println("SECTION_MAP" + SECTION_MAP);
-        System.out.println("STAFF_MAP" + STAFF_MAP);
-        System.out.println("TEACHER_MAP" + TEACHER_MAP);
-        System.out.println("STUDENT_MAP" + STUDENT_MAP);
+        // for each cohort in the program, add all the students in it to the cohort too. 
+        for (ProgramMeta programMeta : programsForSchool.values()) {
+            for(String cohortId : programMeta.cohortIds) {
+                CohortMeta cohortMeta = COHORT_MAP.get(cohortId);
+                if(cohortMeta != null) {
+                    cohortMeta.studentIds.addAll(programMeta.studentIds);
+                }
+            }
+        }
+    }
+
+    /**
+     * Correlates staff and program on a 'per school' basis.
+     *
+     * @param programsForSchool
+     */
+    private static void addStaffToPrograms(Map<String, ProgramMeta> programsForSchool, 
+            Map<String, StaffMeta> staffForSea) {
+        Object[] staffMetas = staffForSea.values().toArray();
+        int staffCounter = 0;
+
+        // each program needs to be referenced by a StaffMeta
+        for (ProgramMeta programMeta : programsForSchool.values()) {
+
+            // loop through the sections we have in this school and assign students to them
+            if (staffCounter >= staffMetas.length) {
+                staffCounter = 0;
+            }
+            String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
+            programMeta.staffIds.add(staffId);
+            staffCounter++;
+        }
+
+        // for each cohort in the program, add all the staff in it to the cohort too. 
+        for (ProgramMeta programMeta : programsForSchool.values()) {
+            for(String cohortId : programMeta.cohortIds) {
+                CohortMeta cohortMeta = COHORT_MAP.get(cohortId);
+                if(cohortMeta != null) {
+                    cohortMeta.staffIds.addAll(programMeta.staffIds);
+                }
+            }
+        }
     }
 
 }
