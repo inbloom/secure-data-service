@@ -58,7 +58,7 @@ public final class DefaultModelLookup implements LazyLookup {
         if (obj != null) {
             return obj;
         } else {
-            throw new AssertionError(memo);
+            throw new RuntimeException(memo.toString());
         }
     }
 }
