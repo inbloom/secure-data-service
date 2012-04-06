@@ -8,8 +8,8 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>uml2Xsd</artifactId>
-	<name>UML to W3C XML Schema</name>
+	<artifactId>xml</artifactId>
+	<name>XML (XML Markup Language)</name>
 
 	<dependencies>
 
@@ -39,15 +39,5 @@
 			<version>1.0.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xmi</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xsd</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>
