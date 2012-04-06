@@ -141,18 +141,31 @@ end
 def checkForContentInLogFile(message, prefix)
   
   if (INGESTION_MODE == 'remote')
+    
+    #offline tool doesn't need remote service
+    #the processing is the same as local for now
+    @job_status_filename = ""
+    Dir.foreach(@local_file_store_path) do |entry|
+      if (entry.rindex(prefix))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
 
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    #puts "Showing : <" + @resultOfIngestion + ">"
+    aFile = File.new(@local_file_store_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @local_file_store_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
 
-    @messageString = message.to_s
+    if aFile
+      file_contents = IO.readlines(@local_file_store_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
 
-    if @resultOfIngestion.include? @messageString
-      assert(true, "Processed all the records.")
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+
     else
-      puts "Actual message was " + @resultOfIngestion
-      assert(false, "Didn't process all the records.")
+       raise "File " + @job_status_filename + "can't be opened"
     end
 
   else
@@ -183,10 +196,19 @@ def checkForContentInLogFile(message, prefix)
 end
 
 Then /^I should see a log file in same directory$/ do
-  #TODO
+  
   @log_file = ""
   if(INGESTION_MODE == 'remote')
-    #TODO
+    #offline tool doesn't need remote service
+    #the processing is the same as local for now
+    Dir.foreach(@local_file_store_path) do |file|
+      if /#{@source_file_name}.*.log$/.match file
+        puts "Found " + file
+        @log_file = file
+      end
+    end
+    aFile = File.new(@local_file_store_path + "/" + @log_file, "r")
+    assert(aFile != nil, "Log file " + @log_file + " dosen't exist")
   else
     Dir.foreach(@local_file_store_path) do |file|
       if /#{@source_file_name}.*.log$/.match file

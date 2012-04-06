@@ -108,7 +108,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiTests, :securityTests, :ingestionTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -167,7 +167,7 @@ end
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest] do
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -274,7 +274,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
-                     :v1DirectReferenceCollectionsTests,
                      :v1CascadeDeletionTests,
                      :v1EncryptionTests,
                      :v1SortingAndPagingTests,
@@ -392,12 +391,6 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences")
-end
-
-desc "Run V1 Direct Reference Collections Tests"
-task :v1DirectReferenceCollectionsTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferenceCollections")
 end
 
 desc "Run V1 Student Parent Association Tests"
