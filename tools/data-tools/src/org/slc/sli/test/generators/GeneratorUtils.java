@@ -4,6 +4,9 @@ import java.util.Random;
 
 import javax.xml.bind.annotation.XmlEnumValue;
 
+import org.slc.sli.test.edfi.entities.AcademicSubjectType;
+import org.slc.sli.test.edfi.entities.CohortScopeType;
+import org.slc.sli.test.edfi.entities.CohortType;
 import org.slc.sli.test.edfi.entities.ProgramType;
 import org.slc.sli.test.edfi.entities.ReasonExitedType;
 
@@ -68,6 +71,93 @@ public class GeneratorUtils
             default: return ProgramType.VOCATIONAL_EDUCATION;
         }
     }
+
+    /**
+     * Randomly generate a CohortType.
+     *
+     * @return <code>CohortType</code>
+     */
+    public static CohortType generateCohortType () {
+        int roll = generator.nextInt(10);
+        switch (roll) {
+            case 0: return CohortType.ACADEMIC_INTERVENTION;
+            case 1: return CohortType.ATTENDANCE_INTERVENTION;
+            case 2: return CohortType.CLASSROOM_PULLOUT;
+            case 3: return CohortType.COUNSELOR_LIST;
+            case 4: return CohortType.DISCIPLINE_INTERVENTION;
+            case 5: return CohortType.EXTRACURRICULAR_ACTIVITY;
+            case 6: return CohortType.FIELD_TRIP;
+            case 7: return CohortType.IN_SCHOOL_SUSPENSION;
+            case 8: return CohortType.OTHER;
+            case 9: return CohortType.PRINCIPAL_WATCH_LIST;
+            case 10: return CohortType.STUDY_HALL;
+            default: return CohortType.STUDY_HALL;
+        }
+    }
+
+    /**
+     * Randomly generate a CohortScopeType.
+     *
+     * @return <code>CohortScopeType</code>
+     */
+    public static CohortScopeType generateCohortScopeType () {
+        int roll = generator.nextInt(6);
+        switch (roll) {
+            case 0: return CohortScopeType.CLASSROOM;
+            case 1: return CohortScopeType.COUNSELOR;
+            case 2: return CohortScopeType.DISTRICT;
+            case 3: return CohortScopeType.PRINCIPAL;
+            case 4: return CohortScopeType.SCHOOL;
+            case 5: return CohortScopeType.STATEWIDE;
+            case 6: return CohortScopeType.TEACHER;
+            default: return CohortScopeType.TEACHER;
+        }
+    }
+
+    /**
+     * Randomly generate a AcademicSubjectType.
+     *
+     * @return <code>AcademicSubjectType</code>
+     */
+    public static AcademicSubjectType generateAcademicSubjectType () {
+        int roll = generator.nextInt(31);
+        switch (roll) {
+            case 0:  return AcademicSubjectType.AGRICULTURE_FOOD_AND_NATURAL_RESOURCES;
+            case 1:  return AcademicSubjectType.ARCHITECTURE_AND_CONSTRUCTION;
+            case 2:  return AcademicSubjectType.BUSINESS_AND_MARKETING;
+            case 3:  return AcademicSubjectType.COMMUNICATION_AND_AUDIO_VISUAL_TECHNOLOGY;
+            case 4:  return AcademicSubjectType.COMPOSITE;
+            case 5:  return AcademicSubjectType.COMPUTER_AND_INFORMATION_SCIENCES;
+            case 6:  return AcademicSubjectType.CRITICAL_READING;
+            case 7:  return AcademicSubjectType.ELA;
+            case 8:  return AcademicSubjectType.ENGINEERING_AND_TECHNOLOGY;
+            case 9 : return AcademicSubjectType.MISCELLANEOUS;
+            case 10: return AcademicSubjectType.ENGLISH;
+            case 11: return AcademicSubjectType.ENGLISH_LANGUAGE_AND_LITERATURE;
+            case 12: return AcademicSubjectType.FINE_AND_PERFORMING_ARTS;
+            case 13: return AcademicSubjectType.FOREIGN_LANGUAGE_AND_LITERATURE;
+            case 14: return AcademicSubjectType.HEALTH_CARE_SCIENCES;
+            case 15: return AcademicSubjectType.HOSPITALITY_AND_TOURISM;
+            case 16: return AcademicSubjectType.HUMAN_SERVICES;
+            case 17: return AcademicSubjectType.LIFE_AND_PHYSICAL_SCIENCES;
+            case 18: return AcademicSubjectType.MANUFACTURING;
+            case 19: return AcademicSubjectType.MATHEMATICS;
+            case 20: return AcademicSubjectType.MILITARY_SCIENCE;
+            case 21: return AcademicSubjectType.MISCELLANEOUS;
+            case 22: return AcademicSubjectType.OTHER;
+            case 23: return AcademicSubjectType.PHYSICAL_HEALTH_AND_SAFETY_EDUCATION;
+            case 24: return AcademicSubjectType.PUBLIC_PROTECTIVE_AND_GOVERNMENT_SERVICE;
+            case 25: return AcademicSubjectType.READING;
+            case 26: return AcademicSubjectType.RELIGIOUS_EDUCATION_AND_THEOLOGY;
+            case 27: return AcademicSubjectType.SCIENCE;
+            case 28: return AcademicSubjectType.SOCIAL_SCIENCES_AND_HISTORY;
+            case 29: return AcademicSubjectType.SOCIAL_STUDIES;
+            case 30: return AcademicSubjectType.TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS;
+            case 31: return AcademicSubjectType.WRITING;
+            default: return AcademicSubjectType.WRITING;
+        }
+    }
+
     /**
      * Randomly generate a ReasonExitedType.
      *
