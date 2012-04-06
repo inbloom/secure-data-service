@@ -66,6 +66,9 @@ Given /^I clicked the Submit button$/ do
 end
 
 Then /^I am informed that "([^"]*)"$/ do |arg1|
+  #make sure something is loaded, caveat, it might be still the old page
+  sleep 1
+  @explicitWait.until{@driver.find_element(:tag_name,"body")}
   assertText(arg1)
 end
 

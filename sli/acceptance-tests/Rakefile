@@ -257,6 +257,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1ListTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
+                     :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests] do
   displayFailureReport()
 end
@@ -700,6 +701,11 @@ end
 desc "Run Course Tests"
 task :courseTests => [:realmInit] do
   runFixtureAndTests("test/features/api_deprecated/entities/course", "course", "course_fixture.json")
+end
+
+desc "Run Support Email Test"
+task :supportTests => [:realmInit] do
+  runTests("test/features/security/support.feature")
 end
 
 desc "Run Session Tests"
