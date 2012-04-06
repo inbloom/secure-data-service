@@ -100,7 +100,7 @@ Then /^each entity's "([^"]*)" should be "([^"]*)"$/ do |key, value|
   end
 end
 
-Then /^each entity's "([^"]*)" should be in the array (\[.*\])$/ do |key, value|
+Then /^each entity's "([^"]*)" should be in the array "([^"]*)"$/ do |key, value|
    @result.each do |entity|
     assert(entity.has_key?(key), "Entity does not even contain key #{key}")
     containsValue = false
