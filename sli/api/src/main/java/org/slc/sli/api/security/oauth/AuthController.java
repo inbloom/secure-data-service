@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.tuple.Pair;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,27 +38,27 @@ import org.slc.sli.domain.NeutralQuery;
 @Controller
 @Scope("request")
 @RequestMapping("/oauth")
-public class DiscoController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DiscoController.class);
-
+public class AuthController {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+    
     @Autowired
     private EntityDefinitionStore store;
-
+    
     @Autowired
     private MongoAuthorizationCodeServices authCodeService;
-
+    
     @Autowired
     private SamlHelper saml;
-
+    
     private EntityService service;
-
+    
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
         service = def.getService();
     }
-
+    
     /**
      * Calls api to list available realms and injects into model
      * 
@@ -68,12 +67,10 @@ public class DiscoController {
      * @return name of the template to use
      * @throws IOException
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
-            @RequestParam(value = "RealmName", required = false) final String realmName, 
-            @RequestParam(value = "client_id", required = true) final String clientId, 
-            @RequestParam(value = "state", required = false) final String state,
-            @CookieValue(value = "realmCookie", required = false) final String cookie,
+    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState, @RequestParam(value = "RealmName", required = false) final String realmName,
+            @RequestParam(value = "client_id", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, @CookieValue(value = "realmCookie", required = false) final String cookie,
             final HttpServletResponse res, final Model model) throws IOException {
         LOG.debug("Realm Cookie is {}", cookie);
         
@@ -88,7 +85,7 @@ public class DiscoController {
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(9999);
                 Iterable<String> realmList = service.listIds(neutralQuery);
-
+                
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = service.get(realmId);
@@ -105,27 +102,32 @@ public class DiscoController {
                 }
                 return map;
             }
-
+            
         });
-
+        
         if (result instanceof String) {
             return (String) result;
         }
-
+        
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
         model.addAttribute("redirect_uri", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
-
+        
         if (relayState == null) {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
         }
-
+        
         return "realms";
     }
-
+    
+    @RequestMapping(value = "tsoken2", method = RequestMethod.GET)
+    public void getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri) {
+        this.authCodeService
+    }
+    
     /**
      * Redirects user to the sso init url given valid id
      * 
@@ -135,12 +137,9 @@ public class DiscoController {
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId,
-            @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
-            @RequestParam(value = "clientId", required = true) final String clientId, 
-            @RequestParam(value = "state", required = false) final String state,
-            HttpServletResponse res, Model model) throws IOException {
-
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId, @RequestParam(value = "redirect_uri", required = false) String appRelayState,
+            @RequestParam(value = "clientId", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model) throws IOException {
+        
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
             public String execute() {
@@ -148,7 +147,7 @@ public class DiscoController {
                 if (eb == null) {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
-
+                
                 @SuppressWarnings("unchecked")
                 Map<String, String> idpData = (Map<String, String>) eb.get("idp");
                 return (String) idpData.get("redirectEndpoint");
@@ -157,11 +156,10 @@ public class DiscoController {
         if (endpoint == null) {
             throw new IllegalArgumentException("Realm " + realmId + " doesn't have an endpoint");
         }
-
+        
         // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint);
         
-
         authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
         LOG.debug("redirecting to: {}", endpoint);
         Cookie cookie = new Cookie("realmCookie", realmId);
@@ -172,5 +170,5 @@ public class DiscoController {
         LOG.debug("Set the realm cookie to {}", realmId);
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
-
+    
 }

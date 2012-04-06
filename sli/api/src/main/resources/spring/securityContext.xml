@@ -18,8 +18,8 @@
    <bean name="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
       <security:filter-chain-map path-type="ant">
          <security:filter-chain pattern="/rest/oauth/authorize" filters="none" />
-         <security:filter-chain pattern="/rest/**" filters="oauth2ProviderFilter" />
-         <security:filter-chain pattern="/**" filters="oauth2ProviderFilter" />
+         <security:filter-chain pattern="/rest/**" filters="none" />
+         <security:filter-chain pattern="/**" filters="none" />
      </security:filter-chain-map>
    </bean>
  
