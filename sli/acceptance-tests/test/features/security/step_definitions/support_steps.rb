@@ -8,5 +8,6 @@ When /^I make an API call to get the support email$/ do
 end
 
 Then /^I receive JSON response that includes the address$/ do
-  assert(@res[:email] ~= /(\w)+@(\w)+\.(\w)+)/, "Should have received an email address")
+  data = JSON.parse(@res.body)
+  assert(data["email"] =~ /^(\w)+@(\w)+\.(\w)+$/, "Should have received an email address")
 end
