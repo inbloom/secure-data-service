@@ -703,6 +703,11 @@ task :courseTests => [:realmInit] do
   runFixtureAndTests("test/features/api_deprecated/entities/course", "course", "course_fixture.json")
 end
 
+desc "Run Support Email Test"
+task :supportTests => [:realmInit] do
+  runTests("test/features/security/support.feature")
+end
+
 desc "Run Session Tests"
 task :sessionTests => [:realmInit] do
   runFixtureAndTests("test/features/api_deprecated/entities/session", "session", "session_fixture.json")
