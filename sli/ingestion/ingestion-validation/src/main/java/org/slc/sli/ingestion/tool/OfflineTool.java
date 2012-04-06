@@ -6,13 +6,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.ConsoleAppender;
-import ch.qos.logback.core.FileAppender;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -24,17 +18,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class OfflineTool {
-    private static Logger logger = null;
-    private static LoggerContext loggerContext;
-    private static ThreadLocal<Logger> threadLocal = new ThreadLocal<Logger>();
 
+    private static Logger logger = LoggerUtil.getLogger();
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
         OfflineTool main = context.getBean(OfflineTool.class);
 
-        loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        logger = loggerContext.getLogger("OfflineTool.class");
+
         main.start(args);
     }
 
@@ -47,20 +38,9 @@ public class OfflineTool {
     int inputArgumentCount;
 
     private void start(String[] args) {
-        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
-        encoder.setContext(loggerContext);
-        encoder.setPattern("%date %-5level %msg%n");
-        encoder.start();
 
-        ConsoleAppender<ILoggingEvent> consoleAppender = new ConsoleAppender<ILoggingEvent>();
-        consoleAppender.setName("ConsoleAppender");
-        consoleAppender.setContext(loggerContext);
-        consoleAppender.setTarget("System.err");
-        consoleAppender.setEncoder(encoder);
-        consoleAppender.start();
 
-        logger.addAppender(consoleAppender);
-
+        LoggerUtil.logToConsole();
         File file = null;
 
         if ((args.length != inputArgumentCount)) {
@@ -78,33 +58,15 @@ public class OfflineTool {
                 logger.error("Usage: " + appName + " [Zip/Ctl File]");
             }
         }
-
-
-
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
-        fileAppender.setContext(loggerContext);
-        fileAppender.setName("ToolLog");
-        fileAppender.setFile(file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log");
-        fileAppender.setEncoder(encoder);
-        fileAppender.start();
-
-        logger.detachAppender("ConsoleAppender");
-        logger.addAppender(fileAppender);
-        getThreadLocal().set(logger);
+        String logFileName = file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log";
+        LoggerUtil.logToFile(logFileName);
 
         controller.doValidation(file);
     }
 
-    public static ThreadLocal<Logger> getThreadLocal() {
-        return threadLocal;
-    }
-
-    public static void setThreadLocal(ThreadLocal<Logger> threadLocal) {
-        OfflineTool.threadLocal = threadLocal;
-    }
 
     public void setController(ValidationController controller) {
         this.controller = controller;

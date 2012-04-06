@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit test for OfflineTool main
+ *
  * @author tke
  *
  */
@@ -34,13 +35,18 @@ public class OfflineToolTest {
 
     final String tempConsole = "tempConsole.txt";
 
-     @SuppressWarnings("rawtypes")
-    public boolean verify(String appSt, String target) {
-        //parse the log
-        Appender appender = OfflineTool.getThreadLocal().get().getAppender(appSt);
-        if (appender.getClass() == FileAppender.class) {
-            FileAppender fa = (FileAppender) appender;
-            file = new File(fa.getFile());
+    @SuppressWarnings("rawtypes")
+    public boolean verify(String target, Boolean isConsole) {
+
+        if (isConsole) {
+            file = new File(tempConsole);
+        } else {
+            // parse the log
+            Appender appender = LoggerUtil.getFileAppender();
+            if (appender.getClass() == FileAppender.class) {
+                FileAppender fa = (FileAppender) appender;
+                file = new File(fa.getFile());
+            }
         }
 
         try {
@@ -51,7 +57,8 @@ public class OfflineToolTest {
                 try {
                     String cur;
                     while ((cur = lreader.readLine()) != null) {
-                        if (cur.contains(target)) return true;
+                        if (cur.contains(target))
+                            return true;
                     }
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -67,45 +74,45 @@ public class OfflineToolTest {
         return false;
     }
 
-     /**
-      *
-      * @param dir : the path of the test data
-      * @param toolLog : the appender name of the log file. Can be
-      *         either ToolLog or ConsoleAppender, as are hardcoded in OfflineTool
-      * @param target: the target string to be verify in the log file
-      */
-     void toolTest(String dir, String toolLog, String target) {
-         Resource fileResource = new ClassPathResource(dir);
-         String [] args = new String[1];
-         try {
-             args[0] = fileResource.getFile().toString();
-         } catch (IOException e) {
-             fail("IO Exception");
-         }
-         try {
-             OfflineTool.main(args);
-             Assert.assertTrue(verify(toolLog, target));
-         } catch (IOException e) {
-             fail("IO Exception from main");
-         }
-     }
+    /**
+     *
+     * @param dir
+     *            : the path of the test data
+     * @param target
+     *            : the target string to be verify in the log file
+     */
+    void toolTest(String dir, String target) {
+        Resource fileResource = new ClassPathResource(dir);
+        String[] args = new String[1];
+        try {
+            args[0] = fileResource.getFile().toString();
+        } catch (IOException e) {
+            fail("IO Exception");
+        }
+        try {
+            OfflineTool.main(args);
+            Assert.assertTrue(verify(target, false));
+        } catch (IOException e) {
+            fail("IO Exception from main");
+        }
+    }
 
     @Test
     public void testMain() {
 
-        //Testing valid zip file
-        toolTest("zipFile/Session1.zip", "ToolLog", "processing is complete.");
+        // Testing valid zip file
+        toolTest("zipFile/Session1.zip", "processing is complete.");
 
-        //Testing valid control file
-        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+        // Testing valid control file
+        toolTest("test/MainControlFile.ctl", "processing is complete.");
 
-        //Testing valid control file
-        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+        // Testing valid control file
+        toolTest("test/MainControlFile.ctl", "processing is complete.");
 
     }
 
-    void toolTestConsole(String path, String appenderName, String target) {
-        String [] args3 = new String[1];
+    void toolTestConsole(String path, String target) {
+        String[] args3 = new String[1];
         Resource fileResource = new ClassPathResource(path);
         file = new File(tempConsole);
         try {
@@ -116,7 +123,7 @@ public class OfflineToolTest {
         try {
             args3[0] = fileResource.getFile().toString();
             OfflineTool.main(args3);
-            Assert.assertTrue(verify(appenderName, target));
+            Assert.assertTrue(verify(target, true));
         } catch (IOException e) {
             fail("IO Exception from main");
         }
@@ -126,18 +133,19 @@ public class OfflineToolTest {
     @Test
     public void negativeTestMain() {
 
-        //Testing an invalid zip file
-        toolTest("invalidZip/SessionInvalid.zip", "ToolLog", "Please resubmit");
+        // Testing an invalid zip file
+        toolTest("invalidZip/SessionInvalid.zip", "Please resubmit");
 
-        //Testing an empty control file
-        toolTest("invalid/MainControlFile.ctl", "ToolLog", "No files specified in control file");
+        // Testing an empty control file
+        toolTest("invalid/MainControlFile.ctl", "No files specified in control file");
 
-        //Testing control file with wrong checksum
-        toolTest("invalid/wrongChecksum.ctl", "ToolLog", "Please resubmit");
+        // Testing control file with wrong checksum
+        toolTest("invalid/wrongChecksum.ctl", "Checksum validation failed");
 
+        toolTest("invalid/XsdTest/XSD.ctl", "cvc-minLength-valid");
 
-        //Testing more than 1 input arguments
-        String [] args3 = new String[2];
+        // Testing more than 1 input arguments
+        String[] args3 = new String[2];
         file = new File(tempConsole);
         try {
             System.setErr(new PrintStream(file));
@@ -146,14 +154,14 @@ public class OfflineToolTest {
         }
         try {
             OfflineTool.main(args3);
-            Assert.assertTrue(verify("ConsoleAppender", "Illegal options"));
+            Assert.assertTrue(verify("Illegal options", true));
         } catch (IOException e) {
             fail("IO Exception from main");
         }
         file.delete();
 
-        //Testing doesn't existing file
-        String [] args4 = new String[1];
+        // Testing doesn't existing file
+        String[] args4 = new String[1];
         args4[0] = "/invalid/nonExist.ctl";
         file = new File(tempConsole);
         try {
@@ -163,17 +171,17 @@ public class OfflineToolTest {
         }
         try {
             OfflineTool.main(args4);
-            Assert.assertTrue(verify("ConsoleAppender", "does not exist"));
+            Assert.assertTrue(verify("does not exist", true));
         } catch (IOException e) {
             fail("IO Exception from main");
         }
         file.delete();
 
-        //Testing direcotry
-        toolTestConsole("invalid/", "ConsoleAppender", "Expecting a Zip or a Ctl");
+        // Testing direcotry
+        toolTestConsole("invalid/", "Expecting a Zip or a Ctl");
 
-        //Testing invalid XML file
-        toolTest("invalidXML/MainControlFile.ctl", "ToolLog", "InterchangeAssessmentMetadata.xml: Checksum validation failed");
+        // Testing invalid XML file
+        toolTest("invalidXML/MainControlFile.ctl", "InterchangeAssessmentMetadata.xml: Checksum validation failed");
     }
 
 }
