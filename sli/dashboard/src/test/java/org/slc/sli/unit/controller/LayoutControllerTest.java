@@ -11,21 +11,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
-import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
+import org.slc.sli.manager.impl.ConfigManagerImpl;
 
 /**
  * Tesing layout controller
@@ -41,7 +38,7 @@ public class LayoutControllerTest {
     ApplicationContext applicationContext;
     
     @Autowired
-    ConfigManager configManager;
+    ConfigManagerImpl configManager;
     
     CustomizationAssemblyFactoryImpl dataFactory = new CustomizationAssemblyFactoryImpl() {
         
@@ -89,15 +86,7 @@ public class LayoutControllerTest {
         
     }
     
-    private AnnotationMethodHandlerAdapter handlerAdapter;
-    
     private LayoutControllerMock layoutController;
-    
-    private MockHttpServletRequest request;
-    private MockHttpServletResponse response;
-    
-    // private HandlerAdapter handlerAdapter;
-    // private LayoutController layoutController;
     
     @Before
     public void setUp() throws Exception {

@@ -12,11 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
-import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.impl.ConfigManagerImpl;
 import org.slc.sli.security.SLIPrincipal;
 
 /**
@@ -25,22 +26,25 @@ import org.slc.sli.security.SLIPrincipal;
  */
 public class ConfigManagerTest {
     
-    ConfigManager configManager;
+    ConfigManagerImpl configManager;
     MockAPIClient mockClient;
     
     @Before
     public void setup() {
         mockClient = new MockAPIClient();
-        configManager = new ConfigManager() {
+        configManager = new ConfigManagerImpl() {
             protected String getCustomConfigPathForUserDomain(String token) {
                 return "aa";
             }
         };
         configManager.setDriverConfigLocation("config");
-        configManager.setApiClient(mockClient);
+        ConfigPersistor persistor = new ConfigPersistor();
+        persistor.setApiClient(mockClient);
+        
         EntityManager entityManager = new EntityManager();
         entityManager.setApiClient(mockClient);
-        configManager.setEntityManager(entityManager);
+        persistor.setEntityManager(entityManager);
+        configManager.setConfigPersistor(persistor);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setDistrict("test_district");
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, null));

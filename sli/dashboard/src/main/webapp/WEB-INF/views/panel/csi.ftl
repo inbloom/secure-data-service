@@ -6,7 +6,7 @@
 </div>
 
 
-<div class="colMain">
+<div id="csi_colMain" class="colMain">
     <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
     <#if panelData.name.generationCodeSuffix?? && panelData.name.generationCodeSuffix != ""> ${panelData.name.generationCodeSuffix}</#if></h1>
     <#if panelData.otherName??>
@@ -30,8 +30,8 @@
     <#-- drawing code -->
     <span id="${id}" class="lozenge"></span>
     <script>
-      var widget = new LozengeWidget("${id}", "${lozengeConfig.getLabel()}", "${lozengeConfig.getColor()}", "${lozengeConfig.getStyle()}");
-      widget.create();
+      $("#${id}").sliLozenge({color: "${lozengeConfig.getColor()}",label: "${lozengeConfig.getLabel()}",style: "${lozengeConfig.getStyle()}"});
+  
     </script>
         </#if>
     </#list>
@@ -40,7 +40,7 @@
     <div class="studentInfo">
         <div class="col1">
             <div class="field"><span>Grade</span><span><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevelCode}<#else>!</#if></span></div>
-            <div class="field"><span>Class</span><span><#if panelData.sectionId?? && panelData.sectionId != "">${panelData.sectionId}<#else>!</#if></span></div>
+            <div class="field"><span>Class</span><span>${panelData.sectionId}</span></div>
         </div>
 
         <div class="col2">
