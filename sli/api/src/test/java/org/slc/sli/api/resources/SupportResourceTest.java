@@ -2,7 +2,6 @@ package org.slc.sli.api.resources;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.resources.SupportResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,17 +20,17 @@ import static junit.framework.Assert.assertTrue;
  * Test for support email
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@ContextConfiguration(locations = {"/spring/applicationContext-test.xml"})
+@TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class})
 public class SupportResourceTest {
-    
+
     @Autowired
     private SupportResource resource;
-    
+
     @Value("${sli.support.email}")
     private String email;
-    
+
     @Test
     public void testGetEmail() throws Exception {
         assertNotNull(resource);
