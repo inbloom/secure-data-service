@@ -51,6 +51,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
     "educationOrgId" => "9f5cb095-8e99-49a9-b130-bedfa20639d2",
-    "programId" => "cb292c7d-3503-414a-92a2-dc76a1585d79"
+    "programId" => ["cb292c7d-3503-414a-92a2-dc76a1585d79"]
   }
 end
