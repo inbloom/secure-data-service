@@ -14,7 +14,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-
 /**
  * Resolves which cohorts a given teacher is allowed to see
  *
@@ -35,6 +34,7 @@ public class TeacherCohortResolver implements EntityContextResolver {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.COHORT.equals(toEntityType);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -54,9 +54,10 @@ public class TeacherCohortResolver implements EntityContextResolver {
         Set<String> cohortIds = new HashSet<String>();
 
         for (Entity staffCohortAssociation : staffCohortAssociations) {
-            String cohortId = (String) staffCohortAssociation.getBody().get("cohortId");
-            if (cohortId != null) {
-                cohortIds.add(cohortId);
+            for (String cohortId : (List<String>) staffCohortAssociation.getBody().get("cohortId")) {
+                if (cohortId != null) {
+                    cohortIds.add(cohortId);
+                }
             }
         }
 

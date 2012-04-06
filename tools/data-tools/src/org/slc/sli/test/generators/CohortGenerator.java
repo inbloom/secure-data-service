@@ -1,8 +1,10 @@
 package org.slc.sli.test.generators;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
@@ -16,28 +18,44 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramType;
+import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
+import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 
+/**
+ * Generates Cohort data
+ * 
+ * @author slee
+ *
+ */
 public class CohortGenerator {
 	private static final Logger log = Logger.getLogger(CohortGenerator.class);
 
     /**
-     * Generates a StudentProgramAssociation from 
-     * cohortId, programId and schoolId.
+     * Generates a Cohort from a CohortMeta.
+     *
+     * @param cohortMeta
+     * 
+     * @return <code>Cohort</code>
+     */
+    public static Cohort generateLowFi(CohortMeta cohortMeta) {
+        String cohortId = cohortMeta.id;
+        String programId = cohortMeta.programMeta.id;
+        String schoolId = cohortMeta.programMeta.schoolId;
+        
+        return generateLowFi(cohortId, programId, schoolId);
+    }
+
+    /**
+     * Generates a Cohort for a combination of a school and a program. 
      *
      * @param cohortId
      * @param programId
      * @param schoolId
      * 
-     * @return <code>StudentProgramAssociation</code>
+     * @return <code>Cohort</code>
      */
     public static Cohort generateLowFi(String cohortId, String programId, String schoolId) {
-        Cohort cohort = new Cohort ();
-        
-        cohort.setCohortIdentifier(cohortId);
-        cohort.setCohortDescription("The description of the cohort and its purpose");
-        cohort.setCohortType(GeneratorUtils.generateCohortType());
-        cohort.setCohortScope(GeneratorUtils.generateCohortScopeType());
-        cohort.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
+        Cohort cohort = basicLowFiFactory(cohortId);
         
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
@@ -60,22 +78,15 @@ public class CohortGenerator {
     }
 
     /**
-     * Generates a StudentProgramAssociation from 
-     * cohortId and schoolId.
+     * Generates a Cohort for a school. 
      *
      * @param cohortId
      * @param schoolId
      * 
-     * @return <code>StudentProgramAssociation</code>
+     * @return <code>Cohort</code>
      */
     public static Cohort generateLowFi(String cohortId, String schoolId) {
-        Cohort cohort = new Cohort ();
-        
-        cohort.setCohortIdentifier(cohortId);
-        cohort.setCohortDescription("The description of the cohort and its purpose");
-        cohort.setCohortType(GeneratorUtils.generateCohortType());
-        cohort.setCohortScope(GeneratorUtils.generateCohortScopeType());
-        cohort.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
+        Cohort cohort = basicLowFiFactory(cohortId);
         
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
@@ -88,23 +99,17 @@ public class CohortGenerator {
     }
     
     /**
-     * Generates a StudentProgramAssociation from 
-     * cohortId, programId and a list of schoolIds.
+     * Generates a Cohort for a combination of a list of schools and a program,
+     * where the program is also associated to the list of schools.
      *
      * @param cohortId
      * @param programId
      * @param schoolIds
      * 
-     * @return <code>StudentProgramAssociation</code>
+     * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(String cohortId, String programId, List<String> schoolIds) {
-        Cohort cohort = new Cohort ();
-        
-        cohort.setCohortIdentifier(cohortId);
-        cohort.setCohortDescription("The description of the cohort and its purpose");
-        cohort.setCohortType(GeneratorUtils.generateCohortType());
-        cohort.setCohortScope(GeneratorUtils.generateCohortScopeType());
-        cohort.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
+    public static Cohort generateLowFi(String cohortId, String programId, Collection<String> schoolIds) {
+        Cohort cohort = basicLowFiFactory(cohortId);
         
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
@@ -126,6 +131,24 @@ public class CohortGenerator {
         return cohort;
     }
 
+    /**
+     * Factory a basic Cohort.
+     *
+     * @param cohortId
+     * 
+     * @return <code>Cohort</code>
+     */
+    private static Cohort basicLowFiFactory(String cohortId) {
+        Cohort cohort = new Cohort ();
+        
+        cohort.setCohortIdentifier(cohortId);
+        cohort.setCohortDescription("The cohort description of cohortId-"+cohortId);
+        cohort.setCohortType(GeneratorUtils.generateCohortType());
+        cohort.setCohortScope(GeneratorUtils.generateCohortScopeType());
+        cohort.setAcademicSubject(GeneratorUtils.generateAcademicSubjectType());
+        return cohort;
+    }
+        
     public static void main (String args[]) throws Exception {
         Random r = new Random ();
         List<String> StateOrganizationIds = new ArrayList();

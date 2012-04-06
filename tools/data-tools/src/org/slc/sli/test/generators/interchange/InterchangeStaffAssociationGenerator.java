@@ -8,13 +8,12 @@ import org.slc.sli.test.edfi.entities.Staff;
 import org.slc.sli.test.edfi.entities.Teacher;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
-import org.slc.sli.test.edfi.entities.Staff;
-import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
+import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.generators.StaffGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
-import org.slc.sli.test.generators.StaffGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
 
@@ -144,10 +143,12 @@ public class InterchangeStaffAssociationGenerator {
      * @param teacherMetas
      */
     private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) {
-        for(StaffMeta staffMeta : staffMetas) {
+        long startTime = System.currentTimeMillis();
+
+        for (StaffMeta staffMeta : staffMetas) {
 
             Staff staff;
-            
+
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 staff = null;
             } else {
@@ -156,5 +157,8 @@ public class InterchangeStaffAssociationGenerator {
 
             interchangeObjects.add(staff);
         }
+
+        System.out.println("generated " + staffMetas.size() + " Staff objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 }
