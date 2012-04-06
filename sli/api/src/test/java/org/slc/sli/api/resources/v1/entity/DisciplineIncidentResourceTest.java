@@ -366,7 +366,7 @@ public class DisciplineIncidentResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            System.err.println("results.size()="+results.size());
+            System.err.println("results.size()=" + results.size());
             assertTrue("Should have one entity", results.size() == 1);
             body = results.get(0);
         } else {

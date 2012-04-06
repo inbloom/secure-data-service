@@ -9,6 +9,7 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +57,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
             List<EntityBody> studentSectionAssociationsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentSectionAssociations,
                     ParameterConstants.STUDENT_ID, studentId);
 
+            List<EntityBody> studentTranscriptAssociations = new ArrayList<EntityBody>();
             for (EntityBody studentSectionAssociationForStudent : studentSectionAssociationsForStudent) {
                 String sectionId = (String) studentSectionAssociationForStudent.get(ParameterConstants.SECTION_ID);
 
@@ -76,6 +78,7 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                 //get the student transcripts for the student and the course
                 List<EntityBody> studentTranscriptsForStudentAndCourse = optionalFieldAppenderHelper.getEntitySubList(studentTranscriptsForStudent,
                         ParameterConstants.COURSE_ID, (String) sectionForStudent.get(ParameterConstants.COURSE_ID));
+                studentTranscriptAssociations.addAll(studentTranscriptsForStudentAndCourse);
 
                 //add the session and course into the section
                 sectionForStudent.put(PathConstants.SESSIONS, sessionForSection);
@@ -83,12 +86,12 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
 
                 //add the expanded items to the association
                 studentSectionAssociationForStudent.put(PathConstants.SECTIONS, sectionForStudent);
-                //studentSectionAssociationForStudent.put(PathConstants.SESSIONS, sessionForSection);
-                studentSectionAssociationForStudent.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptsForStudentAndCourse);
+                //studentSectionAssociationForStudent.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptsForStudentAndCourse);
             }
 
             EntityBody body = new EntityBody();
             body.put(PathConstants.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsForStudent);
+            body.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociations);
 
             //add the associations to the student
             student.put(ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, body);

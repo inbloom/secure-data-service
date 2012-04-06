@@ -2,6 +2,9 @@
 	<span class="header"><%= @idp_name %> IDP</span>
 </div>
 
+<div class="error">
+	<span class="error"><%= @error %></span>
+</div>
 <div class='user_select'>
 	<%= form_tag('idp/login', :method => 'post') do  %>
 		<%= label_tag('selected_user', 'User:') %>
