@@ -5,8 +5,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
@@ -131,9 +134,9 @@ public class AssessmentResourceTest {
             }
         });
 
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap<String, String>>() {
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
             @Override
-            public MultivaluedMap<String, String> answer(InvocationOnMock invocationOnMock) throws Throwable {
+            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
                 return new MultivaluedMapImpl();
             }
         });
