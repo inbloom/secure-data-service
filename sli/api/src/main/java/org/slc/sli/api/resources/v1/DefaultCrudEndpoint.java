@@ -161,8 +161,16 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     results.add(entityBody);
                 }
 
-                long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
+                if (results.isEmpty()) {
+                    Status errorStatus = Status.NOT_FOUND;
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                            "Entity not found: " + key + "=" + value)).build();
+                } else {
+                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
+                    return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
+                }
             }
         });
     }
@@ -231,10 +239,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     }
                 }
-
-                if (ids.size() == 0) {
-                    return Response.ok(finalResults).build();
-                }
+                
+//                if (ids.size() == 0) {
+//                    return Response.ok(finalResults).build();
+//                }
 
                 endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
@@ -247,9 +255,17 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
 
                 finalResults = appendOptionalFields(uriInfo, finalResults);
-
-                long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
+                                
+                if (finalResults.isEmpty()) {
+                    Status errorStatus = Status.NOT_FOUND;
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                                    "Entity not found: " + key + "=" + value)).build();
+                } else {
+                    long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
+                    return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
+                }
             }
         });
     }
