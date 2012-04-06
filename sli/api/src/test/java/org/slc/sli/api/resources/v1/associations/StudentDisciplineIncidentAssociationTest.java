@@ -73,10 +73,11 @@ public class StudentDisciplineIncidentAssociationTest {
     
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
-    private final String disciplineIncidentId = "disciplineIncidentId";
+    private final String disciplineIncidentId = "disciplineIncidentIdentifier";
     private final String studentParticipationCode = "studentParticipationCode";
     
     private final String firstDisciplineIncidentId = "1001";
+    private final String firstStudentId = "101";
     private final String firstParticipationCode = "Perpetrator";
     private final String updatedParticipationCode = "Reporter";
     private final String secondDisciplineIncidentId = "1002";
@@ -115,6 +116,18 @@ public class StudentDisciplineIncidentAssociationTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(disciplineIncidentId, secondDisciplineIncidentId);
         entity.put(studentParticipationCode, secondParticipationCode);
+        return entity;
+    }
+    
+    private Map<String, Object> createTestStudentEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentUniqueStateId", "1001");
+       return entity;
+    }  
+
+    private Map<String, Object> createDisciplineIncidentEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("incidentDate", "2012-02-24");
         return entity;
     }
     
@@ -223,36 +236,77 @@ public class StudentDisciplineIncidentAssociationTest {
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
     
-//    @Test
-//    public void testGetStudents() {
-//        //create one entity
-//        Response createResponse = studentDisciplineIncidentAssociationResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-//        String id = parseIdFromLocation(createResponse);
-//        
-//        Response response = studentDisciplineIncidentAssociationResource.getStudents(id, 0, 0, httpHeaders, uriInfo);
-//        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
-//
-//        Object responseEntityObj = response.getEntity();
-//
-//        EntityBody body = null;
-//        if (responseEntityObj instanceof EntityBody) {
-//            assertNotNull(responseEntityObj);
-//            body = (EntityBody) responseEntityObj;
-//        } else if (responseEntityObj instanceof List<?>) {
-//            @SuppressWarnings("unchecked")
-//            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-//            assertTrue("Should have one entity", results.size() == 1);
-//            body = results.get(0);
-//        } else {
-//            fail("Response entity not recognized: " + response);
-//            return;
-//        }
-//
-//        assertNotNull("Should return an entity", body);            
-//        assertEquals("disciplineIncidentId should be 1001", "1001", body.get("disciplineIncidentId"));
-//        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-//    }
-//    
+    @Test
+    public void testGetStudents() {
+        //create one entity
+        Response createResponse = studentResource.create(new EntityBody(createTestStudentEntity()), httpHeaders, uriInfo); 
+        String studentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestEntity();
+        map.put("studentId", studentId);
+
+        createResponse = studentDisciplineIncidentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = parseIdFromLocation(createResponse);
+        
+        Response response = studentDisciplineIncidentAssociationResource.getStudents(id, 0, 0, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity", results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);            
+        assertEquals("studentUniqueStateId should be 1001", "1001", body.get("studentUniqueStateId"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+    
+    @Test
+    public void testDisciplineIncidents() {
+        //create one entity
+        Response createResponse = disciplineIncidentResource.create(new EntityBody(createDisciplineIncidentEntity()), httpHeaders, uriInfo); 
+        String disciplineIncidentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestEntity();
+        map.put("disciplineIncidentId", disciplineIncidentId);
+
+        createResponse = studentDisciplineIncidentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = parseIdFromLocation(createResponse);
+        
+        Response response = studentDisciplineIncidentAssociationResource.getDisciplineIncidents(id, 0, 0, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity", results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);            
+        assertEquals("incidentDate should be 2012-02-24", "2012-02-24", body.get("incidentDate"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
