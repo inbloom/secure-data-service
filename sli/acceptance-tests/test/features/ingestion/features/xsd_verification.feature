@@ -61,5 +61,6 @@ Scenario: Invalid Student Verification
     And I should see "InterchangeStudentInvalid.xml records ingested successfully: 0" in the resulting batch job file
     And I should see "InterchangeStudentInvalid.xml records failed: 2" in the resulting batch job file
     And I should see an error log file created
-    And I should see "InterchangeStudentInvalid.xml records considered: 2" in the resulting error log file
+    And I should see "cvc-datatype-valid.1.2.1: '2006-07-02-081' is not a valid value for 'date'." in the resulting error log file
+    And I should see "cvc-type.3.1.3: The value '2006-07-02-081' of element 'BirthDate' is not valid." in the resulting error log file
     
