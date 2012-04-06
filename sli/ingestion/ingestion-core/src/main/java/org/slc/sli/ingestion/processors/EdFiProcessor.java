@@ -13,6 +13,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.util.performance.Profiled;
@@ -41,8 +42,8 @@ public class EdFiProcessor implements Processor {
         // TODO get the batchjob from the state manager, define the stageName explicitly
         // Get the batch job ID from the exchange
 //        String batchJobId = exchange.getIn().getBody(String.class);
-//        BatchJobUtils.startStage(batchJobId, this.getClass().getName());
-//        BatchJob batchJob = BatchJobUtils.getBatchJob(batchJobId);
+//        NewBatchJob job = BatchJobUtils.getBatchJob(batchJobId);
+//        BatchJobUtils.startStage(job, this.getClass().getName());
         BatchJob batchJob = BatchJobUtils.getBatchJobUsingStateManager(exchange);
         
         try {
@@ -51,10 +52,10 @@ public class EdFiProcessor implements Processor {
                 
                 // TODO BatchJobUtil.startMetric(batchJobId, this.getClass().getName(), fe.getFileName())
 
+                // TODO pass the NewBatchJob
                 processFileEntry(fe);
                 batchJob.getFaultsReport().append(fe.getFaultsReport());
 
-                // TODO Add recordCount variables to IngestionFileEntry to be populated when files are added or processed initially
                 // TODO BatchJobUtil.stopMetric(batchJobId, this.getClass().getName(), fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
             }
 
@@ -75,7 +76,7 @@ public class EdFiProcessor implements Processor {
 
         BatchJobUtils.saveBatchJobUsingStateManager(batchJob);
         // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
-        BatchJobUtils.stopStage(batchJob.getId(), this.getClass().getName());
+        // BatchJobUtils.stopStage(batchJob.getId(), this.getClass().getName());
 
     }
 
@@ -91,6 +92,9 @@ public class EdFiProcessor implements Processor {
             
             if (fileHandler != null) {
 
+                // TODO change handlers to take a NewBatchJob job
+                // TODO handlers must create new resources and log errors to the db 
+                // TODO record counts must be set for resources when they are first processed/created
                 fileHandler.handle(fe);
 
             } else {

@@ -138,7 +138,7 @@ public class PersistenceProcessor implements Processor {
 
             BatchJobUtils.saveBatchJobUsingStateManager(job);
             // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
-            BatchJobUtils.stopStage(job.getId(), this.getClass().getName());
+            // BatchJobUtils.stopStage(job.getId(), this.getClass().getName());
 
             // Log statistics
             LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);

@@ -22,9 +22,9 @@ import org.slc.sli.ingestion.model.Stage;
  *
  */
 @Component
-public class IngestionMongoLogger implements BatchJobDAO {
+public class IngestionMongoDA implements BatchJobDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IngestionMongoLogger.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IngestionMongoDA.class);
     private static String thisIP = getHostIP();
     private static String thisName = getHostName();
     private static MongoTemplate template;

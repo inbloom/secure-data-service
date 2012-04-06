@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import static org.slc.sli.ingestion.model.da.IngestionMongoLogger.logIngestionError;
-
 import java.io.File;
 
 import org.apache.camel.Exchange;

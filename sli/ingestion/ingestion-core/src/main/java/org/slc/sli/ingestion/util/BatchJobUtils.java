@@ -1,6 +1,6 @@
 package org.slc.sli.ingestion.util;
 
-import static org.slc.sli.ingestion.model.da.IngestionMongoLogger.logIngestionError;
+import static org.slc.sli.ingestion.model.da.IngestionMongoDA.logIngestionError;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
