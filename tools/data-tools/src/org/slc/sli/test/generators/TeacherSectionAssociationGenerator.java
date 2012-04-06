@@ -8,18 +8,16 @@ import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
+import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
 public class TeacherSectionAssociationGenerator {
-    public static TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
-        Random r = new Random();
+    private Random r = new Random();
+
+    public TeacherSectionAssociation generate(String teacher, String school, String sectionCode) {
 
         TeacherSectionAssociation tsa = new TeacherSectionAssociation();
 
-        StaffIdentityType sit = new StaffIdentityType();
-        sit.setStaffUniqueStateId(teacher);
-        StaffReferenceType srt = new StaffReferenceType();
-        srt.setStaffIdentity(sit);
-        tsa.setTeacherReference(srt);
+        tsa.setTeacherReference(TeacherGenerator.getTeacherReference(teacher));
 
         SectionIdentityType secit = new SectionIdentityType();
         secit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(school);
@@ -33,5 +31,39 @@ public class TeacherSectionAssociationGenerator {
         tsa.setHighlyQualifiedTeacher(r.nextBoolean());
 
         return tsa;
+    }
+
+    public static TeacherSectionAssociation generateLowFi(TeacherMeta teacherMeta, String sectionId) {
+
+        TeacherSectionAssociation teacherSection = new TeacherSectionAssociation();
+
+        // construct and add the teacher reference
+        StaffIdentityType staffIdentity = new StaffIdentityType();
+        staffIdentity.setStaffUniqueStateId(teacherMeta.id);
+
+        StaffReferenceType teacherRef = new StaffReferenceType();
+        teacherRef.setStaffIdentity(staffIdentity);
+
+        teacherSection.setTeacherReference(teacherRef);
+
+        teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
+
+        // construct and add the section references
+        SectionIdentityType sectionIdentity = new SectionIdentityType();
+        sectionIdentity.setUniqueSectionCode(sectionId);
+        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(teacherMeta.schoolIds.get(0));
+
+//        EducationOrgIdentificationCode edOrgIdCode = new EducationOrgIdentificationCode();
+//        edOrgIdCode.setID(sectionId);
+//        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+//        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
+
+        SectionReferenceType sectionRef = new SectionReferenceType();
+        sectionRef.setSectionIdentity(sectionIdentity);
+
+        teacherSection.setSectionReference(sectionRef);
+        teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
+
+        return teacherSection;
     }
 }

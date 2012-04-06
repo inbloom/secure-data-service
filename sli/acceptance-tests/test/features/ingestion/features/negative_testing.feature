@@ -136,8 +136,8 @@ Scenario: Post a zip file where the the edfi input has no records
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
   
-  #should ingest into Mongo with whitespace/returns trimmed from strings
-  Scenario: Post a zip file where the the edfi input has attributes/strings/enums with whitespace and returns
+#should ingest into Mongo with whitespace/returns trimmed from strings
+Scenario: Post a zip file where the the edfi input has attributes/strings/enums with whitespace and returns
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName              |
@@ -156,5 +156,23 @@ Scenario: Post a zip file where the the edfi input has no records
   And I should see "student.xml records considered: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
+  
+Scenario: Post a zip file and then post it against and make sure the updated date changes but created stays the same
+  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And verify that "metaData.created" is equal to "metaData.updated"
+  Given I am using preconfigured Ingestion Landing Zone
+  And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And verify that "metaData.created" is unequal to "metaData.updated"
 
 

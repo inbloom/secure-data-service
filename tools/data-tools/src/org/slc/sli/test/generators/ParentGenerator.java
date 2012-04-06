@@ -23,6 +23,15 @@ public class ParentGenerator {
         }
     }
 
+    public static ParentReferenceType getParentReferenceType(String parentId)
+    {
+    	ParentReferenceType prt = new ParentReferenceType();
+    	ParentIdentityType pit = new ParentIdentityType();
+    	prt.setParentIdentity(pit);
+        pit.setParentUniqueStateId(parentId);
+    	return prt;
+    }
+
     public Parent generate(String parentId) {
         Parent p = new Parent();
         Random random = new Random();

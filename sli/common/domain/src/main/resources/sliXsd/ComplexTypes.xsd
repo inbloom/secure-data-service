@@ -993,7 +993,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staff">
+	<xs:complexType name="abstractStaff">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual who performs
 				specified activities

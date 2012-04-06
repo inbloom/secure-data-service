@@ -803,12 +803,11 @@
                 <version>1.4</version>
                 <configuration>
                     <XnoInline>true</XnoInline>
-                    <showWeaveInfo>true</showWeaveInfo>
                     <complianceLevel>1.6</complianceLevel>
                 </configuration>
                 <executions>
                     <execution>
-		        <phase>compile</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>compile</goal>
                             <goal>test-compile</goal>

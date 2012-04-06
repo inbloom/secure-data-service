@@ -253,29 +253,33 @@ public class ConfigManager extends ApiClientManager {
      * If the Driver config file does not exist, it is in a critical situation. It will throw an
      * exception.
      * 
-     * @param path
+     * @param customPath
      *            abslute directory path where a config file exist.
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashboard
      */
-    private Config getConfigByPath(String path, String componentId) {
+    private Config getConfigByPath(String customPath, String componentId) {
         Gson gson = new GsonBuilder().create();
         Config customConfig = null;
         Config driverConfig = null;
         try {
+            // read Driver (default) config.
             File f = new File(getDriverConfigLocation(componentId));
             driverConfig = gson.fromJson(new FileReader(f), Config.class);
             
-            f = new File(getComponentConfigLocation(path, componentId));
+            // read custom Config
+            f = new File(getComponentConfigLocation(customPath, componentId));
+            // if custom config exist, read the config file
             if (f.exists()) {
                 customConfig = gson.fromJson(new FileReader(f), Config.class);
+                // get overwritten Config file with customConfig based on Driver config.
                 return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
         } catch (Throwable t) {
-            logger.error("Unable to read config for " + componentId + ", for path " + path);
-            throw new DashboardException("Unable to read config for " + componentId + ", for path " + path);
+            logger.error("Unable to read config for " + componentId + ", for path " + customPath);
+            throw new DashboardException("Unable to read config for " + componentId + ", for path " + customPath);
         }
     }
     
