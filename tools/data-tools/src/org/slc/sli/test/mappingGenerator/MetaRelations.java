@@ -76,9 +76,15 @@ public final class MetaRelations {
 
             SEA_MAP.put(seaMeta.id, seaMeta);
 
-            Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
-            buildLeasForSea(seaMeta, staffForSea);
+            buildAndRelateEntitiesWithSea(seaMeta);
         }
+    }
+
+    private static void buildAndRelateEntitiesWithSea(SeaMeta seaMeta) {
+
+        Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
+
+        buildLeasForSea(seaMeta, staffForSea);
     }
 
     /**
@@ -86,15 +92,15 @@ public final class MetaRelations {
      */
     private static Map<String, StaffMeta> buildStaffForSea(SeaMeta seaMeta) {
 
-        Map<String, StaffMeta> staffInSchoolMap = new HashMap<String, StaffMeta>(STAFF_PER_SEA);
+        Map<String, StaffMeta> staffInSeaMap = new HashMap<String, StaffMeta>(STAFF_PER_SEA);
         for (int idNum = 0; idNum < STAFF_PER_SEA; idNum++) {
 
-            StaffMeta staffMeta = new StaffMeta("staff" + idNum, seaMeta);
+            StaffMeta staffMeta = StaffMeta.createWithChainedId("staff" + idNum, seaMeta);
 
             STAFF_MAP.put(staffMeta.id, staffMeta);
-            staffInSchoolMap.put(staffMeta.id, staffMeta);
+            staffInSeaMap.put(staffMeta.id, staffMeta);
         }
-        return staffInSchoolMap;
+        return staffInSeaMap;
     }
 
     /**
