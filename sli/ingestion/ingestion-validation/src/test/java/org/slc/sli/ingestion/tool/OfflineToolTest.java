@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.io.PrintStream;
 
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
@@ -31,6 +32,8 @@ public class OfflineToolTest {
     FileReader reader = null;
     LineNumberReader lreader = null;
 
+    final String tempConsole = "tempConsole.txt";
+
      @SuppressWarnings("rawtypes")
     public boolean verify(String appSt, String target) {
         //parse the log
@@ -38,9 +41,6 @@ public class OfflineToolTest {
         if (appender.getClass() == FileAppender.class) {
             FileAppender fa = (FileAppender) appender;
             file = new File(fa.getFile());
-        } else {
-            //TODO check ConsoleAppender
-            return true;
         }
 
         try {
@@ -96,28 +96,84 @@ public class OfflineToolTest {
         //Testing valid zip file
         toolTest("zipFile/Session1.zip", "ToolLog", "processing is complete.");
 
+        //Testing valid control file
+        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+
+        //Testing valid control file
+        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+
+    }
+
+    void toolTestConsole(String path, String appenderName, String target) {
+        String [] args3 = new String[1];
+        Resource fileResource = new ClassPathResource(path);
+        file = new File(tempConsole);
+        try {
+            System.setErr(new PrintStream(file));
+        } catch (FileNotFoundException e) {
+            fail("Temp console txt not found");
+        }
+        try {
+            args3[0] = fileResource.getFile().toString();
+            OfflineTool.main(args3);
+            Assert.assertTrue(verify(appenderName, target));
+        } catch (IOException e) {
+            fail("IO Exception from main");
+        }
+        file.delete();
+    }
+
+    @Test
+    public void negativeTestMain() {
+
         //Testing an invalid zip file
         toolTest("invalidZip/SessionInvalid.zip", "ToolLog", "Please resubmit");
 
-        //Testing an invalid control file
-        toolTest("invalid/MainControlFile.ctl", "ToolLog", "Please resubmit");
+        //Testing an empty control file
+        toolTest("invalid/MainControlFile.ctl", "ToolLog", "No files specified in control file");
+
+        //Testing control file with wrong checksum
+        toolTest("invalid/wrongChecksum.ctl", "ToolLog", "Please resubmit");
+
 
         //Testing more than 1 input arguments
         String [] args3 = new String[2];
+        file = new File(tempConsole);
+        try {
+            System.setErr(new PrintStream(file));
+        } catch (FileNotFoundException e) {
+            fail("Temp console txt not found");
+        }
         try {
             OfflineTool.main(args3);
             Assert.assertTrue(verify("ConsoleAppender", "Illegal options"));
         } catch (IOException e) {
             fail("IO Exception from main");
         }
+        file.delete();
 
-        //Testing valid control file
-        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+        //Testing doesn't existing file
+        String [] args4 = new String[1];
+        args4[0] = "/invalid/nonExist.ctl";
+        file = new File(tempConsole);
+        try {
+            System.setErr(new PrintStream(file));
+        } catch (FileNotFoundException e) {
+            fail("Temp console txt not found");
+        }
+        try {
+            OfflineTool.main(args4);
+            Assert.assertTrue(verify("ConsoleAppender", "does not exist"));
+        } catch (IOException e) {
+            fail("IO Exception from main");
+        }
+        file.delete();
 
-        //Testing valid control file
-        toolTest("test/MainControlFile.ctl", "ToolLog", "processing is complete.");
+        //Testing direcotry
+        toolTestConsole("invalid/", "ConsoleAppender", "Expecting a Zip or a Ctl");
 
-
+        //Testing invalid XML file
+        toolTest("invalidXML/MainControlFile.ctl", "ToolLog", "InterchangeAssessmentMetadata.xml: Checksum validation failed");
     }
 
 }
