@@ -7,11 +7,13 @@ public class CohortMeta {
 
     public Set<String> staffIds;
     public Set<String> studentIds;
+    public ProgramMeta programMeta;
 
     public final String id;
 
     public CohortMeta(String id, ProgramMeta programMeta) {
         this.id = programMeta.id + "-" + id;
+        this.programMeta = programMeta;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
