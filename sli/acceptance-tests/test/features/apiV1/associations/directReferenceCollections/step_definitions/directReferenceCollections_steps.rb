@@ -135,17 +135,24 @@ Then /^list "([^"]*)" should be (\[.*\])$/ do |key, value|
 
 end
 
-Then /^I should receive a link for each ID named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
-  puts "\nrel: #{rel}\n"
-  puts "\nhref: #{href}\n"
+Then /^I should receive a link named "([^"]*)" for each ID in "([^"]*)" with URI prefix "([^"]*)"$/ do |rel, id_list, prefix|
 
+  # puts "\nrel: #{rel}\n"
+  # puts "\nid_list: #{id_list}\n"
+  # puts "\nprefix #{prefix}\n"
 
-  # assert(@result.has_key?("links"), "Response contains no links")
-  # found = false
-  # @result["links"].each do |link|
-    # if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      # found = true
-    # end
-  # end
-  # assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+  assert(@result.has_key?("links"), "Response contains no links")
+  id_list = eval(id_list)
+  assert(id_list.is_a?(Array), "ID list is a #{id_list.class}, expected Array")
+
+  id_list.each do | id |
+    new_link=prefix + "/" + id
+    found = false
+    @result["links"].each do |link|
+      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(new_link)}$/
+        found = true
+      end
+    end
+    assert(found, "Link not found rel=#{rel}, href ends with=#{new_link}")
+  end
 end
