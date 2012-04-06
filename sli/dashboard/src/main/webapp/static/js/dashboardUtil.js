@@ -200,7 +200,7 @@ DashboardUtil.getStyleDeclaration = function (element)
 	        color: "#000000",
 	        label: "N/A",
 	        style: "solid",
-	        fontSize: "9px";
+	        fontSize: "9px"
 	    },
 	 
 	    // Set up the widget
