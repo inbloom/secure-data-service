@@ -4,6 +4,9 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.PathConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -35,9 +38,16 @@ public class SupportResource {
     @GET
     @Path("email")
     public Object getEmail() {
+        if (!isAuthenticated(SecurityContextHolder.getContext())) {
+            throw new InsufficientAuthenticationException("User must be logged in");
+        }
         Map<String, String> emailMap = new HashMap<String, String>();
         emailMap.put("email", email);
         return emailMap;
+    }
+
+    private boolean isAuthenticated(SecurityContext securityContext) {
+        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
     }
     
 }
