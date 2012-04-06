@@ -61,6 +61,21 @@
 		<ObjectiveAssessmentReference ref="ACTMathematicsPlaneGeometry"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
+	<ObjectiveAssessment id="ACTMathematicsPreAlgebra">
+		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
+		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
+		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
 	<ObjectiveAssessment id="ACTReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>

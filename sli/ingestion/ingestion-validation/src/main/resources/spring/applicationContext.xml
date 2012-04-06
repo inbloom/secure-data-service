@@ -23,19 +23,6 @@
         <property name="inputArgumentCount" value="1" />
     </bean>
 
-    <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator"/>
-
-    <bean id="zipValidation" class="org.slc.sli.ingestion.tool.ZipValidation">
-         <property name="validator" ref="zipFileValidator"/>
-         <property name="messageSource" ref="messageSource"/>
-    </bean>
-
-     <bean id="ctlFileValidation" class="org.slc.sli.ingestion.tool.ControlFileValidation">
-         <property name="assembler" ref="batchJobAssembler">
-
-         </property>
-     </bean>
-
     <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
 
     <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">

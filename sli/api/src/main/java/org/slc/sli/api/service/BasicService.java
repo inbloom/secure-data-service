@@ -56,6 +56,7 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+    private static final String METADATA = "metaData";
     
     private String collectionName;
     private List<Treatment> treatments;
@@ -460,6 +461,9 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
+
+        toReturn.put(METADATA, entity.getMetaData());
+
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
