@@ -962,7 +962,7 @@ end
 ############################################################
 desc "Run Dashboard Tests"
 task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests,  :JavaSDKSampleAppTest] do
+  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardTabPanelTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoTests, :dashboardStudentContactInfoLiveTests, :dashboardHidePagesTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
