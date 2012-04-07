@@ -2,22 +2,38 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * The end of an association between two classes.
  */
-public final class AssociationEnd extends AbstractModelElement {
-    /**
-     * The class being referenced. Never <code>null</code>.
-     */
-    private final Reference reference;
+public final class AssociationEnd extends AbstractModelElement implements HasName, HasType {
     /**
      * The multiplicity of the association end. Typically 0 or 1. Never <code>null</code>.
      */
     private final Multiplicity multiplicity;
+    /**
+     * The name of the association end.
+     */
+    private final QName name;
+    /**
+     * Determines whether the association is navigable in this direction.
+     */
+    private final boolean isNavigable;
+    /**
+     * The class being referenced. Never <code>null</code>.
+     */
+    private final Reference reference;
     
-    public AssociationEnd(final Identifier id, final List<TaggedValue> taggedValues, final Reference reference,
-            final Multiplicity multiplicity, final LazyLookup lookup) {
+    public AssociationEnd(final Multiplicity multiplicity, final QName name, final boolean isNavigable,
+            final Identifier id, final List<TaggedValue> taggedValues, final Reference reference,
+            final LazyLookup lookup) {
         super(id, taggedValues, lookup);
+        if (name == null) {
+            throw new NullPointerException("name");
+        } else if (name.getLocalPart().trim().isEmpty()) {
+            // throw new IllegalArgumentException("name must not be blank");
+        }
         if (reference == null) {
             throw new NullPointerException("reference");
         }
@@ -27,16 +43,27 @@ public final class AssociationEnd extends AbstractModelElement {
         if (lookup == null) {
             throw new NullPointerException("lookup");
         }
-        this.reference = reference;
         this.multiplicity = multiplicity;
-    }
-    
-    public Type getType() {
-        return lookup.getType(reference);
+        this.name = name;
+        this.isNavigable = isNavigable;
+        this.reference = reference;
     }
     
     public Multiplicity getMultiplicity() {
         return multiplicity;
+    }
+    
+    @Override
+    public QName getName() {
+        return name;
+    }
+    
+    public boolean isNavigable() {
+        return isNavigable;
+    }
+    
+    public Type getType() {
+        return lookup.getType(reference);
     }
     
     @Override

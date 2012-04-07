@@ -42,6 +42,16 @@ public final class DataType extends AbstractModelElement implements Type {
     }
     
     @Override
+    public List<Generalization> getGeneralizationDerived() {
+        return lookup.getGeneralizationDerived(getReference());
+    }
+    
+    @Override
+    public List<AssociationEnd> getAssociationEnds() {
+        return lookup.getAssociationEnds(getReference());
+    }
+    
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");

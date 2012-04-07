@@ -16,4 +16,14 @@ public interface Type extends HasName, HasModifiers {
      * Returns the generalizations that form the base for this type.
      */
     List<Generalization> getGeneralizationBase();
+    
+    /**
+     * Returns the generalizations that are derived from this type.
+     */
+    List<Generalization> getGeneralizationDerived();
+    
+    /**
+     * Returns the association ends that are associated with this type.
+     */
+    List<AssociationEnd> getAssociationEnds();
 }

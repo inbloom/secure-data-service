@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 /**
  * A field of a class.
  */
-public final class Attribute extends AbstractModelElement implements HasName {
+public final class Attribute extends AbstractModelElement implements HasName, HasType {
     /**
      * The name of the attribute. Never <code>null</code>.
      */

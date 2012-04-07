@@ -35,4 +35,21 @@ public interface LazyLookup {
      */
     List<Generalization> getGeneralizationBase(Reference derived);
     
+    /**
+     * Returns a list of generalizations for the derived reference.
+     * 
+     * @param base
+     *            The base type reference.
+     * @return The base generalizations.
+     */
+    List<Generalization> getGeneralizationDerived(Reference base);
+    
+    /**
+     * Returns a list of association ends for the type reference.
+     * 
+     * @param type
+     *            The type reference.
+     * @return The type associations.
+     */
+    List<AssociationEnd> getAssociationEnds(Reference type);
 }

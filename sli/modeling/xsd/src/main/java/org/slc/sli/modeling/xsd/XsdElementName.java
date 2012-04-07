@@ -73,6 +73,10 @@ public enum XsdElementName {
      */
     RESTRICTION("restriction"),
     /**
+     * schema
+     */
+    SCHEMA("schema"),
+    /**
      * sequence
      */
     SEQUENCE("sequence"),

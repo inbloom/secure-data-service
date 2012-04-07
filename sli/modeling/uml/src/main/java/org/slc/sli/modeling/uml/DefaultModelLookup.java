@@ -77,6 +77,47 @@ public final class DefaultModelLookup implements LazyLookup {
         return Collections.unmodifiableList(base);
     }
     
+    @Override
+    public List<Generalization> getGeneralizationDerived(final Reference base) {
+        // It might be a good idea to cache this when the model is known.
+        final List<Generalization> derived = new LinkedList<Generalization>();
+        final Map<Identifier, Generalization> generalizationMap = model.getGeneralizationMap();
+        for (final Generalization generalization : generalizationMap.values()) {
+            final Type parent = generalization.getParent();
+            final Reference parentReference = parent.getReference();
+            if (parentReference.equals(base)) {
+                derived.add(generalization);
+            }
+        }
+        return Collections.unmodifiableList(derived);
+    }
+    
+    @Override
+    public List<AssociationEnd> getAssociationEnds(final Reference type) {
+        // It might be a good idea to cache this when the model is known.
+        final List<AssociationEnd> ends = new LinkedList<AssociationEnd>();
+        final Map<Identifier, Association> associationMap = model.getAssociationMap();
+        for (final Association candidate : associationMap.values()) {
+            {
+                final AssociationEnd candidateEnd = candidate.getLHS();
+                final Type endType = candidateEnd.getType();
+                final Reference endReference = endType.getReference();
+                if (endReference.equals(type)) {
+                    ends.add(candidate.getRHS());
+                }
+            }
+            {
+                final AssociationEnd candidateEnd = candidate.getRHS();
+                final Type endType = candidateEnd.getType();
+                final Reference endReference = endType.getReference();
+                if (endReference.equals(type)) {
+                    ends.add(candidate.getLHS());
+                }
+            }
+        }
+        return Collections.unmodifiableList(ends);
+    }
+    
     private static final <T> T assertNotNull(final T obj, final Reference memo) {
         if (obj != null) {
             return obj;

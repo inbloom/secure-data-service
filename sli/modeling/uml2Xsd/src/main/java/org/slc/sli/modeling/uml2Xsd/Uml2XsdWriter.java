@@ -17,6 +17,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.slc.sli.modeling.uml.AbstractModelElement;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
@@ -24,6 +25,7 @@ import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.HasName;
+import org.slc.sli.modeling.uml.HasType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Multiplicity;
@@ -173,7 +175,7 @@ public final class Uml2XsdWriter {
      *             if anything bad happens.
      */
     private static final void schema(final Model model, final XMLStreamWriter xsw) throws XMLStreamException {
-        xsw.writeStartElement(PREFIX_XS, "schema", NAMESPACE_XS);
+        writeStartElement(XsdElementName.SCHEMA, xsw);
         try {
             xsw.writeNamespace(PREFIX_XS, NAMESPACE_XS);
             attributeFormDefault(false, xsw);
@@ -263,7 +265,6 @@ public final class Uml2XsdWriter {
                 }
                 for (final EnumLiteral literal : simpleType.getLiterals()) {
                     writeStartElement(XsdElementName.ENUMERATION, xsw);
-                    // FIXME: Enumerations should have values, not names!
                     value(collapseWhitespace(literal.getName().getLocalPart()), xsw);
                     xsw.writeEndElement();
                 }
@@ -295,7 +296,7 @@ public final class Uml2XsdWriter {
         }
     }
     
-    private static final void type(final Attribute element, final XMLStreamWriter xsw) throws XMLStreamException {
+    private static final void type(final HasType element, final XMLStreamWriter xsw) throws XMLStreamException {
         final QName name = element.getType().getName();
         xsw.writeAttribute(XsdAttributeName.TYPE.getLocalName(), lexicalName(name));
     }
@@ -383,6 +384,24 @@ public final class Uml2XsdWriter {
         }
     }
     
+    private static final void writeElement(final AssociationEnd element, final XMLStreamWriter xsw)
+            throws XMLStreamException {
+        writeStartElement(XsdElementName.ELEMENT, xsw);
+        try {
+            if (!element.getName().getLocalPart().trim().isEmpty()) {
+                name(element, xsw);
+            } else {
+                // Name using the element type. Could be more sophisticated here.
+                name(new Uml2XsdSyntheticHasName(element), xsw);
+            }
+            type(element, xsw);
+            occurrences(element.getMultiplicity(), xsw);
+            writeAnnotation(element, xsw);
+        } finally {
+            writeEndElement(xsw);
+        }
+    }
+    
     private static final void writeEndElement(final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeEndElement();
     }
@@ -393,6 +412,11 @@ public final class Uml2XsdWriter {
         try {
             for (final Attribute element : complexType.getAttributes()) {
                 writeElement(element, xsw);
+            }
+            for (final AssociationEnd element : complexType.getAssociationEnds()) {
+                if (element.isNavigable()) {
+                    writeElement(element, xsw);
+                }
             }
         } catch (final RuntimeException e) {
             throw new RuntimeException(complexType.getName().getLocalPart(), e);

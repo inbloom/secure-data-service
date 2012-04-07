@@ -89,6 +89,16 @@ public final class XmiReader {
         return Identifier.fromString(reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.ID.getLocalName()));
     }
     
+    private static final boolean getBoolean(final XmiAttributeName name, final boolean defaultValue,
+            final XMLStreamReader reader) {
+        final String value = reader.getAttributeValue(GLOBAL_NAMESPACE, name.getLocalName());
+        if (value != null) {
+            return Boolean.valueOf(value);
+        } else {
+            return defaultValue;
+        }
+    }
+    
     private static final Identifier getIdRef(final XMLStreamReader reader) throws XmiMissingAttributeException {
         final String value = reader.getAttributeValue(GLOBAL_NAMESPACE, XmiAttributeName.IDREF.getLocalName());
         if (value != null) {
@@ -206,6 +216,9 @@ public final class XmiReader {
             assertName(XmiElementName.ASSOCIATION_END, reader);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final Identifier id = getId(reader);
+            final String localName = getName(reader, DEFAULT_EMPTY_NAME);
+            final QName name = new QName(localName);
+            final boolean isNavigable = getBoolean(XmiAttributeName.IS_NAVIGABLE, true, reader);
             Reference participant = null;
             final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST, lookup);
             Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUE_LIST, range, lookup);
@@ -226,7 +239,8 @@ public final class XmiReader {
                     }
                     case XMLStreamConstants.END_ELEMENT: {
                         assertName(XmiElementName.ASSOCIATION_END, reader);
-                        return new AssociationEnd(id, taggedValues, participant, multiplicity, lookup);
+                        return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, participant,
+                                lookup);
                     }
                     case XMLStreamConstants.CHARACTERS: {
                         // Ignore.

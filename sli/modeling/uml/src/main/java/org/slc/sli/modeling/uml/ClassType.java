@@ -62,6 +62,16 @@ public final class ClassType extends AbstractModelElement implements Type {
     }
     
     @Override
+    public List<Generalization> getGeneralizationDerived() {
+        return lookup.getGeneralizationDerived(getReference());
+    }
+    
+    @Override
+    public List<AssociationEnd> getAssociationEnds() {
+        return lookup.getAssociationEnds(getReference());
+    }
+    
+    @Override
     public int hashCode() {
         return name.hashCode();
     }
