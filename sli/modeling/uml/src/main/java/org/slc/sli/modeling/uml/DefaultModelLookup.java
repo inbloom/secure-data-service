@@ -1,5 +1,10 @@
 package org.slc.sli.modeling.uml;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * A default implementation of {@link LazyLookup} that uses {@link Model}.
  * 
@@ -51,7 +56,25 @@ public final class DefaultModelLookup implements LazyLookup {
     }
     
     public void setModel(final Model model) {
+        if (model == null) {
+            throw new NullPointerException("model");
+        }
         this.model = model;
+    }
+    
+    @Override
+    public List<Generalization> getGeneralizationBase(final Reference derived) {
+        // It might be a good idea to cache this when the model is known.
+        final List<Generalization> base = new LinkedList<Generalization>();
+        final Map<Identifier, Generalization> generalizationMap = model.getGeneralizationMap();
+        for (final Generalization generalization : generalizationMap.values()) {
+            final Type child = generalization.getChild();
+            final Reference childReference = child.getReference();
+            if (childReference.equals(derived)) {
+                base.add(generalization);
+            }
+        }
+        return Collections.unmodifiableList(base);
     }
     
     private static final <T> T assertNotNull(final T obj, final Reference memo) {

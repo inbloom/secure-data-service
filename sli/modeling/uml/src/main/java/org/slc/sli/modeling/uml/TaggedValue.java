@@ -15,11 +15,9 @@ public final class TaggedValue extends AbstractModelElement {
      */
     private final Reference tagDefinition;
     
-    private final LazyLookup lookup;
-    
     public TaggedValue(final Identifier id, final List<TaggedValue> taggedValues, final String value,
             final Reference tagDefinition, final LazyLookup lookup) {
-        super(id, taggedValues);
+        super(id, taggedValues, lookup);
         if (value == null) {
             throw new NullPointerException("value");
         }
@@ -31,7 +29,6 @@ public final class TaggedValue extends AbstractModelElement {
         }
         this.value = value;
         this.tagDefinition = tagDefinition;
-        this.lookup = lookup;
     }
     
     public String getValue() {

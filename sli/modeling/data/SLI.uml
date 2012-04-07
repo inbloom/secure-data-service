@@ -26,7 +26,7 @@
       <fontname>Verdana</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>[AAA]</activediagram>
+      <activediagram>Alternative/Supplemental Services</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -142,10 +142,6 @@
               name="SLI_DocumentationTeacherSchool.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="[Documentation] Teacher-School" />
-      <member type="pgml"
-              name="SLI_ClassDiagram.pgml"
-              diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
-              diagramname="[AAA]" />
       <member type="todo"
               name="SLI.todo" />
     </members>
@@ -156,7 +152,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Apr 05 20:38:55 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 14:30:27 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -341,13 +337,29 @@
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = 'a5621d49-db79-423a-b4fc-9ec9cef67c04' isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>The person, organization, or
-									dpeartment that made a student designation.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>The person, organization, or department that made a student designation.</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A5'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A6'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>60</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A7'/>
+          </UML:GeneralizableElement.generalization>
         </UML:DataType>
         <UML:DataType xmi.id = '3737c614-63ad-4888-b69b-d1c7a7cf9b03' name = 'ContactRestrictions'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
@@ -852,6 +864,9 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209F'/>
+          </UML:GeneralizableElement.generalization>
         </UML:DataType>
         <UML:DataType xmi.id = '6c32edf4-1200-48ab-84d4-a21720379164' name = 'Rating'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
@@ -1183,6 +1198,20 @@
 									fund, function, object)</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209E'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A4'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>20</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
@@ -30046,7 +30075,7 @@
           </UML:Generalization.parent>
         </UML:Generalization>
         <UML:Package xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209E'
-          name = 'W3C XML Schema datatypes' isSpecification = 'false' isRoot = 'false'
+          name = 'http://www.w3.org/2001/XMLSchema' isSpecification = 'false' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:00000000000020A1'
@@ -30128,6 +30157,64 @@
               isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
           </UML:Namespace.ownedElement>
         </UML:Package>
+        <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'
+          name = 'minLength' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209C'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209B'
+                  lower = '0' upper = '0'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209D'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>The minimum length facet.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:TagDefinition>
+        <UML:Generalization xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209F'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = '61388bc2-c07b-40cd-a88b-60253d33c706'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = 'ba76a1be-7f89-47bd-b638-a34f327fe9ef'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'
+          name = 'maxLength' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A2'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A1'
+                  lower = '0' upper = '0'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A3'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>The maximum length facet.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:TagDefinition>
+        <UML:Generalization xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A7'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = 'dce1a462-a477-424a-affb-e2ab93f885d1'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>
@@ -82755,1327 +82842,6 @@
       <lineto x="270"
               y="983" />
     </path>
-  </group>
-</pgml>
-<pgml description="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram|7e7b0ef6-2bf8-4821-bdc7-8bf850ef77ef"
-      name="[AAA]"
->
-  <group name="Fig0"
-       description="org.argouml.uml.diagram.static_structure.ui.FigEnumeration[104, 104, 376, 359]pathVisible=false;stereotypeView=0;operationsVisible=false;enumerationLiteralsVisible=true"
-       href="5eda31d7-5128-4086-b772-8f0a8804b0e0"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig0.0"
-      x="104"
-      y="104"
-      width="376"
-      height="359"
-      fill="1"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig0.1"
-      x="105"
-      y="105"
-      width="374"
-      height="43"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >AcademicHonorsType</text>
-    <group name="Fig0.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[105, 105, 374, 20]"
-         href="5eda31d7-5128-4086-b772-8f0a8804b0e0"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig0.2.0"
-        x="105"
-        y="105"
-        width="374"
-        height="20"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig0.2.1"
-        x="105"
-        y="105"
-        width="374"
-        height="18"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Center"
-      >«enumeration»</text>
-    </group>
-    <rectangle name="Fig0.3"
-      x="104"
-      y="148"
-      width="376"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig0.4"
-         description="org.argouml.uml.diagram.ui.FigEnumLiteralsCompartment[105, 149, 374, 314]"
-         href="5eda31d7-5128-4086-b772-8f0a8804b0e0"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig0.4.0"
-        x="105"
-        y="149"
-        width="374"
-        height="314"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig0.4.1"
-        x="105"
-        y="149"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Honor roll</text>
-      <text name="Fig0.4.2"
-        x="105"
-        y="166"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Honor society</text>
-      <text name="Fig0.4.3"
-        x="105"
-        y="183"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Honorable mention</text>
-      <text name="Fig0.4.4"
-        x="105"
-        y="200"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Honors program</text>
-      <text name="Fig0.4.5"
-        x="105"
-        y="217"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Prize awards</text>
-      <text name="Fig0.4.6"
-        x="105"
-        y="234"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Scholarships</text>
-      <text name="Fig0.4.7"
-        x="105"
-        y="251"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Awarding of units of value</text>
-      <text name="Fig0.4.8"
-        x="105"
-        y="268"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Citizenship award/recognition</text>
-      <text name="Fig0.4.9"
-        x="105"
-        y="285"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Completion of requirement, but no units of value awarded</text>
-      <text name="Fig0.4.10"
-        x="105"
-        y="302"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Attendance award</text>
-      <text name="Fig0.4.11"
-        x="105"
-        y="319"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Certificate</text>
-      <text name="Fig0.4.12"
-        x="105"
-        y="336"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Honor award</text>
-      <text name="Fig0.4.13"
-        x="105"
-        y="353"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Letter of student commendation</text>
-      <text name="Fig0.4.14"
-        x="105"
-        y="370"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Medals</text>
-      <text name="Fig0.4.15"
-        x="105"
-        y="387"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >National Merit scholar</text>
-      <text name="Fig0.4.16"
-        x="105"
-        y="404"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Points</text>
-      <text name="Fig0.4.17"
-        x="105"
-        y="421"
-        width="374"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Promotion or advancement</text>
-      <text name="Fig0.4.18"
-        x="105"
-        y="438"
-        width="374"
-        height="23"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >Other</text>
-    </group>
-    <rectangle name="Fig0.5"
-      x="104"
-      y="462"
-      width="354"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-      visibility="0"
-    />
-    <group name="Fig0.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[105, 463, 352, 21]"
-         href="5eda31d7-5128-4086-b772-8f0a8804b0e0"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig0.6.0"
-        x="105"
-        y="463"
-        width="352"
-        height="21"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        visibility="0"
-      />
-    </group>
-  </group>
-  <group name="Fig1"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[761, 267, 247, 89]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
-       href="d30a9f17-84d4-4b4e-b5aa-ee472cbb1809"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig1.0"
-      x="761"
-      y="267"
-      width="247"
-      height="89"
-      fill="1"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig1.1"
-      x="762"
-      y="268"
-      width="245"
-      height="23"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >CalendarDate</text>
-    <group name="Fig1.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[762, 268, 245, 0]"
-         href="d30a9f17-84d4-4b4e-b5aa-ee472cbb1809"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig1.2.0"
-        x="762"
-        y="268"
-        width="245"
-        height="0"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig1.3"
-      x="761"
-      y="291"
-      width="247"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig1.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[762, 292, 245, 42]"
-         href="d30a9f17-84d4-4b4e-b5aa-ee472cbb1809"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig1.4.0"
-        x="762"
-        y="292"
-        width="245"
-        height="42"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig1.4.1"
-        x="762"
-        y="292"
-        width="245"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >date : date</text>
-      <text name="Fig1.4.2"
-        x="762"
-        y="309"
-        width="245"
-        height="23"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >calendarEvent : CalendarEventType</text>
-    </group>
-    <rectangle name="Fig1.5"
-      x="761"
-      y="333"
-      width="247"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig1.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[762, 334, 245, 21]"
-         href="d30a9f17-84d4-4b4e-b5aa-ee472cbb1809"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig1.6.0"
-        x="762"
-        y="334"
-        width="245"
-        height="21"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-  </group>
-  <group name="Fig2"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[743, 87, 412, 276]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
-       href="7b6f6c9c-564b-4c01-bc0d-ec8d504931e7"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig2.0"
-      x="743"
-      y="87"
-      width="412"
-      height="276"
-      fill="1"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig2.1"
-      x="744"
-      y="88"
-      width="410"
-      height="23"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >Address</text>
-    <group name="Fig2.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[744, 88, 410, 0]"
-         href="7b6f6c9c-564b-4c01-bc0d-ec8d504931e7"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig2.2.0"
-        x="744"
-        y="88"
-        width="410"
-        height="0"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig2.3"
-      x="743"
-      y="111"
-      width="412"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig2.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[744, 112, 410, 229]"
-         href="7b6f6c9c-564b-4c01-bc0d-ec8d504931e7"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig2.4.0"
-        x="744"
-        y="112"
-        width="410"
-        height="229"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig2.4.1"
-        x="744"
-        y="112"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >streetNumberName : StreetNumberName</text>
-      <text name="Fig2.4.2"
-        x="744"
-        y="129"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >apartmentRoomSuiteNumber [0..1] : ApartmentRoomSuiteNumber</text>
-      <text name="Fig2.4.3"
-        x="744"
-        y="146"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >buildingSiteNumber [0..1] : BuildingSiteNumber</text>
-      <text name="Fig2.4.4"
-        x="744"
-        y="163"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >city : City</text>
-      <text name="Fig2.4.5"
-        x="744"
-        y="180"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >stateAbbreviation : StateAbbreviationType</text>
-      <text name="Fig2.4.6"
-        x="744"
-        y="197"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >postalCode : PostalCode</text>
-      <text name="Fig2.4.7"
-        x="744"
-        y="214"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >nameOfCounty [0..1] : NameOfCounty</text>
-      <text name="Fig2.4.8"
-        x="744"
-        y="231"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >countyFIPSCode [0..1] : CountyFIPSCode</text>
-      <text name="Fig2.4.9"
-        x="744"
-        y="248"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >countryCode [0..1] : CountryCodeType</text>
-      <text name="Fig2.4.10"
-        x="744"
-        y="265"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >latitude [0..1] : Coordinate</text>
-      <text name="Fig2.4.11"
-        x="744"
-        y="282"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >longitude [0..1] : Coordinate</text>
-      <text name="Fig2.4.12"
-        x="744"
-        y="299"
-        width="410"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >beginDate [0..1] : date</text>
-      <text name="Fig2.4.13"
-        x="744"
-        y="316"
-        width="410"
-        height="23"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >endDate [0..1] : date</text>
-    </group>
-    <rectangle name="Fig2.5"
-      x="743"
-      y="340"
-      width="412"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig2.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[744, 341, 410, 21]"
-         href="7b6f6c9c-564b-4c01-bc0d-ec8d504931e7"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig2.6.0"
-        x="744"
-        y="341"
-        width="410"
-        height="21"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-  </group>
-  <group name="Fig3"
-       description="org.argouml.uml.diagram.static_structure.ui.FigDataType[628, 523, 112, 45]pathVisible=false;stereotypeView=0;operationsVisible=false;"
-       href="f91f7b19-051a-4d8d-b221-60953a99713b"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig3.0"
-      x="628"
-      y="523"
-      width="112"
-      height="45"
-      fill="1"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig3.1"
-      x="629"
-      y="524"
-      width="110"
-      height="43"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >PostalCode</text>
-    <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[629, 524, 110, 20]"
-         href="f91f7b19-051a-4d8d-b221-60953a99713b"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig3.2.0"
-        x="629"
-        y="524"
-        width="110"
-        height="20"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig3.2.1"
-        x="629"
-        y="524"
-        width="110"
-        height="18"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Center"
-      >«datatype»</text>
-    </group>
-    <rectangle name="Fig3.3"
-      x="628"
-      y="567"
-      width="182"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-      visibility="0"
-    />
-    <group name="Fig3.4"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[629, 568, 180, 24]"
-         href="f91f7b19-051a-4d8d-b221-60953a99713b"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig3.4.0"
-        x="629"
-        y="568"
-        width="180"
-        height="24"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        visibility="0"
-      />
-    </group>
-  </group>
-  <group name="Fig4"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[984, 425, 392, 123]pathVisible=false;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
-       href="82a05a08-7185-4369-bdd0-2015fec575c6"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig4.0"
-      x="984"
-      y="425"
-      width="392"
-      height="123"
-      fill="1"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig4.1"
-      x="985"
-      y="426"
-      width="390"
-      height="23"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >AssessmentPerformanceLevel</text>
-    <group name="Fig4.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[985, 426, 390, 0]"
-         href="82a05a08-7185-4369-bdd0-2015fec575c6"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig4.2.0"
-        x="985"
-        y="426"
-        width="390"
-        height="0"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig4.3"
-      x="984"
-      y="449"
-      width="392"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig4.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[985, 450, 390, 76]"
-         href="82a05a08-7185-4369-bdd0-2015fec575c6"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig4.4.0"
-        x="985"
-        y="450"
-        width="390"
-        height="76"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig4.4.1"
-        x="985"
-        y="450"
-        width="390"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >performanceLevel : PerformanceLevelDescriptorType</text>
-      <text name="Fig4.4.2"
-        x="985"
-        y="467"
-        width="390"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >assessmentReportingMethod : AssessmentReportingMethodType</text>
-      <text name="Fig4.4.3"
-        x="985"
-        y="484"
-        width="390"
-        height="17"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >minimumScore [0..1] : int</text>
-      <text name="Fig4.4.4"
-        x="985"
-        y="501"
-        width="390"
-        height="23"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Verdana"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >maximumScore [0..1] : int</text>
-    </group>
-    <rectangle name="Fig4.5"
-      x="984"
-      y="525"
-      width="392"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig4.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[985, 526, 390, 21]"
-         href="82a05a08-7185-4369-bdd0-2015fec575c6"
-         fill="0"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig4.6.0"
-        x="985"
-        y="526"
-        width="390"
-        height="21"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-  </group>
-  <group name="Fig5"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[188, 488, 232, 100]pathVisible=false;stereotypeView=0;stereotypeVisible=true;visibilityVisible=false"
-       href="-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209E"
-       fill="1"
-       fillcolor="white"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-    </private>
-    
-    <rectangle name="Fig5.0"
-      x="188"
-      y="488"
-      width="232"
-      height="100"
-      fill="0"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-    />
-    <path name="Fig5.1"
-      description="org.argouml.uml.diagram.static_structure.ui.FigPackage$PackageBackground"
-      fill="1"
-      fillcolor="white"
-      stroke="0"
-      strokecolor="black"
-    >
-      <moveto x="188"
-              y="488" />
-      <lineto x="370"
-              y="488" />
-      <lineto x="370"
-              y="512" />
-      <lineto x="419"
-              y="512" />
-      <lineto x="419"
-              y="587" />
-      <lineto x="188"
-              y="587" />
-      <lineto x="188"
-              y="488" />
-    </path>
-    <text name="Fig5.2"
-      x="188"
-      y="488"
-      width="183"
-      height="25"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Left"
-    >W3C XML Schema datatypes</text>
-    <group name="Fig5.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[188, 488, 182, 1]"
-         href="-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209E"
-         fill="1"
-         fillcolor="white"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig5.3.0"
-        x="188"
-        y="488"
-        width="182"
-        height="1"
-        fill="1"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <text name="Fig5.4"
-      x="188"
-      y="512"
-      width="232"
-      height="76"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-      textcolor="black"
-      font="Verdana"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    ></text>
   </group>
 </pgml>
 <todo>
