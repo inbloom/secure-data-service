@@ -9,15 +9,16 @@ import java.util.Map;
  */
 public final class Model {
     
+    private final Map<Identifier, Association> associations;
     private final Map<Identifier, ClassType> classTypes;
     private final Map<Identifier, DataType> dataTypes;
     private final Map<Identifier, EnumType> enumTypes;
-    private final Map<Identifier, Association> associations;
+    private final Map<Identifier, Generalization> generalizations;
     private final Map<Identifier, TagDefinition> tagDefinitions;
     
     public Model(final Map<Identifier, ClassType> classTypes, final Map<Identifier, DataType> dataTypes,
             final Map<Identifier, EnumType> enumTypes, final Map<Identifier, Association> associations,
-            final Map<Identifier, TagDefinition> tagDefinitions) {
+            final Map<Identifier, Generalization> generalizations, final Map<Identifier, TagDefinition> tagDefinitions) {
         if (classTypes == null) {
             throw new NullPointerException("classTypes");
         }
@@ -30,6 +31,9 @@ public final class Model {
         if (associations == null) {
             throw new NullPointerException("associations");
         }
+        if (generalizations == null) {
+            throw new NullPointerException("generalizations");
+        }
         if (tagDefinitions == null) {
             throw new NullPointerException("tagDefinitions");
         }
@@ -37,7 +41,22 @@ public final class Model {
         this.dataTypes = Collections.unmodifiableMap(new HashMap<Identifier, DataType>(dataTypes));
         this.enumTypes = Collections.unmodifiableMap(new HashMap<Identifier, EnumType>(enumTypes));
         this.associations = Collections.unmodifiableMap(new HashMap<Identifier, Association>(associations));
+        this.generalizations = Collections.unmodifiableMap(new HashMap<Identifier, Generalization>(generalizations));
         this.tagDefinitions = Collections.unmodifiableMap(new HashMap<Identifier, TagDefinition>(tagDefinitions));
+    }
+    
+    @Override
+    public boolean equals(final Object other) {
+        if (other instanceof Model) {
+            final Model that = (Model) other;
+            return (this.classTypes.equals(that.classTypes));
+        } else {
+            return false;
+        }
+    }
+    
+    public Map<Identifier, Association> getAssociationMap() {
+        return associations;
     }
     
     public Map<Identifier, ClassType> getClassTypeMap() {
@@ -52,8 +71,8 @@ public final class Model {
         return enumTypes;
     }
     
-    public Map<Identifier, Association> getAssociationMap() {
-        return associations;
+    public Map<Identifier, Generalization> getGeneralizationMap() {
+        return generalizations;
     }
     
     public Map<Identifier, TagDefinition> getTagDefinitionMap() {
@@ -63,15 +82,5 @@ public final class Model {
     @Override
     public int hashCode() {
         return 0;
-    }
-    
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof Model) {
-            final Model that = (Model) other;
-            return (this.classTypes.equals(that.classTypes));
-        } else {
-            return false;
-        }
     }
 }

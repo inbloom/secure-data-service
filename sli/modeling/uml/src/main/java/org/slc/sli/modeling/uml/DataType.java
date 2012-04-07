@@ -2,16 +2,18 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * A data type is a type that typically has no references to other types.
  */
 public final class DataType extends AbstractModelElement implements Type {
-    private final String name;
+    private final QName name;
     private final boolean isAbstract;
     
-    public DataType(final Identifier id, final String name, final boolean isAbstract,
-            final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public DataType(final Identifier id, final QName name, final boolean isAbstract,
+            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -20,7 +22,7 @@ public final class DataType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     
@@ -32,6 +34,11 @@ public final class DataType extends AbstractModelElement implements Type {
     @Override
     public Reference getReference() {
         return new Reference(getId(), ReferenceType.DATA_TYPE);
+    }
+    
+    @Override
+    public List<Generalization> getGeneralizationBase() {
+        return lookup.getGeneralizationBase(getReference());
     }
     
     @Override

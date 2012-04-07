@@ -14,11 +14,10 @@ public final class AssociationEnd extends AbstractModelElement {
      * The multiplicity of the association end. Typically 0 or 1. Never <code>null</code>.
      */
     private final Multiplicity multiplicity;
-    private final LazyLookup lookup;
     
     public AssociationEnd(final Identifier id, final List<TaggedValue> taggedValues, final Reference reference,
             final Multiplicity multiplicity, final LazyLookup lookup) {
-        super(id, taggedValues);
+        super(id, taggedValues, lookup);
         if (reference == null) {
             throw new NullPointerException("reference");
         }
@@ -30,7 +29,6 @@ public final class AssociationEnd extends AbstractModelElement {
         }
         this.reference = reference;
         this.multiplicity = multiplicity;
-        this.lookup = lookup;
     }
     
     public Type getType() {

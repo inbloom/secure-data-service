@@ -41,4 +41,19 @@ public final class Reference {
     public ReferenceType getKind() {
         return type;
     }
+    
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof Reference) {
+            final Reference that = (Reference) obj;
+            return id.equals(that.id) && type.equals(that.type);
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

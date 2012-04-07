@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * The representation of an enumeration.
  */
@@ -11,15 +13,15 @@ public final class EnumType extends AbstractModelElement implements Type {
     /**
      * The name of the enumeration type.
      */
-    private final String name;
+    private final QName name;
     /**
      * The literals that are part of the enumeration.
      */
     private final List<EnumLiteral> literals;
     
-    public EnumType(final Identifier id, final String name, final List<EnumLiteral> literals,
-            final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public EnumType(final Identifier id, final QName name, final List<EnumLiteral> literals,
+            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -28,7 +30,7 @@ public final class EnumType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     
@@ -44,6 +46,11 @@ public final class EnumType extends AbstractModelElement implements Type {
     @Override
     public Reference getReference() {
         return new Reference(getId(), ReferenceType.ENUM_TYPE);
+    }
+    
+    @Override
+    public List<Generalization> getGeneralizationBase() {
+        return lookup.getGeneralizationBase(getReference());
     }
     
     @Override

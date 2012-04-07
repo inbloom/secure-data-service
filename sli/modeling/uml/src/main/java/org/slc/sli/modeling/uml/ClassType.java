@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * The meta-data for a class.
  */
@@ -11,7 +13,7 @@ public final class ClassType extends AbstractModelElement implements Type {
     /**
      * The name of the class.
      */
-    private final String name;
+    private final QName name;
     /**
      * Determines whether the class can be instantiated.
      */
@@ -21,9 +23,9 @@ public final class ClassType extends AbstractModelElement implements Type {
      */
     private final List<Attribute> attributes;
     
-    public ClassType(final Identifier id, final String name, final boolean isAbstract,
-            final List<Attribute> attributes, final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public ClassType(final Identifier id, final QName name, final boolean isAbstract, final List<Attribute> attributes,
+            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -36,7 +38,7 @@ public final class ClassType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     
@@ -52,6 +54,11 @@ public final class ClassType extends AbstractModelElement implements Type {
     @Override
     public Reference getReference() {
         return new Reference(getId(), ReferenceType.CLASS_TYPE);
+    }
+    
+    @Override
+    public List<Generalization> getGeneralizationBase() {
+        return lookup.getGeneralizationBase(getReference());
     }
     
     @Override

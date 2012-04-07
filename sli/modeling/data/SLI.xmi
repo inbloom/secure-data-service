@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Apr 05 20:07:01 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 14:30:39 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -184,13 +184,29 @@
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = 'a5621d49-db79-423a-b4fc-9ec9cef67c04' isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>The person, organization, or
-									dpeartment that made a student designation.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue>The person, organization, or department that made a student designation.</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A5'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A6'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>60</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A7'/>
+          </UML:GeneralizableElement.generalization>
         </UML:DataType>
         <UML:DataType xmi.id = '3737c614-63ad-4888-b69b-d1c7a7cf9b03' name = 'ContactRestrictions'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
@@ -695,6 +711,9 @@
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209F'/>
+          </UML:GeneralizableElement.generalization>
         </UML:DataType>
         <UML:DataType xmi.id = '6c32edf4-1200-48ab-84d4-a21720379164' name = 'Rating'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
@@ -1026,6 +1045,20 @@
 									fund, function, object)</UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209E'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>1</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A4'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>20</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'/>
               </UML:TaggedValue.type>
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
@@ -29889,8 +29922,17 @@
           </UML:Generalization.parent>
         </UML:Generalization>
         <UML:Package xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:000000000000209E'
-          name = 'W3C XML Schema datatypes' isSpecification = 'false' isRoot = 'false'
+          name = 'http://www.w3.org/2001/XMLSchema' isSpecification = 'false' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false'>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-76--5aa6c3fc:13684cbd81a:-8000:00000000000020A1'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>This package represents the W3C XML Schema datatypes.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
           <UML:Namespace.ownedElement>
             <UML:DataType xmi.id = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a' name = 'string'
               isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
@@ -29962,6 +30004,64 @@
               isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
           </UML:Namespace.ownedElement>
         </UML:Package>
+        <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'
+          name = 'minLength' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209C'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209B'
+                  lower = '0' upper = '0'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209D'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>The minimum length facet.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:TagDefinition>
+        <UML:Generalization xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209F'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = '61388bc2-c07b-40cd-a88b-60253d33c706'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = 'ba76a1be-7f89-47bd-b638-a34f327fe9ef'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'
+          name = 'maxLength' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A2'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A1'
+                  lower = '0' upper = '0'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A3'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>The maximum length facet.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:TagDefinition>
+        <UML:Generalization xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A7'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = 'dce1a462-a477-424a-affb-e2ab93f885d1'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>

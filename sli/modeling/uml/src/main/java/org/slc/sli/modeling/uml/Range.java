@@ -15,8 +15,9 @@ public final class Range extends AbstractModelElement {
      */
     private final Occurs upperBound;
     
-    public Range(final Identifier id, final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public Range(final Identifier id, final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues,
+            final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (lower == null) {
             throw new NullPointerException("lower");
         }
