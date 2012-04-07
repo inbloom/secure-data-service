@@ -17,8 +17,14 @@
 			<tr>
 				<th>
 					<!-- show only once -->
-					<#if electronicMail_index == 0>
-					E-mail:
+					<#if electronicMail.emailAddressType ??>
+					   <#if electronicMail.emailAddressType == "Organization">
+					       School E-mail:
+				       <#else>
+					       ${electronicMail.emailAddressType}:
+				       </#if>
+				   <#else>
+					   E-mail:
 					</#if>
 				</th>
 				<td class="singleOfSixColumns">
