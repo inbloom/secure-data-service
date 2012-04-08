@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ruby on Rails: Welcome aboard</title>
+    <style type="text/css" media="screen">
+      body {
+        margin: 0;
+        margin-bottom: 25px;
+        padding: 0;
+        background-color: #f0f0f0;
+        font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+        font-size: 13px;
+        color: #333;
+      }
+
+      h1 {
+        font-size: 28px;
+        color: #000;
+      }
+
+      a  {color: #03c}
+      a:hover {
+        background-color: #03c;
+        color: white;
+        text-decoration: none;
+      }
+
+
+      #page {
+        background-color: #f0f0f0;
+        width: 750px;
+        margin: 0;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #content {
+        float: left;
+        background-color: white;
+        border: 3px solid #aaa;
+        border-top: none;
+        padding: 25px;
+        width: 500px;
+      }
+
+      #sidebar {
+        float: right;
+        width: 175px;
+      }
+
+      #footer {
+        clear: both;
+      }
+
+
+      #header, #about, #getting-started {
+        padding-left: 75px;
+        padding-right: 30px;
+      }
+
+
+      #header {
+        background-image: url("images/icon.png");
+        background-repeat: no-repeat;
+        background-position: top left;
+        height: 64px;
+      }
+      #header h1, #header h2 {margin: 0}
+      #header h2 {
+        color: #888;
+        font-weight: normal;
+        font-size: 16px;
+      }
+
+
+      #about h3 {
+        margin: 0;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      #about-content {
+        background-color: #ffd;
+        border: 1px solid #fc0;
+        margin-left: -55px;
+        margin-right: -10px;
+      }
+      #about-content table {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 11px;
+        border-collapse: collapse;
+      }
+      #about-content td {
+        padding: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+      #about-content td.name  {color: #555}
+      #about-content td.value {color: #000}
+
+      #about-content ul {
+        padding: 0;
+        list-style-type: none;
+      }
+
+      #about-content.failure {
+        background-color: #fcc;
+        border: 1px solid #f00;
+      }
+      #about-content.failure p {
+        margin: 0;
+        padding: 10px;
+      }
+
+
+      #getting-started {
+        border-top: 1px solid #ccc;
+        margin-top: 25px;
+        padding-top: 15px;
+      }
+      #getting-started h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      #getting-started h2 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: normal;
+        color: #333;
+        margin-bottom: 25px;
+      }
+      #getting-started ol {
+        margin-left: 0;
+        padding-left: 0;
+      }
+      #getting-started li {
+        font-size: 18px;
+        color: #888;
+        margin-bottom: 25px;
+      }
+      #getting-started li h2 {
+        margin: 0;
+        font-weight: normal;
+        font-size: 18px;
+        color: #333;
+      }
+      #getting-started li p {
+        color: #555;
+        font-size: 13px;
+      }
+
+
+      #search {
+        margin: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 11px;
+      }
+      #search input {
+        font-size: 11px;
+        margin: 2px;
+      }
+      #search-text {width: 170px}
+
+
+      #sidebar ul {
+        margin-left: 0;
+        padding-left: 0;
+      }
+      #sidebar ul h3 {
+        margin-top: 25px;
+        font-size: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      #sidebar li {
+        list-style-type: none;
+      }
+      #sidebar ul.links li {
+        margin-bottom: 5px;
+      }
+
+    </style>
+    <script type="text/javascript">
+      function about() {
+        info = document.getElementById('about-content');
+        if (window.XMLHttpRequest)
+          { xhr = new XMLHttpRequest(); }
+        else
+          { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
+        xhr.open("GET","rails/info/properties",false);
+        xhr.send("");
+        info.innerHTML = xhr.responseText;
+        info.style.display = 'block'
+      }
+
+      function prepend() {
+        search = document.getElementById('search-text');
+        text = search.value;
+        search.value = 'site:rubyonrails.org ' + text;
+      }
+
+      window.onload = function() {
+        document.getElementById('search-text').value = '';
+      }
+    </script>
+  </head>
+  <body>
+    <div id="page">
+
+      <div id="content">
+        
+        <div id="header">
+          <h1>Resque with Redis To Go</h1>
+          <h2></h2>
+        </div>
+        
+          <div> 
+            <p><a href="http://github.com/defunkt/resque">Resque</a> is a queueing system that is backed
+        by Redis. Common use cases include sending emails and processing data. For more
+        information about Resque itself, visit <a href="http://github.com/defunkt/resque">http://github.com/defunkt/resque</a>.
+        This tutorial will cover setting up Resque with Rails and Redis To Go.</p> 
+
+        <p>Being a Rails programmer, the easiest solution for background processing was
+        <a href="http://github.com/tobi/delayed_job">Delayed Job</a>. Delayed Job did well when
+        the queue was not very large or when the processing of data could wait for a
+        few hours. Since it uses the database as a queue, performance of the site
+        would take a hit. Delayed Job also lacked the ability to scale. Some of the
+        projects in which I was involved required data to be processed in near-real
+        time. After fighting with Delayed Job for too long I tried Resque, a queuing
+        system for Ruby based on Redis.</p> 
+
+        <p>One of the most significant gains for one of my applications was the ability
+        to recover from a full data loss. When using Delayed Job, the recovery time
+        was measuring in hours. Typically it would take 6 to 8 hours for the system
+        to fully recover. After switching to Resque, the system was able to recover
+        in under 30 minutes. That is a significant increase and the key was switching
+        from Delayed Job to Resque. (To be fair there were other optimizations that
+        were made but Resque had the most significant impact.)</p> 
+
+        <p>Every single website and project that I have been involved has at one point
+        required a queuing system.  No longer will I even touch Delayed Job, Resque
+        has had such a significant impact and has such great performance as well as
+        a built in interface for introspection into the queue.</p> 
+
+        <p>This tutorial is very similar to the systems that <a href="http://flightcaster.com/">FlightCaster</a>,
+        <a href="http://www.juiceinthecity.com/">Juice In the City</a>, and even <a href="http://redistogo.com/">Redis To Go</a> 
+        uses.</p> 
+
+        <p>Enough with the context, lets get started.</p> 
+
+        <h2>Set Up Rails</h2> 
+
+        <p>This is going to be a Rails 3 app, so get the latest gem.</p> 
+
+        <pre><code>$ sudo gem install rails --pre
+        </code></pre> 
+
+        <p>Create the application:</p> 
+
+        <pre><code>$ rails new cookie_monster
+$ cd cookie_monster
+        </code></pre> 
+
+        <p>Modify the Gemfile to include Resque.</p> 
+
+        <pre><code>source 'http://rubygems.org'
+
+gem 'rails', '3.0.0.rc'
+gem 'sqlite3-ruby', :require =&gt; 'sqlite3'
+gem 'resque'
+gem 'SystemTimer'
+        </code></pre> 
+
+        <p>Install all of the gems and dependencies using <a href="http://gembundler.com/">Bundler</a>.</p> 
+
+        <pre><code>$ bundle install
+        </code></pre> 
+
+        <h2>Set Up Redis To Go</h2> 
+
+        <p>Go to <a href="http://redistogo.com/">Redis To Go</a> and sign up for the free plan. Once
+        you have an instance, grab the URL given to you and modify the
+        <code>config/initializers/resque.rb</code> as follows:</p> 
+
+        <pre><code>ENV["REDISTOGO_URL"] ||= "redis://username:password@host:1234/"
+
+uri = URI.parse(ENV["REDISTOGO_URL"])
+Resque.redis = Redis.new(:host =&gt; uri.host, :port =&gt; uri.port, :password =&gt; uri.password)
+        </code></pre> 
+
+        <h2>Create a Job</h2> 
+
+        <p>Jobs are Ruby classes or modules that respond to the <code>perform</code> method. A good
+        place to put jobs that perform background work would be in <code>app/jobs</code>. Create
+        the job named <code>Consume</code> in <code>app/jobs/eat.rb</code></p> 
+
+        <pre><code>module Eat
+  @queue = :food
+
+  def perform(food)
+    puts "Ate #{food}!"
+  end
+end
+        </code></pre> 
+
+        <p>Inside <code>config/initializers/resque.rb</code> place the following code so that
+        <code>app/jobs/eat.rb</code> is loaded.</p> 
+
+        <pre><code>Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
+        </code></pre> 
+
+        <h2>Enqueue the Job</h2> 
+
+        <p>The main use case for using a queuing system is to take prevent a task that
+        could take more than a second from blocking a request. This will often happen
+        in either the model or controller. Create a controller named <code>eat</code>.</p> 
+
+        <pre><code>$ rails g controller eat
+        </code></pre> 
+
+        <p>Create a route for the controller in <code>config/routes.rb</code></p> 
+
+        <pre><code>CookieMonster::Application.routes.draw do
+  match 'eat/:food' =&gt; 'eat#food'
+end
+        </code></pre> 
+
+        <p>Create the action in the controller. This action will put a job on the queue
+        and return the request, leaving any work to be done outside of the request.</p> 
+
+        <pre><code>class EatController &lt; ApplicationController
+
+  def food
+    Resque.enqueue(Eat, params[:food])
+    render :text =&gt; "Put #{params[:food]} in fridge to eat later."
+  end
+
+end
+        </code></pre> 
+
+        <h2>Start a Worker</h2> 
+
+        <p>Open <code>lib/tasks/resque.rb</code> and place the following inside.</p> 
+
+        <pre><code>require 'resque/tasks'
+
+task "resque:setup" =&gt; :environment
+        </code></pre> 
+
+        <p>This will load the Resque tasks and load the environment which is required for
+        doing any work.</p> 
+
+        <p>To start a worker that will pull work off of all queues run the command:</p> 
+
+        <pre><code>$ rake resque:work QUEUE=*
+        </code></pre> 
+
+        <h2>Start the Server</h2> 
+
+        <p>In a separate terminal start the rails server.</p> 
+
+        <pre><code>$ rails s
+        </code></pre> 
+
+        <h2>Test the Application</h2> 
+
+        <p>Pull up a browser and go to <code>http://localhost:3000/eat/cookie</code>. You should get
+        the following response.</p> 
+
+        <pre><code>Put cookie in fridge to eat later.
+        </code></pre> 
+
+        <p>In the terminal where you started the worker it should have outputted:</p> 
+
+        <pre><code>Ate cookie!
+        </code></pre> 
+
+        <h2>Introspection</h2> 
+
+        <p>One of the most useful aspects of Resque is the ability to perform
+        introspection. Resque has a great interface that can be give you and
+        understanding of what is going on. The best part is that you can load it in a
+        subpath with Rack's <code>URLMap</code>.</p> 
+
+        <p>Open <code>config.ru</code> and replace what is in the file with the following code. This
+        will boot your app as the root and give you <code>/resque</code> as the web front end to
+        Resque.</p> 
+
+        <pre><code>require ::File.expand_path('../config/environment',  __FILE__)
+
+require 'resque/server'
+run Rack::URLMap.new \
+  "/"       =&gt; CookieMonster::Application,
+  "/resque" =&gt; Resque::Server.new
+        </code></pre> 
+
+        <p>From <code>/resque</code> you can see what is in your queues, the workers and what they
+        are currently doing, and the ability to view any failed jobs.</p> 
+
+        <h2>Deploy to Heroku</h2> 
+
+        <p>This part can be done two different ways, using the <a href="http://addons.heroku.com/redistogo">Heroku Redis To Go</a> 
+        add-on or signing up for  directly. If you are using Heroku you need to be
+        part of the beta program for access.</p> 
+
+        <p>The only adjustment that we need to make is to map the rake task <code>jobs:work</code> 
+        to <code>resque:work</code> and set the queues to watch. After making these changes the
+        Heroku workers will work wonderfully. Open <code>lib/tasks/resque.rb</code> and replace
+        what is in there with the following:</p> 
+
+        <pre><code>require 'resque/tasks'
+
+task "resque:setup" =&gt; :environment do
+  ENV['QUEUE'] = '*'
+end
+
+desc "Alias for resque:work (To run workers on Heroku)"
+task "jobs:work" =&gt; "resque:work"
+        </code></pre> 
+
+        <p>Now create the Heroku app and deploy.</p> 
+
+        <pre><code>$ git init
+$ git ci -am "Initial Commit."
+$ heroku create
+$ heroku addons:add redistogo
+$ git push heroku master
+        </code></pre> 
+
+        <p>Looks like we hit a snag. Rails RC1 was just release and requires Bundler 1.0.0.rc.1.
+        So open up the <code>Gemfile</code> and change the Rails version to beta 4.</p> 
+
+        <pre><code>gem 'rails', '3.0.0.beta4'
+        </code></pre> 
+
+        <p>Also, remove the <code>Gemfile.lock</code> if it is under version control.</p> 
+
+        <pre><code>$ git rm Gemfile.lock
+        </code></pre> 
+
+        <p>Try to push again:</p> 
+
+        <pre><code>$ git push heroku master
+        </code></pre> 
+
+        <p>Now if you got to <a href="http://warm-beach-19.heroku.com/eat/cookie">http://warm-beach-19.heroku.com/eat/cookie</a> (the example app)
+        a job will be placed on the Resque queue. You can view the queue from
+        <a href="http://warm-beach-19.heroku.com/resque">http://warm-beach-19.heroku.com/resque</a></p> 
+
+        <p>The example app source code is located at <a href="http://github.com/waratuman/cookie-monster">http://github.com/waratuman/cookie-monster</a>.</p>
+        
+        <h2>Conclusion</h2> 
+
+        <p>This should get you up and running with Resque and on your way to a scalable
+        solution. If you have any question, either leave a comment in the Hacker News
+        post or email james at redistogo.</p>
+        </div>
+      </div>
+      <div id="footer">&nbsp;</div>
+    </div>
+  </body>
+</html>

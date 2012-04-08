@@ -15,12 +15,7 @@ class Staff
       self.body.name.lastSurname + ", " + self.body.name.firstName + " (Staff)"
   end
 
-  def get_id
-      UUIDTools::UUID.parse_raw(self._id.to_s)
-  end
-
   def staffUniqueStateId
     self.body.staffUniqueStateId
   end
-
 end

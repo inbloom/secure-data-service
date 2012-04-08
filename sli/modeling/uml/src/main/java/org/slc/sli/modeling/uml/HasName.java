@@ -1,12 +1,13 @@
 package org.slc.sli.modeling.uml;
 
+import javax.xml.namespace.QName;
+
 /**
- * Provides the UML name.
+ * Provides the UML qualified name.
  */
 public interface HasName {
     /**
-     * The name of the model element. Never <code>null</code>.
+     * The qualified name of the model element. Never <code>null</code>.
      */
-    String getName();
-    
+    QName getName();
 }
