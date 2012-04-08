@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.*;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.model.Error;
@@ -23,9 +25,9 @@ import org.slc.sli.ingestion.model.Stage;
  *
  */
 @Component
-public class IngestionMongoDA implements BatchJobDAO {
+public class BatchJobMongoDA implements BatchJobDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IngestionMongoDA.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BatchJobMongoDA.class);
     private static String thisIP = getHostIP();
     private static String thisName = getHostName();
     private static MongoTemplate template;
@@ -40,7 +42,7 @@ public class IngestionMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public JobLogStatus saveBatchJob(NewBatchJob job) {
+    public BatchJobStatus saveBatchJob(NewBatchJob job) {
         NewBatchJob ingestionJob = new NewBatchJob("jobId");
         template.save(ingestionJob);
         return null;
@@ -49,9 +51,9 @@ public class IngestionMongoDA implements BatchJobDAO {
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         // TODO Auto-generated method stub
-    	NewBatchJob ingestionJob = new NewBatchJob();
-    	Query query = new Query(Criteria.where("_id").is("jobId"));    	
-    	ingestionJob = template.findOne(query, NewBatchJob.class);
+        NewBatchJob ingestionJob = new NewBatchJob();
+        Query query = new Query(Criteria.where("_id").is("jobId"));
+        ingestionJob = template.findOne(query, NewBatchJob.class);
         return ingestionJob;
     }
 
@@ -64,10 +66,10 @@ public class IngestionMongoDA implements BatchJobDAO {
      * @param stopTimeStamp
      * @return
      */
-    public static JobLogStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
+    public static BatchJobStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
             String startTimestamp, String stopTimeStamp) {
         if (ingestionJobId == null || stageName == null) {
-            JobLogStatus logStatus = new JobLogStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log NewBatchJob status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -97,7 +99,7 @@ public class IngestionMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new JobLogStatus(true, "Created Job Stage.", job);
+        return new BatchJobStatus(true, "Created Job Stage.", job);
     }
 
     /**
@@ -113,11 +115,11 @@ public class IngestionMongoDA implements BatchJobDAO {
      * @param errorCount
      * @return
      */
-    public static JobLogStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
+    public static BatchJobStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, int recordCount,
             int errorCount) {
         if (ingestionJobId == null || stageName == null) {
-            JobLogStatus logStatus = new JobLogStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log IngestionMetric status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -174,7 +176,7 @@ public class IngestionMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new JobLogStatus(true, "Created Job Metric.", job);
+        return new BatchJobStatus(true, "Created Job Metric.", job);
     }
 
     /**
@@ -191,7 +193,7 @@ public class IngestionMongoDA implements BatchJobDAO {
      * @param errorDetail
      * @return
      */
-    public static JobLogStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
+    public static BatchJobStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
             String errorType, String errorDetail) {
         if (sourceIp == null)
@@ -201,7 +203,7 @@ public class IngestionMongoDA implements BatchJobDAO {
         Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
                 severity, errorType, errorDetail);
         template.save(error);
-        return new JobLogStatus(true, "Created Job Error.", error);
+        return new BatchJobStatus(true, "Created Job Error.", error);
     }
 
     private static String getHostIP() {

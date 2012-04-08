@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.model.NewBatchJob;
 
 /**
  * Unit tests for BatchJobLogger
@@ -27,11 +26,10 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 public class BatchJobLoggerTest {
 
     public static final String DUMMY_DIR = FilenameUtils.normalize("src/test/resources/dummylz");
-    public static final String DUMMY_CONTROL_FILE = FilenameUtils.normalize("testControlFile.ctl");
     
     @Test
     public void testLogger() {
-        NewBatchJob job = new NewBatchJob(NewBatchJob.createId(DUMMY_CONTROL_FILE));
+        BatchJob job = BatchJob.createDefault();
         
         LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
         lz.setDirectory(new File(DUMMY_DIR));

@@ -9,7 +9,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
  */
 public interface BatchJobDAO {
 
-    JobLogStatus saveBatchJob(NewBatchJob newBatchJob);
+    BatchJobStatus saveBatchJob(NewBatchJob newBatchJob);
 
     NewBatchJob findBatchJobById(String batchJobId);
 

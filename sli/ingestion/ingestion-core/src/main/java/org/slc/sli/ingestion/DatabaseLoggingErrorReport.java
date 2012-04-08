@@ -1,6 +1,6 @@
 package org.slc.sli.ingestion;
 
-import static org.slc.sli.ingestion.model.da.IngestionMongoDA.logIngestionError;
+import static org.slc.sli.ingestion.model.da.BatchJobMongoDA.logIngestionError;
 
 import java.io.Serializable;
 import org.slc.sli.ingestion.util.BatchJobUtils;
