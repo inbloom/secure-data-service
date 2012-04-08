@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -17,7 +15,10 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
 public class AddressGenerator {
 
+    public static final String RIGHT_NOW = "2011-03-04";
+
     private static final Logger log = Logger.getLogger(AddressGenerator.class);
+
     private String file_city_US = "database/address/city_US.csv";
     private String file_street_US = "database/address/street_US.csv";
     private int cityCount;
@@ -25,18 +26,15 @@ public class AddressGenerator {
     private Random rand = new Random();
     private List<String[]> cities = new ArrayList<String[]>();
     private List<String[]> streets = new ArrayList<String[]>();
-    private Calendar today =  null;
-    private Calendar yearAgo =  null;
-    private Calendar yearHence =  null;
+    private String today =  null;
+    private String yearAgo =  null;
+    private String yearHence =  null;
 
     public AddressGenerator(StateAbbreviationType state) throws Exception{
         loadData(state);
-        today   =  GregorianCalendar.getInstance();
-        today   =  GregorianCalendar.getInstance();
-        yearAgo =  GregorianCalendar.getInstance();
-        yearAgo.roll(Calendar.YEAR, -1);
-        yearHence =  GregorianCalendar.getInstance();
-        yearHence.roll(Calendar.YEAR, 1);
+        today   =  "2011-03-04";
+        yearAgo =  "2010-03-04";
+        yearHence =  "2012-03-04";
     }
 
     private void loadData(StateAbbreviationType stateParam) throws Exception
@@ -129,6 +127,26 @@ public class AddressGenerator {
         return add;
     }
 
+    public static Address generateLowFi() {
+        Address add = new Address();
+
+        add.setStreetNumberName("streetNumberName");
+        add.setApartmentRoomSuiteNumber("7C");
+        add.setBuildingSiteNumber("BuildingSiteNumber");
+        add.setCity("City");
+        add.setStateAbbreviation(StateAbbreviationType.AK);
+        add.setPostalCode("12345");
+        add.setNameOfCounty("County");
+        add.setCountyFIPSCode("FIPS");
+        add.setCountryCode(CountryCodeType.US);
+        add.setLatitude("latitiude");
+        add.setLongitude("longitude");
+        add.setBeginDate(RIGHT_NOW);
+        add.setEndDate(RIGHT_NOW);
+        add.setAddressType(AddressType.HOME);
+        return add;
+    }
+
     public static void main(String[] args) throws Exception
     {
         AddressGenerator nyAddressFactory = new AddressGenerator(StateAbbreviationType.NY);
@@ -153,8 +171,8 @@ public class AddressGenerator {
                         "CountryCode : " + address.getCountryCode() + ",\n" +
                         "Latitude : " + address.getLatitude() + ",\n" +
                         "Longitude : " + address.getLongitude() + ",\n" +
-                        "BeginDate : " + address.getBeginDate().getTime() + ",\n" +
-                        "EndDate : " + address.getEndDate().getTime() + ",\n" +
+                        "BeginDate : " + address.getBeginDate() + ",\n" +
+                        "EndDate : " + address.getEndDate() + ",\n" +
                         "AddressType : " + address.getAddressType();
                 log.info(addressString);
                 System.out.println(addressString);

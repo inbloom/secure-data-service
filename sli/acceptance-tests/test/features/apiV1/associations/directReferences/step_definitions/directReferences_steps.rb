@@ -13,9 +13,9 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # values to support the test for whether or not to display links
-  id = "schools"                                if human_readable_id == "URI FOR ENTITY THAT CAN RETURN LINKS" 
+  id = "schools"                                if human_readable_id == "URI FOR ENTITY THAT CAN RETURN LINKS"
   id = "8cc0a1ac-ccb5-dffc-1d74-32964722179b"   if human_readable_id == "ID OF ENTITY THAT CAN RETURN LINKS"
-  
+
   #values to support direct entity reference tests
   id = @referring_collection_expose_name        if human_readable_id == "REFERRING COLLECTION URI"
   id = @testing_id                              if human_readable_id == "REFERRING ENTITY ID"
@@ -23,26 +23,26 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @reference_value                         if human_readable_id == "REFERRED ENTITY ID"
   id = @referring_field                         if human_readable_id == "REFERENCE FIELD"
   id = @new_valid_value                         if human_readable_id == "NEW VALID VALUE"
-  
-  
-  
+
+
+
   #query URI
   id = @referring_collection_expose_name + "?" + @referring_field + "=" + @reference_value                    if human_readable_id == "URI OF ENTITIES THAT REFER TO TARGET"
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
-  id = "self"                                   if human_readable_id == "SELF LINK NAME" 
+  id = "self"                                   if human_readable_id == "SELF LINK NAME"
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
-  
+
   #return the translated value
   id
 end

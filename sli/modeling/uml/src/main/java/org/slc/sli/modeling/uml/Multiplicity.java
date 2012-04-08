@@ -12,8 +12,9 @@ public final class Multiplicity extends AbstractModelElement {
      */
     private final Range range;
     
-    public Multiplicity(final Identifier id, final List<TaggedValue> taggedValues, final Range range) {
-        super(id, taggedValues);
+    public Multiplicity(final Identifier id, final List<TaggedValue> taggedValues, final Range range,
+            final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (range == null) {
             throw new NullPointerException("range");
         }

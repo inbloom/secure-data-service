@@ -13,6 +13,9 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>2400</MaxRawScore>
+		<ObjectiveAssessmentReference ref="SatWriting"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMath"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatCritRead"></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
@@ -21,18 +24,7 @@
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
-		<ObjectiveAssessmentReference ref="SatWriting"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatMath"></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference ref="SatCritRead"></ObjectiveAssessmentReference>
 	</Assessment>
-	
-	<AssessmentFamily id="SAT-Family">
-		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
-		<AssessmentFamilyIdentificationCode
-			IdentificationSystem="Test Contractor">
-			<ID>SAT</ID>
-		</AssessmentFamilyIdentificationCode>
-	</AssessmentFamily>
 	
 	<ObjectiveAssessment id="SatWriting">
 		<IdentificationCode>SAT-Writing</IdentificationCode>
@@ -51,5 +43,13 @@
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
 	</ObjectiveAssessment>
-
+	
+	<AssessmentFamily id="SAT-Family">
+		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>SAT</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
 </InterchangeAssessmentMetadata>

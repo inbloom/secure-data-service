@@ -6,22 +6,19 @@ import org.slc.sli.test.edfi.entities.*;
 
 public class StudentParentAssociationGenerator {
     
-    public StudentParentAssociation generate(String studentId, String parentId) {
+    public StudentParentAssociation generate(String studentParentId, String delimiter) {
     	StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
 
     	try {
             Random random = new Random();
             
-            StudentIdentityType sit = new StudentIdentityType();
-            sit.setStudentUniqueStateId(studentId);
-            StudentReferenceType srt = new StudentReferenceType();
-            srt.setStudentIdentity(sit);
+            String studentId = studentParentId.split(delimiter)[0];
+            String parentId = studentParentId.split(delimiter)[1];
+            
+            StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentParentAssociation.setStudentReference(srt);
 
-            ParentIdentityType pit = new ParentIdentityType();
-            pit.setParentUniqueStateId(parentId);
-            ParentReferenceType prt = new ParentReferenceType();
-            prt.setParentIdentity(pit);
+            ParentReferenceType prt = ParentGenerator.getParentReferenceType(parentId);
             studentParentAssociation.setParentReference(prt);
             
             studentParentAssociation.setRelation(random.nextBoolean() ? RelationType.MOTHER : RelationType.FATHER);
