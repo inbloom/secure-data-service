@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -37,7 +38,12 @@ public class EdFiProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
-        BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
+        // TODO get the batchjob from the state manager, define the stageName explicitly
+        // Get the batch job ID from the exchange
+//        String batchJobId = exchange.getIn().getBody(String.class);
+//        BatchJobUtils.startStage(batchJobId, this.getClass().getName());
+//        BatchJob batchJob = BatchJobUtils.getBatchJob(batchJobId);
+        BatchJob batchJob = BatchJobUtils.getBatchJobUsingStateManager(exchange);
         
         try {
             
@@ -66,6 +72,10 @@ public class EdFiProcessor implements Processor {
             LOG.error("Exception:", exception);
             // TODO JobLogStatus.log
         }
+
+        BatchJobUtils.saveBatchJobUsingStateManager(batchJob);
+        // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
+//        BatchJobUtils.stopStage(batchJob.getId(), this.getClass().getName());
 
     }
 

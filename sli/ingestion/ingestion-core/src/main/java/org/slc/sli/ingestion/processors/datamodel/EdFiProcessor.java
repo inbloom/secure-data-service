@@ -6,8 +6,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
@@ -25,7 +23,7 @@ import org.slc.sli.util.performance.Profiled;
  * @author bsuzuki
  *
  */
-@Component
+//@Component
 public class EdFiProcessor extends org.slc.sli.ingestion.processors.EdFiProcessor implements Processor {
 
     // Logging

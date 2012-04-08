@@ -38,7 +38,7 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
-        this.checksum = checksum;
+        this.checksum = checksum.toLowerCase();
         this.faultsReport = new FaultsReport();
         this.databaseErrorsReport = new DatabaseLoggingErrorReport();
     }

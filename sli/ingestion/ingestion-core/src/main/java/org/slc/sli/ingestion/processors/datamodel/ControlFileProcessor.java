@@ -10,7 +10,6 @@ import org.slc.sli.util.performance.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Control file processor.
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @author bsuzuki
  * 
  */
-@Component
+//@Component
 public class ControlFileProcessor extends org.slc.sli.ingestion.processors.ControlFileProcessor implements Processor {
     
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);

@@ -5,8 +5,6 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -20,7 +18,7 @@ import org.slc.sli.util.performance.Profiled;
  * @author dduran
  *
  */
-@Component
+//@Component
 public class TransformationProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);

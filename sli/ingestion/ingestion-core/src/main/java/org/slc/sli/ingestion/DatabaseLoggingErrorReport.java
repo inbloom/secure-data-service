@@ -78,7 +78,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 //  }
       
         logIngestionError(batchJobId, 
-                stage.getName(), 
+                (stage == null) ? "" : stage.getName(), 
                 resourceId, 
                 BatchJobUtils.getHostName(), 
                 BatchJobUtils.getHostAddress(), 

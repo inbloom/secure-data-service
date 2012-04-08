@@ -239,11 +239,12 @@ end
 desc "Run Ingestion Batch Job Tests"
 task :ingestionBatchJobTest do
   runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
+end
 
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
-
+end
 
 ############################################################
 # Ingestion Offline Tool tests start
@@ -261,7 +262,6 @@ end
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
->>>>>>> master
 end
 
 ########
