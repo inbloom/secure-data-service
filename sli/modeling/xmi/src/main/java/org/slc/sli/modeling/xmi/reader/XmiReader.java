@@ -680,7 +680,7 @@ public final class XmiReader {
     }
     
     /**
-     * Reads XMI from an {@link InputSteam}.
+     * Reads XMI from an {@link InputStream}.
      * 
      * @param stream
      *            The {@link InputStream}.
