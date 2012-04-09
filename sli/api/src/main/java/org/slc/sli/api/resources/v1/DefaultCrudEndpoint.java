@@ -254,7 +254,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults.add(result);
                 }
 
-                finalResults = appendOptionalFields(uriInfo, finalResults);
+                finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
                                 
                 if (finalResults.isEmpty()) {
                     Status errorStatus = Status.NOT_FOUND;
@@ -530,15 +530,22 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            The list of entities
      * @return
      */
-    protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities) {
+    protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities, String baseEndpoint) {
         List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+        StringBuffer sb = new StringBuffer();
 
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
-                    OptionalFieldAppender appender = factory.getOptionalFieldAppender(appenderType);
-                    if (appender != null)
+                    sb.append(baseEndpoint);
+                    sb.append("_");
+                    sb.append(appenderType);
+                    OptionalFieldAppender appender = factory.getOptionalFieldAppender(sb.toString());
+                    if (appender != null) {
                         entities = appender.applyOptionalField(entities);
+                    }
+
+                    sb.delete(0, sb.length());
                 }
             }
         }
