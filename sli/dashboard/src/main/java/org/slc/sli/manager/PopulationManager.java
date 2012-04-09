@@ -93,7 +93,6 @@ public class PopulationManager implements Manager {
         long startTime = System.nanoTime();
         // Initialize student summaries
 
-        //List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
         
@@ -104,8 +103,6 @@ public class PopulationManager implements Manager {
             List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);
             studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
-
-        //Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
         
         // Add programs, attendance, and student assessment results to summaries
         for (GenericEntity studentSummary : studentSummaries) {
@@ -113,10 +110,9 @@ public class PopulationManager implements Manager {
                 continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
-            //studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
             
             // clean out some unneeded gunk
-            studentSummary.remove("links");
+            studentSummary.remove(Constants.ATTR_LINKS);
         }
         
         return studentSummaries;
@@ -130,11 +126,9 @@ public class PopulationManager implements Manager {
     @EntityMapping("listOfStudents")
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
        
-        // TODO: These hardcoded values are very temporary. Don't worry!
         List<String> studentIds = new ArrayList<String>();
         ViewConfig viewConfig = null;
-        String sessionId = "819bdf64-dca3-411f-9a18-668cdf464c6c";
-        sectionId = "da5b4d1a-63a3-46d6-a4f1-396b3308af83";
+        String sessionId = null;
         
         List<GenericEntity> studentSummaries = getStudentSummaries(token, studentIds, viewConfig,
                 sessionId, (String) sectionId);

@@ -21,7 +21,6 @@ import org.slc.sli.entity.util.StudentProgramUtil;
 @Controller
 @RequestMapping(value = "/service/data/")
 public class DataController extends GenericLayoutController {
-    private static final String TABBED_ONE_COL = "tabbed_one_col";
 
     /**
      * Controller for list of students
