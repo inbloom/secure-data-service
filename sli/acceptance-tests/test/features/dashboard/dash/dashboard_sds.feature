@@ -41,14 +41,10 @@ And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
 And there are "4" student enrollment history entries
-#And Student Enrollment History in row "1" includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
-#And Student Enrollment History in row "2" includes " ;South Daybreak Elementary;5;2008-09-05; ;2009-05-11;End of school year"
-#And Student Enrollment History in row "3" includes " ;South Daybreak Elementary;4;2007-09-12; ;2008-05-10;End of school year"
-#And Student Enrollment History in row "4" includes " ;South Daybreak Elementary;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
-And Student Enrollment History in row "1" includes " ;East Daybreak Junior High;Sixth grade;2009-09-07; ; ; ;"
-And Student Enrollment History in row "2" includes " ; ;Fifth grade;2008-09-05; ;2009-05-11;End of school year"
-And Student Enrollment History in row "3" includes " ; ;Fourth grade;2007-09-12; ;2008-05-10;End of school year"
-And Student Enrollment History in row "4" includes " ; ;Third grade;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
+And Student Enrollment History in row "1" includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
+And Student Enrollment History in row "2" includes " ; ;5;2008-09-05; ;2009-05-11;End of school year"
+And Student Enrollment History in row "3" includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
+And Student Enrollment History in row "4" includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
 
  @integration 
 Scenario: View Mi-Ha Tran
@@ -101,10 +97,8 @@ Daybreak, IL 75229
 """
 And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
 And there are "2" student enrollment history entries
-#And Student Enrollment History in row "1" includes " ;South Daybreak Elementary;1;2011-09-05; ; ; ;"
-#And Student Enrollment History in row "2"  includes " ;South Daybreak Elementary;K;2010-09-03; ;2011-05-11;End of school year"
-And Student Enrollment History in row "1" includes " ;South Daybreak Elementary;First grade;2011-09-05; ; ; ;"
-And Student Enrollment History in row "2" includes " ;South Daybreak Elementary;Kindergarten;2010-09-03; ;2011-05-11;End of school year"
+And Student Enrollment History in row "1" includes " ;South Daybreak Elementary;1;2011-09-05; ; ; ;"
+And Student Enrollment History in row "2" includes " ;South Daybreak Elementary;K;2010-09-03; ;2011-05-11;End of school year"
 
  @integration
 Scenario: View Carmen Ortiz
@@ -139,22 +133,13 @@ And the list of phone number includes "309-555-9372"
 And the phone number "309-555-9372" is of type "Other"
 And there are "0" addresses
 And there are "9" student enrollment history entries
-#And Student Enrollment History in row "1" includes " ;Daybreak Central High;11;2011-09-08; ; ; ;"
-#And Student Enrollment History in row "2" includes " ;Daybreak Central High;10;2010-09-08; ;2011-05-11;End of school year"
-#And Student Enrollment History in row "3" includes " ;Daybreak Central High;9;2009-09-08; ;2010-05-11;End of school year"
-#And Student Enrollment History in row "4" includes " ;East Daybreak Junior High;8;2008-09-11; ;2009-05-08;Exited"
-#And Student Enrollment History in row "5" includes " ;East Daybreak Junior High;7;2008-03-11; ;2008-05-08;End of school year"
-#And Student Enrollment History in row "6" includes " ;East Daybreak Junior High;7;2007-09-14; ;2008-02-12;Student is in a different public school in the same local education agency"
-#And Student Enrollment History in row "7" includes " ;East Daybreak Junior High;6;2006-09-11; ;2007-05-14;End of school year"
-#And Student Enrollment History in row "8" includes " ;South Daybreak Elementary;5;2005-09-09; ;2006-05-15;Exited"
-#And Student Enrollment History in row "9" includes " ;South Daybreak Elementary;2;2002-09-12; ;2003-04-12;Expelled or involuntarily withdrawn"
-And Student Enrollment History in row "1" includes " ;Daybreak Central High;Eleventh grade;2011-09-08; ; ; ;"
-And Student Enrollment History in row "2" includes " ;Daybreak Central High;Tenth grade;2010-09-08; ;2011-05-11;End of school year"
-And Student Enrollment History in row "3" includes " ;Daybreak Central High;Ninth grade;2009-09-08; ;2010-05-11;End of school year"
-And Student Enrollment History in row "4" includes " ; ;Eighth grade;2008-09-11; ;2009-05-08;Exited"
-And Student Enrollment History in row "5" includes " ; ;Seventh grade;2008-03-11; ;2008-05-08;End of school year"
-And Student Enrollment History in row "6" includes " ; ;Seventh grade;2007-09-14; ;2008-02-12;Student is in a different public school in the same local education agency"
-And Student Enrollment History in row "7" includes " ; ;Sixth grade;2006-09-11; ;2007-05-14;End of school year"
-And Student Enrollment History in row "8" includes " ; ;Fifth grade;2005-09-09; ;2006-05-15;Exited"
-And Student Enrollment History in row "9" includes " ; ;Second grade;2002-09-12; ;2003-04-12;Expelled or involuntarily withdrawn"
+And Student Enrollment History in row "1" includes " ;Daybreak Central High;11;2011-09-08; ; ; ;"
+And Student Enrollment History in row "2" includes " ;Daybreak Central High;10;2010-09-08; ;2011-05-11;End of school year"
+And Student Enrollment History in row "3" includes " ;Daybreak Central High;9;2009-09-08; ;2010-05-11;End of school year"
+And Student Enrollment History in row "4" includes " ; ;8;2008-09-11; ;2009-05-08;Exited"
+And Student Enrollment History in row "5" includes " ; ;7;2008-03-11; ;2008-05-08;End of school year"
+And Student Enrollment History in row "6" includes " ; ;7;2007-09-14; ;2008-02-12;Student is in a different public school in the same local education agency"
+And Student Enrollment History in row "7" includes " ; ;6;2006-09-11; ;2007-05-14;End of school year"
+And Student Enrollment History in row "8" includes " ; ;5;2005-09-09; ;2006-05-15;Exited"
+And Student Enrollment History in row "9" includes " ; ;2;2002-09-12; ;2003-04-12;Expelled or involuntarily withdrawn"
 
