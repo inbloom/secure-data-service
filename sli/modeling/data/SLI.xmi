@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 16:48:32 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 19:08:56 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -21088,15 +21088,6 @@
                 <UML:Enumeration xmi.idref = '31e5990a-c117-4aab-89a2-77fb6283c842'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
-            <UML:Operation xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002093'
-              name = 'newOperation' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-              isAbstract = 'false'>
-              <UML:BehavioralFeature.parameter>
-                <UML:Parameter xmi.id = '10-71-1-42-53583dd:13682bc2975:-8000:0000000000002094'
-                  name = 'return' isSpecification = 'false' kind = 'return'/>
-              </UML:BehavioralFeature.parameter>
-            </UML:Operation>
           </UML:Classifier.feature>
         </UML:Class>
         <UML:Class xmi.id = 'd6a2e45d-54d5-4933-ac32-f4a36d1edcac' name = 'EducationOrganization'
@@ -30099,10 +30090,10 @@
         <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'
           name = 'minLength' isSpecification = 'false'>
           <UML:TagDefinition.multiplicity>
-            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209C'>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C5'>
               <UML:Multiplicity.range>
-                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209B'
-                  lower = '0' upper = '0'/>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C4'
+                  lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>
           </UML:TagDefinition.multiplicity>
@@ -30128,10 +30119,10 @@
         <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'
           name = 'maxLength' isSpecification = 'false'>
           <UML:TagDefinition.multiplicity>
-            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A2'>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C7'>
               <UML:Multiplicity.range>
-                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A1'
-                  lower = '0' upper = '0'/>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C6'
+                  lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>
           </UML:TagDefinition.multiplicity>

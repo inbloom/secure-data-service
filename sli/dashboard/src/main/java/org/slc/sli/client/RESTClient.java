@@ -81,7 +81,7 @@ public class RESTClient {
 
             HttpHeaders headers = new HttpHeaders();
             // headers.add(API_SESSION_KEY, token);
-            headers.add("Authorization", "Bearer" + token);
+            headers.add("Authorization", "Bearer " + token);
             HttpEntity entity = new HttpEntity(headers);
             logger.debug("Accessing API at: {}", url);
             HttpEntity<String> response = null;

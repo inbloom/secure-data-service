@@ -26,7 +26,7 @@
       <fontname>Verdana</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>[API] Student Transcript</activediagram>
+      <activediagram>Behavior</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -146,6 +146,10 @@
               name="SLI_ClassDiagram.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Locations" />
+      <member type="pgml"
+              name="SLI_ClassDiagram.pgml"
+              diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
+              diagramname="Behavior" />
       <member type="todo"
               name="SLI.todo" />
     </members>
@@ -156,7 +160,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 16:50:53 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 19:08:34 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -30247,10 +30251,10 @@
         <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209A'
           name = 'minLength' isSpecification = 'false'>
           <UML:TagDefinition.multiplicity>
-            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209C'>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C5'>
               <UML:Multiplicity.range>
-                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:000000000000209B'
-                  lower = '0' upper = '0'/>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C4'
+                  lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>
           </UML:TagDefinition.multiplicity>
@@ -30276,10 +30280,10 @@
         <UML:TagDefinition xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A0'
           name = 'maxLength' isSpecification = 'false'>
           <UML:TagDefinition.multiplicity>
-            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A2'>
+            <UML:Multiplicity xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C7'>
               <UML:Multiplicity.range>
-                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020A1'
-                  lower = '0' upper = '0'/>
+                <UML:MultiplicityRange xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020C6'
+                  lower = '0' upper = '1'/>
               </UML:Multiplicity.range>
             </UML:Multiplicity>
           </UML:TagDefinition.multiplicity>
@@ -86465,6 +86469,10 @@
               y="379" />
     </path>
   </group>
+</pgml>
+<pgml description="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram|7e7b0ef6-2bf8-4821-bdc7-8bf850ef77ef"
+      name="Behavior"
+>
 </pgml>
 <todo>
 <todolist>

@@ -8,6 +8,7 @@ end
 When /^I navigate to the sampleApp home page$/ do
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix
+  puts url
   @driver.get url
   # There's a redirect to the realm page, so this assert should fail
   # assert(@driver.current_url == url, "Failed to navigate to "+url)
