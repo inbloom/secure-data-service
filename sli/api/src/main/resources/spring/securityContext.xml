@@ -15,29 +15,4 @@
                         http://www.springframework.org/schema/security/oauth2
                         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
  
-   <bean name="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-      <security:filter-chain-map path-type="ant">
-         <security:filter-chain pattern="/rest/oauth/authorize" filters="none" />
-         <security:filter-chain pattern="/rest/**" filters="oauth2ProviderFilter" />
-         <security:filter-chain pattern="/**" filters="oauth2ProviderFilter" />
-     </security:filter-chain-map>
-   </bean>
- 
-   <!-- OAuth 2.0 Resource Server configuration -->
-   <oauth2:resource-server id="oauth2ProviderFilter" token-services-ref="OAuthSessionService" />
- 
-   <bean id="tokenEndpoint" class="org.springframework.security.oauth2.provider.endpoint.TokenEndpoint">
-      <property name="tokenGranter">
-         <bean id="authzTokenService" class="org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter">
-            <constructor-arg name="authorizationCodeServices" ref="mongoAuthorizationCodeServices" />
-            <constructor-arg name="clientDetailsService" ref="sliClientDetailService" />
-            <constructor-arg name="tokenServices" ref="OAuthSessionService" />
-         </bean>
-      </property>
-   </bean>
- 
-   <!-- Only here because Spring Security requires an authentication manager. -->
-   <security:authentication-manager />
- 
- 
 </beans>
