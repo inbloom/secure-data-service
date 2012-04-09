@@ -3,8 +3,6 @@
  */
 package org.slc.sli.manager.impl;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +20,7 @@ import org.slc.sli.entity.GenericEntity;
  * @author tosako
  * 
  */
-public class InstitutionalHierarchyManagerImplTest {
+public class UserEdOrgManagerImplTest {
     UserEdOrgManagerImpl testInstitutionalHierarchyManagerImpl = null;
     
     /**
