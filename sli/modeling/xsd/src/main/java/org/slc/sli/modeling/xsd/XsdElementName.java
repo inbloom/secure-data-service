@@ -9,6 +9,10 @@ public enum XsdElementName {
      */
     ANNOTATION("annotation"),
     /**
+     * complexContent
+     */
+    COMPLEX_CONTENT("complexContent"),
+    /**
      * complexType
      */
     COMPLEX_TYPE("complexType"),
@@ -25,9 +29,53 @@ public enum XsdElementName {
      */
     ENUMERATION("enumeration"),
     /**
+     * extension
+     */
+    EXTENSION("extension"),
+    /**
+     * fractionDigits
+     */
+    FRACTION_DIGITS("fractionDigits"),
+    /**
+     * length
+     */
+    LENGTH("length"),
+    /**
+     * maxExclusive
+     */
+    MAX_EXCLUSIVE("maxExclusive"),
+    /**
+     * maxInclusive
+     */
+    MAX_INCLUSIVE("maxInclusive"),
+    /**
+     * maxLength
+     */
+    MAX_LENGTH("maxLength"),
+    /**
+     * minExclusive
+     */
+    MIN_EXCLUSIVE("minExclusive"),
+    /**
+     * minInclusive
+     */
+    MIN_INCLUSIVE("minInclusive"),
+    /**
+     * minLength
+     */
+    MIN_LENGTH("minLength"),
+    /**
+     * pattern
+     */
+    PATTERN("pattern"),
+    /**
      * restriction
      */
     RESTRICTION("restriction"),
+    /**
+     * schema
+     */
+    SCHEMA("schema"),
     /**
      * sequence
      */
@@ -35,7 +83,11 @@ public enum XsdElementName {
     /**
      * simpleType
      */
-    SIMPLE_TYPE("simpleType");
+    SIMPLE_TYPE("simpleType"),
+    /**
+     * totalDigits
+     */
+    TOTAL_DIGITS("totalDigits");
     
     private final String localName;
     

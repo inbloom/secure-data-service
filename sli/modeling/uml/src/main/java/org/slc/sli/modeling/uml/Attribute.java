@@ -2,14 +2,16 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * A field of a class.
  */
-public final class Attribute extends AbstractModelElement implements HasName {
+public final class Attribute extends AbstractModelElement implements HasName, HasType {
     /**
      * The name of the attribute. Never <code>null</code>.
      */
-    private final String name;
+    private final QName name;
     /**
      * The type of the attribute. Never <code>null</code>.
      */
@@ -19,11 +21,9 @@ public final class Attribute extends AbstractModelElement implements HasName {
      */
     private final Multiplicity multiplicity;
     
-    private final LazyLookup lookup;
-    
-    public Attribute(final Identifier id, final String name, final Reference type, final Multiplicity multiplicity,
+    public Attribute(final Identifier id, final QName name, final Reference type, final Multiplicity multiplicity,
             final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues);
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -39,11 +39,10 @@ public final class Attribute extends AbstractModelElement implements HasName {
         this.name = name;
         this.type = type;
         this.multiplicity = multiplicity;
-        this.lookup = lookup;
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     
@@ -51,7 +50,7 @@ public final class Attribute extends AbstractModelElement implements HasName {
         try {
             return lookup.getType(type);
         } catch (final RuntimeException e) {
-            throw new RuntimeException(name, e);
+            throw new RuntimeException(name.toString(), e);
         }
     }
     

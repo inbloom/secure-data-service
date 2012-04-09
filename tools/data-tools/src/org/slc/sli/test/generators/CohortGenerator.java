@@ -4,21 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.Cohort;
-import org.slc.sli.test.edfi.entities.CohortIdentityType;
-import org.slc.sli.test.edfi.entities.CohortReferenceType;
-import org.slc.sli.test.edfi.entities.CohortScopeType;
-import org.slc.sli.test.edfi.entities.CohortType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
-import org.slc.sli.test.edfi.entities.ProgramType;
-import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 
 /**
@@ -39,10 +31,10 @@ public class CohortGenerator {
      */
     public static Cohort generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
-        String programId = cohortMeta.programMeta.id;
-        String schoolId = cohortMeta.programMeta.schoolId;
+        String programId = cohortMeta.programMeta==null ? null : cohortMeta.programMeta.id;
+        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
         
-        return generateLowFi(cohortId, programId, schoolId);
+        return programId==null ? generateLowFi(cohortId, schoolId) : generateLowFi(cohortId, programId, schoolId);
     }
 
     /**
@@ -66,7 +58,7 @@ public class CohortGenerator {
         
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
-        pi.setProgramType(GeneratorUtils.generateProgramType());
+//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
         pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         ProgramReferenceType prt = new ProgramReferenceType();
@@ -120,7 +112,7 @@ public class CohortGenerator {
         
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
-        pi.setProgramType(GeneratorUtils.generateProgramType());
+//        pi.setProgramType(GeneratorUtils.generateProgramType());
         pi.setProgramId(programId);
         pi.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(schoolIds);
         ProgramReferenceType prt = new ProgramReferenceType();
