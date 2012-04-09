@@ -5,10 +5,14 @@ import java.util.Random;
 import javax.xml.bind.annotation.XmlEnumValue;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
+import org.slc.sli.test.edfi.entities.BehaviorCategoryType;
 import org.slc.sli.test.edfi.entities.CohortScopeType;
 import org.slc.sli.test.edfi.entities.CohortType;
+import org.slc.sli.test.edfi.entities.IncidentLocationType;
 import org.slc.sli.test.edfi.entities.ProgramType;
 import org.slc.sli.test.edfi.entities.ReasonExitedType;
+import org.slc.sli.test.edfi.entities.ReporterDescriptionType;
+import org.slc.sli.test.edfi.entities.WeaponItemType;
 
 /**
  * Util tp facilitate to randomly generate common data type
@@ -199,4 +203,97 @@ public class GeneratorUtils
             default: return ReasonExitedType.OTHER;
         }
     }
+
+    /**
+     * Randomly generate a IncidentLocationType.
+     *
+     * @return <code>IncidentLocationType</code>
+     */
+    public static IncidentLocationType generateIncidentLocationType() {
+        int roll = generator.nextInt(22);
+        
+        switch (roll) {
+            case 0: return IncidentLocationType.ON_SCHOOL;
+            case 1: return IncidentLocationType.ADMINISTRATIVE_OFFICES_AREA;
+            case 2: return IncidentLocationType.CAFETERIA_AREA;
+            case 3: return IncidentLocationType.CLASSROOM;
+            case 4: return IncidentLocationType.HALLWAY_OR_STAIRS;
+            case 5: return IncidentLocationType.LOCKER_ROOM_OR_GYM_AREAS;
+            case 6: return IncidentLocationType.RESTROOM;
+            case 7: return IncidentLocationType.LIBRARY_MEDIA_CENTER;
+            case 8: return IncidentLocationType.COMPUTER_LAB;
+            case 9: return IncidentLocationType.AUDITORIUM;
+            case 10: return IncidentLocationType.ON_SCHOOL_OTHER_INSIDE_AREA;
+            case 11: return IncidentLocationType.ATHLETIC_FIELD_OR_PLAYGROUND;
+            case 12: return IncidentLocationType.STADIUM;
+            case 13: return IncidentLocationType.PARKING_LOT;
+            case 14: return IncidentLocationType.ON_SCHOOL_OTHER_OUTSIDE_AREA;
+            case 15: return IncidentLocationType.OFF_SCHOOL;
+            case 16: return IncidentLocationType.BUS_STOP;
+            case 17: return IncidentLocationType.SCHOOL_BUS;
+            case 18: return IncidentLocationType.WALKING_TO_OR_FROM_SCHOOL;
+            case 19: return IncidentLocationType.OFF_SCHOOL_AT_OTHER_SCHOOL;
+            case 20: return IncidentLocationType.OFF_SCHOOL_AT_OTHER_SCHOOL_DISTRICT_FACILITY;
+            case 21: return IncidentLocationType.ONLINE;
+            case 22: return IncidentLocationType.UNKNOWN;
+            default: return IncidentLocationType.UNKNOWN;
+        }
+    }
+
+    /**
+     * Randomly generate a ReporterDescriptionType.
+     *
+     * @return <code>ReporterDescriptionType</code>
+     */
+    public static ReporterDescriptionType generateReporterDescriptionType () {
+        int roll = generator.nextInt(3);
+        switch (roll) {
+            case 0: return ReporterDescriptionType.PARENT;
+            case 1: return ReporterDescriptionType.STAFF;
+            case 2: return ReporterDescriptionType.STUDENT;
+            case 3: return ReporterDescriptionType.OTHER;
+            default: return ReporterDescriptionType.OTHER;
+        }
+    }
+
+    /**
+     * Randomly generate a WeaponItemType.
+     *
+     * @return <code>WeaponItemType</code>
+     */
+    public static WeaponItemType generateWeaponItemType() {
+        int roll = generator.nextInt(10);
+        
+        switch (roll) {
+            case 0: return WeaponItemType.FIREARM;
+            case 1: return WeaponItemType.ILLEGAL_KNIFE;
+            case 2: return WeaponItemType.NON_ILLEGAL_KNIFE;
+            case 3: return WeaponItemType.CLUB;
+            case 4: return WeaponItemType.OTHER_SHARP_OBJECTS;
+            case 5: return WeaponItemType.OTHER_OBJECT;
+            case 6: return WeaponItemType.SUBSTANCE_USED_AS_WEAPON;
+            case 7: return WeaponItemType.KNIFE;
+            case 8: return WeaponItemType.UNKNOWN;
+            case 9: return WeaponItemType.NONE;
+            case 10: return WeaponItemType.OTHER;
+            default: return WeaponItemType.OTHER;
+        }
+    }
+
+    /**
+     * Randomly generate a BehaviorCategoryType.
+     *
+     * @return <code>BehaviorCategoryType</code>
+     */
+    public static BehaviorCategoryType generateBehaviorCategoryType () {
+        int roll = generator.nextInt(3);
+        switch (roll) {
+            case 0: return BehaviorCategoryType.STATE_LAW_CRIME;
+            case 1: return BehaviorCategoryType.STATE_OFFENSE;
+            case 2: return BehaviorCategoryType.SCHOOL_VIOLATION;
+            case 3: return BehaviorCategoryType.SCHOOL_CODE_OF_CONDUCT;
+            default: return BehaviorCategoryType.SCHOOL_CODE_OF_CONDUCT;
+        }
+    }
+
 }

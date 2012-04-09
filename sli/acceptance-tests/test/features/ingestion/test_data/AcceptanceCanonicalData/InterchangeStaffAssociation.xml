@@ -311,6 +311,22 @@
     <LoginId>a</LoginId>
   </Staff>
   
+  <StaffEducationOrgAssignmentAssociation>
+      <StaffReference>
+        <StaffIdentity>
+            <StaffUniqueStateId>demo</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StaffClassification>LEA Administrator</StaffClassification>
+      <PositionTitle>IT Admin</PositionTitle>
+      <BeginDate>2000-01-01</BeginDate>
+  </StaffEducationOrgAssignmentAssociation>
+  
     <!-- Billy Admin -->
   <Staff>
     <StaffUniqueStateId>sampleUser</StaffUniqueStateId>
@@ -358,5 +374,21 @@
     </Credentials>
     <LoginId>a</LoginId>
   </Staff>
+  
+  <StaffEducationOrgAssignmentAssociation>
+      <StaffReference>
+        <StaffIdentity>
+            <StaffUniqueStateId>sampleUser</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+            <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StaffClassification>LEA Administrator</StaffClassification>
+      <PositionTitle>IT Admin</PositionTitle>
+      <BeginDate>1999-01-01</BeginDate>
+  </StaffEducationOrgAssignmentAssociation>
   
 </InterchangeStaffAssociation>

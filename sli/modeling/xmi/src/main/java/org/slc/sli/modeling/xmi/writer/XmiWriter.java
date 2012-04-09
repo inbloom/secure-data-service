@@ -142,7 +142,7 @@ public final class XmiWriter {
         xsw.writeStartElement(PREFIX_UML, "Attribute", NAMESPACE_UML);
         try {
             writeId(attribute, xsw);
-            xsw.writeAttribute("name", attribute.getName());
+            xsw.writeAttribute("name", attribute.getName().getLocalPart());
             writeModelElementTaggedValues(attribute, xsw);
             xsw.writeStartElement(PREFIX_UML, "StructuralFeature.multiplicity", NAMESPACE_UML);
             try {
@@ -166,7 +166,7 @@ public final class XmiWriter {
         xsw.writeStartElement(PREFIX_UML, "Class", NAMESPACE_UML);
         try {
             writeId(classType, xsw);
-            xsw.writeAttribute("name", classType.getName());
+            xsw.writeAttribute("name", classType.getName().getLocalPart());
             writeModelElementTaggedValues(classType, xsw);
             xsw.writeStartElement(PREFIX_UML, "Classifier.feature", NAMESPACE_UML);
             try {
@@ -195,7 +195,7 @@ public final class XmiWriter {
         xsw.writeStartElement(PREFIX_UML, "DataType", NAMESPACE_UML);
         try {
             writeId(dataType, xsw);
-            xsw.writeAttribute("name", dataType.getName());
+            xsw.writeAttribute("name", dataType.getName().getLocalPart());
             xsw.writeAttribute("isAbstract", Boolean.toString(dataType.isAbstract()));
             writeModelElementTaggedValues(dataType, xsw);
         } finally {
@@ -267,8 +267,8 @@ public final class XmiWriter {
         xsw.writeAttribute(XmiAttributeName.ID.getLocalName(), hasIdentity.getId().toString());
     }
     
-    private static final void writeName(final HasName hasIdentity, final XMLStreamWriter xsw) throws XMLStreamException {
-        xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), hasIdentity.getName());
+    private static final void writeName(final HasName hasName, final XMLStreamWriter xsw) throws XMLStreamException {
+        xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), hasName.getName().getLocalPart());
     }
     
     private static final Identifier writeModel(final Model model, final XMLStreamWriter xsw) throws XMLStreamException {
