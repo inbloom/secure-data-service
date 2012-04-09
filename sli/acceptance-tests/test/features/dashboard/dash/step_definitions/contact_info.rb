@@ -55,7 +55,6 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   
   all_trs = contactSections.find_elements(:tag_name, "tr")
 
-  currentSection = "Phone"
   sectionId = 0
   @section = []
   @sectionType = []
@@ -71,16 +70,14 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   
   all_trs.each do |row|
    th = row.find_element(:tag_name, "th")
-   td = row.find_element(:tag_name, "td")
-   
+   td = row.find_element(:tag_name, "td") 
+      
    if (td.text.length > 0)
-     if (th.text.include? "E-mail")
+     if (td.text.include? '@')
        sectionId = 1
-       currentSection = "E-mail"
-     elsif (th.text.include? "Address")
+     elsif (td.text =~ /[A-Za-z,]/ and td.text.include? ',')
        sectionId = 2
-       currentSection = "Address";
-     elsif (currentSection.include? "Phone")
+     else
        sectionId = 0
        temp = [th.text]
        @sectionType[sectionId] = @sectionType[sectionId] + temp
