@@ -1912,18 +1912,6 @@
                 decoder="Double"/>
   </jb:bean>
   
-  <!-- StudentAcademicRecordTemp -->
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:expression property="recordType">'studentAcademicRecordTemp'</jb:expression>
-    <jb:value property="localId" data="InterchangeStudentGrade/StudentAcademicRecord/@id" />
-    <jb:wiring property="attributes" beanIdRef="studentAcademicRecordTempAttributes" />
-  </jb:bean>
-
-  <jb:bean beanId="studentAcademicRecordTempAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" />
-    <jb:value property="studentId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
-  </jb:bean>
-
   <!-- StudentAcademicRecord -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:expression property="recordType">'studentAcademicRecord'</jb:expression>
@@ -1938,7 +1926,7 @@
   </jb:bean>
   
   <jb:bean beanId="studentAcademicRecordAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <!--<jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" />-->
+    <!-- <jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" /> -->
     <jb:wiring property="cumulativeCreditsEarned" beanIdRef="studentAcademicRecordCumulativeCreditsEarnedValue" />
     <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="studentAcademicRecordCumulativeCreditsAttemptedValue" />
     <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Float" />

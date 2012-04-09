@@ -44,13 +44,16 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     }
 
     public void loadData() {
-
         LOG.info("Loading data for transformation.");
 
         loadCollectionFromDb("studentTranscriptAssociation");
         LOG.info("StudentTranscriptAssociation is loaded into local storage.  Total Count = " + collections.get("studentTranscriptAssociation").size());
 
         loadCollectionFromDb("studentAcademicRecord");
+        LOG.info("StudentAcademicRecord is loaded into local storage.  Total Count = "
+                + collections.get("studentAcademicRecord").size());
+
+        loadCollectionFromDb("studentAcademicRecordTemp");
         LOG.info("StudentAcademicRecord is loaded into local storage.  Total Count = "
                 + collections.get("studentAcademicRecord").size());
      }
@@ -67,10 +70,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             Map<String, Object> attrs = neutralRecord.getAttributes();
             studentAcademicRecordId = (String) attrs.get("studentAcademicRecordId");
 
-            String studentUniqueStateId = getStudentId(studentAcademicRecordId, new HashMap<String, Map<String, Object>>());
+            //String studentUniqueStateId = getStudentId(studentAcademicRecordId, new HashMap<String, Map<String, Object>>());
 
-            attrs.put("studentId", studentUniqueStateId);
-            attrs.remove("studentAcademicRecordId");
+            //attrs.put("studentId", studentUniqueStateId);
+            //attrs.remove("studentAcademicRecordId");
 
             if (attrs.get("creditsAttempted") == null) {
                 attrs.remove("creditsAttempted");
@@ -87,10 +90,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     private String getStudentId(String key, HashMap<String, Map<String, Object>> deepFamilyMap) {
 
         Map<String, String> paths = new HashMap<String, String>();
-        paths.put("metaData.externalId", key);
+        paths.put("body.studentAcademicRecordId", key);
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "studentAcademicRecordTemp", paths);
+                "studentAcademicRecord", paths);
 
         ArrayList<Map<String, Object>> tempIdentificationCodes;
         Map<String, Object> tempMap;

@@ -64,7 +64,7 @@
       </SectionReference>
     </GradebookEntry>
     
-    <StudentAcademicRecord id="SAR-91919001-1">
+    <StudentAcademicRecord id="SAR-91919021-1">
         <CumulativeCreditsEarned CreditType="Carnegie unit" CreditConversion="0">
             <Credit>50.00</Credit>
         </CumulativeCreditsEarned>
@@ -135,9 +135,9 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919001-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919021-1"/>
     </CourseTranscript>
-<!--
+
     <StudentAcademicRecord id="SAR-91919001-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -350,7 +350,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>1</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -1110,7 +1110,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>2</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -2872,7 +2872,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>3</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -3610,7 +3610,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>4</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -5767,5 +5767,5 @@
       </StudentSectionAssociationReference>
       <GradebookEntryReference id="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
-    -->
+    
 </InterchangeStudentGrade>
