@@ -19,6 +19,7 @@ Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion 
         | studentSectionAssociation   |
         | teacher                     |
         | staff                       |
+        |staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
@@ -43,6 +44,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentSectionAssociation   | 209   |
         | teacher                     | 3     |
         | staff                       | 2     |
+        | staffEducationOrganizationAssociation| 2|
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
         | session                     | 10    |
@@ -64,7 +66,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 14725 records." in the resulting batch job file
+    And I should see "Processed 14727 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -78,8 +80,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 9" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 13" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 13" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 15" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 374" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 374" in the resulting batch job file

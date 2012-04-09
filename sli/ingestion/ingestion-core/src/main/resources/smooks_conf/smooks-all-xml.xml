@@ -915,6 +915,39 @@
   </jb:bean>
 
   <!-- End Staff Mapping -->
+  
+  <!-- Start Staff EdOrg Assoc mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
+    <jb:expression property="recordType">'staffEducationOrganizationAssociation'</jb:expression>
+    <jb:wiring property="localId" beanIdRef="staffEdOrgAssocLocalId" />
+    <jb:wiring property="localParentIds" beanIdRef="staffEdOrgAssocParentIds" />
+    <jb:wiring property="attributes" beanIdRef="staffEdOrgAttributes" />
+  </jb:bean>
+  
+  <jb:bean beanId="staffEdOrgAssocLocalId" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
+    <jb:value property="staffReference" data="StaffEducationOrgAssignmentAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="educationOrganizationReference" data="StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="beginDate" data="StaffEducationOrgAssignmentAssociation/BeginDate" />
+  </jb:bean>
+
+  <jb:bean beanId="staffEdOrgAssocParentIds" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
+    <jb:value property="staff#staffReference" data="StaffEducationOrgAssignmentAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="educationOrganization#educationOrganizationReference" data="StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+
+  <jb:bean beanId="staffEdOrgAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation">
+    <jb:value property="staffReference" data="StaffEducationOrgAssignmentAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="educationOrganizationReference" data="StaffEducationOrgAssignmentAssociation/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="staffClassification" data="StaffClassification" />
+    <jb:value property="positionTitle" data="PositionTitle" />
+    <jb:value property="beginDate" data="BeginDate" />
+    <jb:value property="endDate" data="EndDate" />
+  </jb:bean>
+  
+  <!-- End Staff Ed Org Association -->
+
 
   <!-- Student Section Association mapping -->
 
@@ -1063,9 +1096,14 @@
     <jb:value property="sessionId" data="Section/SessionReference/SessionIdentity/SessionName" />
 
     <!-- ProgramReference -->
-    <jb:value property="programReference" data="Section/ProgramReference/ProgramIdentity/ProgramId" />
+    <jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
   </jb:bean>
 
+    <!-- ProgramReferenceType -->
+  <jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section">
+    <jb:value data="Section/ProgramReference/ProgramIdentity/ProgramId" />
+  </jb:bean>
+  
   <!-- AvailableCreditsType -->
   <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
     <jb:value property="creditType" data="Section/AvailableCredit/@CreditType" />

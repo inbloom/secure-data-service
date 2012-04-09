@@ -2,16 +2,19 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * A package is a collection of owned elements with a name.
  */
 public final class Package extends AbstractModelElement implements HasName {
     
-    private final String name;
+    private final QName name;
     private final Model ownedElements;
     
-    public Package(final String name, final Identifier id, final List<TaggedValue> taggedValues, final Model ownedElements) {
-        super(id, taggedValues);
+    public Package(final QName name, final Identifier id, final List<TaggedValue> taggedValues,
+            final Model ownedElements, final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -23,7 +26,7 @@ public final class Package extends AbstractModelElement implements HasName {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     

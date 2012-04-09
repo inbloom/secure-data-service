@@ -4,7 +4,72 @@ import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.*;
 
+/**
+* Generates StudentDisciplineIncidentAssociation data
+* 
+* @author slee
+*
+*/
 public class StudentDisciplineAssociationGenerator {
+
+    /**
+     * Generates a StudentDisciplineIncidentAssociation between a student and a disciplineIncident.
+     *
+     * @param studentId
+     * @param disciplineIncidentId
+     * 
+     * @return <code>StudentDisciplineIncidentAssociation</code>
+     */
+    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, String disciplineIncidentId) {
+
+        StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
+        
+        assoc.setStudentParticipationCode(GeneratorUtils.generateStudentParticipationCodeType());
+
+        // construct and add the student reference
+        StudentIdentityType sit = new StudentIdentityType();
+        sit.setStudentUniqueStateId(studentId);
+        StudentReferenceType srt = new StudentReferenceType();
+        srt.setStudentIdentity(sit);
+        assoc.setStudentReference(srt);
+        
+        // construct and add the disciplineIncident Reference       
+        ReferenceType dir = new ReferenceType();
+        dir.setId(disciplineIncidentId);
+        assoc.setDisciplineIncidentReference(dir);
+
+        return assoc;
+    }
+    
+    /**
+     * Generates a StudentDisciplineIncidentAssociation between a student and a disciplineIncident.
+     *
+     * @param studentId
+     * @param disciplineIncident
+     * 
+     * @return <code>StudentDisciplineIncidentAssociation</code>
+     */
+    public static StudentDisciplineIncidentAssociation generateLowFi(String studentId, DisciplineIncident disciplineIncident) {
+
+        StudentDisciplineIncidentAssociation assoc = new StudentDisciplineIncidentAssociation();
+        
+        assoc.setStudentParticipationCode(GeneratorUtils.generateStudentParticipationCodeType());
+
+        // construct and add the student reference
+        StudentIdentityType sit = new StudentIdentityType();
+        sit.setStudentUniqueStateId(studentId);
+        StudentReferenceType srt = new StudentReferenceType();
+        srt.setStudentIdentity(sit);
+        assoc.setStudentReference(srt);
+        
+        // construct and add the disciplineIncident Reference       
+        ReferenceType dir = new ReferenceType();
+        dir.setRef(disciplineIncident);
+        dir.setId(disciplineIncident.getIncidentIdentifier());
+        assoc.setDisciplineIncidentReference(dir);
+
+        return assoc;
+    }
 
     public StudentDisciplineIncidentAssociation generate(String studentDisciplineId, String delimiter) {
     	StudentDisciplineIncidentAssociation studentDisciplineAssociation = new StudentDisciplineIncidentAssociation();

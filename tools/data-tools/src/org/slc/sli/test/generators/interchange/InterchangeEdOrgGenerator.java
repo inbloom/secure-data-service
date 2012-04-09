@@ -3,15 +3,18 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
+import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.CourseGenerator;
 import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
@@ -62,6 +65,9 @@ public class InterchangeEdOrgGenerator {
         generateSchools(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
 
         generateCourses(interchangeObjects, MetaRelations.COURSE_MAP.values());
+
+        generatePrograms(interchangeObjects, MetaRelations.PROGRAM_MAP.values());
+
     }
 
     /**
@@ -166,5 +172,26 @@ public class InterchangeEdOrgGenerator {
 
         System.out.println("generated " + courseMetas.size() + " Course objects in: "
                 + (System.currentTimeMillis() - startTime));
+    }
+
+    /**
+     * Loops all programs and, using a Program Generator, populates interchange data.
+     *
+     * @param interchangeObjects
+     * @param programMetas
+     */
+    private static void generatePrograms(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+        for (ProgramMeta programMeta : programMetas) {
+
+            Program program;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                program = null;
+            } else {
+                program = ProgramGenerator.generateLowFi(programMeta.id);
+            }
+
+            interchangeObjects.add(program);
+        }
     }
 }

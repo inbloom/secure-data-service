@@ -22,9 +22,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "cohortType"                             if human_readable_id == "REQUIRED FIELD"
-  id = "academicSubject"                        if human_readable_id == "UPDATE FIELD"
-  id = "Mathematics"                            if human_readable_id == "UPDATE FIELD EXPECTED VALUE"
-  id = "Physical, Health, and Safety Education" if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "programId"                        if human_readable_id == "UPDATE FIELD"
+  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"]                            if human_readable_id == "UPDATE FIELD EXPECTED VALUE"
+  id = "[]" if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
@@ -51,6 +51,6 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
     "educationOrgId" => "9f5cb095-8e99-49a9-b130-bedfa20639d2",
-    "programId" => "cb292c7d-3503-414a-92a2-dc76a1585d79"
+    "programId" => ["cb292c7d-3503-414a-92a2-dc76a1585d79"]
   }
 end

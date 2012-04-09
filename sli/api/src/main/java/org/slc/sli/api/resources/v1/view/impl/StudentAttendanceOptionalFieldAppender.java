@@ -1,17 +1,16 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import java.util.Set;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,7 @@ import org.slc.sli.api.representation.EntityBody;
 @Component
 public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppender {
 
-    private final Logger logger = LoggerFactory.getLogger(StudentAttendanceOptionalFieldAppender.class);
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
@@ -40,109 +39,99 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
-        String collectionName = buildCollectionName();
-        Map<String, EntityBody> studentAttendances = new HashMap<String, EntityBody>();
+
+        List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
 
         //get the section Ids
         Set<String> sectionIds = optionalFieldAppenderHelper.getSectionIds(entities);
+        //get the sections
+        List<EntityBody> sections = optionalFieldAppenderHelper.queryEntities(ResourceNames.SECTIONS,
+                "_id", new ArrayList<String>(sectionIds));
+        //get the session Ids
+        List<String> sessionIds = optionalFieldAppenderHelper.getIdList(sections, ParameterConstants.SESSION_ID);
+        //get the sessions
+        List<EntityBody> sessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS,
+                "_id", sessionIds);
 
-        //execute the map/reduce
-        if (!executeMapReduce(buildCommand(collectionName, sectionIds))) return entities;
-
-        //get the attendance aggregate objects
-        List<Object> attendanceEntities = retrieveAttendanceEntities(collectionName);
-
-        for (Object entity : attendanceEntities) {
-            Map<String, Object> map = (Map<String, Object>) entity;
-
-            String id = (String) map.get("_id");
-            Map<String, Object> value = (Map<String, Object>) map.get("value");
-            studentAttendances.put(id, new EntityBody((Map<String, Object>) value.get("attendance")));
-        }
+        //get the attendances per session
+        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions);
 
         //add attendances to student's entityBody
-        for (EntityBody entity : entities) {
-            String id = (String) entity.get("id");
-            EntityBody attendancesBody = new EntityBody();
+        for (EntityBody student : entities) {
+            String id = (String) student.get("id");
+            //get the student section associations
+            List<EntityBody> studentSectionAssociations = (List<EntityBody>) student.get("studentSectionAssociation");
 
-            attendancesBody.put(ResourceNames.ATTENDANCES, studentAttendances.get(id));
-            entity.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
+            if (studentSectionAssociations == null) continue;
+
+            Set<EntityBody> attendancesForStudent = new HashSet<EntityBody>();
+            for (EntityBody studentSectionAssociation : studentSectionAssociations) {
+                //get the sectionId
+                String sectionId = (String) studentSectionAssociation.get(ParameterConstants.SECTION_ID);
+                //get the section
+                EntityBody section = optionalFieldAppenderHelper.getEntityFromList(sections, "id", sectionId);
+
+                if (section != null) {
+                    //get the attendances for this session
+                    List<EntityBody> attendancesForSession = attendancePerSession.get((String) section.get(ParameterConstants.SESSION_ID));
+
+                    if (attendancesForSession != null && !attendancesForSession.isEmpty()) {
+                        List<EntityBody> attendancesForStudentForSession = optionalFieldAppenderHelper.getEntitySubList(attendancesForSession,
+                                ParameterConstants.STUDENT_ID, id);
+
+                        if (attendancesForStudentForSession != null && !attendancesForStudentForSession.isEmpty()) {
+                            attendancesForStudent.addAll(attendancesForStudentForSession);
+                        }
+                    }
+                }
+            }
+
+            //add the attendances to the student body
+            if (!attendancesForStudent.isEmpty()) {
+                EntityBody attendancesBody = new EntityBody();
+                attendancesBody.put(ResourceNames.ATTENDANCES, new ArrayList<EntityBody>(attendancesForStudent));
+                student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
+            }
         }
 
         return entities;
     }
 
     /**
-     * Retrieve the attendance entities
-     * @param collectionName The collection to retrieve data from
+     * Returns a map of student attendances per session
+     * @param studentIds List of studentIds
+     * @param sessions List of sessions
      * @return
      */
-    protected List<Object> retrieveAttendanceEntities(String collectionName) {
-        //get the attendance aggregate objects
-        List<Object> attendanceEntities = template.findAll(Object.class, collectionName);
-        //drop the temp collection
-        template.dropCollection(collectionName);
+    protected Map<String, List<EntityBody>> getAttendances(List<String> studentIds, List<EntityBody> sessions) {
+        Map<String, List<EntityBody>> attendancePerSession = new HashMap<String, List<EntityBody>>();
 
-        return attendanceEntities;
-    }
+        //init the end date
+        Date endDate = new Date(System.currentTimeMillis());
+        for (EntityBody session : sessions) {
+            try {
+                //get the begin date
+                Date startDate = formatter.parse((String) session.get("beginDate"));
 
-    /**
-     * Execute the map/reduce command
-     * Hopefully we can move this to a scheduler so that
-     * we don't need to run it all the time
-     * @param command The command to run
-     * @return
-     */
-    protected boolean executeMapReduce(String command) {
-        return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(command) + "\"}").ok();
-    }
+                //setup the query
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria("eventDate", ">=", formatter.format(startDate)));
+                neutralQuery.addCriteria(new NeutralCriteria("eventDate", "<=", formatter.format(endDate)));
+                neutralQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds));
 
-    /**
-     * Build the map/reduce command
-     * @param collectionName The collection to save the data to
-     * @param sectionIds The sectionIds for the query
-     * @return
-     */
-    protected String buildCommand(String collectionName, Set<String> sectionIds) {
-        StringBuffer buffer = new StringBuffer();
-        String separator = "";
+                //get the attendances
+                List<EntityBody> attendances = optionalFieldAppenderHelper.queryEntities(ResourceNames.ATTENDANCES, neutralQuery);
 
-        //construct the map/reduce command
-        //need to extract the constants out of this
-        buffer.append("db.runCommand( {");
-        buffer.append("mapreduce:\"studentSectionAssociation\",");
-        buffer.append("map:mapSectionAttendance,");
-        buffer.append("reduce:reduceSectionAttendance,");
-        buffer.append("query: { \"body.sectionId\":{\"$in\": [");
+                if (attendances != null && !attendances.isEmpty()) {
+                    attendancePerSession.put((String) session.get("id"), attendances);
+                }
 
-        for (String sectionId : sectionIds) {
-            buffer.append(separator);
-            buffer.append("\"");
-            buffer.append(sectionId);
-            buffer.append("\"");
-            separator = ",";
+            } catch (ParseException e) {
+                warn("Could not parse date {}", new Object[]{session.get("beginDate")});
+            }
         }
-
-        buffer.append("]}},");
-
-        buffer.append("out: { reduce: \"");
-        buffer.append(collectionName);
-        buffer.append("\" }");
-        buffer.append("});");
-
-        return buffer.toString();
+        return attendancePerSession;
     }
 
-    /**
-     * Build a temporary collection name
-     * @return
-     */
-    protected String buildCollectionName() {
-        return "attagg" + System.currentTimeMillis();
-    }
-
-    protected void setTemplate(MongoTemplate template) {
-        this.template = template;
-    }
 
 }
