@@ -8,15 +8,15 @@ import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
 import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
 import org.slc.sli.test.edfi.entities.InterchangeStudent;
-import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
-import org.slc.sli.test.generators.interchange.InterchangeStudentCohortGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
@@ -96,10 +96,11 @@ public class StateEdFiXmlGenerator {
         student();
 
         studentEnrollment();
-        
+
         studentProgram();
-        
-        studentCohort();
+
+        studentAttendance();
+
     }
 
     /**
@@ -199,6 +200,22 @@ public class StateEdFiXmlGenerator {
     }
 
     /**
+     * Generate InterchangeStudentAttendance data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void studentAttendance() throws Exception {
+
+        InterchangeStudentAttendance studentAttendance = InterchangeStudentAttendanceGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentAttendance.xml";
+
+        JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "studentAttendance", xmlFilePath);
+    }
+
+    /**
      * Generate InterchangeStudentProgram data and use Jaxb to output the XML file.
      *
      * @throws Exception
@@ -214,19 +231,4 @@ public class StateEdFiXmlGenerator {
         DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentProgram", xmlFilePath);
     }
 
-    /**
-     * Generate InterchangeStudentCohort data and use Jaxb to output the XML file.
-     *
-     * @throws Exception
-     */
-    private static void studentCohort() throws Exception {
-
-        InterchangeStudentCohort studentCohort = InterchangeStudentCohortGenerator.generate();
-
-        String xmlFilePath = rootOutputPath + "/InterchangeStudentCohort.xml";
-
-        JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
-
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "studentCohort", xmlFilePath);
-    }
 }
