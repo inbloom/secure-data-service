@@ -123,12 +123,12 @@ public class RoleInitializer {
     
     private Role buildSLIAdmin() {
         LOG.info("Building SLI Administrator default role.");
-        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
+        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
     
     private Role buildLEAAdmin() {
         LOG.info("Building LEA Administrator default role.");
-        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).build();
+        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
     
     public void setRepository(Repository repo) {
