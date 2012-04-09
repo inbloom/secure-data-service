@@ -59,6 +59,18 @@ public enum XmiElementName {
     /**
      * 
      */
+    GENERALIZATION("Generalization"),
+    /**
+     * 
+     */
+    GENERALIZATION_DOT_CHILD("Generalization.child"),
+    /**
+     * 
+     */
+    GENERALIZATION_DOT_PARENT("Generalization.parent"),
+    /**
+     * 
+     */
     MODEL_ELEMENT_DOT_TAGGED_VALUE("ModelElement.taggedValue"),
     /**
      * 
