@@ -156,7 +156,7 @@ public class AuthController {
         parameters.put("redirect_uri", redirectUri);
         
         info("Hoora");
-        Pair<String, String> tuple = Pair.of(clientId, clientSecret);// extractClientCredentials(authz);
+        Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
         OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
         return token;
     }
