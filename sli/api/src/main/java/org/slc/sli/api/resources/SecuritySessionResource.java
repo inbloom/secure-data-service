@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,21 +53,20 @@ public class SecuritySessionResource {
     private String realmPage;
 
     /**
-     * Method processing HTTP GET requests, producing "application/json" MIME media
+     * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media
      * type.
      *
      * @return HashMap indicating success or failure for logout action (matches type "application/json" through jersey).
-     * @throws IOException 
      */
     @GET
     @Path("logout")
-    public Map<String, Object> logoutUser() throws IOException {
+    public Map<String, Object> logoutUser() {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
 
-        final String noLoginMsg = "User must be logged in to logout";
         if (oAuth instanceof AnonymousAuthenticationToken) {
+            final String noLoginMsg = "User must have a valid session in SLI before they can logout";
             throw new InsufficientAuthenticationException(noLoginMsg);
         }
 
@@ -82,14 +80,14 @@ public class SecuritySessionResource {
     }
 
     /**
-     * Method processing HTTP GET requests, producing "application/json" MIME media
+     * Method processing HTTP GET requests to debug resource, producing "application/json" MIME media
      * type.
      * 
      * @return SecurityContext that will be send back as a response of type "application/json".
      */
     @GET
     @Path("debug")
-    public SecurityContext getSecurityContext() {
+    public SecurityContext sessionDebug() {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
@@ -108,6 +106,12 @@ public class SecuritySessionResource {
         return SecurityContextHolder.getContext();
     }
 
+    /**
+     * Method processing HTTP GET requests to check resource, producing "application/json" MIME media
+     * type.
+     * 
+     * @return Map containing relevant user details (if authenticated).
+     */
     @GET
     @Path("check")
     public Object sessionCheck() {
@@ -144,6 +148,11 @@ public class SecuritySessionResource {
         return sessionDetails;
     }
 
+    /**
+     * Indicates whether or not the current user is authenticated into SLI.
+     * @param securityContext User's Security Context (checked for authentication credentials).
+     * @return true (indicating user is authenticated) or false (indicating user is NOT authenticated).
+     */
     private boolean isAuthenticated(SecurityContext securityContext) {
         return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
     }
