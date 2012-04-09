@@ -13,7 +13,6 @@
 			</tr>
 		</#list>
 	<tr><th></th><td></td></tr>
-	   <!-- Email -->
 		<#list singleContact.electronicMail as electronicMail>
 			<tr>
 				<th>
