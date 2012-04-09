@@ -41,16 +41,22 @@ Then /^the Mock IDP Page has a button the user can use to log in$/ do
 end
 
 Then /^the Mock IDP Page has a log out link$/ do
-  pending # express the regexp above with the code you wish you had
+  logOut = @driver.find_element(:xpath, "//input[@value='Logout']")
+  logOut.should_not==nil
 end
 
 Then /^the heading of the Mock IDP Page is realm followed by "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  headers = @driver.find_elements(:xpath, "//span[@class='header']")
+  headers.should_not==nil
+  found = false
+  headers.each do |header|
+    if header.text.should include "IDP"
+      found=true
+    end
+  end
+  assert(found,"no realm info found in mock IDP page!")
 end
 
-When /^I am redirected to the Mock IDP page for the realm$/ do
-  pending # express the regexp above with the code you wish you had
-end
 
 When /^I select "([^"]*)" from the user drop down$/ do |arg1|
   pending # express the regexp above with the code you wish you had
