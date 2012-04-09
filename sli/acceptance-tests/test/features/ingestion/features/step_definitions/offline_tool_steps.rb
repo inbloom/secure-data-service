@@ -188,7 +188,7 @@ def checkForContentInLogFile(message, prefix)
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
-
+      aFile.close()
     else
        raise "File " + @job_status_filename + "can't be opened"
     end
