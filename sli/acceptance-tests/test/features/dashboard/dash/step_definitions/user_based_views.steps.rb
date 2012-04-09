@@ -55,13 +55,17 @@ Then /^I should only see one view named "([^"]*)"$/ do |view_name|
 end
 
 When /^I select view "([^"]*)"$/ do |view|
-  select_by_id(view, "viewSelector")
-  sleep(5)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 50)
+  wait.until {select_by_id(view, "viewSelector")}
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
+  puts "text = #{text}"
+
   wait = Selenium::WebDriver::Wait.new(:timeout => 50) # explicit wait for at most 5 sec
   list =  wait.until{@driver.find_element(:id, "studentList")}
+
+  puts "list.text = #{list.text}"
 
   list.should_not be_nil
 

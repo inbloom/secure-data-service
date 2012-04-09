@@ -3,7 +3,6 @@
 ##There needs to be a refactor to look at student grade /students/{id}/studentWithGrade
 ##and data generation done for Charles Gray and Rebecca Braverman's students
 
-@wip
 Feature: User based view selection
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -16,9 +15,7 @@ Background:
 Scenario: Check user has multiple views available
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
-  And I wait for "2" seconds
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -31,27 +28,23 @@ Scenario: Check user has multiple views available
 Scenario: Views are filtered based on student grades
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
-  And I wait for "2" seconds
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
     And I select <section> "Sec 923"
-  Then I should only see one view named "IL_9-12"
+  Then I should only see one view named "IL_3-8"
 
 Scenario: Check changing view changes table headings
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  And I wait for "1" seconds
   When I login as "cgray" "cgray1234"
-  And I wait for "2" seconds
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
-  When I select view "IL_3-8_ELA"
-  Then I should see a table heading "ISAT Reading"
+  #When I select view "IL_3-8_ELA"
+  Then I should see a table heading "ISAT Writing (highest)"
     And I should see a table heading "ISAT Writing (most recent)"
   When I select view "IL_9-12"
   Then I should see a table heading "Reading Test Scores (Highest)"
@@ -61,9 +54,7 @@ Scenario: Check changing view changes table headings
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  And I wait for "1" seconds
   When I login as "rbraverman" "rbraverman1234"
-  And I wait for "2" seconds
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
