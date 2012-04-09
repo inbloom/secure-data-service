@@ -32,7 +32,7 @@ Scenario: Update entity
    Given format "application/json"
     When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
-    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+    When I set the "<UPDATE FIELD>" array to "<UPDATE FIELD NEW VALID VALUE>"
      And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then I should receive a return code of 204
      And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"

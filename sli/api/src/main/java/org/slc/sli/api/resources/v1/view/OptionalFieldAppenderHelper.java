@@ -44,6 +44,18 @@ public class OptionalFieldAppenderHelper {
     }
 
     /**
+     * Queries the database with a given collection with the query
+     * @param resourceName The collection
+     * @return
+     */
+    public List<EntityBody> queryEntities(String resourceName, NeutralQuery query) {
+
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
+
+        return (List<EntityBody>) entityDef.getService().list(query);
+    }
+
+    /**
      * Returns a single entity from a list for a given key value pair
      * @param list List of entities
      * @param field The field to search for
