@@ -2,15 +2,18 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * A member of an enumeration type.
  */
 public final class EnumLiteral extends AbstractModelElement implements HasName {
     
-    private final String name;
+    private final QName name;
     
-    public EnumLiteral(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public EnumLiteral(final Identifier id, final QName name, final List<TaggedValue> taggedValues,
+            final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -18,7 +21,7 @@ public final class EnumLiteral extends AbstractModelElement implements HasName {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     

@@ -9,6 +9,10 @@ public enum XmiAttributeName {
      */
     ID("xmi.id"),
     /**
+     * isNavigable.
+     */
+    IS_NAVIGABLE("isNavigable"),
+    /**
      * The lower bound attribute used by XMI (lower).
      */
     LOWER("lower"),
