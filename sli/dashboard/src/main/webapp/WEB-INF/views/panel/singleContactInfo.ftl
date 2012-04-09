@@ -13,6 +13,7 @@
 			</tr>
 		</#list>
 	<tr><th></th><td></td></tr>
+	   <!-- Email -->
 		<#list singleContact.electronicMail as electronicMail>
 			<tr>
 				<th>
@@ -38,7 +39,13 @@
 				<th>
 				<!-- show only once -->
 				<#if address_index == 0>
-					Address:
+				    <#if address.addressType ??>
+				        <#if address.addressType == "Home">
+        					Address:
+    					<#else>
+    					   ${address.addressType}
+    					</#if>
+					</#if>
 				</#if>
 				</th>
 				<td class="singleOfSixColumns">
