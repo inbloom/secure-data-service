@@ -82,6 +82,9 @@
 	</LocalEducationAgency>
 	<School>
 		<StateOrganizationId>10000000121</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>10000000121</ID>
+		</EducationOrgIdentificationCode>
 		<NameOfInstitution>Dusk High School</NameOfInstitution>
 		<ShortNameOfInstitution>DHS</ShortNameOfInstitution>
 		<OrganizationCategories>
@@ -130,6 +133,9 @@
 	</School>
 	<School>
 		<StateOrganizationId>1000000122</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>1000000122</ID>
+		</EducationOrgIdentificationCode>
 		<NameOfInstitution>Dawn Elementary School</NameOfInstitution>
 		<ShortNameOfInstitution>DES</ShortNameOfInstitution>
 		<OrganizationCategories>
@@ -185,6 +191,9 @@
 	</School>
 	<School>
 		<StateOrganizationId>1000000111</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>1000000111</ID>
+		</EducationOrgIdentificationCode>
 		<NameOfInstitution>Parker High School</NameOfInstitution>
 		<ShortNameOfInstitution>PHS</ShortNameOfInstitution>
 		<OrganizationCategories>
@@ -235,6 +244,9 @@
 	</School>
 	<School>
 		<StateOrganizationId>1000000112</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>1000000112</ID>
+		</EducationOrgIdentificationCode>
 		<NameOfInstitution>Parker Elementary School</NameOfInstitution>
 		<ShortNameOfInstitution>PES</ShortNameOfInstitution>
 		<OrganizationCategories>
@@ -288,98 +300,122 @@
 		</LocalEducationAgencyReference>
 	</School>
 	<Course>
-		<CourseTitle>Advanced Masonry</CourseTitle>
+		<CourseTitle>Mason201</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Mason201</ID>
 		</CourseCode>
+		<CourseDescription>Advanced Masonry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>10000000121</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Physical Sciences</CourseTitle>
+		<CourseTitle>PhySci001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>PhySci001</ID>
 		</CourseCode>
+		<CourseDescription>Physical Sciences</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000112</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Inorganic Chemistry</CourseTitle>
+		<CourseTitle>Chem305</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Chem305</ID>
 		</CourseCode>
+		<CourseDescription>Inorganic Chemistry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>10000000121</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Mathmatics</CourseTitle>
+		<CourseTitle>Math001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Math001</ID>
 		</CourseCode>
+		<CourseDescription>Mathmatics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000112</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Art Study</CourseTitle>
+		<CourseTitle>Art001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Art001</ID>
 		</CourseCode>
+		<CourseDescription>Art Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000122</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000122</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Structual Engineering</CourseTitle>
+		<CourseTitle>ARCH221</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>ARCH221</ID>
 		</CourseCode>
+		<CourseDescription>Structual Engineering</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000111</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000111</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Sports Study</CourseTitle>
+		<CourseTitle>PE001</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>PE001</ID>
 		</CourseCode>
+		<CourseDescription>Sports Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000122</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000122</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
 	<Course>
-		<CourseTitle>Relativistic Physics</CourseTitle>
+		<CourseTitle>Sci127</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
-		<CourseCode AssigningOrganizationCode="200" IdentificationSystem="CSSC course code">
+		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Sci127</ID>
 		</CourseCode>
+		<CourseDescription>Relativistic Physics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000111</StateOrganizationId>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>1000000111</ID>
+				</EducationOrgIdentificationCode>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>

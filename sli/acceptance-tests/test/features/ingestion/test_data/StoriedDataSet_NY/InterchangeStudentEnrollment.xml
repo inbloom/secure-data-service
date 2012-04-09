@@ -194,8 +194,8 @@
 		</StudentReference>
 		<SectionReference>
 			<SectionIdentity>
-				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
-				<UniqueSectionCode>Sec 145</UniqueSectionCode>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<UniqueSectionCode>Art001-Sec1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
 	</StudentSectionAssociation>
