@@ -2,20 +2,37 @@ package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import com.sun.jersey.core.util.Base64;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.DefaultOAuth2SerializationService;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2SerializationService;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,19 +56,39 @@ import org.slc.sli.domain.NeutralQuery;
 @Controller
 @Scope("request")
 @RequestMapping("/oauth")
-public class DiscoController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DiscoController.class);
-
+public class AuthController {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+    
+    private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
+    
+    private OAuth2SerializationService serializationService = new DefaultOAuth2SerializationService();
+    
     @Autowired
     private EntityDefinitionStore store;
-
+    
     @Autowired
     private MongoAuthorizationCodeServices authCodeService;
-
+    
     @Autowired
     private SamlHelper saml;
     
+    @Autowired
+    private AuthorizationServerTokenServices tokenServices;
+    
+    @Autowired
+    private AuthorizationCodeServices authorizationCodeServices;
+    
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+    
+    private AuthorizationCodeTokenGranter granter;
+
+    @PostConstruct
+    public void init() {
+        granter = new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService);
+    }
+
     /**
      * Returns the Entity Service that will make calls to the realm collection.
      * @return Entity Service.
@@ -69,7 +106,7 @@ public class DiscoController {
         EntityDefinition defn = store.lookupByResourceName("oauth_access_token");
         return defn.getService();
     }
-
+        
     /**
      * Calls api to list available realms and injects into model
      * 
@@ -78,6 +115,7 @@ public class DiscoController {
      * @return name of the template to use
      * @throws IOException
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
             @RequestParam(value = "RealmName", required = false) final String realmName, 
@@ -99,7 +137,6 @@ public class DiscoController {
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(9999);
                 Iterable<String> realmList = getRealmEntityService().listIds(neutralQuery);
-
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
                     EntityBody node = getRealmEntityService().get(realmId);
@@ -116,9 +153,9 @@ public class DiscoController {
                 }
                 return map;
             }
-
+            
         });
-
+        
         if (result instanceof String) {
             return (String) result;
         }
@@ -130,14 +167,37 @@ public class DiscoController {
         model.addAttribute("redirect_uri", relayState != null ? relayState : "");
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
-
+        
         if (relayState == null) {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
         }
-
+        
         return "realms";
     }
-
+    
+    @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
+    public ResponseEntity<String> getAccessToken(
+            @RequestParam("code") String authorizationCode, 
+            @RequestParam("redirect_uri") String redirectUri, 
+            @RequestHeader(value = "Authorization", required = false) String authz,
+            @RequestParam("client_id") String clientId, 
+            @RequestParam("client_secret") String clientSecret, 
+            Model model) {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("code", authorizationCode);
+        parameters.put("redirect_uri", redirectUri);
+        
+        info("Hoora");
+        Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
+        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cache-Control", "no-store");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        return new ResponseEntity<String>(serializationService.serialize(token), headers, HttpStatus.OK);
+    }
+    
     /**
      * Redirects user to the sso init url given valid id
      * 
@@ -155,7 +215,7 @@ public class DiscoController {
             @RequestParam(value = "state", required = false) final String state,
             HttpServletResponse res, 
             Model model) throws IOException {
-
+        
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
             public String execute() {
@@ -163,7 +223,7 @@ public class DiscoController {
                 if (eb == null) {
                     throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
                 }
-
+                
                 @SuppressWarnings("unchecked")
                 Map<String, String> idpData = (Map<String, String>) eb.get("idp");
                 return (String) idpData.get("redirectEndpoint");
@@ -191,11 +251,8 @@ public class DiscoController {
         
         authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
         LOG.debug("redirecting to: {}", endpoint);
-        //DateTime expiration = new DateTime();
-        //HttpCookie cookie = new HttpCookie(expiration.toDate(), "", "", "", false); --> set realmCookie to HTTP-Only
         
         Cookie cookie = new Cookie("realmCookie", realmId);
-        cookie.setMaxAge(60 * 60);
         cookie.setDomain(".slidev.org");
         cookie.setPath("/");
         res.addCookie(cookie);
@@ -220,4 +277,17 @@ public class DiscoController {
             return false;
         }
     }
+    
+    @SuppressWarnings("unused")
+    private Pair<String, String> extractClientCredentials(String authz) {
+        Matcher m = BASIC_AUTH.matcher(authz);
+        
+        if (authz != null && m.find()) {
+            String decoded = Base64.base64Decode(m.group(1));
+            String[] values = decoded.split(":");
+            return Pair.of(values[0], values[1]);
+        } else {
+            throw new IllegalArgumentException("Client auth must be provided");
+        }
+    } 
 }

@@ -89,7 +89,7 @@ public class SamlFederationResource {
             @Context HttpServletResponse response) throws Exception {
         
         LOG.info("Received a SAML post for SSO...");
-        
+
         Document doc = saml.decodeSamlPost(postData);
         
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
