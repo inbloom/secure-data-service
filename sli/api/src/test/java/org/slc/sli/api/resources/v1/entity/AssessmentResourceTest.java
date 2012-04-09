@@ -1,7 +1,7 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,14 +16,22 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.association.SectionAssessmentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentAssessmentAssociationResource;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +45,30 @@ import java.util.regex.Pattern;
  * @author nbrown
  * 
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class AssessmentResourceTest {
 
     private final String assessmentResourceName = "AssessmentResource";
     private final String studentResourceName = "StudentResource";
+    private final String sectionResourceName = "SectionResource";
     private final String studentAssessmentAssociationResourceName = "StudentAssessmentAssociationResource";
+    private final String sectionAssessmentAssociationResourceName = "SectionAssessmentAssociationResource";
 
-    private EntityDefinitionStore defs = mock(EntityDefinitionStore.class);
-    private AssessmentResource assessmentResource = new AssessmentResource(defs);
-    private StudentResource studentResource = new StudentResource(defs);
-    private StudentAssessmentAssociationResource studentAssessmentAssociationResource = new StudentAssessmentAssociationResource(defs);
+    @Autowired
+    private SecurityContextInjector injector;
+    @Autowired
+    private AssessmentResource assessmentResource;
+    @Autowired
+    private StudentResource studentResource;
+    @Autowired
+    private SectionResource sectionResource;
+    @Autowired
+    private StudentAssessmentAssociationResource studentAssessmentAssociationResource;
+    @Autowired
+    private SectionAssessmentAssociationResource sectionAssessmentAssociationResource;
 
     HttpHeaders httpHeaders;
     UriInfo uriInfo;
@@ -54,6 +76,9 @@ public class AssessmentResourceTest {
     @Before
     public void setup() throws Exception {
         uriInfo = buildMockUriInfo(null);
+
+        // inject administrator security context for unit testing
+        injector.setAdminContextWithElevatedRights();
 
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
@@ -63,7 +88,7 @@ public class AssessmentResourceTest {
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-//    @Test
+    @Test
     public void testGetStudentAssessmentAssociations() {
         Response createResponse = assessmentResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
@@ -77,25 +102,58 @@ public class AssessmentResourceTest {
         studentAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
         Response response = assessmentResource.getStudentAssessmentAssociations(assessmentId, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+        ResourceTestUtil.assertions(response);
+    }
 
-        Object responseEntityObj = response.getEntity();
+    @Test
+    public void testGetStudentAssessmentAssociationsStudents() {
+        Response createResponse = assessmentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
+        String assessmentId = parseIdFromLocation(createResponse);
+        createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(studentResourceName)), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
 
-        EntityBody body = null;
-        if (responseEntityObj instanceof EntityBody) {
-            assertNotNull(responseEntityObj);
-            body = (EntityBody) responseEntityObj;
-        } else if (responseEntityObj instanceof List<?>) {
-            @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
-            body = results.get(0);
-        } else {
-            fail("Response entity not recognized: " + response);
-            return;
-        }
-        assertNotNull("Should return an entity", body);
-        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                studentAssessmentAssociationResourceName, assessmentResourceName, assessmentId, studentResourceName, studentId);
+        studentAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = assessmentResource.getStudentAssessmentAssociationsStudents(assessmentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetSectionAssessmentAssociations() {
+        Response createResponse = assessmentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
+        String assessmentId = parseIdFromLocation(createResponse);
+        createResponse = sectionResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
+        String sectionId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                sectionAssessmentAssociationResourceName, assessmentResourceName, assessmentId, sectionResourceName, sectionId);
+        sectionAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = assessmentResource.getSectionAssessmentAssociations(assessmentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetSectionAssessmentAssociationsStudents() {
+        Response createResponse = assessmentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
+        String assessmentId = parseIdFromLocation(createResponse);
+        createResponse = sectionResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
+        String sectionId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                sectionAssessmentAssociationResourceName, assessmentResourceName, assessmentId, sectionResourceName, sectionId);
+        sectionAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = assessmentResource.getSectionAssessmentAssociationsSections(assessmentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
     }
     
     @Test
