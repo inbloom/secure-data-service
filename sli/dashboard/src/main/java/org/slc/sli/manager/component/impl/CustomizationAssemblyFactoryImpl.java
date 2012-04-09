@@ -52,10 +52,6 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         return SecurityUtil.getToken();
     }
     
-    protected String getUsername() {
-        return SecurityUtil.getUsername();
-    }
-    
     protected Config getConfig(String componentId) {
         return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
     }
