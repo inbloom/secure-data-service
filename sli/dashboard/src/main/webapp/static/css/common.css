@@ -44,6 +44,7 @@ body {
     font-weight: normal;
     margin-bottom: 18px;
     margin-top: 0;
+    table-layout: fixed;
 }
 .panel-content .tabular table tr td{
     float: right;
@@ -166,9 +167,8 @@ th.ui-th-column div {
 	width:30%;
 }
 .contactInfoData {
-	width:85%;
+	width:200px;
 }
-
 
 .row {
     margin-left: -20px;
