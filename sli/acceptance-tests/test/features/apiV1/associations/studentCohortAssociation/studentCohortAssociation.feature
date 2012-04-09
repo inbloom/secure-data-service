@@ -54,14 +54,14 @@ Scenario: Read associations for endpoint1
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION COUNT FOR ENDPOINT 1>" entities
      And each entity's "entityType" should be "<ASSOCIATION TYPE>"
-     And each entity's "<ENDPOINT1 FIELD>" should be "<ENDPOINT1 ID>"
+     And each entity's "<ENDPOINT1 FIELD>" should be "<ENDPOINT1 FIELD EXPECTED VALUE>"
 
 Scenario: Read associations for endpoint2
     When I navigate to GET "/<ENDPOINT2 URI>/<ENDPOINT2 ID>/<ASSOCIATION URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION COUNT FOR ENDPOINT 2>" entities
      And each entity's "entityType" should be "<ASSOCIATION TYPE>"
-     And each entity's "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 ID>"
+     And each entity's "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 FIELD EXPECTED VALUE>"
 
 Scenario: Read entities associated to endpoint1
     When I navigate to GET "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"

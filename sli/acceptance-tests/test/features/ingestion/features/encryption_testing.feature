@@ -4,7 +4,7 @@ Background: I have a landing zone route configured
     Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone
 
-
+@smoke
 Scenario: Ingested Student data should be encrypted
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:

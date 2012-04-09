@@ -39,7 +39,7 @@ When /^I look at the first one$/ do
 end
 
 When /^I go back up one level$/ do
-  @col = @backup
+  @col = @colStack.pop
 end
 
 #################################################################################
@@ -82,6 +82,9 @@ Then /^inside "([^\"]*)"$/ do |key|
   if !defined? @col
     @col = @result[0]
   end
-  @backup = @col
+  if !defined? @colStack
+    @colStack = []
+  end
+  @colStack.push @col
   @col = @col[key]
 end

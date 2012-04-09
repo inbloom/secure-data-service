@@ -175,6 +175,10 @@ public final class Constants {
 
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     
+    // extra elements added by API
+    public static final String METADATA = "metaData";
+    public static final String EXTERNAL_ID = "externalId";
+    
     /**
      * Contains the possible values for FRE participation
      */
