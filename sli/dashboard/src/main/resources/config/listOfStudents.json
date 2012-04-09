@@ -5,7 +5,7 @@
     entity: "listOfStudents",
     alias: "listOfStudents",
     params: {
-      assesementFilter: {"ISAT Reading": "MOST_RECENT_WINDOW", "ISAT Writing": "MOST_RECENT_RESULT"}
+      assessmentFilter: {"ISAT Reading": "MOST_RECENT_WINDOW", "ISAT Writing": "MOST_RECENT_RESULT"}
     }
   },
   items : [
