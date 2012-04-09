@@ -33,7 +33,9 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   overviewTab = @driver.find_element(:id, tabIndex)
   checkPanelNameExists(overviewTab, panelName)
   
+  # contact info is in the first panel
   studentContactInfo = overviewTab.find_element(:class, "panel")
+  #the first table is the student's contact info
   contactSections = studentContactInfo.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   
   all_trs = contactSections.find_elements(:tag_name, "tr")
@@ -132,7 +134,7 @@ Given /^the order of the email addresses is "([^"]*)"$/ do |listOfEmails|
 end
 
 # we don't perform an exact match
-Given /^the order of the addressess is  "([^"]*)"$/ do |listOfAddresses|
+Given /^the order of the addressess is "([^"]*)"$/ do |listOfAddresses|
   array = listOfAddresses.split(";")
    
   assert(array.length == @section[2].length, "Address Counts do not match")

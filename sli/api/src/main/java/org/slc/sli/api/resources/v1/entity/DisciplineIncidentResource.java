@@ -29,9 +29,18 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This event entity represents an occurrence of an
+ * infraction ranging from a minor problem behavior 
+ * that disrupts the orderly functioning of a school or
+ * classroom (such as tardiness) to a criminal act that 
+ * results in the involvement of a law enforcement
+ * official (such as robbery). A single event (e.g., a fight) is one
+ * incident regardless of how many perpetrators or victims are
+ * involved. Discipline incidents are events classified as warranting
+ * discipline action.
  * 
  * @author jstokes
+ * @author slee
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_INCIDENTS)
