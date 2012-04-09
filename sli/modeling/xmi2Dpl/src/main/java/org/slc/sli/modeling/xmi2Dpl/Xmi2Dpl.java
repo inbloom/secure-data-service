@@ -8,6 +8,7 @@ import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumType;
+import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.TagDefinition;
@@ -25,6 +26,7 @@ public final class Xmi2Dpl {
             final boolean showDataTypes = true;
             final boolean showEnumTypes = true;
             final boolean showAssociations = true;
+            final boolean showGeneralizations = true;
             final boolean showTagDefinitions = true;
             if (showClassTypes) {
                 final Map<Identifier, ClassType> classTypeMap = model.getClassTypeMap();
@@ -52,6 +54,13 @@ public final class Xmi2Dpl {
                 final Collection<Association> associations = associationMap.values();
                 for (final Association association : associations) {
                     System.out.println(association);
+                }
+            }
+            if (showGeneralizations) {
+                final Map<Identifier, Generalization> generalizationMap = model.getGeneralizationMap();
+                final Collection<Generalization> generalizations = generalizationMap.values();
+                for (final Generalization generalization : generalizations) {
+                    System.out.println(generalization);
                 }
             }
             if (showTagDefinitions) {

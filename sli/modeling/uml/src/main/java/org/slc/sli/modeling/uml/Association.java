@@ -2,17 +2,19 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 /**
  * An association between two types.
  */
 public final class Association extends AbstractModelElement implements HasName {
-    private final String name;
+    private final QName name;
     private final AssociationEnd lhs;
     private final AssociationEnd rhs;
     
-    public Association(final Identifier id, final String name, final AssociationEnd lhs, final AssociationEnd rhs,
-            final List<TaggedValue> taggedValues) {
-        super(id, taggedValues);
+    public Association(final Identifier id, final QName name, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
+        super(id, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -28,7 +30,7 @@ public final class Association extends AbstractModelElement implements HasName {
     }
     
     @Override
-    public String getName() {
+    public QName getName() {
         return name;
     }
     
