@@ -1075,6 +1075,26 @@ end
 ############################################################
 
 ############################################################
+# Cross App Tests start
+############################################################
+
+desc "Run cross application testing"
+task :crossAppTests do
+  Rake::Task["importUnifiedData"].execute
+  runTests("test/features/cross_app_tests/")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+############################################################
+# Cross App Tests end
+############################################################
+
+############################################################
 # SDK Tests
 ############################################################
 desc "Run SDK Tests Tests"
