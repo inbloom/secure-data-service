@@ -1,6 +1,5 @@
 package org.slc.sli.controller;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,15 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.config.LozengeConfig;
 import org.slc.sli.entity.ModelAndViewConfig;
-import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
-import org.slc.sli.view.LozengeConfigResolver;
-import org.slc.sli.view.widget.WidgetFactory;
 
 /**
  * Controller for all types of requests.
@@ -34,7 +29,6 @@ public abstract class GenericLayoutController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final String LAYOUT_DIR = "layout/";
     
-    private ConfigManager configManager;
     private CustomizationAssemblyFactory customizationAssemblyFactory;
     
     /**
@@ -72,9 +66,6 @@ public abstract class GenericLayoutController {
 
     // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {
-        model.addAttribute(Constants.MM_KEY_WIDGET_FACTORY, new WidgetFactory());
-        List<LozengeConfig> lozengeConfig = configManager.getLozengeConfig(getUsername());
-        model.addAttribute(Constants.MM_KEY_LOZENGE_CONFIG, new LozengeConfigResolver(lozengeConfig));
         model.addAttribute("random", new Random());
     }
     
@@ -85,11 +76,6 @@ public abstract class GenericLayoutController {
     
     protected ModelAndView getModelView(String layoutName, ModelMap model) {
         return new ModelAndView(getLayoutView(layoutName), model);
-    }
-    
-    @Autowired
-    public void setConfigManager(ConfigManager configManager) {
-        this.configManager = configManager;
     }
     
     @Autowired
