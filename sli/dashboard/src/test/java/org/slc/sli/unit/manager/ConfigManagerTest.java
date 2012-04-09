@@ -16,6 +16,7 @@ import org.slc.sli.config.ConfigPersistor;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.impl.ConfigManagerImpl;
 import org.slc.sli.security.SLIPrincipal;
@@ -33,7 +34,8 @@ public class ConfigManagerTest {
     public void setup() {
         mockClient = new MockAPIClient();
         configManager = new ConfigManagerImpl() {
-            protected String getCustomConfigPathForUserDomain(String token) {
+            @Override
+            protected String getCustomConfigPathForUserDomain(EdOrgKey key) {
                 return "aa";
             }
         };
@@ -92,7 +94,7 @@ public class ConfigManagerTest {
      */
     @Test
     public void testConfigFields() {
-        Config config = configManager.getComponentConfig("1", "gridSample");
+        Config config = configManager.getComponentConfig(new EdOrgKey("1"), "gridSample");
         Assert.assertEquals("gridSample", config.getId());
         Assert.assertEquals("attendance", config.getRoot());
         Assert.assertEquals(config.getName(), "Grid");
@@ -127,7 +129,7 @@ public class ConfigManagerTest {
     @Test
     public void testNonexistentConfig() {
         try {
-            configManager.getComponentConfig("1", "fakeConfigId");
+            configManager.getComponentConfig(new EdOrgKey("1"), "fakeConfigId");
         } catch (Throwable t) {
             Assert.assertEquals("Unable to read config for fakeConfigId, for path aa", t.getMessage());
         }

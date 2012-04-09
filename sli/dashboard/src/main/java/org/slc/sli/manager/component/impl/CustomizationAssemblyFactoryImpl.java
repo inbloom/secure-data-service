@@ -3,6 +3,7 @@ package org.slc.sli.manager.component.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.Manager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
@@ -34,11 +36,16 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
+    private UserEdOrgManager userEdOrgManager;
     private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
 
     
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
+    }
+    
+    public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
+        this.userEdOrgManager = userEdOrgManager;
     }
 
     protected String getTokenId() {
@@ -50,7 +57,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
     
     protected Config getConfig(String componentId) {
-        return configManager.getComponentConfig(getUsername(), componentId);
+        return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
+    }
+    
+    @Override
+    public Collection<Config> getWidgetConfigs() {
+        return configManager.getWidgetConfigs(userEdOrgManager.getUserEdOrg(getTokenId()));
     }
     
     /**

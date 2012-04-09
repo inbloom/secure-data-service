@@ -8,6 +8,7 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.EdOrgKey;
 
 
 /**
@@ -29,23 +30,16 @@ public interface ConfigManager extends Manager {
     /**
      * reads the educational organization hierarchy and return proper config file
      * 
-     * @param token
+     * @param districtId - district ID of the user
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashbord
      */
-    public Config getComponentConfig(String token, String componentId);    
+    public Config getComponentConfig(EdOrgKey userEdOrg, String componentId);    
     /**
      * Get all available widget configs relevant for the user
      * @param token - token of the user
      * @return collection of widget conigs
      */
-    public Collection<Config> getWidgetConfigs(String token);
-    
-    /**
-     * This is temporary in order to pass JUnit test.
-     * TODO: fix it
-     * @param institutionalHierarchyManager
-     */
-    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager);
+    public Collection<Config> getWidgetConfigs(EdOrgKey userEdOrg);
 }

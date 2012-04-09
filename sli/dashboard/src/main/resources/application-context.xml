@@ -26,7 +26,6 @@
     </bean>
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
-        <property name="institutionalHierarchyManager" ref="institutionalHierarchyManager"/>
         <property name="configPersistor" ref="configPersistor"/>
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
@@ -36,7 +35,7 @@
       <property name="apiClient" ref="apiClientRef"/>
     </bean>
     
-    <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.impl.InstitutionalHierarchyManagerImpl">
+    <bean id="userEdOrgManager"    class="org.slc.sli.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
     </bean>  
     
@@ -68,5 +67,6 @@
         
     <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
         <property name="configManager" ref="configManager"/>
+        <property name="userEdOrgManager" ref="userEdOrgManager"/>
     </bean>
 </beans>

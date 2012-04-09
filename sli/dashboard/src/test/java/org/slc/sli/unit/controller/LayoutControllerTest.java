@@ -18,10 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 
 /**
@@ -94,7 +95,9 @@ public class LayoutControllerTest {
     
     @Before
     public void setUp() throws Exception {
-        configManager.setInstitutionalHierarchyManager(new InstitutionalHierarchyManager() {
+        layoutController = new LayoutControllerMock();
+        dataFactory.setConfigManager(configManager);
+        dataFactory.setUserEdOrgManager(new UserEdOrgManager() {
             
             @Override
             public List<GenericEntity> getUserInstHierarchy(String token) {
@@ -102,12 +105,10 @@ public class LayoutControllerTest {
             }
             
             @Override
-            public String getUserDistrictId(String token) {
-                return "aa";
+            public EdOrgKey getUserEdOrg(String token) {
+                return new EdOrgKey("fake");
             }
         });
-        layoutController = new LayoutControllerMock();
-        dataFactory.setConfigManager(configManager);
         layoutController.setCustomizedDataFactory(dataFactory);
         layoutController.setConfigManager(configManager);
         

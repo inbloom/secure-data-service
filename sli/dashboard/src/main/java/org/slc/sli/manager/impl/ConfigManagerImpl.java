@@ -23,8 +23,8 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Type;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
 import org.slc.sli.util.DashboardException;
 
 /**
@@ -40,7 +40,6 @@ public class ConfigManagerImpl implements ConfigManager {
     
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ConfigPersistor persistor;
-    private InstitutionalHierarchyManager institutionalHierarchyManager;
     
     private String driverConfigLocation;
     private String userConfigLocation;
@@ -266,18 +265,14 @@ public class ConfigManagerImpl implements ConfigManager {
         return new GsonBuilder().create().fromJson(new FileReader(f), Config.class);
     }
     
-    protected String getCustomConfigPathForUserDomain(String token) {
-        return institutionalHierarchyManager.getUserDistrictId(token);
+    protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {
+        return edOrgKey.getDistrictId();
     }
     
     @Override
-    public Config getComponentConfig(String token, String componentId) {
+    public Config getComponentConfig(EdOrgKey edOrgKey, String componentId) {
         
-        return getConfigByPath(getCustomConfigPathForUserDomain(token), componentId);
-    }
-    
-    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
-        this.institutionalHierarchyManager = institutionalHierarchyManager;
+        return getConfigByPath(getCustomConfigPathForUserDomain(edOrgKey), componentId);
     }
     
     public void setConfigPersistor(ConfigPersistor configPersistor) {
@@ -286,7 +281,7 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     @Cacheable(cacheName = "user.config.widget")
-    public Collection<Config> getWidgetConfigs(String token) {
+    public Collection<Config> getWidgetConfigs(EdOrgKey edOrgKey) {
         // id to config map
         Map<String, Config> widgets = new HashMap<String, Config>();
         Config config;
@@ -311,7 +306,7 @@ public class ConfigManagerImpl implements ConfigManager {
             }
         }
         for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(token, id));
+            widgets.put(id, getComponentConfig(edOrgKey, id));
         }
         return widgets.values();
     }

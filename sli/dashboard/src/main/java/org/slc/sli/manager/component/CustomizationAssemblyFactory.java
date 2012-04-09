@@ -1,5 +1,8 @@
 package org.slc.sli.manager.component;
 
+import java.util.Collection;
+
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.ModelAndViewConfig;
 
 /**
@@ -17,4 +20,6 @@ public interface CustomizationAssemblyFactory {
      * @return
      */
     ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey);
+
+    Collection<Config> getWidgetConfigs();
 }

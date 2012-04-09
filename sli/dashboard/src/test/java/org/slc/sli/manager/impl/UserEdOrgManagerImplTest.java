@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.client.LiveAPIClient;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 
 /**
@@ -22,7 +23,7 @@ import org.slc.sli.entity.GenericEntity;
  * 
  */
 public class InstitutionalHierarchyManagerImplTest {
-    InstitutionalHierarchyManagerImpl testInstitutionalHierarchyManagerImpl = null;
+    UserEdOrgManagerImpl testInstitutionalHierarchyManagerImpl = null;
     
     /**
      * @throws java.lang.Exception
@@ -45,7 +46,7 @@ public class InstitutionalHierarchyManagerImplTest {
             }
             
         };
-        this.testInstitutionalHierarchyManagerImpl = new InstitutionalHierarchyManagerImpl() {
+        this.testInstitutionalHierarchyManagerImpl = new UserEdOrgManagerImpl() {
             public String getToken() {
                 return "";
             }
@@ -55,13 +56,13 @@ public class InstitutionalHierarchyManagerImplTest {
     
     /**
      * Test method for
-     * {@link org.slc.sli.manager.impl.InstitutionalHierarchyManagerImpl#getUserDistrictId(java.lang.String)}
+     * {@link org.slc.sli.manager.impl.UserEdOrgManagerImpl#getUserEdOrg(java.lang.String)}
      * .
      */
     @Test
     public void testGetUserDistrictId() {
-        String districtId = this.testInstitutionalHierarchyManagerImpl.getUserDistrictId("fakeToken");
-        Assert.assertEquals("my test district name", districtId);
+        EdOrgKey key = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg("fakeToken");
+        Assert.assertEquals("my test district name", key.getDistrictId());
     }
     
 }

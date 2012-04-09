@@ -57,7 +57,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
-        model.addAttribute(Constants.MM_KEY_WIDGET_CONFIGS_JSON, JsonConverter.toJson(configManager.getWidgetConfigs(getToken())));
+        model.addAttribute(Constants.MM_KEY_WIDGET_CONFIGS_JSON, JsonConverter.toJson(customizationAssemblyFactory.getWidgetConfigs()));
         setContextPath(model, request);
         
         // TODO: refactor so the below params can be removed
