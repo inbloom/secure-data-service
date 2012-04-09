@@ -40,7 +40,7 @@
     <div class="studentInfo">
         <div class="col1">
             <div class="field"><span>Grade</span><span><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevelCode}<#else>!</#if></span></div>
-            <div class="field"><span>Class</span><span>${panelData.sectionId}</span></div>
+            <div class="field"><span>Class</span><span><#if panelData.sectionId?? && panelData.sectionId != "">${panelData.sectionId}<#else>!</#if></span></div>
         </div>
 
         <div class="col2">
