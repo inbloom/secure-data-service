@@ -88,14 +88,14 @@ public class XsdErrorHandlerTest {
             Method method = XsdErrorHandler.class.getDeclaredMethod("getErrorMessage", argClasses);
             method.setAccessible(true);
             Object[] argObjects = new Object[1];
-            when(mockedSAXParseException.getSystemId()).thenReturn("/home/landingzone/TestFile.xml");
+            when(mockedSAXParseException.getSystemId()).thenReturn("\\home\\landingzone\\TestFile.xml");
             when(mockedSAXParseException.getLineNumber()).thenReturn(12581);
             when(mockedSAXParseException.getColumnNumber()).thenReturn(36);
             when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
             argObjects[0] = mockedSAXParseException;
             String errorMessage = method.invoke(xsdErrorHandler, argObjects).toString();
             assertEquals(errorMessage,
-                    "File /home/landingzone/TestFile.xml, Line 12581, Column 36:\nSAXParseException fatal error");
+                    "File TestFile.xml, Line 12581, Column 36:\nSAXParseException fatal error");
         } catch (Exception e) {
             // Should never happen.
             throw e;
