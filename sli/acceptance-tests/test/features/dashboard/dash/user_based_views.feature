@@ -1,8 +1,3 @@
-##Marking this feature as WIP for now, since this doesn't test what we want it to
-##Dashboard currently looks at cohort year on student for filtering the available views
-##There needs to be a refactor to look at student grade /students/{id}/studentWithGrade
-##and data generation done for Charles Gray and Rebecca Braverman's students
-
 Feature: User based view selection
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -43,7 +38,7 @@ Scenario: Check changing view changes table headings
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
-  #When I select view "IL_3-8_ELA"
+  When I select view "IL_3-8_ELA"
   Then I should see a table heading "ISAT Writing (highest)"
     And I should see a table heading "ISAT Writing (most recent)"
   When I select view "IL_9-12"
