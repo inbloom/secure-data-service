@@ -52,7 +52,7 @@ public class StudentAttendanceOptionalFieldAppenderTest {
 
     @Before
     public void setup() {
-        String beginDate1 = "2011-10-20", beginDate2 = "2011-09-10";
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10";
 
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -87,6 +87,7 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         repo.create("attendance", createAttendance(studentId, "2011-11-12"));
         repo.create("attendance", createAttendance(studentId, "2009-08-07"));
         repo.create("attendance", createAttendance(studentId, "2011-12-12"));
+        repo.create("attendance", createAttendance(studentId, "2006-12-12"));
     }
 
     @After
@@ -108,10 +109,10 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         assertNotNull("Should not be null", entities.get(0).get("attendances"));
 
         List<EntityBody> attendances = (List<EntityBody>) ((EntityBody) entities.get(0).get("attendances")).get("attendances");
-        assertEquals("", 3, attendances.size());
+        assertEquals("Should match", 4, attendances.size());
 
         for (EntityBody attendance : attendances) {
-            if (attendance.get("eventDate").equals("2009-08-07")) {
+            if (attendance.get("eventDate").equals("2006-12-12")) {
                 fail("Should not include this event");
                 break;
             }

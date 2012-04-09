@@ -53,46 +53,85 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
         List<EntityBody> sessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS,
                 "_id", sessionIds);
 
-        //init the start and end date
-        Date startDate = new Date(System.currentTimeMillis());
-        Date endDate = new Date(System.currentTimeMillis());
-        for (EntityBody session : sessions) {
-            try {
-                //get the begin date
-                Date date = formatter.parse((String) session.get("beginDate"));
-
-                if (date.before(startDate)) {
-                    startDate = date;
-                }
-
-            } catch (ParseException e) {
-                warn("Could not parse date {}", new Object[] {session.get("beginDate")});
-            }
-        }
-
-        //setup the query
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("eventDate", ">=", formatter.format(startDate)));
-        neutralQuery.addCriteria(new NeutralCriteria("eventDate", "<=", formatter.format(endDate)));
-        neutralQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds));
-
-        //get the attendances
-        List<EntityBody> attendances = optionalFieldAppenderHelper.queryEntities(ResourceNames.ATTENDANCES, neutralQuery);
+        //get the attendances per session
+        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions);
 
         //add attendances to student's entityBody
         for (EntityBody student : entities) {
             String id = (String) student.get("id");
+            //get the student section associations
+            List<EntityBody> studentSectionAssociations = (List<EntityBody>) student.get("studentSectionAssociation");
 
-            List<EntityBody> attendancesForStudent = optionalFieldAppenderHelper.getEntitySubList(attendances, ParameterConstants.STUDENT_ID, id);
+            if (studentSectionAssociations == null) continue;
 
-            if (attendancesForStudent != null && !attendancesForStudent.isEmpty()) {
+            Set<EntityBody> attendancesForStudent = new HashSet<EntityBody>();
+            for (EntityBody studentSectionAssociation : studentSectionAssociations) {
+                //get the sectionId
+                String sectionId = (String) studentSectionAssociation.get(ParameterConstants.SECTION_ID);
+                //get the section
+                EntityBody section = optionalFieldAppenderHelper.getEntityFromList(sections, "id", sectionId);
+
+                if (section != null) {
+                    //get the attendances for this session
+                    List<EntityBody> attendancesForSession = attendancePerSession.get((String) section.get(ParameterConstants.SESSION_ID));
+
+                    if (attendancesForSession != null && !attendancesForSession.isEmpty()) {
+                        List<EntityBody> attendancesForStudentForSession = optionalFieldAppenderHelper.getEntitySubList(attendancesForSession,
+                                ParameterConstants.STUDENT_ID, id);
+
+                        if (attendancesForStudentForSession != null && !attendancesForStudentForSession.isEmpty()) {
+                            attendancesForStudent.addAll(attendancesForStudentForSession);
+                        }
+                    }
+                }
+            }
+
+            //add the attendances to the student body
+            if (!attendancesForStudent.isEmpty()) {
                 EntityBody attendancesBody = new EntityBody();
-                attendancesBody.put(ResourceNames.ATTENDANCES, attendancesForStudent);
+                attendancesBody.put(ResourceNames.ATTENDANCES, new ArrayList<EntityBody>(attendancesForStudent));
                 student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
             }
         }
 
         return entities;
     }
+
+    /**
+     * Returns a map of student attendances per session
+     * @param studentIds List of studentIds
+     * @param sessions List of sessions
+     * @return
+     */
+    protected Map<String, List<EntityBody>> getAttendances(List<String> studentIds, List<EntityBody> sessions) {
+        Map<String, List<EntityBody>> attendancePerSession = new HashMap<String, List<EntityBody>>();
+
+        //init the end date
+        Date endDate = new Date(System.currentTimeMillis());
+        for (EntityBody session : sessions) {
+            try {
+                //get the begin date
+                Date startDate = formatter.parse((String) session.get("beginDate"));
+
+                //setup the query
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria("eventDate", ">=", formatter.format(startDate)));
+                neutralQuery.addCriteria(new NeutralCriteria("eventDate", "<=", formatter.format(endDate)));
+                neutralQuery.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.CRITERIA_IN, studentIds));
+
+                //get the attendances
+                List<EntityBody> attendances = optionalFieldAppenderHelper.queryEntities(ResourceNames.ATTENDANCES, neutralQuery);
+
+                if (attendances != null && !attendances.isEmpty()) {
+                    attendancePerSession.put((String) session.get("id"), attendances);
+                }
+
+            } catch (ParseException e) {
+                warn("Could not parse date {}", new Object[]{session.get("beginDate")});
+            }
+        }
+        return attendancePerSession;
+    }
+
 
 }
