@@ -20,6 +20,7 @@ import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.util.MD5;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Unit Tests for batch job assembler.
@@ -96,9 +97,9 @@ public class BatchJobAssemblerTest {
         assertTrue(fr.hasErrors());
 
         assertEquals(fr.getFaults().get(0).getMessage(),
-                messageSource.getMessage("SL_ERR_MSG3", new Object[] { entries.get(0).getFileName() }, null));
+                MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG3", entries.get(0).getFileName()));
         assertEquals(fr.getFaults().get(1).getMessage(),
-                messageSource.getMessage("SL_ERR_MSG2", new Object[] { entries.get(1).getFileName() }, null));
+                MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG2", entries.get(1).getFileName()));
         assertEquals("world", job.getProperty("hello"));
 
     }

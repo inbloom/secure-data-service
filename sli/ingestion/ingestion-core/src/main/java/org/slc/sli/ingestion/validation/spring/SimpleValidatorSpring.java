@@ -3,6 +3,8 @@ package org.slc.sli.ingestion.validation.spring;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+
 /**
  * Abstract validator with Spring MessageSource support.
  *
@@ -19,7 +21,7 @@ public abstract class SimpleValidatorSpring<T> extends org.slc.sli.ingestion.val
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 
 }

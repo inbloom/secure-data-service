@@ -70,7 +70,6 @@ public class DefaultRoleRightAccessImplTest {
         when(mockService.get("AggregatorID")).thenReturn(getEntityBody());
         when(mockService.get("BadID")).thenReturn(getEntityBody());
         when(mockService.get("ITID")).thenReturn(getITEntityBody());
-
         when(mockService.listIds(any(NeutralQuery.class))).thenReturn(ids);
     }
 
@@ -86,6 +85,7 @@ public class DefaultRoleRightAccessImplTest {
         rights.add(Right.READ_RESTRICTED.toString());
         roleBody = new EntityBody();
         roleBody.put("name", "Educator");
+        roleBody.put("admin", false);
         roleBody.put("rights", rights);
         return roleBody;
     }
@@ -96,6 +96,7 @@ public class DefaultRoleRightAccessImplTest {
         rights.add(Right.READ_GENERAL.toString());
         rights.add(Right.READ_RESTRICTED.toString());
         roleBody = new EntityBody();
+        roleBody.put("admin", false);
         roleBody.put("name", "IT Administrator");
         roleBody.put("rights", rights);
         return roleBody;

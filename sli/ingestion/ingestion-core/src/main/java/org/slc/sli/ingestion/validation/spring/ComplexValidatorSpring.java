@@ -1,23 +1,19 @@
-package org.slc.sli.ingestion.landingzone.validation;
-
-import java.util.List;
+package org.slc.sli.ingestion.validation.spring;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
-import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.validation.ComplexValidator;
 
 /**
- * Generic Ingestion Validator.
+ * Abstract validator.
  *
  * @author okrook
  *
  */
-public abstract class IngestionValidator<T> implements MessageSourceAware {
-
+public class ComplexValidatorSpring<T> extends ComplexValidator<T> implements MessageSourceAware {
     private MessageSource messageSource;
-
-    public abstract boolean isValid(T item, List<Fault> faults);
 
     @Override
     public void setMessageSource(MessageSource messageSource) {
@@ -25,6 +21,6 @@ public abstract class IngestionValidator<T> implements MessageSourceAware {
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 }
