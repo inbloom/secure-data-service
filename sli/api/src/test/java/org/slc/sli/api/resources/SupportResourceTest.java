@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,6 +15,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.util.Map;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -28,12 +31,27 @@ public class SupportResourceTest {
     @Autowired
     private SupportResource resource;
 
+    @Autowired
+    private SecurityContextInjector injector;
+
     @Value("${sli.support.email}")
     private String email;
 
     @Test
-    public void testGetEmail() throws Exception {
+    public void testGetEmailFailure() throws Exception {
         assertNotNull(resource);
+        SecurityContextHolder.clearContext();
+        try {
+            resource.getEmail();
+            assertFalse(true);
+        } catch (InsufficientAuthenticationException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testGetEmailPass() throws Exception {
+        injector.setEducatorContext();
         Map<String, String> returned = (Map<String, String>) resource.getEmail();
         assertTrue(returned.get("email").equals(email));
     }

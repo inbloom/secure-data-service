@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.xml.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
@@ -27,12 +29,16 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
+
+    @Autowired
+    private XsdErrorHandlerInterface errorHandler;
+
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
 
-        XsdErrorHandlerInterface errorHandler = new XsdErrorHandler(errorReport);
+        errorHandler.setErrorReport(errorReport);
 
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -40,7 +46,11 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             Schema schema = schemaFactory.newSchema(xsdResource.getURL());
 
             Validator validator = schema.newValidator();
-            String sourceXml = ingestionFileEntry.getFileName();
+            File xmlFile = ingestionFileEntry.getFile();
+            if (xmlFile == null) {
+                throw new FileNotFoundException();
+            }
+            String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
             Source sc = new StreamSource(sourceXml);
 
             validator.setErrorHandler(errorHandler);
@@ -59,6 +69,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
         }
 
         return errorHandler.isValid();
+
     }
 
     public Map<String, Resource> getXsd() {
