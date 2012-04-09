@@ -1,7 +1,17 @@
 package org.slc.sli.api.resources.util;
 
+import org.slc.sli.api.representation.EntityBody;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * Utils for entity resource unit tests
@@ -48,5 +58,27 @@ public class ResourceTestUtil {
         String resId = resourceName.substring(0, 1).toLowerCase() + resourceName.substring(1);
         resId = resId.replace("Resource", "Id");
         return resId;
+    }
+
+    public static void assertions(Response response) {
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+        assertNotNull("Should return an entity", body);
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 }
