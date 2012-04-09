@@ -78,6 +78,7 @@
 
 		<!-- GSON -->
 		<gson.version>2.1</gson.version>
+        <sli.home>${project.parent.basedir}</sli.home>
 
 	</properties>
 
@@ -102,7 +103,7 @@
 				<sli.env>local</sli.env>
 				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
 				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
-                <sli.conf>${project.parent.basedir}/sli-configuration/src/main/resources/config/local/sli.properties</sli.conf>
+                <sli.conf>${sli.home}/sli-configuration/src/main/resources/config/local/sli.properties</sli.conf>
 			</properties>
 		</profile>
 
@@ -948,6 +949,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 				<configuration>
 					<systemPropertyVariables>
 						<emma.rt.control>false</emma.rt.control>
+                        <sli.conf>${sli.conf}</sli.conf>
 						<sli.env>${sli.env}</sli.env>
 						<sli.encryption.keyStore>${sli.encryption.keyStore}</sli.encryption.keyStore>
 						<sli.encryption.properties>${sli.encryption.properties}</sli.encryption.properties>

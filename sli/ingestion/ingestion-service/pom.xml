@@ -37,6 +37,10 @@
           <scanIntervalSeconds>5</scanIntervalSeconds>
           <systemProperties>
             <systemProperty>
+                <name>sli.conf</name>
+                <value>${sli.conf}</value>
+            </systemProperty>
+            <systemProperty>
               <name>sli.env</name>
               <value>local</value>
             </systemProperty>
