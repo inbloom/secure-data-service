@@ -42,6 +42,7 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
+import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.LazyLookup;
 import org.slc.sli.modeling.uml.Model;
@@ -69,10 +70,11 @@ public final class Xsd2UmlConvert {
         final Map<Identifier, DataType> dataTypes = new HashMap<Identifier, DataType>();
         final Map<Identifier, EnumType> enumTypes = new HashMap<Identifier, EnumType>();
         final Map<Identifier, Association> associations = new HashMap<Identifier, Association>();
+        final Map<Identifier, Generalization> generalizations = new HashMap<Identifier, Generalization>();
         final Map<Identifier, TagDefinition> tagDefinitions = new HashMap<Identifier, TagDefinition>();
         
-        declareBuiltInTagDefinitions(tagDefinitions, context);
-        declareBuiltInDataTypes(dataTypes, context);
+        declareBuiltInTagDefinitions(tagDefinitions, context, lookup);
+        declareBuiltInDataTypes(dataTypes, context, lookup);
         
         // Iterate XML Schema items
         for (int i = 0; i < schemaItems.getCount(); i++) {
@@ -107,63 +109,65 @@ public final class Xsd2UmlConvert {
                 throw new AssertionError(schemaObject);
             }
         }
-        return new Model(classTypes, dataTypes, enumTypes, associations, tagDefinitions);
+        return new Model(classTypes, dataTypes, enumTypes, associations, generalizations, tagDefinitions);
     }
     
     private static final void declareBuiltInDataTypes(final Map<Identifier, DataType> dataTypes,
-            final Xsd2UmlContext context) {
-        declareBuiltInDataType("duration", dataTypes, context);
-        declareBuiltInDataType("dateTime", dataTypes, context);
-        declareBuiltInDataType("time", dataTypes, context);
-        declareBuiltInDataType("date", dataTypes, context);
-        declareBuiltInDataType("gYearMonth", dataTypes, context);
-        declareBuiltInDataType("gYear", dataTypes, context);
-        declareBuiltInDataType("gMonthDay", dataTypes, context);
-        declareBuiltInDataType("gDay", dataTypes, context);
-        declareBuiltInDataType("gMonth", dataTypes, context);
-        declareBuiltInDataType("boolean", dataTypes, context);
-        declareBuiltInDataType("base64Binary", dataTypes, context);
-        declareBuiltInDataType("hexBinary", dataTypes, context);
-        declareBuiltInDataType("float", dataTypes, context);
-        declareBuiltInDataType("decimal", dataTypes, context);
-        declareBuiltInDataType("integer", dataTypes, context);
-        declareBuiltInDataType("long", dataTypes, context);
-        declareBuiltInDataType("int", dataTypes, context);
-        declareBuiltInDataType("short", dataTypes, context);
-        declareBuiltInDataType("byte", dataTypes, context);
-        declareBuiltInDataType("double", dataTypes, context);
-        declareBuiltInDataType("anyURI", dataTypes, context);
-        declareBuiltInDataType("QName", dataTypes, context);
-        declareBuiltInDataType("NOTATION", dataTypes, context);
-        declareBuiltInDataType("string", dataTypes, context);
-        declareBuiltInDataType("normalizedString", dataTypes, context);
-        declareBuiltInDataType("token", dataTypes, context);
-        declareBuiltInDataType("language", dataTypes, context);
-        declareBuiltInDataType("ID", dataTypes, context);
-        declareBuiltInDataType("IDREF", dataTypes, context);
+            final Xsd2UmlContext context, final LazyLookup lookup) {
+        declareBuiltInDataType("duration", dataTypes, context, lookup);
+        declareBuiltInDataType("dateTime", dataTypes, context, lookup);
+        declareBuiltInDataType("time", dataTypes, context, lookup);
+        declareBuiltInDataType("date", dataTypes, context, lookup);
+        declareBuiltInDataType("gYearMonth", dataTypes, context, lookup);
+        declareBuiltInDataType("gYear", dataTypes, context, lookup);
+        declareBuiltInDataType("gMonthDay", dataTypes, context, lookup);
+        declareBuiltInDataType("gDay", dataTypes, context, lookup);
+        declareBuiltInDataType("gMonth", dataTypes, context, lookup);
+        declareBuiltInDataType("boolean", dataTypes, context, lookup);
+        declareBuiltInDataType("base64Binary", dataTypes, context, lookup);
+        declareBuiltInDataType("hexBinary", dataTypes, context, lookup);
+        declareBuiltInDataType("float", dataTypes, context, lookup);
+        declareBuiltInDataType("decimal", dataTypes, context, lookup);
+        declareBuiltInDataType("integer", dataTypes, context, lookup);
+        declareBuiltInDataType("long", dataTypes, context, lookup);
+        declareBuiltInDataType("int", dataTypes, context, lookup);
+        declareBuiltInDataType("short", dataTypes, context, lookup);
+        declareBuiltInDataType("byte", dataTypes, context, lookup);
+        declareBuiltInDataType("double", dataTypes, context, lookup);
+        declareBuiltInDataType("anyURI", dataTypes, context, lookup);
+        declareBuiltInDataType("QName", dataTypes, context, lookup);
+        declareBuiltInDataType("NOTATION", dataTypes, context, lookup);
+        declareBuiltInDataType("string", dataTypes, context, lookup);
+        declareBuiltInDataType("normalizedString", dataTypes, context, lookup);
+        declareBuiltInDataType("token", dataTypes, context, lookup);
+        declareBuiltInDataType("language", dataTypes, context, lookup);
+        declareBuiltInDataType("ID", dataTypes, context, lookup);
+        declareBuiltInDataType("IDREF", dataTypes, context, lookup);
     }
     
     private static final void declareBuiltInDataType(final String localName, final Map<Identifier, DataType> dataTypes,
-            final Xsd2UmlContext context) {
-        final Identifier id = context.typeId.from(new QName("http://www.w3.org/2001/XMLSchema", localName));
-        final DataType dataType = new DataType(id, localName, false, EMPTY_TAGGED_VALUES);
+            final Xsd2UmlContext context, final LazyLookup lookup) {
+        final QName name = new QName("http://www.w3.org/2001/XMLSchema", localName);
+        final Identifier id = context.typeId.from(name);
+        final DataType dataType = new DataType(id, name, false, EMPTY_TAGGED_VALUES, lookup);
         dataTypes.put(id, dataType);
     }
     
     private static final void declareBuiltInTagDefinitions(final Map<Identifier, TagDefinition> tagDefinitions,
-            final Xsd2UmlContext context) {
-        declareBuiltInTagDefinition("author", tagDefinitions, context);
-        declareBuiltInTagDefinition("deprecated", tagDefinitions, context);
-        declareBuiltInTagDefinition("documentation", tagDefinitions, context);
-        declareBuiltInTagDefinition("version", tagDefinitions, context);
+            final Xsd2UmlContext context, final LazyLookup lookup) {
+        declareBuiltInTagDefinition("author", tagDefinitions, context, lookup);
+        declareBuiltInTagDefinition("deprecated", tagDefinitions, context, lookup);
+        declareBuiltInTagDefinition("documentation", tagDefinitions, context, lookup);
+        declareBuiltInTagDefinition("version", tagDefinitions, context, lookup);
     }
     
     private static final void declareBuiltInTagDefinition(final String name,
-            final Map<Identifier, TagDefinition> tagDefinitions, final Xsd2UmlContext context) {
-        final Range range = new Range(Identifier.random(), Occurs.ZERO, Occurs.ZERO, EMPTY_TAGGED_VALUES);
-        final Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUES, range);
+            final Map<Identifier, TagDefinition> tagDefinitions, final Xsd2UmlContext context, final LazyLookup lookup) {
+        final Range range = new Range(Identifier.random(), Occurs.ZERO, Occurs.ZERO, EMPTY_TAGGED_VALUES, lookup);
+        final Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUES, range, lookup);
         final Identifier id = context.tagDefinition.from(name);
-        final TagDefinition tagDefinition = new TagDefinition(id, EMPTY_TAGGED_VALUES, name, multiplicity);
+        final TagDefinition tagDefinition = new TagDefinition(id, EMPTY_TAGGED_VALUES, new QName("", name),
+                multiplicity, lookup);
         tagDefinitions.put(id, tagDefinition);
     }
     
@@ -211,8 +215,7 @@ public final class Xsd2UmlConvert {
         attributes.addAll(parseFields(complexType, schema, context, lookup));
         
         final QName qualifiedName = complexType.getQName();
-        final String localName = qualifiedName.getLocalPart();
-        handler.classType(new ClassType(Identifier.random(), localName, false, attributes, taggedValues));
+        handler.classType(new ClassType(Identifier.random(), qualifiedName, false, attributes, taggedValues, lookup));
     }
     
     private static final XmlSchemaComplexType getComplexBaseType(
@@ -247,8 +250,9 @@ public final class Xsd2UmlConvert {
                     final XmlSchemaFacet facet = (XmlSchemaFacet) item;
                     if (facet instanceof XmlSchemaEnumerationFacet) {
                         final XmlSchemaEnumerationFacet enumFacet = (XmlSchemaEnumerationFacet) facet;
-                        enumerationLiterals.add(new EnumLiteral(Identifier.random(), enumFacet.getValue().toString(),
-                                parseAnnotation(enumFacet, context, lookup)));
+                        final List<TaggedValue> annotation = parseAnnotation(enumFacet, context, lookup);
+                        final QName name = new QName(enumFacet.getValue().toString());
+                        enumerationLiterals.add(new EnumLiteral(Identifier.random(), name, annotation, lookup));
                     } else if (facet instanceof XmlSchemaMinLengthFacet) {
                         @SuppressWarnings("unused")
                         final XmlSchemaMinLengthFacet minLengthFacet = (XmlSchemaMinLengthFacet) facet;
@@ -264,13 +268,14 @@ public final class Xsd2UmlConvert {
             }
             
             final QName qualifiedName = simpleType.getQName();
-            final String localName = qualifiedName.getLocalPart();
+            final List<TaggedValue> annotation = parseAnnotation(simpleType, context, lookup);
             if (enumerationLiterals.isEmpty()) {
-                handler.dataType(new DataType(Identifier.random(), localName, false, parseAnnotation(simpleType,
-                        context, lookup)));
+                final DataType dataType = new DataType(Identifier.random(), qualifiedName, false, annotation, lookup);
+                handler.dataType(dataType);
             } else {
-                handler.enumType(new EnumType(Identifier.random(), localName, enumerationLiterals, parseAnnotation(
-                        simpleType, context, lookup)));
+                final EnumType enumType = new EnumType(Identifier.random(), qualifiedName, enumerationLiterals,
+                        annotation, lookup);
+                handler.enumType(enumType);
             }
         } else if (content instanceof XmlSchemaSimpleTypeUnion) {
             throw new AssertionError(content);
@@ -341,6 +346,9 @@ public final class Xsd2UmlConvert {
         taggedValues.addAll(parseAnnotation(element, context, lookup));
         
         final XmlSchemaType elementSchemaType = element.getSchemaType();
+        final Occurs minOccurs = occurs(element.getMinOccurs());
+        final Occurs maxOccurs = occurs(element.getMaxOccurs());
+        final Multiplicity multiplicity = multiplicity(range(minOccurs, maxOccurs, lookup), lookup);
         if (elementSchemaType instanceof XmlSchemaComplexType) {
             final QName typeName = elementSchemaType.getQName();
             if (null == typeName) {
@@ -349,15 +357,15 @@ public final class Xsd2UmlConvert {
                 throw new RuntimeException(element.getQName() + " : " + baseType);
             } else {
                 final Reference type = new Reference(context.typeId.from(typeName), ReferenceType.UNKNOWN_TYPE);
-                return new Attribute(Identifier.random(), camelCase(element.getName()), type, multiplicity(range(
-                        occurs(element.getMinOccurs()), occurs(element.getMaxOccurs()))), taggedValues, lookup);
+                return new Attribute(Identifier.random(), camelCase(element.getQName()), type, multiplicity,
+                        taggedValues, lookup);
             }
         } else if (elementSchemaType instanceof XmlSchemaSimpleType) {
             final XmlSchemaSimpleType simpleType = (XmlSchemaSimpleType) elementSchemaType;
             final Reference type = new Reference(context.typeId.from(getSimpleTypeName(simpleType)),
                     ReferenceType.UNKNOWN_TYPE);
-            return new Attribute(Identifier.random(), camelCase(element.getName()), type, multiplicity(range(
-                    occurs(element.getMinOccurs()), occurs(element.getMaxOccurs()))), taggedValues, lookup);
+            return new Attribute(Identifier.random(), camelCase(element.getQName()), type, multiplicity, taggedValues,
+                    lookup);
         } else {
             throw new AssertionError(elementSchemaType);
         }
@@ -379,16 +387,17 @@ public final class Xsd2UmlConvert {
         }
     }
     
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
+    private static final QName camelCase(final QName name) {
+        final String text = name.getLocalPart();
+        return new QName(text.substring(0, 1).toLowerCase().concat(text.substring(1)));
     }
     
-    private static final Multiplicity multiplicity(final Range range) {
-        return new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUES, range);
+    private static final Multiplicity multiplicity(final Range range, final LazyLookup lookup) {
+        return new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUES, range, lookup);
     }
     
-    private static final Range range(final Occurs lowerBound, final Occurs upperBound) {
-        return new Range(Identifier.random(), lowerBound, upperBound, EMPTY_TAGGED_VALUES);
+    private static final Range range(final Occurs lowerBound, final Occurs upperBound, final LazyLookup lookup) {
+        return new Range(Identifier.random(), lowerBound, upperBound, EMPTY_TAGGED_VALUES, lookup);
     }
     
     private static final Occurs occurs(final long occurs) {
