@@ -52,6 +52,15 @@ When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+When /^I set the "([^"]*)" array to "([^"]*)"$/ do |property,value|
+  @fields = {} if !defined? @fields
+  if (value.is_a?(Array))
+    @fields[property] = value
+  else
+    @fields[property] = eval(value)
+  end
+end
+
 When /^I set the "([^"]*)" to "([^"]*)"$/ do |property,value|
   step "\"#{property}\" is \"#{value}\""
 end
@@ -73,7 +82,11 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result.has_key?(key), "Response does not contain key #{key}")
   if @result[key].is_a?(Array)
-    assert(@result[key] == value, "Expected #{key} to equal #{value}, received #{@result[key]}")
+    if value.is_a?(Array)
+      assert(@result[key] == value, "Expected (array) #{key} to equal #{value}, received #{@result[key]}")
+    else
+      assert(@result[key] == eval(value), "Expected (array2) #{key} to equal #{value}, received #{@result[key]}")
+    end
   else
     assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
   end
@@ -154,6 +167,44 @@ Then /^I should receive a collection of "([^"]*)" entities$/ do |number_of_entit
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
   assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}");
+end
+
+Then /^in each entity, I should receive a link named "([^"]*)" for a value from array "([^"]*)" with URI prefix "([^"]*)" and URI suffix "([^"]*)"$/ do |rel, list, prefix, suffix|
+  @result.each do | entity|
+    assert(entity.has_key?("links"), "Response contains no links")
+    assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
+
+    found = false
+  
+    list.each do | id |
+      new_link=prefix + "/" + id + "/" + suffix
+      entity["links"].each do |link|
+        if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(new_link)}$/
+          found = true
+        end
+      end
+    end
+    assert(found, "Link not found rel=#{rel}")
+  end
+end
+
+Then /^in each entity, I should receive a link named "([^"]*)" for a value from array "([^"]*)" with URI prefix "([^"]*)" and URI suffix "([^"]*)" and "([^"]*)"$/ do |rel, list, prefix, suffix1, suffix2|
+  @result.each do | entity|
+    assert(entity.has_key?("links"), "Response contains no links")
+    assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
+
+    found = false
+  
+    list.each do | id |
+      new_link=prefix + "/" + id + "/" + suffix1 + "/" + suffix2
+      entity["links"].each do |link|
+        if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(new_link)}$/
+          found = true
+        end
+      end
+    end
+    assert(found, "Link not found rel=#{rel}")
+  end
 end
 
 # Function data_builder

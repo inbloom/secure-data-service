@@ -50,26 +50,24 @@ Scenario: Read endpoint2 of an association with a single member and confirm pres
      And each entity's "id" should be "<ENDPOINT2 ID - SINGLE>"
      And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" with URI "/<ENDPOINT2 URI>/<ENDPOINT2 ID - SINGLE>/<ASSOCIATION URI>"
      And in each entity, I should receive a link named "<ENDPOINT1 RESOLUTION LINK NAME>" with URI "/<ENDPOINT2 URI>/<ENDPOINT2 ID - SINGLE>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
-@wip
+
 Scenario: Read endpoint1 of an association with a multiple members and confirm presentation of links
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID - MULTIPLE>/<ENDPOINT1 URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT>" entities
      And each entity's "entityType" should be "<ENDPOINT1 TYPE>"
      And each entity's "id" should be in the array "<ENDPOINT1 FIELD - MULTIPLE - EXPECTED VALUE>"
-#     And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID - MULTIPLE>/<ASSOCIATION URI>"
-     																			#getStaffCohortAssociations					/staff/GUID/staffCohortAssociations
-#     And in each entity, I should receive a link named "<ENDPOINT2 RESOLUTION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID - MULTIPLE>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
-     																			#getCohorts																  /staff/GUID/staffCohortAssociations/cohorts
-@wip
+     And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" for a value from array "<ENDPOINT1 FIELD - MULTIPLE - EXPECTED VALUE>" with URI prefix "/<ENDPOINT1 URI>" and URI suffix "<ASSOCIATION URI>"
+     And in each entity, I should receive a link named "<ENDPOINT2 RESOLUTION LINK NAME>" for a value from array "<ENDPOINT1 FIELD - MULTIPLE - EXPECTED VALUE>" with URI prefix "/<ENDPOINT1 URI>" and URI suffix "<ASSOCIATION URI>" and "<ENDPOINT2 URI>"
+
 Scenario: Read endpoint2 of an association with multiple members and confirm presentation of links
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID - MULTIPLE>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT>" entities
      And each entity's "entityType" should be "<ENDPOINT2 TYPE>"
      And each entity's "id" should be in the array "<ENDPOINT2 FIELD - MULTIPLE - EXPECTED VALUE>"
-#     And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" with URI "/<ENDPOINT2 URI>/<ENDPOINT2 ID - MULTIPLE>/<ASSOCIATION URI>"
-#     And in each entity, I should receive a link named "<ENDPOINT1 RESOLUTION LINK NAME>" with URI "/<ENDPOINT2 URI>/<ENDPOINT2 ID - MULTIPLE>/<ASSOCIATION URI>/<ENDPOINT1 URI>"
+     And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" for a value from array "<ENDPOINT2 FIELD - MULTIPLE - EXPECTED VALUE>" with URI prefix "/<ENDPOINT2 URI>" and URI suffix "<ASSOCIATION URI>"
+     And in each entity, I should receive a link named "<ENDPOINT1 RESOLUTION LINK NAME>" for a value from array "<ENDPOINT2 FIELD - MULTIPLE - EXPECTED VALUE>" with URI prefix "/<ENDPOINT2 URI>" and URI suffix "<ASSOCIATION URI>" and "<ENDPOINT1 URI>"
 
 Scenario: Read associations for endpoint1
     When I navigate to GET "/<ENDPOINT1 URI>/<ENDPOINT1 ID - SINGLE>/<ASSOCIATION URI>"
