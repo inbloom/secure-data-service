@@ -80,4 +80,9 @@ public class StudentAssessmentGenerator {
 
         return sa;
     }
+
+    public static StudentAssessment generateLoFi(StudentReferenceType srt, AssessmentReferenceType art) {
+        StudentAssessmentGenerator sag = new StudentAssessmentGenerator(false);
+        return sag.generate(srt, art);
+    }
 }

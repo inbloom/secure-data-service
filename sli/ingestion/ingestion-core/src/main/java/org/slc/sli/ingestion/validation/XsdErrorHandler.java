@@ -84,7 +84,7 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         messageArgs[3] = ex.getMessage();
 
         // Return the ingestion error message.
-        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?" + "XSD_VALIDATION_ERROR" + "?#", null);
+        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?XSD_VALIDATION_ERROR?#", null);
     }
 
     public void setMessageSource(MessageSource messageSource) {

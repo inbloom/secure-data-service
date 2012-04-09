@@ -1,27 +1,22 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
 
-import java.util.Set;
 import java.util.List;
-import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.mongodb.CommandResult;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.MockRepo;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -47,87 +42,119 @@ public class StudentAttendanceOptionalFieldAppenderTest {
     @Autowired
     private StudentAttendanceOptionalFieldAppender studentAttendanceOptionalFieldAppender;
 
-    private StudentAttendanceOptionalFieldAppender mockAppender;
+    @Autowired
+    private SecurityContextInjector injector;
+
+    @Autowired
+    MockRepo repo;
+
+    private Entity studentEntity;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10";
 
-        List<Object> attendances = buildAttendances();
+        // inject administrator security context for unit testing
+        injector.setAdminContextWithElevatedRights();
 
-        CommandResult result = mock(CommandResult.class);
-        when(result.ok()).thenReturn(true);
+        studentEntity = repo.create("student", createTestStudentEntity());
+        String studentId = studentEntity.getEntityId();
 
-        MongoTemplate template = mock(MongoTemplate.class);
-        when(template.findAll(Object.class, COLLECTION)).thenReturn(attendances);
-        when(template.executeCommand(anyString())).thenReturn(result);
+        String sessionId1 = repo.create("session", createSession(beginDate1)).getEntityId();
+        String sessionId2 = repo.create("session", createSession(beginDate2)).getEntityId();
 
-        mockAppender = spy(studentAttendanceOptionalFieldAppender);
-        when(mockAppender.buildCollectionName()).thenReturn(COLLECTION);
+        String sectionId1 = repo.create("section", createSection(sessionId1)).getEntityId();
+        String sectionId2 = repo.create("section", createSection(sessionId2)).getEntityId();
 
-        mockAppender.setTemplate(template);
+        Entity studentSectionAssociation1 = repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId1));
+        Entity studentSectionAssociation2 = repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId2));
+
+        EntityBody body1 = new EntityBody();
+        body1.putAll(studentSectionAssociation1.getBody());
+        body1.put("id", studentSectionAssociation1.getEntityId());
+
+        EntityBody body2 = new EntityBody();
+        body2.putAll(studentSectionAssociation2.getBody());
+        body2.put("id", studentSectionAssociation2.getEntityId());
+
+        List<EntityBody> list = new ArrayList<EntityBody>();
+        list.add(body1);
+        list.add(body2);
+
+        studentEntity.getBody().put("studentSectionAssociation", list);
+
+        repo.create("attendance", createAttendance(studentId, "2012-03-10"));
+        repo.create("attendance", createAttendance(studentId, "2011-11-12"));
+        repo.create("attendance", createAttendance(studentId, "2009-08-07"));
+        repo.create("attendance", createAttendance(studentId, "2011-12-12"));
+        repo.create("attendance", createAttendance(studentId, "2006-12-12"));
+    }
+
+    @After
+    public void tearDown() {
+        SecurityContextHolder.clearContext();
     }
 
     @Test
     public void testApplyOptionalField() {
         List<EntityBody> entities = new ArrayList<EntityBody>();
-        entities.add(new EntityBody(createTestStudentEntity(STUDENT_ID)));
-        
-        entities = mockAppender.applyOptionalField(entities);
-        
-        //test should be updated as code is put in
+        EntityBody body = new EntityBody();
+        body.putAll(studentEntity.getBody());
+        body.put("id", studentEntity.getEntityId());
+        entities.add(body);
+
+        entities = studentAttendanceOptionalFieldAppender.applyOptionalField(entities);
+
         assertEquals("Should be 1", 1, entities.size());
         assertNotNull("Should not be null", entities.get(0).get("attendances"));
 
-        EntityBody body = (EntityBody) ((EntityBody) entities.get(0).get("attendances")).get("attendances");
-        assertNotNull("Should not be null", body);
-        assertEquals("Should match", 10, body.get("In attendance"));
-        assertEquals("Should match", 5, body.get("Tardy"));
+        List<EntityBody> attendances = (List<EntityBody>) ((EntityBody) entities.get(0).get("attendances")).get("attendances");
+        assertEquals("Should match", 4, attendances.size());
+
+        for (EntityBody attendance : attendances) {
+            if (attendance.get("eventDate").equals("2006-12-12")) {
+                fail("Should not include this event");
+                break;
+            }
+        }
+
     }
 
-    @Test
-    public void testBuildCommand() {
-        Set<String> sectionIds = new HashSet<String>();
-        sectionIds.add("1234");
-        sectionIds.add("9999");
-
-        String command = mockAppender.buildCommand(COLLECTION, sectionIds);
-
-        assertTrue("Should have the sectionIds", command.contains("[\"1234\",\"9999\"]"));
-        assertTrue("Should have the collection", command.contains(COLLECTION));
-    }
-
-    private Map<String, Object> createTestStudentEntity(String id) {
+    private Map<String, Object> createTestStudentEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("id", id);
         entity.put("field2", 2);
         entity.put("studentUniqueStateId", 1234);
         return entity;
     }
 
-    private List<Object> buildAttendances() {
-        List<Object> list = new ArrayList<Object>();
+    private Map<String, Object> createStudentSectionAssociation(String studentId, String sectionId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentId", studentId);
+        entity.put("sectionId", sectionId);
 
-        list.add(buildAttendaceBody("1234"));
-        list.add(buildAttendaceBody("5678"));
-        list.add(buildAttendaceBody("9999"));
-
-        return list;
+        return entity;
     }
 
-    private EntityBody buildAttendaceBody(String studentId) {
-        EntityBody body = new EntityBody();
-        body.put("_id", studentId);
+    private Map<String, Object> createSection(String sessionId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("sessionId", sessionId);
 
-        EntityBody att = new EntityBody();
-        att.put("In attendance", 10);
-        att.put("Tardy", 5);
+        return entity;
+    }
 
-        EntityBody value = new EntityBody();
-        value.put("attendance", att);
+    private Map<String, Object> createSession(String beginDate) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("schoolYear", "1999");
+        entity.put("beginDate", beginDate);
 
-        body.put("value", value);
+        return entity;
+    }
 
-        return body;
+    private Map<String, Object> createAttendance(String studentId, String eventDate) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentId", studentId);
+        entity.put("eventDate", eventDate);
+
+        return entity;
     }
 }

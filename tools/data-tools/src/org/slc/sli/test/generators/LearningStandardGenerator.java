@@ -48,6 +48,11 @@ public class LearningStandardGenerator {
         return ls;
     }
 
+    public static LearningStandard generateLoFi(String learningStandardCode) {
+        LearningStandardGenerator lsg = new LearningStandardGenerator(false);
+        return lsg.generate(learningStandardCode);
+    }
+
     public static LearningStandardReferenceType getLearningStandardReferenceType(String learningStandardCode) {
         LearningStandardReferenceType lsrt = new LearningStandardReferenceType();
 
