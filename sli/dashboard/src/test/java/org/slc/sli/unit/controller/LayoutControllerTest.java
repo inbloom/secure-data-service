@@ -46,11 +46,7 @@ public class LayoutControllerTest {
         protected String getTokenId() {
             return "1";
         }
-        
-        protected String getUsername() {
-            return "lkim";
-        }
-        
+
         protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             GenericEntity simpleMaleStudentEntity = new GenericEntity();
             simpleMaleStudentEntity.put("id", "1");
@@ -109,9 +105,7 @@ public class LayoutControllerTest {
                 return new EdOrgKey("fake");
             }
         });
-        layoutController.setCustomizedDataFactory(dataFactory);
-        layoutController.setConfigManager(configManager);
-        
+        layoutController.setCustomizedDataFactory(dataFactory);   
     }
     
     /*

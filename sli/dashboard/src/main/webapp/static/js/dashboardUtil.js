@@ -3,14 +3,24 @@
  */
 
 
-var counter = 1;
+var counterInt = 1;
 
 counter = function() {
-	counter ++;
-	return counter;
+	counterInt ++;
+	return counterInt;
 }
 
-DashboardUtil = new Object();
+DashboardUtil = {
+		widgetConfig: {}
+};
+
+for (var i in widgetConfigArray) {
+	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
+}
+
+DashboardUtil.getWidgetConfig = function(widgetName) {
+	return DashboardUtil.widgetConfig[widgetName];
+}
 
 DashboardUtil.getElementFontSize = function (element)
 {
@@ -187,6 +197,25 @@ DashboardUtil.getStyleDeclaration = function (element)
 	var compStyle = element.currentStyle;
     }
     return compStyle;
+};
+
+DashboardUtil.getLozenges = function(renderTo, student) {
+	var config = DashboardUtil.getWidgetConfig("lozenge");
+	var item, condition, configItem;
+	for (var i in config.items) {
+		configItem = config.items[i];
+		condition = configItem.condition;
+		item = student[condition.field];
+		if (item) {
+			for (var y in condition.value) {
+				if (condition.value[y] == item) {
+					var id = renderTo + "-" + counter();
+					$("#" + renderTo).append('<span id="' + id + '" class="lozenge"/>');
+					$("#" + id).sliLozenge({label: configItem.name, color: configItem.color, style: configItem.style});
+				}
+			}
+		}
+	}
 };
 
 (function( $ ) {

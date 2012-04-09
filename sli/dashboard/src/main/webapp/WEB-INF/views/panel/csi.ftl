@@ -1,4 +1,6 @@
 <@includePanelModel panelId="csi"/>
+
+
 <div class="csi">
 
 <div class="colImage">
@@ -22,21 +24,7 @@
     </small>
     </#list>
     </#if>
-
-    <#list programUtil.getProgramCodesForStudent() as program>
-        <#if programUtil.hasProgramParticipation(panelData, program)>
-            <#assign lozengeConfig = lozengeConfigs.get(program)>
-            <#assign id = getDivId(panelData.id + "-lozenge-" + lozengeConfig.getLabel())>
-    <#-- drawing code -->
-    <span id="${id}" class="lozenge"></span>
-    <script>
-      $("#${id}").sliLozenge({color: "${lozengeConfig.getColor()}",label: "${lozengeConfig.getLabel()}",style: "${lozengeConfig.getStyle()}"});
-  
-    </script>
-        </#if>
-    </#list>
-    </div>
-
+    <script>DashboardUtil.getLozenges("csi_colMain", dataModel.${panelConfig.data.alias})</script>
     <div class="studentInfo">
         <div class="col1">
             <div class="field"><span>Grade</span><span><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevelCode}<#else>!</#if></span></div>
@@ -52,3 +40,5 @@ ${panelData.teacherName.firstName} <#if panelData.teacherName.middleName?? &&  p
 </div>
 
 </div>
+
+
