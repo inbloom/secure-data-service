@@ -1,15 +1,10 @@
 require 'rubygems'
-require 'mongo'
 require 'fileutils'
 
-require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
 ############################################################
-
-INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
-INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 
 ############################################################
 # STEPS: GIVEN
@@ -163,7 +158,7 @@ def checkForContentInLogFile(message, prefix)
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
-
+     aFile.close()
     else
        raise "File " + @job_status_filename + "can't be opened"
     end
@@ -209,6 +204,7 @@ Then /^I should see a log file in same directory$/ do
     end
     aFile = File.new(@local_file_store_path + "/" + @log_file, "r")
     assert(aFile != nil, "Log file " + @log_file + " dosen't exist")
+    aFile.close()
   else
     Dir.foreach(@local_file_store_path) do |file|
       if /#{@source_file_name}.*.log$/.match file
@@ -218,6 +214,7 @@ Then /^I should see a log file in same directory$/ do
     end
     aFile = File.new(@local_file_store_path + "/" + @log_file, "r")
     assert(aFile != nil, "Log file " + @log_file + " dosen't exist")
+    aFile.close()
   end  
 end
 
