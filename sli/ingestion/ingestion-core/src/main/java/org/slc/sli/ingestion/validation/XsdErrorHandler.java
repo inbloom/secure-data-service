@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.validation;
 
+import java.io.File;
+
 import org.springframework.context.MessageSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -73,14 +75,16 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
      */
     private String getErrorMessage(SAXParseException ex) {
         // Create an ingestion error message incorporating the SAXParseException information.
+        String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
+        File parseFile = new File(fullParsefilePathname);
         String[] messageArgs = new String[4];
-        messageArgs[0] = ex.getSystemId();
+        messageArgs[0] = parseFile.getName();
         messageArgs[1] = String.valueOf(ex.getLineNumber());
         messageArgs[2] = String.valueOf(ex.getColumnNumber());
         messageArgs[3] = ex.getMessage();
 
         // Return the ingestion error message.
-        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?" + "XSD_VALIDATION_ERROR" + "?#", null);
+        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?XSD_VALIDATION_ERROR?#", null);
     }
 
     public void setMessageSource(MessageSource messageSource) {
