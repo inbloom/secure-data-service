@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.sample.oauth.model.Students;
+import org.slc.sli.sample.oauth.model.Teachers;
 
 /**
  * Sample servlet that returns student data.
@@ -27,12 +28,13 @@ public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         List<String> names = Students.getNames(client);
+        Map<String, String> tenantIdMap = Teachers.getTenantIdMap(client);
         
         Map<String, Integer> grades = new HashMap<String, Integer>();
         for (String name : names) {
             grades.put(name, Students.getGrade(client, name));
         }
-        
+        req.setAttribute("tenantMap", tenantIdMap);
         req.setAttribute("grades", grades);
         req.getRequestDispatcher("WEB-INF/students.jsp").forward(req, resp);
     }
