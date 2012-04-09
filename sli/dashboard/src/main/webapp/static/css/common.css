@@ -160,13 +160,13 @@ th.ui-th-column div {
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 
 
-
-/** Custom */
+/* Custom */
+/* Contact Info panel related */
 .contactInfoItem {
-	width:310px;
+	width:30%;
 }
-.singleOfSixColumns {
-	width:200px;
+.contactInfoData {
+	width:85%;
 }
 
 
