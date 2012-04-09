@@ -2,23 +2,63 @@ package org.slc.sli.test.generators;
 
 import java.util.Random;
 
- import org.slc.sli.test.edfi.entities.AttendanceEvent;
- import org.slc.sli.test.edfi.entities.AttendanceEventCategoryType;
- import org.slc.sli.test.edfi.entities.AttendanceEventType;
- import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
- import org.slc.sli.test.edfi.entities.SectionReferenceType;
- import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.AttendanceEvent;
+import org.slc.sli.test.edfi.entities.AttendanceEventCategoryType;
+import org.slc.sli.test.edfi.entities.AttendanceEventType;
+import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
+import org.slc.sli.test.edfi.entities.SectionIdentityType;
+import org.slc.sli.test.edfi.entities.SectionReferenceType;
+import org.slc.sli.test.edfi.entities.StudentIdentityType;
+import org.slc.sli.test.edfi.entities.StudentReferenceType;
 
  public class AttendanceEventGenerator {
           private String eventDate = null;
-          private boolean includeOptionalData = true;
-          private boolean includeAllData = true;
-          Random random = new Random ();
+          private static boolean includeOptionalData = true;
+          private static boolean includeAllData = true;
+          static Random random = new Random ();
 
-         public AttendanceEvent getAttendanceEventGenerator (StudentReferenceType studentReferenceType, SectionReferenceType sectionReferenceType ){
+          public static AttendanceEvent getAttendanceEvent(String  studentID, String schoolID, String sectionCode ){
+              AttendanceEvent ae = new AttendanceEvent ();
+               if (includeAllData){
+                       String EventDate = "2012-04-04";
+                      ae.setEventDate(EventDate);
+                       ae.setAttendanceEventType(getAttendanceEventType());
+                       ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
+                       ae.setAttendanceEventReason("The reason for the absence or tardy !");
+                       ae.setEducationalEnvironment(getEducationalEnvironmentType());
+
+                       StudentReferenceType studentReferenceType = new StudentReferenceType();
+                       StudentIdentityType identityType = new StudentIdentityType();
+                       identityType.setStudentUniqueStateId(studentID);
+                       studentReferenceType.setStudentIdentity(identityType);
+                       ae.setStudentReference(studentReferenceType);
+
+               }
+               else {
+                       System.out.println ("The required data is invalid !");
+               }
+
+               if (includeOptionalData) {
+                   SectionReferenceType sectionReferenceType = new SectionReferenceType();
+                   SectionIdentityType sectionIdentityType = new SectionIdentityType();
+                   sectionIdentityType.setUniqueSectionCode(sectionCode);
+                   sectionIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolID);
+            	   sectionReferenceType.setSectionIdentity(sectionIdentityType);
+            	   ae.setSectionReference(sectionReferenceType);
+
+               }
+
+               else {
+                       System.out.println("The optional data is invalid !");
+               }
+
+               return ae;
+       }
+
+          public static AttendanceEvent getAttendanceEvent(StudentReferenceType studentReferenceType, SectionReferenceType sectionReferenceType ){
                 AttendanceEvent ae = new AttendanceEvent ();
                  if (includeAllData){
-                         String EventDate = "4/4/2012";
+                         String EventDate = "2012-04-04";
                         ae.setEventDate(EventDate);
                          ae.setAttendanceEventType(getAttendanceEventType());
                          ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
@@ -41,7 +81,7 @@ import java.util.Random;
                  return ae;
          }
 
-         public AttendanceEventType getAttendanceEventType () {
+         public static AttendanceEventType getAttendanceEventType () {
         	 int roll = random.nextInt(2) + 1;
                  switch (roll) {
                          case 1: return AttendanceEventType.DAILY_ATTENDANCE;
@@ -51,7 +91,7 @@ import java.util.Random;
                  }
          }
 
-         public AttendanceEventCategoryType getAttendanceEventCategoryType () {
+         public static AttendanceEventCategoryType getAttendanceEventCategoryType () {
                  int roll = random.nextInt(3) + 1;
                  switch (roll) {
                          case 1: return AttendanceEventCategoryType.EARLY_DEPARTURE;
@@ -62,8 +102,8 @@ import java.util.Random;
                  }
          }
 
-         public EducationalEnvironmentType getEducationalEnvironmentType () {
-                 int roll = random.nextInt(9) + 1;
+         public static EducationalEnvironmentType getEducationalEnvironmentType () {
+                 int roll = random.nextInt(11) + 1;
                          switch (roll) {
                                  case 1: return EducationalEnvironmentType.CLASSROOM;
                                  case 2: return EducationalEnvironmentType.HOMEBOUND;
