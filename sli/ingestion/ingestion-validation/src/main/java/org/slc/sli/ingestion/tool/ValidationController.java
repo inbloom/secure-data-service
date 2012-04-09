@@ -39,7 +39,7 @@ public class ValidationController {
      */
     void doValidation(File path) {
 
-        logger = OfflineTool.getThreadLocal().get();
+        logger = LoggerUtil.getLogger();
         BatchJob job = null;
         if (path.isFile() && path.getName().endsWith(".ctl")) {
             job = processControlFile(path);

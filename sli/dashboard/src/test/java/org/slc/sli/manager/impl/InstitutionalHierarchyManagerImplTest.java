@@ -60,7 +60,7 @@ public class InstitutionalHierarchyManagerImplTest {
      */
     @Test
     public void testGetUserDistrictId() {
-        String districtId = this.testInstitutionalHierarchyManagerImpl.getUserDistrictId("testToken");
+        String districtId = this.testInstitutionalHierarchyManagerImpl.getUserDistrictId("fakeToken");
         Assert.assertEquals("my test district name", districtId);
     }
     

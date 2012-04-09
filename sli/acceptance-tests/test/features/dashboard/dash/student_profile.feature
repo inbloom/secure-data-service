@@ -63,7 +63,7 @@ And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
 And their id shown in proflie is "437680177"
-And their grade is "Eighth grade"
+And their grade is "8"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
@@ -84,9 +84,9 @@ And Tab has a title named "ELL"
 #Check the District tab
 And Tab has a title named "Daybreak District"
 #Check Enrollment
-And Student Enrollment History includes "East Daybreak Junior High;Eighth grade;2012-01-01"
-And Student Enrollment History includes "2012-01-01;Eighth grade;2012-01-02"
-And Student Enrollment History includes "2012-01-01;Eighth grade;2012-01-02"
+And Student Enrollment History includes " ;East Daybreak Junior High;8;2012-01-01; ; ; ;"
+And Student Enrollment History includes " ; ;8;2012-01-01; ;2012-01-02; ;"
+And Student Enrollment History includes " ; ;8;2012-01-01; ;2012-01-02; ;"
 
 
 Scenario: Student with no grade (live)
@@ -100,7 +100,7 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 And I click on student "Marvin Miller"
 And I view its student profile
-And their name shown in profile is "Marvin Miller"
+And their name shown in profile is "Marvin Miller Jr"
 And their id shown in proflie is "453827070"
 And their grade is "!"
 And the teacher is "Mrs Linda Kim"
@@ -114,8 +114,8 @@ And Tab has a title named "High School Overview"
 #Check the District tab
 And Tab has a title named "Daybreak District"
 #Check Enrollment
-And Student Enrollment History includes "East Daybreak Junior High;Eighth grade;2012-01-01;2012-01-02"
-And Student Enrollment History includes "East Daybreak Junior High;Eighth grade;2012-01-01"
+And Student Enrollment History includes " ;East Daybreak Junior High;8;2012-01-01; ;2012-01-02; ;"
+And Student Enrollment History includes " ; ;8;2012-01-01; ;2012-01-02; ;"
 	
 @wip
 Scenario: View a student with other name

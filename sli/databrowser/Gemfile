@@ -62,7 +62,7 @@ end
 group :development, :test do
 	gem 'simplecov', :require=>false, :group=>:test
 	gem 'simplecov-rcov', :require=>false, :group=>:test
-	gem 'turn', "~> 0.9.4"
+	# gem 'turn', "~> 0.9.4"
 end
 # gem 'rspec', :require=>false, :group=>:test
 # gem 'rspec-rails', :require=>false, :group=>:test
@@ -79,7 +79,7 @@ gem 'roodi', :require=>false
 gem 'rails_best_practices', :require=>false
 
 
-group :test do
-  gem "minitest"
-end
+# group :test do
+#   gem "minitest", "~> 2.12.0"
+# end
 

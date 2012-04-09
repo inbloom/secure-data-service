@@ -1,5 +1,6 @@
 package org.slc.sli.modeling.xmi.writer;
 
+import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,6 +33,7 @@ import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
+import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
 /**
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
@@ -204,7 +206,7 @@ public final class XmiWriter {
     public static final void writeDocument(final Model model, final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
-            final XMLStreamWriter xsw = xof.createXMLStreamWriter(outstream, "UTF-8");
+            final XMLStreamWriter xsw = new IndentingXMLStreamWriter(xof.createXMLStreamWriter(outstream, "UTF-8"));
             xsw.writeStartDocument("UTF-8", "1.0");
             try {
                 XmiWriter.writeXMI(model, xsw);
@@ -220,7 +222,7 @@ public final class XmiWriter {
     
     public static final void writeDocument(final Model model, final String fileName) {
         try {
-            final FileOutputStream outstream = new FileOutputStream(fileName);
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
             try {
                 writeDocument(model, outstream);
             } finally {
