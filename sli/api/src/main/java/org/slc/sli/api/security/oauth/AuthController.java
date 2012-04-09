@@ -18,7 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.DefaultOAuth2SerializationService;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2SerializationService;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
@@ -54,6 +60,8 @@ public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
     
     private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
+    
+    private OAuth2SerializationService serializationService = new DefaultOAuth2SerializationService();
     
     @Autowired
     private EntityDefinitionStore store;
@@ -148,9 +156,9 @@ public class AuthController {
         return "realms";
     }
     
-    @RequestMapping(value = "token", method = RequestMethod.POST)
-    public OAuth2AccessToken getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri, @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret) {
+    @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri, @RequestHeader(value = "Authorization", required = false) String authz,
+            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model) {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
@@ -158,7 +166,12 @@ public class AuthController {
         info("Hoora");
         Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
         OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
-        return token;
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cache-Control", "no-store");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        return new ResponseEntity<String>(serializationService.serialize(token), headers, HttpStatus.OK);
     }
     
     /**
