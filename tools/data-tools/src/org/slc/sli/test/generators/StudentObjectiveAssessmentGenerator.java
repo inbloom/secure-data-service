@@ -9,7 +9,7 @@ public class StudentObjectiveAssessmentGenerator {
     private Random random = new Random();
 
     private AssessmentReportingMethodType[] armts = AssessmentReportingMethodType.values();
-    
+
     public StudentObjectiveAssessmentGenerator(boolean optional) {
         this.optional = optional;
     }
@@ -36,5 +36,10 @@ public class StudentObjectiveAssessmentGenerator {
         }
 
         return soa;
+    }
+
+    public static StudentObjectiveAssessment generateLoFi(String Id, ReferenceType studentTestAssessmentReference, ObjectiveAssessmentReferenceType objectiveAssessmentReference) {
+        StudentObjectiveAssessmentGenerator soag = new StudentObjectiveAssessmentGenerator(false);
+        return soag.generate(Id, studentTestAssessmentReference, objectiveAssessmentReference);
     }
 }
