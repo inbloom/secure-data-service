@@ -45,7 +45,12 @@ public class RoleInitializer {
     
     @PostConstruct
     public void init() {
+        dropRoles();
         buildRoles();
+    }
+    
+    private void dropRoles() {
+        repository.deleteAll(ROLES);
     }
     
     public int buildRoles() {
