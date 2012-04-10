@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -236,7 +237,8 @@ public class LearningObjectiveResourceTest {
                 return new UriBuilderImpl().path("request");
             }
         });
-        
+
+        when(mock.getQueryParameters(true)).thenReturn(new MultivaluedMapImpl());
         when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
         return mock;
     }
