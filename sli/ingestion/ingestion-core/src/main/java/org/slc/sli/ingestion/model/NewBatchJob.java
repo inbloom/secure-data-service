@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.util.performance.PutResultInContext;
 
 /**
@@ -124,4 +125,27 @@ public final class NewBatchJob {
     public String getId() {
         return id;
     }
+    
+    public void startStage(Stage batchJobStage) {
+        long startTime = System.currentTimeMillis();
+        batchJobStage.setStatus("running");
+        batchJobStage.setStartTimestamp(String.valueOf(startTime));
+    }
+
+    public void stopStage(Stage batchJobStage) {
+        long stopTime = System.currentTimeMillis();
+        batchJobStage.setStatus("finished");
+        batchJobStage.setStopTimestamp(String.valueOf(stopTime));
+    }
+
+    public void startMetric(BatchJobStageType stage, String resourceId) {
+        // TODO: create a metric with startTimeStamp of now in the db
+        long startTime = System.currentTimeMillis();
+    }
+    
+    public void stopMetric(BatchJobStageType stage, String resourceId) {
+        // TODO: create a metric with startTimeStamp of now in the db
+        long stopTime = System.currentTimeMillis();
+    }
+    
 }

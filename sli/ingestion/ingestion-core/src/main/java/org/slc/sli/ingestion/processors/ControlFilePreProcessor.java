@@ -13,6 +13,7 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -40,24 +41,38 @@ public class ControlFilePreProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-
+        
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
             File controlFile = exchange.getIn().getBody(File.class);
 
+            System.out.println("batchJobId: "+batchJobId);
             if (batchJobId == null) {
                 batchJobId = NewBatchJob.createId(controlFile.getName());
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
             }
+//            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+//            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+            NewBatchJob newJob = new NewBatchJob();
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+            try {
+                newJob = batchJobDAO.findBatchJobById(batchJobId);
+                System.out.println(newJob.getStatus());
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+            }
+            Stage stage = new Stage();
+            stage.setStageName("ControlFilePreProcessor");
+            newJob.startStage(stage);
 
             // JobLogStatus.startStage(batchJobId, stageName)
             
             ControlFile cf = ControlFile.parse(controlFile);
 
+            newJob.stopStage(stage);
+            newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
 
             // set headers for ingestion routing

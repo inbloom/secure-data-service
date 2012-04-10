@@ -55,6 +55,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public NewBatchJob findBatchJobById(String batchJobId) {
         // TODO Auto-generated method stub
         Query query = new Query(Criteria.where("_id").is(batchJobId));
+        NewBatchJob nbj = template.findOne(query, NewBatchJob.class);
+        System.out.println("nbj: "+nbj);
         return template.findOne(query, NewBatchJob.class);
     }
 
