@@ -14,9 +14,10 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
     # Attendaces
     And I should find "attendances" in "attendances"
-    And I should see "In Attendance" is "200" in it
-    And I should see "Excused Absence" is "22" in it
-    And I should see "Total" is "222" in it
+    When I look at the first one
+    Then I should see "attendanceEventType" is "Daily Attendance" in it
+    Then I should see "entityType" is "attendance" in it
+    Then I should see "studentId" is "<STUDENT_ID>" in it
 
     # Assessments
     And I should find "1" "studentAssessmentAssociations"

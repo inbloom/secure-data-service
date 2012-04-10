@@ -43,4 +43,9 @@ public class StudentAssessmentItemGenerator {
     public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference) {
         return generate(id, assessmentItemReference, null, null);
     }
+
+    public static StudentAssessmentItem generateLoFi(String id, AssessmentItemReferenceType assessmentItemReference) {
+        StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(false);
+        return saig.generate(id, assessmentItemReference);
+    }
 }

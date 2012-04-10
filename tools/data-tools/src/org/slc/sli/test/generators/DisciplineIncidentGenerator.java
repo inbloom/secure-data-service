@@ -78,9 +78,9 @@ public class DisciplineIncidentGenerator {
        
        //add Behaviors
        ObjectFactory factory = new ObjectFactory();
-       double probForServiceInAProgram = 1.0D / BehaviorDescriptor.values().length;
+       double prob = 1.0D / BehaviorDescriptor.values().length;
        for(BehaviorDescriptor behaviorDescriptor : BehaviorDescriptor.values()) {
-           if (rand.nextDouble() < probForServiceInAProgram) {
+           if (rand.nextDouble() < prob) {
                BehaviorDescriptorType behaviorDescriptorType = new BehaviorDescriptorType();
                JAXBElement<String> behaviorDescriptorCode =  factory.createBehaviorDescriptorTypeCodeValue(behaviorDescriptor.codeValue);
                JAXBElement<String> behaviorDescriptorShortDescription =  factory.createBehaviorDescriptorTypeShortDescription(behaviorDescriptor.shortDescription);

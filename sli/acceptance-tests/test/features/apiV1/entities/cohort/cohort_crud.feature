@@ -1,4 +1,4 @@
-Feature: As an SLI application, I want to be able to manage cohort entities.
+Feature: As an SLI application, I want to be able to manage cohort entities
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
   
@@ -32,7 +32,7 @@ Scenario: Update entity
    Given format "application/json"
     When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then "<UPDATE FIELD>" should be "<UPDATE FIELD EXPECTED VALUE>"
-    When I set the "<UPDATE FIELD>" to "<UPDATE FIELD NEW VALID VALUE>"
+    When I set the "<UPDATE FIELD>" array to "<UPDATE FIELD NEW VALID VALUE>"
      And I navigate to PUT "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     Then I should receive a return code of 204
      And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
@@ -45,18 +45,18 @@ Scenario: Delete entity
      And I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR DELETE>"
      And I should receive a return code of 404
 
-Scenario: Non-happy path: Attempt to create invalid entity
+Scenario: Non-happy path Attempt to create invalid entity
    Given an invalid entity json document for a "<ENTITY TYPE>"
    And format "application/json"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
      And the error message should indicate "<VALIDATION>"
 
-Scenario: Non-happy path: Attempt to read a non-existing entity
+Scenario: Non-happy path Attempt to read a non-existing entity
     When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
 
-Scenario: Non-happy path: Attempt to update an entity to an invalid state
+Scenario: Non-happy path Attempt to update an entity to an invalid state
    Given format "application/json"
     When I navigate to GET "/<ENTITY URI>/<ENTITY ID FOR UPDATE>"
     When I set the "<REQUIRED FIELD>" to "<BLANK>"
@@ -64,13 +64,13 @@ Scenario: Non-happy path: Attempt to update an entity to an invalid state
     Then I should receive a return code of 400
      And the error message should indicate "<VALIDATION>"
 
-Scenario: Non-happy path: Attempt to update a non-existing entity
+Scenario: Non-happy path Attempt to update a non-existing entity
    Given a valid entity json document for a "<ENTITY TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
 
-Scenario: Non-happy path: Attempt to delete a non-existing entity
+Scenario: Non-happy path Attempt to delete a non-existing entity
     When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
 
