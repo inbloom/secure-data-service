@@ -45,6 +45,8 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
 end
 
 When /^I go to List of Students$/ do
+  sleep(3)
+  puts @driver.page_source
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix
   puts url
