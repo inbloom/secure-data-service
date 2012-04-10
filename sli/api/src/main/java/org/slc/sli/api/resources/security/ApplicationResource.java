@@ -1,9 +1,5 @@
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -64,11 +60,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String LOCATION = "Location";
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationResource.class);
 
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-        this.service = def.getService();
-    }
+//    @PostConstruct
+//    public void init() {
+//        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
+//        this.service = def.getService();
+//    }
 
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
@@ -149,18 +145,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @DELETE
     @Path("{" + UUID + "}")
-    public Response deleteApplication(@PathParam(UUID) String uuid) {
+    public Response deleteApplication(@PathParam(UUID) String uuid,
+                                      @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         
-        if (uuid != null) {
-            try {
-                service.delete(uuid);
-                return Response.status(Status.NO_CONTENT).build();
-            } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id {} to delete", uuid);
-            }
-        }
-
-        return Response.status(Status.NOT_FOUND).build();
+        return super.delete(uuid, headers, uriInfo);
     }
     
     @PUT

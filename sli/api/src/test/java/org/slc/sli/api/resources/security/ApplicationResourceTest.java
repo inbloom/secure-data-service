@@ -5,7 +5,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,22 +12,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.oauth.SliClientDetailService;
 import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 import org.slc.sli.domain.Entity;
@@ -57,16 +58,16 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class ApplicationResourceTest {
 
     @Autowired
-    @InjectMocks private ApplicationResource resource;
+    private ApplicationResource resource;
 
     @Autowired
-    @InjectMocks private SliClientDetailService detailsService;
+    private SecurityContextInjector injector;
 
-    @Mock EntityService service;
-
-    @Mock Repository<Entity> repo;
+    @Autowired
+    private SliClientDetailService detailsService;
 
     UriInfo uriInfo = null;
+    HttpHeaders headers = null;
 
     private static final int STATUS_CREATED = 201;
     private static final int STATUS_DELETED = 204;
@@ -77,23 +78,33 @@ public class ApplicationResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
         uriInfo = buildMockUriInfo(null);
+        injector.setAdminContextWithElevatedRights();
+        List<String> acceptRequestHeaders = new ArrayList<String>();
+        acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
+
+        headers = mock(HttpHeaders.class);
+        when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
+        when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
+
+//    @After
+//    public void tearDown() throws Exception {
+//        SecurityContextHolder.clearContext();
+//    }
 
     @Test
     public void testGoodCreate() {
-
         EntityBody app = getNewApp();
 
         // test create during dup check
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<String>());
+//        Mockito.when(
+//                service.listIds(any(NeutralQuery.class)))
+//                .thenReturn(new ArrayList<String>());
 
 
-        Response resp = resource.createApplication(app, uriInfo);
-        assertEquals(STATUS_CREATED, resp.getStatus());
+        Response resp = resource.createApplication(app, headers, uriInfo);
+        assertEquals(Response.Status.NO_CONTENT, resp.getStatus());
         assertTrue("Client id set", app.get("client_id").toString().length() == 10);
         assertTrue("Client secret set", app.get("client_secret").toString().length() == 48);
     }
@@ -102,13 +113,8 @@ public class ApplicationResourceTest {
     public void testBadCreate1() {   //include id in POST
         EntityBody app = getNewApp();
         app.put("id", "123");
-        
-        // test create during dup check
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<String>());
 
-        Response resp = resource.createApplication(app, uriInfo);
+        Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -117,12 +123,7 @@ public class ApplicationResourceTest {
         EntityBody app = getNewApp();
         app.put("client_id", "123");
         
-        // test create during dup check
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<String>());
-
-        Response resp = resource.createApplication(app, uriInfo);
+        Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -131,12 +132,7 @@ public class ApplicationResourceTest {
         EntityBody app = getNewApp();
         app.put("client_secret", "123");
         
-        // test create during dup check
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<String>());
-
-        Response resp = resource.createApplication(app, uriInfo);
+        Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -161,18 +157,16 @@ public class ApplicationResourceTest {
         toDelete.put("client_id", clientId);
         toDelete.put("id", uuid);
         existingEntitiesIds.add(uuid);
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(existingEntitiesIds);
-        Response resp = resource.deleteApplication(clientId);
+        resource.createApplication(toDelete, headers, uriInfo);
+        Response resp = resource.deleteApplication(uuid, headers, uriInfo);
         assertEquals(STATUS_DELETED, resp.getStatus());
     }
 
     @Test
     public void testBadDelete() {
         String uuid = "9999999999";
-        Mockito.doThrow(new EntityNotFoundException("Entity Not Found")).when(service).delete(uuid);
-        Response resp = resource.deleteApplication(uuid);
+//        Mockito.doThrow(new EntityNotFoundException("Entity Not Found")).when(service).delete(uuid);
+        Response resp = resource.deleteApplication(uuid, headers, uriInfo);
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 
@@ -209,9 +203,9 @@ public class ApplicationResourceTest {
             }
 
         };
-        Mockito.when(repo.findById(ApplicationResource.RESOURCE_NAME, uuid))
-            .thenReturn(mockEntity);
 
+//        Mockito.when(repo.findById(ApplicationResource.RESOURCE_NAME, uuid))
+//                .thenReturn(mockEntity);
 
 
         EntityBody toGet = getNewApp();
@@ -220,10 +214,10 @@ public class ApplicationResourceTest {
         toGet.put("client_id", clientId);
         toGet.put("id", uuid);
         existingEntitiesIds.add(uuid);
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(existingEntitiesIds);
-        Mockito.when(service.get(uuid)).thenReturn(toGet);
+//        Mockito.when(
+//                service.listIds(any(NeutralQuery.class)))
+//                .thenReturn(existingEntitiesIds);
+//        Mockito.when(service.get(uuid)).thenReturn(toGet);
         Response resp = resource.getApplication(clientId);
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
@@ -232,7 +226,7 @@ public class ApplicationResourceTest {
     public void testBadGet() {
         String uuid = "9999999999";
 
-        Mockito.doThrow(new EntityNotFoundException("EntityNotFound")).when(service).get(uuid);
+//        Mockito.doThrow(new EntityNotFoundException("EntityNotFound")).when(service).get(uuid);
         Response resp = resource.getApplication(uuid);
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
@@ -244,15 +238,15 @@ public class ApplicationResourceTest {
 
         ArrayList<String> existingEntitiesIds = new ArrayList<String>();
         existingEntitiesIds.add(uuid);
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(existingEntitiesIds);
+//        Mockito.when(
+//                service.listIds(any(NeutralQuery.class)))
+//                .thenReturn(existingEntitiesIds);
 
         EntityBody mockApp = getNewApp();
         mockApp.put("client_id", clientId);
         mockApp.put("id", uuid);
         mockApp.put("client_secret", "ldkafjladsfjdsalfadsl");
-        Mockito.when(service.get(uuid)).thenReturn(mockApp);
+//        Mockito.when(service.get(uuid)).thenReturn(mockApp);
 
         ClientDetails details = detailsService.loadClientByClientId(clientId);
         assertNotNull(details);
@@ -266,9 +260,9 @@ public class ApplicationResourceTest {
     public void testBadClientLookup() {
         String clientId = "1234567890";
         //return empty list
-        Mockito.when(
-                service.listIds(any(NeutralQuery.class)))
-                .thenReturn(new ArrayList<String>());
+//        Mockito.when(
+//                service.listIds(any(NeutralQuery.class)))
+//                .thenReturn(new ArrayList<String>());
         detailsService.loadClientByClientId(clientId);
     }
 
@@ -278,11 +272,11 @@ public class ApplicationResourceTest {
 
         List<String> existingUuids = new ArrayList<String>();
         existingUuids.add(uuid);
-        Mockito.when(service.listIds(any(NeutralQuery.class))).thenReturn(existingUuids);
+//        Mockito.when(service.listIds(any(NeutralQuery.class))).thenReturn(existingUuids);
 
         EntityBody app = getNewApp();
-        Mockito.when(service.update(uuid, app)).thenReturn(true);
-        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app).getStatus());
+//        Mockito.when(service.update(uuid, app)).thenReturn(true);
+        assertEquals(Response.Status.NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
     }
 
@@ -290,10 +284,37 @@ public class ApplicationResourceTest {
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
-        when(mock.getBaseUri()).thenReturn(new URI("http://blah.org"));
-        when(mock.getPath()).thenReturn("blah");
-        return mock;
-    }
+        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("absolute");
+            }
+        });
+        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("base");
+            }
+        });
+        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("request");
+            }
+        });
+
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
+            @Override
+            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
+            }
+        });
+
+        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
+        return mock;    }
 
 
 }
