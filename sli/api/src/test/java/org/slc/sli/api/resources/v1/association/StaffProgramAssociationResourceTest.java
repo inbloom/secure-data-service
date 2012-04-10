@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.associations;
+package org.slc.sli.api.resources.v1.association;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
