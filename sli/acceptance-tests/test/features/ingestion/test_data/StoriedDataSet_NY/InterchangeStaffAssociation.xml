@@ -1,0 +1,1311 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+	<Teacher>
+		<StaffUniqueStateId>mmcgregor</StaffUniqueStateId>
+		<Name>
+			<FirstName>Marlene</FirstName>
+			<LastSurname>Mcgregor</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>aharwell</StaffUniqueStateId>
+		<Name>
+			<FirstName>Andrew</FirstName>
+			<LastSurname>Harwell</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>dreiss</StaffUniqueStateId>
+		<Name>
+			<FirstName>Dale</FirstName>
+			<LastSurname>Reiss</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Black - African American</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>rwagers</StaffUniqueStateId>
+		<Name>
+			<FirstName>Ramona</FirstName>
+			<LastSurname>Wagers</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>American Indian - Alaskan Native</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>jroebuck</StaffUniqueStateId>
+		<Name>
+			<FirstName>James</FirstName>
+			<LastSurname>Roebuck</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>cbeadette</StaffUniqueStateId>
+		<Name>
+			<FirstName>Charlotte</FirstName>
+			<LastSurname>Beaudette</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>cclift</StaffUniqueStateId>
+		<Name>
+			<FirstName>Charlene</FirstName>
+			<LastSurname>Clift</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>eroemer</StaffUniqueStateId>
+		<Name>
+			<FirstName>Erika</FirstName>
+			<LastSurname>Roemer</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Black - African American</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>sgoddard</StaffUniqueStateId>
+		<Name>
+			<FirstName>Stephen</FirstName>
+			<LastSurname>Goddard</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>emcroberts</StaffUniqueStateId>
+		<Name>
+			<FirstName>Ernest</FirstName>
+			<LastSurname>Mcroberts</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>rburton</StaffUniqueStateId>
+		<Name>
+			<FirstName>Russell</FirstName>
+			<LastSurname>Burton</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+			<RacialCategory>Black - African American</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>ngriffith</StaffUniqueStateId>
+		<Name>
+			<FirstName>Natalie</FirstName>
+			<LastSurname>Griffith</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Black - African American</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>jmasterson</StaffUniqueStateId>
+		<Name>
+			<FirstName>Jerry</FirstName>
+			<LastSurname>Masterson</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>nballinger</StaffUniqueStateId>
+		<Name>
+			<FirstName>Nina</FirstName>
+			<LastSurname>Ballinger</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Black - African American</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>alovato</StaffUniqueStateId>
+		<Name>
+			<FirstName>Anthony</FirstName>
+			<LastSurname>Lovato</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<Teacher>
+		<StaffUniqueStateId>dmallard</StaffUniqueStateId>
+		<Name>
+			<FirstName>Darlene</FirstName>
+			<LastSurname>Mallard</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+	</Teacher>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mmcgregor</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>aharwell</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dreiss</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rwagers</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jroebuck</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cbeadette</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cclift</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>eroemer</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sgoddard</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>emcroberts</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rburton</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>ngriffith</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jmasterson</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>nballinger</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>alovato</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dmallard</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>Early Education</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mmcgregor</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<UniqueSectionCode>Math001-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>aharwell</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<UniqueSectionCode>Art001-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dreiss</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<UniqueSectionCode>Math001-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rwagers</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<UniqueSectionCode>Art001-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jroebuck</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<UniqueSectionCode>PhySci001-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cbeadette</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<UniqueSectionCode>PE001-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cclift</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<UniqueSectionCode>PE001-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>eroemer</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<UniqueSectionCode>PhySci001-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sgoddard</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<UniqueSectionCode>Mason201-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>emcroberts</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<UniqueSectionCode>Mason201-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rburton</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<UniqueSectionCode>Chem305-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>ngriffith</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<UniqueSectionCode>Sci127-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jmasterson</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<UniqueSectionCode>Sci127-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>nballinger</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<UniqueSectionCode>ARCH221-Sec1</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>alovato</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<UniqueSectionCode>ARCH221-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dmallard</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<UniqueSectionCode>Chem305-Sec2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<!--Keisha Melendez principal (Leader) Dawn Elementary School-->
+	<Staff>
+		<StaffUniqueStateId>kmelendez</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+			<FirstName>Keisha </FirstName>
+			<LastSurname>Melendez</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthDate>1956-08-14</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Sesame Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>US</CountryCode>
+			<BeginDate>1967-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<OldEthnicity>Hispanic</OldEthnicity>
+		<Race>
+			<RacialCategory>White</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>kmelendez</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Principal</StaffClassification>
+		<PositionTitle>Principal</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
+	<Staff>
+		<StaffUniqueStateId>agibbs</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+			<FirstName>Al</FirstName>
+			<LastSurname>Gibbs</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Sesame Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>US</CountryCode>
+			<BeginDate>1967-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>agibbs</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<PositionTitle>IT Support</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Chandra Harrison Researcher (Aggregate Viewer) Dawn Elementary School-->
+	<Staff>
+		<StaffUniqueStateId>charrison</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+			<FirstName>Chandra</FirstName>
+			<LastSurname>Harrison</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Sesame Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>US</CountryCode>
+			<BeginDate>1967-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>charrison</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<PositionTitle>Researcher</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Jane Barrera state superintendent (Leader) New York State Education System-->
+	<Staff>
+		<StaffUniqueStateId>jbarrera</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+			<FirstName>Jane</FirstName>
+			<LastSurname>Barrera</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Sesame Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>US</CountryCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jbarrera</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Superintendent</StaffClassification>
+		<PositionTitle>State Superintendent</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Jefferson Pratt IT Support (IT Administrator) New York State Education System-->
+	<Staff>
+		<StaffUniqueStateId>jpratt</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+			<FirstName>Jefferson</FirstName>
+			<LastSurname>Pratt</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Sesame Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>US</CountryCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jpratt</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>LEA System Administrator</StaffClassification>
+		<PositionTitle>IT Support</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Simone Holcomb Researcher (Aggregate Viewer) New York State Education System-->
+	<Staff>
+		<StaffUniqueStateId>sholcomb</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+			<FirstName>Simone</FirstName>
+			<LastSurname>Holcomb</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Wall Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>Brooklyn</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>SI</CountryCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sholcomb</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<PositionTitle>Researcher</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Emerson England District Superintendent (Leader) Dusk District School System-->
+	<Staff>
+		<StaffUniqueStateId>eengland</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+			<FirstName>Emerson</FirstName>
+			<LastSurname>England</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Wall Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>11201</PostalCode>
+			<CountryCode>SI</CountryCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>eengland</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY-Parker</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Superintendent</StaffClassification>
+		<PositionTitle>District Superintendent</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Marlene Hahn IT Support (IT Administrator) Dusk District School System-->
+	<Staff>
+		<StaffUniqueStateId>mhahn</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+			<FirstName>Marlene</FirstName>
+			<LastSurname>Hahn</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Wall Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>Riverdale</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>11401</PostalCode>
+			<CountryCode>SI</CountryCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mhahn</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY-Parker</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>LEA System Administrator</StaffClassification>
+		<PositionTitle>IT Support</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+	<!--Rene Lindsey Researcher (Aggregate Viewer) Dusk District School System-->
+	<Staff>
+		<StaffUniqueStateId>rlindsey</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+			<FirstName>Rene</FirstName>
+			<LastSurname>Lindsey</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Wall Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10001</PostalCode>
+			<NameOfCounty>SI</NameOfCounty>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+				<Description>Linux Superstar</Description>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rlindsey</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY-Parker</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<PositionTitle>Researcher</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>1967-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+</InterchangeStaffAssociation>

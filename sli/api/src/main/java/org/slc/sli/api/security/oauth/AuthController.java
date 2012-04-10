@@ -179,6 +179,28 @@ public class AuthController {
         return "realms";
     }
     
+    @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
+    public ResponseEntity<String> getAccessToken(
+            @RequestParam("code") String authorizationCode, 
+            @RequestParam("redirect_uri") String redirectUri, 
+            @RequestHeader(value = "Authorization", required = false) String authz,
+            @RequestParam("client_id") String clientId, 
+            @RequestParam("client_secret") String clientSecret, 
+            Model model) {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("code", authorizationCode);
+        parameters.put("redirect_uri", redirectUri);
+        
+        Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
+        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cache-Control", "no-store");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        return new ResponseEntity<String>(serializationService.serialize(token), headers, HttpStatus.OK);
+    }
+    
     /**
      * Redirects user to the sso init url given valid id
      * 
@@ -227,27 +249,7 @@ public class AuthController {
         return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
     }
     
-    @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(
-            @RequestParam("code") String authorizationCode, 
-            @RequestParam("redirect_uri") String redirectUri, 
-            @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, 
-            @RequestParam("client_secret") String clientSecret, 
-            Model model) {
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("code", authorizationCode);
-        parameters.put("redirect_uri", redirectUri);
-        
-        Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
-        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Cache-Control", "no-store");
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        
-        return new ResponseEntity<String>(serializationService.serialize(token), headers, HttpStatus.OK);
-    }
+    
 
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.

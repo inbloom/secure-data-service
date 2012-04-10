@@ -6,6 +6,8 @@ import org.springframework.context.MessageSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+
 /**
  *
  * @author npandey
@@ -18,12 +20,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     private MessageSource messageSource;
 
     private String errorPrefix = "";
-
-    private boolean isValid;
-
-    public XsdErrorHandler() {
-        setIsValid(true);
-    }
 
     /**
      * Report a SAX parsing warning.
@@ -47,7 +43,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex);
         errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-        setIsValid(false);
     }
 
     /**
@@ -62,7 +57,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex);
         errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-        setIsValid(false);
         throw ex;
     }
 
@@ -77,14 +71,10 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
         // Create an ingestion error message incorporating the SAXParseException information.
         String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
         File parseFile = new File(fullParsefilePathname);
-        String[] messageArgs = new String[4];
-        messageArgs[0] = parseFile.getName();
-        messageArgs[1] = String.valueOf(ex.getLineNumber());
-        messageArgs[2] = String.valueOf(ex.getColumnNumber());
-        messageArgs[3] = ex.getMessage();
 
         // Return the ingestion error message.
-        return messageSource.getMessage("XSD_VALIDATION_ERROR", messageArgs, "#?XSD_VALIDATION_ERROR?#", null);
+        return MessageSourceHelper.getMessage(messageSource, "XSD_VALIDATION_ERROR", parseFile.getName(),
+                String.valueOf(ex.getLineNumber()), String.valueOf(ex.getColumnNumber()), ex.getMessage());
     }
 
     public void setMessageSource(MessageSource messageSource) {
@@ -94,17 +84,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void setErrorReport(ErrorReport errorReport) {
         this.errorReport = errorReport;
-    }
-
-    @Override
-    public void setIsValid(boolean value) {
-        isValid = value;
-
-    }
-
-    @Override
-    public boolean isValid() {
-        return isValid;
     }
 
     public void setErrorPrefix(String errorPrefix) {
