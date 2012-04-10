@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -91,7 +92,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 
     public void setEntityRepository(Repository<Entity> entityRepository) {

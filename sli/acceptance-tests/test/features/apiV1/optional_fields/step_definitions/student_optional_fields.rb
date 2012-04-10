@@ -13,6 +13,7 @@ Transform /^<(.+)>$/ do |template|
   id = "bac890d6-b580-4d9d-a0d4-8bce4e8d351a" if template == "STUDENT SECTION ASSOC ID"
   id = "f917478f-a6f2-4f78-ad9d-bf5972b5567b" if template == "COURSE ID"
   id = "32930275-a9f3-4eaa-866f-7b35efc303ee" if template == "SCHOOL ID"
+  id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if template == "STUDENT_ID"
   id
 end
 

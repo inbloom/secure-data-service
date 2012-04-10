@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import org.junit.Before;
@@ -87,14 +88,14 @@ public class XsdErrorHandlerTest {
             Method method = XsdErrorHandler.class.getDeclaredMethod("getErrorMessage", argClasses);
             method.setAccessible(true);
             Object[] argObjects = new Object[1];
-            when(mockedSAXParseException.getSystemId()).thenReturn("\\home\\landingzone\\TestFile.xml");
+            String filePath = String.format("%1$shome%1$slandingzone%1$sTestFile.xml", File.separator);
+            when(mockedSAXParseException.getSystemId()).thenReturn(filePath);
             when(mockedSAXParseException.getLineNumber()).thenReturn(12581);
             when(mockedSAXParseException.getColumnNumber()).thenReturn(36);
             when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
             argObjects[0] = mockedSAXParseException;
             String errorMessage = method.invoke(xsdErrorHandler, argObjects).toString();
-            assertEquals(errorMessage,
-                    "File TestFile.xml, Line 12581, Column 36:\nSAXParseException fatal error");
+            assertEquals("File TestFile.xml, Line 12581, Column 36:\nSAXParseException fatal error", errorMessage);
         } catch (Exception e) {
             // Should never happen.
             throw e;

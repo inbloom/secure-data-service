@@ -4,17 +4,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -24,13 +22,14 @@ import org.slc.sli.api.security.roles.RoleRightAccess;
 @Component
 public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultRolesToRightsResolver.class);
-
     @Autowired
     private ClientRoleResolver roleMapper;
 
     @Autowired
     private RoleRightAccess roleRightAccess;
+    
+    @Autowired
+    private Repository<Entity> repo;
     
     @Override
     public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
@@ -41,9 +40,9 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
                 if (role != null) {
-                    if (role.getName().equals(RoleInitializer.SLI_ADMINISTRATOR)) {
-                        LOG.trace("[NOT ACTIVE] Ignoring SLI Admin because {} is not admin realm.", realmId);
-                        //  FIXME need a way to mark and differentiate admin realm
+                    if (role.isAdmin() && !isAdminRealm(realmId)) {
+                        debug("Ignoring {} because {} is not admin realm.", role.getName(), realmId);
+                        continue;
                     }
                     auths.addAll(role.getRights());
                 }
@@ -51,7 +50,13 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         }
         return auths;
     }
-
+    
+    private boolean isAdminRealm(String realmId) {
+        Entity entity = repo.findById("realm", realmId);
+        Boolean admin = (Boolean) entity.getBody().get("admin");
+        return admin != null ? admin : false;
+    }
+    
     private Role findRole(String roleName) {
         return roleRightAccess.getDefaultRole(roleName);
     }
