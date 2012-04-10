@@ -69,7 +69,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, RESOURCE_NAME);
-        this.service = service;
+        store = entityDefs;
+        service = store.lookupByResourceName(RESOURCE_NAME).getService();
     }
 
     @POST
@@ -128,19 +129,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      */
     @GET
     @Path("{" + UUID + "}")
-    public Response getApplication(@PathParam(UUID) String uuid) {
-
-        if (uuid != null) {
-            try {
-                EntityBody entityBody = service.get(uuid);
-                return Response.status(Status.OK).entity(entityBody).build();
-            } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id {}", uuid);
-            }
-        }
-
-        return Response.status(Status.NOT_FOUND).build();
-
+    public Response getApplication(@PathParam(UUID) String uuid,
+                                   @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(uuid, headers, uriInfo);
     }
 
     @DELETE
