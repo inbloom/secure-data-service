@@ -938,6 +938,72 @@ end
 # SDK Tests end
 ############################################################
 
+desc "Export Storied Test Data"
+task :exportStoriedData do
+  collectionSet = ["student",
+                   "studentSchoolAssociation",
+                   "course",
+                   "educationOrganization",
+                   "school",
+                   "section",
+                   "studentSectionAssociation",
+                   "teacher",
+                   "staff",
+                   "staffEducationOrganizationAssociation",
+                   "teacherSchoolAssociation",
+                   "teacherSectionAssociation",
+                   "session",
+                   "assessment",
+                   "studentAssessmentAssociation",
+                   "gradebookEntry",
+                   "studentTranscriptAssociation",
+                   "studentSectionGradebookEntry",
+                   "parent",
+                   "studentParentAssociation",
+                   "attendance"]
+  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  if $SUCCESS
+    collectionSet.each do |collection|
+      sh "rm -f test/data/storied_data/sds_#{collection}.json"
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
+    end
+  else
+    if ENV['FORCE_COLOR']
+      puts "\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m"
+    else
+      puts "Ingestion Failed! Fixture Data Not Updated! Please fix and re-run"
+    end
+  end
+
+end
+
+desc "Import Storied Data Set"
+task :importStoriedData do
+  testHash = Hash[
+    "student" => "storied_data/sds_student.json",
+    "studentSchoolAssociation" => "storied_data/sds_studentSchoolAssociation.json",
+    "course" => "storied_data/sds_course.json",
+    "educationOrganization" => "storied_data/sds_educationOrganization.json",
+    "school" => "storied_data/sds_school.json",
+    "section" => "storied_data/sds_section.json",
+    "studentSectionAssociation" => "storied_data/sds_studentSectionAssociation.json",
+    "teacher" => "storied_data/sds_teacher.json",
+    "staff" => "storied_data/sds_staff.json",
+    "staffEducationOrganizationAssociation" => "storied_data/sds_staffEducationOrganizationAssociation.json",
+    "teacherSchoolAssociation" => "storied_data/sds_teacherSchoolAssociation.json",
+    "teacherSectionAssociation" => "storied_data/sds_teacherSectionAssociation.json",
+    "session" => "storied_data/sds_session.json",
+    "assessment" => "storied_data/sds_assessment.json",
+    "studentAssessmentAssociation" => "storied_data/sds_studentAssessmentAssociation.json",
+    "gradebookEntry" => "storied_data/sds_gradebookEntry.json",
+    "studentTranscriptAssociation" => "storied_data/sds_studentTranscriptAssociation.json",
+    "studentSectionGradebookEntry" => "storied_data/sds_studentSectionGradebookEntry.json",
+    "parent" => "storied_data/sds_parent.json",
+    "studentParentAssociation" => "storied_data/sds_studentParentAssociation.json",
+    "attendance" => "storied_data/sds_attendance.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
