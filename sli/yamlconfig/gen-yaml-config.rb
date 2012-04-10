@@ -79,15 +79,14 @@ end
 
 if __FILE__==$0
 	if ARGV.length < 2
-		puts "Usage: " + $0 + " input_dir output_yaml_file"
+		puts "Usage: " + $0 + " config_dir output_yaml_file"
 		exit(1)
 	end
 
-	input_dir = ARGV[0]
+	config_dir   = ARGV[0]
 	output_fname = ARGV[1]
 
 	# read the configuration from spread out config files and write them to a yaml file
-	config = build_config(ARGV[0])
+	config = build_config(config_dir)
 	write_config(config, output_fname)
 end
-
