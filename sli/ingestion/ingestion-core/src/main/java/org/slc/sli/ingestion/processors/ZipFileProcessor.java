@@ -1,6 +1,8 @@
-package org.slc.sli.ingestion.processors;
+ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -16,6 +18,8 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.util.performance.Profiled;
@@ -53,14 +57,29 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
+            NewBatchJob newJob = new NewBatchJob(batchJobId);
+            Stage stage = new Stage();
+            stage.setStageName("ZipFileProcessor");
+            newJob.startStage(stage);
+
             exchange.getIn().setHeader("BatchJobId", batchJobId);
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             ErrorReport errorReport = job.getFaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
+            
+            List<ResourceEntry> fileEntries = new ArrayList<ResourceEntry>();
+            ResourceEntry resourceName = new ResourceEntry();
+            resourceName.setResourceName(zipFile.getName());
+            fileEntries.add(resourceName);
+            newJob.setFileEntries(fileEntries);
+            newJob.setTotalFiles(1);
+            List<Stage> stages = new ArrayList<Stage>();
 
+            newJob.stopStage(stage);
+            stages.add(stage);
+            newJob.setStages(stages);
             batchJobDAO.saveBatchJob(newJob);
             
             if (errorReport.hasErrors()) {
