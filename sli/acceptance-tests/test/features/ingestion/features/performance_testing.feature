@@ -1,14 +1,14 @@
 Feature: Ingestion Performance Test
 
 Background: I have a landing zone route configured
-Given I am using local data store
+Given I am using destination-local data store
     And I am using preconfigured Ingestion Landing Zone
 
 @smoke
 @integration
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job
-Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone
+Given I want to ingest locally provided data "PerformanceData.zip" file as the payload of the ingestion job
+When local zip file is moved to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count     |
