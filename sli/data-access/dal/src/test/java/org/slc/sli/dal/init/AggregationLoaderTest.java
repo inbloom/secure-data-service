@@ -14,8 +14,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -42,12 +40,6 @@ public class AggregationLoaderTest {
         CommandResult cr = mock(CommandResult.class);
         when(mongoTemplate.executeCommand(anyString())).thenReturn(cr);
         when(cr.ok()).thenReturn(true);
-    }
-
-    @Test
-    public void testInit() {
-        when(aggregationLoader.getFiles()).thenReturn(new ArrayList<String>());
-        aggregationLoader.init();
     }
 
     @Test
