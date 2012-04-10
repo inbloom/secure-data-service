@@ -26,7 +26,7 @@ Then I should see a log file in same directory
 Then I should see "DemoData.zip] processing is complete" in the resulting log file
 
 Scenario: Run Offline Tool Validation against Ed-Fi XSD
-Given I post "XSDValidation.zip" file as an input to offline validation tool
+Given I post "XsdValidation.zip" file as an input to offline validation tool
 When I run offline validation command on input file
  And "5" seconds have elapsed
 Then I should see a log file in same directory
