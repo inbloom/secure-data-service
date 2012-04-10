@@ -32,8 +32,6 @@ import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
-import org.slc.sli.api.resources.v1.entity.EducationOrganizationResource;
-import org.slc.sli.api.resources.v1.entity.StaffResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
