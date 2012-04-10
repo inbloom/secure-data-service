@@ -32,14 +32,6 @@
     </property>
   </bean>
 
-  <bean id="lz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="${landingzone.inbounddir}"></property>
-  </bean>
-
-  <bean id="tempLz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
-
   <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
       <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
@@ -70,8 +62,7 @@
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
-  <import resource="validation-context.xml" />
-  <import resource="handler-context.xml" />
+<import resource="classpath:/spring/base-applicationContext.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />

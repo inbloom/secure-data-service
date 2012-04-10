@@ -7,12 +7,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Student Grades</title>
+<title>List of Students</title>
 </head>
 <body>
-	<table>
+<p></p>
+	<table border="1" style="text-align:center" cellpadding="5px">
+	   <tr>
+			<th id="header.teacher">Teacher Name</th>
+			<th id="header.realm">Realm Name</th>
+		</tr>
+	   <c:forEach var="teacher" items="${tenantMap}">
+			<tr>
+				<td id="name.${teacher.key}">${teacher.key}</td>
+				<td id="name.${teacher.value}">${teacher.value}</td>
+			</tr>
+		</c:forEach>
+		</table>
+		<p></p>
+		<table border="1" style="text-align:center" cellpadding="5px">
 		<tr>
-			<th id="header.Student">Student</th>
+			<th id="header.Student">List of Students</th>
 		</tr>
 		<c:forEach var="student" items="${grades}">
 			<tr>

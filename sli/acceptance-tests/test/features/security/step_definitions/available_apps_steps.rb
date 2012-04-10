@@ -15,6 +15,20 @@ Then /^I receive a JSON object listing all the apps that my SEA\/LEA have approv
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
+  assert(@result.length > 5, "around 6 non-admin apps")
+end
+
+Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have approved$/ do
+  assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Result of JSON parsing is nil")
+  assert(@result.length < 5, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
+end
+
+Then /^I receive a JSON object listing all the admin apps$/ do
+  assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Result of JSON parsing is nil")
 end
 
 And /^the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app$/ do
@@ -28,6 +42,22 @@ And /^the object includes an app URL, admin URL, image URL, description, title, 
 	assert(@result[0]["behavior"] != nil, "Contains display method")
 	assert(@result[0]["is_admin"] != nil, "Contains is admin app")
 
+end
+
+And /^the list contains the admin app$/ do
+	@result.each do |app|
+		if app["name"] == "Admin App"
+			@admin_app = app
+		end
+	end
+	assert(@admin_app != nil, "Admin app found")
+end
+
+And /^the admin app endpoints only contains SLI admin endpoints$/ do
+	assert(@admin_app["endpoints"] != nil)
+	@admin_app["endpoints"].each do |endpoint|
+		assert(endpoint["roles"].include? "SLI Administrator")
+	end
 end
 
 And /^none of the apps are admin apps$/ do

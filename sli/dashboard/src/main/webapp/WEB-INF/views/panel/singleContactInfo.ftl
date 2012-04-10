@@ -1,5 +1,5 @@
 <div class="tabular">
-    <table ><thead><tr><th></th><td style="width:200px"><h6>${singleContactName}</h6></td></tr></thead><tbody>
+    <table ><thead><tr><th></th><td class="contactInfoData"><h6>${singleContactName}</h6></td></tr></thead><tbody>
     <tr><th></th><td></td></tr>
 	<!-- display telephone numbers for student -->
 		<#list singleContact.telephone as telephone>
@@ -7,7 +7,7 @@
 				<th>
 					${telephone.telephoneNumberType}:
 				</th>
-				<td style="width:200px;<#if telephone_index == 0>font-weight:bold;</#if>">
+				<td class="contactInfoData">
 					${telephone.telephoneNumber}
 				</td>
 			</tr>
@@ -17,11 +17,17 @@
 			<tr>
 				<th>
 					<!-- show only once -->
-					<#if electronicMail_index == 0>
-					E-mail:
+					<#if electronicMail.emailAddressType ??>
+					   <#if electronicMail.emailAddressType == "Organization">
+					       School E-mail:
+				       <#else>
+					       ${electronicMail.emailAddressType}:
+				       </#if>
+				   <#else>
+					   E-mail:
 					</#if>
 				</th>
-				<td style="width:200px">
+				<td class="contactInfoData">
 					${electronicMail.emailAddress}
 				</td>
 			</tr>
@@ -31,11 +37,15 @@
 			<tr>
 				<th>
 				<!-- show only once -->
-				<#if address_index == 0>
-					Address:
+				<#if address.addressType ??>
+					<#if address.addressType == "Home" >
+	    				Address:
+    				<#else>
+    					${address.addressType}
+    				</#if>
 				</#if>
 				</th>
-				<td style="width:200px;line-height:12px">
+				<td class="contactInfoData">
 				    <div>
 					${address.streetNumberName}<#if address.apartmentRoomSuiteNumber ??>, ${address.apartmentRoomSuiteNumber}</#if>
 					<!-- 
