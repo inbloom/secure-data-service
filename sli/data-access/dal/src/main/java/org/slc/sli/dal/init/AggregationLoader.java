@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,8 @@ public class AggregationLoader {
 
     private static final String PATH_PREFIX = "/aggregationDefinitions/";
 
-    @Autowired
+    @Qualifier("mongoTemplate")
+    @Autowired(required = false)
     private MongoTemplate template;
 
     /**
@@ -44,26 +46,28 @@ public class AggregationLoader {
     @PostConstruct
     public void init() {
         try {
-            List<String> files = new ArrayList<String>();
+            if (template != null) {
+                List<String> files = new ArrayList<String>();
 
-            files.add("cleanupFunctions/cleanupBodyAndId.js");
-            files.add("finalizeFunctions/finalizePerf1to4.js");
+                files.add("cleanupFunctions/cleanupBodyAndId.js");
+                files.add("finalizeFunctions/finalizePerf1to4.js");
 
-            files.add("mapFunctions/mapDistrictPerf1to4.js");
-            files.add("mapFunctions/mapSchoolPerf1to4.js");
-            files.add("mapFunctions/mapSectionAttendance.js");
-            files.add("mapFunctions/mapTeacherPerf1to4.js");
+                files.add("mapFunctions/mapDistrictPerf1to4.js");
+                files.add("mapFunctions/mapSchoolPerf1to4.js");
+                files.add("mapFunctions/mapSectionAttendance.js");
+                files.add("mapFunctions/mapTeacherPerf1to4.js");
 
-            files.add("other/uuid.js");
-            files.add("other/uuidhelpers.js");
+                files.add("other/uuid.js");
+                files.add("other/uuidhelpers.js");
 
-            files.add("reduceFunctions/reducePerf1to4.js");
-            files.add("reduceFunctions/reduceSectionAttendance.js");
+                files.add("reduceFunctions/reducePerf1to4.js");
+                files.add("reduceFunctions/reduceSectionAttendance.js");
 
-            if (loadJavascriptFiles(files)) {
-                LOG.info("All aggregation definitions loaded.");
-            } else {
-                LOG.warn("All aggregation definitions not loaded.");
+                if (loadJavascriptFiles(files)) {
+                    LOG.info("All aggregation definitions loaded.");
+                } else {
+                    LOG.warn("All aggregation definitions not loaded.");
+                }
             }
         } catch (URISyntaxException e) {
             LOG.warn("Could not load aggregation definitions {}", new Object[] {e});
