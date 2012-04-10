@@ -3,9 +3,12 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.test.edfi.entities.relations.AssessmentItemMeta;
+import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
+import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
@@ -31,6 +34,10 @@ public final class MetaRelations {
     private static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
     private static final int FREE_STANDING_COHORT_SIZE = 4;
     private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
+    
+    private static final int TOTAL_ASSSESSMENTS              = 1;
+    private static final int TOTAL_OBJECTIVE_ASSESSMENTS     = 1;
+    private static final int TOTAL_ASSESSMENT_ITEMS          = 1;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -50,6 +57,12 @@ public final class MetaRelations {
     public static final Map<String, ProgramMeta> PROGRAM_MAP = new HashMap<String, ProgramMeta>();
 
     public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
+    
+    public static final Map<String,AssessmentMeta> ASSESSMENT_MAP = new HashMap<String, AssessmentMeta>();
+    
+    public static final Map<String,ObjectiveAssessmentMeta> OBJECTIVE_ASSESSMENT_MAP = new HashMap<String, ObjectiveAssessmentMeta>();
+    
+    public static final Map<String,AssessmentItemMeta> ASSESSMENT_ITEM_MAP  = new HashMap<String, AssessmentItemMeta>();
 
     /**
      * The top level call to start the XML generation process is
@@ -168,6 +181,8 @@ public final class MetaRelations {
         addStaffToPrograms(programForSchool, staffForSea);
 
         addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
+        
+        buildAssessmentForSchool();
 
     }
 
@@ -521,6 +536,24 @@ public final class MetaRelations {
             }
             cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
             staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+        }
+    }
+    
+    /**
+     * Build meta data for Assessment related entities
+     */
+    private static void buildAssessmentForSchool(){
+        for(int i = 0; i < TOTAL_ASSSESSMENTS; i++){
+            String id = "assessment" + i;
+            ASSESSMENT_MAP.put(id, AssessmentMeta.create(id));
+        }
+        for(int i = 0; i < TOTAL_ASSESSMENT_ITEMS; i++){
+            String id = "assessmentItem" + i;
+            ASSESSMENT_ITEM_MAP.put(id, AssessmentItemMeta.create(id));
+        }
+        for(int i = 0; i < TOTAL_OBJECTIVE_ASSESSMENTS; i++){
+            String id = "objectiveAssessment" + i;
+            OBJECTIVE_ASSESSMENT_MAP.put(id, ObjectiveAssessmentMeta.create(id));
         }
     }
 }

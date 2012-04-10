@@ -26,12 +26,7 @@ class ApplicationController < ActionController::Base
     #TODO: disable redirects to other domains
     redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
     return
-    if params[:state]
-      redirectUrl = CGI::unescape(params[:state])
-      redirect_to redirectUrl
-      return
-    end
-    render :nothing => true
+    #render :nothing => true
   end
   
   def current_url
@@ -54,11 +49,7 @@ class ApplicationController < ActionController::Base
         logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
         session[:full_name] ||= Check.get("")["full_name"]   
-        if Check.get("")["adminRealm"] != nil
-          session[:adminRealm] = Check.get("")["adminRealm"]
-        else
-          session[:adminRealm] = Check.get("")["realm"] #failover until we get adminRealm defined for all sys admins
-        end
+        session[:adminRealm] = Check.get("")["adminRealm"]
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
         redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)

@@ -16,32 +16,36 @@ import org.slc.sli.view.modifier.ViewModifier;
  *
  */
 public class ViewManager extends ApiClientManager {
-    List<ViewConfig> viewConfigs;
+    private List<ViewConfig> viewConfigs;
     private ViewConfig activeViewConfig;
-    
+    private EntityManager entityManager;
+
+    public ViewManager() {
+    }
+
+    /**
+     * Returns all view configs the view manager is handling
+     * @return a list of view configs
+     */
     public List<ViewConfig> getViewConfigs() {
         return viewConfigs;
     }
 
+    /**
+     * Set the list of view configs
+     * @param viewConfigs list of configs to set
+     */
     public void setViewConfigs(List<ViewConfig> viewConfigs) {
         this.viewConfigs = viewConfigs;
     }
-
-    EntityManager entityManager;
-    
-    public ViewManager(List<ViewConfig> viewConfigs) {
-        this.viewConfigs = viewConfigs;
-    }
-    
-    public ViewManager() {
-        
-    }
     
     public List<ViewConfig> getApplicableViewConfigs(List<String> uids, String token) {
-        // TODO: remove once we can get numerical grade values from data model                                               
         Map<String, Integer> gradeValues = getGradeValuesFromCohortYears();   
         List<ViewConfig> applicableViewConfigs = new ArrayList<ViewConfig>();
-        
+
+        List<GenericEntity> students = entityManager.getStudents(token, uids);
+        if (students == null) { return applicableViewConfigs; }
+
         for (ViewConfig viewConfig : viewConfigs) {
             String value = viewConfig.getValue();
             
@@ -50,19 +54,14 @@ public class ViewManager extends ApiClientManager {
 
                 Integer lowerBound = Integer.valueOf(value.substring(0, seperatorIndex));
                 Integer upperBound = Integer.valueOf(value.substring(seperatorIndex + 1, value.length()));
-                List<GenericEntity> students = entityManager.getStudents(token, uids);
-                
-                if (students == null) { continue; } // protect against crashing when viewing no students.
+
                 // if we can find at least one student in the range, the viewConfig is applicable
                 for (GenericEntity student : students) {
-                    Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_COHORT_YEAR));
+                    Integer gradeValue = gradeValues.get(student.get(Constants.ATTR_GRADE_LEVEL));
 
-                    // On the live api, "cohortYear" is apparently not an integer but an array 
-                    // I'll leave it for you guys to figure out what's the right way to handle this.
-                    if (gradeValue == null) { applicableViewConfigs.add(viewConfig); break; }
-                    
-                    if (gradeValue.compareTo(lowerBound) >= 0 && gradeValue.compareTo(upperBound) <= 0)
-                    {
+                    if (gradeValue == null) { continue; }
+
+                    if ((gradeValue >= lowerBound) && (gradeValue <= upperBound)) {
                         applicableViewConfigs.add(viewConfig);
                         break;
                     }
@@ -72,10 +71,26 @@ public class ViewManager extends ApiClientManager {
         return applicableViewConfigs;
     }
 
+    /**
+     * Sets the active (current) view configuration
+     * @param viewConfig the view to set as current
+     */
     public void setActiveViewConfig(ViewConfig viewConfig) {
         this.activeViewConfig = viewConfig;
     }
 
+    /**
+     * Get the active view configuration
+     * @return active view configuration
+     */
+    public ViewConfig getActiveConfig() {
+        return activeViewConfig;
+    }
+
+    /**
+     * Apply modifications to the current view configuration
+     * @param viewModifier A view modifier class that manipulates the current view
+     */
     public void apply(ViewModifier viewModifier) {
         this.activeViewConfig = viewModifier.modify(this.activeViewConfig);
     }
@@ -99,14 +114,15 @@ public class ViewManager extends ApiClientManager {
         gradeValues.put("Tenth grade", 10);
         gradeValues.put("Eleventh grade", 11);
         gradeValues.put("Twelfth grade", 12);
+        gradeValues.put("Not Available", -1);
         return gradeValues;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-    } 
+    }
+
+    public EntityManager getEntityManager() {
+       return entityManager;
+    }
 }
