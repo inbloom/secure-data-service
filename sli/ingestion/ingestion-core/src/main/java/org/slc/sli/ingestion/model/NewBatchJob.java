@@ -49,6 +49,10 @@ public final class NewBatchJob {
 
     public NewBatchJob(String id) {
         this.id = id;
+        List<Stage> stages = new LinkedList<Stage>();
+        this.stages = stages;
+        List<ResourceEntry> resourceEntries = new LinkedList<ResourceEntry>();
+        this.resourceEntries = resourceEntries;       
     }
     
     //mongoTemplate requires this constructor.
@@ -110,16 +114,8 @@ public final class NewBatchJob {
         return stages;
     }
 
-    public void setStages(List<Stage> stages) {
-        this.stages = stages;
-    }
-
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
-    }
-
-    public void setResourceEntries(List<ResourceEntry> resourceEntries) {
-        this.resourceEntries = resourceEntries;
     }
 
     public String getId() {

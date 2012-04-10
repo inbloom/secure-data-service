@@ -68,13 +68,7 @@ public class ControlFilePreProcessor implements Processor {
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
-            try {
-                newJob.getStages().add(stage);
-            } catch (Exception e) {
-                List<Stage> stages = new ArrayList<Stage>();
-                stages.add(stage);
-                newJob.setStages(stages);                
-            }
+            newJob.getStages().add(stage);
             newJob.stopStage(stage);
             batchJobDAO.saveBatchJob(newJob);
  
