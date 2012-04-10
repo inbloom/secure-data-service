@@ -1,9 +1,10 @@
 package org.slc.sli.dal.init;
 
-import java.io.*;
-import java.net.URI;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -100,17 +100,20 @@ public class AggregationLoader {
      *            name of the file to be loaded
      * @return true if successful, false otherwise
      */
-    private boolean loadJavascriptFile(String fileName) {
+    protected boolean loadJavascriptFile(String fileName) {
 
         // file IO can throw IOException(s)
         try {
             InputStream in = getClass().getResourceAsStream(PATH_PREFIX + fileName);
 
+            if (in == null) return false;
+
             StringBuffer fileData = new StringBuffer();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String temp = br.readLine();
             while (temp != null) {
-                fileData.append(temp + "\n");
+                fileData.append(temp);
+                fileData.append("\n");
                 temp = br.readLine();
             }
             br.close();
