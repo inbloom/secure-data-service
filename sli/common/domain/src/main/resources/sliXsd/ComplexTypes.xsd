@@ -3481,7 +3481,7 @@
         <xs:annotation>
             <xs:documentation>A record of attendance.
                 date: Date for this attendance event.
-                event: The occured attendance event, such as "Unexcused absence," "Excused absence," or "Tardy."
+                event: The occurred attendance event, such as "Unexcused absence," "Excused absence," or "Tardy."
                 reason: The reported reason for the event, such as a reason for absence.
             </xs:documentation>
         </xs:annotation>
