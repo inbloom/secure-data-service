@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.api.resources.v1.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,7 +29,11 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
 import org.slc.sli.api.resources.v1.entity.EducationOrganizationResource;
+import org.slc.sli.api.resources.v1.entity.StaffResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +58,13 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class EducationOrganizationResourceTest {
     
     @Autowired
-    EducationOrganizationResource edOrgResource; //class under test 
+    EducationOrganizationResource edOrgResource; //class under test
+
+    @Autowired
+    StaffResource staffResource;
+
+    @Autowired
+    StaffEducationOrganizationAssociation staffEducationOrganizationAssociationResource;
     
     @Autowired
     private SecurityContextInjector injector;
@@ -98,6 +108,24 @@ public class EducationOrganizationResourceTest {
         entity.put("organizationCategories", "State Education Agency");
         entity.put("nameOfInstitution", "Segundo Test Institution");
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 5678);
+        return entity;
+    }
+
+    private Map<String, Object> createStaffTestEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put(StaffResource.NAME, "Dua");
+        entity.put(StaffResource.SEX, "Female");
+        entity.put(StaffResource.HISPANIC_LATINO_ETHNICITY, "true");
+        entity.put(StaffResource.EDUCATION_LEVEL, "PhD");
+        entity.put(ParameterConstants.STAFF_ID, 1234);
+        return entity;
+    }
+
+    private Map<String, Object> createStaffEdOrgAssocTestEntity(String staffId, String edOrgId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID, 1234);
+        entity.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
+        entity.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         return entity;
     }
     
@@ -186,6 +214,81 @@ public class EducationOrganizationResourceTest {
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
+
+    @Test
+    public void testGetStaffEducationOrganizationAssociations() {
+        //create ed org entity
+        Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String edOrgId = parseIdFromLocation(createResponse);
+        //create staff entity
+        createResponse = staffResource.create(new EntityBody(createStaffTestEntity()), httpHeaders, uriInfo);
+        String staffId = parseIdFromLocation(createResponse);
+        // create association entity
+        staffEducationOrganizationAssociationResource.create(new EntityBody(
+                createStaffEdOrgAssocTestEntity(staffId, edOrgId)), httpHeaders, uriInfo);
+
+        //read the association
+        Response response = edOrgResource.getStaffEducationOrganizationAssociations(edOrgId, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals("Staff IDs should equal", staffId, body.get(StaffEducationOrganizationAssociation.STAFF_REFERENCE));
+        assertEquals("EdOrg IDs should equal", edOrgId, body.get(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStaffEducationOrganizationAssociationStaff() {
+        //create ed org entity
+        Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String edOrgId = parseIdFromLocation(createResponse);
+        //create staff entity
+        createResponse = staffResource.create(new EntityBody(createStaffTestEntity()), httpHeaders, uriInfo);
+        String staffId = parseIdFromLocation(createResponse);
+        // create association entity
+        staffEducationOrganizationAssociationResource.create(new EntityBody(
+                createStaffEdOrgAssocTestEntity(staffId, edOrgId)), httpHeaders, uriInfo);
+
+        //read the target
+        Response response = edOrgResource.getStaffEducationOrganizationAssociationStaff(edOrgId, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals("Education level should equal", "PhD", body.get(StaffResource.EDUCATION_LEVEL));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
     
     @Test
     public void testReadCommaSeparatedResources() {
@@ -228,6 +331,12 @@ public class EducationOrganizationResourceTest {
             @Override
             public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
                 return new UriBuilderImpl().path("request");
+            }
+        });
+        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
+            @Override
+            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return new MultivaluedMapImpl();
             }
         });
         
