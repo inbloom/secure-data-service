@@ -8,6 +8,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -48,6 +49,9 @@ public class ControlFileProcessor implements Processor {
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
             
+            Stage stage = new Stage();
+            stage.setStageName("ControlFileProcessor");
+            newJob.startStage(stage);
             // TODO JobLogStatus
             // Create the stage and metric
             // JobLogStatus.startStage(batchJobId, stageName)
@@ -67,6 +71,8 @@ public class ControlFileProcessor implements Processor {
 
             // TODO Create the stage and metric
             // JobLogStatus.completeStage(batchJobId, stageName)
+            newJob.stopStage(stage);
+            newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
 
             // set the exchange outbound message to the value of the job

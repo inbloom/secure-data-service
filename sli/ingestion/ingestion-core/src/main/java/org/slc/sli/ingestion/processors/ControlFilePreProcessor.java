@@ -1,6 +1,8 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -46,23 +48,17 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         try {
             File controlFile = exchange.getIn().getBody(File.class);
-
-            System.out.println("batchJobId: "+batchJobId);
+            NewBatchJob newJob = null;
+            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             if (batchJobId == null) {
                 batchJobId = NewBatchJob.createId(controlFile.getName());
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
-            }
-//            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-//            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-            NewBatchJob newJob = new NewBatchJob();
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            try {
+                newJob = new NewBatchJob(batchJobId);                
+            } else {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
-                System.out.println(newJob.getStatus());
-            } catch (Exception exception) {
-                System.out.println(exception.getMessage());
             }
+
             Stage stage = new Stage();
             stage.setStageName("ControlFilePreProcessor");
             newJob.startStage(stage);
@@ -71,10 +67,17 @@ public class ControlFilePreProcessor implements Processor {
             
             ControlFile cf = ControlFile.parse(controlFile);
 
+            newJob.setTotalFiles(cf.getFileEntries().size());
+            try {
+                newJob.getStages().add(stage);
+            } catch (Exception e) {
+                List<Stage> stages = new ArrayList<Stage>();
+                stages.add(stage);
+                newJob.setStages(stages);                
+            }
             newJob.stopStage(stage);
-            newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
-
+ 
             // set headers for ingestion routing
             exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
