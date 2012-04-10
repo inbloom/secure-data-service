@@ -35,12 +35,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static String thisName = getHostName();
     private static MongoTemplate template;
 
-    public MongoTemplate getMongoTemplate() {
+    public MongoTemplate getBatchJobMongoTemplate() {
         return template;
     }
 
     @Resource
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+    public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         template = mongoTemplate;
     }
     
