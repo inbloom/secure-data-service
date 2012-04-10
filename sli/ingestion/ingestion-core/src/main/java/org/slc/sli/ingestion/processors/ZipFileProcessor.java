@@ -73,7 +73,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getName());
             fileEntries.add(resourceName);
-            newJob.setFileEntries(fileEntries);
+            newJob.setResourceEntries(fileEntries);
             newJob.setTotalFiles(1);
             List<Stage> stages = new ArrayList<Stage>();
 

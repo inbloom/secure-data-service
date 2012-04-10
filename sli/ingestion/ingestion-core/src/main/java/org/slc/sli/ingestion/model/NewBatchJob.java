@@ -34,7 +34,7 @@ public final class NewBatchJob {
 
     private List<Stage> stages;
 
-    private List<ResourceEntry> fileEntries;
+    private List<ResourceEntry> resourceEntries;
 
     /**
      * generates a new unique ID
@@ -57,7 +57,7 @@ public final class NewBatchJob {
 
     public NewBatchJob(String id, String sourceId, String status,
             int totalFiles, Map<String, String> batchProperties,
-            List<Stage> stages, List<ResourceEntry> fileEntries) {
+            List<Stage> stages, List<ResourceEntry> resourceEntries) {
         super();
         this.id = id;
         this.sourceId = sourceId;
@@ -69,9 +69,9 @@ public final class NewBatchJob {
         if (stages == null) 
             stages = new LinkedList<Stage>();
         this.stages = stages;
-        if (fileEntries == null) 
-            fileEntries = new LinkedList<ResourceEntry>();
-        this.fileEntries = fileEntries;
+        if (resourceEntries == null) 
+            resourceEntries = new LinkedList<ResourceEntry>();
+        this.resourceEntries = resourceEntries;
     }
 
     public String getSourceId() {
@@ -114,12 +114,12 @@ public final class NewBatchJob {
         this.stages = stages;
     }
 
-    public List<ResourceEntry> getFileEntries() {
-        return fileEntries;
+    public List<ResourceEntry> getResourceEntries() {
+        return resourceEntries;
     }
 
-    public void setFileEntries(List<ResourceEntry> fileEntries) {
-        this.fileEntries = fileEntries;
+    public void setResourceEntries(List<ResourceEntry> resourceEntries) {
+        this.resourceEntries = resourceEntries;
     }
 
     public String getId() {
