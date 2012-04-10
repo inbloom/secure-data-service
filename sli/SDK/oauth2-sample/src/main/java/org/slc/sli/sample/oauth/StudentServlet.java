@@ -29,12 +29,15 @@ public class StudentServlet extends HttpServlet {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         List<String> names = Students.getNames(client);
         Map<String, String> tenantIdMap = Teachers.getTenantIdMap(client);
+        Map<String, String> firstOne = new HashMap<String, String>();
+        String firstKey = tenantIdMap.keySet().iterator().next();
+        firstOne.put(firstKey, tenantIdMap.get(firstKey));
         
         Map<String, Integer> grades = new HashMap<String, Integer>();
         for (String name : names) {
             grades.put(name, Students.getGrade(client, name));
         }
-        req.setAttribute("tenantMap", tenantIdMap);
+        req.setAttribute("tenantMap", firstOne);
         req.setAttribute("grades", grades);
         req.getRequestDispatcher("WEB-INF/students.jsp").forward(req, resp);
     }

@@ -19,10 +19,10 @@ Scenario: Use Mock IDP to log in as IT Admin
 
 Given I have selected the realm using the realm selector
 Then I should be redirected to the Mock IDP page for the realm
-And I select "Linda Kim" from the user drop down
-And I select "IT Admin" role
-And I click "Go"
-Then I have "IT Admin" access to the sandbox tenancy
+And I select "linda.kim" from the user drop down
+And I select "IT Administrator" from role selector
+And I click Login
+Then I have "IT Administrator" access to the sandbox tenancy
 And I am able to write student data
 
  
@@ -30,10 +30,9 @@ Scenario: Use Mock IDP to log in as Educator and Leader
 
 Given I have selected the realm using the realm selector
 Then I should be redirected to the Mock IDP page for the realm
-And I select "Linda Kim" from the user drop down
-And I select "Educator" role
-And I select "Leader"
-And I click "Go"
+And I select "linda.kim" from the user drop down
+And I select "Educator"  and "Leader" from role selector
+And I click Login
 Then I have "Educator" and "Leader" access to the sandbox tenancy
 And I am able "Read" student data
 

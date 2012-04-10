@@ -59,15 +59,26 @@ end
 
 
 When /^I select "([^"]*)" from the user drop down$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  userSelect=@driver.find_element(:id, "selected_user")
+  user=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
+  @driver.action.click(userSelect).click(user).perform
 end
 
-When /^I select "([^"]*)" role$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I select "([^"]*)" from role selector$/ do |arg1|
+  #roleSelect=@driver.find_element(:id, "selected_roles")
+  role=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
+  @driver.action.click(role).perform
 end
 
-When /^I click "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I select "([^"]*)"  and "([^"]*)" from role selector$/ do |arg1, arg2|
+  # roleSelect=@driver.find_element(:id, "selected_roles")
+  role1=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
+  role2=@driver.find_element(:xpath, "//option[@value='"+arg2+"']")
+  @driver.action.key_down(:control).click(role1).click(role2).key_up(:control).perform
+end
+
+When /^I click Login$/ do
+ @driver.find_element(:id, "login_button").click
 end
 
 Then /^I have "([^"]*)" access to the sandbox tenancy$/ do |arg1|
@@ -75,10 +86,6 @@ Then /^I have "([^"]*)" access to the sandbox tenancy$/ do |arg1|
 end
 
 Then /^I am able to write student data$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I select "([^"]*)"$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
