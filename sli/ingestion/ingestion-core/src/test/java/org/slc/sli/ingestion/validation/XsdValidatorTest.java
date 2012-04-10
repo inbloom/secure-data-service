@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -14,6 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
@@ -32,9 +32,8 @@ public class XsdValidatorTest {
     private XsdValidator xsdValidator;
 
     @Test
-    @Ignore
     public void testValidXml() throws IOException {
-        File xmlFile = IngestionTest.getFile("InterchangeStudent-Valid.xml");
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
@@ -45,7 +44,9 @@ public class XsdValidatorTest {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
+        FaultsReport faultsReport = new FaultsReport();
+        xsdValidator.isValid(ife, faultsReport);
+        Assert.assertFalse(faultsReport.getFaults().isEmpty());
     }
 
     @Test

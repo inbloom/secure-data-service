@@ -19,12 +19,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
 
     private String errorPrefix = "";
 
-    private boolean isValid;
-
-    public XsdErrorHandler() {
-        setIsValid(true);
-    }
-
     /**
      * Report a SAX parsing warning.
      *
@@ -47,7 +41,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void error(SAXParseException ex) {
         String errorMessage = getErrorMessage(ex);
         errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-        setIsValid(false);
     }
 
     /**
@@ -62,7 +55,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     public void fatalError(SAXParseException ex) throws SAXException {
         String errorMessage = getErrorMessage(ex);
         errorReport.warning(errorPrefix + errorMessage, XsdErrorHandler.class);
-        setIsValid(false);
         throw ex;
     }
 
@@ -94,17 +86,6 @@ public class XsdErrorHandler implements XsdErrorHandlerInterface {
     @Override
     public void setErrorReport(ErrorReport errorReport) {
         this.errorReport = errorReport;
-    }
-
-    @Override
-    public void setIsValid(boolean value) {
-        isValid = value;
-
-    }
-
-    @Override
-    public boolean isValid() {
-        return isValid;
     }
 
     public void setErrorPrefix(String errorPrefix) {
