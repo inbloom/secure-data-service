@@ -221,7 +221,10 @@ end
 Then /^I should see "([^"]*)" in the resulting log file$/ do |message|
   prefix = @source_file_name + "-"
   checkForContentInLogFile(message, prefix)
-  
+end
+
+After do
+      
   #deleting the log files
   Dir.foreach(@local_file_store_path) do |file|
     if /#{@source_file_name}.*.log$/.match file
@@ -229,7 +232,7 @@ Then /^I should see "([^"]*)" in the resulting log file$/ do |message|
       FileUtils.rm @local_file_store_path + "/" + file
     end
   end
-  
+    
   #Recovering local_file_store_path for future tests
   if (@pre_local_file_store_path != nil)
     @local_file_store_path = @pre_local_file_store_path
