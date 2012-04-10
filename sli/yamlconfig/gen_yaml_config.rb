@@ -78,16 +78,16 @@ def write_config(config, output_fname)
 end
 
 if __FILE__==$0
-	if ARGV.length < 2
-		puts "Usage: " + $0 + " input_dir output_yaml_file"
+	if ARGV.length < 3
+		puts "Usage: " + $0 + " yaml_config_file environment outputfile"
 		exit(1)
 	end
 
-	input_dir = ARGV[0]
-	output_fname = ARGV[1]
+	input_fname  = ARGV[0]
+	env          = ARGV[1]
+	output_fname = ARGV[2]
 
 	# read the configuration from spread out config files and write them to a yaml file
-	config = build_config(ARGV[0])
-	write_config(config, output_fname)
+	config = get_config(input_fname, env)
+	write_prop_file(config, output_fname)
 end
-
