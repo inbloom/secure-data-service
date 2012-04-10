@@ -14,6 +14,7 @@ public class Role {
     private String name;
     private Set<Right> rights = new HashSet<Right>();
     private String id = "";
+    private boolean admin = false;
 
     public String getId() {
         return id;
@@ -46,6 +47,19 @@ public class Role {
     public void addRight(Right right) {
         rights.add(right);
     }
+    
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
+    /**
+     * Determines whether this is an admin role, which means it's
+     * only applicable to user of the SLI IDP.
+     * @return
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
 
     public String getSpringRoleName() {
         return "ROLE_" + getName().toUpperCase().replace(' ', '_');
@@ -59,6 +73,7 @@ public class Role {
             rightStrings.add(right.toString());
         }
         body.put("rights", rightStrings);
+        body.put("admin", admin);
         return body;
     }
 }

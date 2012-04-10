@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
