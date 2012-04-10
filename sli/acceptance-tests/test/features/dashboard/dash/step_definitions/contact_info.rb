@@ -10,12 +10,11 @@ def getTabIndex(tabName)
       url = tab["href"]
       i = url.index('#page') +1
       tabIndex = url[i, url.length-i]
+      puts tabName + " tab has a tab id of " + tabIndex
+      return tabIndex
     end
   end
-  
-  puts tabName + " tab id: " + tabIndex
   assert(found != nil, "Tab was not found")
-  return tabIndex
 end
 
 # checks whether panel name is the expected name
@@ -27,6 +26,22 @@ def checkPanelNameExists(tabName, panelName)
   assert(found == true, "Panel Name is not found: " + panelName)
 end
 
+def getPanel(panelName, tabName)
+  tabIndex = getTabIndex(tabName)
+  overviewTab = @driver.find_element(:id, tabIndex)
+  panelsInTab = overviewTab.find_elements(:class, "panel")
+  
+  panelsInTab.each do |panel|
+    panelHeader = panel.find_element(:class, "panel-header")
+    if (panelHeader.text == panelName)
+      puts "Found Panel: " + panelName
+      return panel
+    end
+  end
+  assert(false, "Panel name: " + panelName + " is not found in tab: " + tabName)
+end
+
+#This is only for contact information panel
 Given /^I look at the panel "([^"]*)"$/ do |panelName|
   tabIndex = getTabIndex("Overview")
   
@@ -34,13 +49,12 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   checkPanelNameExists(overviewTab, panelName)
   
   # contact info is in the first panel
-  studentContactInfo = overviewTab.find_element(:class, "panel")
+  panel = getPanel(panelName, "Overview")
   #the first table is the student's contact info
-  contactSections = studentContactInfo.find_element(:xpath, "//div[@class='tabular']/table/tbody")
+  contactSections = panel.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   
   all_trs = contactSections.find_elements(:tag_name, "tr")
 
-  currentSection = "Phone"
   sectionId = 0
   @section = []
   @sectionType = []
@@ -56,16 +70,14 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   
   all_trs.each do |row|
    th = row.find_element(:tag_name, "th")
-   td = row.find_element(:tag_name, "td")
-   
+   td = row.find_element(:tag_name, "td") 
+      
    if (td.text.length > 0)
-     if (th.text.include? "E-mail")
+     if (td.text.include? '@')
        sectionId = 1
-       currentSection = "E-mail"
-     elsif (th.text.include? "Address")
+     elsif (td.text =~ /[A-Za-z,]/ and td.text.include? ',')
        sectionId = 2
-       currentSection = "Address";
-     elsif (currentSection.include? "Phone")
+     else
        sectionId = 0
        temp = [th.text]
        @sectionType[sectionId] = @sectionType[sectionId] + temp

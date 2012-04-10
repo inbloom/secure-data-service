@@ -118,6 +118,10 @@ task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
+task :realmInitNoPeople => [:appInit] do
+  setFixture("realm", "realm_fixture.json")
+end
+
 task :peopleInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
@@ -263,6 +267,12 @@ end
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
+end
+
+# This task SHOULD NOT BE ADDED to the general ingestion test suite
+desc "Run Ingestion Performance Tests"
+task :ingestionPerformanceTest do
+  runTests("test/features/ingestion/features/performance_testing.feature")
 end
 
 ############################################################
