@@ -3465,4 +3465,31 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+    <xs:complexType name="schoolYearAttendanceType">
+        <xs:annotation>
+            <xs:documentation>Attendance by school year.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEventType"/>
+        </xs:sequence>
+        <xs:attribute name="schoolYear" type="schoolYearType" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="attendanceEventType">
+        <xs:annotation>
+            <xs:documentation>A record of attendance.
+                date: Date for this attendance event.
+                event: The occured attendance event, such as "Unexcused absence," "Excused absence," or "Tardy."
+                reason: The reported reason for the event, such as a reason for absence.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="event" type="attendanceEventCategoryType"/>
+            <xs:element name="reason" type="attendanceEventReason" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
 </xs:schema>
