@@ -13,11 +13,11 @@ counter = function() {
 DashboardUtil = {
 		widgetConfig: {}
 };
-
+if (typeof widgetConfigArray != 'undefined') {
 for (var i in widgetConfigArray) {
 	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
 }
-
+}
 DashboardUtil.getWidgetConfig = function(widgetName) {
 	return DashboardUtil.widgetConfig[widgetName];
 }
