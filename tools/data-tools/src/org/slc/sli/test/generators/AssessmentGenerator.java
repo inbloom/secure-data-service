@@ -98,7 +98,7 @@ public class AssessmentGenerator {
         aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
         AssessmentIdentityType ait = new AssessmentIdentityType();
         ait.getAssessmentIdentificationCode().add(aic);
-        ait.setAssessmentTitle(assessmentTitle);
+        if(assessmentTitle != null) ait.setAssessmentTitle(assessmentTitle);
         AssessmentReferenceType art = new AssessmentReferenceType();
         art.setAssessmentIdentity(ait);
         return art;

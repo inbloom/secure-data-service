@@ -4,6 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -11,6 +13,17 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
@@ -19,11 +32,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests default role to rights resolution pipeline
@@ -36,22 +44,40 @@ import org.slc.sli.domain.enums.Right;
 @DirtiesContext
 public class RolesToRightsTest {
 
-    @Autowired
+    @Autowired @InjectMocks
     private DefaultRolesToRightsResolver resolver;
     @Autowired
     private RoleRightAccess mockAccess;
     @Autowired
     private ClientRoleResolver mockRoleManager;
-
+    
+    @Mock
+    Repository<Entity> repo;
+    
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
-
+    private static final String ADMIN_REALM_ID = "adminRealmId";
+    
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         mockAccess = mock(RoleRightAccess.class);
         mockRoleManager = mock(ClientRoleResolver.class);
 
         resolver.setRoleRightAccess(mockAccess);
         resolver.setRoleMapper(mockRoleManager);
+        
+        //wire up isAdminRealm
+        Entity adminRealmEnt = Mockito.mock(Entity.class);
+        Map realmData = new HashMap();
+        realmData.put("admin", true);
+        Mockito.when(adminRealmEnt.getBody()).thenReturn(realmData);
+        when(repo.findById("realm", ADMIN_REALM_ID)).thenReturn(adminRealmEnt);
+        
+        Entity userRealmEnt = Mockito.mock(Entity.class);
+        realmData = new HashMap();
+        realmData.put("admin", false);
+        Mockito.when(userRealmEnt.getBody()).thenReturn(realmData);
+        when(repo.findById("realm", DEFAULT_REALM_ID)).thenReturn(userRealmEnt);
 
         when(
                 mockRoleManager.resolveRoles(DEFAULT_REALM_ID,
@@ -61,7 +87,10 @@ public class RolesToRightsTest {
                 mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR,
                         SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
                                 Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
+        when(mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR))).thenReturn(Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
+        when(mockRoleManager.resolveRoles(ADMIN_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR))).thenReturn(Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
         when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
+        when(mockAccess.getDefaultRole(RoleInitializer.SLI_ADMINISTRATOR)).thenReturn(buildAdminRole());
         when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
         when(mockAccess.getDefaultRole("bad")).thenReturn(null);
         when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
@@ -71,6 +100,10 @@ public class RolesToRightsTest {
 
     private Role buildRole() {
         return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
+    }
+    
+    private Role buildAdminRole() {
+        return RoleBuilder.makeRole(RoleInitializer.SLI_ADMINISTRATOR).addRight(Right.ADMIN_ACCESS).setAdmin(true).build();
     }
 
     @Test
@@ -84,6 +117,18 @@ public class RolesToRightsTest {
     @Test
     public void testBadRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList("Pink", "Goo"));
+        Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
+    }
+    
+    @Test
+    public void testAdminRoleInAdminSli() throws Exception {
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(ADMIN_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
+        Assert.assertTrue("Authorities must contain SLI admin", authorities.size() == 1);
+    }
+    
+    @Test
+    public void testAdminRoleInNonAdminSli() throws Exception {
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
 

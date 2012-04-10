@@ -134,6 +134,7 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_GRADE_LEVEL = "gradeLevel";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
     
@@ -181,7 +182,7 @@ public final class Constants {
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
 
-    
+
     /**
      * Contains the possible values for FRE participation
      */

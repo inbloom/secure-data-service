@@ -1,5 +1,5 @@
 @crud
-Feature: As an SLI application, I want to be able to perform CRUD on attendance.
+Feature: As an SLI application, I want to be able to perform CRUD on attendance
 
 Background: Logged in as a super-user and using the small data set
   Given I am logged in using "demo" "demo1234" to realm "SLI"
