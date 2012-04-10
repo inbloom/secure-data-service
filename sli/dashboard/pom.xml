@@ -85,6 +85,18 @@
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
+		<profile>
+			<id>local</id>
+			<activation>
+              <activeByDefault>true</activeByDefault>
+            </activation>
+			<properties>
+			    <env>dev</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+					file based authentication -->
+				<server.mode>live</server.mode>
+			</properties>
+		</profile>
         <profile>
             <id>team</id>
             <activation>
@@ -275,6 +287,12 @@
 				<configuration>
 					<webXml>target/web.xml</webXml>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
+                    <systemProperties>
+                      <systemProperty>
+                        <name>sli.env</name>
+                          <value>${sli.env}</value>
+                      </systemProperty>
+                    </systemProperties>
 				</configuration>
 			</plugin>
 
