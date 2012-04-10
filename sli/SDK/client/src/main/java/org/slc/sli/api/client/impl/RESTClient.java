@@ -344,7 +344,7 @@ public class RESTClient {
             headers = new HashMap<String, Object>();
         }
         
-        headers.put("Authorization", String.format("Bearer%s", sessionToken));
+        headers.put("Authorization", String.format("Bearer %s", sessionToken));
         
         for (Map.Entry<String, Object> entry : headers.entrySet()) {
             builder.header(entry.getKey(), entry.getValue());
