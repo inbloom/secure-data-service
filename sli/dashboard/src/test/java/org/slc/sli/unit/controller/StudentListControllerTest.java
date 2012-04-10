@@ -16,8 +16,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.controller.StudentListController;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
-import org.slc.sli.manager.impl.InstitutionalHierarchyManagerImpl;
+import org.slc.sli.manager.UserEdOrgManager;
+import org.slc.sli.manager.impl.UserEdOrgManagerImpl;
 import org.slc.sli.security.SLIPrincipal;
 import org.slc.sli.util.SecurityUtil;
 import org.springframework.ui.ModelMap;
@@ -53,7 +53,7 @@ public class StudentListControllerTest {
         ModelMap model = new ModelMap();
         StudentListController studentListController = PowerMockito.spy(new StudentListController());
         
-        InstitutionalHierarchyManager mockedInstManager = PowerMockito.spy(new InstitutionalHierarchyManagerImpl());
+        UserEdOrgManager mockedInstManager = PowerMockito.spy(new UserEdOrgManagerImpl());
         
         PowerMockito.doReturn(new LinkedList<GenericEntity>()).when(mockedInstManager, "getUserInstHierarchy", "fakeToken");
         PowerMockito.mockStatic(SecurityUtil.class);

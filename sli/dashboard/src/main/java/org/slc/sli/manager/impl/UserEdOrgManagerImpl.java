@@ -13,8 +13,9 @@ import java.util.Vector;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ApiClientManager;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
 
 /**
@@ -23,7 +24,7 @@ import org.slc.sli.util.Constants;
  * @author syau
  * 
  */
-public class InstitutionalHierarchyManagerImpl extends ApiClientManager implements InstitutionalHierarchyManager {
+public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
     
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
@@ -37,7 +38,7 @@ public class InstitutionalHierarchyManagerImpl extends ApiClientManager implemen
      * @return District name
      */
     @Cacheable(cacheName = "user.district")
-    public String getUserDistrictId(String token) {
+    public EdOrgKey getUserEdOrg(String token) {
         // get list of school
         // Delete this comment after Replace getToken() to token when token passes actual token
         // instead of username
@@ -54,7 +55,7 @@ public class InstitutionalHierarchyManagerImpl extends ApiClientManager implemen
                     .get(Constants.METADATA);
             if (!metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    return metaData.get(Constants.EXTERNAL_ID).toString();
+                    return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
                 }
             }
         }

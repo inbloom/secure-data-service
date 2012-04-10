@@ -74,7 +74,6 @@ When I select school "Daybreak Central High"
 And I select course "American Literature"
 Then I see these values in the drop-down: "Sec 145"
  And I select <section> "Sec 145"
- Then I see a list of 26 students
 #User based views - we have multiple views
 Then I should have a dropdown selector named "viewSelector"
 And I should have a selectable view named "IL_3-8_ELA"
@@ -82,6 +81,7 @@ And I should have a selectable view named "IL_9-12"
 #User based views - views have different headers
 When I select view "IL_3-8_ELA"
 Then I should see a table heading "ISAT Writing (highest)"
+ #Then I see a list of 26 students
 #Client filter tests
 And I should have a dropdown selector named "studentFilterSelector"
 And I should have multiple filters available
@@ -101,7 +101,7 @@ When I select school "Daybreak Central High"
 And I select course "Writing about Government"
 And I select section "Sec 923"
 Then I should only see one view named "IL_9-12"
-Then I see a list of 2 students
+#Then I see a list of 2 students
 
 
 

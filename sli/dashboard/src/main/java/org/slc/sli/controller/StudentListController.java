@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -30,7 +30,7 @@ public class StudentListController extends DashboardController {
     public static final String USER_NAME = "username";
     public static final String INST_HIERARCHY = "instHierarchy";
 
-    private InstitutionalHierarchyManager institutionalHierarchyManager;
+    private UserEdOrgManager institutionalHierarchyManager;
 
     public StudentListController() { }
 
@@ -67,7 +67,7 @@ public class StudentListController extends DashboardController {
     }
 
     @Autowired
-    public void setInstitutionalHierarchyManager(InstitutionalHierarchyManager institutionalHierarchyManager) {
+    public void setInstitutionalHierarchyManager(UserEdOrgManager institutionalHierarchyManager) {
         this.institutionalHierarchyManager = institutionalHierarchyManager;
     }
 
