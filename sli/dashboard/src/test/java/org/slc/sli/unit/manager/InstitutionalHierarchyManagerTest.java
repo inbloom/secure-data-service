@@ -13,7 +13,7 @@ import org.powermock.api.mockito.PowerMockito;
 
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.impl.InstitutionalHierarchyManagerImpl;
+import org.slc.sli.manager.impl.UserEdOrgManagerImpl;
 
 /**
  * Unit tests for the InstitutionalHierarchyManager class.
@@ -28,7 +28,7 @@ public class InstitutionalHierarchyManagerTest {
     @Test
     public void testGetInstHierarhy() throws Exception {
 
-        InstitutionalHierarchyManagerImpl iManager = new InstitutionalHierarchyManagerImpl(); 
+        UserEdOrgManagerImpl iManager = new UserEdOrgManagerImpl(); 
 
         MockAPIClient mockClient = PowerMockito.spy(new MockAPIClient());
         when(mockClient.getFilename("mock_data/cgray/school.json")).thenReturn("src/test/resources/mock_data/cgray/school.json");

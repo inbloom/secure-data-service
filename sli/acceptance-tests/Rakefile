@@ -931,6 +931,10 @@ task :dashboardHidePagesTests do
   runTests("test/features/dashboard/dash/display_hide_pages.feature")
 end
 
+desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
+task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
+
+end
 
 ############################################################
 # Dashboard tests end
