@@ -102,9 +102,12 @@ public class AuthController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState, @RequestParam(value = "RealmName", required = false) final String realmName,
-            @RequestParam(value = "client_id", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, @CookieValue(value = "realmCookie", required = false) final String cookie,
-            final HttpServletResponse res, final Model model) throws IOException {
+    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
+            @RequestParam(value = "RealmName", required = false) final String realmName,
+            @RequestParam(value = "client_id", required = true) final String clientId,
+            @RequestParam(value = "state", required = false) final String state,
+            @CookieValue(value = "realmCookie", required = false) final String cookie, final HttpServletResponse res,
+            final Model model) throws IOException {
         LOG.debug("Realm Cookie is {}", cookie);
         
         if (cookie != null && cookie.length() > 0) {
@@ -157,7 +160,9 @@ public class AuthController {
     }
     
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri, @RequestHeader(value = "Authorization", required = false) String authz,
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode,
+            @RequestParam("redirect_uri") String redirectUri,
+            @RequestHeader(value = "Authorization", required = false) String authz,
             @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model) {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
@@ -165,7 +170,8 @@ public class AuthController {
         
         info("Hoora");
         Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
-        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
+        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(),
+                new HashSet<String>());
         
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
@@ -183,8 +189,11 @@ public class AuthController {
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId, @RequestParam(value = "redirect_uri", required = false) String appRelayState,
-            @RequestParam(value = "clientId", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model) throws IOException {
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmId,
+            @RequestParam(value = "redirect_uri", required = false) String appRelayState,
+            @RequestParam(value = "clientId", required = true) final String clientId,
+            @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model)
+            throws IOException {
         
         String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
             @Override
@@ -214,7 +223,9 @@ public class AuthController {
         cookie.setPath("/");
         res.addCookie(cookie);
         LOG.debug("Set the realm cookie to {}", realmId);
-        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
+                + "?SAMLRequest=" + tuple.getRight();
+        return "redirect:" + redirectUrl;
     }
     
     private Pair<String, String> extractClientCredentials(String authz) {
