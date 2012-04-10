@@ -265,6 +265,7 @@ module DataProvider
   def self.getValidRealmData()
     return {
        "tenantId" => "bliss",
+       "admin" => false,
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",

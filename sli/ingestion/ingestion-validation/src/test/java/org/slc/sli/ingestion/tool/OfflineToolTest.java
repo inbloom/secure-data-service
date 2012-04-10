@@ -13,6 +13,7 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.ClassPathResource;
@@ -130,7 +131,7 @@ public class OfflineToolTest {
         file.delete();
     }
 
-    @Test
+    @Ignore
     public void negativeTestMain() {
 
         // Testing an invalid zip file

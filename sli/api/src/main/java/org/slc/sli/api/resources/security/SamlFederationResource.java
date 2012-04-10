@@ -85,7 +85,7 @@ public class SamlFederationResource {
     @SuppressWarnings("unchecked")
     public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
         
-        LOG.info("Received a SAML post...");
+        LOG.info("Received a SAML post... ");
         
         Document doc = saml.decodeSamlPost(postData);
         
@@ -123,14 +123,7 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
-        String edOrg = attributes.getFirst("edOrg");
-        
-        //TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
-        //Once we have a dedicated edOrg attribute, we can strip out this part
-        if (edOrg != null && edOrg.indexOf(' ') > -1) {
-            edOrg = edOrg.substring(0, edOrg.indexOf(' '));
-        }
-        principal.setEdOrg(edOrg);
+        principal.setEdOrg(attributes.getFirst("edOrg"));
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();

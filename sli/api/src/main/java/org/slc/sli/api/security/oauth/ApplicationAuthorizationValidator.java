@@ -24,15 +24,15 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class ApplicationAuthorizationValidator {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
-    
+
     @Autowired
     private Repository<Entity> repo;
-    
+
     @Autowired
     private ContextResolverStore contextResolverStore;
-    
+
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
      * 
@@ -49,30 +49,21 @@ public class ApplicationAuthorizationValidator {
         Entity district = findUsersDistrict(principal);
         List<String> apps = null;
         if (district != null) {
-            
-            String stateOrgId = (String) district.getBody().get("stateOrganizationId");
-            
-            if (stateOrgId != null) {
-                NeutralQuery query = new NeutralQuery();
-                query.addCriteria(new NeutralCriteria("authId", "=", stateOrgId));
-                query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
-                Entity authorizedApps = repo.findOne("applicationAuthorization", query);
-                
-                if (authorizedApps != null) {
-                    apps = (List<String>) authorizedApps.getBody().get("appIds");
-                }
-                
-            } else {
-                String msg = "District " + district.getEntityId() + " doesn't have stateOrganizationId";
-                RuntimeException x = new IllegalStateException(msg);
-                error(msg, x);
-                throw x;
+
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
+            query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
+            Entity authorizedApps = repo.findOne("applicationAuthorization", query);
+
+            if (authorizedApps != null) {
+                apps = (List<String>) authorizedApps.getBody().get("appIds");
             }
+
         }
-        
+
         return apps;
     }
-    
+
     /**
      * Looks up the user's LEA entity.
      * 
@@ -80,7 +71,7 @@ public class ApplicationAuthorizationValidator {
      * @return Either the LEA entity if one is found, or null if not found
      */
     private Entity findUsersDistrict(SLIPrincipal principal) {
-        
+
         if (principal.getEntity() != null) {
             try {
                 List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
@@ -101,5 +92,5 @@ public class ApplicationAuthorizationValidator {
         LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
         return null;
     }
-    
+
 }

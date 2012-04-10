@@ -14,6 +14,7 @@ INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_na
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
+INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 
 DB_HOST = ENV['DB_HOST'] ? ENV['DB_HOST'] : "localhost"
 DB_NAME = ENV['DB_NAME'] ? ENV['DB_NAME'] : "sli"
@@ -63,6 +64,10 @@ end
 Given /^I am using local data store$/ do
   @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
   puts "localfilestorepath =" + @local_file_store_path
+end
+
+Given /^I am using destination-local data store$/ do
+  @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
@@ -141,6 +146,10 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   FileUtils.rm_r zip_dir
 end
 
+Given /^I want to ingest locally provided data "([^"]*)" file as the payload of the ingestion job$/ do |file_path|
+  @source_file_name = file_path
+end
+
 Given /^the following collections are empty in datastore:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
 
@@ -192,7 +201,7 @@ end
 When /^a batch job log has been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 240
+  @maxTimeout ? @maxTimeout : @maxTimeout = 420
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -255,6 +264,21 @@ When /^zip file is scp to ingestion landing zone$/ do
   assert(true, "File Not Uploaded")
 end
 
+
+When /^local zip file is moved to ingestion landing zone$/ do
+  @source_path = @local_file_store_path + @source_file_name
+  @destination_path = @landing_zone_path + @source_file_name
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+
+  assert(true, "File Not Uploaded")
+end
 
 ############################################################
 # STEPS: THEN

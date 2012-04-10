@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A type in the system. This could be a class, a data-type or an enumeration.
  */
-public interface Type extends HasName, HasModifiers {
+public interface Type extends HasName, HasModifiers, HasTaggedValues {
     
     /**
      * Returns a reference to this type.

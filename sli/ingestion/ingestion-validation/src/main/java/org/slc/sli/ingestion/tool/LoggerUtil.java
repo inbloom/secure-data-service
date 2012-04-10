@@ -27,19 +27,15 @@ public class LoggerUtil {
     private static ConsoleAppender<ILoggingEvent> consoleAppender;
 
     static {
+        System.setProperty("logback.configurationFile", "logback-tool.xml");
         loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        logger = loggerContext.getLogger("LoggerUtil.class");
+        logger = loggerContext.getLogger(LoggerUtil.class);
+        consoleAppender = (ConsoleAppender<ILoggingEvent>) logger.getAppender("ConsoleAppender");
 
         encoder = new PatternLayoutEncoder();
         encoder.setContext(loggerContext);
         encoder.setPattern("%date %-5level %msg%n");
         encoder.start();
-
-        consoleAppender = new ConsoleAppender<ILoggingEvent>();
-        consoleAppender.setName("ConsoleAppender");
-        consoleAppender.setContext(loggerContext);
-        consoleAppender.setTarget("System.err");
-        consoleAppender.setEncoder(encoder);
 
         fileAppender = new FileAppender<ILoggingEvent>();
         fileAppender.setContext(loggerContext);
@@ -52,9 +48,7 @@ public class LoggerUtil {
 
     public static void logToConsole() {
         logger.detachAndStopAllAppenders();
-
         consoleAppender.start();
-
         logger.addAppender(consoleAppender);
     }
 
