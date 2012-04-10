@@ -1,0 +1,3 @@
+@hello=world
+csv,Student,the-students.csv,95b3b66973da25541e7939753b1abf04
+edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a

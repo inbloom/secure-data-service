@@ -1039,7 +1039,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Choir</CourseTitle>
+    <CourseTitle>Choir B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1177,7 +1177,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Choir</CourseTitle>
+    <CourseTitle>Choir A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1249,7 +1249,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>State History II</CourseTitle>
+    <CourseTitle>State History II-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1364,7 +1364,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>State History I</CourseTitle>
+    <CourseTitle>State History I-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1502,7 +1502,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>World History II</CourseTitle>
+    <CourseTitle>World History II-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1640,7 +1640,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>World History I</CourseTitle>
+    <CourseTitle>World History I-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1801,7 +1801,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Geography</CourseTitle>
+    <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -1939,7 +1939,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Government</CourseTitle>
+    <CourseTitle>Government-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -2077,7 +2077,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Geography</CourseTitle>
+    <CourseTitle>Geography-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -2215,7 +2215,7 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Government</CourseTitle>
+    <CourseTitle>Government-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">

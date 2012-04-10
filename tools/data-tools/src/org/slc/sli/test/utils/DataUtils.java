@@ -109,7 +109,7 @@ public class DataUtils {
     		return InterchangeType.ASSESSMENT_METADATA;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentassessment")) {
     		return InterchangeType.STUDENT_ASSESSMENT;
-    	} else if (lowerCaseBaseName.startsWith("interchangeattendance")) {
+    	} else if (lowerCaseBaseName.startsWith("interchangestudentattendance")) {
     		return InterchangeType.STUDENT_ATTENDANCE;
     	} else if (lowerCaseBaseName.startsWith("interchangestudentparent")) {
     		return InterchangeType.STUDENT_PARENT_ASSOCIATION;
