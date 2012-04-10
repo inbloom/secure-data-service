@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.validation;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -46,27 +45,27 @@ public class XsdErrorHandlerTest {
     @Test
     public void testWarning() {
         // Test receiving a SAX warning.
-        xsdErrorHandler.setIsValid(true);
+        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException warning");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        assertTrue(xsdErrorHandler.isValid());
+        //assertTrue(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testError() {
         // Test receiving a SAX error.
-        xsdErrorHandler.setIsValid(true);
+        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException error");
         xsdErrorHandler.error(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        assertFalse(xsdErrorHandler.isValid());
+        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testFatalError() throws SAXException {
         // Test receiving a SAX fatal error.
-        xsdErrorHandler.setIsValid(true);
+        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
         try {
             xsdErrorHandler.fatalError(mockedSAXParseException);
@@ -75,7 +74,7 @@ public class XsdErrorHandlerTest {
             assertNotNull(e);
         }
         assertTrue(errorReport.hasErrors());
-        assertFalse(xsdErrorHandler.isValid());
+        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test

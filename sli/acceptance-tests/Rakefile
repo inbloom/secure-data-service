@@ -18,6 +18,28 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 $SUCCESS=true
 $failures = Hash.new
 
+$collectionSet = ["student",
+                  "studentSchoolAssociation",
+                  "course",
+                  "educationOrganization",
+                  "school",
+                  "section",
+                  "studentSectionAssociation",
+                  "teacher",
+                  "staff",
+                  "staffEducationOrganizationAssociation",
+                  "teacherSchoolAssociation",
+                  "teacherSectionAssociation",
+                  "session",
+                  "assessment",
+                  "studentAssessmentAssociation",
+                  "gradebookEntry",
+                  "studentTranscriptAssociation",
+                  "studentSectionGradebookEntry",
+                  "parent",
+                  "studentParentAssociation",
+                  "attendance"]
+
 #######################################################################################################
 # Helper defs
 
@@ -92,8 +114,11 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit => [:appInit] do
+task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
+end
+
+task :peopleInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
 end
@@ -108,7 +133,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiV1Tests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -640,7 +665,7 @@ task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/entities/attendance/attendance_security.feature")
+  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
 end
 
 desc "Run V1 Cohort Tests"
@@ -713,55 +738,6 @@ end
 
 ############################################################
 # API V1 tests end
-############################################################
-
-############################################################
-# API tests start
-############################################################
-desc "Run API Acceptances Tests"
-task :apiTests => [:realmInit] do
-  raise "These API tests have been deprecated.  Please use the command 'rake v1ApiTests'"
-end
-
-desc "Run Collection Tests"
-task :collectionTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
-  runTests("test/features/api_deprecated/collections")
-end
-
-# dependecy on importSandboxData so that association tests can depend on the associated
-# entiy data to be available
-desc "Run Association Tests"
-task :associationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/associations/educationOrganization_association")
-  runTests("test/features/api_deprecated/associations/student_section_association")
-  runTests("test/features/api_deprecated/associations/student_assessment_association")
-  runTests("test/features/api_deprecated/associations/student_school_association")
-  runTests("test/features/api_deprecated/associations/teacher_school_association")
-  runTests("test/features/api_deprecated/associations/teacher_section_association")
-  runTests("test/features/api_deprecated/associations/school_session_association")
-  runTests("test/features/api_deprecated/associations/session_course_association")
-end
-
-desc "Run Aggregation Tests"
-task :aggregationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/aggregates")
-end
-
-desc "Run Aggregation Discovery Tests"
-task :aggregationDiscoveryTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/aggregations","aggregation","aggregation_fixture.json")
-end
-
-############################################################
-# API tests end
 ############################################################
 
 ############################################################
@@ -968,11 +944,6 @@ end
 ############################################################
 # SDK Tests
 ############################################################
-desc "Run SDK Tests Tests"
-task :sdkTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/JavaSDK")
-end
 
 desc "Run JavaSDK sampleApp acceptance tests"
 task :JavaSDKSampleAppTest => [:realmInit] do
@@ -989,6 +960,32 @@ end
 # SDK Tests end
 ############################################################
 
+desc "Export Storied Test Data"
+task :exportStoriedData do
+  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  if $SUCCESS
+    $collectionSet.each do |collection|
+      sh "rm -f test/data/storied_data/sds_#{collection}.json"
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
+    end
+  else
+    if ENV['FORCE_COLOR']
+      puts "\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m"
+    else
+      puts "Ingestion Failed! Fixture Data Not Updated! Please fix and re-run"
+    end
+  end
+
+end
+
+desc "Import Storied Data Set"
+task :importStoriedData do
+  testHash = Hash[]
+  $collectionSet.each do |collection|
+    testHash["#{collection}"] = "storied_data/sds_#{collection}.json" 
+  end
+  setMultipleFixtureFiles(testHash)
+end
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do
