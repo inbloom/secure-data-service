@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -198,8 +200,17 @@ public class PersistenceProcessor implements Processor {
                 recordNumber++;
 
                 NeutralRecord neutralRecord = nrFileReader.next();
+                
+                //System.out.println("Persisting a " + neutralRecord.getRecordType());
+                if (neutralRecord.getRecordType().equals("studentAcademicRecord")) {
+                    System.out.print("SAR "/* + neutralRecord*/);
+                } else if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
+                    System.out.print("STA "/* + neutralRecord*/);
+                }
 
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
+                    
+                    
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
                         //this doesn't exist in collection, persist
 
@@ -220,29 +231,40 @@ public class PersistenceProcessor implements Processor {
                 } else {
                     //process collection of the entities from db
                     LOG.debug("processing staged collection: {}", neutralRecord.getRecordType());
-
+                    System.out.println("processing staged collection: " + neutralRecord.getRecordType());
+                    
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
+                        
+                        Iterable<NeutralRecord> neutralRecordData = null; 
+                        
+                        if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
+                            NeutralQuery neutralQuery = new NeutralQuery();
+                            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
+                            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
+                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed", neutralQuery);
+                        } else {
+                            processedStagedCollections.add(neutralRecord.getRecordType());
+                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
+                        }
+                        
+                        if (neutralRecordData != null ) {
+                            for (NeutralRecord nr : neutralRecordData) {
+                                nr.setSourceId(tenantId);
+                                nr.setRecordType(neutralRecord.getRecordType());
+                                List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
+                                for (SimpleEntity entity : result) {
+                                    ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
+                                    entityPersistHandler.handle(entity, errorReport);
 
-                        processedStagedCollections.add(neutralRecord.getRecordType());
+                                    if (errorReport.hasErrors()) {
+                                        numFailed++;
+                                    }
+                                }
 
-                        Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
-
-                        for (NeutralRecord nr : neutralRecordData) {
-                            nr.setSourceId(tenantId);
-                            nr.setRecordType(neutralRecord.getRecordType());
-                            List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
-                            for (SimpleEntity entity : result) {
-                                ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
-                                entityPersistHandler.handle(entity, errorReport);
-
-                                if (errorReport.hasErrors()) {
+                                if (recordLevelErrorsInFile.hasErrors()) {
                                     numFailed++;
                                 }
-                            }
-
-                            if (recordLevelErrorsInFile.hasErrors()) {
-                                numFailed++;
                             }
                         }
                     }

@@ -1126,21 +1126,6 @@
       <StudentAcademicRecordReference ref="SAR-91919014-1"/>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919001-1">
-      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
-        <Credit>5</Credit>
-      </CumulativeCreditsAttempted>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>91919001</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <SessionReference>
-        <SessionIdentity>
-          <SessionName>Fall 2010 Daybreak Central High</SessionName>
-        </SessionIdentity>
-      </SessionReference>
-    </StudentAcademicRecord>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
       <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
@@ -1201,7 +1186,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
-
+<!--
     <StudentAcademicRecord id="SAR-91919001-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1239,7 +1224,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
-
+-->
     <StudentAcademicRecord id="SAR-91919016-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
