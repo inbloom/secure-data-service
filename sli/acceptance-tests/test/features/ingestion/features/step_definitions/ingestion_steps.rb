@@ -10,6 +10,7 @@ require_relative '../../../utils/sli_utils.rb'
 
 INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
@@ -264,6 +265,27 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   puts "mongoConnection = " + INGESTION_DB
   puts "databaseName = " + INGESTION_DB_NAME
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.count().to_i
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records didn't load successfully.")
+end
+
+Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
+  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+
+  puts "mongoConnection = " + INGESTION_DB
+  puts "databaseName = " + INGESTION_BATCHJOB_DB_NAME
 
   @result = "true"
 
