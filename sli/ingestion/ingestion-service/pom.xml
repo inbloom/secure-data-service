@@ -52,10 +52,6 @@
               <name>sli.encryption.keyStore</name>
               <value>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</value>
             </systemProperty>
-            <systemProperty>
-              <name>sli.encryption.properties</name>
-              <value>${project.parent.basedir}/../data-access/dal/keyStore/localEncryption.properties</value>
-            </systemProperty>
 
           </systemProperties>
         </configuration>

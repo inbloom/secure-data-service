@@ -73,4 +73,7 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<sli.home>${project.parent.basedir}/..</sli.home>
+	</properties>
 </project>
