@@ -101,11 +101,11 @@ public class StateEdFiXmlGenerator {
 
         studentEnrollment();
 
-        studentProgram();
+        //studentProgram();
         
-        studentCohort();
+        //studentCohort();
 
-        studentAttendance();
+        //studentAttendance();
 
         studentAssessment();
     }
@@ -219,7 +219,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "studentAttendance", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAttendance", xmlFilePath);
     }
 
     /**
@@ -235,7 +235,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentProgram", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram", xmlFilePath);
     }
 
     /**
@@ -251,7 +251,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentCohort", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort", xmlFilePath);
     }
     
     /**
@@ -267,6 +267,6 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentAssessment, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentAssessment", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
 }
