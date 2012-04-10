@@ -60,7 +60,7 @@ public class ResourceTestUtil {
         return resId;
     }
 
-    public static void assertions(Response response) {
+    public static EntityBody assertions(Response response) {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
@@ -76,9 +76,10 @@ public class ResourceTestUtil {
             body = results.get(0);
         } else {
             fail("Response entity not recognized: " + response);
-            return;
+            return body;
         }
         assertNotNull("Should return an entity", body);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+        return body;
     }
 }
