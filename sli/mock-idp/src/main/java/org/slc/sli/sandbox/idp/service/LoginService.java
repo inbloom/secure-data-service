@@ -25,6 +25,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.sandbox.idp.saml.XmlSignatureHelper;
 import org.slc.sli.sandbox.idp.service.Users.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -34,16 +36,20 @@ import org.xml.sax.SAXException;
 @Component
 public class LoginService {
     
+    private static final Logger LOG = LoggerFactory.getLogger(LoginService.class);
+    
     @Autowired
     XmlSignatureHelper signer;
     
     // @Value("${sli.idp.response-location}")
     String destination = "http://localhost:8080/api/saml/sso/post";
-    String issuer = "http://localhost:8082/mock-idp";
+    String issuer = "http://local.slidev.org:8082/mock-idp";
     
     String roleTemplate = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__ROLE__</saml:AttributeValue>";
     
     public URI login(User user, List<String> roles, AuthRequests.Request requestInfo) {
+        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getId(), roles,
+                requestInfo.getRequestId(), destination });
         
         String template;
         try {
@@ -71,7 +77,9 @@ public class LoginService {
         stringSource.setCharacterStream(new StringReader(template));
         String signedXml;
         try {
-            Document unsignedDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stringSource);
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setNamespaceAware(true);
+            Document unsignedDoc = docFactory.newDocumentBuilder().parse(stringSource);
             Document signedDoc = signer.signSamlAssertion(unsignedDoc);
             
             Transformer trans = TransformerFactory.newInstance().newTransformer();
@@ -97,7 +105,7 @@ public class LoginService {
             throw new RuntimeException(e);
         }
         
-        System.err.println(template);
+        LOG.debug("signed xml: {}", new Object[] { signedXml });
         
         return URI.create("http://localhost:8082");
     }
