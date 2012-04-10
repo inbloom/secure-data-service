@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns:sli="http://slc-sli/ed-org/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema xmlns:sli="http://slc-sli/ed-org/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified">
 
-	<xs:include schemaLocation="ComplexTypes.xsd" />
+	<xs:include schemaLocation="ComplexTypes.xsd"/>
 
 	<!-- This file contains the top-level elements for the SLI database schema representation. -->
 	<!-- These elements correspond 1:1 with MongoDB collections. -->
@@ -28,8 +27,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="assessmentFamilyHierarchyName"
-					type="xs:string">
+				<xs:element minOccurs="0" name="assessmentFamilyHierarchyName" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>
                             A hierarchical name for the assessment 
@@ -37,8 +35,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" name="assessmentIdentificationCode"
-					type="assessmentIdentificationCode">
+				<xs:element maxOccurs="unbounded" name="assessmentIdentificationCode" type="assessmentIdentificationCode">
 					<xs:annotation>
 						<xs:documentation>
                             A unique number or alphanumeric code 
@@ -84,8 +81,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="lowestGradeLevelAssessed"
-					type="gradeLevelType">
+				<xs:element minOccurs="0" name="lowestGradeLevelAssessed" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>
                             The lowest grade assessed when the
@@ -97,8 +93,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="assessmentPerformanceLevel" type="assessmentPerformanceLevel">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="assessmentPerformanceLevel" type="assessmentPerformanceLevel">
 					<xs:annotation>
 						<xs:documentation>
                             Definition of the performance levels and the
@@ -172,8 +167,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="assessmentPeriodDescriptor"
-					type="assessmentPeriodDescriptor">
+				<xs:element minOccurs="0" name="assessmentPeriodDescriptor" type="assessmentPeriodDescriptor">
 					<xs:annotation>
 						<xs:documentation>
                             The period or window in which an assessment
@@ -183,8 +177,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="objectiveAssessment" type="objectiveAssessment">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="objectiveAssessment" type="objectiveAssessment">
 					<xs:annotation>
 						<xs:documentation>
                             Subsets of the assessment that address 
@@ -192,8 +185,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="assessmentItem" type="assessmentItem">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="assessmentItem" type="assessmentItem">
 					<xs:annotation>
 						<xs:documentation>
                             Individual test items, if appropriate.
@@ -203,61 +195,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-
-    <xs:complexType name="attendanceEvent">
-        <xs:annotation>
-            <xs:documentation>
-                A record of attendance.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="date" type="xs:date">
-                <xs:annotation>
-                    <xs:documentation>Date for this attendance event.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="event" type="attendanceEventCategoryType">
-                <xs:annotation>
-                    <xs:documentation>
-                        The occured attendance event, such as "Unexcused absence," "Excused absence," or "Tardy."
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="reason" type="attendanceEventReason">
-                <xs:annotation>
-                    <xs:documentation>
-                        The reported reason for the event, such as a reason for absence.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="schoolYearAttendance">
-        <xs:annotation>
-            <xs:documentation>
-                Attendance by school year.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:element name="schoolYear" type="schoolYearType">
-            <xs:annotation>
-                <xs:documentation>The identifier for the school year.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:element>
-        <xs:element name="attendanceEvents">
-            <xs:annotation>
-                <xs:documentation>
-                    Daily attendance records for the school year.
-                </xs:documentation>
-            </xs:annotation>
-            <xs:simpleType>
-                <xs:list itemType="attendanceEvent">
-                </xs:list>
-            </xs:simpleType>
-        </xs:element>
-    </xs:complexType>
 
 	<xs:element name="bellSchedule">
 		<xs:annotation>
@@ -286,8 +223,7 @@
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
-						<xs:list itemType="gradeLevelType">
-						</xs:list>
+						<xs:list itemType="gradeLevelType"> </xs:list>
 					</xs:simpleType>
 				</xs:element>
 				<xs:element name="weeksInCycle">
@@ -299,13 +235,12 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="52" />
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="52"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" name="sessionsOffered"
-					type="xs:string">
+				<xs:element maxOccurs="unbounded" name="sessionsOffered" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>
 							The sessions associated with this bell schedule.
@@ -372,8 +307,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0"
-					name="programId" type="reference">
+				<xs:element minOccurs="0" name="programId" type="reference">
 					<xs:annotation>
 						<xs:documentation>
 							The (optional) program associated with this
@@ -420,8 +354,8 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="8" />
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="8"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
@@ -438,8 +372,7 @@
 						<xs:documentation>The course's level of rigor.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="courseLevelCharacteristics" type="courseLevelCharacteristicItemType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="courseLevelCharacteristics" type="courseLevelCharacteristicItemType">
 					<xs:annotation>
 						<xs:documentation>Specification of the specific program or
 							designation associated with the course. For example: Ap, IB, Dual
@@ -474,16 +407,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="highSchoolCourseRequirement"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="highSchoolCourseRequirement" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>An indication that this course may satisfy high
 							school graduation requirements in the course's subject area.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="courseGPAApplicability"
-					type="courseGPAApplicabilityType">
+				<xs:element minOccurs="0" name="courseGPAApplicability" type="courseGPAApplicabilityType">
 					<xs:annotation>
 						<xs:documentation>An indicator of whether or not this course being
 							described is included in the computation of the student’s Grade
@@ -499,16 +430,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="minimumAvailableCredit"
-					type="credits">
+				<xs:element minOccurs="0" name="minimumAvailableCredit" type="credits">
 					<xs:annotation>
 						<xs:documentation>The minimum amount of credit available to a
 							student who successfully completes the course
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="maximumAvailableCredit"
-					type="credits">
+				<xs:element minOccurs="0" name="maximumAvailableCredit" type="credits">
 					<xs:annotation>
 						<xs:documentation>The maximum amount of credit available to a
 							student who successfully completes the course
@@ -582,8 +511,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="reporterDescription"
-					type="reporterDescriptionType">
+				<xs:element minOccurs="0" name="reporterDescription" type="reporterDescriptionType">
 					<xs:annotation>
 						<xs:documentation>Information on the type of individual who
 							reported the
@@ -612,15 +540,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="secondaryBehaviors" type="secondaryBehavior">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="secondaryBehaviors" type="secondaryBehavior">
 					<xs:annotation>
 						<xs:documentation>Supplemental categorization about an incident
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="weapons"
-					type="weaponItemType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="weapons" type="weaponItemType">
 					<xs:annotation>
 						<xs:documentation>Identifies the type of weapon used during an
 							incident.
@@ -632,8 +558,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="reportedToLawEnforcement"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="reportedToLawEnforcement" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>Indicator of whether the incident was reported
 							to law
@@ -827,8 +752,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName"
-					type="otherName">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName" type="otherName">
 					<xs:annotation>
 						<xs:documentation>
 							Other names (e.g., alias, nickname, previous
@@ -841,16 +765,14 @@
 						<xs:documentation>A person's gender.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="address"
-					type="address">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="address" type="address">
 					<xs:annotation>
 						<xs:documentation>Parent's address, if different from student
 							address.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone"
-					type="telephone">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone" type="telephone">
 					<xs:annotation>
 						<xs:documentation>
 							The 10-digit telephone number, including the
@@ -858,8 +780,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="electronicMail" type="electronicMail">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="electronicMail" type="electronicMail">
 					<xs:annotation>
 						<xs:documentation>
 							The numbers, letters, and symbols used to
@@ -926,8 +847,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-					type="serviceDescriptor">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="services" type="serviceDescriptor">
 					<xs:annotation>
 						<xs:documentation>Defines the services provided by this program to
 							students.
@@ -951,15 +871,13 @@
 			<xs:complexContent>
 				<xs:extension base="educationOrganization">
 					<xs:sequence>
-						<xs:element maxOccurs="unbounded" name="gradesOffered"
-							type="gradeLevelType">
+						<xs:element maxOccurs="unbounded" name="gradesOffered" type="gradeLevelType">
 							<xs:annotation>
 								<xs:documentation>The grade levels served at the school.
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element maxOccurs="unbounded" minOccurs="0"
-							name="schoolCategories" type="schoolCategoryItemType">
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="schoolCategories" type="schoolCategoryItemType">
 							<xs:annotation>
 								<xs:documentation>The one or more categories of school. For
 									example:
@@ -989,16 +907,14 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element minOccurs="0" name="titleIPartASchoolDesignation"
-							type="titleIPartASchoolDesignationType">
+						<xs:element minOccurs="0" name="titleIPartASchoolDesignation" type="titleIPartASchoolDesignationType">
 							<xs:annotation>
 								<xs:documentation>Denotes the Title I Part A designation for the
 									school.
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element minOccurs="0"
-							name="magnetSpecialProgramEmphasisSchool" type="magnetSpecialProgramEmphasisSchoolType">
+						<xs:element minOccurs="0" name="magnetSpecialProgramEmphasisSchool" type="magnetSpecialProgramEmphasisSchoolType">
 							<xs:annotation>
 								<xs:documentation>A school that has been designed: 1) to attract
 									students of different racial/ethnic backgrounds for the purpose
@@ -1013,8 +929,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element minOccurs="0" name="administrativeFundingControl"
-							type="administrativeFundingControlType">
+						<xs:element minOccurs="0" name="administrativeFundingControl" type="administrativeFundingControlType">
 							<xs:annotation>
 								<xs:documentation>The type of education institution as
 									classified by its
@@ -1101,13 +1016,12 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="8" />
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="8"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element minOccurs="0" name="educationalEnvironment"
-					type="educationalEnvironmentType">
+				<xs:element minOccurs="0" name="educationalEnvironment" type="educationalEnvironmentType">
 					<xs:annotation>
 						<xs:documentation>The setting in which a child receives education
 							and related services; for example:
@@ -1122,8 +1036,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="mediumOfInstruction"
-					type="mediumOfInstructionType">
+				<xs:element minOccurs="0" name="mediumOfInstruction" type="mediumOfInstructionType">
 					<xs:annotation>
 						<xs:documentation>The media through which teachers provide
 							instruction to students and students and teachers communicate
@@ -1186,8 +1099,7 @@
 
 				<!-- obtain location information via SectionBellScheduleAssocation -->
 
-				<xs:element maxOccurs="1" minOccurs="1" name="sessionId"
-					type="reference">
+				<xs:element maxOccurs="1" minOccurs="1" name="sessionId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The session associated with the section. This
 							reference is required.
@@ -1198,8 +1110,7 @@
 					</xs:annotation>
 				</xs:element>
 
-				<xs:element minOccurs="0"
-					name="programReference" type="reference">
+				<xs:element minOccurs="0" name="programReference" type="reference">
 					<xs:annotation>
 						<xs:documentation>Optional reference to program (e.g., CTE, etc.)
 							the section is associated with.
@@ -1210,8 +1121,7 @@
 					</xs:annotation>
 				</xs:element>
 
-				<xs:element maxOccurs="1" minOccurs="1" name="courseId"
-					type="reference">
+				<xs:element maxOccurs="1" minOccurs="1" name="courseId" type="reference">
 					<xs:annotation>
 						<xs:documentation>The course associated with the section. This
 							reference is required.
@@ -1431,8 +1341,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="studentRecordAccess"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="studentRecordAccess" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the staff has access to the
@@ -1560,8 +1469,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="studentRecordAccess"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="studentRecordAccess" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the staff has access to the
@@ -1599,8 +1507,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentIdentificationCode" type="studentIdentificationCode"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="studentIdentificationCode" type="studentIdentificationCode" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A coding scheme that is used for identification
 							and
@@ -1619,8 +1526,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="otherName" type="otherName" minOccurs="0"
-					maxOccurs="unbounded">
+				<xs:element name="otherName" type="otherName" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Other names (e.g., alias, nickname, previous
 							legal
@@ -1654,8 +1560,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="address" type="address" minOccurs="0"
-					maxOccurs="unbounded">
+				<xs:element name="address" type="address" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The set of elements that describes an address,
 							including the street address, city, state, and ZIP code.
@@ -1666,8 +1571,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="telephone" type="telephone" minOccurs="0"
-					maxOccurs="unbounded">
+				<xs:element name="telephone" type="telephone" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The 10-digit telephone number, including the
 							area
@@ -1679,8 +1583,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="electronicMail" type="electronicMail"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="electronicMail" type="electronicMail" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The numbers, letters, and symbols used to
 							identify an
@@ -1693,8 +1596,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="profileThumbnail" type="profileThumbnail"
-					minOccurs="0">
+				<xs:element name="profileThumbnail" type="profileThumbnail" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Locator for the student photo.
 						</xs:documentation>
@@ -1704,8 +1606,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="hispanicLatinoEthnicity" type="xs:boolean"
-					nillable="true">
+				<xs:element name="hispanicLatinoEthnicity" type="xs:boolean" nillable="true">
 					<xs:annotation>
 						<xs:documentation>An indication that the individual traces his or
 							her
@@ -1716,8 +1617,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="oldEthnicity" type="oldEthnicityType"
-					minOccurs="0">
+				<xs:element name="oldEthnicity" type="oldEthnicityType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Previous definition of Ethnicity combining
 							Hispanic/Latino and race:
@@ -1731,8 +1631,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="race" type="raceItemType" minOccurs="0"
-					maxOccurs="unbounded">
+				<xs:element name="race" type="raceItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The general racial category which most clearly
 							reflects the individual's recognition of his or her community or
@@ -1743,8 +1642,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="economicDisadvantaged" type="xs:boolean"
-					minOccurs="0">
+				<xs:element name="economicDisadvantaged" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>An indication of inadequate financial condition
 							of an
@@ -1759,8 +1657,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="schoolFoodServicesEligibility" type="schoolFoodServicesEligibilityType"
-					minOccurs="0">
+				<xs:element name="schoolFoodServicesEligibility" type="schoolFoodServicesEligibilityType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>An indication of a student's level of
 							eligibility for
@@ -1771,8 +1668,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentCharacteristics" type="studentCharacteristic"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="studentCharacteristics" type="studentCharacteristic" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Reflects important characteristics of the
 							student's
@@ -1783,8 +1679,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="limitedEnglishProficiency" type="limitedEnglishProficiencyType"
-					minOccurs="0">
+				<xs:element name="limitedEnglishProficiency" type="limitedEnglishProficiencyType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>An indication that the student has been
 							identified as
@@ -1793,15 +1688,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="languages" type="languageItemType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="languages" type="languageItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Language(s) the individual uses to communicate
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="homeLanguages" type="languageItemType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="homeLanguages" type="languageItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The language or dialect routinely spoken in an
 							individual's home. This language or dialect may or may not be an
@@ -1809,8 +1702,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="disabilities" type="disability"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="disabilities" type="disability" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The disability condition(s) that best describes
 							an
@@ -1818,8 +1710,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="section504Disabilities" type="section504DisabilityItemType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="section504Disabilities" type="section504DisabilityItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A categorization of the disabilities associated
 							with a
@@ -1827,8 +1718,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="displacementStatus" type="displacementStatusType"
-					minOccurs="0">
+				<xs:element name="displacementStatus" type="displacementStatusType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Indicates a state health or weather related
 							event that
@@ -1837,16 +1727,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="programParticipations" type="programParticipation"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="programParticipations" type="programParticipation" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Key programs the student is participating in or
 							receives services.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="learningStyles" type="learningStyles"
-					minOccurs="0">
+				<xs:element name="learningStyles" type="learningStyles" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The student's relative preference to visual,
 							auditory
@@ -1854,8 +1742,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="cohortYears" type="cohortYear"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="cohortYears" type="cohortYear" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The type and year of a cohort (e.g., 9th grade)
 							the
@@ -1864,8 +1751,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="studentIndicators" type="studentIndicator"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="studentIndicators" type="studentIndicator" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Indicator(s) or metric(s) computed for the
 							student
@@ -1874,8 +1760,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="loginId" type="identificationCode"
-					minOccurs="0">
+				<xs:element name="loginId" type="identificationCode" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The login ID for the user; used for security
 							access
@@ -1908,8 +1793,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="administrationEndDate"
-					type="xs:date">
+				<xs:element minOccurs="0" name="administrationEndDate" type="xs:date">
 					<xs:annotation>
 						<xs:documentation>Assessment Administration End Date, if
 							administered over multiple days.
@@ -1923,16 +1807,14 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="administrationLanguage"
-					type="languageItemType">
+				<xs:element minOccurs="0" name="administrationLanguage" type="languageItemType">
 					<xs:annotation>
 						<xs:documentation>The language in which an assessment is written
 							and/or administered.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="administrationEnvironment"
-					type="administrationEnvironmentType">
+				<xs:element minOccurs="0" name="administrationEnvironment" type="administrationEnvironmentType">
 					<xs:annotation>
 						<xs:documentation>The environment in which the test was
 							administered. For example:
@@ -1943,8 +1825,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="specialAccommodations" type="specialAccommodationItemType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="specialAccommodations" type="specialAccommodationItemType">
 					<xs:annotation>
 						<xs:documentation>The specific type of special variation used in
 							how an examination is presented, how it is administered, or how
@@ -1963,8 +1844,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="linguisticAccommodations" type="linguisticAccommodationItemType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="linguisticAccommodations" type="linguisticAccommodationItemType">
 					<xs:annotation>
 						<xs:documentation>Linguistic accommodations used with the student
 							for the test. For example:
@@ -2003,8 +1883,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="scoreResults" type="scoreResult">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="scoreResults" type="scoreResult">
 					<xs:annotation>
 						<xs:documentation>A meaningful score or statistical expression of
 							the performance of an individual. The results can be expressed as
@@ -2012,31 +1891,27 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="gradeLevelWhenAssessed"
-					type="gradeLevelType">
+				<xs:element minOccurs="0" name="gradeLevelWhenAssessed" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>The grade level of a student when assessed.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="performanceLevelDescriptors" type="performanceLevelDescriptor">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="performanceLevelDescriptors" type="performanceLevelDescriptor">
 					<xs:annotation>
 						<xs:documentation>This descriptor defines various levels or
 							thresholds for performance on the assessment.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="studentObjectiveAssessments" type="studentObjectiveAssessment">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="studentObjectiveAssessments" type="studentObjectiveAssessment">
 					<xs:annotation>
 						<xs:documentation>The score and or performance level(s) earned for
 							each objective assessment by the student.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="studentAssessmentItems" type="studentAssessmentItem">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="studentAssessmentItems" type="studentAssessmentItem">
 					<xs:annotation>
 						<xs:documentation>This entity represents the student's responses
 							to assessment items.
@@ -2155,8 +2030,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="behaviors"
-					type="behaviorDescriptor">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="behaviors" type="behaviorDescriptor">
 					<xs:annotation>
 						<xs:documentation>Categories of student-specific behavior coded
 							for use in
@@ -2164,8 +2038,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="secondaryBehaviors" type="secondaryBehavior">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="secondaryBehaviors" type="secondaryBehavior">
 					<xs:annotation>
 						<xs:documentation>Supplemental student-specific categorization
 							about an incident
@@ -2214,8 +2087,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="dateFulfilled" type="xs:date"
-					minOccurs="0">
+				<xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The date an assignment was turned in or the
 							date
@@ -2233,12 +2105,11 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="gradeEarned">
-							<xs:maxLength value="20" />
+							<xs:maxLength value="20"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="numericGradeEarned" type="xs:integer"
-					minOccurs="0">
+				<xs:element name="numericGradeEarned" type="xs:integer" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A final or interim (grading period) indicator
 							of
@@ -2247,8 +2118,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="diagnosticStatement" type="text"
-					minOccurs="0">
+				<xs:element name="diagnosticStatement" type="text" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A statement provided by the teacher that
 							provides information in addition to the grade or assessment
@@ -2297,8 +2167,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="primaryContactStatus"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="primaryContactStatus" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the person is a primary
@@ -2314,8 +2183,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="emergencyContactStatus"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="emergencyContactStatus" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>
 							Indicator of whether the person is a designated
@@ -2331,8 +2199,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="contactRestrictions"
-					type="contactRestrictions">
+				<xs:element minOccurs="0" name="contactRestrictions" type="contactRestrictions">
 					<xs:annotation>
 						<xs:documentation>
 							Restrictions for student and/or teacher contact
@@ -2373,8 +2240,7 @@
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-					type="serviceDescriptor">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="services" type="serviceDescriptor">
 					<xs:annotation>
 						<xs:documentation>
 							Indicates the services being provided to the
@@ -2473,8 +2339,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="repeatGradeIndicator" type="xs:boolean"
-					minOccurs="0">
+				<xs:element name="repeatGradeIndicator" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>An indicator of whether the student is enrolling
 							to repeat a
@@ -2484,15 +2349,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="classOf" type="schoolYearType"
-					minOccurs="0">
+				<xs:element name="classOf" type="schoolYearType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Projected High School graduation year
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="schoolChoiceTransfer" type="xs:boolean"
-					minOccurs="0">
+				<xs:element name="schoolChoiceTransfer" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>An indication of whether students transferred in
 							or out of the
@@ -2504,8 +2367,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="exitWithdrawDate" type="xs:date"
-					minOccurs="0">
+				<xs:element name="exitWithdrawDate" type="xs:date" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The month, day, and year of the first day after
 							the date of an
@@ -2518,8 +2380,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="exitWithdrawType" type="exitWithdrawType"
-					minOccurs="0">
+				<xs:element name="exitWithdrawType" type="exitWithdrawType" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The circumstances under which the student exited
 							from
@@ -2527,8 +2388,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="educationalPlans" type="educationalPlanItemType"
-					minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="educationalPlans" type="educationalPlanItemType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>The type of Education Plan(s) the student is
 							following, if
@@ -2538,8 +2398,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="graduationPlan" type="graduationPlan"
-					minOccurs="0">
+				<xs:element name="graduationPlan" type="graduationPlan" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The graduation plan associated with the student
 							enrolled in
@@ -2547,13 +2406,50 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-                <xs:element name="dailyAttendance" type="schoolYearAttendance">
-                    <xs:annotation>
-                        <xs:documentation>
+				
+				<xs:element name="dailyAttendance" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
                             Daily attendance for the student at the school. Attendance is partitioned by school year.
                         </xs:documentation>
-                    </xs:annotation>
-                </xs:element>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="schoolYearAttendance" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="schoolYearAttendance">
+		<xs:annotation>
+			<xs:documentation>Attendance by school year.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="attendanceEvent"/>
+			</xs:sequence>
+			<xs:attribute name="schoolYear" type="schoolYearType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="attendanceEvent">
+		<xs:annotation>
+			<xs:documentation>A record of attendance.
+				date: Date for this attendance event.
+				event: The occured attendance event, such as "Unexcused absence," "Excused absence," or "Tardy."
+				reason: The reported reason for the event, such as a reason for absence.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="date" type="xs:date"/>
+				<xs:element name="event" type="attendanceEventCategoryType"/>
+				<xs:element name="reason" type="attendanceEventReason" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -2655,8 +2551,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="additionalCreditsEarned" type="additionalCredits">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="additionalCreditsEarned" type="additionalCredits">
 					<xs:annotation>
 						<xs:documentation>'The number of additional credits a student
 							attempted and could earn for successfully completing a given
@@ -2664,8 +2559,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="gradeLevelWhenTaken"
-					type="gradeLevelType">
+				<xs:element minOccurs="0" name="gradeLevelWhenTaken" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>Student's grade level at time of course.
 						</xs:documentation>
@@ -2686,12 +2580,11 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="gradeEarned">
-							<xs:maxLength value="20" />
+							<xs:maxLength value="20"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element minOccurs="0" name="finalNumericGradeEarned"
-					type="xs:integer">
+				<xs:element minOccurs="0" name="finalNumericGradeEarned" type="xs:integer">
 					<xs:annotation>
 						<xs:documentation>The final indicator of student performance in a
 							class as submitted by the instructor.
@@ -2706,8 +2599,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="diagnosticStatement"
-					type="text">
+				<xs:element minOccurs="0" name="diagnosticStatement" type="text">
 					<xs:annotation>
 						<xs:documentation>A statement provided by the teacher that
 							provides information in addition to the grade or assessment
@@ -2722,8 +2614,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="performanceBaseConversion"
-					type="performanceBaseType">
+				<xs:element minOccurs="0" name="performanceBaseConversion" type="performanceBaseType">
 					<xs:annotation>
 						<xs:documentation>A conversion of the level to a standard set of
 							performance levels.
@@ -2769,8 +2660,7 @@
 			<xs:complexContent>
 				<xs:extension base="staff">
 					<xs:sequence>
-						<xs:element minOccurs="0" name="teacherUniqueStateId"
-							type="uniqueStateIdentifier">
+						<xs:element minOccurs="0" name="teacherUniqueStateId" type="uniqueStateIdentifier">
 							<xs:annotation>
 								<xs:documentation>An ID number maintained by the state that
 									uniquely
@@ -2778,8 +2668,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element minOccurs="0" name="highlyQualifiedTeacher"
-							type="xs:boolean">
+						<xs:element minOccurs="0" name="highlyQualifiedTeacher" type="xs:boolean">
 							<xs:annotation>
 								<xs:documentation>An indication of whether a teacher is
 									classified
@@ -2836,8 +2725,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="instructionalGradeLevels" type="gradeLevelType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="instructionalGradeLevels" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>The set of grade levels for which the
 							individual's assignment
@@ -2845,8 +2733,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0"
-					name="academicSubjects" type="academicSubjectType">
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="academicSubjects" type="academicSubjectType">
 					<xs:annotation>
 						<xs:documentation>The teaching field taught by an individual, for
 							example
@@ -2914,8 +2801,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element minOccurs="0" name="highlyQualifiedTeacher"
-					type="xs:boolean">
+				<xs:element minOccurs="0" name="highlyQualifiedTeacher" type="xs:boolean">
 					<xs:annotation>
 						<xs:documentation>An indication of whether a teacher is classified
 							as highly
@@ -2977,8 +2863,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="courseTitle" type="courseTitle"
-					minOccurs="0">
+				<xs:element name="courseTitle" type="courseTitle" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>The official Course Title with which this
 							learning standard is associated.
@@ -2999,8 +2884,7 @@
 			<xs:complexContent>
 				<xs:extension base="complexObjectType">
 					<xs:sequence>
-						<xs:element name="learningObjectiveId" type="learningStandardId"
-							minOccurs="0">
+						<xs:element name="learningObjectiveId" type="learningStandardId" minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>The Identifier for the specific learning
 									objective in the context of a standard (e.g., 111.15.3.1.A)
@@ -3014,8 +2898,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="description" type="description"
-							minOccurs="0">
+						<xs:element name="description" type="description" minOccurs="0">
 							<xs:annotation>
 								<xs:documentation>The description of the learning objective.
 								</xs:documentation>
@@ -3036,8 +2919,7 @@
 								</xs:documentation>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="learningStandards" type="reference"
-							minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="learningStandards" type="reference" minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
 								<xs:documentation>Learning standard(s) included in this
 									objective.
@@ -3047,8 +2929,7 @@
 								</xs:appinfo>
 							</xs:annotation>
 						</xs:element>
-						<xs:element name="parentLearningObjective" type="reference"
-							minOccurs="0" maxOccurs="1">
+						<xs:element name="parentLearningObjective" type="reference" minOccurs="0" maxOccurs="1">
 							<xs:annotation>
 								<xs:documentation>Parent learning objective this is a sub-objective for.
 								</xs:documentation>
