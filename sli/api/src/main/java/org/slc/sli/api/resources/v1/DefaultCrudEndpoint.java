@@ -332,6 +332,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults.add(result);
                 }
 
+                finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
+
                 // Return results as an array if multiple IDs were requested (comma separated list),
                 // single entity otherwise
                 if (finalResults.isEmpty()) {
