@@ -1,28 +1,11 @@
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import javax.annotation.PostConstruct;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.security.oauth.TokenGenerator;
-import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -32,6 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 /**
  * 
  * Provides CRUD operations on registered application through the /apps path.
@@ -40,9 +38,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-@Path("/apps")
+@Path("apps")
 @Produces({ Resource.JSON_MEDIA_TYPE })
-public class ApplicationResource {
+public class ApplicationResource extends DefaultCrudEndpoint {
+
 
     @Autowired
     private EntityDefinitionStore store;
@@ -55,16 +54,24 @@ public class ApplicationResource {
     public static final String CLIENT_SECRET = "client_secret";
     public static final String RESOURCE_NAME = "application"; 
     public static final String UUID = "uuid";
+    public static final String LOCATION = "Location";
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationResource.class);
 
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-        this.service = def.getService();
+//    @PostConstruct
+//    public void init() {
+//        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
+//        this.service = def.getService();
+//    }
+
+    @Autowired
+    public ApplicationResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, RESOURCE_NAME);
+        store = entityDefs;
+        service = store.lookupByResourceName(RESOURCE_NAME).getService();
     }
 
     @POST
-    public Response createApplication(EntityBody newApp, @Context final UriInfo uriInfo) {
+    public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
@@ -82,10 +89,7 @@ public class ApplicationResource {
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
-        String uuid = service.create(newApp);
-
-        String uri = uriToString(uriInfo) + "/" + uuid;
-        return Response.status(Status.CREATED).header("Location", uri).build();
+        return super.create(newApp, headers, uriInfo);
     }
 
     private boolean isDuplicateToken(String token) {
@@ -101,20 +105,11 @@ public class ApplicationResource {
     }
 
     @GET
-    public List<EntityBody> getApplications(@Context UriInfo info) {
-        List<EntityBody> results = new ArrayList<EntityBody>();
-
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1000);
-        Iterable<String> realmList = service.listIds(neutralQuery);
-        for (String id : realmList) {
-            EntityBody result = service.get(id);
-
-            result.put("link", uriToString(info) + "/" + id);
-            results.add(result);
-        }
-        return results;
+    public Response getApplications(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+                                            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+                                            @Context
+                                            HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.readAll(offset, limit, headers, uriInfo);
     }
     
     private static String uriToString(UriInfo uri) {
@@ -123,48 +118,31 @@ public class ApplicationResource {
 
     /**
      * Looks up a specific application based on client ID, ie.
-     * /api/rest/apps/<client_id>
+     * /api/rest/apps/<uuid>
      * 
-     * @param clientId
+     * @param uuid
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
      */
     @GET
     @Path("{" + UUID + "}")
-    public Response getApplication(@PathParam(UUID) String uuid) {
-
-        if (uuid != null) {
-            try {
-                EntityBody entityBody = service.get(uuid);
-                return Response.status(Status.OK).entity(entityBody).build();
-            } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id {}", uuid);
-            }
-        }
-
-        return Response.status(Status.NOT_FOUND).build();
-
+    public Response getApplication(@PathParam(UUID) String uuid,
+                                   @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(uuid, headers, uriInfo);
     }
 
     @DELETE
     @Path("{" + UUID + "}")
-    public Response deleteApplication(@PathParam(UUID) String uuid) {
+    public Response deleteApplication(@PathParam(UUID) String uuid,
+                                      @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         
-        if (uuid != null) {
-            try {
-                service.delete(uuid);
-                return Response.status(Status.NO_CONTENT).build();
-            } catch (EntityNotFoundException e) {
-                LOG.debug("Could not find application with id {} to delete", uuid);
-            }
-        }
-
-        return Response.status(Status.NOT_FOUND).build();
+        return super.delete(uuid, headers, uriInfo);
     }
     
     @PUT
-    @Path("{" + UUID + "}") 
-    public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app) {
+    @Path("{" + UUID + "}")
+    public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app,
+                                      @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         EntityBody oldApp = service.get(uuid);
         String clientSecret = (String) app.get(CLIENT_SECRET);
         String clientId = (String) app.get(CLIENT_ID);
@@ -179,33 +157,7 @@ public class ApplicationResource {
             return Response.status(Status.BAD_REQUEST).entity(body).build();
 
         }
-        
-        boolean status = service.update(uuid, app);
-        if (status) {
-            return Response.status(Status.NO_CONTENT).build();
-        }
-        return Response.status(Status.BAD_REQUEST).build();
-    }
-    
-    /**
-     * Since entries are keyed off a uuid instead of the client ID,
-     * we need to look up the uuid using the client id.
-     * 
-     * @param clientId
-     * @return a uuid, or null if not found
-     */
-    private String lookupIdFromClientId(String clientId) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria(CLIENT_ID + "=" + clientId));
-        Iterable<String> results = service.listIds(neutralQuery);
-        try {
-            return results.iterator().next();
-        } catch (NoSuchElementException nsee) {
-            return null;
-        } catch (NullPointerException npe) {
-            return null;
-        }
+
+        return super.update(uuid, app, headers, uriInfo);
     }
 }
