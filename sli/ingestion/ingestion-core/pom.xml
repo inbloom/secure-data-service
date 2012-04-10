@@ -28,6 +28,12 @@
 
   <dependencies>
 
+    <!-- Ingestion Base -->
+    <dependency>
+      <groupId>org.slc.sli.ingestion</groupId>
+      <artifactId>ingestion-base</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>javax.jms</groupId>
       <artifactId>jms</artifactId>
