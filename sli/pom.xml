@@ -706,7 +706,6 @@
 
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -1005,6 +1004,27 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 				<!--executions> <execution> <id>site</id> <phase>compile</phase> <goals>
 					<goal>stage</goal> </goals> </execution> </executions -->
 			</plugin>
+				<!-- Generate the configuration files during compile phase -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                    <inherited>false</inherited>
+                    <executions>
+                        <execution>
+                            <id>generate-config-files</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <phase>compile</phase>
+                            <configuration>
+                                <executable>ruby </executable>
+                                <commandlineArgs>${project.basedir}/config/bin/webapp-provision.rb ${project.basedir}/config/config.in/canonical_1.yml dev ${project.basedir}/config/properties/sli</commandlineArgs>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
 		</plugins>
 
 	</build>
