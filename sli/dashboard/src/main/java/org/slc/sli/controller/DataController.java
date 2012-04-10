@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,8 +15,7 @@ import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 
 
 /**
- * Layout controller for all types of requests. 
- * NOTE: This controller was introduced after the student list and app selector controllers. 
+ * Data controller returns JSON data. No freemarker templates are called.
  * 
  * @author dwu
  */
@@ -28,9 +28,9 @@ public class DataController {
      * Controller for list of students
      * 
      */
-    @RequestMapping(value = "/service/data/", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/data/{componentId}", method = RequestMethod.GET)
     @ResponseBody public GenericEntity handle(
-            @RequestParam final String componentId, @RequestParam final String sectionId, final HttpServletRequest request) {
+            @PathVariable final String componentId, @RequestParam final String sectionId, final HttpServletRequest request) {
         return customizationAssemblyFactory.getDataComponent(componentId, sectionId);
     }
     

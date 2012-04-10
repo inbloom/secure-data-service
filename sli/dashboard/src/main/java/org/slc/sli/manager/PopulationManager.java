@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.view.TimedLogic;
 import org.slc.sli.view.TimedLogic2;
 
 /**
@@ -104,7 +106,7 @@ public class PopulationManager implements Manager {
             studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
         
-        // Add programs, attendance, and student assessment results to summaries
+        // Add programs
         for (GenericEntity studentSummary : studentSummaries) {
             if (studentSummary == null)
                 continue;
@@ -120,18 +122,16 @@ public class PopulationManager implements Manager {
     
     
     /**
+     * Get data for the list of students
      * 
      * @return
      */
     @EntityMapping("listOfStudents")
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
-       
-        List<String> studentIds = new ArrayList<String>();
-        ViewConfig viewConfig = null;
-        String sessionId = null;
-        
-        List<GenericEntity> studentSummaries = getStudentSummaries(token, studentIds, viewConfig,
-                sessionId, (String) sectionId);
+    
+        // get student summary data
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null,
+                null, (String) sectionId);
         
         // apply assmt filters
         applyAssessmentFilters(studentSummaries, config);
@@ -143,7 +143,7 @@ public class PopulationManager implements Manager {
 
     
     /**
-     * Find the required assessment results according to the data configuration. Filters out the rest.
+     * Find the required assessment results according to the data configuration. Filter out the rest.
      */
     private void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
         
@@ -177,20 +177,61 @@ public class PopulationManager implements Manager {
         }
     }
     
-    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtName, String timedLogic) {
+    /**
+     * Filter a list of assessment results, based on the assessment name and timed logic
+     * 
+     * @param assmtResults
+     * @param assmtName
+     * @param timedLogic
+     * @return
+     */
+    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtName, String timeSlot) {
         
         // filter by assmtName
-        List<Map> filteredAssmtResults = new ArrayList<Map>();
+        List<Map> studentAssessmentFiltered = new ArrayList<Map>();
         for (Map assmtResult : assmtResults) {
             String family = (String) ((Map) (assmtResult.get("assessments"))).get("assessmentFamilyHierarchyName");
             if (family.contains(assmtName)) {
-                filteredAssmtResults.add(assmtResult);
+                studentAssessmentFiltered.add(assmtResult);
             }
         }
         
+        if (studentAssessmentFiltered.size() == 0) {
+            return null;
+        }
+        
         // call timed logic
-        Map g = TimedLogic2.getMostRecentAssessment(filteredAssmtResults);
-        return g;
+        Map chosenAssessment = null;
+        
+        if (TimedLogic2.TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+        //} else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
+            //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
+            chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            /*
+            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
+            Set<String> assessmentIds = new HashSet<String>();
+            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
+                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
+                if (!assessmentIds.contains(assessmentId)) {
+                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                    assessmentMetaData.add(assessment);
+                    assessmentIds.add(assessmentId);
+                }
+            }
+            
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+            */
+        	
+        } else {
+            // Decide whether to throw runtime exception here. Should timed logic default @@@
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+        }        
+        
+        
+        return chosenAssessment;
     }
     
     
