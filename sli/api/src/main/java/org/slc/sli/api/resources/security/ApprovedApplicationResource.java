@@ -25,8 +25,6 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -47,11 +45,10 @@ import org.springframework.stereotype.Component;
 public class ApprovedApplicationResource {
 
     public static final String RESOURCE_NAME = "application"; 
-    private static final Logger LOG = LoggerFactory.getLogger(ApprovedApplicationResource.class);
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description", 
-        "name", "developer_info", "version", "is_admin", "behavior"
+        "name", "developer_info", "version", "is_admin", "behavior", "endpoints"
     };
 
     @Autowired
@@ -68,6 +65,7 @@ public class ApprovedApplicationResource {
         this.service = def.getService();
     }
 
+    @SuppressWarnings("unchecked")
     @GET
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
         List<String> allowedApps = getAllowedAppIds();
@@ -83,9 +81,14 @@ public class ApprovedApplicationResource {
                 }
             });
 
+
             if (result != null) {
+                if (result.containsKey("endpoints")) {
+                    filterEndpoints((List<Map<String, Object>>) result.get("endpoints"));
+                }
+
                 boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
-                
+
                 //is_admin query param specified
                 if (!adminFilter.equals("")) {
                     boolean adminFilterVal = Boolean.valueOf(adminFilter);
@@ -111,6 +114,28 @@ public class ApprovedApplicationResource {
             }
         }
         return Response.status(Status.OK).entity(results).build();
+    }
+
+    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> userRoles = principal.getRoles();
+        for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
+
+            @SuppressWarnings("unchecked")
+            List<String> reqRoles = (List<String>) i.next().get("roles");
+            
+            //if no roles specified, don't filter it
+            if (reqRoles.size() == 0) {
+                continue;
+            }
+            
+            List<String> intersection = new ArrayList<String>(reqRoles);
+            intersection.retainAll(userRoles);
+            if (userRoles.size() == 0 || intersection.size() == 0) {
+                debug("Removing endpoint because users roles {} did not match required roles {}.", userRoles, reqRoles);
+                i.remove();
+            }
+        }
     }
 
     private List<String> getAllowedAppIds() {

@@ -15,3 +15,10 @@ gem "resque-scheduler"
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+# Lets use SimpleCov for Ruby > 1.9
+group :development, :test do
+  gem 'simplecov', :require=>false, :group=>:test
+  gem 'simplecov-rcov', :require=>false, :group=>:test
+
+end

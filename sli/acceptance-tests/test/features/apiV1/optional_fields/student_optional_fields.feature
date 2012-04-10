@@ -14,9 +14,10 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
     # Attendaces
     And I should find "attendances" in "attendances"
-    And I should see "In Attendance" is "200" in it
-    And I should see "Excused Absence" is "22" in it
-    And I should see "Total" is "222" in it
+    When I look at the first one
+    Then I should see "attendanceEventType" is "Daily Attendance" in it
+    Then I should see "entityType" is "attendance" in it
+    Then I should see "studentId" is "<STUDENT_ID>" in it
 
     # Assessments
     And I should find "1" "studentAssessmentAssociations"
@@ -39,7 +40,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "entityType" is "gradebookEntry" in it
 
 
-  Scenario: Applying optional fields - transcript
+  Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
@@ -48,7 +49,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And inside "transcript"
     And I should find "1" "studentSectionAssociations" in it
     And I should find "sections" expanded in each of them
-    And I should find "studentTranscriptAssociations" expanded in each of them
     When I look at the first one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
@@ -60,8 +60,13 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     When I go back up one level
     Then inside "courses"
     And I should see "courseDescription" is "Intro to Russian" in it
-    When I go back up one level
-    And I go back up one level
-    Then I should find "1" "studentTranscriptAssociations" in it
+    
+ Scenario: Applying optional fields - transcript - studentTranscriptAssociations
+    Given optional field "transcript"
+    When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
+    Then I should receive a return code of 200
+    
+    And inside "transcript"
+    And I should find "1" "studentTranscriptAssociations" in it
     When I look at the first one
     And I should see "finalLetterGradeEarned" is "B" in it

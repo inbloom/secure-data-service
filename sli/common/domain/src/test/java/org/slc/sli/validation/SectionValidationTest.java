@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class SectionValidationTest {
         repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
         repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
         repo.addEntity("program", "program1", ValidationTestUtils.makeDummyEntity("program", "program1"));
-        //repo.addEntity("program", "program2", ValidationTestUtils.makeDummyEntity("program", "program2"));
+        repo.addEntity("program", "program2", ValidationTestUtils.makeDummyEntity("program", "program2"));
     }
 
     private Entity goodSection() {
@@ -59,11 +60,10 @@ public class SectionValidationTest {
         goodSection.put("schoolId", "42");
         goodSection.put("sessionId", "MySessionId");
         goodSection.put("courseId", "MyCourseId");
-//        List<String> programs = new ArrayList<String>();
-//        programs.add("program1");
-//        programs.add("program2");
-//        goodSection.put("programReference", programs);
-        goodSection.put("programReference", "program1");
+        List<String> programs = new ArrayList<String>();
+        programs.add("program1");
+        programs.add("program2");
+        goodSection.put("programReference", programs);
 
         return new Entity() {
 

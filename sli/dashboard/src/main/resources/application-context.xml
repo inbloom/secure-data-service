@@ -14,17 +14,20 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 >
-    <context:property-placeholder location="classpath:${env}.properties,classpath:local.properties" ignore-resource-not-found="true" />
+
+    <context:property-placeholder location="classpath:${env}.properties,classpath:local.properties,${prop.location}" ignore-resource-not-found="true" />
    
     <ehcache:annotation-driven cache-manager="cacheManager" />
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
     
-    <!-- managers -->
-    <bean id="configManager"     class="org.slc.sli.manager.ConfigManager">
+    <bean id="configPersistor" class="org.slc.sli.config.ConfigPersistor">
         <property name="apiClient" ref="apiClientRef"/>
         <property name="entityManager" ref="entityManager"/>
-        <property name="institutionalHierarchyManager" ref="institutionalHierarchyManager"/>
+    </bean>
+    <!-- managers -->
+    <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
+        <property name="configPersistor" ref="configPersistor"/>
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
     </bean>
@@ -33,17 +36,16 @@
       <property name="apiClient" ref="apiClientRef"/>
     </bean>
     
-    <bean id="institutionalHierarchyManager"    class="org.slc.sli.manager.impl.InstitutionalHierarchyManagerImpl">
+    <bean id="userEdOrgManager"    class="org.slc.sli.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
     </bean>  
     
     <bean id="populationManager" class="org.slc.sli.manager.PopulationManager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
-         
+
     <bean id="viewManager" class="org.slc.sli.manager.ViewManager">
         <property name="entityManager" ref="entityManager"/>
-        <property name="apiClient" ref="apiClientRef"/>
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
@@ -65,5 +67,6 @@
         
     <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
         <property name="configManager" ref="configManager"/>
+        <property name="userEdOrgManager" ref="userEdOrgManager"/>
     </bean>
 </beans>

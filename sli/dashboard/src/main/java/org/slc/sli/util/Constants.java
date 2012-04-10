@@ -45,6 +45,7 @@ public final class Constants {
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
     public static final String MM_KEY_VIEW_CONFIGS = "viewConfigs";
     public static final String MM_KEY_VIEW_CONFIGS_JSON = "viewConfigsJson";
+    public static final String MM_KEY_WIDGET_CONFIGS_JSON = "widgetConfig";
     public static final String MM_KEY_LAYOUT = "layout";
     public static final String MM_KEY_DATA = "data";
     public static final String MM_KEY_DATA_JSON = "dataJson";
@@ -55,6 +56,7 @@ public final class Constants {
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
+
     
     // entity attributes
     public static final String ATTR_COURSES = "courses";
@@ -132,6 +134,7 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_GRADE_LEVEL = "gradeLevel";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
     
@@ -176,9 +179,10 @@ public final class Constants {
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     
     // extra elements added by API
-    public static final String METADATA="metaData";
-    public static final String EXTERNAL_ID="externalId";
-    
+    public static final String METADATA = "metaData";
+    public static final String EXTERNAL_ID = "externalId";
+
+
     /**
      * Contains the possible values for FRE participation
      */
