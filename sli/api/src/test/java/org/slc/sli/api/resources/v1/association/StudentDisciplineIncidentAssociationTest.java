@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.associations;
+package org.slc.sli.api.resources.v1.association;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +33,6 @@ import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.entity.DisciplineIncidentResource;
-import org.slc.sli.api.resources.v1.association.StudentDisciplineIncidentAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
