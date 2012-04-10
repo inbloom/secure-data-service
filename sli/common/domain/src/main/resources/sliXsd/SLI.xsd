@@ -2433,8 +2433,8 @@
                     </xs:annotation>
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="schoolYearAttendance" minOccurs="0" maxOccurs="unbounded"
-                                        type="schoolYearAttendanceType"/>
+                            <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0"
+                                        maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
