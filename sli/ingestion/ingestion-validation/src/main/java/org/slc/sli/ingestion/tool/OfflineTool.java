@@ -19,7 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class OfflineTool {
 
-    private static Logger logger = LoggerUtil.getLogger();
+    private Logger logger = LoggerUtil.getLogger();
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
@@ -58,8 +58,8 @@ public class OfflineTool {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String logFileName = file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log";
-        LoggerUtil.logToFile(logFileName);
+        String logFilePath = file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log";
+        LoggerUtil.logToFile(logFilePath);
 
         controller.doValidation(file);
     }
