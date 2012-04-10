@@ -7,16 +7,21 @@ package org.slc.sli.ingestion;
  *
  */
 public enum BatchJobStageType {
-    TYPE_STARTED("Started"),
-    TYPE_ZIPFILEPROCESSOR("ZipfileProcessor"),
-    TYPE_CONTROLFILEPREPROCESSOR("ControlFilePreprocessor"),
-    TYPE_CONTROLFILEPROCESSOR("ControlFileProcessor"),
-    TYPE_NEUTRALRECORDSMERGE("NeutralRecordMergeProcessor"),
-    TYPE_EDFIPROCESSOR("EdFiProcessor"),
-    TYPE_PERSISTENCEPROCESSOR("PersistenceProcessor"),
-    TYPE_TRANSFORMATIONPROCESSOR("TransformationProcessor"),
-    TYPE_COMPLETEDWITHERRORS("CompletedWithErrors"),
-    TYPE_COMPLETEDSUCCESSFULLY("CompletedSuccessfully");
+    STARTED("Started"),
+    
+    ZIP_FILE_PROCESSING("ZipFileProcessing"),
+    CONTROL_FILE_PREPROCESSING("ControlFilePreprocessing"),
+    CONTROL_FILE_PROCESSING("ControlFileProcessing"),
+    EDFI_PROCESSING("EdFiProcessing"),
+    TRANSFORMATION_PROCESSING("TransformationProcessing"),
+    NR_MERGE_PROCESSING("NeutralRecordMergeProcessing"),
+    PERSISTENCE_PROCESSING("PersistenceProcessing"),
+    JOB_REPORTING_PROCESSING("JobReportingProcessing"),
+    
+    UNDEFINED("Undefined"),
+
+    COMPLETED_WITH_ERRORS("CompletedWithErrors"),
+    COMPLETED_SUCCESSFULLY("CompletedSuccessfully");
 
     private String name;
 

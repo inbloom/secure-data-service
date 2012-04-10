@@ -215,7 +215,7 @@ public class BatchJobUtils {
      * @param severity
      * @param errorDetail
      */
-    public static void logError(BatchJob job, BatchJobStageType stage, String fileId, String severity, String errorDetail) {
+    public static void logError(String batchJobId, BatchJobStageType stage, String fileId, String severity, String errorDetail) {
         
         if ("mongodb".equals(System.getProperty("state.manager"))) {
             
@@ -224,16 +224,16 @@ public class BatchJobUtils {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
 
-            logIngestionError(job.getId(), stage.getName(), fileId, null, null, null, sdf.format(cal.getTime()), severity, "errorType", errorDetail);
+            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, sdf.format(cal.getTime()), severity, "generic", errorDetail);
         }
     }
     
-    public static void logBatchError(BatchJob job, String severity, String errorDetail) {
-        logError(job, null, null, severity, errorDetail);
+    public static void logBatchError(String batchJobId, String severity, String errorDetail) {
+        logError(batchJobId, null, null, severity, errorDetail);
     }
     
-    public static void logBatchStageError(BatchJob job, BatchJobStageType stage, String severity, String errorDetail) {
-        logError(job, stage, null, severity, errorDetail);
+    public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity, String errorDetail) {
+        logError(batchJobId, stage, null, severity, errorDetail);
     }
     
 }

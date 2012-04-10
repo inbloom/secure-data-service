@@ -1,6 +1,8 @@
 package org.slc.sli.ingestion.model.da;
 
 import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -40,21 +43,19 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         template = mongoTemplate;
     }
-
+    
     @Override
     public BatchJobStatus saveBatchJob(NewBatchJob job) {
-        NewBatchJob ingestionJob = new NewBatchJob("jobId");
-        template.save(ingestionJob);
+        if (job != null)
+            template.save(job);
         return null;
     }
 
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         // TODO Auto-generated method stub
-        NewBatchJob ingestionJob = new NewBatchJob();
         Query query = new Query(Criteria.where("_id").is("jobId"));
-        ingestionJob = template.findOne(query, NewBatchJob.class);
-        return ingestionJob;
+        return template.findOne(query, NewBatchJob.class);
     }
 
     /**
@@ -179,33 +180,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return new BatchJobStatus(true, "Created Job Metric.", job);
     }
 
-    /**
-     *
-     * @param IngestionJobId
-     * @param stageName
-     * @param resourceId
-     * @param sourceIp
-     * @param hostname
-     * @param recordIdentifier
-     * @param timestamp
-     * @param severity
-     * @param errorType
-     * @param errorDetail
-     * @return
-     */
-    public static BatchJobStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
-            String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
-            String errorType, String errorDetail) {
-        if (sourceIp == null)
-            sourceIp = thisIP;
-        if (hostname == null)
-            hostname = thisName;
-        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
-                severity, errorType, errorDetail);
-        template.save(error);
-        return new BatchJobStatus(true, "Created Job Error.", error);
-    }
-
     private static String getHostIP() {
         String ip = "unknownIP";
         try {
@@ -227,5 +201,51 @@ public class BatchJobMongoDA implements BatchJobDAO {
         }
         return name;
     }
+
+    /**
+     *
+     * @param IngestionJobId
+     * @param stageName
+     * @param resourceId
+     * @param sourceIp
+     * @param hostname
+     * @param recordIdentifier
+     * @param timestamp
+     * @param severity
+     * @param errorType
+     * @param errorDetail
+     * @return
+     */
+    public static BatchJobStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
+            String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
+            String errorType, String errorDetail) {
+        
+        if (sourceIp == null)
+            sourceIp = thisIP;
+        
+        if (hostname == null)
+            hostname = thisName;
+        
+        if (timestamp == null) {
+            // TODO: may need to make this faster
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
+            timestamp = sdf.format(cal.getTime());
+        }
+        
+        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
+                severity, errorType, errorDetail);
+        template.save(error);
+        return new BatchJobStatus(true, "Created Job Error.", error);
+    }
+
+    public static void logBatchError(String batchJobId, String severity, String errorType, String errorDetail) {
+        logIngestionError(batchJobId, null, null, null, null, null, null, severity, errorType, errorDetail);
+    }
+    
+    public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity, String errorType, String errorDetail) {
+        logIngestionError(batchJobId, stage.getName(), null, null, null, null, null, severity, errorType, errorDetail);
+    }
+    
 
 }

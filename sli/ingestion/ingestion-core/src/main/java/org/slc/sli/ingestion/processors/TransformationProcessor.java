@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
@@ -38,11 +41,24 @@ public class TransformationProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) {
 
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        if (batchJobId == null) {
+            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        }
+        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        // batchJobDAO.startStage(batchJobId, BatchJobStageType.TRANSFORMATION_PROCESSING);
+        
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         performDataTransformations(job.getId());
 
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+
+        // batchJobDAO.stopStage(batchJobId, BatchJobStageType.TRANSFORMATION_PROCESSING);
+        batchJobDAO.saveBatchJob(newJob);
     }
 
     /**

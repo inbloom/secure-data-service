@@ -32,6 +32,9 @@ import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
@@ -80,6 +83,16 @@ public class PersistenceProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) {
         
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        if (batchJobId == null) {
+            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        }
+        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        // batchJobDAO.startStage(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING);
+
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         try {
@@ -99,6 +112,8 @@ public class PersistenceProcessor implements Processor {
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
+                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())
+
                 ErrorReport errorReportForFile = null;
                 try {
                     errorReportForFile = processIngestionStream(fe, tenantId, getTransformedCollections(), new HashSet<String>());
@@ -106,6 +121,9 @@ public class PersistenceProcessor implements Processor {
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
                 }
+
+                // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+                // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
 
                 // Inform user if there were any record-level errors encountered
                 if (errorReportForFile != null && errorReportForFile.hasErrors()) {
@@ -133,6 +151,10 @@ public class PersistenceProcessor implements Processor {
         } finally {
             neutralRecordMongoAccess.cleanupGroupedCollections();
         }
+
+        // batchJobDAO.stopStage(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING);
+        batchJobDAO.saveBatchJob(newJob);
+
     }
 
 

@@ -7,9 +7,14 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -34,14 +39,26 @@ public class ControlFilePreProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
+            File controlFile = exchange.getIn().getBody(File.class);
 
-            // TODO JobLogStatus.createBatchJob(file)
-            // Batchjob state management should start here so we can store parsing errors of the ctl file in the db.
-            // May not need to store this stage ... JobLogStatus.startStage(batchJobId, stageName)
-            ControlFile cf = ControlFile.parse(exchange.getIn().getBody(File.class));
+            if (batchJobId == null) {
+                batchJobId = NewBatchJob.createId(controlFile.getName());
+                exchange.getIn().setHeader("BatchJobId", batchJobId);
+                log.info("Created job [{}]", batchJobId);
+            }
+            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            // JobLogStatus.startStage(batchJobId, stageName)
+            
+            ControlFile cf = ControlFile.parse(controlFile);
+
+            batchJobDAO.saveBatchJob(newJob);
 
             // set headers for ingestion routing
             exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
@@ -53,6 +70,9 @@ public class ControlFilePreProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:",  exception);
+            if (batchJobId != null) {
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PREPROCESSING, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            }
         }
 
     }

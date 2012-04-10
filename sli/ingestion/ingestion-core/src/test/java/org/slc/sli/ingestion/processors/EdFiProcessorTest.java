@@ -48,7 +48,7 @@ public class EdFiProcessorTest {
         inputFileEntry.setFile(inputFile);
         // TODO test only set the relevant context information for error logging
         inputFileEntry.getDatabaseErrorsReport().setBatchJobId("edfi-12342-3423-383832");
-        inputFileEntry.getDatabaseErrorsReport().setBatchJobStage(BatchJobStageType.TYPE_EDFIPROCESSOR);
+        inputFileEntry.getDatabaseErrorsReport().setBatchJobStage(BatchJobStageType.EDFI_PROCESSING);
         inputFileEntry.getDatabaseErrorsReport().setResourceId(inputFileEntry.getFileName());
 
         edFiProcessor.processFileEntry(inputFileEntry);

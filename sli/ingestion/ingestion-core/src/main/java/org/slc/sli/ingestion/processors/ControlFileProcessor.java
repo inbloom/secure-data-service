@@ -3,8 +3,13 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.util.performance.Profiled;
 import org.slf4j.Logger;
@@ -30,17 +35,23 @@ public class ControlFileProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        if (batchJobId == null) {
+            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            log.error("Error:", "No BatchJobId specified in " + this.getClass().getName() 
+                    + " exchange message header.");            
+        }
+
         try {
-            /* TODO JobLogStatus
-               // Get the batch job ID from the exchange
-               batchJobId = exchange.getIn().getBody(String.class);
-               
-               // Get the job from the db
-               BatchJob job = JobLogStatus.getJob(batchJobId)
-               
-               // Create the stage and metric
-               JobLogStatus.startStage(batchJobId, stageName)
-             */
+            // get the job from the db
+            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+            
+            // TODO JobLogStatus
+            // Create the stage and metric
+            // JobLogStatus.startStage(batchJobId, stageName)
+
             long startTime = System.currentTimeMillis();
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
@@ -56,12 +67,10 @@ public class ControlFileProcessor implements Processor {
 
             // TODO Create the stage and metric
             // JobLogStatus.completeStage(batchJobId, stageName)
+            batchJobDAO.saveBatchJob(newJob);
 
             // set the exchange outbound message to the value of the job
             exchange.getIn().setBody(job, BatchJob.class);
-            // TODO JobLogStatus.addFile(job.getId(), ctlFile);
-            // Pass the Id along
-            // exchange.getIn().setBody(job.getId(), String.class);
 
             // set headers
             exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
@@ -70,13 +79,13 @@ public class ControlFileProcessor implements Processor {
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            /*
-             * TODO JobLogStatus
-             * if (batchJobId)
-             * JobLogStatus.log(batchJobId, this.getClass().getName(), "ERROR", exception)
-             */
             log.error("Exception:", exception);
+            if (batchJobId != null) {
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PROCESSING, 
+                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            }
         }
+
     }
     
     public BatchJobAssembler getJobAssembler() {
