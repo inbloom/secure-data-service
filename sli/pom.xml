@@ -102,7 +102,6 @@
 			<properties>
 				<sli.env>local</sli.env>
 				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
-				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
                 <sli.conf>${sli.home}/sli-configuration/src/main/resources/config/local/sli.properties</sli.conf>
 			</properties>
 		</profile>
