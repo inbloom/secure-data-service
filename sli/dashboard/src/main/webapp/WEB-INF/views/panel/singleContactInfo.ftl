@@ -37,8 +37,12 @@
 			<tr>
 				<th>
 				<!-- show only once -->
-				<#if address_index == 0>
-    				Address:
+				<#if address.addressType ??>
+					<#if address.addressType == "Home" >
+	    				Address:
+    				<#else>
+    					${address.addressType}
+    				</#if>
 				</#if>
 				</th>
 				<td class="contactInfoData">
