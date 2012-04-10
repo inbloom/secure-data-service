@@ -128,7 +128,7 @@ public class MongoTokenStore implements TokenStore {
     }
     
     /**
-     * Removes the Access Token's validation by expiring it immediately.
+     * Removes the OAuth access token from the oauth_access_token collection in mongo.
      */
     @Override
     public void removeAccessToken(String tokenValue) {
@@ -158,9 +158,7 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
-
-        throw new RuntimeException("Refresh tokens not supported");
-        
+        throw new RuntimeException("Refresh tokens not supported");        
     }
 
     /**
@@ -168,7 +166,6 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public void removeRefreshToken(String tokenValue) {
-
         throw new RuntimeException("Refresh tokens not supported");
     }
 
@@ -179,7 +176,6 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public void removeAccessTokenUsingRefreshToken(String refreshToken) {
-
         throw new RuntimeException("Refresh tokens not supported");
     }
 

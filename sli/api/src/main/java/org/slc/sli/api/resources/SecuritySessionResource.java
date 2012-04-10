@@ -64,7 +64,7 @@ public class SecuritySessionResource {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
-
+        
         if (oAuth instanceof AnonymousAuthenticationToken) {
             final String noLoginMsg = "User must have a valid session in SLI before they can logout";
             throw new InsufficientAuthenticationException(noLoginMsg);

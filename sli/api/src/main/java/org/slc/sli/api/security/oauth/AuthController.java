@@ -1,14 +1,15 @@
 package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sun.jersey.core.util.Base64;
@@ -51,7 +52,6 @@ import org.slc.sli.domain.NeutralQuery;
  * Controller for Discovery Service
  * 
  * @author dkornishev
- * 
  */
 @Controller
 @Scope("request")
@@ -117,19 +117,25 @@ public class AuthController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
+    public String listRealms(
+            @RequestParam(value = "redirect_uri", required = false) final String relayState,
             @RequestParam(value = "RealmName", required = false) final String realmName, 
             @RequestParam(value = "client_id", required = true) final String clientId, 
             @RequestParam(value = "state", required = false) final String state,
-            @CookieValue(value = "realmCookie", required = false) final String cookie,
             @CookieValue(value = "_tla", required = false) final String sessionIndex,
-            final HttpServletResponse res, final Model model) throws IOException {
+            final HttpServletResponse res, 
+            final Model model) throws IOException {
         
-        if (cookie != null && cookie.length() > 0) {
-            LOG.debug("Realm Cookie is {}", cookie);
-            return ssoInit(cookie, sessionIndex, relayState, clientId, state, res, model);
+        if (sessionIndex != null) {
+            String realmId = doesIdMapToValidOAuthSession(sessionIndex);
+            if (realmId != null) {
+                LOG.debug("found valid session --> user authenticated in realm with id: {}", realmId);
+                return ssoInit(realmId, sessionIndex, relayState, clientId, state, res, model);
+            } else {
+                LOG.debug("session does not map to a valid oauth session");
+            }            
         }
-        
+
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
@@ -152,15 +158,13 @@ public class AuthController {
                     }
                 }
                 return map;
-            }
-            
+            }            
         });
         
         if (result instanceof String) {
             return (String) result;
         }
 
-        @SuppressWarnings("unchecked")
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
@@ -175,6 +179,54 @@ public class AuthController {
         return "realms";
     }
     
+    /**
+     * Redirects user to the sso init url given valid id
+     * 
+     * @param realmId
+     *            id of the realm
+     * @return directive to redirect to sso init page
+     * @throws IOException
+     */
+    @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
+    public String ssoInit(
+            @RequestParam(value = "realmId", required = true) final String realmIndex,
+            @RequestParam(value = "sessionId", required = false) final String sessionIndex,
+            @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
+            @RequestParam(value = "clientId", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state,
+            HttpServletResponse res, 
+            Model model) throws IOException {
+        
+        String realmId = doesIdMapToValidOAuthSession(sessionIndex);
+        boolean forceAuthn = (sessionIndex != null && realmId != null) ? false : true;
+        
+        String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
+            @Override
+            public String execute() {
+                EntityBody body = getRealmEntityService().get(realmIndex);
+                if (body == null) {
+                    throw new IllegalArgumentException("couldn't locate idp for realm: " + realmIndex);
+                }
+                
+                @SuppressWarnings("unchecked")
+                Map<String, String> idpData = (Map<String, String>) body.get("idp");
+                return (String) idpData.get("redirectEndpoint");
+            }
+        });
+        if (endpoint == null) {
+            throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
+        }
+        
+        // {messageId,encodedSAML}
+        LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
+        Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn);
+        
+        authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
+        LOG.debug("redirecting to: {}", endpoint);
+        
+        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+    }
+    
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
     public ResponseEntity<String> getAccessToken(
             @RequestParam("code") String authorizationCode, 
@@ -187,7 +239,6 @@ public class AuthController {
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
         
-        info("Hoora");
         Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
         OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
         
@@ -197,85 +248,53 @@ public class AuthController {
         
         return new ResponseEntity<String>(serializationService.serialize(token), headers, HttpStatus.OK);
     }
-    
-    /**
-     * Redirects user to the sso init url given valid id
-     * 
-     * @param realmId
-     *            id of the realm
-     * @return directive to redirect to sso init page
-     * @throws IOException
-     */
-    @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(
-            @RequestParam(value = "realmId", required = true) final String realmId,
-            @RequestParam(value = "sessionId", required = false) final String sessionId,
-            @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
-            @RequestParam(value = "clientId", required = true) final String clientId, 
-            @RequestParam(value = "state", required = false) final String state,
-            HttpServletResponse res, 
-            Model model) throws IOException {
-        
-        String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
-            @Override
-            public String execute() {
-                EntityBody eb = getRealmEntityService().get(realmId);
-                if (eb == null) {
-                    throw new IllegalArgumentException("Couldn't locate idp for realm: " + realmId);
-                }
-                
-                @SuppressWarnings("unchecked")
-                Map<String, String> idpData = (Map<String, String>) eb.get("idp");
-                return (String) idpData.get("redirectEndpoint");
-            }
-        });
-        if (endpoint == null) {
-            throw new IllegalArgumentException("Realm " + realmId + " doesn't have an endpoint");
-        }
-        
-        // look at cookies to whether user has authenticated at their idp already
-        boolean forceAuthnAtIdp = true;
-        if (sessionId != null) {
-            if (doesIdMapToValidOAuthSession(sessionId)) {
-                LOG.info("found valid oauth session corresponding to _id: {}", sessionId);
-                forceAuthnAtIdp = false;
-            } else {
-                LOG.info("could not find valid oauth session corresponding to _id: {}", sessionId);
-            }
-        } else {
-            LOG.info("no oauth session provided... forcing authentication at idp");
-        }      
-        
-        // {messageId,encodedSAML}
-        Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthnAtIdp);
-        
-        authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
-        LOG.debug("redirecting to: {}", endpoint);
-        
-        Cookie cookie = new Cookie("realmCookie", realmId);
-        cookie.setDomain(".slidev.org");
-        cookie.setPath("/");
-        res.addCookie(cookie);
-        LOG.debug("Set the realm cookie to {}", realmId);
-        
-        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
-    }
 
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.
      * @param mongoId id of the oauth session in mongo.
-     * @return true (valid session) or false (not a valid session).
+     * @return id of realm (valid session) or null (not a valid session).
      */
-    public boolean doesIdMapToValidOAuthSession(String mongoId) {
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("authentication.sessionIndex", "=", mongoId));
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        try {
-            return getOauthAccessTokenEntityService().count(neutralQuery) == 1;
-        } catch(Exception e) {
-            return false;
+    public String doesIdMapToValidOAuthSession(final String mongoId) {
+        String realmId = SecurityUtil.sudoRun(new SecurityTask<String>() {
+            @Override
+            public String execute() {
+                try {
+                    NeutralQuery neutralQuery = new NeutralQuery();
+                    neutralQuery.addCriteria(new NeutralCriteria("authentication.sessionIndex", "=", mongoId));
+                    neutralQuery.setOffset(0);
+                    neutralQuery.setLimit(1);
+                        
+                    LOG.debug("searching in oauth_access_token for a sessionIndex with value: {}", mongoId);
+                    
+                    Iterable<String> enumeratedIds = getOauthAccessTokenEntityService().listIds(neutralQuery);
+                    List<String> tokenIds = convertIterableToList(enumeratedIds);
+                        
+                    String realmId = null;
+                    if (tokenIds.size() > 0) {
+                        LOG.debug("found a matching access token id: {}", tokenIds);
+                        String tokenId = tokenIds.get(0);
+                        EntityBody body = getOauthAccessTokenEntityService().get(tokenId);
+                        
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> authenticationMap = (Map<String, Object>) body.get("authentication");
+                        realmId = (String) authenticationMap.get("realm");
+                    }
+                    return realmId;
+                } catch(Exception e) {
+                    LOG.debug("caught {} exception trying to resolve authentication realm... returning null", e.getClass());
+                    return null;
+                }
+            }    
+        });
+        return realmId;
+    }
+    
+    private List<String> convertIterableToList(Iterable<String> iterable) {
+        List<String> strings = new ArrayList<String>();
+        for (String string : iterable) {
+            strings.add(string);
         }
+        return strings;
     }
     
     @SuppressWarnings("unused")
