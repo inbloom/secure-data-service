@@ -118,6 +118,10 @@ task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
+task :realmInitNoPeople => [:appInit] do
+  setFixture("realm", "realm_fixture.json")
+end
+
 task :peopleInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
@@ -957,7 +961,7 @@ end
 ############################################################
 
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInit] do
+task :JavaSDKSampleAppTest => [:realmInitNoPeople] do
     runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
     displayFailureReport()
   if $SUCCESS
