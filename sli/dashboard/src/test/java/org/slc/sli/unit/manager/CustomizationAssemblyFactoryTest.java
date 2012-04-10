@@ -81,7 +81,7 @@ public class CustomizationAssemblyFactoryTest {
             return configMap.get(componentId);
         }
         
-        protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             return sampleEntityMap.get((String) entityKey);
         }
         

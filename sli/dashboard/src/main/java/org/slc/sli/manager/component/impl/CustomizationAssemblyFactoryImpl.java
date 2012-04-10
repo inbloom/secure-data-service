@@ -223,13 +223,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         return this.entityReferenceToManagerMethodMap.containsKey(entityRef);
     }
     
-    /**
-     * Get data for the declared entity reference
-     * @param componentId - component to get data for
-     * @param entityKey - entity key for the component
-     * @param config - data config for the component
-     * @return entity
-     */
+    @Override
+    public GenericEntity getDataComponent(String componentId, Object entityKey) {
+        return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
+    }
+
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {

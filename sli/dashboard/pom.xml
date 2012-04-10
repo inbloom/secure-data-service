@@ -134,7 +134,11 @@
                 <version>2.5.1</version>
                 <type>pom</type>
             </dependency>
-        
+        <dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.7.1</version>
+		</dependency>
         <!-- Power mock dependencies -->
 		<dependency>
 			<groupId>org.powermock</groupId>

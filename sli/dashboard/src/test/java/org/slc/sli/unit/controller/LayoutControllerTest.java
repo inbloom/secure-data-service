@@ -47,7 +47,7 @@ public class LayoutControllerTest {
             return "1";
         }
 
-        protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             GenericEntity simpleMaleStudentEntity = new GenericEntity();
             simpleMaleStudentEntity.put("id", "1");
             simpleMaleStudentEntity.put("gender", "male");

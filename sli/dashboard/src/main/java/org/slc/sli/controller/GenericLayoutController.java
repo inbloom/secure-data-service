@@ -83,10 +83,6 @@ public abstract class GenericLayoutController {
         this.customizationAssemblyFactory = customizedDataFactory;
     }
     
-    public String getUsername() {
-        return SecurityUtil.getUsername();
-    }
-    
     public String getToken() {
         return SecurityUtil.getToken();
     }

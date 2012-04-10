@@ -3,6 +3,7 @@ package org.slc.sli.manager.component;
 import java.util.Collection;
 
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 
 /**
@@ -20,6 +21,18 @@ public interface CustomizationAssemblyFactory {
      * @return
      */
     ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey);
+    
+    /**
+     * Get data for the declared entity reference
+     * @param componentId - component to get data for
+     * @param entityKey - entity key for the component
+     * @return entity
+     */
+    GenericEntity getDataComponent(String componentId, Object entityKey);
 
+    /**
+     * Get widget configs
+     * @return
+     */
     Collection<Config> getWidgetConfigs();
 }
