@@ -3472,12 +3472,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEventType"/>
+            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent"/>
         </xs:sequence>
         <xs:attribute name="schoolYear" type="schoolYearType" use="required"/>
     </xs:complexType>
 
-    <xs:complexType name="attendanceEventType">
+    <xs:complexType name="attendanceEvent">
         <xs:annotation>
             <xs:documentation>A record of attendance.
                 date: Date for this attendance event.
