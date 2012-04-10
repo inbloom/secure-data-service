@@ -52,11 +52,15 @@ When /^I go to List of Students$/ do
 end
 
 Then /^the page should include a table with header "([^"]*)"$/ do |name|
+  sleep(10)
+  puts @driver.page_source
   headerName=@driver.find_element(:id, "header.Student")
   headerName.text.should == name
 end
 
 Then /^I should see student "([^"]*)" in the student list$/ do |studentName|
+  sleep(10)
+  puts @driver.page_source
   name=@driver.find_element(:id, "name."+studentName)
   name.text.should == studentName
 end
