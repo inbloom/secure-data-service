@@ -96,5 +96,8 @@ public class SliClientDetailService implements ClientDetailsService {
         }
         return null;
     }
-    
+
+    public void setService(EntityService service) {
+        this.service = service;
+    }
 }

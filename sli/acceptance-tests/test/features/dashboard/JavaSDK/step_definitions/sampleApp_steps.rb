@@ -15,7 +15,7 @@ When /^I navigate to the sampleApp home page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  assert(@driver.current_url.start_with?("https://devapp1.slidev.org//api/oauth/authorize"))
+  assert(@driver.current_url.include?("/api/oauth/authorize"))
 
 end
 
@@ -52,7 +52,7 @@ When /^I go to List of Students$/ do
 end
 
 Then /^the page should include a table with header "([^"]*)"$/ do |name|
-  headerName=@driver.find_element(:id, "header."+name)
+  headerName=@driver.find_element(:id, "header.Student")
   headerName.text.should == name
 end
 

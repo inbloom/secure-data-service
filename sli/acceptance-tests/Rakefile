@@ -18,6 +18,28 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 $SUCCESS=true
 $failures = Hash.new
 
+$collectionSet = ["student",
+                  "studentSchoolAssociation",
+                  "course",
+                  "educationOrganization",
+                  "school",
+                  "section",
+                  "studentSectionAssociation",
+                  "teacher",
+                  "staff",
+                  "staffEducationOrganizationAssociation",
+                  "teacherSchoolAssociation",
+                  "teacherSectionAssociation",
+                  "session",
+                  "assessment",
+                  "studentAssessmentAssociation",
+                  "gradebookEntry",
+                  "studentTranscriptAssociation",
+                  "studentSectionGradebookEntry",
+                  "parent",
+                  "studentParentAssociation",
+                  "attendance"]
+
 #######################################################################################################
 # Helper defs
 
@@ -92,8 +114,15 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit => [:appInit] do
+task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
+end
+
+task :realmInitNoPeople => [:appInit] do
+  setFixture("realm", "realm_fixture.json")
+end
+
+task :peopleInit do
   setFixture("teacher", "teacher_fixture.json")
   setFixture("staff", "staff_fixture.json")
 end
@@ -108,7 +137,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiTests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiV1Tests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -123,7 +152,6 @@ end
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
 task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
-#task :apiAndSecurityTests => [:apiTests, :securityTests, :apiV1Tests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -167,7 +195,7 @@ end
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest] do
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -639,7 +667,9 @@ end
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/attendance","attendance","attendance_fixture.json")
+  runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
 end
 
 desc "Run V1 Cohort Tests"
@@ -715,180 +745,6 @@ end
 ############################################################
 
 ############################################################
-# API tests start
-############################################################
-desc "Run API Acceptances Tests"
-task :apiTests => [:courseTests, :sessionTests, :schoolTests,  :studentTests, :teacherTests,  :sectionTests,  :assessmentTests,  :homeUriTests, :associationTests, :validationTests,  :collectionTests, :listFilterTests, :targetTests, :aggregationTests, :aggregationDiscoveryTests, :heirarchyTraversalTests, :endUserStoryAssessmentTests, :endUserStorySATAssessmentTests, :sortingAndPagingTests, :attendanceTests, :encryptionTests] do
-displayFailureReport()
-end
-
-desc "Run Heirachy Traversal Tests"
-task :heirarchyTraversalTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/heirarchyTraversal")
-end
-
-desc "Run Course Tests"
-task :courseTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/course", "course", "course_fixture.json")
-end
-
-desc "Run Support Email Test"
-task :supportTests => [:realmInit] do
-  runTests("test/features/security/support.feature")
-end
-
-desc "Run Session Tests"
-task :sessionTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/session", "session", "session_fixture.json")
-end
-
-desc "Run Section Tests"
-task :sectionTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  runFixtureAndTests("test/features/api_deprecated/entities/section", "section", "section_fixture.json")
-end
-0
-desc "Run School Tests"
-task :schoolTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/school", "school", "school_fixture.json")
-end
-
-desc "Run Student Tests"
-task :studentTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/student", "student", "student_fixture.json")
-end
-
-desc "Run Teacher Tests"
-task :teacherTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/teacher", "teacher", "teacher_fixture.json")
-end
-
-desc "Run Assessment Tests"
-task :assessmentTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/entities/assessment","assessment","assessment_fixture.json")
-end
-
-desc "Run Attendance Tests"
-task :attendanceTests => [:attendanceCrudTests, :attendanceSecurityTests] do
-end
-
-desc "Run Attendance CRUD Tests"
-task :attendanceCrudTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/api_deprecated/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
-end
-
-desc "Run Attendance Security Tests"
-task :attendanceSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/entities/attendance/attendance_security.feature")
-end
-
-desc "Run Validation Tests"
-task :validationTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
-  setFixture("teacher", "teacher_fixture.json")
-  setFixture("student", "student_fixture.json")
-  runTests("test/features/api_deprecated/validation")
-end
-
-desc "Run Encryption Tests"
-task :encryptionTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
-  runTests("test/features/api_deprecated/encryption")
-end
-
-desc "Run List-Filter Tests"
-task :listFilterTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/lists")
-end
-
-desc "Run Target Tests"
-task :targetTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/targets")
-end
-
-desc "Run Collection Tests"
-task :collectionTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
-  runTests("test/features/api_deprecated/collections")
-end
-
-desc "Run Sorting and Paging Tests"
-task :sortingAndPagingTests => [:realmInit] do
-  files = {
-    "school" => "school_fixture.json",
-    "student" => "student_fixture.json",
-    "studentSchoolAssociation" => "studentSchoolAssociation_fixture.json"
-  }
-  setMultipleFixtureFiles(files)
-  runTests("test/features/api_deprecated/sorting_paging")
-end
-
-# dependecy on importSandboxData so that association tests can depend on the associated
-# entiy data to be available
-desc "Run Association Tests"
-task :associationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/associations/educationOrganization_association")
-  runTests("test/features/api_deprecated/associations/student_section_association")
-  runTests("test/features/api_deprecated/associations/student_assessment_association")
-  runTests("test/features/api_deprecated/associations/student_school_association")
-  runTests("test/features/api_deprecated/associations/teacher_school_association")
-  runTests("test/features/api_deprecated/associations/teacher_section_association")
-  runTests("test/features/api_deprecated/associations/school_session_association")
-  runTests("test/features/api_deprecated/associations/session_course_association")
-end
-
-desc "Run Home URI Tests"
-task :homeUriTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/home_uri")
-end
-
-desc "Run Aggregation Tests"
-task :aggregationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/aggregates")
-end
-
-desc "Run Aggregation Discovery Tests"
-task :aggregationDiscoveryTests => [:realmInit] do
-  runFixtureAndTests("test/features/api_deprecated/aggregations","aggregation","aggregation_fixture.json")
-end
-
-desc "Run Assessment User Story Tests"
-task :endUserStoryAssessmentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/assessments/assessment.feature")
-end
-
-desc "Run SAT-Assessment User Story Tests"
-task :endUserStorySATAssessmentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/assessments/SAT_Assessments.feature")
-end
-
-############################################################
-# API tests end
-############################################################
-
-############################################################
 # API Selenium tests start
 # NOTE: Do not add these tests to the production run yet!
 #       While they can be run locally without issues,
@@ -918,11 +774,6 @@ task :adminToolsTests => [:realmInit] do
   end
 end
 
-desc "App registration tests"
-task :appRegistrationTests do
-  runTests("test/features/admintools/app_registration.feature")
-end
-
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -940,6 +791,17 @@ end
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
   runTests("test/features/databrowser/idp_authentication.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Sandbox Mock IDP Authentication Selenium Tests"
+task :mockIDPAuthTests => [:realmInit] do
+  runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1069,22 +931,41 @@ task :dashboardHidePagesTests do
   runTests("test/features/dashboard/dash/display_hide_pages.feature")
 end
 
+desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
+task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
+
+end
 
 ############################################################
 # Dashboard tests end
 ############################################################
 
 ############################################################
-# SDK Tests
+# Cross App Tests start
 ############################################################
-desc "Run SDK Tests Tests"
-task :sdkTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/api_deprecated/end_user_stories/JavaSDK")
+
+desc "Run cross application testing"
+task :crossAppTests do
+  Rake::Task["importUnifiedData"].execute
+  runTests("test/features/cross_app_tests/")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
+############################################################
+# Cross App Tests end
+############################################################
+
+############################################################
+# SDK Tests
+############################################################
+
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInit] do
+task :JavaSDKSampleAppTest => [:realmInitNoPeople] do
     runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
     displayFailureReport()
   if $SUCCESS
@@ -1098,6 +979,32 @@ end
 # SDK Tests end
 ############################################################
 
+desc "Export Storied Test Data"
+task :exportStoriedData do
+  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  if $SUCCESS
+    $collectionSet.each do |collection|
+      sh "rm -f test/data/storied_data/sds_#{collection}.json"
+      sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c #{collection} -h #{DB_HOST} -o test/data/storied_data/sds_#{collection}.json"
+    end
+  else
+    if ENV['FORCE_COLOR']
+      puts "\e[31m Ingestion Failed! Fixture Data Not Updated! Please fix and re-run \e[0m"
+    else
+      puts "Ingestion Failed! Fixture Data Not Updated! Please fix and re-run"
+    end
+  end
+
+end
+
+desc "Import Storied Data Set"
+task :importStoriedData do
+  testHash = Hash[]
+  $collectionSet.each do |collection|
+    testHash["#{collection}"] = "storied_data/sds_#{collection}.json" 
+  end
+  setMultipleFixtureFiles(testHash)
+end
 
 desc "Import Sandbox Test Data"
 task :importSandboxData do

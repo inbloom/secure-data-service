@@ -22,7 +22,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
- *
+ *Validates the xml file against an xsd. Returns false if there is any error else it will always return true. The error messages would be reported by the error handler.
  * @author ablum
  *
  */
@@ -44,7 +44,6 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
             Schema schema = schemaFactory.newSchema(xsdResource.getURL());
-
             Validator validator = schema.newValidator();
             File xmlFile = ingestionFileEntry.getFile();
             if (xmlFile == null) {
@@ -52,23 +51,22 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             }
             String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
             Source sc = new StreamSource(sourceXml);
-
             validator.setErrorHandler(errorHandler);
             validator.validate(sc);
-
+            return true;
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG11", ingestionFileEntry.getFileName()), XsdValidator.class);
-            errorHandler.setIsValid(false);
         } catch (IOException e) {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
-            errorHandler.setIsValid(false);
         } catch (SAXException e) {
-            errorHandler.setIsValid(false);
+            LOG.error("SAXException", e);
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
         }
 
-        return errorHandler.isValid();
+        return false;
 
     }
 

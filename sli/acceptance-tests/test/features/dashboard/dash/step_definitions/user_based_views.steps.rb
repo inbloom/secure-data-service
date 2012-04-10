@@ -56,10 +56,11 @@ end
 
 When /^I select view "([^"]*)"$/ do |view|
   select_by_id(view, "viewSelector")
-  sleep(5)
+  sleep(20)
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
+
   wait = Selenium::WebDriver::Wait.new(:timeout => 50) # explicit wait for at most 5 sec
   list =  wait.until{@driver.find_element(:id, "studentList")}
 
@@ -69,8 +70,8 @@ Then /^I should see a table heading "([^"]*)"$/ do |text|
 end
 
 def select_by_id(elem, select)
-  Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select)).
-      select_by(:text, elem)
+  selector = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select))
+  selector.select_by(:text, elem)
 rescue Selenium::WebDriver::Error::NoSuchElementError
   false
 end

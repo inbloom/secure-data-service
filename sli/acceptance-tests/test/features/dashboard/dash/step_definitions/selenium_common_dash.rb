@@ -12,7 +12,7 @@ end
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 90) 
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
 end
 
 def localLogin (username, password)
@@ -95,7 +95,8 @@ end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
-  tableRows = @explicitWait.until{@driver.find_elements(:css, "tr.listRow")}
+  @explicitWait.until{@driver.find_elements(:id,"studentList")}
+  tableRows = @driver.find_elements(:css, "tr.listRow")
   puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
