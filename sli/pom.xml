@@ -182,8 +182,9 @@
 		<module>dashboard</module>
 		<module>acceptance-tests</module>
 		<module>ingestion-sli-configuration</module>
-        <module>SDK</module>
-  </modules>
+                <module>SDK</module>
+		<module>mock-idp</module>
+        </modules>
 
 	<dependencyManagement>
 		<dependencies>
