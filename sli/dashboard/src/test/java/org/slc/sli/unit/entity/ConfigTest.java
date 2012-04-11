@@ -50,7 +50,6 @@ public class ConfigTest {
         Assert.assertEquals("csi", c.getItems()[0].getId());
         Assert.assertEquals("Student Info", c.getItems()[0].getName());
         Assert.assertEquals(Config.Type.PANEL, c.getItems()[0].getType());
-        Assert.assertEquals("Data [entityRef=mock, entityAlias=mock, params=null]", c.getData().toString());
         Assert.assertEquals("Condition [field=limitedEnglishProficiency, value=[Limited]]", c.getItems()[1]
                 .getCondition().toString());
     }
