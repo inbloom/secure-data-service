@@ -9,7 +9,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
-import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -18,7 +17,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public class ZipFileHandler extends AbstractIngestionHandler<File, File> implements MessageSourceAware {
-     private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
+     private static final Logger LOG = LoggerFactory.getLogger(ZipFileHandler.class);
 
      private MessageSource messageSource;
 
