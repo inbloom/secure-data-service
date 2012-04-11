@@ -20,13 +20,14 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 5     |
 	   | studentAcademicRecord         | 5     |
 	 And I check to find if record is in collection:
-	   | collectionName                | expectedRecordCount | searchParameter              | searchValue             | searchType           |
-	   | studentTranscriptAssociation  | 5                   | body.courseAttemptResult     | Pass                    | string               |
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned | 90                      | integer              |	   
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned | 87                      | integer              |   
-	   | studentTranscriptAssociation  | 0                   | body.finalNumericGradeEarned | 82                      | integer              |	   
-	   | studentTranscriptAssociation  | 2                   | body.finalLetterGradeEarned  | B                       | string               |
-	   | studentTranscriptAssociation  | 5                   | body.gradeLevelWhenTaken     | Tenth grade             | string               |
+	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
+	   | studentTranscriptAssociation  | 5                   | body.courseAttemptResult              | Pass                    | string               |
+	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 90                      | integer              |
+	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 87                      | integer              |
+	   | studentTranscriptAssociation  | 0                   | body.finalNumericGradeEarned          | 82                      | integer              |
+	   | studentTranscriptAssociation  | 2                   | body.finalLetterGradeEarned           | B                       | string               |
+	   | studentTranscriptAssociation  | 5                   | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+       | studentAcademicRecord         | 5                   | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 
 	And I should see "Processed 34 records." in the resulting batch job file
 	And I should not see an error log file created
@@ -44,13 +45,14 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 6     |
 	   | studentAcademicRecord         | 6     |
 	 And I check to find if record is in collection:
-	   | collectionName                | expectedRecordCount | searchParameter              | searchValue             | searchType           |
-	   | studentTranscriptAssociation  | 6                   | body.courseAttemptResult     | Pass                    | string               |
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned | 90                      | integer              |	   
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned | 87                      | integer              |   
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned | 82                      | integer              |
-	   | studentTranscriptAssociation  | 3                   | body.finalLetterGradeEarned  | B                       | string               |
-	   | studentTranscriptAssociation  | 6                   | body.gradeLevelWhenTaken     | Tenth grade             | string               |
+	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue             | searchType           |
+	   | studentTranscriptAssociation  | 6                   | body.courseAttemptResult              | Pass                    | string               |
+	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 90                      | integer              |
+	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 87                      | integer              |
+	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 82                      | integer              |
+	   | studentTranscriptAssociation  | 3                   | body.finalLetterGradeEarned           | B                       | string               |
+	   | studentTranscriptAssociation  | 6                   | body.gradeLevelWhenTaken              | Tenth grade             | string               |
+       | studentAcademicRecord         | 6                   | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 	   
 	And I should see "Processed 12 records." in the resulting batch job file
 	And I should not see an error log file created
