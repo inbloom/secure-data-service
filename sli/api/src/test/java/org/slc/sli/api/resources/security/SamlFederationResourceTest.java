@@ -58,4 +58,15 @@ public class SamlFederationResourceTest {
         Assert.assertNull(exception);
 
     }
+
+    @Test
+    public void getSloEndpointTest() {
+        //TODO
+    }
+
+    @Test
+    public void logoutOfIdpTest() {
+        //TODO
+    }
+
 }
