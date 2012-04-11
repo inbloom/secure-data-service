@@ -4,6 +4,16 @@ require 'find'
 require 'yaml'
 require 'ostruct'
 
+$REMOVE_PROPS = {
+    "sli.db.dialect"=>nil,
+    "sli.db.driver"=>nil,
+    "sli.db.password"=>nil,
+    "sli.db.url"=>nil,
+    "sli.db.username"=>nil,
+    "sli.hibernate.generateDdl"=>nil,
+    "sli.hibernate.showsql"=>nil
+}
+
 def build_config(root_dir)
 	root_dir = root_dir + "/" if root_dir[-1]!="/"
 	len_rd = root_dir.length
@@ -45,7 +55,13 @@ def read_prop_file(fname)
 				result << line
 			else
 				name, value = line.split("=", 2)
-				result << OpenStruct.new(:name => name.strip, :value => value.strip)
+                name.strip!
+                value.strip!
+                if !($REMOVE_PROPS.key?(name))
+    				result << OpenStruct.new(:name => name, :value => value)
+                else
+                    puts "Excluding: #{name} = #{value}"
+                end
 			end
 		end
 	end
