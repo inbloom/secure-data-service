@@ -25,6 +25,7 @@ import org.slc.sli.test.generators.StudentAssessmentItemGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentObjectiveAssessmentGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
+import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
 
 /**
  *
@@ -42,13 +43,12 @@ public class InterchangeStudentAssessmentGenerator {
 
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateStudentReference(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        // generateStudentReference(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
-        generateAssessmentReference(interchangeObjects, MetaRelations.ASSESSMENT_MAP.values());
+        // generateAssessmentReference(interchangeObjects,
+        // AssessmentMetaRelations.ASSESSMENT_MAP.values());
 
-        generateStudentAssessmentParts(interchangeObjects, MetaRelations.STUDENT_MAP.values(),
-                MetaRelations.ASSESSMENT_MAP.values(), MetaRelations.OBJECTIVE_ASSESSMENT_MAP.values(),
-                MetaRelations.ASSESSMENT_ITEM_MAP.values());
+        generateStudentAssessments(interchangeObjects, MetaRelations.STUDENT_MAP.values());
     }
 
     private static void generateStudentReference(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
@@ -61,11 +61,33 @@ public class InterchangeStudentAssessmentGenerator {
     private static void generateAssessmentReference(List<Object> interchangeObjects,
             Collection<AssessmentMeta> assessmentMetas) {
         for (AssessmentMeta assessmentMeta : assessmentMetas) {
-            String assessmentTitle = null;
-            AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentTitle,
-                    assessmentMeta.id);
+            AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentMeta.id);
             interchangeObjects.add(assessmentRef);
         }
+    }
+
+    private static void generateStudentAssessments(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+        long startTime = System.currentTimeMillis();
+
+        int objGenCounter = 0;
+        for (StudentMeta studentMeta : studentMetas) {
+            for (String assessmentId : studentMeta.assessmentIds) {
+                StudentAssessment studentAssessment;
+
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    studentAssessment = null;
+                } else {
+                    studentAssessment = StudentAssessmentGenerator.generateLowFi(studentMeta, assessmentId);
+                }
+
+                interchangeObjects.add(studentAssessment);
+
+                objGenCounter++;
+            }
+        }
+
+        System.out.println("generated " + objGenCounter + " StudentAssessment objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     private static void generateStudentAssessmentParts(List<Object> interchangeObjects,
@@ -88,9 +110,7 @@ public class InterchangeStudentAssessmentGenerator {
             studentId++;
             for (AssessmentMeta assessmentMeta : assessmentMetas) {
                 StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentMeta.id);
-                String assessmentTitle = null;
-                AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentTitle,
-                        assessmentMeta.id);
+                AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentMeta.id);
                 StudentAssessment studentAssessment = studentAssessmentGen.generate(studentRef, assessmentRef);
                 studentAssessment.setId("SA_" + studentId);
                 studentAssessments.add(studentAssessment);
