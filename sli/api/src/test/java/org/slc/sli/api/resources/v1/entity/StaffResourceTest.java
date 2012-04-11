@@ -323,10 +323,46 @@ public class StaffResourceTest {
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
-/*    @Test
+    @Test
     public void testGetAssociatedEdOrgs() {
+        //create one entity
+        Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String staffId = parseIdFromLocation(createResponse);
+
+        createResponse = edOrgResource.create(new EntityBody(createTestEdOrgEntity()), httpHeaders, uriInfo);
+        String targetId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = createTestEdOrgAssociationEntity();
+        map.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, targetId);
+        map.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
+
+        createResponse = staffEdOrgAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        //String associationId = parseIdFromLocation(createResponse);
+
+        Response response = staffResource.getStaffEducationOrganizationAssociationEducationOrganizations(staffId, httpHeaders, uriInfo);
+
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        Object responseEntityObj = response.getEntity();
+
+        EntityBody body = null;
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+            body = (EntityBody) responseEntityObj;
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have one entity; actually have " + results.size(), results.size() == 1);
+            body = results.get(0);
+        } else {
+            fail("Response entity not recognized: " + response);
+            return;
+        }
+
+        assertNotNull("Should return an entity", body);
+        assertEquals("organizationCategories should be State Education Agency", "State Education Agency", body.get("organizationCategories"));
+        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-*/
 
     @Test
     public void testGetCohortAssociations() {
@@ -471,7 +507,7 @@ public class StaffResourceTest {
 
         createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = programResource.getStaffProgramAssociations(programId, httpHeaders, uriInfo);
+        Response response = staffResource.getStaffProgramAssociations(staffId, httpHeaders, uriInfo);
         
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
 
