@@ -137,8 +137,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     }
     
     /**
-     * Get a single $$learningObjectives$$ entity that directly referenced as Parent
-     * learningObjective by learningObjective entity that specified by learningObjective Id
+     * Get a single $$learningObjectives$$ entity is the parent of this resource
      * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -146,7 +145,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single learningObjective entity
+     * @return the Response containing the parent entity
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.PARENT_LEARNING_OBJECTIVES)
@@ -158,8 +157,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$learningObjectives$$ entity that directly referenced as Parent
-     * learningObjective by learningObjective entity that specified by learningObjective Id
+     * Get all the $$learningObjectives$$ entities that are children of this resource
      * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -167,7 +165,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single learningObjective entity
+     * @return the Response contianing the children entities
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.CHILD_LEARNING_OBJECTIVES)

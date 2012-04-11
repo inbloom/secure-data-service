@@ -52,6 +52,7 @@ public class Config {
         protected String style;
         protected String formatter;
         protected String sorter;
+        protected String align;
         protected Map<String, Object> params;
         
         public String getDescription() {
@@ -94,6 +95,14 @@ public class Config {
             return datatype;
         }
         
+        public String getAlign() {
+            return align;
+        }
+
+        public void setAlign(String align) {
+            this.align = align;
+        }
+
         @Override
         public String toString() {
             return "ViewItem [width=" + width + ", type=" + datatype + ", color=" + color + ", style=" + style
@@ -111,6 +120,7 @@ public class Config {
         protected String entity;
         protected String alias;
         protected Map<String, Object> params;
+        protected boolean lazy;
         
         public Data() {
         }
@@ -133,9 +143,8 @@ public class Config {
             return params;
         }
         
-        @Override
-        public String toString() {
-            return "Data [entityRef=" + entity + ", entityAlias=" + alias + ", params=" + params + "]";
+        public boolean isLazy() {
+            return lazy;
         }
     }
     
@@ -228,8 +237,8 @@ public class Config {
      *            object
      * @return cloned Config obejct merged with customConfig
      */
-    public Config merge(Config customConfig) {
-        Config config = new Config(this.id, this.name, this.type, this.condition, new Data(this.data.entity,
+    public Config overWrite(Config customConfig) {
+        Config config = new Config(this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
                 this.data.alias, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
                 customConfig.items, this.root);

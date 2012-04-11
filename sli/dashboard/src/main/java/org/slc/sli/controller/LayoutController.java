@@ -1,8 +1,10 @@
 package org.slc.sli.controller;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,10 +31,21 @@ public class LayoutController extends GenericLayoutController {
      * @return
      */
     @RequestMapping(value = "/student", method = RequestMethod.GET)
-    public ModelAndView handleStudentProfile(@RequestParam String id) {
-        ModelMap model = getPopulatedModel("studentProfile", id);
+    public ModelAndView handleStudentProfile(@RequestParam String id, HttpServletRequest request) {
+        ModelMap model = getPopulatedModel("studentProfile", id, request);
         // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant programs 
         model.addAttribute("programUtil", new StudentProgramUtil());
         return getModelView(TABBED_ONE_COL, model);
+    }
+    
+    /**
+     * Generic layout handler
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "{componentId}", method = RequestMethod.GET)
+    public ModelAndView handleListOfStudents(@PathVariable String componentId, @RequestParam(required = false) String id, HttpServletRequest request) {
+        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id, request));
     }
 }

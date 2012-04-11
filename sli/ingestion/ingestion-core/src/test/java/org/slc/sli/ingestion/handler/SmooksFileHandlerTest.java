@@ -5,9 +5,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import junitx.util.PrivateAccessor;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.milyn.Smooks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,8 +21,11 @@ import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.util.MD5;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * tests for SmooksFileHandler
@@ -129,5 +136,22 @@ public class SmooksFileHandlerTest {
         smooksFileHandler.handle(inputFileEntry, errorReport);
 
         assertTrue("Valid XML should give no errors." + errorReport.getFaults(), !errorReport.hasErrors());
+    }
+
+    @Test
+    public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
+        Smooks smooks = Mockito.mock(Smooks.class);
+        SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
+        Mockito.when(factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(NeutralRecordFileWriter.class), Mockito.any(ErrorReport.class))).thenReturn(smooks);
+        PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
+        PrivateAccessor.setField(smooksFileHandler, "lzDirectory", "XsdValidation");
+
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        ife.setFile(xmlFile);
+        ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+
+        smooksFileHandler.handle(ife, errorReport);
+        Mockito.verify(errorReport, Mockito.never()).error(Mockito.anyString(), Mockito.anyObject());
     }
 }

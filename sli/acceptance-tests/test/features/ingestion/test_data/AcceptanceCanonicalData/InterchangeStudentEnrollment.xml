@@ -2,7 +2,7 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentEnrollment xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentEnrollment.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100">
-  <!-- student-school associations for the 9th graders in high school -->
+  <!-- student-school associations for the 11th and 12th graders in high school -->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -15,7 +15,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -29,7 +29,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -43,7 +43,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -57,7 +57,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -71,7 +71,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -85,7 +85,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -99,7 +99,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -113,7 +113,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -127,7 +127,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -141,7 +141,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -155,7 +155,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -169,7 +169,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -183,7 +183,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -197,7 +197,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -211,7 +211,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -225,7 +225,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -238,8 +238,146 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2011-09-01</EntryDate>
+    <EntryDate>2011-09-08</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>
+	</StudentSchoolAssociation>
+  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-08</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2009-09-08</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>
+    <ExitWithdrawDate>2010-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+	</StudentSchoolAssociation>    
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2008-09-11</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>
+    <ExitWithdrawDate>2009-05-08</ExitWithdrawDate>
+    <ExitWithdrawType>Exited</ExitWithdrawType>	
+  </StudentSchoolAssociation>    
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2008-03-11</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>	
+    <ExitWithdrawDate>2008-05-08</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2007-09-14</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2008-02-12</ExitWithdrawDate>
+    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>	
+  </StudentSchoolAssociation>    
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2006-09-11</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2007-05-14</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2005-09-09</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+    <ExitWithdrawDate>2006-05-15</ExitWithdrawDate>
+    <ExitWithdrawType>Exited</ExitWithdrawType>	
+    <EntryType>Transfer from a private, religiously-affiliated school in the same local education agency</EntryType>	
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2002-09-12</EntryDate>
+    <EntryGradeLevel>Second grade</EntryGradeLevel>
+    <EntryType>Transfer from a school outside of the country</EntryType>	
+    <ExitWithdrawDate>2003-04-12</ExitWithdrawDate>
+    <ExitWithdrawType>Expelled or involuntarily withdrawn</ExitWithdrawType>	
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -253,7 +391,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -267,7 +405,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -281,7 +419,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -295,7 +433,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -309,7 +447,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -323,7 +461,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -337,7 +475,7 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -351,11 +489,10 @@
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+    <EntryGradeLevel>Twelfth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
 
-  <!-- student-school associations for the 9th graders who are currently in high school but these records are for their previous
-    year's enrollment in middle school -->
+  <!-- last year's student-school associations for the 11th and 12th graders in high school -->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -364,11 +501,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -378,11 +515,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -392,11 +529,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -406,11 +543,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -420,11 +557,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -434,11 +571,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -448,11 +585,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -462,11 +599,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -476,11 +613,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -490,11 +627,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -504,11 +641,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -518,11 +655,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -532,11 +669,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -546,11 +683,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -560,11 +697,11 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -574,11 +711,153 @@
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000018</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  
+  <!-- student-school associations for the remainder of Carmen Ortiz history -->
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2009-09-01</EntryDate>
+    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -591,13 +870,15 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
+    <EntryDate>2008-09-01</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
+
+  <!-- student-school associations for the remainder of Matt Sollars history -->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000017</StudentUniqueStateId>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -605,107 +886,52 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryDate>2009-09-01</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000018</StudentUniqueStateId>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryDate>2008-09-01</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000019</StudentUniqueStateId>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryDate>2007-09-01</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000020</StudentUniqueStateId>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryDate>2006-09-01</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
   </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000022</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000023</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000024</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
+
   <!-- student-school associations for the 8th graders in middle school -->
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1068,8 +1294,60 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2011-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <EntryDate>2009-09-07</EntryDate>
+    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>	
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2008-09-05</EntryDate>
+    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2009-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2007-09-12</EntryDate>
+    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2008-05-10</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+  </StudentSchoolAssociation>  
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2006-09-11</EntryDate>
+    <EntryGradeLevel>Third grade</EntryGradeLevel>
+    <EntryType>Transfer from a private, religiously-affiliated school in a different state</EntryType>	
+    <ExitWithdrawDate>2007-05-09</ExitWithdrawDate>
+    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>	
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1744,8 +2022,26 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2011-09-01</EntryDate>
+    <EntryDate>2011-09-05</EntryDate>
     <EntryGradeLevel>First grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>100000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-03</EntryDate>
+    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
+    <EntryType>Original entry into a United States school</EntryType>
+    <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -2526,8 +2822,8 @@
     </SectionReference>
   </StudentSectionAssociation>
 
-  <!-- historical data for cgray's Sec 145 (9th grade American Literature, Fall 2011) class -->
-  <!-- 8th grade English, Fall 2010 -->
+  <!-- historical data for cgray's Sec 145 11th grade American Literature, Fall 2011) class -->
+  <!-- 10th grade English, Fall 2010 -->
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -2536,8 +2832,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2549,8 +2845,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2562,8 +2858,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2575,8 +2871,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2588,8 +2884,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2601,8 +2897,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2614,8 +2910,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2627,8 +2923,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2640,8 +2936,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2653,8 +2949,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2666,8 +2962,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2679,8 +2975,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2692,8 +2988,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2705,8 +3001,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2718,8 +3014,8 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2731,8 +3027,740 @@
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000018</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade English - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <!-- historical data for cgray's Sec 145 (9th grade American Literature, Fall 2011) class -->
+  <!-- 10th Grade Writing, Spring 2011 -->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000000</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000002</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000003</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000004</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000005</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000006</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000007</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000008</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000009</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000010</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000011</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000012</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000013</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000014</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000015</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000018</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>10th Grade Writing-Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  <!-- additional historical data for Carmen Ortiz - sections back through 8th grade -->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Algebra II - Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>State History II - Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Earth Sciences II - Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Vocal Perf II - Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Nutrition - Sec 6s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Algebra I - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>State History I - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Earth Sciences I - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Vocal Performance I - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Weight Training - Sec 6f10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>English 9B ELL - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Basic Math II - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>World History II - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Env Studies II - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Vocal Ensemble II - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Track and Field - Sec 6s10</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>English 9A ELL - Sec 6f09</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Basic Math I - Sec 6f09</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>World History I - Sec 6f09</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Env Studies I - Sec 6f09</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Vocal Ensemble I - Sec 6f09</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <UniqueSectionCode>Yoga and Fitness - Sec 6f09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -2745,321 +3773,7 @@
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000017</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000018</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000019</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000020</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000022</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000023</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000024</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade English - Sec 6f10</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <!-- historical data for cgray's Sec 145 (9th grade American Literature, Fall 2011) class -->
-  <!-- 8th grade Composition, Spring 2011 -->
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000000</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000001</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000002</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000003</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000004</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000005</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000006</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000007</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000008</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000009</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000010</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000011</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000012</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000013</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000014</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000015</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>ELA 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -3072,111 +3786,137 @@
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Pre-Algebra II - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000017</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>U.S. History II - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000018</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Science 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000019</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Choir - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000020</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Phys-Ed 8B - Sec 6s09</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>ELA 8A - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000022</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Pre-Algebra I - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000023</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>U.S. History I - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000024</StudentUniqueStateId>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>8th Grade Composition-Sec 6s11</UniqueSectionCode>
+        <UniqueSectionCode>Science 8A - Sec 6f08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Choir - Sec 6f08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Phys-Ed 8A - Sec 6f08</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
@@ -3547,6 +4287,453 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
+  
+  <!-- historical data for linda.kim's 8th Grade English - Sec 6 class, Fall 2011 -->
+  <!-- 7th grade English, Fall 2010 -->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000000</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000002</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000003</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000004</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000005</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000006</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000007</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000008</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000009</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000010</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000011</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000012</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000013</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000014</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000015</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000018</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
   <!-- historical data for linda.kim's 8th Grade English - Sec 6 class, Fall 2011 -->
   <!-- 7th grade English, Fall 2010 -->
   <StudentSectionAssociation>
@@ -4276,6 +5463,621 @@
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  
+  <!-- historical data for Matt Sollars - sections back through 3rd grade -->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Math 7B - Sec 5s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>State History II - Sec 5s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Science 7B - Sec 5s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Spanish II - Sec 5s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>Jazz Band - Sec 5s11</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <!-- historical data for linda.kim's 8th Grade English - Sec 6 class, Fall 2011 -->
+  <!-- 7th grade Composition, Spring 2011 -->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000000</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000002</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000003</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000004</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000005</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000006</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000007</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000008</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000009</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000010</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000011</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000012</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000013</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000014</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000015</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000016</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000017</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000018</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000019</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000020</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000021</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000022</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000023</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000024</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000027</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Math 4B - Sec 5s08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Geography - Sec 5s08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Science 4B - Sec 5s08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Phys-Ed 4B - Sec 5s08</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Reading 4A - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Writing 4A - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Math 4A - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Government - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Science 4A - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Phys-Ed 4A - Sec 5f07</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>

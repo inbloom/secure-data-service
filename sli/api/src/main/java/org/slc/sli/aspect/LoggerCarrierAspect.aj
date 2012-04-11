@@ -4,9 +4,7 @@ import org.slf4j.LoggerFactory;
 
 public aspect LoggerCarrierAspect {
     
-    declare parents : (org.slc.sli.api..* && !java.lang.Enum+)  implements LoggerCarrier;
-    
-    // public Logger LoggerCarrier.log = LoggerFactory.getLogger(this.getClass());
+    declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+)  implements LoggerCarrier;
     
     public void LoggerCarrier.debug(String msg) {
         LoggerFactory.getLogger(this.getClass()).debug(msg);
@@ -24,7 +22,7 @@ public aspect LoggerCarrierAspect {
         LoggerFactory.getLogger(this.getClass()).debug(msg, params);
     }
     
-    public void LoggerCarrier.info(String msg, Object ... params) {
+    public void LoggerCarrier.info(String msg, Object... params) {
         LoggerFactory.getLogger(this.getClass()).info(msg, params);
     }
     

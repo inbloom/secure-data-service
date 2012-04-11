@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import org.slc.sli.util.DashboardException;
  * @author agrebneva
  *
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context.xml" })
 public class CustomizationAssemblyFactoryTest {
@@ -56,6 +54,9 @@ public class CustomizationAssemblyFactoryTest {
     
     private static final String DEFAULT_PANEL1_JSON = 
             "{id : 'panel1', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'test',alias: 'mock' }}";
+    
+    private static final String DEFAULT_PANEL_EXCEPTION_JSON = 
+            "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',alias: 'mock' }}";
     
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;
@@ -80,7 +81,7 @@ public class CustomizationAssemblyFactoryTest {
             return configMap.get(componentId);
         }
         
-        protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             return sampleEntityMap.get((String) entityKey);
         }
         
@@ -198,7 +199,7 @@ public class CustomizationAssemblyFactoryTest {
     public static class GoodManager implements Manager {
         
         /**
-         * Bad signature mapping
+         * Good signature mapping
          * @param token
          * @param studentId
          * @param config
@@ -207,6 +208,18 @@ public class CustomizationAssemblyFactoryTest {
         @EntityMapping("test")
         public GenericEntity getTest1(String token, Object studentId, Config.Data config) {
             return simpleMaleStudentEntity;
+        }
+        
+        /**
+         * Good signature mapping but throws an exception
+         * @param token
+         * @param studentId
+         * @param config
+         * @return
+         */
+        @EntityMapping("testException")
+        public GenericEntity getTestException(String token, Object studentId, Config.Data config) {
+            throw new IllegalArgumentException("Something bad happened");
         }
     }
     
@@ -218,6 +231,7 @@ public class CustomizationAssemblyFactoryTest {
         configMap.put("panel", gson.fromJson(DEFAULT_PANEL_JSON, Config.class));
         configMap.put("panel1", gson.fromJson(DEFAULT_PANEL1_JSON, Config.class));
         configMap.put("deep", gson.fromJson(DEFAULT_LAYOUT_TOO_DEEP_JSON, Config.class));
+        configMap.put("panelException", gson.fromJson(DEFAULT_PANEL_EXCEPTION_JSON, Config.class));
         
         simpleMaleStudentEntity = new GenericEntity();
         simpleMaleStudentEntity.put("id", "1");
@@ -341,6 +355,10 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertEquals(
                 simpleMaleStudentEntity, 
                 customizationAssemblyFactory.getDataComponentForTest("panel", "1", configMap.get("panel").getData()));
+        // test an entity mapping that throws an exception
+        Assert.assertNull(
+                customizationAssemblyFactory.getDataComponentForTest("panelException", "1", configMap.get("panelException").getData()));
+        
         // test non-existent one
         Config.Data fakeDataConfig = null;
         try {

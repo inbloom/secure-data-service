@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -120,7 +122,12 @@ public class OAuthSessionServiceTest {
         OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("blah", "blah", new HashSet<String>()), 
                 new PreAuthenticatedAuthenticationToken(principal, "blah"));
         Mockito.when(validator.getAuthorizedApps(principal)).thenReturn(null);
-        service.validateAppAuthorization(auth);
+        try {
+            service.validateAppAuthorization(auth);
+            Assert.fail();
+        } catch (UnauthorizedClientException e) {
+            Assert.assertTrue(e instanceof UnauthorizedClientException);
+        }
     }
     
     @Test
@@ -129,8 +136,10 @@ public class OAuthSessionServiceTest {
         //Create an auth token to use
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), 
-                new PreAuthenticatedAuthenticationToken(principal, "blah"));
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal, "blah");
+        token.setDetails("sessionIndex");
+        
+        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), token);
        
         ArrayList<String> appList = new ArrayList<String>();
         appList.add("appId"); 
@@ -145,8 +154,10 @@ public class OAuthSessionServiceTest {
         //Create an auth token to use
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), 
-                new PreAuthenticatedAuthenticationToken(principal, "blah"));
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal, "blah");
+        token.setDetails("sessionIndex");
+        
+        OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("clientId", "blah", new HashSet<String>()), token);
                 
         ArrayList<String> appList = new ArrayList<String>();
         appList.add("someOtherId");

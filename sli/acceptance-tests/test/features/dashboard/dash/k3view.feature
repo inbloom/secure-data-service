@@ -9,7 +9,6 @@ Scenario: Check assessment result
 Given I have an open web browser
 Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
-And I wait for "1" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "Reading Group"
@@ -22,7 +21,6 @@ Scenario: Check student name
 Given I have an open web browser
 Given the server is in "test" mode
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
-And I wait for "1" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "Reading Group"
@@ -43,16 +41,15 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "rbraverman" "rbraverman1234"
-And I wait for "2" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
 Then I should only see one view named "IL_K-3"
 Then I see a list of 20 students
-#And the list includes: "Mi-Ha Tran"
-#And I click on student "Lauretta Seip"
-#And I view its student profile
+And the list includes: "Mi-Ha Tran"
+And I click on student "Lauretta Seip"
+And I view its student profile
 #Display Elementary School Tab
-#And their grade is "First grade"
-#And Tab has a title named "Elementary School Overview"
+And their grade is "1"
+And Tab has a title named "Elementary School Overview"

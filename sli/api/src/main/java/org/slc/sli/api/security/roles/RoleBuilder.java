@@ -51,6 +51,11 @@ public final class RoleBuilder {
         }
         return this;
     }
+    
+    public RoleBuilder setAdmin(boolean admin) {
+        role.setAdmin(admin);
+        return this;
+    }
 
     public EntityBody buildEntityBody() {
         return role.getRoleAsEntityBody();
@@ -71,6 +76,7 @@ public final class RoleBuilder {
     public static RoleBuilder makeRole(EntityBody entityBody) {
         RoleBuilder resultRole = new RoleBuilder((String) entityBody.get("name"));
         resultRole.addRights((List<String>) entityBody.get("rights"));
+        resultRole.setAdmin((Boolean) entityBody.get("admin"));
         return resultRole;
 
     }

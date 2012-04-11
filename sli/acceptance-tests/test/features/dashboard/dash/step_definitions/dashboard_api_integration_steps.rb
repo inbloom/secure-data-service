@@ -24,6 +24,11 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     @explicitWait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
+    # Catches the encryption pop up seen in local box set up
+    begin
+      @driver.switch_to.alert.accept
+    rescue
+    end
 end
 
 Then /^I should be redirected to the app selection page$/ do
@@ -95,6 +100,6 @@ When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeNa
   end
   
   students.each do |student|
-      assert(student[1]==1, student[0].to_s + " doesn't have ELL" )
+      assert(student[1]==1, student[0].to_s + " doesn't have " + lozengeName )
   end
 end

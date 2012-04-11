@@ -13,6 +13,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
+import org.slc.sli.validation.schema.ListSchema;
 
 /**
  * Definition of an entity resource
@@ -61,6 +62,13 @@ public class EntityDefinition {
                 if (entry.getValue() instanceof ReferenceSchema) {
                     //put field name and collection referenced
                     this.referenceFields.put(entry.getKey(), (ReferenceSchema) entry.getValue());
+                } else if (entry.getValue() instanceof ListSchema) {
+                    for (NeutralSchema schemaInList : ((ListSchema) entry.getValue()).getList()) {
+                        if (schemaInList instanceof ReferenceSchema) {
+                            //put field name and collection referenced
+                            this.referenceFields.put(entry.getKey(), (ReferenceSchema) schemaInList);
+                        }
+                    }
                 }
             }
         }
@@ -68,8 +76,8 @@ public class EntityDefinition {
 
     /**
      * Returns the names of all fields that are reference fields associated to a particular collection.
-     * 
-     * @param resource the desired collection 
+     *
+     * @param resource the desired collection
      * @return
      */
     public Iterable<String> getReferenceFieldNames(String resource) {
@@ -81,7 +89,7 @@ public class EntityDefinition {
         }
         return fieldNames;
     }
-    
+
     /**
      * Returns a map of all fields that are references from the field name to the collection referenced.
      *
@@ -97,7 +105,7 @@ public class EntityDefinition {
 
     /**
      * Returns a collection of all entities that reference this entity definition.
-     * 
+     *
      * @return collection of all entities that reference this entity definition
      */
     public final Collection<EntityDefinition> getReferencingEntities() {

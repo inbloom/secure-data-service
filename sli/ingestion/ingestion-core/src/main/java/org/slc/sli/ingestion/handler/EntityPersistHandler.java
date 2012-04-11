@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -68,9 +69,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
-            String message = getFailureMessage("DAL_" + err.getType().name(), entity.getType(),
-                    entity.getRecordNumber(), err.getFieldName(), err.getFieldValue(),
-                    Arrays.toString(err.getExpectedTypes()));
+
+            String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
+                           + "       Error      " + err.getType().name() + "\n"
+                           + "       Entity     " + entity.getType() + "\n"
+                           + "       Field      " + err.getFieldName() + "\n"
+                           + "       Value      " + err.getFieldValue() + "\n"
+                           + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
             errorReport.error(message, this);
         }
     }
@@ -91,7 +96,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 
     public void setEntityRepository(Repository<Entity> entityRepository) {

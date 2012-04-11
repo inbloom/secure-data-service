@@ -64,6 +64,8 @@
                 <value>${smooks.targetselector.xml.teacher}</value>
                 <value>${smooks.targetselector.xml.teacher.section}</value>
                 <value>${smooks.targetselector.xml.teacher.school}</value>
+                <value>${smooks.targetselector.xml.staff}</value>
+                <value>${smooks.targetselector.xml.staff.ed.org.assignment}</value>
               </list>
             </constructor-arg>
           </bean>
