@@ -1,12 +1,13 @@
+
 Feature:  Dashboard Tests For SDS Data
 
 Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Sunset School District 4526" and click go
+When I select "Illinois Sunset School District 4526" and click go
 
- @integration
+@integration
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -46,7 +47,7 @@ And Student Enrollment History includes " ; ;5;2008-09-05; ;2009-05-11;End of sc
 And Student Enrollment History includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
 And Student Enrollment History includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
 
- @integration 
+@integration 
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -100,7 +101,7 @@ And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
 And Student Enrollment History includes " ;South Daybreak Elementary;1;2011-09-05; ; ; ;"
 And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-03; ;2011-05-11;End of school year"
 
- @integration
+@integration
 Scenario: View Carmen Ortiz
 When I login as "cgray" "cgray1234"
 When I select ed org "Daybreak School District 4529"
